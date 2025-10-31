@@ -294,7 +294,14 @@ limitations under the License.
 					<cftry>
 						<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE loan_item 
-							SET item_instructions = trim(item_instructions || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">)
+							SET item_instructions =
+   							TRIM(
+  							      CASE WHEN item_instructions IS NULL OR TRIM(item_instructions) = '' THEN
+    						            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
+  						   	   ELSE
+           				   	  item_instructions || '; ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
+        							END
+    							)
 							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
 								AND (
 									item_instructions IS NULL OR
