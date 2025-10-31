@@ -843,15 +843,13 @@ limitations under the License.
 								<div class="col-12 mb-3">
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 									<h1 class="h4">Loan Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><span class="alert alert-warning py-1 mb-0 d-inline-block"><a class="messageResults" tabindex="0" aria-label="search results"></a></span></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
-										<div id="columnPickDialog">
-											<div class="container-fluid">
-												<div class="row">
-													<div class="col-12 col-md-6">
-														<div id="columnPick" class="px-1"></div>
-													</div>
-													<div class="col-12 col-md-6">
-														<div id="columnPick1" class="px-1"></div>
-													</div>
+										<div id="columnPickDialog" class="row pick-column-width">
+											<div class="row">
+												<div class="col-12 col-md-6">
+													<div id="columnPick" class="px-1"></div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div id="columnPick1" class="px-1"></div>
 												</div>
 											</div>
 										</div>
@@ -977,6 +975,8 @@ limitations under the License.
 		
 								$("##columnPickDialog").dialog({ 
 									height: 'auto', 
+									width: 'auto',
+									adaptivewidth: true,
 									title: 'Show/Hide Columns',
 									autoOpen: false,
 									modal: true, 
