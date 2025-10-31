@@ -932,6 +932,9 @@ console.log(columns);
 console.log(halfColumns);
 								for (i = halfColumns; i < (halfColumns*2); i++) {
 console.log(i);
+									if (columns[i] == undefined) {
+										continue;
+									}
 									var text = columns[i].text;
 									var datafield = columns[i].datafield;
 									var hideable = columns[i].hideable;
