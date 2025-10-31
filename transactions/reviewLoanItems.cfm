@@ -817,6 +817,7 @@ limitations under the License.
 										<div id="resultDownloadButtonContainer"></div>
 										<div id="locationButtonContainer"></div>
 										<div id="freezerLocationButtonContainer"></div>
+										<output id="gridActionFeedbackDiv"></output>
 									</div>
 									<div class="row mt-0 mx-0">
 										<!--- Grid Related code is below along with search handlers --->
@@ -967,6 +968,18 @@ limitations under the License.
 								var loan_item_id = rowData['loan_item_id'];
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemDialog('+loan_item_id+',\'editItemDialog\',\'Loan Item\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Edit" aria-label="Edit"/></span>';
 							};
+							var returnCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								// Display a button to marke a loan item as returned
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var loan_item_id = rowData['loan_item_id'];
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Return" aria-label="Mark Item as Returned"/></span>';
+							};
+							var consumedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								// Display a button to marke a loan item as consumed
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var loan_item_id = rowData['loan_item_id'];
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consumed" aria-label="Mark Item as Consumed"/></span>';
+							};
 							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								return 'History';
 							};
@@ -1106,9 +1119,23 @@ limitations under the License.
 										$("##searchResultsGrid").jqxGrid('selectrow', 0);
 									},
 									columns: [
-										{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:false, hidden: false, editable: false },
+										<cfif isClosed>
+											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: true, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 40, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+										<cfelseif isInProcess>
+											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:false, hidden: false, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 40, hideable: false, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+										<cfelse>
+											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: false, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 40, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+											<cfif aboutLoan.loan_type EQ 'returnable'>
+												{text: 'Return', datafield: 'ReturnRow', width: 50, hideable: true, hidden: true, cellsrenderer: returnCellRenderer, editable: false },
+											<cfelse aboutLoan.loan_type EQ 'consumable'>
+												{text: 'Consume', datafield: 'ConsumeRow', width: 60, hideable: true, hidden: true, cellsrenderer: consumedCellRenderer, editable: false },
+											<cfelse>
+										</cfif>
 										{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true), editable: false },
-										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', false), cellsrenderer: deleteCellRenderer, editable: false },
+										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', true), editable: false },
 										{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: getColHidProp('loan_number', true), editable: false },
 										{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: getColHidProp('collection', true), editable: false  },
 										{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: getColHidProp('collection_cde', false), editable: false  },

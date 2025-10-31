@@ -125,11 +125,48 @@ function removeLoanItemFromLoan(part_id, transaction_id,targetDiv) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			$("#"+targetDiv).html("Error");
-			handleFail(jqXHR,textStatus,error,"updating the disposition for a loan item");
+			handleFail(jqXHR,textStatus,error,"removing loan item from loan");
 		},
 		dataType: "html"
 	});
 };
+
+/** Resolve a loan item, marking it as returned or consumed.
+ *
+ * @param loan_item_id the primary key for the loan item to resolve.
+ * @param targetDiv the id of the div to update with the result of the operation.
+ * @param loan_item_state the new state for the loan item, either 'returned' or 'consumed'.
+ * @param callback a callback function to invoke on success.
+ */
+function resolveLoanItem(loan_item_id,targetDiv,loan_item_state,callback) { 
+	$("#"+targetDiv).html("Saving...");
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		data : {
+			method : "markLoanItemResolved",
+			loan_item_id: loan_item_id,
+			loan_item_state: loan_item_state,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success: function (result) {
+			if (typeof callback === 'function') {
+				callback();
+			}
+			if (typeof result == 'string') { result = JSON.parse(result); } 
+			if (result.DATA.STATUS[0]==1) {
+				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
+			} else { 
+				$("#"+targetDiv).html("Error");
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			$("#"+targetDiv).html("Error");
+			handleFail(jqXHR,textStatus,error,"removing loan item from loan");
+		},
+		dataType: "html"
+	});
+}
 
 /** Create a dialog to add items to a loan 
  */

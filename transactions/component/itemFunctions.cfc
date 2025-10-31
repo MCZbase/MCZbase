@@ -399,6 +399,54 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<!--- markLoanItemResolved mark a loan item record as returned or consumed with return date of today and resolution recorded by agent as current user.
+ @param loan_item_id the loan_item_id of the loan item to mark as resolved
+ @param loan_item_state must be 'returned' or 'consumed' to mark item as resolved.
+ @return a json structure with status:1, or a http 500 response.
+--->
+<cffuction name="markLoanItemResolved" access="remote" returntype="any" returnformat="json">
+	<cfargument name="loan_item_id" type="numeric" required="yes">
+	<cfargument name="loan_item_state" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfif NOT (arguments.loan_item_state EQ "returned" or arguments.loan_item_state EQ "consumed")>
+				<cfthrow message="loan_item_state must be 'returned' or 'consumed' to mark item as resolved.">
+			</cfif>
+			<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="setReturned_result">
+				UPDATE loan_item 
+				SET
+					loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">,
+					<cfif arguments.loan_item_state EQ "returned">
+						return_date = sysdate,
+					<cfelse>
+						return_date = null,
+					</cfif>
+					resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
+				WHERE
+					loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
+			</cfquery>
+			<cfif setReturned_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item updated.", 1)>
+			<cfelse>
+				<cfthrow message="Record not updated. other than one record affected.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+			
 
 <!--- function updateLoanItemDisposition to update the disposition of an item in a loan.
  @param transaction_id the transaction the loan item is in
