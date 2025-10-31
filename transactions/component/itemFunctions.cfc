@@ -840,6 +840,7 @@ limitations under the License.
 					,RECONCILED_BY_PERSON_ID
 					,RECONCILED_DATE
 					,ITEM_DESCR
+					,loan_item_state
 					<cfif len(#instructions#) gt 0>
 						,ITEM_INSTRUCTIONS
 					</cfif>
@@ -856,6 +857,7 @@ limitations under the License.
 					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">
 					,sysdate
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
+					,'in loan'
 					<cfif len(#instructions#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instructions#">
 					</cfif>
