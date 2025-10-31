@@ -667,6 +667,7 @@ limitations under the License.
 												$('##disableEditControlsBtn').removeClass('d-none');
 												$('.flag-editable-cell').addClass('bg-light');
 												$('.flag-editable-cell').addClass('editable-cell');
+												$('##searchResultsGrid')..jqxGrid('showcolumn', 'EditRow');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
@@ -675,17 +676,18 @@ limitations under the License.
 												$('##disableEditControlsBtn').addClass('d-none');
 												$('.flag-editable-cell').removeClass('bg-light');
 												$('.flag-editable-cell').removeClass('editable-cell');
+												$('##searchResultsGrid')..jqxGrid('hidecolumn', 'EditRow');
 											};
 										</script>
 									</cfif>
-									<div class="row">
+									<div class="row" id="bulkEditControlsDiv" class="#editVisibility#">
 										<div class="col-12">
 											<div class="add-form mt-2">
 												<div class="add-form-header pt-1 px-2">
 													<h2 class="h4 mb-0 pb-0">Edit All Loan Items</h2>
 												</div>
 												<div class="card-body">
-													<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
+													<div class="row mb-0 pb-0 px-2 mx-0">
 														<div class="col-12 col-xl-6 border p-1">
 															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
 															Change disposition of all these #partCount# items to:
