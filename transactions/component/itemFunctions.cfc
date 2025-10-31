@@ -404,7 +404,7 @@ limitations under the License.
  @param loan_item_state must be 'returned' or 'consumed' to mark item as resolved.
  @return a json structure with status:1, or a http 500 response.
 --->
-<cffuction name="markLoanItemResolved" access="remote" returntype="any" returnformat="json">
+<cffunction name="markLoanItemResolved" access="remote" returntype="any" returnformat="json">
 	<cfargument name="loan_item_id" type="numeric" required="yes">
 	<cfargument name="loan_item_state" type="string" required="yes">
 
