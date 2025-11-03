@@ -841,9 +841,6 @@ limitations under the License.
 			</cfquery>
 		<cfelse>
 			<cfset itemCount=queryNew("status, message")>
-			<cfset t = queryaddrow(itemCount,1)>
-			<cfset t = QuerySetCell(itemCount, "status", "-1", 1)>
-			<cfset t = QuerySetCell(itemCount, "message", "Not Authorized", 1)>
 		</cfif>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
