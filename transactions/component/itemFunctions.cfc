@@ -1243,6 +1243,7 @@ limitations under the License.
 										<!---  lookup accession --->
 										<cfquery name="lookupAccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT 
+												accn.transaction_id,
 												accn.accn_number,
 												accn.accn_status,
 												accn.accn_type,
@@ -1275,7 +1276,7 @@ limitations under the License.
 												FROM permit_trans 
 													join permit on permit_trans.permit_id = permit.permit_id
 												WHERE 
-													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.accn_id#">
+													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.transaction_id#">
 													and permit.restriction_summary IS NOT NULL
 											</cfquery>
 											<cfquery name="accnBenefits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1289,7 +1290,7 @@ limitations under the License.
 												FROM permit_trans 
 													join permit on permit_trans.permit_id = permit.permit_id
 												WHERE 
-													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.accn_id#">
+													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.transaction_id#">
 													AND (permit.benefits_summary IS NOT NULL OR permit.internal_benefits_summary IS NOT NULL)	
 											</cfquery>
 											<cfif accnLimitations.recordcount GT 0 or accnBenefits.recordcount GT 0>
