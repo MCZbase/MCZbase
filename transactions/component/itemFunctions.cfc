@@ -1239,49 +1239,137 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-12">
-									<!--- lookup other loans that this part is on, highlight any that are open --->
-									<cfquery name="lookupOtherLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT 
-											loan_item.loan_item_state,
-											loan.loan_number,
-											loan.loan_type,
-											loan.loan_status,
-											loan.transaction_id,
-											to_char(loan.return_due_date,'yyyy-mm-dd') as return_due_date,
-											to_char(loan.closed_date,'yyyy-mm-dd') as closed_date
-										FROM 
-											loan_item
-											join loan on loan_item.transaction_id = loan.transaction_id
-										WHERE 
-											loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
-											and loan_item.loan_item_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.loan_item_id#">
-									</cfquery>
-									<cfif lookupOtherLoans.recordcount EQ 0>
-										<ul>
-											<li>This part is not currently in any other loans.</li>
-										</ul>
-									<cfelse>
-										<ul>
-										<cfloop query="lookupOtherLoans">
-											<cfif loan_status EQ "open">
-												<li>
-													This part is also currently in open loan 
-													<a href="/transactions/Loan.cfm?transaction_id=#transaction_id#" target="_blank">#loan_number#</a>
-													#loan_type# (#loan_status#) due #return_due_date#.
-													<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
-												</li>
-											<cfelse>
-												<li>
-													This part is also in loan 
-													<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank"> #loan_number# </a>
-													#loan_type# (#loan_status#) 
-													<cfif len(closed_date) GT 0 and loan_status EQ 'closed'>on #closed_date#</cfif>.
-													<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
+									<ul>
+										<!---  lookup accession --->
+										<cfquery name="lookupAccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT 
+												accn.accn_number,
+												accn.accn_status,
+												accn.accn_type,
+												to_char(accn.received_date,'yyyy-mm-dd') as received_date, 
+												concattransagent(trans.transaction_id,'received from') received_from
+											FROM 
+												specimen_part
+												join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+												join accn on cataloged_item.accn_id = accn.transaction_id
+											WHERE 
+												specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+										</cfquery>
+										<cfloop query="lookupAccession">
+											<!--- should be one and only one accession --->
+											<li>
+												Accession:
+												<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccession.transaction_id#" target="_blank">#lookupAccession.accn_number#</a>
+												#lookupAccession.accn_type# (#lookupAccession.accn_status#).
+												Received: #lookupAccession.received_date#  
+												From: #lookupAccession.received_from#.
+											</li>
+											<!--- lookup any permits associated with this accession that have use restrictions or required benefits --->
+											<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT 
+													case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit.restriction_summary end as restriction_summary,
+													permit.specific_type,
+													permit.permit_num,
+													permit.permit_title,
+													permit.permit_id
+												FROM permit_trans 
+													join permit on permit_trans.permit_id = permit.permit_id
+												WHERE 
+													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.accn_id#">
+													and permit.restriction_summary IS NOT NULL
+											</cfquery>
+											<cfquery name="accnBenefits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT 
+													case when length(permit.benefits_summary) > 30 then substr(permit.benefits_summary,1,30) || '...' else permit.benefits_summary end as benefits_summary,
+													case when length(permit.internal_benefits_summary) > 30 then substr(permit.internal_benefits_summary,1,30) || '...' else permit.internal_benefits_summary end as internal_benefits_summary,
+													permit.specific_type,
+													permit.permit_num,
+													permit.permit_title,
+													permit.permit_id
+												FROM permit_trans 
+													join permit on permit_trans.permit_id = permit.permit_id
+												WHERE 
+													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.accn_id#">
+													AND (permit.benefits_summary IS NOT NULL OR permit.internal_benefits_summary IS NOT NULL)	
+											</cfquery>
+											<cfif accnLimitations.recordcount GT 0 or accnBenefits.recordcount GT 0>
+												<li class="list-group-item py-0">
+													<cfif accnLimitations.recordcount GT 0>
+														<span class="font-weight-lessbold mb-0 d-inline-block">Permits with restrictions on use:</span>
+														<ul class="pl-0">
+															<cfloop query="accnLimitations">
+																<li class="small90">
+																	<a href="/transactions/Permit.cfm?action=view&permit_id=#accnLimitations.permit_id#" target="_blank">
+																		#accnLimitations.specific_type# #accnLimitations.permit_num#
+																	</a> 
+																	#accnLimitations.restriction_summary#
+																</li>
+															</cfloop>
+														</ul>
+													</cfif>
+													<cfif accnBenefits.recordcount GT 0>
+														<span class="font-weight-lessbold mb-0 d-inline-block">Permits with required benefits:</span>
+														<ul class="pl-0">
+															<cfloop query="accnBenefits">
+																<li class="small90">
+																	<a href="/transactions/Permit.cfm?action=view&permit_id=#accnBenefits.permit_id#" target="_blank">
+																		#accnBenefits.specific_type# #accnBenefits.permit_num#
+																	</a> 
+																	<cfif len(accnBenefits.benefits_summary) gt 0>
+																		<strong>Apply to All:</strong> #accnBenefits.benefits_summary#
+																	</cfif>
+																	<cfif len(accnBenefits.internal_benefits_summary) gt 0>
+																		<cfif len(accnBenefits.benefits_summary) gt 0>, </cfif>
+																		<strong>Apply to Harvard:</strong> #accnBenefits.internal_benefits_summary#
+																	</cfif>
+																</li>
+															</cfloop>
+														</ul>
+													</cfif>
 												</li>
 											</cfif>
 										</cfloop>
-										</ul>
-									</cfif>
+									
+										<!--- lookup other loans that this part is on, highlight any that are open --->
+										<cfquery name="lookupOtherLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT 
+												loan_item.loan_item_state,
+												loan.loan_number,
+												loan.loan_type,
+												loan.loan_status,
+												loan.transaction_id,
+												to_char(loan.return_due_date,'yyyy-mm-dd') as return_due_date,
+												to_char(loan.closed_date,'yyyy-mm-dd') as closed_date
+											FROM 
+												loan_item
+												join loan on loan_item.transaction_id = loan.transaction_id
+											WHERE 
+												loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+												and loan_item.loan_item_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.loan_item_id#">
+										</cfquery>
+										<cfif lookupOtherLoans.recordcount EQ 0>
+												<li>This part is not currently in any other loans.</li>
+										<cfelse>
+											<cfloop query="lookupOtherLoans">
+												<cfif loan_status EQ "open">
+													<li>
+														This part is also currently in open loan 
+														<a href="/transactions/Loan.cfm?transaction_id=#transaction_id#" target="_blank">#loan_number#</a>
+														#loan_type# (#loan_status#) due #return_due_date#.
+														<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
+													</li>
+												<cfelse>
+													<li>
+														This part is also in loan 
+														<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank"> #loan_number# </a>
+														#loan_type# (#loan_status#) 
+														<cfif len(closed_date) GT 0 and loan_status EQ 'closed'>on #closed_date#</cfif>.
+														<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
+													</li>
+												</cfif>
+											</cfloop>
+										</cfif>
+									</ul>
 								</div>
 							</div>
 						</div>
