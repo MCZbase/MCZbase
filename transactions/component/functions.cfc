@@ -817,7 +817,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cftry>
 		<cfif listcontainsnocase(session.roles,"admin_transactions")>
-			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="itemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					1 as status,
 					count(distinct cataloged_item.collection_object_id) catItemCount,
@@ -830,29 +830,20 @@ limitations under the License.
 					specimen_part,
 					coll_object,
 					cataloged_item,
-					coll_object_encumbrance,
-					encumbrance,
-					agent_name,
-					identification,
 					collection
 				WHERE
 					loan_item.collection_object_id = specimen_part.collection_object_id AND
 					loan.transaction_id = loan_item.transaction_id AND
 					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
 					specimen_part.collection_object_id = coll_object.collection_object_id AND
-					coll_object.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-					coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-					encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
-					cataloged_item.collection_object_id = identification.collection_object_id AND
-					identification.accepted_id_fg = 1 AND
 					cataloged_item.collection_id=collection.collection_id AND
 					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 		<cfelse>
-			<cfset rankCount=queryNew("status, message")>
-			<cfset t = queryaddrow(rankCount,1)>
-			<cfset t = QuerySetCell(rankCount, "status", "-1", 1)>
-			<cfset t = QuerySetCell(rankCount, "message", "Not Authorized", 1)>
+			<cfset itemCount=queryNew("status, message")>
+			<cfset t = queryaddrow(itemCount,1)>
+			<cfset t = QuerySetCell(itemCount, "status", "-1", 1)>
+			<cfset t = QuerySetCell(itemCount, "message", "Not Authorized", 1)>
 		</cfif>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
