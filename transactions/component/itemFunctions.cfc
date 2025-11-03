@@ -1247,7 +1247,7 @@ limitations under the License.
 												accn.accn_status,
 												accn.accn_type,
 												to_char(accn.received_date,'yyyy-mm-dd') as received_date, 
-												concattransagent(trans.transaction_id,'received from') received_from
+												concattransagent(accn.transaction_id,'received from') received_from
 											FROM 
 												specimen_part
 												join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
