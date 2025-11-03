@@ -321,6 +321,28 @@ limitations under the License.
 						WHERE
 							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
 					</cfquery>
+					<!--- check if loan is open and has more than one outstanding loan item, if so, change to open-partially-returned --->
+					<cfquery name="checkLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							count(*) as outstanding_count
+						FROM 
+							loan_item
+							join loan on loan_item.transaction_id = loan.transaction_id
+						WHERE 
+							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+							AND (loan_item_state = 'in loan') 
+							AND loan.loan_status = 'open'
+					</cfquery>
+					<cfif checkLoanStatus.outstanding_count GT 1>
+						<cfquery name="setLoanPartiallyReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE loan 
+							SET 
+								loan_status = 'open partially-returned'
+							WHERE 
+								transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+								and loan_status = 'open'
+						</cfquery>
+					</cfif>
  				<cfelseif arguments.loan_item_state eq "consumed" or arguments.loan_item_state eq "missing">
 					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE loan_item 
