@@ -852,7 +852,7 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn rankCount>
+	<cfreturn itemCount>
 </cffunction>
 
 <!--- ** removeSubloanFromParent removes a record from loan_relations of type Subloan.
