@@ -337,7 +337,7 @@ limitations under the License.
 						<cfquery name="setLoanPartiallyReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE loan 
 							SET 
-								loan_status = 'open partially-returned'
+								loan_status = 'open partially returned'
 							WHERE 
 								transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
 								and loan_status = 'open'
