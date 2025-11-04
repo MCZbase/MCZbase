@@ -962,7 +962,7 @@ limitations under the License.
 											columnListSource.push(listRow);
 										}
 									} catch (e) {
-										console.log(e);
+										console.log(e.message);
 									}
 								} 
 								$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
