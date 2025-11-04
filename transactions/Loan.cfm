@@ -442,6 +442,19 @@ limitations under the License.
 	</cfif>
 	<cfoutput>
 		<script>
+			var bc = new BroadcastChannel('loan_channel');
+			function loanModifiedHere() { 
+				bc.postMessage({"source":"loan","transaction_id":"#transaction_id#"});
+			}
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+					// TODO: Reload the item summary
+					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
+				}
+			}
+		</script>
+		<script>
 			function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
 				console.log(targetid);
 				var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;

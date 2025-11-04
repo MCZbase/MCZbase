@@ -443,7 +443,29 @@ limitations under the License.
 				)
 			</cfquery>
 		</cfif>
+
+		<!--- TODO: Evaluate this comment, sees obsolete --->
 		<!--- handle legacy loans with cataloged items as the item --->
+
+		<script>
+			var bc = new BroadcastChannel('loan_channel');
+			function loanModifiedHere() { 
+				bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
+			}
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
+					 reloadSummary();
+				}
+				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+					 reloadGridNoBroadcast();
+				}
+			}
+			function reloadSummary() { 
+				// TODO: Implement
+				// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
+			}
+		</script>
 		<main class="container-fluid" id="content">
 			<cfoutput>
 				<cfset isClosed = false>
@@ -1055,13 +1077,13 @@ limitations under the License.
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemDialog('+loan_item_id+',\'editItemDialog\',\'Loan Item\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Edit" aria-label="Edit"/></span>';
 							};
 							var returnCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to marke a loan item as returned
+								// Display a button to mark a loan item as returned
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var loan_item_id = rowData['loan_item_id'];
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Return" aria-label="Mark Item as Returned"/></span>';
 							};
 							var consumedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to marke a loan item as consumed
+								// Display a button to mark a loan item as consumed
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var loan_item_id = rowData['loan_item_id'];
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consumed" aria-label="Mark Item as Consumed"/></span>';
@@ -1159,9 +1181,14 @@ limitations under the License.
 								async: true
 							};
 		
-							function reloadGrid() { 
+							function reloadGridNoBroadcast() { 
 								var dataAdapter = new $.jqx.dataAdapter(search);
 								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+							}
+							function reloadGrid() { 
+								reloadGridNoBroadcast();
+								// Broadcast that a change has happened to the loan items
+								bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
 							};
 		
 							function loadGrid() { 
