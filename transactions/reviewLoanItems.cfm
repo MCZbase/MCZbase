@@ -962,7 +962,7 @@ limitations under the License.
 											columnListSource.push(listRow);
 										}
 									} catch (e) {
-										console.log(e.message);
+										console.log("Caught exception: " + e.message);
 									}
 								} 
 								$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
@@ -989,7 +989,7 @@ limitations under the License.
 											columnListSource1.push(listRow);
 										}
 									} catch (e) {
-										console.log(e.message);
+										console.log("Caught exception: " + e.message);
 									}
 								} 
 								$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
