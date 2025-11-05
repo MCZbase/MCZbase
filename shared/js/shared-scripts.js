@@ -1,9 +1,7 @@
 /**
  * Place scripts that should be available on all web pages for all users here.
 */
-
 /**** Functions to load wiki content and display it in a target div within an MCZbase page, including support for a wikiDrawer drawer container ******/
-
 /**
  * Show a wiki article in a target div, with options for showing images and specifying a target div for content.
  * @param page the name of the wiki page to load.
@@ -15,7 +13,6 @@
  * @param titleLink boolean indicating whether to create a link to the wiki page in the title div, true to create a link, false to just show the title.
  * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
  */
-
 function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section) {
 	$('#'+targetDiv).html('Loading...');
 	if (titleLink) {
@@ -52,8 +49,6 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 		}
 	});
 }
-
-
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
 function updateDialogPositionForDrawer() {
@@ -93,7 +88,6 @@ function updateDialogPositionForDrawer() {
 		}
 	});
 }
-
 // When the wiki drawer is opened/closed
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open').show();
@@ -114,7 +108,6 @@ function processWikiContent($container) {
 	$container.find('.mw-editsection').remove(); // remove edit controls
 	//To ensure that the wiki table of contents is not seen uncomment this and change section variable to zero on the share wiki call on the page (e.g., CollectingEvent.cfm)
 	//	$container.find('#toc').remove(); // remove table of contents
-
 	$container.find('a').filter(function() {
 		return $(this).text().trim().toLowerCase() === "edit";
 	}).remove(); // remove edit links within the content.
@@ -134,21 +127,15 @@ function processWikiContent($container) {
 		$img.removeAttr('width').removeAttr('height');
 	});
 	$container.find('img').removeAttr('width').removeAttr('height');
-
-	//$container.find('a').contents().unwrap(); // remove all <a> tags around text, leaving just the text.
-
-   // alternately, correct links to point to the wiki, uncomment the following lines to do so:
 	// TODO: Put this into the backing method, only allowed for coldfusion_user roles
-   //$container.find('a').each(function() {
+    //$container.find('a').each(function() {
 	//	var $a = $(this);
 	//	if ($a.attr('href') && $a.attr('href').indexOf('http') !== 0) {
 	//		$a.attr('href', 'https://code.mcz.harvard.edu' + $a.attr('href'));
 	//	}
 	//	$a.attr('target', '_blank');
 	//});
-	
 }
-
 /**** End wiki content loading and processing functions ****/
 
 /** Make some readable content for a message dialog from an error message,
