@@ -4359,7 +4359,7 @@ limitations under the License.
 									<td><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanHistory.transaction_id#" target="_blank">#loanHistory.loan_number#</a></td>
 									<td>#loanHistory.loan_type#</td>
 									<td>#loanHistory.loan_status#</td>
-									<td>#lanHistory.return_due_date#</td>
+									<td>#loanHistory.return_due_date#</td>
 									<td><cfif len(loanHistory.closed_date) GT 0> #loanHistory.closed_date# <cfelse> -- </cfif> </td>
 									<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) >
 										<td> <cfif len(loanHistory.return_date) GT 0> #loanHistory.return_date# <cfelse> -- </cfif> </td>
