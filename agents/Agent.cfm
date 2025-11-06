@@ -1031,8 +1031,8 @@ limitations under the License.
 									<cfquery name="getAgentTaxonAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentTaxonAuthor_result">
 										SELECT scientific_name, display_name, author_text
 										FROM agent
-											left join taxon_author on agent.agent_id = taxon_author.AGENT_ID
-											left join taxonomy on taxon_author.taxon_name_id = taxonomy.taxon_name_id
+											join taxon_author on agent.agent_id = taxon_author.AGENT_ID
+											join taxonomy on taxon_author.taxon_name_id = taxonomy.taxon_name_id
 										WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										ORDER BY scientific_name
 									</cfquery>
@@ -1054,10 +1054,9 @@ limitations under the License.
 										</h2>
 									</div>
 									<div id="taxonAuthorCardBodyWrap2" class="#bodyClass#" aria-labelledby="taxonAuthorHeader2" data-parent="##taxonAuthorSection2">
-										<!---	<cfif getAgentTaxonAuthor2.recordcount GT 0>--->
 										<div class="card-body py-1 mb-1">
 											<div class="w-100"> 
-												<cfif getAgentCollScope.recordcount EQ 0>
+												<cfif getAgentTaxonAuthor.recordcount EQ 0>
 													<ul class="list-group"><li class="list-group-item">Not the author of any scientific names in MCZbase</li></ul>
 												<cfelse>
 													<ul class="list-group">
