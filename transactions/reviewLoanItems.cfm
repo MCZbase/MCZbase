@@ -250,7 +250,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetDescription">
-		<!--- append the value of coll_object.condition to loan_item.item_desc if not already there. --->
+		<!--- append the value of coll_object.condition to loan_item.item_descr if not already there. --->
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -268,9 +268,19 @@ limitations under the License.
 						<cfif getCondition.recordcount GT 0 AND len(getCondition.condition) GT 0>
 							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE loan_item 
-								SET item_desc  = trim(item_desc || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">)
+								SET item_descr  = 
+   								TRIM(
+  								      CASE WHEN item_descr IS NULL OR TRIM(item_descr) = '' THEN
+  							            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+  							   	   ELSE
+      	     				   	  item_descr || '; ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+   	     							END
+	    							)
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
-									AND item_desc <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+									AND (
+										item_descr IS NULL OR 
+										item_descr NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getCondition.condition#%">
+									)
 							</cfquery>
 						</cfif>
 					</cfloop>
@@ -289,23 +299,35 @@ limitations under the License.
 	<cfcase value="BulkSetInstructions">
 		<!--- append a provided value to loan_item.item_instructions if not already there. --->
 		<cfoutput>
-			<cftransaction>
-				<cftry>
-					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET item_instructions = trim(item_instructions || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">)
-						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
-							AND item_instructions <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
-					</cfquery>
-					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-					<cfset message = "Bulk update of item instructions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
-				</cfcatch>
-				</cftry>
-			</cftransaction>
+			<cfif isDefined("form.item_instructions") AND len(trim(form.item_instructions)) GT 0>
+				<cftransaction>
+					<cftry>
+						<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE loan_item 
+							SET item_instructions =
+   							TRIM(
+  							      CASE WHEN item_instructions IS NULL OR TRIM(item_instructions) = '' THEN
+  						            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
+  						   	   ELSE
+           				   	  item_instructions || '; ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
+        							END
+    							)
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+								AND (
+									item_instructions IS NULL OR
+									item_instructions NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#form.item_instructions#%">
+								)
+						</cfquery>
+						<cftransaction action="commit">
+					<cfcatch>
+						<cftransaction action="rollback">
+						<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+						<cfset message = "Bulk update of item instructions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+						<cfthrow message="#message#">
+					</cfcatch>
+					</cftry>
+				</cftransaction>
+			</cfif>
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 		</cfoutput>
 	</cfcase>
@@ -421,7 +443,29 @@ limitations under the License.
 				)
 			</cfquery>
 		</cfif>
+
+		<!--- TODO: Evaluate this comment, sees obsolete --->
 		<!--- handle legacy loans with cataloged items as the item --->
+
+		<script>
+			var bc = new BroadcastChannel('loan_channel');
+			function loanModifiedHere() { 
+				bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
+			}
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
+					 reloadSummary();
+				}
+				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+					 reloadGridNoBroadcast();
+				}
+			}
+			function reloadSummary() { 
+				// TODO: Implement
+				// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
+			}
+		</script>
 		<main class="container-fluid" id="content">
 			<cfoutput>
 				<cfset isClosed = false>
@@ -573,37 +617,6 @@ limitations under the License.
 											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
-											<cfif isInProcess>
-												<div class="form-row border">
-													<div class="col-12 col-md-4">
-														<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
-														<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
-														<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
-													</div>
-													<div class="col-12 col-md-8">
-														<label class="data-entry-label">&nbsp;</label>
-														<button id="addloanitembutton" class="btn btn-xs btn-secondary" 
-															aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
-														<script>
-															$(document).ready(function() {
-																$('##addloanitembutton').click(function(evt) { 
-																	evt.preventDefault();
-																	if ($('##guid').val() != "") { 
-																		openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid);
-																	} else {
-																		messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
-																	};
-																});
-															});
-														</script>
-														<!---  script>
-															$(document).ready(function() {
-																makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
-															});
-														</script --->
-													</div>
-												</div>
-											</cfif>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
@@ -614,6 +627,44 @@ limitations under the License.
 												<cfset sep="; ">
 											</cfloop>
 										</div>
+										<cfif isInProcess>
+											<div class="col-12">
+												<div class="add-form mt-2">
+													<div class="add-form-header pt-1 px-2">
+														<h2 class="h4 mb-0 pb-0">Add Parts To Loan</h2>
+													</div>
+													<div class="card-body form-row my-1">
+														<div class="col-12 col-md-4">
+															<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
+															<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
+															<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+														</div>
+														<div class="col-12 col-md-8">
+															<label class="data-entry-label">&nbsp;</label>
+															<button id="addloanitembutton" class="btn btn-xs btn-secondary" 
+																aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
+															<script>
+																$(document).ready(function() {
+																	$('##addloanitembutton').click(function(evt) { 
+																		evt.preventDefault();
+																		if ($('##guid').val() != "") { 
+																			openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid);
+																		} else {
+																			messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
+																		};
+																	});
+																});
+															</script>
+															<!---  script>
+																$(document).ready(function() {
+																	makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
+																});
+															</script --->
+														</div>
+													</div>
+												</div>
+											</div>
+										</cfif>
 										<div id="addLoanItemDialogDiv"></div>
 									</div>
 									<cfset editVisibility = "">
@@ -638,6 +689,7 @@ limitations under the License.
 												$('##disableEditControlsBtn').removeClass('d-none');
 												$('.flag-editable-cell').addClass('bg-light');
 												$('.flag-editable-cell').addClass('editable-cell');
+												$('##searchResultsGrid').jqxGrid('showcolumn', 'EditRow');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
@@ -646,150 +698,162 @@ limitations under the License.
 												$('##disableEditControlsBtn').addClass('d-none');
 												$('.flag-editable-cell').removeClass('bg-light');
 												$('.flag-editable-cell').removeClass('editable-cell');
+												$('##searchResultsGrid').jqxGrid('hidecolumn', 'EditRow');
 											};
 										</script>
 									</cfif>
-									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
-										<div class="col-12 col-xl-6 border p-1">
-											<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
-											Change disposition of all these #partCount# items to:
-											<input type="hidden" name="Action" value="BulkUpdateDisp">
-												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
-													<option value=""></option>
-													<cfloop query="ctDisp">
-														<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-													</cfloop>				
-												</select>
-												<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
-												<!--- enable the button only if a value is selected --->
-												<script>
-													$(document).ready(function() {
-														$('##coll_obj_disposition').change(function() {
-															if ($('##coll_obj_disposition').val() != "") {
-																$('##coll_obj_disposition_submit').prop('disabled', false);
-															} else {
-																$('##coll_obj_disposition_submit').prop('disabled', true);
-															}
-														});
-													});
-												</script>
-											</form>
+									<div class="row #editVisibility#" id="bulkEditControlsDiv">
+										<div class="col-12">
+											<div class="add-form mt-2">
+												<div class="add-form-header pt-1 px-2">
+													<h2 class="h4 mb-0 pb-0">Edit All Loan Items</h2>
+												</div>
+												<div class="card-body">
+													<div class="row mb-0 pb-0 px-2 mx-0">
+														<div class="col-12 col-xl-6 border p-1">
+															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
+															Change disposition of all these #partCount# items to:
+															<input type="hidden" name="Action" value="BulkUpdateDisp">
+																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+																	<option value=""></option>
+																	<cfloop query="ctDisp">
+																		<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+																	</cfloop>				
+																</select>
+																<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+																<!--- enable the button only if a value is selected --->
+																<script>
+																	$(document).ready(function() {
+																		$('##coll_obj_disposition').change(function() {
+																			if ($('##coll_obj_disposition').val() != "") {
+																				$('##coll_obj_disposition_submit').prop('disabled', false);
+																			} else {
+																				$('##coll_obj_disposition_submit').prop('disabled', true);
+																			}
+																		});
+																	});
+																</script>
+															</form>
+														</div>
+														<cfif containersCanMove AND NOT isInProcess>
+															<div class="col-12 col-xl-6 border p-1">
+																<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																	SELECT barcode, label
+																	FROM container
+																	WHERE label LIKE '%chamber'
+																		and container_type = 'fixture'
+																	ORDER BY label
+																</cfquery>
+																<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+																	Move all containers for all these #partCount# items to:
+																	<input type="hidden" name="Action" value="BulkUpdateContainers">
+																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																	<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
+																		<option value=""></option>
+																		<cfloop query="getTreatmentContainers">
+																			<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
+																		</cfloop>
+																	</select>
+																	<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
+																	<!--- enable the button only if a value is selected --->
+																	<script>
+																		$(document).ready(function() {
+																			$('##new_parent_barcode').change(function() {
+																				if ($('##new_parent_barcode').val() != "") {
+																					$('##new_parent_barcode_submit').prop('disabled', false);
+																				} else {
+																					$('##new_parent_barcode_submit').prop('disabled', true);
+																				}
+																			});
+																		});
+																	</script>
+																</form>
+															</div>
+															<div class="col-12 col-xl-6 border p-1">
+																<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
+																<cfif bulkMoveBackPossible>
+																	<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+																		<br>Move all containers for all these #partCount# items back to their previous containers:
+																		<input type="hidden" name="Action" value="BulkMoveBackContainers">
+																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																		<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary"> 
+																	</form>
+																</cfif>
+															</div>
+														</cfif>
+														<cfif aboutLoan.collection EQ 'Cryogenic'>
+															<div class="col-12 col-xl-6 border p-1">
+																<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
+																	Change preservation method of all these items to:
+																	<input type="hidden" name="Action" value="BulkUpdatePres">
+																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																	<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
+																		<cfloop query="ctPreserveMethod">
+																			<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+																		</cfloop>				
+																	</select>
+																	<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
+																</form>
+															</div>
+														</cfif>
+														<cfif isClosed>
+															<!--- if loan is returnable, and all loan items have no return date, show button to set return date to loan closed date --->
+															<cfquery name="ctReturnableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																SELECT count(*) as ct
+																FROM loan_item
+																WHERE
+																	loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+																	and loan_item.return_date is null
+															</cfquery>
+															<cfif aboutLoan.loan_type EQ 'returnable' AND ctReturnableItems.ct EQ partCount>
+																<div class="col-12 col-xl-6 border p-1">
+																	<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
+																		Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
+																		<input type="hidden" name="Action" value="BulkSetReturnDates">
+																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																		<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
+																	</form>
+																</div>
+															</cfif>
+														</cfif>
+														<cfif isOpen>
+															<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
+															<cfif aboutLoan.loan_type EQ 'returnable'>
+																<div class="col-12 col-xl-6 border p-1">
+																	<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
+																		Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+																		<input type="hidden" name="Action" value="BulkMarkItemsReturned">
+																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																		<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+																	</form>
+																</div>
+															</cfif>
+														</cfif>
+														<cfif isInProcess>
+															<!--- if loan is in process, stamp the part condition values into the item description --->
+															<div class="col-12 col-xl-6 border p-1">
+																<form name="BulkSetDescription" method="post" action="/transactions/reviewLoanItems.cfm">
+																	Append the part condition to each loan item description:
+																	<input type="hidden" name="action" value="BulkSetDescription">
+																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																	<input type="submit" value="Paste Descriptions" class="btn btn-xs btn-primary"> 
+																</form>
+															</div>
+															<div class="col-12 col-xl-6 border p-1">
+																<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
+																	Add instructions to each loan item:
+																	<input type="hidden" name="action" value="BulkSetInstructions">
+																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																	<input type="text" name="item_instructions" id="item_instructions" value="">
+																	<input type="submit" value="Append Item Instructions" class="btn btn-xs btn-primary"> 
+																</form>
+															</div>
+														</cfif>
+													</div>
+												</div>
+											</div>
 										</div>
-										<cfif containersCanMove>
-											<div class="col-12 col-xl-6 border p-1">
-												<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT barcode, label
-													FROM container
-													WHERE label LIKE '%chamber'
-														and container_type = 'fixture'
-													ORDER BY label
-												</cfquery>
-												<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-													Move all containers for all these #partCount# items to:
-													<input type="hidden" name="Action" value="BulkUpdateContainers">
-													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
-														<option value=""></option>
-														<cfloop query="getTreatmentContainers">
-															<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
-														</cfloop>
-													</select>
-													<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
-													<!--- enable the button only if a value is selected --->
-													<script>
-														$(document).ready(function() {
-															$('##new_parent_barcode').change(function() {
-																if ($('##new_parent_barcode').val() != "") {
-																	$('##new_parent_barcode_submit').prop('disabled', false);
-																} else {
-																	$('##new_parent_barcode_submit').prop('disabled', true);
-																}
-															});
-														});
-													</script>
-												</form>
-											</div>
-											<div class="col-12 col-xl-6 border p-1">
-												<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
-												<cfif bulkMoveBackPossible>
-													<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-														<br>Move all containers for all these #partCount# items back to their previous containers:
-														<input type="hidden" name="Action" value="BulkMoveBackContainers">
-														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-														<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary"> 
-													</form>
-												</cfif>
-											</div>
-										</cfif>
-										<cfif aboutLoan.collection EQ 'Cryogenic'>
-											<div class="col-12 col-xl-6 border p-1">
-												<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
-													Change preservation method of all these items to:
-													<input type="hidden" name="Action" value="BulkUpdatePres">
-													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
-														<cfloop query="ctPreserveMethod">
-															<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-														</cfloop>				
-													</select>
-													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
-												</form>
-											</div>
-										</cfif>
-										<cfif isClosed>
-											<!--- if loan is returnable, and all loan items have no return date, show button to set return date to loan closed date --->
-											<cfquery name="ctReturnableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT count(*) as ct
-												FROM loan_item
-												WHERE
-													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-													and loan_item.return_date is null
-											</cfquery>
-											<cfif aboutLoan.loan_type EQ 'returnable' AND ctReturnableItems.ct EQ partCount>
-												<div class="col-12 col-xl-6 border p-1">
-													<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
-														Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
-														<input type="hidden" name="Action" value="BulkSetReturnDates">
-														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-														<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
-													</form>
-												</div>
-											</cfif>
-										</cfif>
-										<cfif isOpen>
-											<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
-											<cfif aboutLoan.loan_type EQ 'returnable'>
-												<div class="col-12 col-xl-6 border p-1">
-													<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
-														Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
-														<input type="hidden" name="Action" value="BulkMarkItemsReturned">
-														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-														<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
-													</form>
-												</div>
-											</cfif>
-										</cfif>
-										<cfif isInProcess>
-											<!--- if loan is in process, stamp the part condition values into the item description --->
-											<div class="col-12 col-xl-6 border p-1">
-												<form name="BulkSetDescription" method="post" action="/transactions/reviewLoanItems.cfm">
-													Append the part condition to each loan item description:
-													<input type="hidden" name="Action" value="BulkSetDescription">
-													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
-												</form>
-											</div>
-											<div class="col-12 col-xl-6 border p-1">
-												<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
-													Add instructions to each loan item:
-													<input type="hidden" name="Action" value="BulkSetInstructions">
-													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<input type="text" name="item_instructions" id="item_instructions" value="">
-													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
-												</form>
-											</div>
-										</cfif>
 									</div>
 								</div>
 							</div>
@@ -801,15 +865,13 @@ limitations under the License.
 								<div class="col-12 mb-3">
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 									<h1 class="h4">Loan Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><span class="alert alert-warning py-1 mb-0 d-inline-block"><a class="messageResults" tabindex="0" aria-label="search results"></a></span></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
-										<div id="columnPickDialog">
-											<div class="container-fluid">
-												<div class="row">
-													<div class="col-12 col-md-6">
-														<div id="columnPick" class="px-1"></div>
-													</div>
-													<div class="col-12 col-md-6">
-														<div id="columnPick1" class="px-1"></div>
-													</div>
+										<div id="columnPickDialog" class="row pick-column-width">
+											<div class="row">
+												<div class="col-12 col-md-6">
+													<div id="columnPick" class="px-1"></div>
+												</div>
+												<div class="col-12 col-md-6 px-0">
+													<div id="columnPick1" class="px-1"></div>
 												</div>
 											</div>
 										</div>
@@ -817,6 +879,7 @@ limitations under the License.
 										<div id="resultDownloadButtonContainer"></div>
 										<div id="locationButtonContainer"></div>
 										<div id="freezerLocationButtonContainer"></div>
+										<output id="gridActionFeedbackDiv"></output>
 									</div>
 									<div class="row mt-0 mx-0">
 										<!--- Grid Related code is below along with search handlers --->
@@ -828,8 +891,11 @@ limitations under the License.
 						</div>
 						<div id="itemConditionHistoryDialog"></div>
 						<div id="removeItemDialog"></div>
+						<div id="editItemDialog"></div>
 						<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 						<script>
+							var gotRunOnLoad = false;
+
 							function removeLoanItem(item_collection_object_id) { 
 								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog',reloadGrid);
 							};
@@ -881,16 +947,22 @@ limitations under the License.
 								}
 								// add a control to show/hide columns
 								var columns = $('##' + gridId).jqxGrid('columns').records;
+								var halfColumns = Math.round(columns.length/2);
+		
 								var columnListSource = [];
-								for (i = 1; i < columns.length; i++) {
-									var text = columns[i].text;
-									var datafield = columns[i].datafield;
-									var hideable = columns[i].hideable;
-									var hidden = columns[i].hidden;
-									var show = ! hidden;
-									if (hideable == true) { 
-										var listRow = { label: text, value: datafield, checked: show };
-										columnListSource.push(listRow);
+								for (i = 1; i < halfColumns; i++) {
+									try {
+										var text = columns[i].text;
+										var datafield = columns[i].datafield;
+										var hideable = columns[i].hideable;
+										var hidden = columns[i].hidden;
+										var show = ! hidden;
+										if (hideable == true) { 
+											var listRow = { label: text, value: datafield, checked: show };
+											columnListSource.push(listRow);
+										}
+									} catch (e) {
+										console.log("Caught exception: " + e.message);
 									}
 								} 
 								$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
@@ -903,8 +975,38 @@ limitations under the License.
 									}
 									$("##" + gridId).jqxGrid('endupdate');
 								});
+		
+								var columnListSource1 = [];
+								for (i = halfColumns; i < (halfColumns*2); i++) {
+									try {
+										var text = columns[i].text;
+										var datafield = columns[i].datafield;
+										var hideable = columns[i].hideable;
+										var hidden = columns[i].hidden;
+										var show = ! hidden;
+										if (hideable == true) { 
+											var listRow = { label: text, value: datafield, checked: show };
+											columnListSource1.push(listRow);
+										}
+									} catch (e) {
+										console.log("Caught exception: " + e.message);
+									}
+								} 
+								$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+								$("##columnPick1").on('checkChange', function (event) {
+									$("##" + gridId).jqxGrid('beginupdate');
+									if (event.args.checked) {
+										$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+									} else {
+										$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+									}
+									$("##" + gridId).jqxGrid('endupdate');
+								});
+		
 								$("##columnPickDialog").dialog({ 
 									height: 'auto', 
+									width: 'auto',
+									adaptivewidth: true,
 									title: 'Show/Hide Columns',
 									autoOpen: false,
 									modal: true, 
@@ -936,6 +1038,14 @@ limitations under the License.
 								$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 								$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 								$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
+								<cfif isClosed>
+									// onstartup disable edit controls
+									if (gotRunOnLoad == false) {
+										disableEditControls();
+										$("##" + gridId).jqxGrid('setcolumnproperty', 'EditRow', 'hidden', true);
+										gotRunOnLoad = true;
+									}
+								</cfif>
 							};
 		
 							// Cell renderers
@@ -960,6 +1070,24 @@ limitations under the License.
 								</cfif>
 								return result;
 							};
+							var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								// Display a button to launch an edit dialog
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var loan_item_id = rowData['loan_item_id'];
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemDialog('+loan_item_id+',\'editItemDialog\',\'Loan Item\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Edit" aria-label="Edit"/></span>';
+							};
+							var returnCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								// Display a button to mark a loan item as returned
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var loan_item_id = rowData['loan_item_id'];
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Return" aria-label="Mark Item as Returned"/></span>';
+							};
+							var consumedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								// Display a button to mark a loan item as consumed
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var loan_item_id = rowData['loan_item_id'];
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consumed" aria-label="Mark Item as Consumed"/></span>';
+							};
 							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								return 'History';
 							};
@@ -981,6 +1109,7 @@ limitations under the License.
 								datafields:
 									[
 										{ name: 'transaction_id', type: 'string' },
+										{ name: 'loan_item_id', type: 'string' },
 										{ name: 'part_id', type: 'string' },
 										{ name: 'catalog_number', type: 'string' },
 										{ name: 'scientific_name', type: 'string' },
@@ -1052,9 +1181,14 @@ limitations under the License.
 								async: true
 							};
 		
-							function reloadGrid() { 
+							function reloadGridNoBroadcast() { 
 								var dataAdapter = new $.jqx.dataAdapter(search);
 								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+							}
+							function reloadGrid() { 
+								reloadGridNoBroadcast();
+								// Broadcast that a change has happened to the loan items
+								bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
 							};
 		
 							function loadGrid() { 
@@ -1098,8 +1232,24 @@ limitations under the License.
 										$("##searchResultsGrid").jqxGrid('selectrow', 0);
 									},
 									columns: [
+										<cfif isClosed>
+											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: true, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+										<cfelseif isInProcess>
+											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:false, hidden: false, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: false, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+										<cfelse>
+											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: false, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+											<cfif aboutLoan.loan_type EQ 'returnable'>
+												{text: 'Return', datafield: 'ReturnRow', width: 78, hideable: true, hidden: false, cellsrenderer: returnCellRenderer, editable: false },
+											<cfelseif aboutLoan.loan_type EQ 'consumable'>
+												{text: 'Consume', datafield: 'ConsumeRow', width: 80, hideable: true, hidden: false, cellsrenderer: consumedCellRenderer, editable: false },
+											</cfif>
+										</cfif>
+										{text: 'Loan Item State', datafield: 'loan_item_state', width:110, hideable: true, hidden: getColHidProp('loan_item_state', false), editable: false },
 										{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true), editable: false },
-										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', false), cellsrenderer: deleteCellRenderer, editable: false },
+										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', true), editable: false },
 										{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: getColHidProp('loan_number', true), editable: false },
 										{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: getColHidProp('collection', true), editable: false  },
 										{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: getColHidProp('collection_cde', false), editable: false  },
@@ -1119,9 +1269,9 @@ limitations under the License.
 										{text: 'Compartment', datafield: 'location_compartment', width:90, hideable: true, hidden: getColHidProp('location_compartment', true), editable: false },
 										{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: getColHidProp('part_name', false), editable: false },
 										{text: 'Preserve Method', datafield: 'preserve_method', width:100, hideable: true, hidden: getColHidProp('preserve_method', false), editable: false },
-										{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: getColHidProp('item_descr', true), editable: false },
 										{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: getColHidProp('sampled_from_obj_id', false), editable: false },
-										{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: getColHidProp('condition', false), editable: true, cellclassname: editableCellClass },
+										{text: 'Part Condition', datafield: 'condition', width:180, hideable: false, hidden: getColHidProp('condition', false), editable: true, cellclassname: editableCellClass },
+										{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: getColHidProp('item_descr', true), editable: false },
 										{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: getColHidProp('History', true), editable: false, 
 											cellsrenderer: historyCellRenderer, buttonclick: historyButtonClick
 										},
@@ -1134,7 +1284,6 @@ limitations under the License.
 										},
 										{text: 'Added By', datafield: 'reconciled_by_agent', width:110, hideable: true, hidden: getColHidProp('reconciled_by_agent', true), editable: false },
 										{text: 'Added Date', datafield: 'reconciled_date', width:110, hideable: true, hidden: getColHidProp('reconciled_date', false), editable: false },
-										{text: 'Loan Item State', datafield: 'loan_item_state', width:110, hideable: true, hidden: getColHidProp('loan_item_state', true), editable: false },
 										{text: 'Return Date', datafield: 'return_date', width:110, hideable: true, hidden: getColHidProp('return_date', true), editable: false },
 										{text: 'Resolution By', datafield: 'resolution_recorded_by_agent', width:110, hideable: true, hidden: getColHidProp('resolution_recorded_by_agent', true), editable: false },
 										{text: 'Resolution Remarks', datafield: 'resolution_remarks', width:180, hideable: true, hidden: getColHidProp('resolution_remarks', true), editable: true, cellclassname: editableCellClass },	

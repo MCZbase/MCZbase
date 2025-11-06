@@ -924,7 +924,7 @@ limitations under the License.
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 										<h2 class="h3">
 											Cataloged items in this named group
-											<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
+											<a href="/Specimens.cfm?execute=true&action=fixedSearch&underscore_coll_id=#encodeForURL(underscore_collection_id)#&underscore_collection=#encodeForUrl(undColl.collection_name)#" target="_blank">(#undCollRelationsSum.ct#)</a>
 										</h2>
 										<div id="columnPickDialog">
 											<div class="container-fluid">

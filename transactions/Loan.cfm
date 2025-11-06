@@ -26,7 +26,7 @@
 transactions/Loan.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2020 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -441,6 +441,19 @@ limitations under the License.
 		<cfthrow message="Edit Loan called without a transaction_id for the loan to edit">
 	</cfif>
 	<cfoutput>
+		<script>
+			var bc = new BroadcastChannel('loan_channel');
+			function loanModifiedHere() { 
+				bc.postMessage({"source":"loan","transaction_id":"#transaction_id#"});
+			}
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+					// TODO: Reload the item summary
+					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
+				}
+			}
+		</script>
 		<script>
 			function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
 				console.log(targetid);
@@ -900,7 +913,7 @@ limitations under the License.
 						<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+							onClick="window.open('/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" doItemUpdate(); ">
 					</div>
