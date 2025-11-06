@@ -4347,9 +4347,10 @@ limitations under the License.
 							loan.loan_number,
 							loan.loan_status,
 							loan.loan_type, 
-							loan.return_due_date, 
+							to_char(loan.return_due_date,'yyyy-mm-dd') return_due_date,
+							to_char(loan.closed_date,'yyyy-mm-dd') closed_date,
 							loan.closed_date,
-							loan_item.return_date,
+							to_char(loan_item.return_date,'yyyy-mm-dd') return_date,
 							loan_item.loan_item_state
 						FROM
 							loan_item
@@ -4369,6 +4370,7 @@ limitations under the License.
 								<th>Loan Type</th>
 								<th>Loan Status</th>
 								<th>Loan Due Date</th>
+								<th>Loan Closed Date</th>
 								<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) >
 									<th>Item Return Date</th>
 									<th>Item State</th>
@@ -4381,15 +4383,10 @@ limitations under the License.
 									<td><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanHistory.transaction_id#" target="_blank">#loanHistory.loan_number#</a></td>
 									<td>#loanHistory.loan_type#</td>
 									<td>#loanHistory.loan_status#</td>
-									<td>#dateformat(loanHistory.return_due_date,"yyyy-mm-dd")#</td>
+									<td>#lanHistory.return_due_date#</td>
+									<td><cfif len(loanHistory.closed_date) GT 0> #loanHistory.closed_date# <cfelse> -- </cfif> </td>
 									<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) >
-										<td>
-											<cfif len(loanHistory.return_date) GT 0>
-												#dateformat(loanHistory.return_date,"yyyy-mm-dd")#
-											<cfelse>
-												--
-											</cfif>
-										</td>
+										<td> <cfif len(loanHistory.return_date) GT 0> #loanHistory.return_date# <cfelse> -- </cfif> </td>
 										<td>#loanHistory.loan_item_state#</td>
 									</cfif>
 								</tr>
