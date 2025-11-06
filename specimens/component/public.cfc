@@ -21,6 +21,13 @@ limitations under the License.
 <cfif NOT isDefined("reportError")>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
 
 <cffunction name="getSummaryHeaderHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -4331,6 +4338,62 @@ limitations under the License.
 					</table>
 				<cfelse>
 					<h2 class="h3">(No Preservation History)</h3>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+					<!--- Lookup loan history for part --->
+					<cfquery name="loanHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							loan.transaction_id,
+							loan.loan_number,
+							loan.loan_status,
+							loan.loan_type, 
+							to_char(loan.return_due_date,'yyyy-mm-dd') return_due_date,
+							to_char(loan.closed_date,'yyyy-mm-dd') closed_date,
+							loan.closed_date,
+							to_char(loan_item.return_date,'yyyy-mm-dd') return_date,
+							loan_item.loan_item_state
+						FROM
+							loan_item
+							join loan on loan_item.transaction_id = loan.transaction_id
+						WHERE
+							loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						ORDER BY loan.loan_number
+					</cfquery>
+					<cfif loanHistory.recordcount EQ 0>
+						<h2 class="h3"> (No loans include this part) </h2>
+					<cfelse>
+						<h2 class="h3"> Loan History for this part (#loanHistory.recordcount#)</h2>
+						<table class="px-1 w-100 table">
+							<thead>
+							<tr>
+								<th>Loan Number</th>
+								<th>Loan Type</th>
+								<th>Loan Status</th>
+								<th>Loan Due Date</th>
+								<th>Loan Closed Date</th>
+								<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) >
+									<th>Item Return Date</th>
+									<th>Item State</th>
+								</cfif>
+							</tr>
+							</thead>
+							<tbody>
+							<cfloop query="loanHistory">
+								<tr>
+									<td><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanHistory.transaction_id#" target="_blank">#loanHistory.loan_number#</a></td>
+									<td>#loanHistory.loan_type#</td>
+									<td>#loanHistory.loan_status#</td>
+									<td>#loanHistory.return_due_date#</td>
+									<td><cfif len(loanHistory.closed_date) GT 0> #loanHistory.closed_date# <cfelse> -- </cfif> </td>
+									<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) >
+										<td> <cfif len(loanHistory.return_date) GT 0> #loanHistory.return_date# <cfelse> -- </cfif> </td>
+										<td>#loanHistory.loan_item_state#</td>
+									</cfif>
+								</tr>
+							</cfloop>
+							</tbody>
+						</table>
+					</cfif>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
