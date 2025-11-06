@@ -4308,6 +4308,63 @@ limitations under the License.
 				<cfelse>
 					<h2 class="h3">(No Preservation History)</h3>
 				</cfif>
+				<!--- Lookup loan history for part --->
+				<cfquery name="loanHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						loan.transaction_id,
+						loan.loan_number,
+						loan.loan_status,
+						loan.loan_type, 
+						loan.return_due_date, 
+						loan.closed_date,
+						loan_item.return_date,
+						loan_item.loan_item_state
+					FROM
+						loan_item
+						join loan on loan_item.transaction_id = loan.transaction_id
+					WHERE
+						loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					ORDER BY loan.loan_number
+				</cfquery>
+				<cfif loanHistory.recordcount EQ 0>
+					<h2 class="h3"> (No Loan History) </h2>
+				<cfelse>
+					<h2 class="h3"> Loan History </h2>
+					<table class="px-1 w-100 table">
+						<thead>
+						<tr>
+							<th>Loan Number</th>
+							<th>Loan Type</th>
+							<th>Loan Status</th>
+							<th>Loan Due Date</th>
+							<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) >
+								<th>Item Return Date</th>
+								<th>Item State</th>
+							</cfif>
+						</tr>
+						</thead>
+						<tbody>
+						<cfloop query="loanHistory">
+							<tr>
+								<td><a href="/loans/Loan.cfm?transaction_id=#loanHistory.transaction_id#">#loanHistory.loan_number#</a></td>
+								<td>#loanHistory.loan_type#</td>
+								<td>#loanHistory.loan_status#</td>
+								<td>#dateformat(loanHistory.return_due_date,"yyyy-mm-dd")#</td>
+								<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) >
+									<td>
+										<cfif len(loanHistory.return_date) GT 0>
+											#dateformat(loanHistory.return_date,"yyyy-mm-dd")#
+										<cfelse>
+											--
+										</cfif>
+									</td>
+									<td>#loanHistory.loan_item_state#</td>
+								</cfif>
+							</tr>
+						</cfloop>
+						</tbody>
+					</table>
+				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
