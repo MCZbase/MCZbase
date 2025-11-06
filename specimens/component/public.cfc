@@ -4338,7 +4338,7 @@ limitations under the License.
 					<cfif loanHistory.recordcount EQ 0>
 						<h2 class="h3"> (No Loan History) </h2>
 					<cfelse>
-						<h2 class="h3"> Loan History </h2>
+						<h2 class="h3"> Loan History for this part (#loanHistory.recordcount#)</h2>
 						<table class="px-1 w-100 table">
 							<thead>
 							<tr>
