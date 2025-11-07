@@ -893,6 +893,7 @@ limitations under the License.
 										$('##saveResultDiv').removeClass('text-danger');
 										$('##saveResultDiv').removeClass('text-warning');
 										loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+										loanModifiedHere();
 									},
 									error: function(jqXHR,textStatus,error){
 										$('##saveResultDiv').html('Error.');
