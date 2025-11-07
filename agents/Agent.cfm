@@ -2166,15 +2166,6 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="enteredSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="enteredHeader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="entered_result">
-											select
-												count(*) cnt
-											from 
-												coll_object
-												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
-											where
-												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										</cfquery>
 										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="entered_result">
 											select
 												count(*) cnt,
@@ -2199,10 +2190,21 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfset recordsEntered = 0>
+										<cfloop query="entered">
+											<cfset recordsEntered = recordsEntered + val(entered.cnt)>
+										</cfloop>
+										<cfif recordsEntered EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
+										<cfif entered.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (<cfif #entered.recordcount# gt 0>#enteredHeader.cnt# specimen<cfif #entered.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)</button>
+													MCZbase Records Entered (#recordsEntered#
+														<cfif recordsEntered GT 0>
+															in #entered.recordcount# collection#collPlural#
+														</cfif>
+													)
+												</button>
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
@@ -2229,15 +2231,6 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="lastEditHeader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
-											select 
-												count(*) cnt
-											from 
-												coll_object
-												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
-											where 
-												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										</cfquery>
 										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
 											select 
 												count(*) cnt,
@@ -2253,11 +2246,6 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-										<cfset i = 0>
-										<cfloop query="lastEdit">
-											<cfset i=i+1>
-												<cfif #i# gt 0><cfset plural = 's'><cfelse></cfif>
-										</cfloop>
 										<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
@@ -2267,10 +2255,20 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfset recordsTouched = 0>
+										<cfloop query="lastEdit">
+											<cfset recordsTouched = recordsTouched + val(lastEdit.cnt)>
+										</cfloop>
+										<cfif recordsTouched EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
+										<cfif lastEdit.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
 										<div class="card-header" id="lastEditHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEditHeader.cnt# specimen<cfif #lastEdit.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)
+													MCZbase Records Last Edited By this agent (#recordsTouched# 
+														<cfif recordsTouched GT 0>
+															in #lastEdit.recordcount# collection#collPlural#
+														</cfif>
+													)
 												</button>
 											</h2>
 										</div>
