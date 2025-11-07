@@ -77,10 +77,10 @@ limitations under the License.
 <cfelse> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcore.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdata.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdata.export.js"></script> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxbuttons.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxscrollbar.js"></script> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxmenu.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdata.export.js"></script> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.js"></script> <!--- jqxgrid is the primary reason we are including jqwidgets ---> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.filter.js"></script> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.edit.js"></script> 
