@@ -6879,6 +6879,7 @@ limitations under the License.
 						collecting_event.coll_event_remarks,
 						collecting_event.verbatimelevation,
 						collecting_event.verbatimdepth,
+						collecting_event.valid_distribution_fg,
 						locality.locality_id,
 						locality.minimum_elevation,
 						locality.maximum_elevation,
