@@ -54,7 +54,6 @@ Disallow: /vocabularies/component/
 Disallow: /.gitignore
 Disallow: /.vimrc
 Disallow: /a_deaccItemReview.cfm
-Disallow: /a_loanItemReview.cfm
 Disallow: /AdminUsers.cfm
 Disallow: /agents/editAgent.cfm
 Disallow: /containers/allContainerLeafNodes.cfm

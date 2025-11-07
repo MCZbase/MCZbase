@@ -214,7 +214,7 @@ limitations under the License.
 			<cfif getPartLoanRequests.recordcount is 0>
 				<br>This loan contains no parts.
 			<cfelse>
-				<br>Existing Parts (use <a href="/a_loanItemReview.cfm?transaction_id=#transaction_id#">Loan Item Review</a> to adjust):
+				<br>Existing Parts (use <a href="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">Loan Item Review</a> to adjust):
 				<table border>
 					<tr>
 						<th>Barcode</th>
