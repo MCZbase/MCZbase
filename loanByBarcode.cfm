@@ -229,6 +229,7 @@
 						</td>
 					</tr>
 				</cfloop>
+			</table>
 		</form>
 	</cfoutput>
 </cfif>
