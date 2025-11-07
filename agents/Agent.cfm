@@ -2192,7 +2192,7 @@ limitations under the License.
 										</cfif>
 										<cfset recordCount = 0>
 										<cfloop query="entered">
-											<cfset recordCount = recordCount + cnt>
+											<cfset recordCount = recordCount + val(entered.cnt)>
 										</cfloop>
 										<cfif recordCount EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
 										<cfif entered.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
@@ -2257,7 +2257,7 @@ limitations under the License.
 										</cfif>
 										<cfset recordCount = 0>
 										<cfloop query="lastEdit">
-											<cfset recordCount = recordCount + cnt>
+											<cfset recordCount = recordCount + val(lastEdit.cnt)>
 										</cfloop>
 										<cfif recordCount EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
 										<cfif lastEdit.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
