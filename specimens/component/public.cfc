@@ -3113,6 +3113,10 @@ limitations under the License.
 				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
+						<cfif len(loc_collevent.valid_distribution_fg) gt 0 AND loc_collevent.valid_distribution_fg EQ '0'>
+							<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">Valid Distribution: </li>
+							<li class="list-group-item col-7 col-xl-7 pl-2 pr-0 last">No</li>
+						</cfif>
 						<cfif len(loc_collevent.spec_locality) gt 0>
 							<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">Specific Locality: </li>
 							<li class="list-group-item col-7 col-xl-7 pl-2 pr-0 last">#loc_collevent.spec_locality#</li>
