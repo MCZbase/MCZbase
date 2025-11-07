@@ -485,7 +485,7 @@ limitations under the License.
 					FROM 
 						trans
 						left join collection c on trans.collection_id = c.collection_id
-						left join loan l on t.transaction_id = l.transaction_id
+						left join loan l on trans.transaction_id = l.transaction_id
 					WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
 				<cfif aboutLoan.recordcount EQ 0>
