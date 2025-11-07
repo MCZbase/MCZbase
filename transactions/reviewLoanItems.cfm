@@ -472,13 +472,21 @@ limitations under the License.
 				<cfset isInProcess = false>
 				<cfset isOpen = false>
 				<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select l.loan_number, c.collection_cde, c.collection,
-						l.loan_type, l.loan_status, 
-						l.return_due_date, l.closed_date
-					from collection c 
-						left join trans t on c.collection_id = t.collection_id 
-						left join loan l on t.transaction_id = l.transaction_id
-					where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					SELECT l.loan_number, 
+						c.collection_cde, 
+						c.collection,
+						l.loan_type, 
+						l.loan_status, 
+						to_char(l.return_due_date,'yyyy-mm-dd') as return_due_date, 
+						to_char(l.closed_date,'yyyy-mm-dd') as closed_date,
+						l.loan_instructions,
+						trans.nature_of_material,
+						to_char(trans.trans_date,'yyyy-mm-dd') as loan_date
+					FROM 
+						trans
+						left join collection c on trans.collection_id = c.collection_id
+						left join loan l on trans.transaction_id = l.transaction_id
+					WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
 				<cfif aboutLoan.recordcount EQ 0>
 					<cfthrow message="No such transaction found.">
@@ -615,8 +623,17 @@ limitations under the License.
 												<cfset statusWeight = "lessbold">
 											</cfif>
 											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
-											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
-											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
+											<h2 class="h4 d-inline font-weight-normal"> &bull; Loan Date: <span class="text-capitalize font-weight-lessbold">#aboutLoan.loan_date#</span> </h2>
+											<cfif aboutLoan.return_due_date NEQ ''>
+												<h2 class="h4 d-inline font-weight-normal">
+													&bull; Due Date: <span class="font-weight-lessbold">#aboutLoan.return_due_date#</span>
+												</h2>
+											</cfif>
+											<cfif aboutLoan.closed_date NEQ ''>
+												<h2 class="h4 d-inline font-weight-normal">
+													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
+												</h2>
+											</cfif>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
@@ -781,6 +798,14 @@ limitations under the License.
 																	</form>
 																</cfif>
 															</div>
+														<cfelse>
+															<div class="col-12 col-xl-6 border p-1">
+																<cfif isInProcess>
+																	<h3 class="h3 text-danger">Containers cannot be moved while the loan is in process.</h3>
+																<cfelseif NOT containersCanMove>
+																	<h3 class="h3 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
+																</cfif>
+															</div>
 														</cfif>
 														<cfif aboutLoan.collection EQ 'Cryogenic'>
 															<div class="col-12 col-xl-6 border p-1">
@@ -806,7 +831,7 @@ limitations under the License.
 																	loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 																	and loan_item.return_date is null
 															</cfquery>
-															<cfif aboutLoan.loan_type EQ 'returnable' AND ctReturnableItems.ct EQ partCount>
+															<cfif (aboutLoan.loan_type EQ 'returnable' OR aboutLoan.loan_type contains 'exhibition' ) AND ctReturnableItems.ct EQ partCount>
 																<div class="col-12 col-xl-6 border p-1">
 																	<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
 																		Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
@@ -819,7 +844,7 @@ limitations under the License.
 														</cfif>
 														<cfif isOpen>
 															<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
-															<cfif aboutLoan.loan_type EQ 'returnable'>
+															<cfif aboutLoan.loan_type EQ 'returnable' or aboutLoan.loan_type contains 'exhibition'>
 																<div class="col-12 col-xl-6 border p-1">
 																	<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
 																		Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
@@ -827,6 +852,11 @@ limitations under the License.
 																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																		<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
 																	</form>
+																</div>
+															</cfif>
+															<cfif aboutLoan.loan_type EQ 'consumable'>
+																<div class="col-12 col-xl-6 border p-1">
+																	<h3 class="h3 text-danger">Items in consumable loans cannot be bulk marked as returned.</h3>
 																</div>
 															</cfif>
 														</cfif>
@@ -1024,7 +1054,8 @@ limitations under the License.
 										var maxZIndex = getMaxZIndex();
 										// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
 										$('.ui-dialog').css({'z-index': maxZIndex + 4 });
-										$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+										// this workaround is now overlaying the dialog, so commenting out
+										//$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 }); 
 									} 
 								});
 								$("##columnPickDialogButton").html(
