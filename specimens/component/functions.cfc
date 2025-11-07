@@ -7632,8 +7632,10 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-6 py-1">
 									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
-									<cfif not isDefined("variables.valid_distribution_fg")>
+									<cfif not isDefined("getLoc.valid_distribution_fg") or getLoc.valid_distribution_fg EQ "" >
 										<cfset variables.valid_distribution_fg = "1">
+									<cfelse>
+										<cfset variables.valid_distribution_fg = getLoc.valid_distribution_fg>
 									</cfif>
 									<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select reqdClr" required>
 										<cfif variables.valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
