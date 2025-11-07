@@ -2190,10 +2190,20 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfset recordCount = 0>
+										<cfloop query="entered">
+											<cfset recordCount = recordCount + #entered.cnt#>
+										</cfloop>
+										<cfif recordCount EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
+										<cfif entered.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (in #entered.recordcount# collections)
+													MCZbase Records Entered (#recordCount#
+														<cfif recordCount GT 0>
+															in #entered.recordcount# collection#collPlural#
+														</cfif>
+													)
 												</button>
 											</h2>
 										</div>
@@ -2245,10 +2255,20 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfset recordCount = 0>
+										<cfloop query="lastEdit">
+											<cfset recordCount = recordCount + #lastEdit.cnt#>
+										</cfloop>
+										<cfif recordCount EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
+										<cfif lastEdit.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
 										<div class="card-header" id="lastEditHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-												MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
+													MCZbase Records Last Edited By this agent (#recordCount# 
+														<cfif recordCount GT 0>
+															in #lastEdit.recordcount# collection#collPlural#
+														</cfif>
+													)
 												</button>
 											</h2>
 										</div>
