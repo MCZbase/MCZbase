@@ -296,7 +296,7 @@ limitations under the License.
 --->
 <cffunction name="newTaxonCategory" access="remote" returntype="any" returnformat="json">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
-	<cfargument name="taxon_category" type="numeric" required="yes">
+	<cfargument name="taxon_category" type="string" required="yes">
 	<cftry>
 		<cftransaction>
 			<cfquery name="newCategory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCategory_result">
@@ -305,7 +305,7 @@ limitations under the License.
 					taxon_category
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_category#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#">
 				)
 			</cfquery>
 			<cfif newCategory_result.recordcount NEQ 1>
