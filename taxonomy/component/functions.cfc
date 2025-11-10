@@ -230,7 +230,7 @@ limitations under the License.
 				cftaxon_category.category_type
 			FROM
 				taxon_category
-				join cttaxon_category on taxon_category.taxon_catgory = cttaxon_category.taxon_category
+				join cttaxon_category on taxon_category.taxon_category = cttaxon_category.taxon_category
 			WHERE
 				taxon_category.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
@@ -239,7 +239,7 @@ limitations under the License.
 			<cfloop query="tax_cat">
 				<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>"><!--- " --->
 				<cfset result=  result & "#taxon_category# (#category_type#)">
-				<cfset result=  result & "<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Category?"",""Remove?"", function() { removeTaxonCategory(#taxonomy_category_id#); } );' value='Remove' title='Remove' aria-label='Remove this Category from this Taxon record'>Remove</button>"><!--- " --->
+				<cfset result=  result & "<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Category?"",""Remove?"", function() { removeTaxonCategory(#taxon_category_id#); } );' value='Remove' title='Remove' aria-label='Remove this Category from this Taxon record'>Remove</button>"><!--- " --->
 				<cfset result=result& "</li>"><!--- " --->
 			</cfloop>
 		<cfelse>
