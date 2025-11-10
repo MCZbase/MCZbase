@@ -227,7 +227,7 @@ limitations under the License.
 			SELECT
 				taxon_category.taxon_category_id,
 				taxon_category.taxon_category,
-				cftaxon_category.category_type
+				cttaxon_category.category_type
 			FROM
 				taxon_category
 				join cttaxon_category on taxon_category.taxon_category = cttaxon_category.taxon_category
