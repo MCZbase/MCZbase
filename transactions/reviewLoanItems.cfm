@@ -153,7 +153,33 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfset message = "Bulk return failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkMarkItemsConsumed">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="setConsumed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="setConsumed_result">
+						UPDATE
+							loan_item
+						SET
+							loan_item_state = 'consumed',
+							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							and return_date is null
+							and loan_item_state is null
+					</cfquery>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of state failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
 					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
@@ -856,7 +882,12 @@ limitations under the License.
 															</cfif>
 															<cfif aboutLoan.loan_type EQ 'consumable'>
 																<div class="col-12 col-xl-6 border p-1">
-																	<h3 class="h3 text-danger">Items in consumable loans cannot be bulk marked as returned.</h3>
+																	<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
+																		Mark all these #partCount# items as consumed.
+																		<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
+																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																		<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
+																	</form>
 																</div>
 															</cfif>
 														</cfif>
@@ -1054,8 +1085,7 @@ limitations under the License.
 										var maxZIndex = getMaxZIndex();
 										// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
 										$('.ui-dialog').css({'z-index': maxZIndex + 4 });
-										// this workaround is now overlaying the dialog, so commenting out
-										//$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 }); 
+										$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 }); 
 									} 
 								});
 								$("##columnPickDialogButton").html(
@@ -1117,7 +1147,7 @@ limitations under the License.
 								// Display a button to mark a loan item as consumed
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consumed" aria-label="Mark Item as Consumed"/></span>';
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consume" aria-label="Mark Item as Consumed"/></span>';
 							};
 							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								return 'History';

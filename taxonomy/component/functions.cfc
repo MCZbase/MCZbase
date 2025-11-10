@@ -214,6 +214,118 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<!--- given a taxon_name_id, return the categories html for that taxon record
+ @param taxo_name_id the taxon name for which to return the categories html
+ @return the categories html block
+ --->
+<cffunction name="getTaxonCategoriesHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+
+	<cfset result ="">
+	<cftry>
+		<cfquery name="tax_cat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="tax_cat_result">
+			SELECT
+				taxon_category.taxon_category_id,
+				taxon_category.taxon_category,
+				cttaxon_category.category_type
+			FROM
+				taxon_category
+				join cttaxon_category on taxon_category.taxon_category = cttaxon_category.taxon_category
+			WHERE
+				taxon_category.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		</cfquery>
+		<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>"><!---" --->
+		<cfif tax_cat.recordcount gt 0>
+			<cfloop query="tax_cat">
+				<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>"><!--- " --->
+				<cfset result=  result & "#taxon_category# (#category_type#)">
+				<cfset result=  result & "<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Category?"",""Remove?"", function() { removeTaxonCategory(#taxon_category_id#); } );' value='Remove' title='Remove' aria-label='Remove this Category from this Taxon record'>Remove</button>"><!--- " --->
+				<cfset result=result& "</li>"><!--- " --->
+			</cfloop>
+		<cfelse>
+			<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>No Categories Assigned</li>"><!--- " --->
+		</cfif>
+		<cfset result=result & "</ul></div>"><!---" --->
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+
+<!--- removeTaxonCategory remove a taxon_category record relating a taxonomy record to a taxon_category
+ @param taxon_category_id the PK of the taxon_category record to be removed
+ @return json status of deletion or a 500 error if unsuccessful
+ --->
+<cffunction name="removeTaxonCategory" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_category_id" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="deleteTaxonCategory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteTaxonCategory_result">
+				DELETE FROM
+					taxon_category
+				WHERE
+					taxon_category_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_category_id#">
+			</cfquery>
+			<cfif deleteTaxonCategory_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#deleteTaxonCategory_result.recordcount#) would be deleted.  Delete canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "deleted">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- newTaxonCategory insert a taxon_category record relating a taxonomy record to a
+  taxon category.
+ @param taxon_name_id the PK of the taxon name to be related to a category
+ @param taxon_category the PK of the category to which the taxon name is to be related
+ @return json status of addition or a 500 error if unsuccessful
+--->
+<cffunction name="newTaxonCategory" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="taxon_category" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="newCategory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCategory_result">
+				INSERT INTO taxon_category (
+					taxon_name_id,
+					taxon_category
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#">
+				)
+			</cfquery>
+			<cfif newCategory_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#newCategory_result.recordcount#) inserted.  Insert canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "added">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <cffunction name="getTaxonPublicationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 

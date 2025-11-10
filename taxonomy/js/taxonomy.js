@@ -41,6 +41,30 @@ function loadTaxonPublications(taxon_name_id,target) {
    });
 };
 
+/** loadTaxonCategories given a taxon name id and a target in the dom, replace the
+ * content of the target in the dom with the html of the list of categories for 
+ * the given taxon.
+ * @param taxon_name_id the taxonomy entry to look up
+ * @param target the target div to replace the content of with the return value 
+ */
+function loadTaxonCategories(taxon_name_id,target) {
+   jQuery.ajax({
+      url: "/taxonomy/component/functions.cfc",
+      data : {
+         method : "getTaxonCategoriesHtml",
+         taxon_name_id: taxon_name_id
+      },
+      success: function (result) {
+         $("#" + target).html(result);
+      },
+      error: function (jqXHR, status, message) {
+         if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
+         messageDialog("Error loading taxon categories: " + message + " " + msg ,'Error: '+ message);
+      },
+      dataType: "html"
+   });
+};
+
 function loadCommonNames(taxon_name_id,target) { 
    jQuery.ajax({
       url: "/taxonomy/component/functions.cfc",
