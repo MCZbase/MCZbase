@@ -47,6 +47,7 @@ limitations under the License.
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="taxon_status" type="string" required="no">
 	<cfargument name="taxon_remarks" type="string" required="no">
+	<cfargument name="taxon_category" type="string" required="no">
 	<cfargument name="nomenclatural_code" type="string" required="no">
 	<cfargument name="division" type="string" required="no">
 	<cfargument name="subdivision" type="string" required="no">
@@ -640,6 +641,25 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>
 					AND taxonomy.taxon_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_status#">
+				</cfif>
+				<cfif isdefined("taxon_category") AND len(taxon_category) GT 0>
+					<cfif taxon_category IS 'NULL'>
+						AND taxonomy.taxon_name_id NOT IN (
+							SELECT taxon_name_id 
+							FROM taxon_category
+						)
+					<cfelseif taxon_category IS 'NOT NULL'>
+						AND taxonomy.taxon_name_id IN (
+							SELECT taxon_name_id 
+							FROM taxon_category
+						)
+					<cfelse>
+						AND taxonomy.taxon_name_id in (
+							SELECT taxon_name_id 
+							FROM taxon_category
+							WHERE taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#">
+						)
+					</cfif>
 				</cfif>
 				<cfif isdefined("nomenclatural_code") AND len(nomenclatural_code) gt 0>
 					AND taxonomy.nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">

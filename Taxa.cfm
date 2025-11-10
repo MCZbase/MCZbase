@@ -37,6 +37,9 @@ limitations under the License.
 <cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select nomenclatural_code from ctnomenclatural_code order by sort_order
 </cfquery>
+<cfquery name="cttaxon_category" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+	select taxon_category from cttaxon_category order by taxon_category
+</cfquery>
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
@@ -89,6 +92,11 @@ limitations under the License.
 <cfif NOT isDefined("author_text")><cfset author_text=""></cfif>
 <cfif NOT isDefined("infraspecific_author")><cfset infraspecific_author=""></cfif>
 <cfif NOT isDefined("taxon_remarks")><cfset taxon_remarks=""></cfif>
+<cfif NOT isDefined("taxon_category")>
+	<cfset in_taxon_category="">
+<cfelse>
+	<cfset in_taxon_category="#taxon_category#">
+</cfif>
 <cfif NOT isDefined("nomenclatural_code")>
 	<cfset in_nomenclatural_code="">
 <cfelse>
@@ -349,7 +357,17 @@ limitations under the License.
 											</label>
 											<input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
 										</div>
-										<div class="col-md-2">&nbsp;
+										<div class="col-md-2">
+											<label for="taxon_category" class="data-entry-label align-left-center">Category</label>
+											<select name="taxon_category" class="data-entry-select" id="taxon_category">
+												<option></option>
+												<cfloop query="cttaxon_category">
+													<cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#taxon_category#" #selected#>#taxon_category#</option>
+												</cfloop>
+												<option value="NOT NULL" #selected# >Any Category</option>
+												<option value="NULL" #selected# >No Category</option>
+											</select>
 										</div>
 										<div class="col-md-2">
 											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
