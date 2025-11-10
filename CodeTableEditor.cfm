@@ -856,6 +856,79 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "CTTAXON_CATEGORY"><!---------------------------------------------------->
+		<!---  taxon category code table includes field for category type, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select taxon_category, category_type, description from cttaxon_category order by taxon_category
+		</cfquery>
+		<h2>Categorization of taxonomy records.</h2>
+		<p>Each taxon_category must have a category_type, some category types have functional roles in the code.</p>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Taxon Categor</th>
+					<th>Category Type</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<input type="text" name="category_type">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Taxon Category</th>
+				<th>Category Type</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#taxon_category#">
+						<td>
+							<input type="text" name="taxon_category" value="#taxon_category#" class="reqdClr">
+						</td>
+						<td>
+							<input type="text" name="category_type" value="#category_tyoe#" class="reqdClr">
+						</td>
+						<td>
+							<input type="description" name="description" value="#stripQuotes(description)#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctgeology_attributes"><!---------------------------------------------------->
 		<!---  geology attributes code table includes fields for typing and sort order, thus needs custom form  --->
 		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
@@ -1861,6 +1934,12 @@
 			where
 				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
+	<cfelseif tbl is "CTTAXON_CATEGORY">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			delete from CTTAXON_CATEGORY
+			where
+				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctcoll_other_id_type
@@ -2022,6 +2101,16 @@
 				LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />
 			where
 				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_CATEGORY">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE cttaxon_category 
+			SET 
+				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#" />,
+				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#" />
+			WHERE
+				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2196,6 +2285,18 @@
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_CATEGORY">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO cttaxon_category (
+				taxon_category,
+				category_type,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
