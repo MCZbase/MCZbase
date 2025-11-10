@@ -18,7 +18,7 @@
 taxonomy/Taxonomy.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2020 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -43,6 +43,11 @@ limitations under the License.
 <cfinclude template="/taxonomy/component/functions.cfc" runOnce="true">
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
+</cfquery>
+<cfquery name="cttaxon_category" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT taxon_category, category_type
+	FROM cttaxon_category 
+	ORDER BY taxon_category
 </cfquery>
 <cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select taxon_relationship  from cttaxon_relation order by taxon_relationship
@@ -923,6 +928,97 @@ limitations under the License.
 							$(document).ready(function(){
 								lookupName(#taxon_name_id#,"taxonLookupDiv");
 							});
+						</script>
+					</section>
+				</div>
+			</div>
+
+			<div class="row mx-0">
+				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2 bg-grayish">
+					<section class="col-12 col-md-12 px-0">
+						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
+							<div class="col-12 px-0">
+								<h2 class="h3 mt-0 mb-1 px-1">Categories</h4>
+								<div id="taxonCategoriesDiv" class="mx-0 row mt-1">Loading....</div>
+							</div>
+							<div class="col-12 px-0 row">
+								<span>
+									<form name="newCategoryForm" id="newCategoryForm">
+										<div class="col-12 col-md-10 pl-1 pr-0">
+											<label for="taxon_category" class="data-entry-label">Add Category</label>
+											<select name="taxon_category" id="taxon_category" class="data-entry-select col-12">
+												<option value=""></option>
+												<cfloop query="ctTaxonCategories">
+													<option value="#cttaxon_category.taxon_category#">#cttaxon_category.taxon_category# (#cttaxon_category.category_type#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-2 pl-1 pr-0">
+											<input type="submit" value="Add" class="btn btn-xs btn-secondary mt-2 mt-md-0">
+										</div>
+										<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+										<input type="hidden" name="method" value="newTaxonCategory">
+										<input type="hidden" name="publication_id" id="publication_id">
+									</form>
+								</span>
+							</div>
+						</div>
+						<script>
+							$( document ).ready(loadTaxonCategories(#taxon_name_id#,'taxonCategoriesDiv'));
+							$(document).ready(function(){ 
+								$('##newPubForm').bind('submit', function(evt){
+									evt.preventDefault();
+									var pubId = $('##publication_id').val();
+									if (pubId.length > 0) { 
+										jQuery.ajax({
+											url : "/taxonomy/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data :  $('##newCategoryForm').serialize(),
+											success : function (data) {
+												loadTaxonCategories(#taxon_name_id#,'taxonCategoriesDiv');
+												$('##taxon_category').val("");
+											},
+											error: function(jqXHR,textStatus,error){
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error adding category: '+message, 'Error: '+error.substring(0,50));
+											}
+										});
+									} else { 
+										messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
+									};
+								})
+							});
+						</script>
+						<script>
+							function removeTaxonCategory(taxon_category_id) { 
+								jQuery.ajax({
+									url : "/taxonomy/component/functions.cfc",
+									type : "post",
+									dataType : "json",
+									data :  { 
+										method: 'removeTaxonCategory',
+										taxon_category_id: taxon_category_id
+									},
+									success : function (data) {
+										loadTaxonCategories(#taxon_name_id#,'taxonCategoriesDiv');
+									},
+									error: function(jqXHR,textStatus,error){
+										var message = "";
+										if (error == 'timeout') {
+											message = ' Server took too long to respond.';
+										} else {
+											message = jqXHR.responseText;
+										}
+										messageDialog('Error removing category: '+message, 'Error: '+error.substring(0,50));
+									}
+								});
+							}
 						</script>
 					</section>
 				</div>
