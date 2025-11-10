@@ -868,7 +868,7 @@
 			<input type="hidden" name="tbl" value="#tbl#">
 			<table class="newRec">
 				<tr>
-					<th>Taxon Categor</th>
+					<th>Taxon Category</th>
 					<th>Category Type</th>
 					<th>Description</th>
 					<th></th>
@@ -909,7 +909,7 @@
 							<input type="text" name="taxon_category" value="#taxon_category#" class="reqdClr">
 						</td>
 						<td>
-							<input type="text" name="category_type" value="#category_tyoe#" class="reqdClr">
+							<input type="text" name="category_type" value="#category_type#" class="reqdClr">
 						</td>
 						<td>
 							<input type="description" name="description" value="#stripQuotes(description)#">
