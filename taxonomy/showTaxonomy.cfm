@@ -253,7 +253,7 @@
 			taxon_category
 			join cttaxon_category on taxon_category.taxon_category = cttaxon_category.taxon_category
 		WHERE
-			taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+			taxon_category.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 	</cfquery>
 	<cfquery name="common_name" dbtype="query">
 		select
