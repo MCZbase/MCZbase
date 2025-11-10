@@ -245,6 +245,16 @@
 			taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 			ORDER BY scientific_name, common_name, related_taxon_name_id
 	</cfquery>
+	<cfquery name="getCategorization" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			taxon_category, 
+			category_type
+		FROM
+			taxon_category
+			join cttaxon_category on taxon_category.taxon_category = cttaxon_category.taxon_category
+		WHERE
+			taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+	</cfquery>
 	<cfquery name="common_name" dbtype="query">
 		select
 			common_name
@@ -528,6 +538,14 @@
 						<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
 					</cfif>
 				</ul>
+				<cfif getCategorization.recordcount GT 0>
+					<h2 class="h4">Categorized As:</h2>
+					<ul>
+						<cfloop query="getCategorization">
+							<li><b>#getCategorization.taxon_category# (#getCategorization.category_type#)</b></li>
+						</cfloop>
+					</ul>
+				</cfif>
 				<h2 class="h4">Related Publications:</h2>
 				<ul>
 					<cfif tax_pub.recordcount is 0>
