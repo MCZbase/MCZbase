@@ -962,7 +962,7 @@ limitations under the License.
 						<script>
 							$( document ).ready(loadTaxonCategories(#taxon_name_id#,'taxonCategoriesDiv'));
 							$(document).ready(function(){ 
-								$('##newPubForm').bind('submit', function(evt){
+								$('##newCategoryForm').bind('submit', function(evt){
 									evt.preventDefault();
 									var pubId = $('##publication_id').val();
 									if (pubId.length > 0) { 
