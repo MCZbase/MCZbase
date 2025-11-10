@@ -1054,8 +1054,7 @@ limitations under the License.
 										var maxZIndex = getMaxZIndex();
 										// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
 										$('.ui-dialog').css({'z-index': maxZIndex + 4 });
-										// this workaround is now overlaying the dialog, so commenting out
-										//$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 }); 
+										$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 }); 
 									} 
 								});
 								$("##columnPickDialogButton").html(
