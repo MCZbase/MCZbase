@@ -941,27 +941,23 @@ limitations under the License.
 								<h2 class="h3 mt-0 mb-1 px-1">Categories</h4>
 								<div id="taxonCategoriesDiv" class="mx-0 row mt-1">Loading....</div>
 							</div>
-							<div class="col-12 px-0 row">
-								<span>
-									<form name="newCategoryForm" id="newCategoryForm">
-										<div class="col-12 col-md-10 pl-1 pr-0">
-											<label for="taxon_category" class="data-entry-label">Add Category</label>
-											<select name="taxon_category" id="taxon_category" class="data-entry-select col-12">
-												<option value=""></option>
-												<cfloop query="cttaxon_category">
-													<option value="#cttaxon_category.taxon_category#">#cttaxon_category.taxon_category# (#cttaxon_category.category_type#)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2 pl-1 pr-0">
-											<input type="submit" value="Add" class="btn btn-xs btn-secondary mt-2 mt-md-0">
-										</div>
-										<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-										<input type="hidden" name="method" value="newTaxonCategory">
-										<input type="hidden" name="publication_id" id="publication_id">
-									</form>
-								</span>
-							</div>
+							<form name="newCategoryForm" id="newCategoryForm" class="col-12 px-0 form-row">
+								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+								<input type="hidden" name="method" value="newTaxonCategory">
+								<input type="hidden" name="publication_id" id="publication_id">
+								<div class="col-12 col-md-10 pl-1 pr-0">
+									<label for="taxon_category" class="data-entry-label">Add Category</label>
+									<select name="taxon_category" id="taxon_category" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfloop query="cttaxon_category">
+											<option value="#cttaxon_category.taxon_category#">#cttaxon_category.taxon_category# (#cttaxon_category.category_type#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
+									<input type="submit" value="Add" class="btn btn-xs btn-secondary">
+								</div>
+							</form>
 						</div>
 						<script>
 							$( document ).ready(loadTaxonCategories(#taxon_name_id#,'taxonCategoriesDiv'));
