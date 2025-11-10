@@ -2867,12 +2867,17 @@ div.mw-parser-output dt {
 }
 div.toctitle {margin-bottom:0;}
 .thumbinner {display:none;}
+/*
+Can not do this, dialogs have z-index set dynamically and an overlay that should be 
+beneath modal dialogs may be higher than 9997, thus placing arbitrary dialogs beneath 
+an overlay that prevents interaction with them.
 .ui-dialog {
 	z-index: 9997 !important;
 }
 #wikiDrawer {
 	z-index: 9997 !important;
 }
+*/
 .mw-toc-heading {
 	margin-bottom: 0;
 }
