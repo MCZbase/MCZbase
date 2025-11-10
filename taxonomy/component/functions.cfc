@@ -215,7 +215,7 @@ limitations under the License.
 </cffunction>
 
 <!--- given a taxon_name_id, return the categories html for that taxon record
- @param taxon_name_id the taxon name for which to return the categories html
+ @param taxo_name_id the taxon name for which to return the categories html
  @return the categories html block
  --->
 <cffunction name="getTaxonCategoriesHtml" returntype="string" access="remote" returnformat="plain">
@@ -238,7 +238,7 @@ limitations under the License.
 		<cfif tax_cat.recordcount gt 0>
 			<cfloop query="tax_cat">
 				<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>"><!--- " --->
-				<cfset result=  result & "#taxon_category# (#category_type)#)">
+				<cfset result=  result & "#taxon_category# (#category_type#)">
 				<cfset result=  result & "<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Category?"",""Remove?"", function() { removeTaxonCategory(#taxonomy_category_id#); } );' value='Remove' title='Remove' aria-label='Remove this Category from this Taxon record'>Remove</button>"><!--- " --->
 				<cfset result=result& "</li>"><!--- " --->
 			</cfloop>
