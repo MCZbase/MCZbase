@@ -948,7 +948,7 @@ limitations under the License.
 											<label for="taxon_category" class="data-entry-label">Add Category</label>
 											<select name="taxon_category" id="taxon_category" class="data-entry-select col-12">
 												<option value=""></option>
-												<cfloop query="ctTaxonCategories">
+												<cfloop query="cttaxon_category">
 													<option value="#cttaxon_category.taxon_category#">#cttaxon_category.taxon_category# (#cttaxon_category.category_type#)</option>
 												</cfloop>
 											</select>
