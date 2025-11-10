@@ -944,7 +944,6 @@ limitations under the License.
 							<form name="newCategoryForm" id="newCategoryForm" class="col-12 px-0 form-row">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="method" value="newTaxonCategory">
-								<input type="hidden" name="publication_id" id="publication_id">
 								<div class="col-12 col-md-10 pl-1 pr-0">
 									<label for="taxon_category" class="data-entry-label">Add Category</label>
 									<select name="taxon_category" id="taxon_category" class="data-entry-select col-12">
@@ -964,30 +963,25 @@ limitations under the License.
 							$(document).ready(function(){ 
 								$('##newCategoryForm').bind('submit', function(evt){
 									evt.preventDefault();
-									var pubId = $('##publication_id').val();
-									if (pubId.length > 0) { 
-										jQuery.ajax({
-											url : "/taxonomy/component/functions.cfc",
-											type : "post",
-											dataType : "json",
-											data :  $('##newCategoryForm').serialize(),
-											success : function (data) {
-												loadTaxonCategories(#taxon_name_id#,'taxonCategoriesDiv');
-												$('##taxon_category').val("");
-											},
-											error: function(jqXHR,textStatus,error){
-												var message = "";
-												if (error == 'timeout') {
-													message = ' Server took too long to respond.';
-												} else {
-													message = jqXHR.responseText;
-												}
-												messageDialog('Error adding category: '+message, 'Error: '+error.substring(0,50));
+									jQuery.ajax({
+										url : "/taxonomy/component/functions.cfc",
+										type : "post",
+										dataType : "json",
+										data :  $('##newCategoryForm').serialize(),
+										success : function (data) {
+											loadTaxonCategories(#taxon_name_id#,'taxonCategoriesDiv');
+											$('##taxon_category').val("");
+										},
+										error: function(jqXHR,textStatus,error){
+											var message = "";
+											if (error == 'timeout') {
+												message = ' Server took too long to respond.';
+											} else {
+												message = jqXHR.responseText;
 											}
-										});
-									} else { 
-										messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
-									};
+											messageDialog('Error adding category: '+message, 'Error: '+error.substring(0,50));
+										}
+									});
 								})
 							});
 						</script>
