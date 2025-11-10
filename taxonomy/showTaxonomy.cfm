@@ -247,8 +247,8 @@
 	</cfquery>
 	<cfquery name="getCategorization" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
-			taxon_category, 
-			category_type
+			taxon_category.taxon_category, 
+			cttaxon_category.category_type
 		FROM
 			taxon_category
 			join cttaxon_category on taxon_category.taxon_category = cttaxon_category.taxon_category
