@@ -1924,6 +1924,14 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
+	<cfif isDefined("current_id_only") AND current_id_only EQ "current">
+		<cfset field = '"field": "ACCEPTED_ID_FG"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = '"1"'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": #value#}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = '"field": "IDENTIFICATIONS_TAXON_NAME_ID"'>
 		<cfset comparator = '"comparator": "="'>
