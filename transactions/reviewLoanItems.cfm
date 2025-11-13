@@ -75,17 +75,67 @@ limitations under the License.
 			<cftransaction>
 				<cftry>
 					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select collection_object_id 
+						SELECT 
+							collection_object_id, 
+							item_descr
 						FROM loan_item 
-						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
 						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE coll_object 
-							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.coll_obj_disposition#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
 						</cfquery>
 					</cfloop>
+					<!--- optionally, if specified, add these loan items to a deaccession --->
+					<cfif isDefined("form.deaccession_transaction_id") AND len(form.deaccession_transaction_id) GT 0>
+						<!--- lookup loan, confirm that it is consumable --->
+						<cfquery name="getLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT loan_type, loan_number
+							FROM loan
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+						</cfquery>
+						<cfif getLoanType.loan_type NEQ 'consumable'>
+							<cfthrow message="Can't bulk add items from a loan type other than consumable to a deaccession.">
+						</cfif>
+						<!--- lookup deaccession --->
+						<cfquery name="checkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct from deaccession
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">
+						</cfquery>
+						<cfif checkDeaccession.ct NEQ 1>
+							<cfthrow message="No such deaccession transaction with id #encodeForHtml(form.deaccession_transaction_id)# found.">
+						</cfif>
+						<cfloop query="getCollObjId">
+							<!--- check if loan item is also in deaccession, if not, add it --->
+							<cfquery name="checkDeaccessionItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT count(*) ct from deaccession_item
+								WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">
+									AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+							</cfquery>
+							<cfif checkDeaccessionItem.ct EQ 0>
+								<cfquery name="linkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT INTO deacc_item (
+										transaction_id, 
+										collection_object_id, 
+										reconciled_by_person_id,
+										reconciled_date,
+										item_descr,
+										deacc_item_remarks
+									)
+									VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+										current_timestamp,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollObjId.item_descr#">,
+										'Added from #getLoanType.loan_type# loan #getLoanType.loan_number#.'
+									)
+								</cfquery>
+							<cfif>
+						</cfloop>
+					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
@@ -754,18 +804,19 @@ limitations under the License.
 												<div class="card-body">
 													<div class="row mb-0 pb-0 px-2 mx-0">
 														<div class="col-12 col-xl-6 border p-1">
-															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
-															Change disposition of all these #partCount# items to:
-															<input type="hidden" name="Action" value="BulkUpdateDisp">
+															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
+																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
-																	<option value=""></option>
-																	<cfloop query="ctDisp">
-																		<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-																	</cfloop>				
-																</select>
-																<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
-																<!--- enable the button only if a value is selected --->
+																<div class="col-12">
+																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these #partCount# items to:</label>
+																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+																		<option value=""></option>
+																		<cfloop query="ctDisp">
+																			<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+																		</cfloop>				
+																	</select>
+																</div>
+																<!--- enable the submit button only if a value is selected --->
 																<script>
 																	$(document).ready(function() {
 																		$('##coll_obj_disposition').change(function() {
@@ -777,47 +828,34 @@ limitations under the License.
 																		});
 																	});
 																</script>
-																<!--- if a disposition containing 'deaccessioned' is selected, enable deaccession_number control --->
-																<script>
-																	$(document).ready(function() {
-																		$('##coll_obj_disposition').change(function() {
-																			var selectedDisp = $('##coll_obj_disposition').val().toLowerCase();
-																			if (selectedDisp.includes('deaccessioned')) {
-																				$('##deaccession_number').prop('disabled', false);
-																			} else {
-																				$('##deaccession_number').prop('disabled', true);
-																				$('##deaccession_number').val('');
-																				$('##addToDeaccessionSubmit').prop('disabled', true);
-																			}
-																		});
-																	});
-																</script>
-															</form>
-														</div>
-														<cfif aboutLoan.loan_type EQ 'consumable'>
-															<div class="col-12 col-xl-6 border p-1" id="deaccessionDiv">
-																<form name="BulkAddToDeaccession" method="post" action="/deaccession/reviewDeaccessionItems.cfm">
-																	Add all these #partCount# items to deaccession:
-																	<input type="hidden" name="Action" value="BulkAddToDeaccession">
-																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																	<input type="text" name="deaccession_number" id="deaccession_number" class="data-entry-input col-6 d-inline" placeholder="Dyyyy-n-Coll" disabled >
-																	<input type="submit" id="addToDeaccessionSubmit" value="Add to Deaccession" class="btn btn-xs btn-primary" disabled>
-																	<output id="deaccessionFeedback" class="ml-2"></output>
-																	<!--- enable the button only if a value deaccession_number contains a value --->
+																<cfif aboutLoan.loan_type EQ 'consumable'>
+																	<div class="col-12" id="deaccessionDiv">
+																		<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
+																		<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
+																		<input type="text" name="deaccession_number" id="deaccession_number" class="data-entry-input col-6 d-inline" placeholder="Dyyyy-n-Coll" disabled >
+																		<output id="deaccessionFeedback" class="ml-2"></output>
+																	</div>
+																	<!--- if a disposition containing 'deaccessioned' is selected, enable deaccession_number control --->
 																	<script>
 																		$(document).ready(function() {
-																			$('##deaccession_number').on('input', function() {
-																				if ($(this).val().length > 0) {
-																					$('##addToDeaccessionSubmit').prop('disabled', false);
+																			makeDeaccessionAutocompleteMeta("deaccession_number", "deaccession_transaction_id"); 
+																			$("##deaccessionDiv").hide();
+																			$('##coll_obj_disposition').change(function() {
+																				var selectedDisp = $('##coll_obj_disposition').val().toLowerCase();
+																				if (selectedDisp.includes('deaccessioned')) {
+																					$("##deaccessionDiv").show();
 																				} else {
-																					$('##addToDeaccessionSubmit').prop('disabled', true);
+																					$("##deaccessionDiv").hide();
 																				}
 																			});
 																		});
 																	</script>
-																</form>
-															</div>
-														</cfif>
+																</cfif>
+																<div class="col-12">
+																	<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+																</div>
+															</form>
+														</div>
 														<cfif containersCanMove AND NOT isInProcess>
 															<div class="col-12 col-xl-6 border p-1">
 																<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
