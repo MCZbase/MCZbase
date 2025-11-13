@@ -1005,16 +1005,18 @@ limitations under the License.
 																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 																		and loan_item.loan_item_state <> 'consumed'
 																</cfquery>
-																<cfif countConsumableItems.ct GT 0>
-																	<div class="col-12 col-xl-6 border p-1">
+																<div class="col-12 col-xl-6 border p-1">
+																	<cfif countConsumableItems.ct GT 0>
 																		<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
 																			Mark all these #partCount# items as consumed.
 																			<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
 																			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																			<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
 																		</form>
-																	</div>
-																</cfif>
+																	<cfelse>
+																		<h3 class="h3">All items in this consumable loan are marked as consumed.</h3>
+																	</cfif>
+																</div>
 															</cfif>
 														</cfif>
 														<cfif isInProcess>
