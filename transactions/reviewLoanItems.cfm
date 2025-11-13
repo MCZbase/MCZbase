@@ -1412,13 +1412,11 @@ limitations under the License.
 									columns: [
 										<cfif isClosed>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: true, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 										<cfelseif isInProcess>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:false, hidden: false, editable: false },
 											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: false, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 										<cfelse>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: false, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 											<cfif aboutLoan.loan_type EQ 'returnable'>
 												{text: 'Return', datafield: 'ReturnRow', width: 78, hideable: true, hidden: false, cellsrenderer: returnCellRenderer, editable: false },
 											<cfelseif aboutLoan.loan_type EQ 'consumable'>
