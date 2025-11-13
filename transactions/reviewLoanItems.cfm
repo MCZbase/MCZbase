@@ -1014,7 +1014,7 @@ limitations under the License.
 																			<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
 																		</form>
 																	</div>
-																</div>
+																</cfif>
 															</cfif>
 														</cfif>
 														<cfif isInProcess>
