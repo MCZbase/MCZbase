@@ -545,9 +545,6 @@ limitations under the License.
 			</cfquery>
 		</cfif>
 
-		<!--- TODO: Evaluate this comment, sees obsolete --->
-		<!--- handle legacy loans with cataloged items as the item --->
-
 		<script>
 			var bc = new BroadcastChannel('loan_channel');
 			function loanModifiedHere() { 
@@ -758,7 +755,7 @@ limitations under the License.
 											</cfquery>
 											<ul>
 												<cfloop query="countDispositions">
-													<li>#encodeforHtml(coll_obj_disposition)# : #encodeforHtml(loan_item_state)# (#ct#)</li>
+													<li>Part Dispostion: #encodeforHtml(coll_obj_disposition)#; Loan Item State: #encodeforHtml(loan_item_state)# (#ct#)</li>
 												</cfloop>
 											</ul>
 										</div>
