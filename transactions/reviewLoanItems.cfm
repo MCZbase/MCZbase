@@ -998,13 +998,22 @@ limitations under the License.
 																</div>
 															</cfif>
 															<cfif aboutLoan.loan_type EQ 'consumable'>
-																<div class="col-12 col-xl-6 border p-1">
-																	<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
-																		Mark all these #partCount# items as consumed.
-																		<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
-																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																		<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
-																	</form>
+																<cfquery name="countConsumableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																	SELECT count(*) as ct
+																	FROM loan_item
+																	WHERE
+																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+																		and loan_item.item_status <> 'consumed'
+																</cfquery>
+																<cfif countConsumableItems.ct GT 0>
+																	<div class="col-12 col-xl-6 border p-1">
+																		<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
+																			Mark all these #partCount# items as consumed.
+																			<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
+																			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																			<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
+																		</form>
+																	</div>
 																</div>
 															</cfif>
 														</cfif>
