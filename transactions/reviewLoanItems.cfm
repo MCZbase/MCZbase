@@ -840,11 +840,24 @@ limitations under the License.
 																	<input type="hidden" name="Action" value="BulkUpdatePres">
 																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																	<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
+																		<option></option>
 																		<cfloop query="ctPreserveMethod">
 																			<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 																		</cfloop>				
 																	</select>
-																	<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
+																	<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary" disabled> 
+																	<!--- disable submit button until a value is selected --->
+																	<script>
+																		$(document).ready(function() {
+																			$('select[name="part_preserve_method"]').change(function() {
+																				if ($(this).val() != "") {
+																					$(this).siblings('input[type="submit"]').prop('disabled', false);
+																				} else {
+																					$(this).siblings('input[type="submit"]').prop('disabled', true);
+																				}
+																			});
+																		});
+																	</script>
 																</form>
 															</div>
 														</cfif>
