@@ -710,13 +710,10 @@ limitations under the License.
 											<h1 class="h3 mb-0 pb-0">
 												Review items in loan
 												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
-												<p class="font-weight-normal mb-1 pb-0">
-													There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
-												</p>
-												<cfif collectionCount GT 1 >
-													<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
-												</cfif>
 											</h1>
+											<cfif collectionCount GT 1 >
+												<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
+											</cfif>
 											<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
 											<cfif isClosed>
 												<cfset statusWeight = "bold">
@@ -735,6 +732,9 @@ limitations under the License.
 													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
 												</h2>
 											</cfif>
+											<p class="font-weight-normal mb-1 pb-0">
+												There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
+											</p>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
