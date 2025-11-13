@@ -72,24 +72,11 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
 		<cfoutput>
-			<cftransaction>
-				<cftry>
-					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT 
-							collection_object_id, 
-							item_descr
-						FROM loan_item 
-						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
-					</cfquery>
-					<cfloop query="getCollObjId">
-						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE coll_object 
-							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.coll_obj_disposition#">
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
-						</cfquery>
-					</cfloop>
-					<!--- optionally, if specified, add these loan items to a deaccession --->
-					<cfif isDefined("form.deaccession_transaction_id") AND len(form.deaccession_transaction_id) GT 0>
+			<!--- optionally, if specified, add these loan items to a deaccession --->
+			<cfif isDefined("form.deaccession_transaction_id") AND len(form.deaccession_transaction_id) GT 0>
+				<!--- do so in a separate transaction, as MCZBASE.COLL_OBJECT_DEACC_CHECK prevents collection objects from having a disposition of deaccessioned unless in a deaccession --->
+				<cftransaction>
+					<cftry>
 						<!--- lookup loan, confirm that it is consumable --->
 						<cfquery name="getLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT loan_type, loan_number
@@ -107,6 +94,14 @@ limitations under the License.
 						<cfif checkDeaccession.ct NEQ 1>
 							<cfthrow message="No such deaccession transaction with id #encodeForHtml(form.deaccession_transaction_id)# found.">
 						</cfif>
+						<!--- lookup items to add to the deaccession --->
+						<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								collection_object_id, 
+								item_descr
+							FROM loan_item 
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+						</cfquery>
 						<cfloop query="getCollObjId">
 							<!--- check if loan item is also in deaccession, if not, add it --->
 							<cfquery name="checkDeaccessionItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -135,7 +130,31 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 						</cfloop>
-					</cfif>
+						<cftransaction action="commit">
+					<cfcatch>
+						<cftransaction action="rollback">
+						<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+						<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+						<cfthrow message="#message#">
+					</cfcatch>
+					</cftry>
+				</cftransaction>
+			</cfif>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							collection_object_id
+						FROM loan_item 
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+					</cfquery>
+					<cfloop query="getCollObjId">
+						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE coll_object 
+							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.coll_obj_disposition#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+						</cfquery>
+					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
