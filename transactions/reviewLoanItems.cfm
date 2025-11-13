@@ -739,11 +739,45 @@ limitations under the License.
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
 											<cfset sep="">
-											<cfloop query=ctSovereignNation>
+											<cfloop query="ctSovereignNation">
 												<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
 												<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
 												<cfset sep="; ">
 											</cfloop>
+										</div>
+										<div class="col-12 col-xl-6 pt-3">
+											<h3 class="h4 mb-1">Part Dispositions and Loan Item States</h3>
+											<cfquery name="countDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT count(*) as ct, coll_obj_disposition, loan_item.loan_item_state
+												FROM loan_item 
+													join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+												WHERE 
+													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+												GROUP BY coll_obj_disposition, loan_item.loan_item_state
+												ORDER BY coll_obj_disposition, loan_item.loan_item_state
+											</cfquery>
+											<ul>
+												<cfloop query="countDispositions">
+													<li>#encodeforHtml(coll_obj_disposition)# : #encodeforHtml(loan_item_state)# (#ct#)</li>
+												</cfloop>
+											</ul>
+										</div>
+										<div class="col-12 col-xl-6 pt-3">
+											<h3 class="h4 mb-1">Preservation Methods</h3>
+											<cfquery name="countPreserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT count(*) as ct, specimen_part.preserve_method
+												FROM loan_item 
+													join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+												WHERE 
+													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+												GROUP BY specimen_part.preserve_method
+												ORDER BY specimen_part.preserve_method
+											</cfquery>
+											<ul>
+												<cfloop query="countPreserveMethods">
+													<li>#encodeforHtml(preserve_method)# (#ct#)</li>
+												</cfloop>
+											</ul>
 										</div>
 										<cfif isInProcess>
 											<div class="col-12">
