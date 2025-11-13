@@ -801,14 +801,16 @@ limitations under the License.
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																<input type="text" name="deaccession_number" id="deaccession_number" class="data-entry-input col-6 d-inline" placeholder="Dyyyy-n-Coll" disabled >
 																<input type="submit" id="addToDeaccessionSubmit" value="Add to Deaccession" class="btn btn-xs btn-primary" disabled>
+
+																<output id="deaccessionFeedback" class="ml-2"></output>
 																<!--- enable the button only if a value deaccession_number contains a value --->
 																<script>
 																	$(document).ready(function() {
-																		$('input[name="deaccession_number"]').on('input', function() {
+																		$('##deaccession_number').on('input', function() {
 																			if ($(this).val().length > 0) {
-																				$('#addToDeaccessionSubmit').prop('disabled', false);
+																				$('##addToDeaccessionSubmit').prop('disabled', false);
 																			} else {
-																				$('#addToDeaccessionSubmit').prop('disabled', true);
+																				$('##addToDeaccessionSubmit').prop('disabled', true);
 																			}
 																		});
 																	});
