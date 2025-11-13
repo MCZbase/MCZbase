@@ -844,8 +844,10 @@ limitations under the License.
 																				var selectedDisp = $('##coll_obj_disposition').val().toLowerCase();
 																				if (selectedDisp.includes('deaccessioned')) {
 																					$("##deaccessionDiv").show();
+																					$('##deaccession_number').prop('disabled', false);
 																				} else {
 																					$("##deaccessionDiv").hide();
+																					$('##deaccession_number').prop('disabled', true);
 																				}
 																			});
 																		});
