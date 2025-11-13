@@ -1003,7 +1003,7 @@ limitations under the License.
 																	FROM loan_item
 																	WHERE
 																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-																		and loan_item.item_status <> 'consumed'
+																		and loan_item.loan_item_state <> 'consumed'
 																</cfquery>
 																<cfif countConsumableItems.ct GT 0>
 																	<div class="col-12 col-xl-6 border p-1">
