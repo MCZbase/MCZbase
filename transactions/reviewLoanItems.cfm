@@ -133,7 +133,7 @@ limitations under the License.
 										'Added from #getLoanType.loan_type# loan #getLoanType.loan_number#.'
 									)
 								</cfquery>
-							<cfif>
+							</cfif>
 						</cfloop>
 					</cfif>
 					<cftransaction action="commit">
