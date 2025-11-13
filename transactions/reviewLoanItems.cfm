@@ -791,6 +791,7 @@ limitations under the License.
 																			}
 																		});
 																	});
+																</script>
 															</form>
 														</div>
 														<cfif aboutLoan.loan_type EQ 'consumable'>
