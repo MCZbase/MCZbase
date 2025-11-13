@@ -103,31 +103,37 @@ limitations under the License.
 							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
 						</cfquery>
 						<cfloop query="getCollObjId">
-							<!--- check if loan item is also in deaccession, if not, add it --->
+							<!--- check if loan item is also in this deaccession, if not, add it --->
 							<cfquery name="checkDeaccessionItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT count(*) ct from deaccession_item
+								SELECT count(*) ct from deacc_item
 								WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">
 									AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
 							</cfquery>
 							<cfif checkDeaccessionItem.ct EQ 0>
-								<cfquery name="linkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO deacc_item (
-										transaction_id, 
-										collection_object_id, 
-										reconciled_by_person_id,
-										reconciled_date,
-										item_descr,
-										deacc_item_remarks
-									)
-									VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-										current_timestamp,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollObjId.item_descr#">,
-										'Added from #getLoanType.loan_type# loan #getLoanType.loan_number#.'
-									)
+								<cfquery name="checkDeaccessionItem2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT count(*) ct from deacc_item
+									WHERE transaction_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">
+										AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
 								</cfquery>
+								<cfif checkDeaccessionItem2.ct EQ 0>
+									<cfquery name="linkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO deacc_item (
+											transaction_id, 
+											collection_object_id, 
+											reconciled_by_person_id,
+											reconciled_date,
+											item_descr,
+											deacc_item_remarks
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+											current_timestamp,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollObjId.item_descr#">,
+											'Added from #getLoanType.loan_type# loan #getLoanType.loan_number#.'
+										)
+									</cfquery>
+								</cfif>
 							</cfif>
 						</cfloop>
 						<cftransaction action="commit">
