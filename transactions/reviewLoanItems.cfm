@@ -170,7 +170,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetReturnDates">
@@ -206,7 +206,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsReturned">
@@ -233,7 +233,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsConsumed">
@@ -259,7 +259,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkUpdateContainers">
@@ -318,7 +318,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
@@ -347,7 +347,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetDescription">
@@ -394,7 +394,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetInstructions">
