@@ -777,8 +777,45 @@ limitations under the License.
 																		});
 																	});
 																</script>
+																<!--- if a disposition containing 'deaccessioned' is selected, enable deaccession_number control --->
+																<script>
+																	$(document).ready(function() {
+																		$('##coll_obj_disposition').change(function() {
+																			var selectedDisp = $('##coll_obj_disposition').val().toLowerCase();
+																			if (selectedDisp.includes('deaccessioned')) {
+																				$('##deaccession_number').prop('disabled', false);
+																			} else {
+																				$('##deaccession_number').prop('disabled', true);
+																				$('##deaccession_number').val('');
+																				$('##addToDeaccessionSubmit').prop('disabled', true);
+																			}
+																		});
+																	});
 															</form>
 														</div>
+														<cfif aboutLoan.loan_type EQ 'consumable'>
+														<div class="col-12 col-xl-6 border p-1" id="deaccessionDiv">
+															<form name="BulkAddToDeaccession" method="post" action="/deaccession/reviewDeaccessionItems.cfm">
+																Add all these #partCount# items to deaccession:
+																<input type="hidden" name="Action" value="BulkAddToDeaccession">
+																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																<input type="text" name="deaccession_number" id="deaccession_number" class="data-entry-input col-6 d-inline" placeholder="Dyyyy-n-Coll" disabled >
+																<input type="submit" id="addToDeaccessionSubmit" value="Add to Deaccession" class="btn btn-xs btn-primary" disabled>
+																<!--- enable the button only if a value deaccession_number contains a value --->
+																<script>
+																	$(document).ready(function() {
+																		$('input[name="deaccession_number"]').on('input', function() {
+																			if ($(this).val().length > 0) {
+																				$('#addToDeaccessionSubmit').prop('disabled', false);
+																			} else {
+																				$('#addToDeaccessionSubmit').prop('disabled', true);
+																			}
+																		});
+																	});
+																</script>
+															</form>
+														</div>
+														</cfif>
 														<cfif containersCanMove AND NOT isInProcess>
 															<div class="col-12 col-xl-6 border p-1">
 																<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
