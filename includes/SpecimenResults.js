@@ -109,7 +109,7 @@ function addPartToLoan(partID) {
 		subsample=0;
 	}
 	var transaction_id=document.getElementById('transaction_id').value;
-	jQuery.getJSON("/transactions/component/itemFunctions.cfc",
+	jQuery.getJSON("/component/functions.cfc",
 		{
 			method : "addPartToLoan",
 			transaction_id : transaction_id,

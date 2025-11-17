@@ -42,7 +42,7 @@ limitations under the License.
 
 <script>
 	function addThis(i){
-			 $.getJSON("/transactions/component/itemFunctions.cfc",
+			 $.getJSON("/component/functions.cfc",
 				{
 					method : "addPartToLoan",
 					transaction_id: $("#transaction_id").val(),
