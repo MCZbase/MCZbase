@@ -632,7 +632,7 @@ limitations under the License.
 					function updateDisp(new_disposition) { 
 						updateLoanItemDisposition(#part_id#, #transaction_id#, new_disposition,'updateStatus');
 						if (new_disposition!='in loan') { 
-							$("#removeItemButton").removeAttr("disabled");
+							$("##removeItemButton").removeAttr("disabled");
 						}
 					}
 				</script>
