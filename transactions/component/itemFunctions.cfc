@@ -677,8 +677,13 @@ limitations under the License.
 					</cfloop>				
 				</select>
 				<p />
+				<script>
+					function closeRemoveItemDialog() {
+						$("##removeItemDialog").dialog("close"); 
+					}
+				</script>
 				<button class="btn btn-xs btn-warning" value="Remove Item from Loan" 
-					onclick="removeLoanItemFromLoan(#part_id#, #transaction_id#,'updateStatus'); ">Remove Item from Loan</button>
+					onclick="removeLoanItemFromLoan(#part_id#, #transaction_id#,'updateStatus',closeRemoveItemDialog); ">Remove Item from Loan</button>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<p />
 					<button class="btn btn-xs btn-danger"
