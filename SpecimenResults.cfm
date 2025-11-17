@@ -428,7 +428,8 @@ If your item needs to be sorted in a special way, then do that here. --->
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
 	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
-    <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
+	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">Review Loan Items</a>
+<cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
     <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>
 <table border="0">

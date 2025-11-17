@@ -19,6 +19,7 @@ limitations under the License.
 --->
 <cfset pageTitle="Review Loan Items">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 <cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
@@ -72,18 +73,93 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
 		<cfoutput>
+			<!--- optionally, if specified, add these loan items to a deaccession --->
+			<cfif isDefined("form.deaccession_transaction_id") AND len(form.deaccession_transaction_id) GT 0>
+				<!--- do so in a separate transaction, as MCZBASE.COLL_OBJECT_DEACC_CHECK prevents collection objects from having a disposition of deaccessioned unless in a deaccession --->
+				<cftransaction>
+					<cftry>
+						<!--- lookup loan, confirm that it is consumable --->
+						<cfquery name="getLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT loan_type, loan_number
+							FROM loan
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+						</cfquery>
+						<cfif getLoanType.loan_type NEQ 'consumable'>
+							<cfthrow message="Can't bulk add items from a loan type other than consumable to a deaccession.">
+						</cfif>
+						<!--- lookup deaccession --->
+						<cfquery name="checkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct from deaccession
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">
+						</cfquery>
+						<cfif checkDeaccession.ct NEQ 1>
+							<cfthrow message="No such deaccession transaction with id #encodeForHtml(form.deaccession_transaction_id)# found.">
+						</cfif>
+						<!--- lookup items to add to the deaccession --->
+						<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								collection_object_id, 
+								item_descr
+							FROM loan_item 
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+						</cfquery>
+						<cfloop query="getCollObjId">
+							<!--- check if loan item is also in this deaccession, if not, add it --->
+							<cfquery name="checkDeaccessionItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT count(*) ct from deacc_item
+								WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">
+									AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+							</cfquery>
+							<cfif checkDeaccessionItem.ct EQ 0>
+								<cfquery name="checkDeaccessionItem2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT count(*) ct from deacc_item
+									WHERE transaction_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">
+										AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+								</cfquery>
+								<cfif checkDeaccessionItem2.ct EQ 0>
+									<cfquery name="linkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO deacc_item (
+											transaction_id, 
+											collection_object_id, 
+											reconciled_by_person_id,
+											reconciled_date,
+											item_descr,
+											deacc_item_remarks
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.deaccession_transaction_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+											current_timestamp,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollObjId.item_descr#">,
+											'Added from #getLoanType.loan_type# loan #getLoanType.loan_number#.'
+										)
+									</cfquery>
+								</cfif>
+							</cfif>
+						</cfloop>
+						<cftransaction action="commit">
+					<cfcatch>
+						<cftransaction action="rollback">
+						<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+						<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+						<cfthrow message="#message#">
+					</cfcatch>
+					</cftry>
+				</cftransaction>
+			</cfif>
 			<cftransaction>
 				<cftry>
 					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select collection_object_id 
+						SELECT 
+							collection_object_id
 						FROM loan_item 
-						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
 						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE coll_object 
-							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.coll_obj_disposition#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
 						</cfquery>
 					</cfloop>
 					<cftransaction action="commit">
@@ -95,7 +171,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetReturnDates">
@@ -131,7 +207,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsReturned">
@@ -158,7 +234,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsConsumed">
@@ -173,7 +249,7 @@ limitations under the License.
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							and return_date is null
-							and loan_item_state is null
+							and loan_item_state = 'in loan'
 					</cfquery>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -184,7 +260,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkUpdateContainers">
@@ -243,7 +319,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
@@ -272,7 +348,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetDescription">
@@ -319,7 +395,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetInstructions">
@@ -469,9 +545,6 @@ limitations under the License.
 				)
 			</cfquery>
 		</cfif>
-
-		<!--- TODO: Evaluate this comment, sees obsolete --->
-		<!--- handle legacy loans with cataloged items as the item --->
 
 		<script>
 			var bc = new BroadcastChannel('loan_channel');
@@ -635,13 +708,10 @@ limitations under the License.
 											<h1 class="h3 mb-0 pb-0">
 												Review items in loan
 												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
-												<p class="font-weight-normal mb-1 pb-0">
-													There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
-												</p>
-												<cfif collectionCount GT 1 >
-													<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
-												</cfif>
 											</h1>
+											<cfif collectionCount GT 1 >
+												<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
+											</cfif>
 											<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
 											<cfif isClosed>
 												<cfset statusWeight = "bold">
@@ -660,15 +730,42 @@ limitations under the License.
 													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
 												</h2>
 											</cfif>
+											<p class="font-weight-normal mb-1 pb-0">
+												There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
+											</p>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
 											<cfset sep="">
-											<cfloop query=ctSovereignNation>
+											<cfloop query="ctSovereignNation">
 												<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
 												<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
 												<cfset sep="; ">
 											</cfloop>
+										</div>
+										<div class="col-12 col-xl-6 pt-3">
+											<h3 class="h4 mb-1">Part Dispositions and Loan Item States</h3>
+											<div id="dispositionsDiv">
+												<cfset dispositions = getDispositionsList(transaction_id=transaction_id)>
+												#dispositions#
+											</div>
+										</div>
+										<div class="col-12 col-xl-6 pt-3">
+											<h3 class="h4 mb-1">Preservation Methods</h3>
+											<cfquery name="countPreserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT count(*) as ct, specimen_part.preserve_method
+												FROM loan_item 
+													join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+												WHERE 
+													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+												GROUP BY specimen_part.preserve_method
+												ORDER BY specimen_part.preserve_method
+											</cfquery>
+											<ul>
+												<cfloop query="countPreserveMethods">
+													<li>#encodeforHtml(preserve_method)# (#ct#)</li>
+												</cfloop>
+											</ul>
 										</div>
 										<cfif isInProcess>
 											<div class="col-12">
@@ -754,18 +851,19 @@ limitations under the License.
 												<div class="card-body">
 													<div class="row mb-0 pb-0 px-2 mx-0">
 														<div class="col-12 col-xl-6 border p-1">
-															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
-															Change disposition of all these #partCount# items to:
-															<input type="hidden" name="Action" value="BulkUpdateDisp">
+															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
+																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
-																	<option value=""></option>
-																	<cfloop query="ctDisp">
-																		<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-																	</cfloop>				
-																</select>
-																<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
-																<!--- enable the button only if a value is selected --->
+																<div class="col-12">
+																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these #partCount# items to:</label>
+																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+																		<option value=""></option>
+																		<cfloop query="ctDisp">
+																			<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+																		</cfloop>				
+																	</select>
+																</div>
+																<!--- enable the submit button only if a value is selected --->
 																<script>
 																	$(document).ready(function() {
 																		$('##coll_obj_disposition').change(function() {
@@ -777,6 +875,34 @@ limitations under the License.
 																		});
 																	});
 																</script>
+																<cfif aboutLoan.loan_type EQ 'consumable'>
+																	<div class="col-12" id="deaccessionDiv">
+																		<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
+																		<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
+																		<input type="text" name="deaccession_number" id="deaccession_number" class="data-entry-input col-6 d-inline" placeholder="Dyyyy-n-Coll" disabled >
+																		<output id="deaccessionFeedback" class="ml-2"></output>
+																	</div>
+																	<!--- if a disposition containing 'deaccessioned' is selected, enable deaccession_number control --->
+																	<script>
+																		$(document).ready(function() {
+																			makeDeaccessionAutocompleteMeta("deaccession_number", "deaccession_transaction_id"); 
+																			$("##deaccessionDiv").hide();
+																			$('##coll_obj_disposition').change(function() {
+																				var selectedDisp = $('##coll_obj_disposition').val().toLowerCase();
+																				if (selectedDisp.includes('deaccessioned')) {
+																					$("##deaccessionDiv").show();
+																					$('##deaccession_number').prop('disabled', false);
+																				} else {
+																					$("##deaccessionDiv").hide();
+																					$('##deaccession_number').prop('disabled', true);
+																				}
+																			});
+																		});
+																	</script>
+																</cfif>
+																<div class="col-12">
+																	<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+																</div>
 															</form>
 														</div>
 														<cfif containersCanMove AND NOT isInProcess>
@@ -840,11 +966,24 @@ limitations under the License.
 																	<input type="hidden" name="Action" value="BulkUpdatePres">
 																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																	<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
+																		<option></option>
 																		<cfloop query="ctPreserveMethod">
 																			<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 																		</cfloop>				
 																	</select>
-																	<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
+																	<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary" disabled> 
+																	<!--- disable submit button until a value is selected --->
+																	<script>
+																		$(document).ready(function() {
+																			$('select[name="part_preserve_method"]').change(function() {
+																				if ($(this).val() != "") {
+																					$(this).siblings('input[type="submit"]').prop('disabled', false);
+																				} else {
+																					$(this).siblings('input[type="submit"]').prop('disabled', true);
+																				}
+																			});
+																		});
+																	</script>
 																</form>
 															</div>
 														</cfif>
@@ -881,13 +1020,24 @@ limitations under the License.
 																</div>
 															</cfif>
 															<cfif aboutLoan.loan_type EQ 'consumable'>
+																<cfquery name="countConsumableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																	SELECT count(*) as ct
+																	FROM loan_item
+																	WHERE
+																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+																		and (loan_item.loan_item_state <> 'consumed' or loan_item.loan_item_state is NULL)
+																</cfquery>
 																<div class="col-12 col-xl-6 border p-1">
-																	<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
-																		Mark all these #partCount# items as consumed.
-																		<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
-																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																		<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
-																	</form>
+																	<cfif countConsumableItems.ct GT 0>
+																		<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
+																			Mark all these #partCount# items as consumed.
+																			<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
+																			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																			<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
+																		</form>
+																	<cfelse>
+																		<h3 class="h3">All items in this consumable loan are marked as consumed.</h3>
+																	</cfif>
 																</div>
 															</cfif>
 														</cfif>
@@ -1245,15 +1395,29 @@ limitations under the License.
 							function reloadGridNoBroadcast() { 
 								var dataAdapter = new $.jqx.dataAdapter(search);
 								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+								// refresh summary data 
+								reloadLoanSummaryData();
 							}
 							function reloadGrid() { 
 								reloadGridNoBroadcast();
 								// Broadcast that a change has happened to the loan items
 								bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
 							};
+							function reloadLoanSummaryData(){ 
+								// reload dispositions of loan items
+								$.ajax({
+									dataType: 'html',
+									url: '/transactions/component/itemFunctions.cfc?method=getDispositionsList&transaction_id=#transaction_id#',
+									success: function (data, status, xhr) {
+										$('##dispositionsDiv').html(data);
+									},
+									error: function (jqXHR,textStatus,error) {
+										handleFail(jqXHR,textStatus,error,"loading loan summary data");
+									}
+								});
+							}
 		
 							function loadGrid() { 
-			
 								var dataAdapter = new $.jqx.dataAdapter(search);
 								var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 									// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -1295,13 +1459,11 @@ limitations under the License.
 									columns: [
 										<cfif isClosed>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: true, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 										<cfelseif isInProcess>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:false, hidden: false, editable: false },
 											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: false, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 										<cfelse>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: false, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 											<cfif aboutLoan.loan_type EQ 'returnable'>
 												{text: 'Return', datafield: 'ReturnRow', width: 78, hideable: true, hidden: false, cellsrenderer: returnCellRenderer, editable: false },
 											<cfelseif aboutLoan.loan_type EQ 'consumable'>

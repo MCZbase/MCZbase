@@ -104,7 +104,7 @@ function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targ
 	});
 };
 
-function removeLoanItemFromLoan(part_id, transaction_id,targetDiv) { 
+function removeLoanItemFromLoan(part_id, transaction_id,targetDiv,callback=null) { 
 	$("#"+targetDiv).html("Saving...");
 	jQuery.ajax({
 		url: "/transactions/component/itemFunctions.cfc",
@@ -118,6 +118,9 @@ function removeLoanItemFromLoan(part_id, transaction_id,targetDiv) {
 		success: function (result) {
 			if (typeof result == 'string') { result = JSON.parse(result); } 
 			if (result.DATA.STATUS[0]==1) {
+				if (typeof callback === 'function') {
+					callback();
+				}
 				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
 			} else { 
 				$("#"+targetDiv).html("Error");

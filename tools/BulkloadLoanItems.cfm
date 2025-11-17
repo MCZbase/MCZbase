@@ -846,6 +846,7 @@ limitations under the License.
 						<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan_result">
 							INSERT INTO loan_item (
 							collection_object_id,
+							loan_item_state,
 							RECONCILED_BY_PERSON_ID,
 							reconciled_date,
 							<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
@@ -858,6 +859,7 @@ limitations under the License.
 							transaction_id
 							) VALUES (
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPART_COLLECTION_OBJECT_ID#">,
+							'in loan',
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 							sysdate,
 							<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
