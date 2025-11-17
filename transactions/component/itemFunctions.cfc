@@ -1027,7 +1027,7 @@ limitations under the License.
 											<cfset dispositionClasses = "">
 										<cfelse>
 											<cfset dispositionClasses="font-weight-bold text-danger">
-										<cfif>
+										</cfif>
 										<div class="col-12 #dispositionClasses#">
 											This part may not be available for loan, it has a current disposition of #coll_obj_disposition#.
 										</div>
