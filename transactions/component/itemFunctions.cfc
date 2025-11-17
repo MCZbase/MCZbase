@@ -631,6 +631,9 @@ limitations under the License.
 				<script>
 					function updateDisp(new_disposition) { 
 						updateLoanItemDisposition(#part_id#, #transaction_id#, new_disposition,'updateStatus');
+						if (new_disposition!='in loan') { 
+							$("#removeItemButton").removeAttr("disabled");
+						}
 					}
 				</script>
 				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanItemsQuery_result">
@@ -649,8 +652,10 @@ limitations under the License.
 					from specimen_part 
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 				</cfquery>
+				<cfset mustChangeDisposition=false>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<cfif onLoan>
+						<cfset mustChangeDisposition=true>
 						<h3 class="h4">This subsample currently has a dispostion of "on loan."</h3>
 						<p>You must change the disposition to remove the item from the loan, 
 						or as this is a subsample, you may delete the item from the database completely.</p>
@@ -661,6 +666,7 @@ limitations under the License.
 					</cfif>
 				<cfelse>
 					<cfif onLoan>
+						<cfset mustChangeDisposition=true>
 						<h3 class="h4">This item currently has a dispostion of "on loan"</h3>
 						<p>You must change the disposition to remove the item from the loan</p>
 					<cfelse>
@@ -682,13 +688,18 @@ limitations under the License.
 						$("##removeItemDialog").dialog("close"); 
 					}
 				</script>
-				<button class="btn btn-xs btn-warning" value="Remove Item from Loan" 
+				<cfif mustChangeDisposition>
+					<cfset disabled="disabled">
+				<cfelse>
+					<cfset disabled="">
+				</cfif>
+				<button id="removeItemButton" class="btn btn-xs btn-warning" value="Remove Item from Loan" #disabled#
 					onclick="removeLoanItemFromLoan(#part_id#, #transaction_id#,'updateStatus',closeRemoveItemDialog); ">Remove Item from Loan</button>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<p />
 					<button class="btn btn-xs btn-danger"
 						value="Delete Subsample From Database" 
-						onclick="alert('not yet implemented');">Delete Subsample From Database</button> <!--- cC.action.value='killSS'; submit();"/> --->
+						onclick="alert('not implemented');">Delete Subsample From Database</button> <!--- cC.action.value='killSS'; submit();"/> --->
 				</cfif>
 				<p />
 			</cfoutput>
