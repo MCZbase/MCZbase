@@ -1415,4 +1415,41 @@ limitations under the License.
 	<cfreturn getRemoveLoanItemHtmlThread.output>
 </cffunction>
 
+<!--- getDispositionsList obtain an html list of distinct values of dispositions and loan item 
+  states for items in a loan.
+  @param transaction_id the id of the loan transaction for which to obtain the list of dispositions
+  @return an html unordered list of dispositions and loan item states for items in the loan or an http 500 error if an error occurs.
+--->
+<cffunction name="getDispositionsList" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getDispositionListThread" transaction_id="#arguments.transaction_id#">
+		<cftry>
+			<cfoutput>
+				<cfquery name="countDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(*) as ct, coll_obj_disposition, loan_item.loan_item_state
+					FROM loan_item 
+						join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+					WHERE 
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					GROUP BY coll_obj_disposition, loan_item.loan_item_state
+					ORDER BY coll_obj_disposition, loan_item.loan_item_state
+				</cfquery>
+				<ul>
+					<cfloop query="countDispositions">
+						<li>Part Dispostion: #encodeforHtml(coll_obj_disposition)#; Loan Item State: #encodeforHtml(loan_item_state)# (#ct#)</li>
+					</cfloop>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getDispositionListThread" />
+	<cfreturn getDispositionListThread.output>
+</cffunction>
+
 </cfcomponent>

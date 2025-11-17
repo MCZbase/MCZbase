@@ -744,20 +744,10 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Part Dispositions and Loan Item States</h3>
-											<cfquery name="countDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT count(*) as ct, coll_obj_disposition, loan_item.loan_item_state
-												FROM loan_item 
-													join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-												WHERE 
-													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-												GROUP BY coll_obj_disposition, loan_item.loan_item_state
-												ORDER BY coll_obj_disposition, loan_item.loan_item_state
-											</cfquery>
-											<ul>
-												<cfloop query="countDispositions">
-													<li>Part Dispostion: #encodeforHtml(coll_obj_disposition)#; Loan Item State: #encodeforHtml(loan_item_state)# (#ct#)</li>
-												</cfloop>
-											</ul>
+											<div id="dispositionsDiv">
+												<cfset dispositions = getDispositionsList(transaction_id=transaction_id)>
+												#dispositions#
+											</div>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Preservation Methods</h3>
@@ -1404,15 +1394,29 @@ limitations under the License.
 							function reloadGridNoBroadcast() { 
 								var dataAdapter = new $.jqx.dataAdapter(search);
 								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+								// refresh summary data 
+								reloadLoanSummaryData();
 							}
 							function reloadGrid() { 
 								reloadGridNoBroadcast();
 								// Broadcast that a change has happened to the loan items
 								bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
 							};
+							function reloadLoanSummaryData(){ 
+								// reload dispositions of loan items
+								$.ajax({
+									dataType: 'html',
+									url: '/transactions/component/itemFunctions.cfc?method=getDispositionsList&transaction_id=#transaction_id#',
+									success: function (data, status, xhr) {
+										$('##dispositionsDiv').html(data);
+									},
+									error: function (jqXHR,textStatus,error) {
+										handleFail(jqXHR,textStatus,error,"loading loan summary data");
+									}
+								});
+							}
 		
 							function loadGrid() { 
-			
 								var dataAdapter = new $.jqx.dataAdapter(search);
 								var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 									// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
