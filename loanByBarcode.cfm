@@ -5,7 +5,7 @@
 				{
 					method : "addPartToLoan",
 					transaction_id: $("#transaction_id").val(),
-					part_id : $("#partID_" + i).val(),
+					partID : $("#partID_" + i).val(),
 					remark : '',
 					instructions: '',
 					subsample: $("#ss_" + i).val(),
