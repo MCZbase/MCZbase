@@ -1463,4 +1463,36 @@ limitations under the License.
 	<cfreturn getDispositionListThread.output>
 </cffunction>
 
+<cffunction name="getPreservationsList" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getPreservationListThread" transaction_id="#arguments.transaction_id#">
+		<cftry>
+			<cfoutput>
+				<cfquery name="countPreserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(*) as ct, specimen_part.preserve_method
+					FROM loan_item 
+						join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					WHERE 
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					GROUP BY specimen_part.preserve_method
+					ORDER BY specimen_part.preserve_method
+				</cfquery>
+				<ul>
+					<cfloop query="countPreserveMethods">
+						<li>#encodeforHtml(preserve_method)# (#ct#)</li>
+					</cfloop>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPreservationListThread" />
+	<cfreturn getPreservationListThread.output>
+</cffunction>
+
 </cfcomponent>

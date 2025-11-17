@@ -752,20 +752,10 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Preservation Methods</h3>
-											<cfquery name="countPreserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT count(*) as ct, specimen_part.preserve_method
-												FROM loan_item 
-													join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-												WHERE 
-													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-												GROUP BY specimen_part.preserve_method
-												ORDER BY specimen_part.preserve_method
-											</cfquery>
-											<ul>
-												<cfloop query="countPreserveMethods">
-													<li>#encodeforHtml(preserve_method)# (#ct#)</li>
-												</cfloop>
-											</ul>
+											<div id="preservationDiv">
+												<cfset preservations = getPreservationsList(transaction_id=transaction_id)>
+												#preservations#
+											</div>
 										</div>
 										<cfif isInProcess>
 											<div class="col-12">
@@ -1412,7 +1402,18 @@ limitations under the License.
 										$('##dispositionsDiv').html(data);
 									},
 									error: function (jqXHR,textStatus,error) {
-										handleFail(jqXHR,textStatus,error,"loading loan summary data");
+										handleFail(jqXHR,textStatus,error,"loading loan summary data, dispositions");
+									}
+								});
+								// reload preservation types of loan items
+								$.ajax({
+									dataType: 'html',
+									url: '/transactions/component/itemFunctions.cfc?method=getPreservationsList&transaction_id=#transaction_id#',
+									success: function (data, status, xhr) {
+										$('##preservationDiv').html(data);
+									},
+									error: function (jqXHR,textStatus,error) {
+										handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
 									}
 								});
 							}
