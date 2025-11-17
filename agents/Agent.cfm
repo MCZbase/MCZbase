@@ -4,7 +4,7 @@ agents/Agent.cfm
 
 Form for displaying agent details, editing agent details, and creating new agents.
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-
 <cfif isdefined("agent_id")>
 	<cfif len(agent_id) GT 0 and REFind("^[0-9]*$",agent_id) EQ 0>
 		<cfinclude template="/errors/autoblacklist.cfm">
