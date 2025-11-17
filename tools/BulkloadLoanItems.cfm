@@ -653,6 +653,7 @@ limitations under the License.
 						AND part_collection_object_id in (
 							select collection_object_id
 							from loan_item
+								join loan on loan_item.transaction_id = loan.transaction_id
 							where loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.loan_number#">
 						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
