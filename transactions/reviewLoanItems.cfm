@@ -19,6 +19,7 @@ limitations under the License.
 --->
 <cfset pageTitle="Review Loan Items">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 <cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
