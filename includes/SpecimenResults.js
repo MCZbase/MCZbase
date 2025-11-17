@@ -113,7 +113,7 @@ function addPartToLoan(partID) {
 		{
 			method : "addPartToLoan",
 			transaction_id : transaction_id,
-			partID : partID,
+			part_id : partID,
 			remark : remark,
 			instructions : instructions,
 			subsample : subsample,

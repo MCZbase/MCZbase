@@ -46,7 +46,7 @@ limitations under the License.
 				{
 					method : "addPartToLoan",
 					transaction_id: $("#transaction_id").val(),
-					partID : $("#partID_" + i).val(),
+					part_id : $("#partID_" + i).val(),
 					remark : '',
 					instructions: '',
 					subsample: $("#ss_" + i).val(),
