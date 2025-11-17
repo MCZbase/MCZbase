@@ -1,7 +1,7 @@
 <cfinclude template="/includes/_header.cfm">
 <script>
 	function addThis(i){
-			 $.getJSON("/component/functions.cfc",
+			 $.getJSON("/transactions/component/itemFunctions.cfc",
 				{
 					method : "addPartToLoan",
 					transaction_id: $("#transaction_id").val(),
