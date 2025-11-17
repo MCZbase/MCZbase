@@ -423,6 +423,7 @@ document.getElementById('saveme').submit();
 		</cfif>
 <cfif #Action# is "dispCollObj">
 	<br><a href="/transactions/Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Back to Loan</a>
+	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">Review Loan Items</a>
 </cfif>
 
 <form name="browse" action="SpecimenResultsHTML.cfm" method="post">
