@@ -1041,6 +1041,7 @@
 			INSERT INTO loan_item (
 				TRANSACTION_ID,
 				COLLECTION_OBJECT_ID,
+				loan_item_state,
 				RECONCILED_BY_PERSON_ID,
 				RECONCILED_DATE
 				,ITEM_DESCR
@@ -1057,7 +1058,8 @@
 					#n.n#,
 				<cfelse>
 					#partID#,
-				</cfif>		
+				</cfif>
+				'in loan',
 				#session.myagentid#,
 				'#thisDate#'
 				,'#meta.collection# #meta.cat_num# #meta.part_name#'
