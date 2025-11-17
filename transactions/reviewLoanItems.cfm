@@ -744,7 +744,7 @@ limitations under the License.
 											</cfloop>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Part Dispositions and Loan Item States</h3>
+											<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
 											<div id="dispositionsDiv">
 												<cfset dispositions = getDispositionsList(transaction_id=transaction_id)>
 												#dispositions#

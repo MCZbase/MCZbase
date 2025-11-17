@@ -1023,7 +1023,7 @@ limitations under the License.
 										<input disabled type="text" value="#coll_obj_disposition# #condition#" class="data-entry-input w-100">
 									</div>
 									<cfif coll_obj_disposition NEQ "in collection">
-										<div class="col-12">
+										<div class="col-12 font-weight-bold text-danger">
 											This part may not be available for loan, it has a current disposition of #coll_obj_disposition#.
 										</div>
 									</cfif>
@@ -1437,7 +1437,9 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 				<cfquery name="countDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(*) as ct, coll_obj_disposition, loan_item.loan_item_state
+					SELECT count(*) as ct, 
+						coll_obj_disposition, 
+						nvl(loan_item.loan_item_state,'not set') as loan_item_state
 					FROM loan_item 
 						join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
 					WHERE 
