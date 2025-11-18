@@ -730,8 +730,8 @@ limitations under the License.
 														left join loan_item on c.transaction_id = loan_item.transaction_id
 													WHERE lr.relation_type = 'Subloan'
 														 and p.transaction_id = <cfqueryparam value=#transaction_id# cfsqltype="CF_SQL_DECIMAL" >
-													ORDER BY c.loan_number
 													GROUP BY c.loan_number, c.transaction_id
+													ORDER BY c.loan_number
 												</cfquery>
 												<cfif childLoans.recordcount GT 0>
 													<p class="font-weight-normal mb-1 pb-0">
