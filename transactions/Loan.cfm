@@ -976,10 +976,12 @@ limitations under the License.
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
-							<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
-							<div id="dispositionsTableDiv">
-								<cfset dispositions = getDispositionsTable(transaction_id=loanDetails.transaction_id)>
-								#dispositions#
+							<div class="col-12 col-md-6 pt-1">
+								<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
+								<div id="dispositionsTableDiv">
+									<cfset dispositions = getDispositionsTable(transaction_id=loanDetails.transaction_id)>
+									#dispositions#
+								</div>
 							</div>
 						</cfif>
 						<div class="col-12 col-md-6 pt-1">
