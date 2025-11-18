@@ -436,6 +436,7 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "editLoan">
 	<cfset title="Edit Loan">
+	<cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
 		<cfthrow message="Edit Loan called without a transaction_id for the loan to edit">
@@ -449,9 +450,54 @@ limitations under the License.
 			bc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
-					// TODO: Reload the item summary
+					doItemUpdate();
 					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
 				}
+			}
+			function reloadLoanSummaryData(){ 
+				// reload dispositions of loan items
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getDispositionsList&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##dispositionsDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, dispositions");
+					}
+				});
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getDispositionsTable&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##dispositionsTableDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, dispositions");
+					}
+				});
+				// reload preservation types of loan items
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getPreservationsList&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##preservationDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+					}
+				});
+				// reload countries of origin of loan items
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getCountriesList&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##countriesDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+					}
+				});
 			}
 		</script>
 		<script>
@@ -924,51 +970,32 @@ limitations under the License.
 							function doItemUpdate() { 
 							 	updateLoanItemCount('#transaction_id#','loanItemCountDiv');
 								updateRestrictionsBlock('#transaction_id#','restrictionSection','restrictionWarningDiv');
+								// Reload the item summary
+								reloadLoanSummaryData();
 							}
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
 							<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
-							<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-								from loan 
-									left join loan_item on loan.transaction_id = loan_item.transaction_id
-									left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-									left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-									left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-								where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-									and coll_obj_disposition is not null
-								group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-							</cfquery>
-							<cfif getDispositions.RecordCount EQ 0 >
-								<h4>There are no attached collection objects.</h4>
-							<cfelse>
-								<table class="table table-responsive">
-									<thead class="thead-light">
-										<tr>
-											<th>Parts</th>
-											<th>Disposition</th>
-											<th>Deaccession</th>
-										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="getDispositions">
-											<tr>
-												<cfif len(trim(getDispositions.deacc_number)) GT 0>
-													<td>#pcount#</td>
-													<td>#coll_obj_disposition#</td>
-													<td><a href="/Transactions.cfm?action=findDeaccessions&execute=true&deacc_number=#encodeForURL(deacc_number)#">#deacc_number# (#deacc_status#)</a></td>
-												<cfelse>
-													<td>#pcount#</td>
-													<td>#coll_obj_disposition#</td>
-													<td>Not in a Deaccession</td>
-												</cfif>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</cfif>
+							<div id="dispositionTableDiv">
+								<cfset dispositions = getDispositionsTable(transaction_id=loanDetails.transaction_id)>
+								#dispositions#
+							</div>
 						</cfif>
+						<div class="col-12 col-xl-6 pt-3">
+							<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
+							<div id="dispositionsDiv">
+								<cfset dispositions = getDispositionsList(transaction_id=loanDetails.transaction_id)>
+								#dispositions#
+							</div>
+						</div>
+						<div class="col-12 col-xl-6 pt-3">
+							<h3 class="h4 mb-1">Preservation Methods</h3>
+							<div id="preservationDiv">
+								<cfset preservations = getPreservationsList(transaction_id=loanDetailstransaction_id)>
+								#preservations#
+							</div>
+						</div>
 					</div>
 					<cfif getRestrictions.recordcount GT 0>
 						<cfset restrictionsVisibility = "">
@@ -1077,29 +1104,10 @@ limitations under the License.
 						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
 							<div class="col-12 pb-3" tabindex="0">
 								<h2 class="h3">Countries of Origin of items in this loan</h2>
-								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select count(*) as ct, sovereign_nation 
-									from loan_item 
-										left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-										left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-										left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-										left join locality on collecting_event.locality_id = locality.locality_id
-									where
-										loan_item.transaction_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-									group by sovereign_nation
-								</cfquery>
-								<cfset sep="">
-								<cfif ctSovereignNation.recordcount EQ 0>
-									<span class="var-display">None</span>
-								<cfelse>
-									<cfloop query=ctSovereignNation>
-										<cfif len(sovereign_nation) eq 0>
-											<cfset sovereign_nation = '[no value set]'>
-										</cfif>
-										<span class="var-display">#sep##sovereign_nation#&nbsp;(#ct#)</span>
-										<cfset sep="; ">
-									</cfloop>
-								</cfif>
+								<div id="countriesDiv">
+									<cfset countries = getCountriesList(transaction_id=transaction_id)>
+									#countries#
+								</div>	
 							</div>
 						</section>
 						<div class="row mx-0">

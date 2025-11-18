@@ -510,17 +510,6 @@ limitations under the License.
 			GROUP BY collection.collection_cde
 		</cfquery>
 		<cfset collectionCount = getCollections.recordcount>
-		<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT count(*) as ct, sovereign_nation
-			FROM loan_item 
-				left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-				left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-				left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-				left join locality on collecting_event.locality_id = locality.locality_id
-			WHERE 
-				loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-			GROUP BY sovereign_nation
-		</cfquery>
 		<cfif collectionCount EQ 1 OR collectionCount EQ 0>
 			<!--- Obtain list of preserve_method values for the collection that this loan is from --->
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -736,12 +725,10 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
-											<cfset sep="">
-											<cfloop query="ctSovereignNation">
-												<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
-												<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
-												<cfset sep="; ">
-											</cfloop>
+											<div id="countriesDiv">
+												<cfset countries = getCountriesList(transaction_id=transaction_id)>
+												#countries#
+											</div>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
@@ -1411,6 +1398,17 @@ limitations under the License.
 									url: '/transactions/component/itemFunctions.cfc?method=getPreservationsList&transaction_id=#transaction_id#',
 									success: function (data, status, xhr) {
 										$('##preservationDiv').html(data);
+									},
+									error: function (jqXHR,textStatus,error) {
+										handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+									}
+								});
+								// reload countries of origin of loan items
+								$.ajax({
+									dataType: 'html',
+									url: '/transactions/component/itemFunctions.cfc?method=getCountriesList&transaction_id=#transaction_id#',
+									success: function (data, status, xhr) {
+										$('##countriesDiv').html(data);
 									},
 									error: function (jqXHR,textStatus,error) {
 										handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");

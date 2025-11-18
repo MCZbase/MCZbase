@@ -1470,6 +1470,63 @@ limitations under the License.
 	<cfreturn getDispositionListThread.output>
 </cffunction>
 
+<cffunction name="getDispositionsTable" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getDispositionTableThread" transaction_id="#arguments.transaction_id#">
+		<cftry>
+			<cfoutput>
+				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+					from loan 
+						left join loan_item on loan.transaction_id = loan_item.transaction_id
+						left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+						left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+						left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+					where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and coll_obj_disposition is not null
+					group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+				</cfquery>
+				<cfif getDispositions.RecordCount EQ 0 >
+					<h4>There are no attached collection objects.</h4>
+				<cfelse>
+					<table class="table table-responsive">
+						<thead class="thead-light">
+							<tr>
+								<th>Parts</th>
+								<th>Disposition</th>
+								<th>Deaccession</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="getDispositions">
+								<tr>
+									<cfif len(trim(getDispositions.deacc_number)) GT 0>
+										<td>#pcount#</td>
+										<td>#coll_obj_disposition#</td>
+										<td><a href="/Transactions.cfm?action=findDeaccessions&execute=true&deacc_number=#encodeForURL(deacc_number)#">#deacc_number# (#deacc_status#)</a></td>
+									<cfelse>
+										<td>#pcount#</td>
+										<td>#coll_obj_disposition#</td>
+										<td>Not in a Deaccession</td>
+									</cfif>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getDispositionTableThread" />
+	<cfreturn getDispositionTableThread.output>
+</cffunction>
+
 <cffunction name="getPreservationsList" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfthread name="getPreservationListThread" transaction_id="#arguments.transaction_id#">
@@ -1500,6 +1557,45 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getPreservationListThread" />
 	<cfreturn getPreservationListThread.output>
+</cffunction>
+
+<cffunction name="getCountriesList" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getCountriesListThread" transaction_id="#arguments.transaction_id#">
+		<cftry>
+			<cfoutput>
+				<cfset sep="">
+				<cfquery name="getSovereignNations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(*) as ct, sovereign_nation
+					FROM loan_item 
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+						left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join locality on collecting_event.locality_id = locality.locality_id
+					WHERE 
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					GROUP BY sovereign_nation
+				</cfquery>
+				<cfif getSovereignNations.recordcount EQ 0>
+					<span class="var-display">None</span>
+				<cfelse>
+					<cfloop query="getSovereignNations">
+						<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
+						<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
+						<cfset sep="; ">
+					</cfloop>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getCountriesListThread" />
+	<cfreturn getCountriesListThread.output>
 </cffunction>
 
 </cfcomponent>
