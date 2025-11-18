@@ -856,11 +856,11 @@ limitations under the License.
 												</div>
 												<div class="card-body">
 													<div class="row mb-0 pb-0 px-2 mx-0">
-														<div class="col-12 col-xl-6 border p-1">
+														<div class="col-12 col-xl-6 row border p-1">
 															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
 																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																<div class="col-12">
+																<div class="col-12 col-md-6">
 																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these #partCount# items to:</label>
 																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
 																		<option value=""></option>
@@ -881,7 +881,11 @@ limitations under the License.
 																		});
 																	});
 																</script>
-																<cfif aboutLoan.loan_type EQ 'consumable'>
+																<cfif aboutLoan.loan_type NEQ 'consumable'>
+																	<div class="col-12 col-md-6">
+																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
+																	</div>
+																<cfelse>
 																	<div class="col-12" id="deaccessionDiv">
 																		<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
 																		<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
@@ -905,10 +909,10 @@ limitations under the License.
 																			});
 																		});
 																	</script>
+																	<div class="col-12">
+																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+																	</div>
 																</cfif>
-																<div class="col-12">
-																	<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
-																</div>
 															</form>
 														</div>
 														<cfif containersCanMove AND NOT isInProcess>
