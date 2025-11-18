@@ -862,7 +862,7 @@ limitations under the License.
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																<div class="col-12">
 																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these #partCount# items to:</label>
-																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
 																		<option value=""></option>
 																		<cfloop query="ctDisp">
 																			<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
