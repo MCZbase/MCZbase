@@ -722,6 +722,35 @@ limitations under the License.
 											<p class="font-weight-normal mb-1 pb-0">
 												There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
 											</p>
+											<cfif aboutLoan.loan_type EQ 'exhibition-master'>
+												<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													SELECT c.loan_number, c.transaction_id, count(loan_item.collection_object_id) as part_count
+													FROM loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
+														join loan c on lr.related_transaction_id = c.transaction_id 
+														left join loan_item on c.transaction_id = loan_item.transaction_id
+													WHERE lr.relation_type = 'Subloan'
+														 and p.transaction_id = <cfqueryparam value=#transaction_id# cfsqltype="CF_SQL_DECIMAL" >
+													ORDER BY c.loan_number
+													GROUP BY c.loan_number, c.transaction_id
+												</cfquery>
+												<cfif childLoans.recordcount GT 0>
+													<p class="font-weight-normal mb-1 pb-0">
+														Exhibition Subloans:
+														<ul>
+															<cfloop query="childLoans">
+																<li>
+																	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#encodeForHtml(childLoans.loan_number)#</a>
+																	<a href="transactions/reviewLoanItems.cfm?transaction_id=#childLoans.transaction_id#" Review #childLoans.part_count# items</a>
+																</li>
+															</cfloop>
+															</ul>
+														</p>
+												<cfelse>
+													<p class="font-weight-normal mb-1 pb-0">
+														No subloans associated with this exhibition-master loan.
+													</p>
+												</cfif>
+											</cfif>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
