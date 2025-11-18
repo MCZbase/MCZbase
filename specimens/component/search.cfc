@@ -2126,7 +2126,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
-	<cfif isDefined("island_group") AND len(island) GT 0>
+	<cfif isDefined("island_group") AND len(island_group) GT 0>
 		<cfset field = '"field": "island_group"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
