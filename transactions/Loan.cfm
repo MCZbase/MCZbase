@@ -964,7 +964,7 @@ limitations under the License.
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" doItemUpdate(); ">
 					</div>
-					<div class="col-12 pt-2">
+					<div class="col-12 row pt-2">
 						<div id="loanItemCountDiv" class="pb-3" tabindex="0"></div>
 						<script>
 							function doItemUpdate() { 
@@ -982,14 +982,14 @@ limitations under the License.
 								#dispositions#
 							</div>
 						</cfif>
-						<div class="col-12 col-xl-6 pt-3">
+						<div class="col-12 col-md-6 pt-1">
 							<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
 							<div id="dispositionsDiv">
 								<cfset dispositions = getDispositionsList(transaction_id=loanDetails.transaction_id)>
 								#dispositions#
 							</div>
 						</div>
-						<div class="col-12 col-xl-6 pt-3">
+						<div class="col-12 col-md-6 pt-1">
 							<h3 class="h4 mb-1">Preservation Methods</h3>
 							<div id="preservationDiv">
 								<cfset preservations = getPreservationsList(transaction_id=loanDetails.transaction_id)>
