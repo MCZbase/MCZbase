@@ -977,7 +977,7 @@ limitations under the License.
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
 							<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
-							<div id="dispositionTableDiv">
+							<div id="dispositionsTableDiv">
 								<cfset dispositions = getDispositionsTable(transaction_id=loanDetails.transaction_id)>
 								#dispositions#
 							</div>
@@ -992,7 +992,7 @@ limitations under the License.
 						<div class="col-12 col-xl-6 pt-3">
 							<h3 class="h4 mb-1">Preservation Methods</h3>
 							<div id="preservationDiv">
-								<cfset preservations = getPreservationsList(transaction_id=loanDetailstransaction_id)>
+								<cfset preservations = getPreservationsList(transaction_id=loanDetails.transaction_id)>
 								#preservations#
 							</div>
 						</div>
