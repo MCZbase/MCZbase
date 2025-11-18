@@ -977,7 +977,7 @@ limitations under the License.
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
 							<div class="col-12 col-md-6 pt-1">
-								<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
+								<h2 class="h4 mb-1">Disposition of material in loan:</h2>
 								<div id="dispositionsTableDiv">
 									<cfset dispositions = getDispositionsTable(transaction_id=loanDetails.transaction_id)>
 									#dispositions#
