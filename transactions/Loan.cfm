@@ -453,6 +453,10 @@ limitations under the License.
 					doItemUpdate();
 					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
 				}
+				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
+					doItemUpdate();
+					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
+				}
 			}
 			function reloadLoanSummaryData(){ 
 				// reload dispositions of loan items
