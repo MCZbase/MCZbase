@@ -789,7 +789,7 @@ limitations under the License.
 												#preservations#
 											</div>
 										</div>
-										<cfif isInProcess>
+										<cfif isInProcess AND aboutLoan.loan_type NEQ 'exhibition-master'>
 											<div class="col-12">
 												<div class="add-form mt-2">
 													<div class="add-form-header pt-1 px-2">

@@ -1452,11 +1452,15 @@ limitations under the License.
 					GROUP BY coll_obj_disposition, loan_item.loan_item_state
 					ORDER BY coll_obj_disposition, loan_item.loan_item_state
 				</cfquery>
-				<ul>
-					<cfloop query="countDispositions">
-						<li>Part Dispostion: #encodeforHtml(coll_obj_disposition)#; Loan Item State: #encodeforHtml(loan_item_state)# (#ct#)</li>
-					</cfloop>
-				</ul>
+				<cfif getDispositions.RecordCount EQ 0 >
+					<span class="var-display">None</span>
+				<cfelse>
+					<ul>
+						<cfloop query="countDispositions">
+							<li>Part Dispostion: #encodeforHtml(coll_obj_disposition)#; Loan Item State: #encodeforHtml(loan_item_state)# (#ct#)</li>
+						</cfloop>
+					</ul>
+				</cfif>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1541,11 +1545,15 @@ limitations under the License.
 					GROUP BY specimen_part.preserve_method
 					ORDER BY specimen_part.preserve_method
 				</cfquery>
-				<ul>
-					<cfloop query="countPreserveMethods">
-						<li>#encodeforHtml(preserve_method)# (#ct#)</li>
-					</cfloop>
-				</ul>
+				<cfif countPreserveMethods.recordcount EQ 0>
+					<span class="var-display">None</span>
+				<cfelse>
+					<ul>
+						<cfloop query="countPreserveMethods">
+							<li>#encodeforHtml(preserve_method)# (#ct#)</li>
+						</cfloop>
+					</ul>
+				</cfif>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
