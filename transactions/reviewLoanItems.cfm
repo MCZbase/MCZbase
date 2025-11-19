@@ -979,9 +979,9 @@ limitations under the License.
 														<cfelse>
 															<div class="col-12 col-xl-6 border p-1">
 																<cfif isInProcess>
-																	<h3 class="h3 text-danger">Containers cannot be moved while the loan is in process.</h3>
+																	<h3 class="h4">Containers cannot be moved while the loan is in process.</h3>
 																<cfelseif NOT containersCanMove>
-																	<h3 class="h3 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
+																	<h3 class="h4 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
 																</cfif>
 															</div>
 														</cfif>
