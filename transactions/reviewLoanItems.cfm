@@ -736,7 +736,7 @@ limitations under the License.
 												</h2>
 											</cfif>
 											<p class="font-weight-normal mb-1 pb-0">
-												There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
+												There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
 											</p>
 											<cfif aboutLoan.loan_type EQ 'exhibition-master'>
 												<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -877,7 +877,7 @@ limitations under the License.
 																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																<div class="col-12 col-md-6">
-																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these #partCount# items to:</label>
+																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these <span class="itemCountSpan">#partCount#</span> items to:</label>
 																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
 																		<option value=""></option>
 																		<cfloop query="ctDisp">
@@ -1461,6 +1461,31 @@ limitations under the License.
 									},
 									error: function (jqXHR,textStatus,error) {
 										handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+									}
+								});
+								// update numeric values in loan item count spans 
+								$.ajax({
+									dataType: "json",
+									url: "/transactions/component/functions.cfc",
+									data: { 
+										method : "getLoanItemCounts",
+										transaction_id : #transaction_id#,
+										returnformat : "json",
+										queryformat : 'column'
+									},
+									error: function (jqXHR, status, message) {
+										messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+									},
+									success: function (result) {
+										if (result.DATA.STATUS[0]==1) {
+											$(".itemCountSpan").html(result.DATA.PARTCOUNT[0]);
+											$(".catnumCountSpan").html(result.DATA.PARTCOUNT[0]);
+											var message  = "There are " + result.DATA.PARTCOUNT[0];
+											message += " parts from " + result.DATA.CATITEMCOUNT[0];
+											message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
+											message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan.";
+											console.log(message);
+										}
 									}
 								});
 							}
