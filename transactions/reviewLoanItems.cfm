@@ -510,17 +510,6 @@ limitations under the License.
 			GROUP BY collection.collection_cde
 		</cfquery>
 		<cfset collectionCount = getCollections.recordcount>
-		<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT count(*) as ct, sovereign_nation
-			FROM loan_item 
-				left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-				left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-				left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-				left join locality on collecting_event.locality_id = locality.locality_id
-			WHERE 
-				loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-			GROUP BY sovereign_nation
-		</cfquery>
 		<cfif collectionCount EQ 1 OR collectionCount EQ 0>
 			<!--- Obtain list of preserve_method values for the collection that this loan is from --->
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -609,6 +598,14 @@ limitations under the License.
 						<cfset multipleCollectionsText = "#multipleCollectionsText# #getCollections.collection_cde# (#getCollections.ct#) " >
 					</cfloop>
 				</cfif>
+				<!--- Parent exhibition-master loan of the current exhibition-subloan loan, if applicable--->
+				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT p.loan_number, p.transaction_id, p.loan_type
+					FROM loan c left join loan_relations lr on c.transaction_id = lr.related_transaction_id 
+						left join loan p on lr.transaction_id = p.transaction_id 
+					WHERE lr.relation_type = 'Subloan' 
+						and c.transaction_id = <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
 	
 				<!--- count cataloged items and parts in the loan --->
 				<cfquery name="catCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -730,21 +727,56 @@ limitations under the License.
 													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
 												</h2>
 											</cfif>
+											<cfif parentLoan.recordcount GT 0>
+												<h2 class="h4 font-weight-normal">
+													Subloan of #parentLoan.loan_type#: 
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">
+														#encodeForHtml(parentLoan.loan_number)#
+													</a>
+												</h2>
+											</cfif>
 											<p class="font-weight-normal mb-1 pb-0">
-												There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
+												There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
 											</p>
+											<cfif aboutLoan.loan_type EQ 'exhibition-master'>
+												<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													SELECT c.loan_number, c.transaction_id, count(loan_item.collection_object_id) as part_count
+													FROM loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
+														join loan c on lr.related_transaction_id = c.transaction_id 
+														left join loan_item on c.transaction_id = loan_item.transaction_id
+													WHERE lr.relation_type = 'Subloan'
+														 and p.transaction_id = <cfqueryparam value=#transaction_id# cfsqltype="CF_SQL_DECIMAL" >
+													GROUP BY c.loan_number, c.transaction_id
+													ORDER BY c.loan_number
+												</cfquery>
+												<cfif childLoans.recordcount GT 0>
+													<p class="font-weight-normal mb-1 pb-0">
+														Exhibition Subloans:
+														<ul>
+															<cfloop query="childLoans">
+																<li>
+																	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#encodeForHtml(childLoans.loan_number)#</a>:
+																	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#childLoans.transaction_id#">Review items (#childLoans.part_count#)</a>
+																</li>
+															</cfloop>
+															</ul>
+														</p>
+												<cfelse>
+													<p class="font-weight-normal mb-1 pb-0">
+														No subloans associated with this exhibition-master loan.
+													</p>
+												</cfif>
+											</cfif>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
-											<cfset sep="">
-											<cfloop query="ctSovereignNation">
-												<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
-												<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
-												<cfset sep="; ">
-											</cfloop>
+											<div id="countriesDiv">
+												<cfset countries = getCountriesList(transaction_id=transaction_id)>
+												#countries#
+											</div>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Part Dispositions and Loan Item States</h3>
+											<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
 											<div id="dispositionsDiv">
 												<cfset dispositions = getDispositionsList(transaction_id=transaction_id)>
 												#dispositions#
@@ -752,22 +784,12 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Preservation Methods</h3>
-											<cfquery name="countPreserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT count(*) as ct, specimen_part.preserve_method
-												FROM loan_item 
-													join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-												WHERE 
-													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-												GROUP BY specimen_part.preserve_method
-												ORDER BY specimen_part.preserve_method
-											</cfquery>
-											<ul>
-												<cfloop query="countPreserveMethods">
-													<li>#encodeforHtml(preserve_method)# (#ct#)</li>
-												</cfloop>
-											</ul>
+											<div id="preservationDiv">
+												<cfset preservations = getPreservationsList(transaction_id=transaction_id)>
+												#preservations#
+											</div>
 										</div>
-										<cfif isInProcess>
+										<cfif isInProcess AND aboutLoan.loan_type NEQ 'exhibition-master'>
 											<div class="col-12">
 												<div class="add-form mt-2">
 													<div class="add-form-header pt-1 px-2">
@@ -854,9 +876,9 @@ limitations under the License.
 															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
 																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																<div class="col-12">
-																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these #partCount# items to:</label>
-																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+																<div class="col-12 col-md-6">
+																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these <span class="itemCountSpan">#partCount#</span> items to:</label>
+																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
 																		<option value=""></option>
 																		<cfloop query="ctDisp">
 																			<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
@@ -875,7 +897,11 @@ limitations under the License.
 																		});
 																	});
 																</script>
-																<cfif aboutLoan.loan_type EQ 'consumable'>
+																<cfif aboutLoan.loan_type NEQ 'consumable'>
+																	<div class="col-12 col-md-6">
+																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
+																	</div>
+																<cfelse>
 																	<div class="col-12" id="deaccessionDiv">
 																		<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
 																		<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
@@ -899,10 +925,10 @@ limitations under the License.
 																			});
 																		});
 																	</script>
+																	<div class="col-12">
+																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+																	</div>
 																</cfif>
-																<div class="col-12">
-																	<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
-																</div>
 															</form>
 														</div>
 														<cfif containersCanMove AND NOT isInProcess>
@@ -953,9 +979,9 @@ limitations under the License.
 														<cfelse>
 															<div class="col-12 col-xl-6 border p-1">
 																<cfif isInProcess>
-																	<h3 class="h3 text-danger">Containers cannot be moved while the loan is in process.</h3>
+																	<h3 class="h4">Containers cannot be moved while the loan is in process.</h3>
 																<cfelseif NOT containersCanMove>
-																	<h3 class="h3 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
+																	<h3 class="h4 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
 																</cfif>
 															</div>
 														</cfif>
@@ -1412,7 +1438,54 @@ limitations under the License.
 										$('##dispositionsDiv').html(data);
 									},
 									error: function (jqXHR,textStatus,error) {
-										handleFail(jqXHR,textStatus,error,"loading loan summary data");
+										handleFail(jqXHR,textStatus,error,"loading loan summary data, dispositions");
+									}
+								});
+								// reload preservation types of loan items
+								$.ajax({
+									dataType: 'html',
+									url: '/transactions/component/itemFunctions.cfc?method=getPreservationsList&transaction_id=#transaction_id#',
+									success: function (data, status, xhr) {
+										$('##preservationDiv').html(data);
+									},
+									error: function (jqXHR,textStatus,error) {
+										handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+									}
+								});
+								// reload countries of origin of loan items
+								$.ajax({
+									dataType: 'html',
+									url: '/transactions/component/itemFunctions.cfc?method=getCountriesList&transaction_id=#transaction_id#',
+									success: function (data, status, xhr) {
+										$('##countriesDiv').html(data);
+									},
+									error: function (jqXHR,textStatus,error) {
+										handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+									}
+								});
+								// update numeric values in loan item count spans 
+								$.ajax({
+									dataType: "json",
+									url: "/transactions/component/functions.cfc",
+									data: { 
+										method : "getLoanItemCounts",
+										transaction_id : #transaction_id#,
+										returnformat : "json",
+										queryformat : 'column'
+									},
+									error: function (jqXHR, status, message) {
+										messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+									},
+									success: function (result) {
+										if (result.DATA.STATUS[0]==1) {
+											$(".itemCountSpan").html(result.DATA.PARTCOUNT[0]);
+											$(".catnumCountSpan").html(result.DATA.PARTCOUNT[0]);
+											var message  = "There are " + result.DATA.PARTCOUNT[0];
+											message += " parts from " + result.DATA.CATITEMCOUNT[0];
+											message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
+											message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan.";
+											console.log(message);
+										}
 									}
 								});
 							}

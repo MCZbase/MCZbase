@@ -544,8 +544,7 @@ function updateAccnLoans(transaction_id,targetDiv) {
  * @param targetDiv the id div for which to replace the contents (without a leading #).
  */
 function updateLoanItemCount(transactionId,targetDiv) {
-	jQuery.ajax(
-	{
+	jQuery.ajax({
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
@@ -566,8 +565,7 @@ function updateLoanItemCount(transactionId,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
-	)
+	})
 };
 
 /* Update the content of a div containing inherited restrictions on transaction items
