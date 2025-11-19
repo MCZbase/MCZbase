@@ -598,6 +598,14 @@ limitations under the License.
 						<cfset multipleCollectionsText = "#multipleCollectionsText# #getCollections.collection_cde# (#getCollections.ct#) " >
 					</cfloop>
 				</cfif>
+				<!--- Parent exhibition-master loan of the current exhibition-subloan loan, if applicable--->
+				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select p.loan_number, p.transaction_id 
+					from loan c left join loan_relations lr on c.transaction_id = lr.related_transaction_id 
+						left join loan p on lr.transaction_id = p.transaction_id 
+					where lr.relation_type = 'Subloan' 
+						and c.transaction_id = <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
 	
 				<!--- count cataloged items and parts in the loan --->
 				<cfquery name="catCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -717,6 +725,14 @@ limitations under the License.
 											<cfif aboutLoan.closed_date NEQ ''>
 												<h2 class="h4 d-inline font-weight-normal">
 													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
+												</h2>
+											</cfif>
+											<cfif parentLoan.recordcount GT 0>
+												<h2 class="h4 d-inline font-weight-normal">
+													Subloan of Parent Loan: 
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">
+														#encodeForHtml(parentLoan.loan_number)#
+													</a>
 												</h2>
 											</cfif>
 											<p class="font-weight-normal mb-1 pb-0">
