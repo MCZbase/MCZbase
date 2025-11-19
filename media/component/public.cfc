@@ -276,6 +276,10 @@ include this function and use it.
 								<!--- graceful failure, making sure iiifSquare is defined, shouldn't be used --->
 								<cfset iiifSquare = iiifFull>
 							</cfif>
+							<cfif size EQ 350 AND (media.height / media.width) GT 2.4) >
+								<!--- very tall image - slide, limit size to 250px so that overview is transmission rather than the reflected layer showing up at 300 --->
+								<cfset size = 250>
+							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 							<cfset xzoom = 'class = "zoom"'>
