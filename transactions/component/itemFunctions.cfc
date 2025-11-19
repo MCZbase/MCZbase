@@ -1452,7 +1452,7 @@ limitations under the License.
 					GROUP BY coll_obj_disposition, loan_item.loan_item_state
 					ORDER BY coll_obj_disposition, loan_item.loan_item_state
 				</cfquery>
-				<cfif getDispositions.RecordCount EQ 0 >
+				<cfif countDispositions.recordcount EQ 0 >
 					<span class="var-display">None</span>
 				<cfelse>
 					<ul>
@@ -1490,7 +1490,7 @@ limitations under the License.
 						and coll_obj_disposition is not null
 					group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
 				</cfquery>
-				<cfif getDispositions.RecordCount EQ 0 >
+				<cfif getDispositions.recordcount EQ 0 >
 					<h4>There are no attached collection objects.</h4>
 				<cfelse>
 					<table class="table table-responsive">
