@@ -2518,10 +2518,18 @@ limitations under the License.
 												<cfelseif loanList.return_date NEQ "">
 													Returned: #loanList.return_date#
 													<cfif loanList.loan_item_state EQ "returned">
-														(Recorded by #loanList.resolution_agent_name#; #loanList.resolution_remarks#)
+														(Recorded by #loanList.resolution_agent_name#
+														<cfif len(loanList.resolution_remarks) GT 0>
+															; #loanList.resolution_remarks#
+														</cfif>
+														)
 													</cfif>
 												<cfelse>
-														(State: #loanList.loan_item_state#; #loanList.loan_item_remarks#)
+														(State: #loanList.loan_item_state#
+														<cfif len(loanList.loan_item_remarks) GT 0>
+															; #loanList.loan_item_remarks#
+														</cfif>
+														)
 												</cfif>
 										</cfif>
 										<!--- list parts in the loan --->
