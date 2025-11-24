@@ -1500,7 +1500,7 @@ limitations under the License.
 											WHERE
 												specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 												and loan_status <> 'closed'
-												and loan_item_status <> 'returned'
+												and loan_item_state <> 'returned'
 										</cfquery>
 										<cfloop query="partonloan">
 											<cfif len(partonloan.loan_item_state) GT 0>
