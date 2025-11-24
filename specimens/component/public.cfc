@@ -1502,13 +1502,12 @@ limitations under the License.
 												and loan_status <> 'closed'
 										</cfquery>
 										<cfloop query="partonloan">
-											In open loan:
+											(In #partonloan.loan_status# loan:
+											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
 											<cfif len(partonloan.loan_item_state) GT 0>
-												<cfset itemstate = "(#partonloan.loan_status#:#partonloan.loan_item_state#)">
-											<cfelse>
-												<cfset itemstate = "(#partonloan.loan_status#)">
+												#partonloan.loan_item_state#
 											</cfif>
-											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a> #itemstate#
+											)
 										</cfloop>
 									</cfif>
 									<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
@@ -1770,13 +1769,12 @@ limitations under the License.
 													and loan_status <> 'closed'
 											</cfquery>
 											<cfloop query="partonloan">
-												In open loan:
+												(In #partonloan.loan_status# loan:
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
 												<cfif len(partonloan.loan_item_state) GT 0>
-													<cfset itemstate = "(#partonloan.loan_status#:#partonloan.loan_item_state#)">
-												<cfelse>
-													<cfset itemstate = "(#partonloan.loan_status#)">
+													#partonloan.loan_item_state#
 												</cfif>
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a> #itemstate#
+												)
 											</cfloop>
 										</cfif>
 										<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
