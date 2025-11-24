@@ -1498,8 +1498,9 @@ limitations under the License.
 												LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 												LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
 											WHERE
-												 specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+												specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 												and loan_status <> 'closed'
+												and loan_item_status <> 'returned'
 										</cfquery>
 										<cfloop query="partonloan">
 											<cfif len(partonloan.loan_item_state) GT 0>
