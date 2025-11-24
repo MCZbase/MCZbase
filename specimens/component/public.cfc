@@ -2461,7 +2461,12 @@ limitations under the License.
 								to_char(loan.closed_date, 'yyyy-mm-dd') closed_date, 
 								specimen_part.part_name, specimen_part.preserve_method,
 								coll_object.coll_obj_disposition,
-								get_trans_agent(loan.transaction_id,'recipient institution') as recipient_institution
+								get_trans_agent(loan.transaction_id,'recipient institution') as recipient_institution,
+								loan_item.loan_item_state, 
+								loan_item.loan_item_remarks,
+								to_char(loan_item.return_date,'yyyy-mm-dd') return_date, 
+								loan_item.resolution_remarks,
+								get_agentnameoftype(loan_item.resolution_recorded_by_agent_id) as resolution_agent_name
 							FROM
 								specimen_part
 								join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
@@ -2510,6 +2515,13 @@ limitations under the License.
 												</cfif>
 												<cfif loanList.closed_date NEQ "">
 													Closed: #loanList.closed_date#
+												<cfelseif loanList.return_date NEQ "">
+													Returned: #loanList.return_date#
+													<cfif loanList.loan_item_state EQ "returned">
+														(Recorded by #loanList.resolution_agent_name#; #loanList.resolution_remarks#)
+													<cfelse>
+														(State: #loanList.loan_item_state#; #loanList.loan_item_remarks#)
+													</cfif>
 												</cfif>
 										</cfif>
 										<!--- list parts in the loan --->
