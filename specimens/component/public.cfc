@@ -2519,9 +2519,9 @@ limitations under the License.
 													Returned: #loanList.return_date#
 													<cfif loanList.loan_item_state EQ "returned">
 														(Recorded by #loanList.resolution_agent_name#; #loanList.resolution_remarks#)
-													<cfelse>
-														(State: #loanList.loan_item_state#; #loanList.loan_item_remarks#)
 													</cfif>
+												<cfelse>
+														(State: #loanList.loan_item_state#; #loanList.loan_item_remarks#)
 												</cfif>
 										</cfif>
 										<!--- list parts in the loan --->
