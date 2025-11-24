@@ -1489,7 +1489,10 @@ limitations under the License.
 										<!--- look up whether this part is in an open loan --->
 										<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
-												loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+												loan.loan_number, loan.loan_type, loan.loan_status, loan.transaction_id, 
+												loan_item.item_descr, loan_item.loan_item_remarks,
+												loan_item.loan_item_state, return_date, resolution_remarks,
+												get_agentnameoftype(loan_item.resolution_recorded_by_agent_id) as resolution_agent_name
 											FROM 
 												specimen_part 
 												LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
@@ -1499,13 +1502,12 @@ limitations under the License.
 												and loan_status <> 'closed'
 										</cfquery>
 										<cfloop query="partonloan">
-											<cfif partonloan.loan_status EQ 'open' and mainParts.part_disposition EQ 'on loan'>
-												<!--- normal case --->
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+											<cfif len(partonloan.loan_item_state) GT 0>
+												<cfset itemstate = "(#partonloan.loan_status#:#partonloan.loan_item_state#)">
 											<cfelse>
-												<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+												<cfset itemstate = "(#partonloan.loan_status#)">
 											</cfif>
+											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a> #itemstate#
 										</cfloop>
 									</cfif>
 									<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
