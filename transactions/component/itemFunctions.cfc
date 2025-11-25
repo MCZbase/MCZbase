@@ -475,7 +475,7 @@ limitations under the License.
 						AND loan.loan_status <> 'closed'
 						AND loan.transaction_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartID.transaction_id#">
 				</cfquery>
-				<cfif checkOtherLoans_result.open_loan_count EQ 0>
+				<cfif checkOtherLoans.open_loan_count EQ 0>
 					<!--- if not in any other open loans, update disposition to in collection if on loan --->
 					<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 						UPDATE coll_object 
