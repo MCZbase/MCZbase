@@ -995,7 +995,13 @@ limitations under the License.
 				accn left join trans on accn.transaction_id = trans.transaction_id
 				left join collection on trans.collection_id = collection.collection_id
 			where 
-				upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				<cfif ucase(arguments.term) EQ "LOW">
+					length(accn_number) < 3
+				<cfif ucase(arguments.term) EQ "PLACEHOLDER">
+					trans.nature_of_material LIKE '%placeholder%'
+				<cfelse>
+					upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				</cfif>
 				<cfif isDefined("collection_id") and len(collection_id) GT 0>
 					and trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
