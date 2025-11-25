@@ -448,7 +448,11 @@ limitations under the License.
 				WHERE
 					loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
-			<cfif arguments.loan_item_state EQ "returned">
+			<cfset ok = false>
+			<cfif setReturned_result.recordcount eq 1>
+				<cfset ok = true>
+			</cfif>
+			<cfif ok AND arguments.loan_item_state EQ "returned">
 				<!--- if loan item is not in any other open loans and is returned, change disposition to in collection --->
 				<!--- find the collection object id for the loan item --->
 				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPartID_result">
@@ -480,7 +484,8 @@ limitations under the License.
 							and coll_obj_disposition = 'on loan'
 					</cfquery>
 				</cfif>
-			<cfif setReturned_result.recordcount eq 1>
+			</cfif>
+			<cfif ok>
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
