@@ -1489,23 +1489,25 @@ limitations under the License.
 										<!--- look up whether this part is in an open loan --->
 										<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
-												loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+												loan.loan_number, loan.loan_type, loan.loan_status, loan.transaction_id, 
+												loan_item.item_descr, loan_item.loan_item_remarks,
+												loan_item.loan_item_state, return_date, resolution_remarks,
+												get_agentnameoftype(loan_item.resolution_recorded_by_agent_id) as resolution_agent_name
 											FROM 
 												specimen_part 
 												LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 												LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
 											WHERE
-												 specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+												specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 												and loan_status <> 'closed'
 										</cfquery>
 										<cfloop query="partonloan">
-											<cfif partonloan.loan_status EQ 'open' and mainParts.part_disposition EQ 'on loan'>
-												<!--- normal case --->
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
-											<cfelse>
-												<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+											(In #partonloan.loan_status# loan:
+											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+											<cfif len(partonloan.loan_item_state) GT 0>
+												#partonloan.loan_item_state#
 											</cfif>
+											)
 										</cfloop>
 									</cfif>
 									<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
@@ -1754,7 +1756,10 @@ limitations under the License.
 											<!--- look up whether this part is in an open loan --->
 											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT
-													loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+													loan_number, loan_type, loan_status, loan.transaction_id, 
+													loan_item.item_descr, loan_item.loan_item_remarks,
+													loan_item.loan_item_state, return_date, resolution_remarks,
+													get_agentnameoftype(loan_item.resolution_recorded_by_agent_id) as resolution_agent_name
 												FROM 
 													specimen_part 
 													LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
@@ -1764,13 +1769,12 @@ limitations under the License.
 													and loan_status <> 'closed'
 											</cfquery>
 											<cfloop query="partonloan">
-												<cfif partonloan.loan_status EQ 'open' and subsampleParts.part_disposition EQ 'on loan'>
-													<!--- normal case --->
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
-												<cfelse>
-													<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+												(In #partonloan.loan_status# loan:
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+												<cfif len(partonloan.loan_item_state) GT 0>
+													#partonloan.loan_item_state#
 												</cfif>
+												)
 											</cfloop>
 										</cfif>
 										<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
@@ -2458,7 +2462,12 @@ limitations under the License.
 								to_char(loan.closed_date, 'yyyy-mm-dd') closed_date, 
 								specimen_part.part_name, specimen_part.preserve_method,
 								coll_object.coll_obj_disposition,
-								get_trans_agent(loan.transaction_id,'recipient institution') as recipient_institution
+								get_trans_agent(loan.transaction_id,'recipient institution') as recipient_institution,
+								loan_item.loan_item_state, 
+								loan_item.loan_item_remarks,
+								to_char(loan_item.return_date,'yyyy-mm-dd') return_date, 
+								loan_item.resolution_remarks,
+								get_agentnameoftype(loan_item.resolution_recorded_by_agent_id) as resolution_agent_name
 							FROM
 								specimen_part
 								join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
@@ -2510,7 +2519,24 @@ limitations under the License.
 												</cfif>
 										</cfif>
 										<!--- list parts in the loan --->
-										<strong>Part:</strong> #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#
+										<strong>Part:</strong> #loanList.part_name# (#loanList.preserve_method#) 
+										<cfif loanList.return_date NEQ "">
+											Returned: #loanList.return_date#
+											<cfif loanList.loan_item_state EQ "returned">
+												(Recorded by #loanList.resolution_agent_name#
+												<cfif len(loanList.resolution_remarks) GT 0>
+													; #loanList.resolution_remarks#
+												</cfif>
+												)
+											</cfif>
+										<cfelse>
+											(State: #loanList.loan_item_state#
+											<cfif len(loanList.loan_item_remarks) GT 0>
+												; #loanList.loan_item_remarks#
+											</cfif>
+											)
+										</cfif>
+										Part Disposition: #loanList.coll_obj_disposition#
 								
 										<cfset loan_num = loanList.loan_number>
 									</cfloop>

@@ -367,7 +367,7 @@ limitations under the License.
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
 					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
 			</cfquery>
 			<cfif upDisp_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
@@ -448,7 +448,44 @@ limitations under the License.
 				WHERE
 					loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
+			<cfset ok = false>
 			<cfif setReturned_result.recordcount eq 1>
+				<cfset ok = true>
+			</cfif>
+			<cfif ok AND arguments.loan_item_state EQ "returned">
+				<!--- if loan item is not in any other open loans and is returned, change disposition to in collection --->
+				<!--- find the collection object id for the loan item --->
+				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPartID_result">
+					SELECT collection_object_id, 
+						transaction_id
+					FROM loan_item
+					WHERE loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
+				</cfquery>
+				<cfif getPartID.recordcount EQ 0>
+					<cfthrow message="could not find loan item with specified loan_item_id">
+				</cfif>
+				<cfset part_id = getPartID.collection_object_id>
+				<!--- check if the part is in any other non-closed loans --->
+				<cfquery name="checkOtherLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkOtherLoans_result">
+					SELECT count(*) as open_loan_count 
+					FROM loan_item
+						JOIN loan on loan_item.transaction_id = loan.transaction_id
+					WHERE
+						loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+						AND loan.loan_status <> 'closed'
+						AND loan.transaction_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartID.transaction_id#">
+				</cfquery>
+				<cfif checkOtherLoans.open_loan_count EQ 0>
+					<!--- if not in any other open loans, update disposition to in collection if on loan --->
+					<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
+						UPDATE coll_object 
+						SET coll_obj_disposition = 'in collection'
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+							and coll_obj_disposition = 'on loan'
+					</cfquery>
+				</cfif>
+			</cfif>
+			<cfif ok>
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
