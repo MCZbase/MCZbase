@@ -2516,25 +2516,27 @@ limitations under the License.
 												</cfif>
 												<cfif loanList.closed_date NEQ "">
 													Closed: #loanList.closed_date#
-												<cfelseif loanList.return_date NEQ "">
-													Returned: #loanList.return_date#
-													<cfif loanList.loan_item_state EQ "returned">
-														(Recorded by #loanList.resolution_agent_name#
-														<cfif len(loanList.resolution_remarks) GT 0>
-															; #loanList.resolution_remarks#
-														</cfif>
-														)
-													</cfif>
-												<cfelse>
-														(State: #loanList.loan_item_state#
-														<cfif len(loanList.loan_item_remarks) GT 0>
-															; #loanList.loan_item_remarks#
-														</cfif>
-														)
 												</cfif>
 										</cfif>
 										<!--- list parts in the loan --->
-										<strong>Part:</strong> #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#
+										<strong>Part:</strong> #loanList.part_name# (#loanList.preserve_method#) 
+										<cfif loanList.return_date NEQ "">
+											Returned: #loanList.return_date#
+											<cfif loanList.loan_item_state EQ "returned">
+												(Recorded by #loanList.resolution_agent_name#
+												<cfif len(loanList.resolution_remarks) GT 0>
+													; #loanList.resolution_remarks#
+												</cfif>
+												)
+											</cfif>
+										<cfelse>
+											(State: #loanList.loan_item_state#
+											<cfif len(loanList.loan_item_remarks) GT 0>
+												; #loanList.loan_item_remarks#
+											</cfif>
+											)
+										</cfif>
+										Part Disposition: #loanList.coll_obj_disposition#
 								
 										<cfset loan_num = loanList.loan_number>
 									</cfloop>
