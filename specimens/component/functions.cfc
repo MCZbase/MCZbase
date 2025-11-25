@@ -2894,7 +2894,10 @@ limitations under the License.
 										<div class="form-row mb-2">
 											<div class="col-12 col-md-6">
 												<input type="hidden" name="accession_transaction_id" value="" id="accession_transaction_id">
-												<label for="accn_number" class="data-entry-label">Accession</label>
+												<label for="accn_number" class="data-entry-label">
+													Accession
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('LOW'); return false;" > (<100) <span class="sr-only">use LOW to find accession numbers less than 100.</span></a>
+												</label>
 												<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
 											</div>
 											<div class="col-12 col-md-3">
