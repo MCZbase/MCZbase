@@ -167,7 +167,42 @@ limitations under the License.
 						GROUP BY specimen_part.preserve_method
 						ORDER BY specimen_part.preserve_method
 					</cfquery>
-					<!--- TODO: Missing queries --->
+					<cfquery name="existLotCountModifier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							coll_object.lot_count_modifier
+						FROM
+							specimen_part
+							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						GROUP BY 
+							coll_object.lot_count_modifier
+					</cfquery>
+					<cfquery name="existLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							coll_object.lot_count
+						FROM
+							specimen_part
+							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						GROUP BY 
+							coll_object.lot_count
+					</cfquery>
+					<cfquery name="existDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							coll_object.coll_obj_disposition 
+						FROM
+							specimen_part
+							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						GROUP BY 
+							coll_object.coll_obj_disposition 
+					</cfquery>
 
 					<h2 class="h3">Filter specimens for parts matching...</h2>
 					<form name="filterByPart" method="post" action="/specimens/changeQueryParts.cfm">
