@@ -92,7 +92,7 @@ limitations under the License.
 					WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
 				<cfif getLoan.recordcount NEQ 1>
-					<cfthrow message="No loan found for transaction_id=[#encodeForHtml(transaction_id(#]">
+					<cfthrow message="No loan found for transaction_id=[#encodeForHtml(transaction_id)#]">
 				</cfif>
 				<cfloop query="getLoan">
 					<h2 class="h3">#getLoan.loan_number#</h2>
