@@ -24,19 +24,19 @@ limitations under the License.
 
 <cfif isDefined("url.action") and len(url.action) GT 0>
 	<cfset action = url.action>
-<cfelseif isDefine("form.action") and len(form.action) GT 0>
+<cfelseif isDefined("form.action") and len(form.action) GT 0>
 	<cfset action = form.action>
 <cfelse>
 	<cfset action="entryPoint">
 </cfif>
 <cfif isDefined("url.result_id") and len(url.result_id) GT 0>
 	<cfset result_id = url.result_id>
-<cfelseif isDefine("form.result_id") and len(form.result_id) GT 0>
+<cfelseif isDefined("form.result_id") and len(form.result_id) GT 0>
 	<cfset result_id = form.result_id>
 </cfif>
 <cfif isDefined("url.transaction_id") and len(url.transaction_id) GT 0>
 	<cfset transaction_id = url.transaction_id>
-<cfelseif isDefine("form.transaction_id") and len(form.transaction_id) GT 0>
+<cfelseif isDefined("form.transaction_id") and len(form.transaction_id) GT 0>
 	<cfset transaction_id = form.transaction_id>
 </cfif>
 
