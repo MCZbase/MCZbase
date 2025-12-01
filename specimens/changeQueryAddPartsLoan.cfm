@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset pageTitle="Bulk Modify Parts">
+<cfset pageTitle="Add Parts To Loan">
 <cfset pageHasTabs="true">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
