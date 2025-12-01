@@ -40,6 +40,17 @@ limitations under the License.
 	<cfset transaction_id = form.transaction_id>
 </cfif>
 
+<!--- get list of collection codes in result set --->
+<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT distinct(collection_cde) 
+	FROM 
+		user_search_table
+		JOIN cataloged_item ON user_search_table.collection_object_id = cataloged_item.collection_object_id
+	WHERE
+	user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+</cfquery>
+<cfset colcdes = valuelist(colcde.collection_cde)>
+
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
 	<cfswitch expression="#action#">
