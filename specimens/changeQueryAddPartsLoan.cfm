@@ -114,7 +114,7 @@ limitations under the License.
 			</cfif>
 			<div class="row mx-0">
 				<div class="col-12">
-					<h1 class="h2 px-2">Bulk Add Parts to Loan</h1>
+					<h1 class="h2 px-2">Add Parts to Loan</h1>
 					<p class="px-2 mb-1">Add Parts from #getCount.ct# cataloged items from specimen search result [#result_id#] to a Loan</p>
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
@@ -123,6 +123,7 @@ limitations under the License.
 					<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT coll_obj_disposition
 						FROM ctcoll_obj_disp
+						ORDER BY coll_obj_disposition
 					</cfquery>
 					<cfquery name="ctNumericModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT modifier 
@@ -133,7 +134,172 @@ limitations under the License.
 						FROM ctspecimen_preserv_method 
 						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colcdes#">
 					</cfquery>
-
+					<h2 class="h3">Loan to add Parts To:</h2>
+					<div class="row border mx-0 mb-3 p-2">
+						<div class="col-12 col-md-2 pt-1">
+							<label for="loan_number" class="data-entry-label">Loan Number</label>
+							<input type="hidden" id="loan_transaction_id" name="loan_transaction_id" value="">
+							<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required>
+							<script>
+								$(document).ready(function() { 
+									makeLoanPicker("loan_number", "loan_transaction_id"); 
+								}
+								function fetchLoanDetails(loanNumber) {
+									$.ajax({
+										url: "/loans/getLoanDetails.cfm",
+										dataType: "html",
+										data: {
+											loan_number: loanNumber
+										},
+										success: function(data) {
+											$("#loanDetails").html(data);
+										},
+										error: function() {
+											$("#loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
+										}
+									});
+								}
+						</div>
+						<div class="col-12 col-md-8 pt-1">
+							<div id="loanDetails"></div>
+						</div>
+					</div>
+					<div class="col-12">
+						<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								cataloged_item.collection_object_id,
+								collection.institution_acronym,
+								cataloged_item.collection_cde,
+								cataloged_item.cat_num,
+								collecting_event.began_date,
+								collecting_event.end_date,
+								locality.spec_locality,
+								geog_auth_rec.higher_geog
+							FROM specimen_part
+								JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+								JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+								JOIN collection on cataloged_item.collection_id = collection.collection_id
+								JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+								JOIN locality on collecting_event.locality_id = locality.locality_id
+								JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+							WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							ORDER BY part_name
+						</cfquery>
+						<cfloop query="getCatItems">
+							<div class="row border mx-0 mb-2 p-2">
+								<div class="col-12 col-md-4">
+									#institution_acronym#:#collection_cde#:#cat_num#
+								</div>
+								<div class="col-12 col-md-4">
+									#higher_geog#
+									#spec_locality#
+								</div>
+								<div class="col-12 col-md-4">
+									<cfif began_date EQ end_date>
+										#began_date#
+									<cfelse>
+										#began_date#-#end_date#
+									</cfif>
+								</div>
+								<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT 
+										specimen_part.collection_object_id part_id,
+										part_name,
+										preserve_method,
+										coll_obj_disposition,
+										lot_count, lot_count_modifier
+									FROM specimen_part
+										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+										JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+										JOIN coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+									WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									ORDER BY part_name
+								</cfquery>
+								<cfloop query="getParts">
+									<div class="col-12 row mx-0">
+										<div class="col-12 col-md-2">
+											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
+										</div>
+										<div class="col-12 col-md-3">
+											<label class="data_entry_label" for="item_instructions_#part_id#">Item Instructions</label>
+											<input type="text" name="item_instructions" id="item_instructions_#part_id#" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-3">
+											<label class="data_entry_label" for="loan_item_remarks#part_id#">Item Remarks</label>
+											<input type="text" name="loan_item_remarks" id="loan_item_remarks_#part_id#" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-3">
+											<label class="data_entry_label" for="col_obh_disposition#part_id#">Disposition</label>
+											<select name="coll_obj_disposition" id="coll_obj_disposition#part_id#" class="data-entry-select">
+												<cfloop query="ctDisp">
+													<cfif ctDisp.coll_obj_disposition EQ getParts.coll_obj_disposition>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option #selected# value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option> 
+												</cfloop>
+											</select>
+										</div>
+										<!--- TODO: Subsample input --->
+										<div class="col-12 col-md-1">
+											<button class="btn btn-xs btn-primary addpartbutton"
+												onClick="addPartToLoan(#part_id#);" 
+												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
+											<output id="output#part_id#">
+										</div>
+									</div>
+								</cfloop>
+							</div>
+						</cfloop>
+						<script>
+							function addPartToLoan(part_id) { 
+								// TODO: Subsample
+								subsample = "";
+								var subsampleInt = 0;
+								if (subsample=="true" || subsample==1 || subsample=="1") {
+									subsampleInt = 1;
+								}
+								transaction_id = $("##loan_transaction_id").value();
+								remark = $("##loan_item_remarks"+part_id).value();
+								instructions = $("##item_instructions"+part_id).value();
+								$("##output"+part_id).html("Saving...");
+								jQuery.ajax({
+									url: "/transactions/component/itemFunctions.cfc",
+									data : {
+									method : "addPartToLoan",
+									transaction_id: transaction_id,
+									part_id: part_id,
+									remark: remark,
+									instructions: instructions,
+									subsample: subsampleInt,
+									returnformat : "json",
+									queryformat : 'column'
+								},
+								success: function (result) {
+								if (typeof result == 'string') { result = JSON.parse(result); } 
+									if (result.DATA.STATUS[0]==1) {
+										$("##output"+part_id).html(result.DATA.MESSAGE[0]);
+										// TODO: Modify controls, part added.
+									 } else { 
+										$("##output"+part_id).html("Error");
+									}
+								},
+								error: function (jqXHR, textStatus, error) {
+									$("##output"+part_id).html("Error");
+									handleFail(jqXHR,textStatus,error,"adding a part as a loan item to a loan");
+								},
+								dataType: "html"
+								});
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+	</cfcase>
+	<cfcase value="filterParts">
+		<!--- TODO: Implement or remove filtering logic --->
 					<!--- queries to populate pick lists for filtering --->
 					<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
@@ -205,7 +371,7 @@ limitations under the License.
 					</cfquery>
 
 					<h2 class="h3">Filter specimens for parts matching...</h2>
-					<form name="filterByPart" method="post" action="/specimens/changeQueryParts.cfm">
+					<form name="filterByPart" method="post" action="/specimens/changeQueryAddPartsToLoan.cfm">
 						<input type="hidden" name="action" value="filterParts">
 						<input type="hidden" name="result_id" value="#result_id#">
 						<div class="form-row">
@@ -259,13 +425,7 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-
-
-
-				</div>
-			</div>
-		</cfoutput>
-	</cfcase>
+		</cfcase>
 	</cfswitch>
 <cfcatch>
 	<h2 class="h3 px-2 mt-1">Error</h2>
