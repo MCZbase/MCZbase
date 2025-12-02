@@ -209,9 +209,9 @@ limitations under the License.
 											<label class="data_entry_label" for="loan_item_remarks#part_id#">Item Remarks</label>
 											<input type="text" name="loan_item_remarks" id="loan_item_remarks_#part_id#" class="data-entry-input" value="">
 										</div>
-										<div class="col-12 col-md-3">
-											<label class="data_entry_label" for="col_obh_disposition#part_id#">Disposition</label>
-											<select name="coll_obj_disposition" id="coll_obj_disposition#part_id#" class="data-entry-select">
+										<div class="col-12 col-md-2">
+											<label class="data_entry_label" for="col_obh_disposition_#part_id#">Disposition</label>
+											<select name="coll_obj_disposition" id="coll_obj_disposition_#part_id#" class="data-entry-select">
 												<cfloop query="ctDisp">
 													<cfif ctDisp.coll_obj_disposition EQ getParts.coll_obj_disposition>
 														<cfset selected="selected">
@@ -222,28 +222,41 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<!--- TODO: Subsample input --->
+										<div class="col-12 col-md-1">
+											<label class="data_entry_label" for="subsample#part_id#">Subsample</label>
+											<select name="subsample" id="subsample_#part_id#" class="data-entry-select">
+												<option value="0" selected>No</option>
+												<option value="1">Yes</option>
+											</select>
+										</div>
 										<div class="col-12 col-md-1">
 											<button class="btn btn-xs btn-primary addpartbutton"
 												onClick="addPartToLoan(#part_id#);" 
 												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
+											<button class="btn btn-xs btn-primary editpartbutton" style="display: none;"
+												onClick="launchEditDialog(#part_id#);" 
+												name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
 											<output id="output#part_id#">
 										</div>
 									</div>
 								</cfloop>
 							</div>
+							<div id="editItemDialogDiv"></div>
 						</cfloop>
 						<script>
+							function launchEditDialog(part_id) { 
+								openLoanItemDialog(part_id,"editItemDialogDiv",null);
+							}
 							function addPartToLoan(part_id) { 
-								// TODO: Subsample
-								subsample = "";
+								// get values from inputs for part
+								subsample = $("##subsample"+part_id).val();
 								var subsampleInt = 0;
 								if (subsample=="true" || subsample==1 || subsample=="1") {
 									subsampleInt = 1;
 								}
-								transaction_id = $("##loan_transaction_id").value();
-								remark = $("##loan_item_remarks"+part_id).value();
-								instructions = $("##item_instructions"+part_id).value();
+								transaction_id = $("##loan_transaction_id").val();
+								remark = $("##loan_item_remarks"+part_id).val();
+								instructions = $("##item_instructions"+part_id).val();
 								$("##output"+part_id).html("Saving...");
 								jQuery.ajax({
 									url: "/transactions/component/itemFunctions.cfc",
@@ -261,7 +274,15 @@ limitations under the License.
 								if (typeof result == 'string') { result = JSON.parse(result); } 
 									if (result.DATA.STATUS[0]==1) {
 										$("##output"+part_id).html(result.DATA.MESSAGE[0]);
-										// TODO: Modify controls, part added.
+										// Lock controls, part added.
+										$("##add_part_"+part_id).hide();
+										$("##edit_part_"+part_id).show();
+										$("##item_instructions_"+part_id).prop("disabled",true);
+										$("##item_instructions_"+part_id).addClass("disabled");
+										$("##loan_item_remarks_"+part_id).prop("disabled",true);
+										$("##loan_item_remarks_"+part_id).addClass("disabled");
+										$("##coll_obj_disposition_"+part_id).prop("disabled",true);
+										$("##coll_obj_disposition_"+part_id).addClass("disabled");
 									 } else { 
 										$("##output"+part_id).html("Error");
 									}
