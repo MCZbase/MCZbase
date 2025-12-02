@@ -21,6 +21,7 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 
 <cfif isDefined("url.action") and len(url.action) GT 0>
 	<cfset action = url.action>
@@ -51,6 +52,7 @@ limitations under the License.
 </cfquery>
 <cfset colcdes = valuelist(colcde.collection_cde)>
 
+<script type="text/javascript" src="/transactions/js/transactions.js"></script> 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
 	<cfswitch expression="#action#">
@@ -81,37 +83,6 @@ limitations under the License.
 					}  
 				} 
 			</script>
-			<cfif isDefined("transaction_id") and len(transaction_id) GT 0>
-				<!--- TODO: Move to backing method --->
-				<!--- lookup loan number and information about loan --->
-				<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT l.loan_number, 
-						c.collection_cde, 
-						c.collection,
-						l.loan_type, 
-						l.loan_status, 
-						to_char(l.return_due_date,'yyyy-mm-dd') as return_due_date, 
-						to_char(l.closed_date,'yyyy-mm-dd') as closed_date,
-						l.loan_instructions,
-						trans.nature_of_material,
-						to_char(trans.trans_date,'yyyy-mm-dd') as loan_date,
-						concattransagent(trans.transaction_id,'recipient institution') recipient_institution
-					FROM 
-						trans
-						join collection c on trans.collection_id = c.collection_id
-						join loan l on trans.transaction_id = l.transaction_id
-					WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-				</cfquery>
-				<cfif getLoan.recordcount NEQ 1>
-					<cfthrow message="No loan found for transaction_id=[#encodeForHtml(transaction_id)#]">
-				</cfif>
-				<cfloop query="getLoan">
-					<h2 class="h3">#getLoan.loan_number#</h2>
-					<div>#loan_type# #loan_status# #loan_date# to #recipient_institution# due #return_due_date#</div>
-					<div>#nature_of_material#
-				</cfloop>
-
-			</cfif>
 			<div class="row mx-0">
 				<div class="col-12">
 					<h1 class="h2 px-2">Add Parts to Loan</h1>
@@ -143,13 +114,17 @@ limitations under the License.
 							<script>
 								$(document).ready(function() { 
 									makeLoanPicker("loan_number", "loan_transaction_id"); 
-								}
-								function fetchLoanDetails(loanNumber) {
+									$("##loanNumber" ).autocomplete({
+										change: fetchLoanDetails()
+									});
+								});
+								function fetchLoanDetails() {
 									$.ajax({
-										url: "/loans/getLoanDetails.cfm",
+										url: "/transactions/component/itemFunctions.cfc",
 										dataType: "html",
 										data: {
-											loan_number: loanNumber
+											method: "getLoanSummaryHTML",
+											transaction_id: $("##loan_transaction_id").val(),
 										},
 										success: function(data) {
 											$("#loanDetails").html(data);
@@ -161,7 +136,13 @@ limitations under the License.
 								}
 						</div>
 						<div class="col-12 col-md-8 pt-1">
-							<div id="loanDetails"></div>
+							<div id="loanDetails">
+								<cfif isDefined("transaction_id") and len(transaction_id) GT 0>
+									<!--- lookup loan number and information about loan --->
+									<cfset aboutLoan = getLoanSummaryHtml(transaction_id=transaction_id)>
+									#aboutLoan#
+								<cfif>
+							</div>
 						</div>
 					</div>
 					<div class="col-12">

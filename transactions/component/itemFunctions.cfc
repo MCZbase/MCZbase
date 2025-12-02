@@ -1643,4 +1643,53 @@ limitations under the License.
 	<cfreturn getCountriesListThread.output>
 </cffunction>
 
+<!--- obtain an html summary block for a loan.
+ @param transaction_id the id of the loan for which to obtain the summary.
+ @return an html block summarizing the loan or an http 500 error if an error occurs.
+--->
+<cffunction name="getLoanSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getLoanSummaryThread" transaction_id="#arguments.transaction_id#">
+		<cftry>
+			<cfoutput>
+				<!--- lookup loan number and information about loan --->
+				<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT l.loan_number, 
+						c.collection_cde, 
+						c.collection,
+						l.loan_type, 
+						l.loan_status, 
+						to_char(l.return_due_date,'yyyy-mm-dd') as return_due_date, 
+						to_char(l.closed_date,'yyyy-mm-dd') as closed_date,
+						l.loan_instructions,
+						trans.nature_of_material,
+						to_char(trans.trans_date,'yyyy-mm-dd') as loan_date,
+						concattransagent(trans.transaction_id,'recipient institution') recipient_institution
+					FROM 
+						trans
+						join collection c on trans.collection_id = c.collection_id
+						join loan l on trans.transaction_id = l.transaction_id
+					WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				</cfquery>
+				<cfif getLoan.recordcount NEQ 1>
+					<cfthrow message="No loan found for transaction_id=[#encodeForHtml(transaction_id)#]">
+				</cfif>
+				<cfloop query="getLoan">
+					<h2 class="h3">#getLoan.loan_number#</h2>
+					<div>#loan_type# #loan_status# #loan_date# to #recipient_institution# due #return_due_date#</div>
+					<div>#nature_of_material#
+				</cfloop>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getLoanSummaryThread" />
+	<cfreturn getLoanSummaryThread.output>
+</cffunction>
+
 </cfcomponent>
