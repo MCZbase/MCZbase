@@ -1036,6 +1036,7 @@ limitations under the License.
 								loan_number,
 								to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
 								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+								loan_item.item_instructions,
 								concattransagent(loan.transaction_id, 'received by')  recAgentName,
 								cat_num,
 								MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
@@ -1113,7 +1114,8 @@ limitations under the License.
 									reconciled_date,
 									scientific_name, type_status, higher_geog,
 									collection, chronostrat,lithostrat,
-									spec_locality, collectors, loan_item_remarks
+									spec_locality, collectors, loan_item_remarks,
+									item_instructions
 								FROM getLoanItems
 							</cfquery>
 						<cfelse>
@@ -1139,6 +1141,7 @@ limitations under the License.
 										<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 										<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
 										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 									</div>
 								</td>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
