@@ -298,7 +298,7 @@ limitations under the License.
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
 	<cfargument name="resolution_remarks" type="string" required="no">
-	<cfargument name="item_descr" type="string" required="no">
+	<cfargument name="item_descr" type="string" required="yes">
 	<cfargument name="loan_item_state" type="string" required="no" default="">
 	<cfargument name="loan_item_id" type="string" required="no" default="">
 
@@ -387,7 +387,7 @@ limitations under the License.
 					<cfelse>
 						,loan_item_remarks = null
 					</cfif>
-					<cfif len(item_descr) GT 0>
+					<cfif len(arguments.item_descr) GT 0>
 						,item_descr = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_descr#">
 					</cfif>
 					<cfif len(loan_item_state) GT 0>
