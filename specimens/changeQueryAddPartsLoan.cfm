@@ -127,10 +127,10 @@ limitations under the License.
 											transaction_id: $("##loan_transaction_id").val(),
 										},
 										success: function(data) {
-											$("#loanDetails").html(data);
+											$("##loanDetails").html(data);
 										},
 										error: function() {
-											$("#loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
+											$("##loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
 										}
 									});
 								}
