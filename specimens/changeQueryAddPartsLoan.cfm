@@ -134,6 +134,7 @@ limitations under the License.
 										}
 									});
 								}
+							</script>
 						</div>
 						<div class="col-12 col-md-8 pt-1">
 							<div id="loanDetails">
