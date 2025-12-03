@@ -141,7 +141,7 @@ limitations under the License.
 									<!--- lookup loan number and information about loan --->
 									<cfset aboutLoan = getLoanSummaryHtml(transaction_id=transaction_id)>
 									#aboutLoan#
-								<cfif>
+								</cfif>
 							</div>
 						</div>
 					</div>
