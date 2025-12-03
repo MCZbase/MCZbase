@@ -114,7 +114,7 @@ limitations under the License.
 							<script>
 								$(document).ready(function() { 
 									makeLoanPicker("loan_number", "loan_transaction_id"); 
-									$("##loanNumber" ).autocomplete({
+									$("##loan_number" ).autocomplete({
 										change: fetchLoanDetails()
 									});
 								});
