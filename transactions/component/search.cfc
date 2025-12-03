@@ -997,7 +997,7 @@ limitations under the License.
 			where 
 				<cfif ucase(arguments.term) EQ "LOW">
 					length(accn_number) < 3
-				<cfif ucase(arguments.term) EQ "PLACEHOLDER">
+				<cfelseif ucase(arguments.term) EQ "PLACEHOLDER">
 					trans.nature_of_material LIKE '%placeholder%'
 				<cfelse>
 					upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
