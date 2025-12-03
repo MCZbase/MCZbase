@@ -298,7 +298,7 @@ limitations under the License.
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
 	<cfargument name="resolution_remarks" type="string" required="no">
-	<cfargument name="item_descr" type="string" required="yes">
+	<cfargument name="item_descr" type="string" required="no">
 	<cfargument name="loan_item_state" type="string" required="no" default="">
 	<cfargument name="loan_item_id" type="string" required="no" default="">
 
