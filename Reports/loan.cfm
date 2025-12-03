@@ -1252,6 +1252,7 @@ limitations under the License.
 									<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 									<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
 									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+									<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 								</div>
 							</td>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
