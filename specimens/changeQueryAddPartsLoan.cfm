@@ -153,7 +153,7 @@ limitations under the License.
 								cataloged_item.collection_cde,
 								cataloged_item.cat_num,
 								collecting_event.began_date,
-								collecting_event.end_date,
+								collecting_event.ended_date,
 								locality.spec_locality,
 								geog_auth_rec.higher_geog
 							FROM specimen_part
@@ -176,10 +176,10 @@ limitations under the License.
 									#spec_locality#
 								</div>
 								<div class="col-12 col-md-4">
-									<cfif began_date EQ end_date>
+									<cfif began_date EQ ended_date>
 										#began_date#
 									<cfelse>
-										#began_date#-#end_date#
+										#began_date#-#ended_date#
 									</cfif>
 								</div>
 								<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
