@@ -1390,12 +1390,12 @@ limitations under the License.
 									var data = "method=updateLoanItem";
 									data = data + "&transaction_id=" + rowdata.transaction_id;
 									data = data + "&part_id=" + rowdata.part_id;
-									data = data + "&condition=" + rowdata.condition;
-									data = data + "&item_instructions=" + rowdata.item_instructions;
-									data = data + "&coll_obj_disposition=" + rowdata.coll_obj_disposition;
-									data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
-									data = data + "&resolution_remarks=" + rowdata.resolution_remarks;
-									data = data + "&item_descr=" + rowdata.item_descr;
+									data = data + "&condition=" + encodeURIComponent(rowdata.condition);
+									data = data + "&item_instructions=" + encodeURIComponent(rowdata.item_instructions);
+									data = data + "&coll_obj_disposition=" + encodeURIComponent(rowdata.coll_obj_disposition);
+									data = data + "&loan_item_remarks=" + encodeURIComponent(rowdata.loan_item_remarks);
+									data = data + "&resolution_remarks=" + encodeURIComponent(rowdata.resolution_remarks);
+									data = data + "&item_descr=" + encodeURIComponent(rowdata.item_descr);
 									$.ajax({
 										dataType: 'json',
 										url: '/transactions/component/itemFunctions.cfc',
