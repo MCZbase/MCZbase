@@ -394,7 +394,7 @@ limitations under the License.
 											});
 										</script>
 										<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
-											<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
+											<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#getAttributes.taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
 										</div>
 									</form>
 								</li>

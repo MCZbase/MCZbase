@@ -1079,7 +1079,7 @@ limitations under the License.
 							function updateTaxonAttribute(taxon_attribute_id) { 
 								var attribute_value = $('##attribute_value_' + taxon_attribute_id).val();
 								var taxon_attribute_type = $('##taxon_attribute_type_' + taxon_attribute_id).val();
-								var feedbackOutput = "editAttributeFormResult_#getAttributes.taxon_attribute_id#";
+								var feedbackOutput = "editAttributeFormResult_" + taxon_attribute_id ;
 								setFeedbackControlState(feedbackOutput,"saving")
 								jQuery.ajax({
 									url : "/taxonomy/component/functions.cfc",
