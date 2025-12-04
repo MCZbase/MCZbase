@@ -361,11 +361,11 @@ limitations under the License.
 						<cfif getAttributes.recordcount gt 0>
 							<cfloop query="getAttributes">
 								<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 row pr-1'>
-									<div class="col-12 col-md-11">
+									<div class="col-12 col-md-10 float-left">
 										<form name="editAttributeForm" id="editAttributeForm_#getAttributes.taxon_attribute_id#" class="col-12 px-0 form-row">
 											<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 											<input type="hidden" name="method" value="editTaxonAttribute">
-											<div class="col-12 col-md-4 pl-1 pr-0">
+											<div class="col-12 col-md-5 pl-1 pr-0">
 												<label for="taxon_attribute_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Type</label>
 												<select name="taxon_attribute_type" id="taxon_attribute_type_#getAttributes.taxon_attribute_id#" class="data-entry-select reqdClr" required>
 													<cfloop query="cttaxon_attribute_type">
@@ -378,7 +378,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-4 pl-1 pr-0">
+											<div class="col-12 col-md-5 pl-1 pr-0">
 												<label for="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Value</label>
 												<input type="text" name="attribute_value" id="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-input reqdClr" required value="#getAttributes.attribute_value#">
 											</div>
@@ -396,7 +396,7 @@ limitations under the License.
 											</script>
 										</form>
 									</div>
-									<div class="col-12 col-md-1">
+									<div class="col-12 col-md-2 float-right mt-3">
 										<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("Remove Attribute?","Remove?", function() { removeTaxonAttribute(#getAttributes.taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
 									</div>
 								</li>
