@@ -168,7 +168,7 @@ limitations under the License.
 							ORDER BY part_name
 						</cfquery>
 						<cfloop query="getCatItems">
-							<div class="row border mx-0 mb-2 p-2">
+							<div class="row border border-2 mx-0 mb-2 p-2">
 								<div class="col-12 col-md-4">
 									#institution_acronym#:#collection_cde#:#cat_num#
 								</div>
@@ -195,10 +195,11 @@ limitations under the License.
 										JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
 										JOIN coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 									WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getCatItems.collection_object_id#">
 									ORDER BY part_name
 								</cfquery>
 								<cfloop query="getParts">
-									<div class="col-12 row mx-0">
+									<div class="col-12 row mx-0 border-secondary">
 										<div class="col-12 col-md-2">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
 										</div>
