@@ -125,6 +125,8 @@ limitations under the License.
 										},
 										success: function(data) {
 											$("##loanDetails").html(data);
+											$(".addpartbutton").prop("disabled",false);
+											$(".addpartbutton").removeClass("disabled");
 										},
 										error: function() {
 											$("##loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
@@ -229,7 +231,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-1">
-											<button class="btn btn-xs btn-primary addpartbutton"
+											<button class="btn btn-xs btn-primary addpartbutton disabled" disabled
 												onClick="addPartToLoan(#part_id#);" 
 												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
 											<button class="btn btn-xs btn-primary editpartbutton" style="display: none;"
