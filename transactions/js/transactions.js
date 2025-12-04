@@ -1929,7 +1929,7 @@ function deleteMediaFromPermit(mediaId,permitId,relationType) {
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected permit_id (without a leading # selector).
  */
-function makeLoanPicker(valueControl, idControl) { 
+function makeLoanPicker(valueControl, idControl,selectCallback=null) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -1952,6 +1952,10 @@ function makeLoanPicker(valueControl, idControl) {
 		},
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
+			// if selectCallback is a function, invoke it
+			if (jQuery.type(selectCallback) === 'function') {
+				selectCallback();
+			}
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 

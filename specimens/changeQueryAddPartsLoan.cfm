@@ -113,10 +113,7 @@ limitations under the License.
 							<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required>
 							<script>
 								$(document).ready(function() { 
-									makeLoanPicker("loan_number", "loan_transaction_id"); 
-									$("##loan_number" ).autocomplete({
-										change: fetchLoanDetails()
-									});
+									makeLoanPicker("loan_number", "loan_transaction_id",fetchLoanDetails); 
 								});
 								function fetchLoanDetails() {
 									$.ajax({
