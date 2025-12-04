@@ -326,6 +326,124 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- given a taxon_name_id, return the categories html for that taxon record
+ @param taxo_name_id the taxon name for which to return the categories html
+ @return the categories html block
+ --->
+<cffunction name="getTaxonAttributesHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+
+	<cfset result ="">
+	<cftry>
+		<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAttributes_result">
+			SELECT
+				taxon_attribute.taxon_attribute_id,
+				taxon_attribute.taxon_attribute_type,
+				taxon_attribute.attribute_value,
+				MCZBASE.get_agentnameoftype(created_agent_id) created_by, 
+				TO_CHAR(taxon_attribute.created_timestamp,'yyyy-mm-dd') creation_date
+			FROM
+				taxon_attribute
+			WHERE
+				taxon_attribute.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		</cfquery>
+		<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>"><!---" --->
+		<cfif getAttributes.recordcount gt 0>
+			<cfloop query="getAttributes">
+				<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>"><!--- " --->
+				<cfset result=  result & "#taxon_attribute_type#: #attribute_value#">
+				<cfset result=  result & "<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>"><!--- " --->
+				<cfset result=result& "</li>"><!--- " --->
+			</cfloop>
+		<cfelse>
+			<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>None</li>"><!--- " --->
+		</cfif>
+		<cfset result=result & "</ul></div>"><!---" --->
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+
+<!--- removeTaxonAttribute remove a taxon_attribute record relating a taxonomy record to a taxon_attribute
+ @param taxon_attribute_id the PK of the taxon_attribute record to be removed
+ @return json status of deletion or a 500 error if unsuccessful
+ --->
+<cffunction name="removeTaxonAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_attribute_id" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="deleteTaxonAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteTaxonAttribute_result">
+				DELETE FROM
+					taxon_attribute
+				WHERE
+					taxon_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_attribute_id#">
+			</cfquery>
+			<cfif deleteTaxonAttribute_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#deleteTaxonAttribute_result.recordcount#) would be deleted.  Delete canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "deleted">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- newTaxonAttribute insert a taxon_attribute record relating a taxonomy record to a
+  taxon attribute.
+ @param taxon_name_id the PK of the taxon name to be related to a attribute
+ @param taxon_attribute_type the controlled vocabulary value for the type of attribute.
+ @param attribute_value the value of the attribute to be assigned.
+ @return json status of addition or a 500 error if unsuccessful
+--->
+<cffunction name="newTaxonAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="taxon_attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="newAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCategory_result">
+				INSERT INTO taxon_attribute (
+					taxon_name_id,
+					taxon_attribute_type,
+					attribute_value
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_attribute_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">
+				)
+			</cfquery>
+			<cfif newCategory_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#newCategory_result.recordcount#) inserted.  Insert canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "added">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
 <cffunction name="getTaxonPublicationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 
