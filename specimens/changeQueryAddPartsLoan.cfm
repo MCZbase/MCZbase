@@ -168,15 +168,15 @@ limitations under the License.
 							ORDER BY part_name
 						</cfquery>
 						<cfloop query="getCatItems">
-							<div class="row border border-2 mx-0 mb-2 p-2">
-								<div class="col-12 col-md-4">
+							<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
+								<div class="col-12 col-md-4 mb-1">
 									#institution_acronym#:#collection_cde#:#cat_num#
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-4 mb-1">
 									#higher_geog#
 									#spec_locality#
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-4 mb-1">
 									<cfif began_date EQ ended_date>
 										#began_date#
 									<cfelse>
@@ -199,7 +199,7 @@ limitations under the License.
 									ORDER BY part_name
 								</cfquery>
 								<cfloop query="getParts">
-									<div class="col-12 row mx-0 border-secondary">
+									<div class="col-12 row mx-0 border-top border-secondary">
 										<div class="col-12 col-md-2">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
 										</div>
