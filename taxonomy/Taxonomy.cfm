@@ -52,7 +52,7 @@ limitations under the License.
 <cfquery name="cttaxon_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT taxon_attribute_type
 	FROM cttaxon_attribute_type 
-	ORDER BY taxon_attributed_type
+	ORDER BY taxon_attribute_type
 </cfquery>
 <cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select taxon_relationship  from cttaxon_relation order by taxon_relationship
