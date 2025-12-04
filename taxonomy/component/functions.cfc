@@ -530,7 +530,7 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn seralizeJSON(data)>
+	<cfreturn serializeJSON(data)>
 </cffunction>
 
 
