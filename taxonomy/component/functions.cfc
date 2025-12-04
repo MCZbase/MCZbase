@@ -418,11 +418,13 @@ limitations under the License.
 				INSERT INTO taxon_attribute (
 					taxon_name_id,
 					taxon_attribute_type,
-					attribute_value
+					attribute_value,
+					created_agent_id
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_attribute_type#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">
 				)
 			</cfquery>
 			<cfif newCategory_result.recordcount NEQ 1>
