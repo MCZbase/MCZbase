@@ -1019,6 +1019,8 @@ limitations under the License.
 				</div>
 			</div>
 
+			<!--- TODO: hide attributes on production until we have some defined --->
+			<cfif cttaxon_attribute_type.recordcount GT 0>
 			<div class="row mx-0">
 				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2 bg-grayish">
 					<section class="col-12 col-md-12 px-0">
@@ -1103,7 +1105,7 @@ limitations under the License.
 					</section>
 				</div>
 			</div>
-
+			</cfif>
 
 			<div class="row mx-0">
 				<div class="col-12 mx-0 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
