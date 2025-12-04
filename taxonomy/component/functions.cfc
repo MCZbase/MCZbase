@@ -361,7 +361,7 @@ limitations under the License.
 						<cfif getAttributes.recordcount gt 0>
 							<cfloop query="getAttributes">
 								<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>
-									<form name="editAttributeForm" id="newAttributeForm_#getAttributes.taxon_attribute_id#" class="col-12 px-0 form-row">
+									<form name="editAttributeForm" id="editAttributeForm_#getAttributes.taxon_attribute_id#" class="col-12 px-0 form-row">
 										<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 										<input type="hidden" name="method" value="editTaxonAttribute">
 										<div class="col-12 col-md-4 pl-1 pr-0">
@@ -382,12 +382,20 @@ limitations under the License.
 											<input type="text" name="attribute_value" id="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-input reqdClr" required value="#getAttributes.attribute_value#">
 										</div>
 										<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
-											<input type="submit" value="Edit" class="btn btn-xs btn-secondary" onClick="saveTaxonAttribute(#getAttributes.taxon_attribute_id#); return false;" title="Save changes to this Attribute" aria-label="Save changes to this Attribute">
+											<input type="submit" value="Edit" class="btn btn-xs btn-secondary" title="Save changes to this Attribute" aria-label="Save changes to this Attribute">
+										</div>
+										<script>
+											$(document).ready(function(){
+												$("##editAttributeForm_#getAttributes.taxon_attribute_id#").submit(function(event){
+													event.preventDefault();
+													saveTaxonAttribute(#getAttributes.taxon_attribute_id#);
+												});
+											});
+										</script>
+										<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
+											<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
 										</div>
 									</form>
-									<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
-										<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
-									</div>
 								</li>
 							</cfloop>
 						<cfelse>
