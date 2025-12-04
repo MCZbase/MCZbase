@@ -58,10 +58,18 @@ limitations under the License.
 									</li>
 									<li class="nav-item mb-1">
 										<cfif findNoCase('master',Session.gitBranch) EQ 0>
-											<!--- TODO: In progress, BugID:  --->
+											<!--- TODO: In progress, BugID: 955 --->
 											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
 										<cfelse>
 											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
+										</cfif>
+									</li>
+									<li class="nav-item mb-1">
+										<cfif findNoCase('master',Session.gitBranch) EQ 0>
+											<!--- TODO: In progress, BugID: 955 --->
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts To Loan (in progress)</a>
+										<cfelse>
+											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Add Parts to Loan</a>
 										</cfif>
 									</li>
 								</cfif>

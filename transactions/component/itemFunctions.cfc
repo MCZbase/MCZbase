@@ -283,6 +283,7 @@ limitations under the License.
  @param loan_item_remarks the new value of the loan_item.item_remarks to save.
  @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
  @param resolution_remarks optional, the new value of loan_item.resolution_remarks to save.
+ @param item_descr the new value of loan_item.item_descr to save.
  @param loan_item_state optional, the new value of loan_item.loan_item_state to save, if 
    not provided, the value will not be changed, if provided, values of returned, consumed, or missing 
    will mark the loan item as resolved, values of in loan or unknown will clear any returned date and agent.
@@ -297,6 +298,7 @@ limitations under the License.
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
 	<cfargument name="resolution_remarks" type="string" required="no">
+	<cfargument name="item_descr" type="string" required="yes">
 	<cfargument name="loan_item_state" type="string" required="no" default="">
 	<cfargument name="loan_item_id" type="string" required="no" default="">
 
@@ -384,6 +386,9 @@ limitations under the License.
 						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_remarks#">
 					<cfelse>
 						,loan_item_remarks = null
+					</cfif>
+					<cfif len(arguments.item_descr) GT 0>
+						,item_descr = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_descr#">
 					</cfif>
 					<cfif len(loan_item_state) GT 0>
 						,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">
@@ -1641,6 +1646,55 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getCountriesListThread" />
 	<cfreturn getCountriesListThread.output>
+</cffunction>
+
+<!--- obtain an html summary block for a loan.
+ @param transaction_id the id of the loan for which to obtain the summary.
+ @return an html block summarizing the loan or an http 500 error if an error occurs.
+--->
+<cffunction name="getLoanSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getLoanSummaryThread" transaction_id="#arguments.transaction_id#">
+		<cftry>
+			<cfoutput>
+				<!--- lookup loan number and information about loan --->
+				<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT l.loan_number, 
+						c.collection_cde, 
+						c.collection,
+						l.loan_type, 
+						l.loan_status, 
+						to_char(l.return_due_date,'yyyy-mm-dd') as return_due_date, 
+						to_char(l.closed_date,'yyyy-mm-dd') as closed_date,
+						l.loan_instructions,
+						trans.nature_of_material,
+						to_char(trans.trans_date,'yyyy-mm-dd') as loan_date,
+						concattransagent(trans.transaction_id,'recipient institution') recipient_institution
+					FROM 
+						trans
+						join collection c on trans.collection_id = c.collection_id
+						join loan l on trans.transaction_id = l.transaction_id
+					WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				</cfquery>
+				<cfif getLoan.recordcount NEQ 1>
+					<cfthrow message="No loan found for transaction_id=[#encodeForHtml(transaction_id)#]">
+				</cfif>
+				<cfloop query="getLoan">
+					<h2 class="h3">#getLoan.loan_number#</h2>
+					<div>#loan_type# #loan_status# #loan_date# to #recipient_institution# due #return_due_date#</div>
+					<div>#nature_of_material#
+				</cfloop>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getLoanSummaryThread" />
+	<cfreturn getLoanSummaryThread.output>
 </cffunction>
 
 </cfcomponent>

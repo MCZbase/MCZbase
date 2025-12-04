@@ -2894,7 +2894,10 @@ limitations under the License.
 										<div class="form-row mb-2">
 											<div class="col-12 col-md-6">
 												<input type="hidden" name="accession_transaction_id" value="" id="accession_transaction_id">
-												<label for="accn_number" class="data-entry-label">Accession</label>
+												<label for="accn_number" class="data-entry-label">
+													Accession
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('LOW'); return false;" > (<100) <span class="sr-only">use LOW to find accession numbers less than 100.</span></a>
+												</label>
 												<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
 											</div>
 											<div class="col-12 col-md-3">
@@ -9055,6 +9058,12 @@ limitations under the License.
 										<script>
 											function createRelationship(event) {
 												event.preventDefault();
+												// check that the target_collection_object_id has been set by the autocomplete
+												if ($("##target_collection_object_id").val().length == 0) {
+													setFeedbackControlState("relationshipFormOutput","error")
+													messageDialog("Please select a related cataloged item from the pick list.","Error: Select from Picklist");
+													return false;
+												}
 												setFeedbackControlState("relationshipFormOutput","saving")
 												// ajax post of the form data to create a new relationship
 												$.ajax({
@@ -9321,11 +9330,6 @@ limitations under the License.
 	<cfargument name="target_collection_object_id" type="string" required="yes">
 	<cfargument name="biol_indiv_relation_remarks" type="string" required="no" default="">
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
-	<cfset variables.biol_indiv_relationship = arguments.biol_indiv_relationship>
-	<cfset variables.target_collection_object_id = arguments.target_collection_object_id>
-	<cfset variables.biol_indiv_relation_remarks = arguments.biol_indiv_relation_remarks>
-
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
@@ -9338,10 +9342,10 @@ limitations under the License.
 					biol_indiv_relation_remarks,
 					created_by
 				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relationship#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.target_collection_object_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relation_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.biol_indiv_relationship#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.target_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.biol_indiv_relation_remarks#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				)
 			</cfquery>

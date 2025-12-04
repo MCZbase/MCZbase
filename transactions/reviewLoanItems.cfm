@@ -1390,11 +1390,12 @@ limitations under the License.
 									var data = "method=updateLoanItem";
 									data = data + "&transaction_id=" + rowdata.transaction_id;
 									data = data + "&part_id=" + rowdata.part_id;
-									data = data + "&condition=" + rowdata.condition;
-									data = data + "&item_instructions=" + rowdata.item_instructions;
-									data = data + "&coll_obj_disposition=" + rowdata.coll_obj_disposition;
-									data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
-									data = data + "&resolution_remarks=" + rowdata.resolution_remarks;
+									data = data + "&condition=" + encodeURIComponent(rowdata.condition);
+									data = data + "&item_instructions=" + encodeURIComponent(rowdata.item_instructions);
+									data = data + "&coll_obj_disposition=" + encodeURIComponent(rowdata.coll_obj_disposition);
+									data = data + "&loan_item_remarks=" + encodeURIComponent(rowdata.loan_item_remarks);
+									data = data + "&resolution_remarks=" + encodeURIComponent(rowdata.resolution_remarks);
+									data = data + "&item_descr=" + encodeURIComponent(rowdata.item_descr);
 									$.ajax({
 										dataType: 'json',
 										url: '/transactions/component/itemFunctions.cfc',
@@ -1567,7 +1568,7 @@ limitations under the License.
 										{text: 'Preserve Method', datafield: 'preserve_method', width:100, hideable: true, hidden: getColHidProp('preserve_method', false), editable: false },
 										{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: getColHidProp('sampled_from_obj_id', false), editable: false },
 										{text: 'Part Condition', datafield: 'condition', width:180, hideable: false, hidden: getColHidProp('condition', false), editable: true, cellclassname: editableCellClass },
-										{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: getColHidProp('item_descr', true), editable: false },
+										{text: 'Item Descr', datafield: 'item_descr', width:200, hideable: false, hidden: getColHidProp('item_descr', false), editable: true, cellclassname: editableCellClass },
 										{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: getColHidProp('History', true), editable: false, 
 											cellsrenderer: historyCellRenderer, buttonclick: historyButtonClick
 										},

@@ -298,8 +298,8 @@ span.caps {
 }
 /* Editable cells in a jqx-grid */
 .editable-cell {
-	border-width: 1px 1px 1px 1px !important;
-	border-color: #939393 !important;
+	border-width: 1px 1px 2px 1px !important;
+	border-color: #2e95fe !important;
 }
 p {
 	margin-bottom: .75rem;

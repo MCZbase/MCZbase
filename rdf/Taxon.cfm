@@ -44,8 +44,8 @@ limitations under the License.
 	<cfif lookupUUID.recordCount EQ 0>
 		<cfthrow message="UUID not found">
 	<cfelse>
-		<cfif lookupUUID.guid_is_a NEQ 'materialSampleID'>
-			<cfthrow message="UUID does not refer to a material sample">
+		<cfif lookupUUID.guid_is_a NEQ 'taxonId'>
+			<cfthrow message="UUID does not refer to a taxon">
 		<cfelse>
 			<cfif lookupUUID.disposition EQ 'deleted'>
 				<cfthrow message="Record has been deleted">
