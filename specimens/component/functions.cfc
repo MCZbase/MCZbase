@@ -9055,6 +9055,12 @@ limitations under the License.
 										<script>
 											function createRelationship(event) {
 												event.preventDefault();
+												// check that the target_collection_object_id has been set by the autocomplete
+												if ($("##target_collection_object_id").val().length == 0) {
+													setFeedbackControlState("relationshipFormOutput","error")
+													messageDialog("Please select a related cataloged item from the pick list.","Error: Select from Picklist");
+													return false;
+												}
 												setFeedbackControlState("relationshipFormOutput","saving")
 												// ajax post of the form data to create a new relationship
 												$.ajax({
