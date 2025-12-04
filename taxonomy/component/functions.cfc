@@ -382,13 +382,14 @@ limitations under the License.
 											<input type="text" name="attribute_value" id="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-input reqdClr" required value="#getAttributes.attribute_value#">
 										</div>
 										<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
-											<input type="submit" value="Edit" class="btn btn-xs btn-secondary" title="Save changes to this Attribute" aria-label="Save changes to this Attribute">
+											<input type="submit" value="Save" class="btn btn-xs btn-secondary" title="Save changes to this Attribute" aria-label="Save changes to this Attribute">
+											<output id="editAttributeFormResult_#getAttributes.taxon_attribute_id#"></output>
 										</div>
 										<script>
 											$(document).ready(function(){
 												$("##editAttributeForm_#getAttributes.taxon_attribute_id#").submit(function(event){
 													event.preventDefault();
-													saveTaxonAttribute(#getAttributes.taxon_attribute_id#);
+													updateTaxonAttribute(#getAttributes.taxon_attribute_id#);
 												});
 											});
 										</script>
