@@ -17,18 +17,32 @@ limitations under the License.
 
 --->
 <cfset headerPath = "shared"><!--- Identify which header has been included --->
+<cfif not isdefined("Session.gitBranch")>
+	<!--- determine which git branch is currently checked out --->
+	<!--- TODO: Move to initSession --->
+	<cftry>
+		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfcatch>
+		<cfset gitBranch = "unknown">
+	</cfcatch>
+	</cftry>
+	<cfset Session.gitBranch = gitBranch>
+</cfif>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
 <cfoutput>
-<script async src="https://www.googletagmanager.com/gtag/js?id=#Application.Google_uacct#"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', '#Application.Google_uacct#');
-</script>
+<cfif findNoCase('master',Session.gitBranch) GT 0>
+	<!--- Global site tag (gtag.js) - Google Analytics --->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=#Application.Google_uacct#"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', '#Application.Google_uacct#');
+	</script>
+</cfif>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <cfif NOT isDefined("addedMetaDescription")>
@@ -227,18 +241,6 @@ limitations under the License.
 	
 <cfset header_color = Application.header_color>
 <cfset collection_link_color = Application.collectionlinkcolor>
-<cfif not isdefined("Session.gitBranch")>
-	<!--- determine which git branch is currently checked out --->
-	<!--- TODO: Move to initSession --->
-	<cftry>
-		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-	<cfcatch>
-		<cfset gitBranch = "unknown">
-	</cfcatch>
-	</cftry>
-	<cfset Session.gitBranch = gitBranch>
-</cfif>
 
 <header id="header" class="border-bottom">
 	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
