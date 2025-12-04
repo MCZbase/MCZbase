@@ -49,6 +49,11 @@ limitations under the License.
 	FROM cttaxon_category 
 	ORDER BY taxon_category
 </cfquery>
+<cfquery name="cttaxon_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT taxon_attribute_type
+	FROM cttaxon_attribute_type 
+	ORDER BY taxon_attributed_type
+</cfquery>
 <cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select taxon_relationship  from cttaxon_relation order by taxon_relationship
 </cfquery>
@@ -1013,6 +1018,92 @@ limitations under the License.
 					</section>
 				</div>
 			</div>
+
+			<div class="row mx-0">
+				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2 bg-grayish">
+					<section class="col-12 col-md-12 px-0">
+						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
+							<div class="col-12 px-0">
+								<h2 class="h3 mt-0 mb-1 px-1">Attributes</h4>
+								<div id="taxonAttributesDiv" class="mx-0 row mt-1">Loading....</div>
+							</div>
+							<form name="newAttributeForm" id="newAttributeForm" class="col-12 px-0 form-row">
+								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+								<input type="hidden" name="method" value="newTaxonAttribute">
+								<div class="col-12 col-md-5 pl-1 pr-0">
+									<label for="taxon_attribute" class="data-entry-label">Attribute Type</label>
+									<select name="taxon_attribute_type" id="taxon_attribute_type" class="data-entry-select reqdClr" required>
+										<option value=""></option>
+										<cfloop query="cttaxon_attribute_type">
+											<option value="#cttaxon_attribute_type.taxon_attribute_type#">#cttaxon_attribute_type.taxon_attribute_type#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-5 pl-1 pr-0">
+									<label for="attribute_value" class="data-entry-label">Attribute Value</label>
+									<input type="text" name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" required>
+								</div>
+								<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
+									<input type="submit" value="Add" class="btn btn-xs btn-secondary">
+								</div>
+							</form>
+						</div>
+						<script>
+							$( document ).ready(loadTaxonAttributes(#taxon_name_id#,'taxonAttributesDiv'));
+							$(document).ready(function(){ 
+								$('##newAttributeForm').bind('submit', function(evt){
+									evt.preventDefault();
+									jQuery.ajax({
+										url : "/taxonomy/component/functions.cfc",
+										type : "post",
+										dataType : "json",
+										data :  $('##newAttributeForm').serialize(),
+										success : function (data) {
+											loadTaxonAttributes(#taxon_name_id#,'taxonAttributesDiv');
+											$('##taxon_attribute').val("");
+										},
+										error: function(jqXHR,textStatus,error){
+											var message = "";
+											if (error == 'timeout') {
+												message = ' Server took too long to respond.';
+											} else {
+												message = jqXHR.responseText;
+											}
+											messageDialog('Error adding category: '+message, 'Error: '+error.substring(0,50));
+										}
+									});
+								})
+							});
+						</script>
+						<script>
+							function removeTaxonAttribute(taxon_attribute_id) { 
+								jQuery.ajax({
+									url : "/taxonomy/component/functions.cfc",
+									type : "post",
+									dataType : "json",
+									data :  { 
+										method: 'removeTaxonAttribute',
+										taxon_attribute_id: taxon_attribute_id
+									},
+									success : function (data) {
+										loadTaxonAttributes(#taxon_name_id#,'taxonAttributesDiv');
+									},
+									error: function(jqXHR,textStatus,error){
+										var message = "";
+										if (error == 'timeout') {
+											message = ' Server took too long to respond.';
+										} else {
+											message = jqXHR.responseText;
+										}
+										messageDialog('Error removing category: '+message, 'Error: '+error.substring(0,50));
+									}
+								});
+							}
+						</script>
+					</section>
+				</div>
+			</div>
+
 
 			<div class="row mx-0">
 				<div class="col-12 mx-0 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
