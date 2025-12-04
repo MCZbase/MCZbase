@@ -239,20 +239,6 @@ limitations under the License.
 	</cftry>
 	<cfset Session.gitBranch = gitBranch>
 </cfif>
-<!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
-<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
-	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
-	<cfset header_color = "##A51C30">
-	<cfset collection_link_color = "white">
-	<cfif Application.serverName contains "-test">
-		<cfset header_color = "##ADE1EA" >
-		<cfset collection_link_color = "##94131C" >
-		<cfelseif Application.serverName contains "-dev">
-		<cfset header_color = "##CAEAAD">
-		<cfset collection_link_color = "##94131C" />
-	</cfif>
-</cfif>
-<!--- End workaround ---> 
 
 <header id="header" class="border-bottom">
 	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
