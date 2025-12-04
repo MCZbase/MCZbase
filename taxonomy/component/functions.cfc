@@ -360,43 +360,45 @@ limitations under the License.
 					<ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>
 						<cfif getAttributes.recordcount gt 0>
 							<cfloop query="getAttributes">
-								<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>
-									<form name="editAttributeForm" id="editAttributeForm_#getAttributes.taxon_attribute_id#" class="col-12 px-0 form-row">
-										<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-										<input type="hidden" name="method" value="editTaxonAttribute">
-										<div class="col-12 col-md-4 pl-1 pr-0">
-											<label for="taxon_attribute_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Type</label>
-											<select name="taxon_attribute_type" id="taxon_attribute_type_#getAttributes.taxon_attribute_id#" class="data-entry-select reqdClr" required>
-												<cfloop query="cttaxon_attribute_type">
-													<cfif cttaxon_attribute_type.taxon_attribute_type EQ getAttributes.taxon_attribute_type>
-														<cfset selected = "selected">
-													<cfelse>
-														<cfset selected = "">
-													</cfif>
-													<option value="#cttaxon_attribute_type.taxon_attribute_type#" #selected#>#cttaxon_attribute_type.taxon_attribute_type#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-4 pl-1 pr-0">
-											<label for="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Value</label>
-											<input type="text" name="attribute_value" id="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-input reqdClr" required value="#getAttributes.attribute_value#">
-										</div>
-										<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
-											<input type="submit" value="Save" class="btn btn-xs btn-secondary" title="Save changes to this Attribute" aria-label="Save changes to this Attribute">
-											<output id="editAttributeFormResult_#getAttributes.taxon_attribute_id#"></output>
-										</div>
-										<script>
-											$(document).ready(function(){
-												$("##editAttributeForm_#getAttributes.taxon_attribute_id#").submit(function(event){
-													event.preventDefault();
-													updateTaxonAttribute(#getAttributes.taxon_attribute_id#);
+								<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 row pr-1'>
+									<div class="col-12 col-md-11">
+										<form name="editAttributeForm" id="editAttributeForm_#getAttributes.taxon_attribute_id#" class="col-12 px-0 form-row">
+											<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+											<input type="hidden" name="method" value="editTaxonAttribute">
+											<div class="col-12 col-md-4 pl-1 pr-0">
+												<label for="taxon_attribute_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Type</label>
+												<select name="taxon_attribute_type" id="taxon_attribute_type_#getAttributes.taxon_attribute_id#" class="data-entry-select reqdClr" required>
+													<cfloop query="cttaxon_attribute_type">
+														<cfif cttaxon_attribute_type.taxon_attribute_type EQ getAttributes.taxon_attribute_type>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#cttaxon_attribute_type.taxon_attribute_type#" #selected#>#cttaxon_attribute_type.taxon_attribute_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-4 pl-1 pr-0">
+												<label for="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Value</label>
+												<input type="text" name="attribute_value" id="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-input reqdClr" required value="#getAttributes.attribute_value#">
+											</div>
+											<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
+												<input type="submit" value="Save" class="btn btn-xs btn-secondary" title="Save changes to this Attribute" aria-label="Save changes to this Attribute">
+												<output id="editAttributeFormResult_#getAttributes.taxon_attribute_id#"></output>
+											</div>
+											<script>
+												$(document).ready(function(){
+													$("##editAttributeForm_#getAttributes.taxon_attribute_id#").submit(function(event){
+														event.preventDefault();
+														updateTaxonAttribute(#getAttributes.taxon_attribute_id#);
+													});
 												});
-											});
-										</script>
-										<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
-											<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#getAttributes.taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
-										</div>
-									</form>
+											</script>
+										</form>
+									</div>
+									<div class="col-12 col-md-1">
+										<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("Remove Attribute?","Remove?", function() { removeTaxonAttribute(#getAttributes.taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
+									</div>
 								</li>
 							</cfloop>
 						<cfelse>
@@ -553,16 +555,16 @@ limitations under the License.
 				taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfif tax_pub.recordcount gt 0>
-			<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>">
+			<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>"><!--- " --->
 			<cfloop query="tax_pub">
 				<!--- Create a link out of author year. in the publication, ensure that link closes. --->
-				<cfset publication = "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'><span class='col-12 col-md-11 px-0 float-left'> <a href='/publications/showPublication.cfm?publication_id=#publication_id#' target='_blank' class='d-inline-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
+				<cfset publication = "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'><span class='col-12 col-md-11 px-0 float-left'> <a href='/publications/showPublication.cfm?publication_id=#publication_id#' target='_blank' class='d-inline-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') ><!--- " --->
 					<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a>"></cfif>
 						<cfset result=result & " #publication#">
 							<cfset result=result & "</span><button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Relationship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
-					<cfset result=result & "</li>">
+					<cfset result=result & "</li>"><!--- " --->
 				</cfloop>
-			<cfset result=result & "</ul></div>">
+			<cfset result=result & "</ul></div>"><!--- " --->
 		</cfif>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
