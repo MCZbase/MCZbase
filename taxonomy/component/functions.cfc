@@ -333,7 +333,7 @@ limitations under the License.
 <cffunction name="getTaxonAttributesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 
-	<cfthread action="run" name="edittaxon_attribute_thread" taxon_name_id="#attributes.taxon_name_id#">
+	<cfthread name="edittaxon_attribute_thread" taxon_name_id="#attributes.taxon_name_id#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="cttaxon_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cttaxon_attribute_type_result">
@@ -405,7 +405,7 @@ limitations under the License.
 		</cfoutput>
 	</cfthread>
 
-	<cfthread action="join" name="edittaxon_attribute_thread">
+	<cfthread action="join" name="edittaxon_attribute_thread" />
 	<cfreturn edittaxon_attribute_thread.output>
 </cffunction>
 
