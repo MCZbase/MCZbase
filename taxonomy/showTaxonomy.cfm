@@ -255,6 +255,16 @@
 		WHERE
 			taxon_category.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 	</cfquery>
+	<cfquery name="getTaxonAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			taxon_attribute.taxon_attribute_type, taxon_attribute.attribute_value
+		FROM
+			taxon_attribute
+		WHERE
+			taxon_attribute.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+		ORDER BY
+			taxon_attribute.taxon_attribute_type, taxon_attribute.attribute_value
+	</cfquery>
 	<cfquery name="common_name" dbtype="query">
 		select
 			common_name
@@ -543,6 +553,14 @@
 					<ul>
 						<cfloop query="getCategorization">
 							<li><b>#getCategorization.taxon_category# (#getCategorization.category_type#)</b></li>
+						</cfloop>
+					</ul>
+				</cfif>
+				<cfif getTaxonAttributes.recordcount GT 0>
+					<h2 class="h4">Attributes:</h2>
+					<ul>
+						<cfloop query="getTaxonAttributes">
+							<li><b>#getTaxonAttributes.taxon_attribute_type#: #getTaxonAttributes.attribute_value#</b></li>
 						</cfloop>
 					</ul>
 				</cfif>
