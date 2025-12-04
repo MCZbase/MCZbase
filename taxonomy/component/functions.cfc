@@ -421,9 +421,9 @@ limitations under the License.
 					attribute_value,
 					created_agent_id
 				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.taxon_name_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.taxon_attribute_type#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.attribute_value#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxon_attribute_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_value#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">
 				)
 			</cfquery>
