@@ -199,7 +199,7 @@ limitations under the License.
 									ORDER BY part_name
 								</cfquery>
 								<cfloop query="getParts">
-									<div class="col-12 row mx-0 pt-1 border-top border-secondary">
+									<div class="col-12 row mx-0 py-1 border-top border-secondary">
 										<div class="col-12 col-md-2">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
 										</div>
