@@ -1071,13 +1071,38 @@ limitations under the License.
 											} else {
 												message = jqXHR.responseText;
 											}
-											messageDialog('Error adding category: '+message, 'Error: '+error.substring(0,50));
+											messageDialog('Error adding attribute: '+message, 'Error: '+error.substring(0,50));
 										}
 									});
 								})
 							});
-						</script>
-						<script>
+							function updateTaxonAttribute(taxon_attribute_id) { 
+								var attribute_value = $('##attribute_value_' + taxon_attribute_id).val();
+								var taxon_attribute_type = $('##taxon_attribute_type_' + taxon_attribute_id).val();
+								jQuery.ajax({
+									url : "/taxonomy/component/functions.cfc",
+									type : "post",
+									dataType : "json",
+									data :  { 
+										method: 'updateTaxonAttribute',
+										taxon_attribute_id: taxon_attribute_id,
+										taxon_attribute_type: taxon_attribute_type,
+										attribute_value: attribute_value
+									},
+									success : function (data) {
+										loadTaxonAttributes(#taxon_name_id#,'taxonAttributesDiv');
+									},
+									error: function(jqXHR,textStatus,error){
+										var message = "";
+										if (error == 'timeout') {
+											message = ' Server took too long to respond.';
+										} else {
+											message = jqXHR.responseText;
+										}
+										messageDialog('Error saving attribute: '+message, 'Error: '+error.substring(0,50));
+									}
+								});
+							}
 							function removeTaxonAttribute(taxon_attribute_id) { 
 								jQuery.ajax({
 									url : "/taxonomy/component/functions.cfc",

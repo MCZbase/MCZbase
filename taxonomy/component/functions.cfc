@@ -333,40 +333,80 @@ limitations under the License.
 <cffunction name="getTaxonAttributesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 
-	<cfset result ="">
-	<cftry>
-		<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAttributes_result">
-			SELECT
-				taxon_attribute.taxon_attribute_id,
-				taxon_attribute.taxon_attribute_type,
-				taxon_attribute.attribute_value,
-				MCZBASE.get_agentnameoftype(created_agent_id) created_by, 
-				TO_CHAR(taxon_attribute.created_timestamp,'yyyy-mm-dd') creation_date
-			FROM
-				taxon_attribute
-			WHERE
-				taxon_attribute.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-		</cfquery>
-		<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>"><!---" --->
-		<cfif getAttributes.recordcount gt 0>
-			<cfloop query="getAttributes">
-				<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>"><!--- " --->
-				<cfset result=  result & "#taxon_attribute_type#: #attribute_value#">
-				<cfset result=  result & "<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>"><!--- " --->
-				<cfset result=result& "</li>"><!--- " --->
-			</cfloop>
-		<cfelse>
-			<cfset result=result & "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>None</li>"><!--- " --->
-		</cfif>
-		<cfset result=result & "</ul></div>"><!---" --->
-	<cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn result>
+	<cfthread action="run" name="edittaxon_attribute_thread" taxon_name_id="#attributes.taxon_name_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="cttaxon_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cttaxon_attribute_type_result">
+					SELECT
+						taxon_attribute_type
+					FROM
+						cttaxon_attribute_type
+					ORDER BY
+						taxon_attribute_type
+				</cfquery>
+				<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAttributes_result">
+					SELECT
+						taxon_attribute.taxon_attribute_id,
+						taxon_attribute.taxon_attribute_type,
+						taxon_attribute.attribute_value,
+						MCZBASE.get_agentnameoftype(created_agent_id) created_by, 
+						TO_CHAR(taxon_attribute.created_timestamp,'yyyy-mm-dd') creation_date
+					FROM
+						taxon_attribute
+					WHERE
+						taxon_attribute.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+				</cfquery>
+				<div class='col-12 px-0'>
+					<ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>
+						<cfif getAttributes.recordcount gt 0>
+							<cfloop query="getAttributes">
+								<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>
+									<form name="editAttributeForm" id="newAttributeForm_#getAttributes.taxon_attribute_id#" class="col-12 px-0 form-row">
+										<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+										<input type="hidden" name="method" value="editTaxonAttribute">
+										<div class="col-12 col-md-4 pl-1 pr-0">
+											<label for="taxon_attribute_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Type</label>
+											<select name="taxon_attribute_type" id="taxon_attribute_type_#getAttributes.taxon_attribute_id#" class="data-entry-select reqdClr" required>
+												<cfloop query="cttaxon_attribute_type">
+													<cfif cttaxon_attribute_type.taxon_attribute_type EQ getAttributes.taxon_attribute_type>
+														<cfset selected = "selected">
+													<cfelse>
+														<cfset selected = "">
+													</cfif>
+													<option value="#cttaxon_attribute_type.taxon_attribute_type#" #selected#>#cttaxon_attribute_type.taxon_attribute_type#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-4 pl-1 pr-0">
+											<label for="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-label">Attribute Value</label>
+											<input type="text" name="attribute_value" id="attribute_value_#getAttributes.taxon_attribute_id#" class="data-entry-input reqdClr" required value="#getAttributes.attribute_value#">
+										</div>
+										<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
+											<input type="submit" value="Edit" class="btn btn-xs btn-secondary" onClick="saveTaxonAttribute(#getAttributes.taxon_attribute_id#); return false;" title="Save changes to this Attribute" aria-label="Save changes to this Attribute">
+										</div>
+									</form>
+									<div class="col-12 col-md-2 pl-1 pr-0 pt-3">
+										<button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Attribute?"",""Remove?"", function() { removeTaxonAttribute(#taxon_attribute_id#); } );' value='Remove' title='Remove' aria-label='Remove this Attribute from this Taxon record'>Remove</button>
+									</div>
+								</li>
+							</cfloop>
+						<cfelse>
+							<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'>None</li>
+						</cfif>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+
+	<cfthread action="join" name="edittaxon_attribute_thread">
+	<cfreturn edittaxon_attribute_thread.output>
 </cffunction>
 
 <!--- removeTaxonAttribute remove a taxon_attribute record relating a taxonomy record to a taxon_attribute
@@ -443,6 +483,45 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- updateTaxonAttribute update the value of attribute type and attribute value for a taxon_attribute record
+ @param taxon_attribute_id the PK of the taxon attribute record to be updated
+ @param taxon_attribute_type the controlled vocabulary value for the type of attribute.
+ @param attribute_value the value of the attribute to be assigned.
+ @return json status of update or a 500 error if unsuccessful
+--->
+<cffunction name="updateTaxonAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_attribute_id" type="numeric" required="yes">
+	<cfargument name="taxon_attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttribute_result">
+				UPDATE taxon_attribute 
+				SET 
+					taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxon_attribute_type#">,
+					attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_value#">,
+					last_modified = CURRENT_TIMESTAMP
+				WHERE 
+					taxon_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_attribute_id#">
+			</cfquery>
+			<cfif updateAttribute_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#updateAttribute_result.recordcount#) would be updated.  Update canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "updated">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn seralizeJSON(data)>
 </cffunction>
 
 
