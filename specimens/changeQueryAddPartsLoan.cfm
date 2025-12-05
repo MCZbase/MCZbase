@@ -315,8 +315,8 @@ limitations under the License.
 									</div>
 								</cfloop>
 							</div>
-							<div id="editItemDialogDiv"></div>
 						</cfloop>
+						<div id="editItemDialogDiv"></div>
 						<script>
 							function launchEditDialog(part_id) { 
 								var loan_item_id = $("##loan_item_id_"+part_id).val();
