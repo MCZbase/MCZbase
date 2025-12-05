@@ -261,14 +261,14 @@ limitations under the License.
 													In this loan.
 													<script>
 														$(document).ready(function() { 
-															$("#add_part_#part_id#").hide();
-															$("#edit_part_#part_id#").show();
-															$("#item_instructions_#part_id#").prop("disabled",true);
-															$("#item_instructions_#part_id#").addClass("disabled");
-															$("#loan_item_remarks_#part_id#").prop("disabled",true);
-															$("#loan_item_remarks_#part_id#").addClass("disabled");
-															$("#coll_obj_disposition_#part_id#").prop("disabled",true);
-															$("#coll_obj_disposition_#part_id#").addClass("disabled");
+															$("##add_part_#part_id#").hide();
+															$("##edit_part_#part_id#").show();
+															$("##item_instructions_#part_id#").prop("disabled",true);
+															$("##item_instructions_#part_id#").addClass("disabled");
+															$("##loan_item_remarks_#part_id#").prop("disabled",true);
+															$("##loan_item_remarks_#part_id#").addClass("disabled");
+															$("##coll_obj_disposition_#part_id#").prop("disabled",true);
+															$("##coll_obj_disposition_#part_id#").addClass("disabled");
 														});
 													</script>
 												</cfif>
