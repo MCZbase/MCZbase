@@ -23,13 +23,6 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 
-<cfif isDefined("url.action") and len(url.action) GT 0>
-	<cfset action = url.action>
-<cfelseif isDefined("form.action") and len(form.action) GT 0>
-	<cfset action = form.action>
-<cfelse>
-	<cfset action="entryPoint">
-</cfif>
 <cfif isDefined("url.result_id") and len(url.result_id) GT 0>
 	<cfset result_id = url.result_id>
 <cfelseif isDefined("form.result_id") and len(form.result_id) GT 0>
@@ -39,6 +32,11 @@ limitations under the License.
 	<cfset transaction_id = url.transaction_id>
 <cfelseif isDefined("form.transaction_id") and len(form.transaction_id) GT 0>
 	<cfset transaction_id = form.transaction_id>
+</cfif>
+<cfif not isDefined("transaction_id") OR len(transaction_id) EQ 0 >
+	<cfset action = "entryPoint">
+<cfelse>
+	<cfset action = "hasTransaction">
 </cfif>
 
 <!--- get list of collection codes in result set --->
@@ -56,21 +54,73 @@ limitations under the License.
 <script type="text/javascript" src="/transactions/js/reviewLoanItems.js"></script><!--- openLoanItemDialog --->
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
+	<cfif isDefined("result_id") and len(result_id) GT 0>
+		<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT count(*) ct
+			FROM 
+				user_search_table
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+	<cfelse>
+		<cfthrow message="Unable to identify parts on [required variable result_id not defined].">
+	</cfif>
 	<cfswitch expression="#action#">
-	<!--------------------------------------------------------------------->
 	<cfcase value="entryPoint">
+		<!--- initial entry point, show form to select loan before listing parts--->
+		<div class="row mx-0">
+			<div class="col-12">
+				<h1 class="h2 px-2">Add Parts to Loan</h1>
+				<p class="px-2 mb-1">Add Parts from #getCount.ct# cataloged items from specimen search result [#result_id#] to a Loan</p>
+				<cfif getCount.ct gte 1000>
+					<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
+				</cfif>
+				<h2 class="h3">Pick Loan to add Parts To:</h2>
+				<div class="row border mx-0 mb-3 p-2">
+					<div class="col-12 col-md-2 pt-1">
+						<label for="loan_number" class="data-entry-label">Loan Number</label>
+						<input type="hidden" id="loan_transaction_id" name="loan_transaction_id" value="">
+						<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required>
+						<script>
+							$(document).ready(function() { 
+								makeLoanPicker("loan_number", "loan_transaction_id",fetchLoanDetails); 
+							});
+							function fetchLoanDetails() {
+								$.ajax({
+									url: "/transactions/component/itemFunctions.cfc",
+									dataType: "html",
+									data: {
+										method: "getLoanSummaryHTML",
+										transaction_id: $("##loan_transaction_id").val(),
+									},
+									success: function(data) {
+										$("##loanDetails").html(data);
+										$("##continuebutton").prop("disabled",false);
+										$("##continuebutton").removeClass("disabled");
+									},
+									error: function() {
+										$("##loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
+									}
+								});
+							}
+						</script>
+					</div>
+					<div class="col-12 col-md-8 pt-1">
+						<div id="loanDetails"></div>
+					</div>
+					<div class="col-12">
+						<a href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(loan_transaction_id)#&action=hasTransaction" 
+							class="btn btn-primary mt-2 disabled" 
+							id="continueButton"
+							disabled="disabled">Continue to Add Parts</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</cfcase>
+	<!--------------------------------------------------------------------->
+	<cfcase value="hasTransaction">
 		<cfoutput>
-			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(*) ct
-					FROM 
-						user_search_table
-					WHERE
-						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-				</cfquery>
-			<cfelse>
-				<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
-			</cfif>
 			<script>
 				var bc = new BroadcastChannel('resultset_channel');
 				bc.onmessage = function (message) { 
@@ -84,79 +134,36 @@ limitations under the License.
 					}  
 				} 
 			</script>
+			<!--- lookup loan number from transaction_id --->
+			<cfquery name="getLoanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT loan.transaction_id, loan.loan_number
+				FROM loan
+				WHERE loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
+			</cfquery>
+			<cfif getLoanNumber.recordcount GT 0>
+				<cfset loannumber = "#getLoanNumber.loan_number#">
+			<cfelse>
+				<cfthrow message="Unable to identify loan with provided transaction ID [#encodeForHtml(transaction_id)#].">
+			</cfif>
 			<div class="row mx-0">
 				<div class="col-12">
 					<h1 class="h2 px-2">Add Parts to Loan</h1>
-					<p class="px-2 mb-1">Add Parts from #getCount.ct# cataloged items from specimen search result [#result_id#] to a Loan</p>
+					<p class="px-2 mb-1">Add Parts from #getCount.ct# cataloged items from specimen search result [#result_id#] to Loan #loannumber#</p>
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
-					</cfif>
-
-					<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT coll_obj_disposition
-						FROM ctcoll_obj_disp
-						ORDER BY coll_obj_disposition
-					</cfquery>
-					<cfquery name="ctNumericModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT modifier 
-						FROM ctnumeric_modifiers
-					</cfquery>
-					<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT preserve_method 
-						FROM ctspecimen_preserv_method 
-						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colcdes#">
-					</cfquery>
-					<cfset loannumber = "">
-					<cfif isDefined("transaction_id") and len(transaction_id) GT 0>
-						<!--- lookup loan number from transaction_id --->
-						<cfquery name="getLoanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT loan.transaction_id, loan.loan_number
-							FROM loan
-							WHERE loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
-						</cfquery>
-						<cfif getLoanNumber.recordcount GT 0>
-							<cfset loannumber = "#getLoanNumber.loan_number#">
-						</cfif>
-					<cfelse>
-						<cfset transaction_id = "">
 					</cfif>
 					<h2 class="h3">Loan to add Parts To:</h2>
 					<div class="row border mx-0 mb-3 p-2">
 						<div class="col-12 col-md-2 pt-1">
 							<label for="loan_number" class="data-entry-label">Loan Number</label>
 							<input type="hidden" id="loan_transaction_id" name="loan_transaction_id" value="#transaction_id#">
-							<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required value="#loannumber#">
-							<script>
-								$(document).ready(function() { 
-									makeLoanPicker("loan_number", "loan_transaction_id",fetchLoanDetails); 
-								});
-								function fetchLoanDetails() {
-									$.ajax({
-										url: "/transactions/component/itemFunctions.cfc",
-										dataType: "html",
-										data: {
-											method: "getLoanSummaryHTML",
-											transaction_id: $("##loan_transaction_id").val(),
-										},
-										success: function(data) {
-											$("##loanDetails").html(data);
-											$(".addpartbutton").prop("disabled",false);
-											$(".addpartbutton").removeClass("disabled");
-										},
-										error: function() {
-											$("##loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
-										}
-									});
-								}
-							</script>
+							<input type="text" name="loan_number" id="loan_number" class="data-entry-text" readonly disabled value="#loannumber#">
 						</div>
 						<div class="col-12 col-md-8 pt-1">
 							<div id="loanDetails">
-								<cfif isDefined("transaction_id") and len(transaction_id) GT 0>
-									<!--- lookup loan number and information about loan --->
-									<cfset aboutLoan = getLoanSummaryHtml(transaction_id=transaction_id)>
-									#aboutLoan#
-								</cfif>
+								<!--- lookup information about loan --->
+								<cfset aboutLoan = getLoanSummaryHtml(transaction_id=transaction_id)>
+								#aboutLoan#
 							</div>
 						</div>
 					</div>
@@ -213,15 +220,27 @@ limitations under the License.
 									ORDER BY part_name
 								</cfquery>
 								<cfloop query="getParts">
-									<cfif isdefined("transaction_id") and len(transaction_id) GT 0>
-										<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT loan_item_id
-											FROM loan_item
-											WHERE 
-												loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
-												AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
-										</cfquery>
-									</cfif>
+									<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT loan_item_id
+										FROM loan_item
+										WHERE 
+											loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
+											AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+									</cfquery>
+									<cfquery name="checkPartInOtherLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT
+											loan_item_id, 
+											loan_item.loan_item_state,
+											loan.loan_number, 
+											loan.transaction_id
+										FROM loan_item
+											join loan on loan_item.transaction_id = loan.transaction_id
+										WHERE 
+											loan_item.transaction_id <> <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
+											AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+											AND loan.status <> 'closed'
+											AND loan_item.loan_item_state <> 'returned'
+									</cfquery>
 									<div class="col-12 row mx-0 py-1 border-top border-secondary">
 										<div class="col-12 col-md-2">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
@@ -238,18 +257,6 @@ limitations under the License.
 											<label class="data_entry_label" for="col_obj_disposition_#part_id#">Disposition</label>
 											<input type="text" name="coll_obj_disposition" id="coll_obj_disposition_#part_id#" class="data-entry-select" value="#getParts.coll_obj_disposition#"
 												readonly="readonly" disabled="disabled">
-											<!---
-											<select name="coll_obj_disposition" id="coll_obj_disposition_#part_id#" class="data-entry-select">
-												<cfloop query="ctDisp">
-													<cfif ctDisp.coll_obj_disposition EQ getParts.coll_obj_disposition>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option #selected# value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option> 
-												</cfloop>
-											</select>
-											--->
 										</div>
 										<div class="col-12 col-md-1">
 											<label class="data_entry_label" for="subsample#part_id#">Subsample</label>
@@ -259,11 +266,10 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-1">
-											<!--- TODO: After loan is selected Check if each part is in this loan already, if so show Edit button instead of Add --->
-											<button class="btn btn-xs btn-primary addpartbutton disabled" disabled
+											<button class="btn btn-xs btn-primary addpartbutton"
 												onClick="addPartToLoan(#part_id#);" 
 												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
-											<cfif isDefined("checkPartInLoan") AND isDefined("checkPartInLoan.recordcount") AND checkPartInLoan.recordcount GT 0>
+											<cfif checkPartInLoan.recordcount GT 0>
 												<cfset loan_item_id = "#checkPartInLoan.loan_item_id#">
 											<cfelse>
 												<cfset loan_item_id = "">
@@ -273,7 +279,7 @@ limitations under the License.
 												onClick="launchEditDialog(#part_id#);" 
 												name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
 											<output id="output#part_id#">
-												<cfif isDefined("checkPartInLoan") AND isDefined("checkPartInLoan.recordcount") AND checkPartInLoan.recordcount GT 0>
+												<cfif checkPartInLoan.recordcount GT 0>
 													In this loan.
 													<script>
 														$(document).ready(function() { 
@@ -290,6 +296,20 @@ limitations under the License.
 												</cfif>
 											</output>
 										</div>
+										<cfif checkPartInOtherLoan.recordcount GT 0>
+											<div class="col-12">
+												<ul>
+													<cfloop query="checkPartInOtherLoan">
+														<li>
+															<span class="text-danger font-weight-bold">Note:</span> This part is in loan 
+															<a href="/transactions/Loan.cfm?action=edit&transaction_id=#checkPartInOtherLoan.transaction_id#">
+																#checkPartInOtherLoan.loan_number#
+															</a>
+															(in state: #checkPartInOtherLoan.loan_item_state#).
+														</li>
+													</cfloop>
+												</ul>
+											</div>
 									</div>
 								</cfloop>
 							</div>
@@ -356,134 +376,6 @@ limitations under the License.
 			</div>
 		</cfoutput>
 	</cfcase>
-	<cfcase value="filterParts">
-		<!--- TODO: Implement or remove filtering logic --->
-					<!--- queries to populate pick lists for filtering --->
-					<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							count(specimen_part.collection_object_id) partcount,
-							specimen_part.part_name
-						FROM
-							specimen_part
-							<cfif isDefined("result_id") and len(result_id) GT 0>
-								JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-						WHERE
-								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							<cfelse>
-								JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-						</cfif>
-						GROUP BY specimen_part.part_name
-						ORDER BY specimen_part.part_name
-					</cfquery>
-					<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							count(specimen_part.collection_object_id) partcount,
-							specimen_part.preserve_method
-						FROM
-							specimen_part
-							<cfif isDefined("result_id") and len(result_id) GT 0>
-								JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-						WHERE
-								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							<cfelse>
-								JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-							</cfif>
-						GROUP BY specimen_part.preserve_method
-						ORDER BY specimen_part.preserve_method
-					</cfquery>
-					<cfquery name="existLotCountModifier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							coll_object.lot_count_modifier
-						FROM
-							specimen_part
-							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-						WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						GROUP BY 
-							coll_object.lot_count_modifier
-					</cfquery>
-					<cfquery name="existLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							coll_object.lot_count
-						FROM
-							specimen_part
-							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-						WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						GROUP BY 
-							coll_object.lot_count
-					</cfquery>
-					<cfquery name="existDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							coll_object.coll_obj_disposition 
-						FROM
-							specimen_part
-							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-						WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						GROUP BY 
-							coll_object.coll_obj_disposition 
-					</cfquery>
-
-					<h2 class="h3">Filter specimens for parts matching...</h2>
-					<form name="filterByPart" method="post" action="/specimens/changeQueryAddPartsToLoan.cfm">
-						<input type="hidden" name="action" value="filterParts">
-						<input type="hidden" name="result_id" value="#result_id#">
-						<div class="form-row">
-							<div class="col-12 col-md-4 pt-1">
-								<label for="exist_part_name" class="data-entry-label">Part Name Matches</label>
-								<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select" required>
-									<option selected="selected" value=""></option>
-									<cfloop query="existParts">
-										<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 pt-1">
-								<label for="exist_preserve_method" class="data-entry-label">Preserve Method Matches</label>
-								<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
-									<option selected="selected" value=""></option>
-									<cfloop query="existPreserve">
-										<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 pt-1">
-								<label for="existing_lot_count_modifier" class="data-entry-label">Lot Count Modifier Matches</label>
-								<select name="existing_lot_count_modifier" id="existing_lot_count_modifier" size="1" class="data-entry-select">
-									<option selected="selected" value=""></option>
-									<cfloop query="existLotCountModifier">
-										<option value="#lot_count_modifier#">#lot_count_modifier#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 pt-1">
-								<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
-								<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
-									<option selected="selected" value=""></option>
-									<cfloop query="existLotCount">
-										<option value="#lot_count#">#lot_count#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 pt-1">
-								<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition Matches</label>
-								<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select">
-									<option selected="selected" value=""></option>
-									<cfloop query="existDisp">
-										<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 pt-1">
-								<input type="submit" value="Filter" class="btn ml-2 mt-2 btn-xs btn-secondary">
-							</div>
-						</div>
-					</form>
-		</cfcase>
 	</cfswitch>
 <cfcatch>
 	<h2 class="h3 px-2 mt-1">Error</h2>
