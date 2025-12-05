@@ -245,11 +245,11 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-1">
-											<!--- TODO: Check if this part is in this loan already, if so show Edit button instead of Add --->
+											<!--- TODO: After loan is selected Check if each part is in this loan already, if so show Edit button instead of Add --->
 											<button class="btn btn-xs btn-primary addpartbutton disabled" disabled
 												onClick="addPartToLoan(#part_id#);" 
 												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
-											<cfif checkPartInLoan.recordcount GT 0>
+											<cfif isDefined("checkPartInLoan") AND isDefined("checkPartInLoan.recordcount") AND checkPartInLoan.recordcount GT 0>
 												<cfset loan_item_id = "#checkPartInLoan.loan_item_id#">
 											<cfelse>
 												<cfset loan_item_id = "">
@@ -259,7 +259,7 @@ limitations under the License.
 												onClick="launchEditDialog(#part_id#);" 
 												name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
 											<output id="output#part_id#">
-												<cfif isDefined("checkPartInLoan") AND checkPartInLoan.recordcount GT 0>
+												<cfif isDefined("checkPartInLoan") AND isDefined("checkPartInLoan.recordcount") AND checkPartInLoan.recordcount GT 0>
 													In this loan.
 													<script>
 														$(document).ready(function() { 
