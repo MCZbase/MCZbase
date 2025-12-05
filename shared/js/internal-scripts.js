@@ -914,7 +914,7 @@ function createGenericEditDialog(dialogId,title,closecallback,max_height=775,wid
 		}
 	}
 	console.log("Creating dialog in div with id: [" + dialogId + "]");
-	if ($('[id="'+dialogID+'"]').length > 1) {
+	if ($('[id="'+dialogId+'"]').length > 1) {
 		console.warn('Multiple elements with id="'+dialogId+'" found. This will cause problems closing and reusing the dialog.');
 	}
 	var thedialog = $("#"+dialogId).html(content)
