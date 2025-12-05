@@ -113,10 +113,7 @@ limitations under the License.
 							<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required>
 							<script>
 								$(document).ready(function() { 
-									makeLoanPicker("loan_number", "loan_transaction_id"); 
-									$("##loan_number" ).autocomplete({
-										change: fetchLoanDetails()
-									});
+									makeLoanPicker("loan_number", "loan_transaction_id",fetchLoanDetails); 
 								});
 								function fetchLoanDetails() {
 									$.ajax({
@@ -128,6 +125,8 @@ limitations under the License.
 										},
 										success: function(data) {
 											$("##loanDetails").html(data);
+											$(".addpartbutton").prop("disabled",false);
+											$(".addpartbutton").removeClass("disabled");
 										},
 										error: function() {
 											$("##loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
@@ -168,15 +167,15 @@ limitations under the License.
 							ORDER BY part_name
 						</cfquery>
 						<cfloop query="getCatItems">
-							<div class="row border mx-0 mb-2 p-2">
-								<div class="col-12 col-md-4">
+							<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
+								<div class="col-12 col-md-4 mb-1">
 									#institution_acronym#:#collection_cde#:#cat_num#
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-4 mb-1">
 									#higher_geog#
 									#spec_locality#
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-4 mb-1">
 									<cfif began_date EQ ended_date>
 										#began_date#
 									<cfelse>
@@ -195,10 +194,11 @@ limitations under the License.
 										JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
 										JOIN coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 									WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getCatItems.collection_object_id#">
 									ORDER BY part_name
 								</cfquery>
 								<cfloop query="getParts">
-									<div class="col-12 row mx-0">
+									<div class="col-12 row mx-0 py-1 border-top border-secondary">
 										<div class="col-12 col-md-2">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
 										</div>
@@ -231,7 +231,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-1">
-											<button class="btn btn-xs btn-primary addpartbutton"
+											<button class="btn btn-xs btn-primary addpartbutton disabled" disabled
 												onClick="addPartToLoan(#part_id#);" 
 												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
 											<button class="btn btn-xs btn-primary editpartbutton" style="display: none;"
