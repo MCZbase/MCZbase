@@ -9271,6 +9271,11 @@ limitations under the License.
 				<script>
 					function doSave(formId) {
 						setFeedbackControlState("editRelationFormOutput_"+formId,"saving")
+						if ($("##target_collection_object_id_" + formId).val().length == 0) {
+							setFeedbackControlState("editRelationFormOutput_"+formId,"error")
+							messageDialog("Please select a related cataloged item from the autocomplete pick list.","Error: Select from Picklist");
+							return false;
+						}
 						var form = "editRelationForm_" + formId;
 						$("##method_" + formId).val("updateBiolIndivRelation");
 						var formData = $("##" + form).serialize();
@@ -9341,6 +9346,9 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfif arguments.target_collection_object_id EQ "">
+				<cfthrow message="Error: No related object selected.  You must pick a value from the autocomplete picklist.">
+			</cfif>
 			<cfquery name="addRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addRelation_result">
 				INSERT INTO biol_indiv_relations
 				(
@@ -9408,6 +9416,9 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfif arguments.target_collection_object_id EQ "">
+				<cfthrow message="Error: No related object selected.  You must pick a value from the autocomplete picklist.">
+			</cfif>
 			<cfquery name="updateRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelation_result">
 				UPDATE biol_indiv_relations
 				SET

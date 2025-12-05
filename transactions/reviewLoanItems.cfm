@@ -821,6 +821,7 @@ limitations under the License.
 																$(document).ready(function() {
 																	makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
 																});
+																// if added, validate that collection_object_id is set before submitting
 															</script --->
 														</div>
 													</div>
