@@ -929,7 +929,7 @@ function createGenericEditDialog(dialogId,title,closecallback,max_height=775,wid
 		buttons: {
 			"Close Dialog": function() {
 				console.log("Button calling close on dialog in div with id: " + dialogId);
-				$("#"+dialogId).dialog('close');
+				$(this).dialog('close');
 			}
 		},
 		open: function (event, ui) {
