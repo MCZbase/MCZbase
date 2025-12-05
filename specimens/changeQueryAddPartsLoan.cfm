@@ -210,7 +210,8 @@ limitations under the License.
 										part_name,
 										preserve_method,
 										coll_obj_disposition,
-										lot_count, lot_count_modifier
+										lot_count, 
+										lot_count_modifier
 									FROM specimen_part
 										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 										JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -222,11 +223,20 @@ limitations under the License.
 								<cfloop query="getParts">
 									<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT loan_item_id
+											item_instructions,
+											loan_item_remarks
 										FROM loan_item
 										WHERE 
 											loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
 											AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
 									</cfquery>
+									<cfif checkPartInLoan.recordcount GT 0>
+										<cfset item_instructions = "#checkPartInLoan.item_instructions#">
+										<cfset loan_item_remarks = "#checkPartInLoan.loan_item_remarks#">
+									<cfelse>
+										<cfset item_instructions = "">
+										<cfset loan_item_remarks = "">
+									</cfif>
 									<cfquery name="checkPartInOtherLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT
 											loan_item_id, 
@@ -243,16 +253,16 @@ limitations under the License.
 									</cfquery>
 									<div class="col-12 row mx-0 py-1 border-top border-secondary">
 										<div class="col-12 col-md-2">
-											<input type="hidden" name="part_name_#part_id#" id="part_name_#part_id#" value="#part_name# (#preserve_method#)">
-											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
+											<input type="hidden" name="part_name_#part_id#" id="part_name_#part_id#" value="#getParts.part_name# (#getParts.preserve_method#)">
+											#getParts.part_name# (#getParts.preserve_method#) #getParts.lot_count_modifier#&nbsp;#getParts.lot_count#
 										</div>
 										<div class="col-12 col-md-3">
 											<label class="data_entry_label" for="item_instructions_#part_id#">Item Instructions</label>
-											<input type="text" name="item_instructions" id="item_instructions_#part_id#" class="data-entry-input" value="">
+											<input type="text" name="item_instructions" id="item_instructions_#part_id#" class="data-entry-input" value="#item_instructions#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label class="data_entry_label" for="loan_item_remarks_#part_id#">Item Remarks</label>
-											<input type="text" name="loan_item_remarks" id="loan_item_remarks_#part_id#" class="data-entry-input" value="">
+											<input type="text" name="loan_item_remarks" id="loan_item_remarks_#part_id#" class="data-entry-input" value="#loan_item_remarks#">
 										</div>
 										<div class="col-12 col-md-2">
 											<label class="data_entry_label" for="col_obj_disposition_#part_id#">Disposition</label>
