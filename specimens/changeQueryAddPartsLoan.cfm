@@ -319,7 +319,7 @@ limitations under the License.
 						<script>
 							function launchEditDialog(part_id) { 
 								var loan_item_id = $("##loan_item_id_"+part_id).val();
-								openLoanItemDialog(loan_item_id,"editItemDialogDiv",null);
+								openLoanItemDialog(loan_item_id,"editItemDialogDiv","part" + part_id ,null);
 							}
 							function addPartToLoan(part_id) { 
 								// get values from inputs for part
