@@ -200,7 +200,7 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="getParts">
 									<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT count(*) ct
+										SELECT loan_item_id
 										FROM loan_item
 										WHERE 
 											loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
@@ -247,13 +247,18 @@ limitations under the License.
 											<button class="btn btn-xs btn-primary addpartbutton disabled" disabled
 												onClick="addPartToLoan(#part_id#);" 
 												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
-											<input type="hidden" name="loan_item_id_#part_id#" id="loan_item_id_#part_id#" value="">
+											<cfif checkPartInLoan.recordcount GT 0>
+												<cfset loan_item_id = "#checkPartInLoan.loan_item_id#">
+											<cfelse>
+												<cfset loan_item_id = "">
+											</cfif>
+											<input type="hidden" name="loan_item_id_#part_id#" id="loan_item_id_#part_id#" value="#loan_item_id#">
 											<button class="btn btn-xs btn-primary editpartbutton" style="display: none;"
 												onClick="launchEditDialog(#part_id#);" 
 												name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
 											<output id="output#part_id#">
-												<cfif checkPartInLoan.ct GT 0>
-													Part in this loan.
+												<cfif checkPartInLoan.recordcount GT 0>
+													In this loan.
 													<script>
 														$(document).ready(function() { 
 															$("#add_part_#part_id#").hide();
