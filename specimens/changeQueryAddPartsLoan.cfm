@@ -205,7 +205,7 @@ limitations under the License.
 											FROM loan_item
 											WHERE 
 												loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
-												AND loan_item.part_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+												AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
 										</cfquery>
 									</cfif>
 									<div class="col-12 row mx-0 py-1 border-top border-secondary">
