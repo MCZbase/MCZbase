@@ -2140,10 +2140,6 @@ limitations under the License.
 	
 	<cfset var scientific_name = arguments.taxa_formula>
 
-	<!--- test for error case that results in ORA-14406 when is_flat_stale runs --->
-	<cfif arguments.taxona_id EQ "">
-		<cfthrow message="Taxon A taxon_name_id is required, you must select a taxon from the autocomplete list.">
-	</cfif>
 	
 	<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
 	<cfset scientific_name = REReplace(scientific_name, "\bA\b", "TAXON_A", "all")>
@@ -2170,6 +2166,10 @@ limitations under the License.
 	
 	<cftransaction>
 		<cftry>
+			<!--- test for error case that results in ORA-14406 when is_flat_stale runs --->
+			<cfif arguments.taxona_id EQ "">
+				<cfthrow message="Taxon A taxon_name_id is required, you must select a taxon from the autocomplete list.">
+			</cfif>
 			<!--- throw an exception if formula contains B but taxon B is not provided --->
 			<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
 				<cfthrow message="Taxon B is required when the formula contains 'B'.">
