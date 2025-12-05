@@ -913,7 +913,7 @@ limitations under the License.
 				</cfquery>
 			</cfif><!--- End subsample --->
 
-			<cfquery name="addLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="addLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addLoanItem_result">
 				INSERT INTO LOAN_ITEM (
 					TRANSACTION_ID
 					,COLLECTION_OBJECT_ID
@@ -946,7 +946,20 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-
+			<!--- Obtain loan_item_id for insert and return it in the result. --->
+			<cfset rowid = addLoanItem_result.generatedkey>
+			<cfif len(rowid) EQ 0>
+				<cfthrow message="Could not obtain rowid of inserted loan item.">
+			</cfif>
+			<cfquery name="getLoanItemID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT loan_item_id
+				FROM loan_item
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfif getLoanItemID.recordcount NEQ 1>
+				<cfthrow message="Could not obtain loan_item_id of inserted loan item.">
+			</cfif>
 			<cfif subsample IS 1 >
 				<cfset targetObject = subsampleCollObjectId>
 			<cfelse>
@@ -958,9 +971,10 @@ limitations under the License.
 				WHERE 
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetObject#">
 			</cfquery>
-			<cfset theResult=queryNew("status, message, subsample")>
+			<cfset theResult=queryNew("status, loan_item_id, message, subsample")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "loan_item_id", "#getLoanItemId.loan_item_id#", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "item added to loan.", 1)>
 			<cfif subsample IS 1 >
 				<cfset t = QuerySetCell(theResult, "subsample", "#subsampleCollObjectId#", 1)>

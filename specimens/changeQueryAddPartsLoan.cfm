@@ -199,6 +199,13 @@ limitations under the License.
 									ORDER BY part_name
 								</cfquery>
 								<cfloop query="getParts">
+									<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT count(*) ct
+										FROM loan_item
+										WHERE 
+											loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
+											AND loan_item.part_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+									</cfquery>
 									<div class="col-12 row mx-0 py-1 border-top border-secondary">
 										<div class="col-12 col-md-2">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
@@ -236,13 +243,31 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-1">
+											<!--- TODO: Check if this part is in this loan already, if so show Edit button instead of Add --->
 											<button class="btn btn-xs btn-primary addpartbutton disabled" disabled
 												onClick="addPartToLoan(#part_id#);" 
 												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
+											<input type="hidden" name="loan_item_id_#part_id#" id="loan_item_id_#part_id#" value="">
 											<button class="btn btn-xs btn-primary editpartbutton" style="display: none;"
 												onClick="launchEditDialog(#part_id#);" 
 												name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
 											<output id="output#part_id#">
+												<cfif checkPartInLoan.ct GT 0>
+													Part in this loan.
+													<script>
+														$(document).ready(function() { 
+															$("#add_part_#part_id#").hide();
+															$("#edit_part_#part_id#").show();
+															$("#item_instructions_#part_id#").prop("disabled",true);
+															$("#item_instructions_#part_id#").addClass("disabled");
+															$("#loan_item_remarks_#part_id#").prop("disabled",true);
+															$("#loan_item_remarks_#part_id#").addClass("disabled");
+															$("#coll_obj_disposition_#part_id#").prop("disabled",true);
+															$("#coll_obj_disposition_#part_id#").addClass("disabled");
+														});
+													</script>
+												</cfif>
+											</output>
 										</div>
 									</div>
 								</cfloop>
@@ -251,7 +276,8 @@ limitations under the License.
 						</cfloop>
 						<script>
 							function launchEditDialog(part_id) { 
-								openLoanItemDialog(part_id,"editItemDialogDiv",null);
+								var loan_item_id = $("#loan_item_id_"+part_id).val();
+								openLoanItemDialog(loan_item_id,"editItemDialogDiv",null);
 							}
 							function addPartToLoan(part_id) { 
 								// get values from inputs for part
@@ -281,6 +307,8 @@ limitations under the License.
 									if (result.DATA.STATUS[0]==1) {
 										$("##output"+part_id).html(result.DATA.MESSAGE[0]);
 										$("##coll_obj_disposition_"+part_id).val("on loan");
+										// Obtain loan_item_id from result and save where Edit button can use it.
+										$("##loan_item_id_"+part_id).val(result.DATA.LOAN_ITEM_ID[0]);
 										// Lock controls, part added.
 										$("##add_part_"+part_id).hide();
 										$("##edit_part_"+part_id).show();
