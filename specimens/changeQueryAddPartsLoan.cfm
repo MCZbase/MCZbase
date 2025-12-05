@@ -243,6 +243,7 @@ limitations under the License.
 									</cfquery>
 									<div class="col-12 row mx-0 py-1 border-top border-secondary">
 										<div class="col-12 col-md-2">
+											<input type="hidden" name="part_name_#part_id#" id="part_name_#part_id#" value="#part_name# (#preserve_method#)">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
 										</div>
 										<div class="col-12 col-md-3">
@@ -319,7 +320,8 @@ limitations under the License.
 						<script>
 							function launchEditDialog(part_id) { 
 								var loan_item_id = $("##loan_item_id_"+part_id).val();
-								openLoanItemDialog(loan_item_id,"editItemDialogDiv","part" + part_id ,null);
+								var part_name = $("##part_name_"+part_id).val();
+								openLoanItemDialog(loan_item_id,"editItemDialogDiv",part_name,null);
 							}
 							function addPartToLoan(part_id) { 
 								// get values from inputs for part
