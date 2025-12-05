@@ -207,11 +207,14 @@ limitations under the License.
 											<input type="text" name="item_instructions" id="item_instructions_#part_id#" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-3">
-											<label class="data_entry_label" for="loan_item_remarks#part_id#">Item Remarks</label>
+											<label class="data_entry_label" for="loan_item_remarks_#part_id#">Item Remarks</label>
 											<input type="text" name="loan_item_remarks" id="loan_item_remarks_#part_id#" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-2">
-											<label class="data_entry_label" for="col_obh_disposition_#part_id#">Disposition</label>
+											<label class="data_entry_label" for="col_obj_disposition_#part_id#">Disposition</label>
+											<input type="text" name="coll_obj_disposition" id="coll_obj_disposition_#part_id#" class="data-entry-select" value="#getParts.coll_obj_disposition#"
+												readonly="readonly" disabled="disabled">
+											<!---
 											<select name="coll_obj_disposition" id="coll_obj_disposition_#part_id#" class="data-entry-select">
 												<cfloop query="ctDisp">
 													<cfif ctDisp.coll_obj_disposition EQ getParts.coll_obj_disposition>
@@ -222,6 +225,7 @@ limitations under the License.
 													<option #selected# value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option> 
 												</cfloop>
 											</select>
+											--->
 										</div>
 										<div class="col-12 col-md-1">
 											<label class="data_entry_label" for="subsample#part_id#">Subsample</label>
@@ -256,8 +260,8 @@ limitations under the License.
 									subsampleInt = 1;
 								}
 								transaction_id = $("##loan_transaction_id").val();
-								remark = $("##loan_item_remarks"+part_id).val();
-								instructions = $("##item_instructions"+part_id).val();
+								remark = $("##loan_item_remarks_"+part_id).val();
+								instructions = $("##item_instructions_"+part_id).val();
 								$("##output"+part_id).html("Saving...");
 								jQuery.ajax({
 									url: "/transactions/component/itemFunctions.cfc",
@@ -275,6 +279,7 @@ limitations under the License.
 								if (typeof result == 'string') { result = JSON.parse(result); } 
 									if (result.DATA.STATUS[0]==1) {
 										$("##output"+part_id).html(result.DATA.MESSAGE[0]);
+										$("##coll_obj_disposition_"+part_id).val("on loan");
 										// Lock controls, part added.
 										$("##add_part_"+part_id).hide();
 										$("##edit_part_"+part_id).show();
