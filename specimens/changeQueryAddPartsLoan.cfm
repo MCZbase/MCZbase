@@ -222,7 +222,7 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="getParts">
 									<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT loan_item_id
+										SELECT loan_item_id,
 											item_instructions,
 											loan_item_remarks
 										FROM loan_item
