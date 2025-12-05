@@ -106,12 +106,26 @@ limitations under the License.
 						FROM ctspecimen_preserv_method 
 						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colcdes#">
 					</cfquery>
+					<cfset loannumber = "">
+					<cfif isDefined("transaction_id") and len(transaction_id) GT 0>
+						<!--- lookup loan number from transaction_id --->
+						<cfquery name="getLoanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT loan.transaction_id, loan.loan_number
+							FROM loan
+							WHERE loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
+						</cfquery>
+						<cfif getLoanNumber.recordcount GT 0>
+							<cfset loannumber = "#getLoanNumber.loan_number#">
+						</cfif>
+					<cfelse>
+						<cfset transaction_id = "">
+					</cfif>
 					<h2 class="h3">Loan to add Parts To:</h2>
 					<div class="row border mx-0 mb-3 p-2">
 						<div class="col-12 col-md-2 pt-1">
 							<label for="loan_number" class="data-entry-label">Loan Number</label>
-							<input type="hidden" id="loan_transaction_id" name="loan_transaction_id" value="">
-							<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required>
+							<input type="hidden" id="loan_transaction_id" name="loan_transaction_id" value="#transaction_id#">
+							<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required value="#loannumber#">
 							<script>
 								$(document).ready(function() { 
 									makeLoanPicker("loan_number", "loan_transaction_id",fetchLoanDetails); 
