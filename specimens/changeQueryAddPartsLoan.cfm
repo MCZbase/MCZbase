@@ -199,13 +199,15 @@ limitations under the License.
 									ORDER BY part_name
 								</cfquery>
 								<cfloop query="getParts">
-									<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT loan_item_id
-										FROM loan_item
-										WHERE 
-											loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
-											AND loan_item.part_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
-									</cfquery>
+									<cfif isdefined("transaction_id") and len(transaction_id) GT 0>
+										<cfquery name="checkPartInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT loan_item_id
+											FROM loan_item
+											WHERE 
+												loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
+												AND loan_item.part_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+										</cfquery>
+									</cfif>
 									<div class="col-12 row mx-0 py-1 border-top border-secondary">
 										<div class="col-12 col-md-2">
 											#part_name# (#preserve_method#) #lot_count_modifier#&nbsp;#lot_count#
@@ -257,7 +259,7 @@ limitations under the License.
 												onClick="launchEditDialog(#part_id#);" 
 												name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
 											<output id="output#part_id#">
-												<cfif checkPartInLoan.recordcount GT 0>
+												<cfif isDefined("checkPartInLoan") AND checkPartInLoan.recordcount GT 0>
 													In this loan.
 													<script>
 														$(document).ready(function() { 
