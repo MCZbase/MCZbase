@@ -52,7 +52,8 @@ limitations under the License.
 </cfquery>
 <cfset colcdes = valuelist(colcde.collection_cde)>
 
-<script type="text/javascript" src="/transactions/js/transactions.js"></script> 
+<script type="text/javascript" src="/transactions/js/transactions.js"></script> <!--- makeLoanPicker --->
+<script type="text/javascript" src="/transactions/js/reviewLoanItems.js"></script><!--- openLoanItemDialog --->
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
 	<cfswitch expression="#action#">
