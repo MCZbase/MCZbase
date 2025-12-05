@@ -310,6 +310,7 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</div>
+										</cfif>
 									</div>
 								</cfloop>
 							</div>
