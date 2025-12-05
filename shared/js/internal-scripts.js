@@ -913,7 +913,7 @@ function createGenericEditDialog(dialogId,title,closecallback,max_height=775,wid
 			w = width_cap;
 		}
 	}
-	console.log("Creating dialog in div with id: " + dialogId);
+	console.log("Creating dialog in div with id: [" + dialogId + "]");
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
@@ -928,8 +928,8 @@ function createGenericEditDialog(dialogId,title,closecallback,max_height=775,wid
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				console.log("Button calling close on dialog in div with id: " + dialogId);
-				$(this).dialog('close');
+				console.log("Button calling close on dialog in div with id: [" + dialogId + "]");
+				$("#"+dialogId).dialog('close');
 			}
 		},
 		open: function (event, ui) {
