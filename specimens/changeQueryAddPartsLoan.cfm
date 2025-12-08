@@ -122,8 +122,8 @@ limitations under the License.
 	<cfcase value="hasTransaction">
 		<cfoutput>
 			<script>
-				var bc = new BroadcastChannel('resultset_channel');
-				bc.onmessage = function (message) { 
+				var resultbc = new BroadcastChannel('resultset_channel');
+				resultbc.onmessage = function (message) { 
 					console.log(message);
 					if (message.data.result_id == "#result_id#") { 
 						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
@@ -133,6 +133,19 @@ limitations under the License.
 						$(".tabChangeButton").addClass("disabled");
 					}  
 				} 
+				var loanbc = new BroadcastChannel('loan_channel');
+				function loanModifiedHere() { 
+					loanbc.postMessage({"source":"addloanitems","transaction_id":"#transaction_id#"});
+				}
+				loanbc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
+						 reloadLoanSummary();
+					}
+					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+						messageDialog("Warning: You have added or removed an item from this loan, you must reload this page to see the current list of records this page affects.", "Loan Item List Changed Warning");
+					}
+				}
 			</script>
 			<!--- lookup loan number from transaction_id --->
 			<cfquery name="getLoanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -166,6 +179,25 @@ limitations under the License.
 								#aboutLoan#
 							</div>
 						</div>
+						<script>
+							function reloadLoanSummary() { 
+								// ajax invocation of getLoanSummaryHtml to refresh loan details in loanDetails div
+								$.ajax({
+									url: "/transactions/component/itemFunctions.cfc",
+									dataType: "html",
+									data: {
+										method: "getLoanSummaryHTML",
+										transaction_id: $("##loan_transaction_id").val(),
+									},
+									success: function(data) {
+										$("##loanDetails").html(data);
+									},
+									error: function() {
+										$("##loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
+									}
+								});
+							}
+						<script>
 					</div>
 					<div class="col-12">
 						<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -357,8 +389,9 @@ limitations under the License.
 									queryformat : 'column'
 								},
 								success: function (result) {
-								if (typeof result == 'string') { result = JSON.parse(result); } 
+									if (typeof result == 'string') { result = JSON.parse(result); } 
 									if (result.DATA.STATUS[0]==1) {
+										loanModifiedHere();
 										$("##output"+part_id).html(result.DATA.MESSAGE[0]);
 										$("##coll_obj_disposition_"+part_id).val("on loan");
 										// Obtain loan_item_id from result and save where Edit button can use it.
@@ -372,7 +405,7 @@ limitations under the License.
 										$("##loan_item_remarks_"+part_id).addClass("disabled");
 										$("##coll_obj_disposition_"+part_id).prop("disabled",true);
 										$("##coll_obj_disposition_"+part_id).addClass("disabled");
-									 } else { 
+									} else { 
 										$("##output"+part_id).html("Error");
 									}
 								},

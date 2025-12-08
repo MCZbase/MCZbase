@@ -548,6 +548,9 @@ limitations under the License.
 				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
 					 reloadGridNoBroadcast();
 				}
+				if (message.data.source == "reviewloanitems" && message.data.transaction_id == "#transaction_id#") { 
+					 reloadGridNoBroadcast();
+				}
 			}
 			function reloadSummary() { 
 				// TODO: Implement
