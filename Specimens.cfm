@@ -33,6 +33,15 @@ limitations under the License.
 <cfif isdefined("url.method") and len(url.method) GT 0>
 	<cfset method = url.method>
 </cfif>
+
+<cfif isdefined("url.target_loan_id") and len(url.target_loan_id) GT 0>
+	<cfset target_loan_id = url.target_loan_id>
+<cfelseif isdefined("form.target_loan_id") and len(form.target_loan_id) GT 0>
+	<cfset target_loan_id = form.target_loan_id>
+<cfelse>
+	<cfset target_loan_id = "">
+</cfif>
+
 <cfset enableMobileKeywordTabModal = false>
 <cfif not isdefined("action") AND not isDefined("execute") AND not isDefined("method")>
 	<!--- enable test for mobile browser to make the keyword tab modal on page load if no question was asked in the uri. --->
@@ -3507,7 +3516,11 @@ Target JSON:
 						loadColumnOrder('fixedsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank&target_loan_id=#encodeForUrl(target_loan_id)#" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						<cfelse>
+							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						</cfif>
 					<cfelse>
 						$('##fixedmanageButton').html('');
 					</cfif>
