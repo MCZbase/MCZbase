@@ -41,6 +41,22 @@ limitations under the License.
 <cfelse>
 	<cfset target_loan_id = "">
 </cfif>
+<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+		<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT loan_number
+			FROM loan
+			WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
+		</cfquery>
+		<cfif getLoan.recordcount EQ 1>
+			<cfset target_loan_number = getLoan.loan_number>
+		<cfelse>
+			<cfset target_loan_id = "">
+		</cfif>
+	<cfelse>
+		<cfset target_loan_id = "">
+	</cfif>
+</cfif>
 
 <cfset enableMobileKeywordTabModal = false>
 <cfif not isdefined("action") AND not isDefined("execute") AND not isDefined("method")>
@@ -219,7 +235,11 @@ limitations under the License.
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					
-					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
+						<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0 && isdefined("target_loan_number") and len(target_loan_number) GT 0>
+							to add to Loan #target_loan_number# (with manage)
+						<cfif>
+					</h1>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
