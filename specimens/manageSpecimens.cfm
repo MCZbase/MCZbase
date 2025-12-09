@@ -78,20 +78,15 @@ limitations under the License.
 										</cfif>
 									</li>
 									<li class="nav-item mb-1">
-										<cfif findNoCase('master',Session.gitBranch) EQ 0>
-											<!--- TODO: In progress, BugID: 955 --->
-											<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0>
-												<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT loan_number
-													FROM loan
-													WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
-												</cfquery>
-												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(url.target_loan_id)#" target="_blank">Add Parts to Loan #getLoan.loan_number#</a>
-											<cfelse>
-												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts To Loan</a>
-											</cfif>
+										<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0>
+											<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT loan_number
+												FROM loan
+												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
+											</cfquery>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(url.target_loan_id)#" target="_blank">Add Parts to Loan #getLoan.loan_number#</a>
 										<cfelse>
-											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Add Parts to Loan</a>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts To Loan</a>
 										</cfif>
 									</li>
 								</cfif>

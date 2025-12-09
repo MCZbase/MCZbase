@@ -3776,7 +3776,11 @@ Target JSON:
 						loadColumnOrder('keywordsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'&target_loan_id=#encodeForUrl(target_loan_id)#" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
+						<cfelse>
+							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
+						</cfif>
 					<cfelse>
 						$('##keywordmanageButton').html('');
 					</cfif>
@@ -4009,7 +4013,11 @@ Target JSON:
 						loadColumnOrder('buildersearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'&target_loan_id=#encodeForUrl(target_loan_id)#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						<cfelse>
+							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						</cfif>
 					<cfelse>
 						$('##buildermanageButton').html('');
 					</cfif>
