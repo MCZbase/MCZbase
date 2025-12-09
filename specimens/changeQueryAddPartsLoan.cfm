@@ -99,6 +99,8 @@ limitations under the License.
 										$("##loanDetails").html(data);
 										$("##continuebutton").prop("disabled",false);
 										$("##continuebutton").removeClass("disabled");
+										// rewrite a tag continueButton href to include transaction_id
+										$("##continueButton").attr("href","/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&action=hasTransaction&transaction_id="+transaction_id);
 									},
 									error: function() {
 										$("##loanDetails").html("<div class='text-danger'>Error fetching loan details.</div>");
@@ -111,7 +113,7 @@ limitations under the License.
 						<div id="loanDetails"></div>
 					</div>
 					<div class="col-12">
-						<a href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(loan_transaction_id)#&action=hasTransaction" 
+						<a href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&action=hasTransaction" 
 							class="btn btn-primary mt-2 disabled" 
 							id="continueButton"
 							disabled="disabled">Continue to Add Parts</a>
