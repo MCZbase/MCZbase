@@ -1685,6 +1685,7 @@ limitations under the License.
 		<cfset show_buttons = "review">
 	<cfelse>
 		<cfset show_buttons = arguments.show_buttons>
+	</cfif>
 
 	<cfthread name="getLoanSummaryThread" transaction_id="#arguments.transaction_id#" show_buttons="#show_buttons#">
 		<cftry>
