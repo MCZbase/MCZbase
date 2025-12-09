@@ -242,7 +242,7 @@ limitations under the License.
 							JOIN locality on collecting_event.locality_id = locality.locality_id
 							JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 						WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						ORDER BY part_name
+						ORDER BY collection_cde, cat_num
 					</cfquery>
 					<cfloop query="getCatItems">
 						<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
