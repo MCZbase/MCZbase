@@ -1704,9 +1704,9 @@ limitations under the License.
 					<cfthrow message="No loan found for transaction_id=[#encodeForHtml(transaction_id)#]">
 				</cfif>
 				<cfloop query="getLoan">
-					<h2 class="h3">#getLoan.loan_number#</h2>
+					<h2 class="h3"><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#encodeForUrl(transaction_id)#" target="_blank">#getLoan.loan_number#</a></h2>
 					<div>#loan_type# #loan_status# #loan_date# to #recipient_institution# due #return_due_date#</div>
-					<div>#nature_of_material#
+					<div>#nature_of_material#</div>
 				</cfloop>
 			</cfoutput>
 		<cfcatch>

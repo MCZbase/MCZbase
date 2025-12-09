@@ -203,7 +203,7 @@ limitations under the License.
 						}
 					</script>
 				</div>
-				<div class="col-12 row">
+				<div class="col-12 row border p-1 m-1">
 					<div class="col-12 col-md-6">
 						<label for="common_instruction_text" class="data-entry-label">Instructions to add to each item when adding to loan.</label>
 						<input type="text" value="" id="common_instruction_text" class="data-entry-input">
