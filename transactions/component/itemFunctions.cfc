@@ -1681,7 +1681,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="show_buttons" type="string" required="no" default="review">
 
-	<cfif not isDefined("arguments.show_buttons") OR len(arguments.show_buttons EQ 0)>
+	<cfif not isDefined("arguments.show_buttons") OR len(arguments.show_buttons) EQ 0>
 		<cfset show_buttons = "review">
 	<cfelse>
 		<cfset show_buttons = arguments.show_buttons>
