@@ -97,8 +97,9 @@ limitations under the License.
 									},
 									success: function(data) {
 										$("##loanDetails").html(data);
-										$("##continuebutton").prop("disabled",false);
-										$("##continuebutton").removeClass("disabled");
+										// enable continue button
+										$("##continueButton").prop("disabled",false);
+										$("##continueButton").removeClass("disabled");
 										// rewrite a tag continueButton href to include transaction_id
 										$("##continueButton").attr("href","/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&action=hasTransaction&transaction_id="+transaction_id);
 									},
