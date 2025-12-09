@@ -225,7 +225,7 @@ limitations under the License.
 				</div>
 				<div class="col-12">
 					<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT 
+						SELECT DISTINCT 
 							cataloged_item.collection_object_id,
 							collection.institution_acronym,
 							cataloged_item.collection_cde,
@@ -234,8 +234,8 @@ limitations under the License.
 							collecting_event.ended_date,
 							locality.spec_locality,
 							geog_auth_rec.higher_geog
-						FROM specimen_part
-							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						FROM 
+							user_search_table 
 							JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
 							JOIN collection on cataloged_item.collection_id = collection.collection_id
 							JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
@@ -261,7 +261,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT 
+								SELECT DISTINCT
 									specimen_part.collection_object_id part_id,
 									part_name,
 									preserve_method,
