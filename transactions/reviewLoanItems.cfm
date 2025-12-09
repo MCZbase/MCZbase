@@ -734,6 +734,11 @@ limitations under the License.
 													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
 												</h2>
 											</cfif>
+											<cfif aboutLoan.nature_of_material NEQ ''>
+												<div class="p-1">
+													#aboutLoan.nature_of_materal#
+												</div>
+											</cfif>
 											<cfif parentLoan.recordcount GT 0>
 												<h2 class="h4 font-weight-normal">
 													Subloan of #parentLoan.loan_type#: 
