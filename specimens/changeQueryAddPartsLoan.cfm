@@ -201,7 +201,7 @@ limitations under the License.
 								}
 							});
 						}
-					<script>
+					</script>
 				</div>
 				<div class="col-12">
 					<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
