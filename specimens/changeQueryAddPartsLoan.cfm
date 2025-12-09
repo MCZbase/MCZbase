@@ -397,6 +397,8 @@ limitations under the License.
 							if (subsample=="true" || subsample==1 || subsample=="1") {
 								subsampleInt = 1;
 								$("##subsample_added_"+ part_id).val("Subsample in loan");
+							} else { 
+								$("##subsample_added_"+ part_id).val("No");
 							}
 							transaction_id = $("##loan_transaction_id").val();
 							remark = $("##loan_item_remarks_"+part_id).val();
