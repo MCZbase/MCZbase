@@ -736,7 +736,7 @@ limitations under the License.
 											</cfif>
 											<cfif aboutLoan.nature_of_material NEQ ''>
 												<div class="p-1">
-													#aboutLoan.nature_of_materal#
+													#aboutLoan.nature_of_material#
 												</div>
 											</cfif>
 											<cfif parentLoan.recordcount GT 0>
