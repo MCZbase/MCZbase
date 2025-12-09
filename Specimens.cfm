@@ -3537,7 +3537,7 @@ Target JSON:
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
-							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank&target_loan_id=#encodeForUrl(target_loan_id)#" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'&target_loan_id=#encodeForUrl(target_loan_id)#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 						<cfelse>
 							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 						</cfif>
