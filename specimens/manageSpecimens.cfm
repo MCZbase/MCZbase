@@ -86,7 +86,7 @@ limitations under the License.
 													FROM loan
 													WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
 												</cfquery>
-												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryTransferLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(url.target_loan_id)#" target="_blank">Add Parts to Loan #getLoan.loan_number#</a>
+												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(url.target_loan_id)#" target="_blank">Add Parts to Loan #getLoan.loan_number#</a>
 											<cfelse>
 												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts To Loan</a>
 											</cfif>
