@@ -842,7 +842,7 @@ limitations under the License.
 					specimen_part.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfset condition_to_append = "">
-			<cfif append_part_condition EQ "true">
+			<cfif isDefined("arguments.append_part_condition") AND arguments.append_part_condition EQ "true">
 				<cfset condition_to_append = " #meta.condition#">
 			</cfif>		
 			<cfif subsample IS 1 >
