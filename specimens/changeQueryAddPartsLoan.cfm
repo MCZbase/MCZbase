@@ -86,7 +86,7 @@ limitations under the License.
 								makeLoanPicker("loan_number", "loan_transaction_id",fetchLoanDetails); 
 							});
 							function fetchLoanDetails() {
-								var transaction_id = $("##loan_transaction_id").val(),
+								var transaction_id = $("##loan_transaction_id").val();
 								$.ajax({
 									url: "/transactions/component/itemFunctions.cfc",
 									dataType: "html",
