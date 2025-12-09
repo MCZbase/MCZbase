@@ -146,7 +146,7 @@ limitations under the License.
 				if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
 					 reloadLoanSummary();
 				}
-				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
 					messageDialog("Warning: You have added or removed an item from this loan, you must reload this page to see the current list of records this page affects.", "Loan Item List Changed Warning");
 				}
 			}
