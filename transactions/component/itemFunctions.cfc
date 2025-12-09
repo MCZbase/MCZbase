@@ -800,13 +800,15 @@ limitations under the License.
  @param instructions the loan item instructions
  @param subsample, if value is one, then create a subsample from the specified part and add the subsample as
   a loan item to the loan, otherwise, add the part without creating a subsample.
---->
+ @param append_part_condition if true append the part condition to the loan item description, optional default false.
+  --->
 <cffunction name="addPartToLoan" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="remark" type="string" required="yes">
 	<cfargument name="instructions" type="string" required="yes">
 	<cfargument name="subsample" type="numeric" required="yes">
+	<cfargument name="append_part_condtion" type="string" required="no" default="false">
 	
 	<cftransaction>
 		<cftry>
@@ -827,14 +829,22 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT cataloged_item.collection_object_id,
-					cat_num,collection,part_name, preserve_method
+					cat_num,
+					collection,part_name, 
+					specimen_part.preserve_method,
+					coll_object.condition
 				FROM
 					cataloged_item 
 					LEFT JOIN collection on cataloged_item.collection_id=collection.collection_id
 					LEFT JOIN specimen_part on cataloged_item.collection_object_id=specimen_part.derived_from_cat_item
+					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 				WHERE
 					specimen_part.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
+			<cfset condition_to_append = "">
+			<cfif append_part_condition EQ "true">
+				<cfset condition_to_append = " #meta.condition#">
+			</cfif>		
 			<cfif subsample IS 1 >
 				<!--- create a subsample and add it as an item to the loan --->
 				<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -936,7 +946,7 @@ limitations under the License.
 					</cfif>
 					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">
 					,sysdate
-					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name# (#meta.preserve_method#)">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name# (#meta.preserve_method#)#condtion_to_append#">
 					,'in loan'
 					<cfif len(#instructions#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instructions#">

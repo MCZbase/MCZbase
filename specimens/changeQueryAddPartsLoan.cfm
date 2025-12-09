@@ -203,6 +203,19 @@ limitations under the License.
 						}
 					</script>
 				</div>
+				<div class="col-12 row">
+					<div class="col-12 col-md-6">
+						<label for="common_instruction_text" class="data-entry-label">Instructions to add to each item when adding to loan.</label>
+						<input type="text" value="" id="common_instruction_text" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-6">
+						<label for="common_append_part_condition" class="data-entry-label">Append the part condition to each loan item description.</label>
+						<select id="common_append_part_condition" class="data-entry-select">
+							<option value="false" selected>No</option>
+							<option value="true">Yes</option>
+						</select>
+					</div>
+				</div>
 				<div class="col-12">
 					<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
@@ -379,6 +392,18 @@ limitations under the License.
 							transaction_id = $("##loan_transaction_id").val();
 							remark = $("##loan_item_remarks_"+part_id).val();
 							instructions = $("##item_instructions_"+part_id).val();
+							common_instructions = $("##common_instruction_text").val(); 
+							if (length(common_instructions) > 0) {
+								if (!instructions.contains(common_instructions)) { 
+									if (length(instructions) > 0) { 
+										instructions = instructions + "; " + common_instructions;
+									} else {
+										instructions = common_instructions;
+									}
+									 $("##item_instructions_"+part_id).val(instructions);
+								} 
+							}
+							append_part_condition = $("##common_append_part_condtion").val();
 							$("##output"+part_id).html("Saving...");
 							jQuery.ajax({
 								url: "/transactions/component/itemFunctions.cfc",
@@ -389,6 +414,7 @@ limitations under the License.
 								remark: remark,
 								instructions: instructions,
 								subsample: subsampleInt,
+								append_part_condition: append_part_condition,
 								returnformat : "json",
 								queryformat : 'column'
 							},
