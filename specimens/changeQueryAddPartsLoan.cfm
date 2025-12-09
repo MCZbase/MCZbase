@@ -22,6 +22,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
+<cfinclude template="/transactions/component/functions.cfc" runOnce="true">
 
 <cfif isDefined("url.result_id") and len(url.result_id) GT 0>
 	<cfset result_id = url.result_id>
