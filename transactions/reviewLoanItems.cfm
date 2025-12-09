@@ -542,14 +542,19 @@ limitations under the License.
 			}
 			bc.onmessage = function (message) { 
 				console.log(message);
+				console.log(message.data);
+				console.log(message.data.source);
+				console.log(message.data.transaction_id);
 				if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
 					 reloadSummary();
 				}
 				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
-					 reloadGridNoBroadcast();
+					console.log("reloading grid from addloanitems message");
+					reloadGridNoBroadcast();
 				}
 				if (message.data.source == "reviewloanitems" && message.data.transaction_id == "#transaction_id#") { 
-					 reloadGridNoBroadcast();
+					console.log("reloading grid from reviewloanitems message");
+					reloadGridNoBroadcast();
 				}
 			}
 			function reloadSummary() { 
