@@ -393,9 +393,9 @@ limitations under the License.
 							remark = $("##loan_item_remarks_"+part_id).val();
 							instructions = $("##item_instructions_"+part_id).val();
 							common_instructions = $("##common_instruction_text").val(); 
-							if (length(common_instructions) > 0) {
+							if (common_instructions.length > 0) {
 								if (!instructions.contains(common_instructions)) { 
-									if (length(instructions) > 0) { 
+									if (instructions.length > 0) { 
 										instructions = instructions + "; " + common_instructions;
 									} else {
 										instructions = common_instructions;
