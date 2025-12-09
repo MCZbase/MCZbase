@@ -181,6 +181,12 @@ limitations under the License.
 							<!--- lookup information about loan --->
 							<cfset aboutLoan = getLoanSummaryHtml(transaction_id=transaction_id)>
 							#aboutLoan#
+							<cfset loanstatus = getLoanStatus(transaction_id=transaction_id)>
+							<cfif loanstatus NEQ "in-progress">
+								<div class="text-danger font-weight-bold">
+									Note: This loan is not in-process. Loan items are not normally added to a loan that with status #loanstatus#.
+								</div>
+							</cfif>
 						</div>
 					</div>
 					<script>
