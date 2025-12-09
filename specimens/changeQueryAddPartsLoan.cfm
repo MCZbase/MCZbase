@@ -394,7 +394,7 @@ limitations under the License.
 							instructions = $("##item_instructions_"+part_id).val();
 							common_instructions = $("##common_instruction_text").val(); 
 							if (common_instructions.length > 0) {
-								if (!instructions.contains(common_instructions)) { 
+								if (!instructions.includes(common_instructions)) { 
 									if (instructions.length > 0) { 
 										instructions = instructions + "; " + common_instructions;
 									} else {
