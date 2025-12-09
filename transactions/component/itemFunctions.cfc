@@ -1716,14 +1716,15 @@ limitations under the License.
 					<div>#loan_type# #loan_status# #loan_date# to #recipient_institution# due #return_due_date#</div>
 					<div>#nature_of_material#</div>
 					<cfif show_buttons NEQ "none">
-					<div>
-						<cfif show_buttons EQ "review" OR show_buttons EQ "both">
-							<a href="/transactions/reviewLoanItems.cfm?transaction_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Review Loan Items</a>
-						</cfif>
-						<cfif show_buttons EQ "add" OR show_buttons EQ "both">
-							<a href="/Specimens.cfm?target_loan_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Loan</a>
-						</cfif>
-					</div>
+						<div>
+							<cfif show_buttons EQ "review" OR show_buttons EQ "both">
+								<a href="/transactions/reviewLoanItems.cfm?transaction_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Review Loan Items</a>
+							</cfif>
+							<cfif show_buttons EQ "add" OR show_buttons EQ "both">
+								<a href="/Specimens.cfm?target_loan_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Loan</a>
+							</cfif>
+						</div>
+					</cfif>
 				</cfloop>
 			</cfoutput>
 		<cfcatch>
