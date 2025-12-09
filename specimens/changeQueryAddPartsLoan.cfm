@@ -403,7 +403,7 @@ limitations under the License.
 									 $("##item_instructions_"+part_id).val(instructions);
 								} 
 							}
-							append_part_condition = $("##common_append_part_condtion").val();
+							append_part_condition = $("##common_append_part_condition").val();
 							$("##output"+part_id).html("Saving...");
 							jQuery.ajax({
 								url: "/transactions/component/itemFunctions.cfc",
