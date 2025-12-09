@@ -268,7 +268,7 @@ limitations under the License.
 									coll_obj_disposition,
 									lot_count, 
 									lot_count_modifier,
-									is_tissue,
+									is_tissue
 								FROM specimen_part
 									JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
