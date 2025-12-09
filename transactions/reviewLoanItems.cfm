@@ -549,10 +549,6 @@ limitations under the License.
 					console.log("reloading grid from addloanitems message");
 					reloadGridNoBroadcast();
 				}
-				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-					console.log("reloading grid from reviewitems message");
-					reloadGridNoBroadcast();
-				}
 			}
 			function reloadSummary() { 
 				// TODO: Implement
