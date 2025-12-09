@@ -267,7 +267,8 @@ limitations under the License.
 									preserve_method,
 									coll_obj_disposition,
 									lot_count, 
-									lot_count_modifier
+									lot_count_modifier,
+									is_tissue,
 								FROM specimen_part
 									JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -286,6 +287,23 @@ limitations under the License.
 										loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#transaction_id#">
 										AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
 								</cfquery>
+								<cfquery name="getPartRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT 
+										coll_object_remarks 
+									FROM
+										coll_object_remark
+									WHERE
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+								</cfquery>
+								<cfset partRemarks ="">
+								<cfset separator="">
+								<cfloop query="getPartRemarks">
+									<!--- should be zero or one, but future proof for multiplicity --->
+									<cfif len(getPartRemarks.coll_object_remarks) GT 0>
+										<cfset partRemarks ="#separator##getPartRemarks.coll_object_remarks#">
+										<cfset separator="; ">
+									</cfif>
+								</cfloop>
 								<cfif checkPartInLoan.recordcount GT 0>
 									<cfset item_instructions = "#checkPartInLoan.item_instructions#">
 									<cfset loan_item_remarks = "#checkPartInLoan.loan_item_remarks#">
@@ -310,7 +328,8 @@ limitations under the License.
 								<div class="col-12 row mx-0 py-1 border-top border-secondary">
 									<div class="col-12 col-md-2">
 										<input type="hidden" name="part_name_#part_id#" id="part_name_#part_id#" value="#getParts.part_name# (#getParts.preserve_method#)">
-										#getParts.part_name# (#getParts.preserve_method#) #getParts.lot_count_modifier#&nbsp;#getParts.lot_count#
+										<span>#getParts.part_name# (#getParts.preserve_method#) #getParts.lot_count_modifier#&nbsp;#getParts.lot_count#</span>
+										#partRemarks#
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data_entry_label" for="item_instructions_#part_id#">Item Instructions</label>
