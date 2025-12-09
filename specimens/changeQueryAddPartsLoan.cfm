@@ -331,6 +331,7 @@ limitations under the License.
 											<option value="0" selected>No</option>
 											<option value="1">Yes</option>
 										</select>
+										<input type="text" id="subsample_added_#part_id#" type="data-entry-input" value="" readonly="readonly" disabled="disabled" style="display: none;">
 									</div>
 									<div class="col-12 col-md-1">
 										<button class="btn btn-xs btn-primary addpartbutton"
@@ -395,6 +396,7 @@ limitations under the License.
 							var subsampleInt = 0;
 							if (subsample=="true" || subsample==1 || subsample=="1") {
 								subsampleInt = 1;
+								$("##subsample_added_"+ part_id).val("Subsample in loan");
 							}
 							transaction_id = $("##loan_transaction_id").val();
 							remark = $("##loan_item_remarks_"+part_id).val();
@@ -442,12 +444,18 @@ limitations under the License.
 									$("##loan_item_remarks_"+part_id).addClass("disabled");
 									$("##coll_obj_disposition_"+part_id).prop("disabled",true);
 									$("##coll_obj_disposition_"+part_id).addClass("disabled");
+									$("##subsample_added_"+ part_id).show();
+									$("##subsample_"+ part_id).hide();
 								} else { 
 									$("##output"+part_id).html("Error");
+									$("##subsample_added_"+ part_id).hide();
+									$("##subsample_"+ part_id).show();
 								}
 							},
 							error: function (jqXHR, textStatus, error) {
 								$("##output"+part_id).html("Error");
+								$("##subsample_added_"+ part_id).hide();
+								$("##subsample_"+ part_id).show();
 								handleFail(jqXHR,textStatus,error,"adding a part as a loan item to a loan");
 							},
 							dataType: "html"
