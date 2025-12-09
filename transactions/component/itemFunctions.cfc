@@ -1672,13 +1672,21 @@ limitations under the License.
 	<cfreturn getCountriesListThread.output>
 </cffunction>
 
-<!--- obtain an html summary block for a loan.
+<!--- obtain an html summary block for a loan intent is to go on a page for reviewing/adding items to a loan.
  @param transaction_id the id of the loan for which to obtain the summary.
+ @param show_buttons, one of review, add, both, none, optional, default review, determines which buttons are shown.
  @return an html block summarizing the loan or an http 500 error if an error occurs.
 --->
 <cffunction name="getLoanSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
-	<cfthread name="getLoanSummaryThread" transaction_id="#arguments.transaction_id#">
+	<cfargument name="show_buttons" type="string" required="no" default="review">
+
+	<cfif not isDefined("arguments.show_buttons") OR len(arguments.show_buttons EQ 0)>
+		<cfset show_buttons = "review">
+	<cfelse>
+		<cfset show_buttons = arguments.show_buttons>
+
+	<cfthread name="getLoanSummaryThread" transaction_id="#arguments.transaction_id#" show_buttons="#show_buttons#">
 		<cftry>
 			<cfoutput>
 				<!--- lookup loan number and information about loan --->
@@ -1707,6 +1715,15 @@ limitations under the License.
 					<h2 class="h3"><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#encodeForUrl(transaction_id)#" target="_blank">#getLoan.loan_number#</a></h2>
 					<div>#loan_type# #loan_status# #loan_date# to #recipient_institution# due #return_due_date#</div>
 					<div>#nature_of_material#</div>
+					<cfif show_buttons NEQ "none">
+					<div>
+						<cfif show_buttons EQ "review" OR show_buttons EQ "both">
+							<a href="/transactions/reviewLoanItems.cfm?transaction_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Review Loan Items</a>
+						</cfif>
+						<cfif show_buttons EQ "add" OR show_buttons EQ "both">
+							<a href="/Specimens.cfm?target_loan_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Loan</a>
+						</cfif>
+					</div>
 				</cfloop>
 			</cfoutput>
 		<cfcatch>
