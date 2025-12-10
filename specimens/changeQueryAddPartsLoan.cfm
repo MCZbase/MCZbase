@@ -210,17 +210,24 @@ limitations under the License.
 						}
 					</script>
 				</div>
-				<div class="col-12 row border p-1 m-1">
-					<div class="col-12 col-md-6">
-						<label for="common_instruction_text" class="data-entry-label">Instructions to add to each item when adding to loan.</label>
-						<input type="text" value="" id="common_instruction_text" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-6">
-						<label for="common_append_part_condition" class="data-entry-label">Append the part condition to each loan item description.</label>
-						<select id="common_append_part_condition" class="data-entry-select">
-							<option value="false" selected>No</option>
-							<option value="true">Yes</option>
-						</select>
+				<div class="col-12">
+					<div class="add-form mt-2">
+						<div class="add-form-header pt-1 px-2">
+							<h2 class="h4 mb-0 pb-0">Actions on each added item</h2>
+						</div>
+						<div class="card-body form-row my-1">
+							<div class="col-12 col-md-6">
+								<label for="common_instruction_text" class="data-entry-label">Instructions to add to each item when adding to loan.</label>
+								<input type="text" value="" id="common_instruction_text" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="common_append_part_condition" class="data-entry-label">Append the part condition to each loan item description.</label>
+								<select id="common_append_part_condition" class="data-entry-select">
+									<option value="false" selected>No</option>
+									<option value="true">Yes</option>
+								</select>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-12">
