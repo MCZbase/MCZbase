@@ -245,9 +245,10 @@ limitations under the License.
 						ORDER BY collection_cde, cat_num
 					</cfquery>
 					<cfloop query="getCatItems">
+						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
 							<div class="col-12 col-md-4 mb-1">
-								#institution_acronym#:#collection_cde#:#cat_num#
+								<a href="/guid/#guid#" target="_blank">#institution_acronym#:#collection_cde#:#cat_num#</a>
 							</div>
 							<div class="col-12 col-md-4 mb-1">
 								#higher_geog#
