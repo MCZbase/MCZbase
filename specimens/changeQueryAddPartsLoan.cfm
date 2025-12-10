@@ -357,7 +357,7 @@ limitations under the License.
 												<div id="subsample_added_#part_id#">No</div>
 											</cfif>
 										<cfelse>
-											<label class="data_entry_label" for="subsample_#part_id#">Subsample</label>
+											<label class="data_entry_label" for="subsample_#part_id#" id="subsample_label_#part_id#">Subsample</label>
 											<select name="subsample" id="subsample_#part_id#" class="data-entry-select">
 												<option value="0" selected>No</option>
 												<option value="1">Yes</option>
@@ -370,10 +370,12 @@ limitations under the License.
 											onClick="addPartToLoan(#part_id#);" 
 											name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
 										<cfif getParts.coll_obj_disposition contains "deaccessioned">
-											<!--- hide Add button for deaccessioned parts --->
+											<!--- hide Add button and subsample control for deaccessioned parts --->
 											<script>
 												$(document).ready(function() { 
 													$("##add_part_#part_id#").hide();
+													$("##subsample_label_#part_id#").hide();
+													$("##subsample_#part_id#").hide();
 												});
 											</script>
 										</cfif>
