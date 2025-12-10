@@ -226,7 +226,6 @@ limitations under the License.
 					onclick="cC.action.value='nothing'; submit();"/>
 			</form>
 			<cfabort>
-			<cfabort>
 		<cfelse>
 			You cannot remove this item from a loan while it's disposition is "deaccessioned." 
 			<br />Use the form below if you'd like to change the disposition and remove the item 
@@ -740,7 +739,7 @@ limitations under the License.
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<p />
 					<button class="btn btn-xs btn-danger"
-						value="Delete Subsample From Database" 
+						value="Delete Subsample From Database" disabled
 						onclick="alert('not implemented');">Delete Subsample From Database</button> <!--- cC.action.value='killSS'; submit();"/> --->
 				</cfif>
 				<p />
