@@ -345,79 +345,79 @@ limitations under the License.
 											readonly="readonly" disabled="disabled">
 									</div>
 									<div class="col-12 col-md-1">
-										<label class="data_entry_label" for="subsample#part_id#">Subsample</label>
+										<label class="data_entry_label" for="subsample_#part_id#">Subsample</label>
 										<select name="subsample" id="subsample_#part_id#" class="data-entry-select">
 											<option value="0" selected>No</option>
 											<option value="1">Yes</option>
 										</select>
-										<input type="text" id="subsample_added_#part_id#" type="data-entry-input" value="" readonly="readonly" disabled="disabled" style="display: none;">
-									</div>
-									<div class="col-12 col-md-1">
-										<button class="btn btn-xs btn-primary addpartbutton"
-											onClick="addPartToLoan(#part_id#);" 
-											name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
-										<cfif checkPartInLoan.recordcount GT 0>
-											<cfset loan_item_id = "#checkPartInLoan.loan_item_id#">
-										<cfelse>
-											<cfset loan_item_id = "">
-										</cfif>
-										<input type="hidden" name="loan_item_id_#part_id#" id="loan_item_id_#part_id#" value="#loan_item_id#">
-										<button class="btn btn-xs btn-primary editpartbutton" style="display: none;"
-											onClick="launchEditDialog(#part_id#);" 
-											name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
-										<output id="output#part_id#">
-											<cfif checkPartInLoan.recordcount GT 0>
-												In this loan.
-												<script>
-													$(document).ready(function() { 
-														$("##add_part_#part_id#").hide();
-														$("##edit_part_#part_id#").show();
-														$("##item_instructions_#part_id#").prop("disabled",true);
-														$("##item_instructions_#part_id#").addClass("disabled");
-														$("##loan_item_remarks_#part_id#").prop("disabled",true);
-														$("##loan_item_remarks_#part_id#").addClass("disabled");
-														$("##coll_obj_disposition_#part_id#").prop("disabled",true);
-														$("##coll_obj_disposition_#part_id#").addClass("disabled");
-													});
-												</script>
-											</cfif>
-										</output>
-									</div>
-									<cfif checkPartInOtherLoan.recordcount GT 0>
-										<div class="col-12">
-											<ul>
-												<cfloop query="checkPartInOtherLoan">
-													<li>
-														<span class="text-danger font-weight-bold">Note:</span> This part is in loan 
-														<a href="/transactions/Loan.cfm?action=edit&transaction_id=#checkPartInOtherLoan.transaction_id#">
-															#checkPartInOtherLoan.loan_number#
-														</a>
-														(in state: #checkPartInOtherLoan.loan_item_state#).
-													</li>
-												</cfloop>
-											</ul>
+											<div id="subsample_added_#part_id#" style="display: none;"></div>
 										</div>
-									</cfif>
-								</div>
-							</cfloop>
-						</div>
-					</cfloop>
-					<div id="editItemDialogDiv"></div>
-					<script>
-						function launchEditDialog(part_id) { 
-							var loan_item_id = $("##loan_item_id_"+part_id).val();
-							var part_name = $("##part_name_"+part_id).val();
+										<div class="col-12 col-md-1">
+											<button class="btn btn-xs btn-primary addpartbutton"
+												onClick="addPartToLoan(#part_id#);" 
+												name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
+											<cfif checkPartInLoan.recordcount GT 0>
+												<cfset loan_item_id = "#checkPartInLoan.loan_item_id#">
+											<cfelse>
+												<cfset loan_item_id = "">
+											</cfif>
+											<input type="hidden" name="loan_item_id_#part_id#" id="loan_item_id_#part_id#" value="#loan_item_id#">
+											<button class="btn btn-xs btn-primary editpartbutton" style="display: none;"
+												onClick="launchEditDialog(#part_id#);" 
+												name="edit_part_#part_id#" id="edit_part_#part_id#">Edit</button>
+											<output id="output#part_id#">
+												<cfif checkPartInLoan.recordcount GT 0>
+													In this loan.
+													<script>
+														$(document).ready(function() { 
+															$("##add_part_#part_id#").hide();
+															$("##edit_part_#part_id#").show();
+															$("##item_instructions_#part_id#").prop("disabled",true);
+															$("##item_instructions_#part_id#").addClass("disabled");
+															$("##loan_item_remarks_#part_id#").prop("disabled",true);
+															$("##loan_item_remarks_#part_id#").addClass("disabled");
+															$("##coll_obj_disposition_#part_id#").prop("disabled",true);
+															$("##coll_obj_disposition_#part_id#").addClass("disabled");
+														});
+													</script>
+												</cfif>
+											</output>
+										</div>
+										<cfif checkPartInOtherLoan.recordcount GT 0>
+											<div class="col-12">
+												<ul>
+													<cfloop query="checkPartInOtherLoan">
+														<li>
+															<span class="text-danger font-weight-bold">Note:</span> This part is in loan 
+															<a href="/transactions/Loan.cfm?action=edit&transaction_id=#checkPartInOtherLoan.transaction_id#">
+																#checkPartInOtherLoan.loan_number#
+															</a>
+															(in state: #checkPartInOtherLoan.loan_item_state#).
+														</li>
+													</cfloop>
+												</ul>
+											</div>
+										</cfif>
+									</div>
+								</cfloop>
+							</div>
+						</cfloop>
+						<div id="editItemDialogDiv"></div>
+						<script>
+							function launchEditDialog(part_id) { 
+								var loan_item_id = $("##loan_item_id_"+part_id).val();
+								var part_name = $("##part_name_"+part_id).val();
 							openLoanItemDialog(loan_item_id,"editItemDialogDiv",part_name,null);
 						}
 						function addPartToLoan(part_id) { 
 							// get values from inputs for part
-							subsample = $("##subsample"+part_id).val();
+							subsample = $("##subsample_"+part_id).val();
 							var subsampleInt = 0;
-							if (subsample=="true" || subsample==1 || subsample=="1") {
+							if (subsample=="true" || subsample=="1") {
 								subsampleInt = 1;
-								$("##subsample_added_"+ part_id).val("Subsample in loan");
+								$("##subsample_added_"+ part_id).html("Subsample in loan");
 							} else { 
-								$("##subsample_added_"+ part_id).val("No");
+								$("##subsample_added_"+ part_id).html("No");
 							}
 							transaction_id = $("##loan_transaction_id").val();
 							remark = $("##loan_item_remarks_"+part_id).val();
