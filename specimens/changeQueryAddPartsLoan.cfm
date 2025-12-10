@@ -369,7 +369,6 @@ limitations under the License.
 										<button class="btn btn-xs btn-primary addpartbutton"
 											onClick="addPartToLoan(#part_id#);" 
 											name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
-										</cfif>
 										<cfif checkPartInLoan.recordcount GT 0>
 											<cfset loan_item_id = "#checkPartInLoan.loan_item_id#">
 										<cfelse>
@@ -415,11 +414,9 @@ limitations under the License.
 									<cfif getParts.coll_obj_disposition contains "deaccessioned" or getParts.coll_obj_disposition EQ "on loan">
 										<div class="col-12">
 											<ul>
-												<cfloop query="checkPartInOtherLoan">
-													<li>
-														<span class="text-danger font-weight-bold">This part may not be available for loan, it has a current disposition of #getParts.coll_obj_disposition#</span>
-													</li>
-												</cfloop>
+												<li>
+													<span class="text-danger font-weight-bold">This part may not be available for loan, it has a current disposition of #getParts.coll_obj_disposition#</span>
+												</li>
 											</ul>
 										</div>
 									</cfif>
