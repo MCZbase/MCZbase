@@ -369,6 +369,14 @@ limitations under the License.
 										<button class="btn btn-xs btn-primary addpartbutton"
 											onClick="addPartToLoan(#part_id#);" 
 											name="add_part_#part_id#" id="add_part_#part_id#">Add</button>
+										<cfif getParts.coll_obj_disposition contains "deaccessioned">
+											<!--- hide Add button for deaccessioned parts --->
+											<script>
+												$(document).ready(function() { 
+													$("##add_part_#part_id#").hide();
+												});
+											</script>
+										</cfif>
 										<cfif checkPartInLoan.recordcount GT 0>
 											<cfset loan_item_id = "#checkPartInLoan.loan_item_id#">
 										<cfelse>
