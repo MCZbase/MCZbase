@@ -398,7 +398,7 @@ limitations under the License.
 									</div>
 									<cfif checkPartInOtherLoan.recordcount GT 0>
 										<div class="col-12">
-											<ul>
+											<ul class="mb-1">
 												<cfloop query="checkPartInOtherLoan">
 													<li>
 														<span class="text-danger font-weight-bold">Note:</span> This part is in loan 
@@ -413,7 +413,7 @@ limitations under the License.
 									</cfif>
 									<cfif getParts.coll_obj_disposition contains "deaccessioned" or getParts.coll_obj_disposition EQ "on loan">
 										<div class="col-12">
-											<ul>
+											<ul class="mb-1">
 												<li>
 													<span class="text-danger font-weight-bold">This part may not be available for loan, it has a current disposition of #getParts.coll_obj_disposition#</span>
 												</li>
