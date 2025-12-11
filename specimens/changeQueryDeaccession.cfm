@@ -23,7 +23,7 @@
 			SELECT coll_obj_disposition 
 			FROM ctcoll_obj_disp
 		</cfquery>
-<!--- TODO: Check if items are on loan and have a disposition on loan, if so, prevent deaccessioning. --->
+		<!--- TODO: Check if items are on loan and have a disposition on loan, if so, prevent deaccessioning. --->
 		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				count(cataloged_item.collection_object_id) ct,
