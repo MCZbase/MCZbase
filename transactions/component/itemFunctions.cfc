@@ -1825,7 +1825,7 @@ limitations under the License.
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="remark" type="string" required="yes">
 	<cfargument name="instructions" type="string" required="yes">
-	<cfargument name="coll_obj_dispostion" type="string" required="yes">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
 	
 	<cftransaction>
 		<cftry>
