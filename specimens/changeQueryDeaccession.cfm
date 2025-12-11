@@ -518,7 +518,7 @@
 								var common_instructions = $("##common_instruction_text").val(); 
 								var common_remarks = $("##common_remarks_text").val(); 
 								var common_disposition = $("##common_disposition").val();
-								var coll_obj_disposition = $("##coll_obj_disposition_"+part_id).val(),
+								var coll_obj_disposition = $("##coll_obj_disposition_"+part_id).val();
 
 								// append common instructions, if not already present
 								if (common_instructions.length > 0) {
