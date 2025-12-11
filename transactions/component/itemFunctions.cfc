@@ -1900,11 +1900,7 @@ limitations under the License.
 			<cfif getDeaccItemID.recordcount NEQ 1>
 				<cfthrow message="Could not obtain deacc_item_id of inserted deacc_item.">
 			</cfif>
-			<cfif subsample IS 1 >
-				<cfset targetObject = subsampleCollObjectId>
-			<cfelse>
-				<cfset targetObject = part_id>
-			</cfif>
+			<cfset targetObject = part_id>
 			<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">
