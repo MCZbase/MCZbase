@@ -1907,7 +1907,7 @@ limitations under the License.
 				WHERE 
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetObject#">
 			</cfquery>
-			<cfset theResult=queryNew("status, loan_item_id, message, subsample")>
+			<cfset theResult=queryNew("status, deacc_item_id, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 			<cfset t = QuerySetCell(theResult, "deacc_item_id", "#getDeaccItemID.deacc_item_id#", 1)>
