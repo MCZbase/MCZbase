@@ -1743,4 +1743,195 @@ limitations under the License.
 	<cfreturn getLoanSummaryThread.output>
 </cffunction>
 
+<!---  getDeaccessionSummaryHTML obtain an html summary block for a deaccession
+ intent is to go on a page for reviewing/adding items to a deacession.
+ @param transaction_id the id of the deaccession for which to obtain the summary.
+ @param show_buttons, one of review, add, both, none, optional, default review, determines which buttons are shown.
+ @return an html block summarizing the deaccession or an http 500 error if an error occurs.
+--->
+<cffunction name="getDeaccessionSummaryHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="show_buttons" type="string" required="no" default="review">
+
+	<cfif not isDefined("arguments.show_buttons") OR len(arguments.show_buttons) EQ 0>
+		<cfset show_buttons = "review">
+	<cfelse>
+		<cfset show_buttons = arguments.show_buttons>
+	</cfif>
+
+	<cfthread name="getDeaccSummaryThread" transaction_id="#arguments.transaction_id#" show_buttons="#show_buttons#">
+		<cftry>
+			<cfoutput>
+				<!--- lookup deaccession number and information about deaccession --->
+				<cfquery name="getDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						c.collection_cde, 
+						c.collection,
+						deaccession.deacc_type, 
+						deaccession.deacc_status, 
+						deaccession.deacc_number,
+						deaccession.deacc_reason,
+						deaccession.deacc_description,
+						trans.nature_of_material,
+						to_char(trans.trans_date,'yyyy-mm-dd') as deacc_date
+					FROM 
+						trans
+						join collection c on trans.collection_id = c.collection_id
+						join deaccession on trans.transaction_id = deaccession.transaction_id
+					WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				</cfquery>
+				<cfif getDeacc.recordcount NEQ 1>
+					<cfthrow message="No deaccession found for transaction_id=[#encodeForHtml(transaction_id)#]">
+				</cfif>
+				<cfloop query="getDeacc">
+					<h2 class="h3"><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#encodeForUrl(transaction_id)#" target="_blank">#getDeacc.deacc_number#</a></h2>
+					<div>#deacc_type# #deacc_status# on #deacc_date# #deacc_reason# </div>
+					<div>#nature_of_material#</div>
+					<div>#deacc_description#</div>
+					<cfif show_buttons NEQ "none">
+						<div>
+							<cfif show_buttons EQ "review" OR show_buttons EQ "both">
+								<a href="/transactions/reviewDeaccItems.cfm?transaction_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Review Deaccession Items</a>
+							</cfif>
+							<cfif show_buttons EQ "add" OR show_buttons EQ "both">
+								<a href="/Specimens.cfm?target_loan_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Deaccession</a>
+							</cfif>
+						</div>
+					</cfif>
+				</cfloop>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getDeaccSummaryThread" />
+	<cfreturn getDeaccSummaryThread.output>
+</cffunction>
+
+
+<!---   Function addPartToDeaccession add a part to a deaccession as a deacc item.
+ @param transaction_id the deaccession to which to add the part as a deacc_item
+ @param part_id the collection_object_id of the part to add as a deacc_item
+ @param remark the deacc item remarks.
+ @param instructions the deacc item instructions
+ @param coll_obj_dispostion the disposition to set on the specimen part being deaccessioned.
+  --->
+<cffunction name="addPartToDeaccession" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="remark" type="string" required="yes">
+	<cfargument name="instructions" type="string" required="yes">
+	<cfargument name="coll_obj_dispostion" type="string" required="yes">
+	
+	<cftransaction>
+		<cftry>
+			<cfquery name="checkIsDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(transaction_id) as ct
+				FROM deaccession
+				WHERE
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif checkIsDeaccession.ct EQ 0>
+				<cfthrow message="Provided transaction_id is not for a deaccession.">
+			</cfif>
+			<cfquery name="getDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT deacc_number
+				FROM deaccession
+				WHERE
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT cataloged_item.collection_object_id,
+					cat_num,
+					collection,part_name, 
+					specimen_part.preserve_method,
+					coll_object.condition
+				FROM
+					cataloged_item 
+					LEFT JOIN collection on cataloged_item.collection_id=collection.collection_id
+					LEFT JOIN specimen_part on cataloged_item.collection_object_id=specimen_part.derived_from_cat_item
+					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+				WHERE
+					specimen_part.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+			</cfquery>
+
+			<cfquery name="addDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addDeaccItem_result">
+				INSERT INTO DEACC_ITEM (
+					TRANSACTION_ID
+					,COLLECTION_OBJECT_ID
+					,RECONCILED_BY_PERSON_ID
+					,RECONCILED_DATE
+					,ITEM_DESCR
+					<cfif len(#instructions#) gt 0>
+						,ITEM_INSTRUCTIONS
+					</cfif>
+					<cfif len(#remark#) gt 0>
+						,deacc_ITEM_REMARKS
+					</cfif>
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">
+					,sysdate
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name# (#meta.preserve_method#)">
+					<cfif len(#instructions#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instructions#">
+					</cfif>
+					<cfif len(#remark#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
+					</cfif>
+				)
+			</cfquery>
+			<!--- Obtain deacc_item_id for insert and return it in the result. --->
+			<cfset rowid = addDeaccItem_result.generatedkey>
+			<cfif len(rowid) EQ 0>
+				<cfthrow message="Could not obtain rowid of inserted deacc_item.">
+			</cfif>
+			<cfquery name="getDeaccItemID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT deacc_item_id
+				FROM deacc_item
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfif getDeaccItemID.recordcount NEQ 1>
+				<cfthrow message="Could not obtain deacc_item_id of inserted deacc_item.">
+			</cfif>
+			<cfif subsample IS 1 >
+				<cfset targetObject = subsampleCollObjectId>
+			<cfelse>
+				<cfset targetObject = part_id>
+			</cfif>
+			<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE coll_object 
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_dispostion#">
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetObject#">
+			</cfquery>
+			<cfset theResult=queryNew("status, loan_item_id, message, subsample")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "loan_item_id", "#getLoanItemId.loan_item_id#", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "item added to loan.", 1)>
+			<cfif subsample IS 1 >
+				<cfset t = QuerySetCell(theResult, "subsample", "#subsampleCollObjectId#", 1)>
+			<cfelse>
+				<cfset t = QuerySetCell(theResult, "subsample", "", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+		<cfreturn theResult>
+	</cftransaction>
+</cffunction>
+
 </cfcomponent>
