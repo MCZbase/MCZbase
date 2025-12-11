@@ -18,7 +18,6 @@ limitations under the License.
 
 --->
 <cfset pageTitle="Add Parts To Loan">
-<cfset pageHasTabs="true">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
