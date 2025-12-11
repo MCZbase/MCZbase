@@ -81,7 +81,7 @@ limitations under the License.
 					<div class="col-12 col-md-2 pt-1">
 						<label for="loan_number" class="data-entry-label">Loan Number</label>
 						<input type="hidden" id="loan_transaction_id" name="loan_transaction_id" value="">
-						<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required>
+						<input type="text" name="loan_number" id="loan_number" size="20" class="reqdClr data-entry-text" required placeholder=”yyyy-n-Coll”>
 						<script>
 							$(document).ready(function() { 
 								makeLoanPicker("loan_number", "loan_transaction_id",fetchLoanDetails); 
