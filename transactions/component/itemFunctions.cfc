@@ -1910,7 +1910,7 @@ limitations under the License.
 			<cfset theResult=queryNew("status, loan_item_id, message, subsample")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-			<cfset t = QuerySetCell(theResult, "deacc_item_id", "#getDeaccItemId.deacc_item_id#", 1)>
+			<cfset t = QuerySetCell(theResult, "deacc_item_id", "#getDeaccItemID.deacc_item_id#", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "item added to deaccession.", 1)>
 			<cftransaction action="commit">
 		<cfcatch>
