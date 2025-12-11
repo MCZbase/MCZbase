@@ -1818,7 +1818,7 @@ limitations under the License.
  @param part_id the collection_object_id of the part to add as a deacc_item
  @param remark the deacc item remarks.
  @param instructions the deacc item instructions
- @param coll_obj_dispostion the disposition to set on the specimen part being deaccessioned.
+ @param coll_obj_disposition the disposition to set on the specimen part being deaccessioned.
   --->
 <cffunction name="addPartToDeaccession" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
@@ -1907,7 +1907,7 @@ limitations under the License.
 			</cfif>
 			<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE coll_object 
-				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_dispostion#">
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">
 				WHERE 
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetObject#">
 			</cfquery>
