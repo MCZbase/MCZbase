@@ -1910,13 +1910,8 @@ limitations under the License.
 			<cfset theResult=queryNew("status, loan_item_id, message, subsample")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-			<cfset t = QuerySetCell(theResult, "loan_item_id", "#getLoanItemId.loan_item_id#", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "item added to loan.", 1)>
-			<cfif subsample IS 1 >
-				<cfset t = QuerySetCell(theResult, "subsample", "#subsampleCollObjectId#", 1)>
-			<cfelse>
-				<cfset t = QuerySetCell(theResult, "subsample", "", 1)>
-			</cfif>
+			<cfset t = QuerySetCell(theResult, "deacc_item_id", "#getDeaccItemId.deacc_item_id#", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "item added to deaccession.", 1)>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
