@@ -117,6 +117,7 @@
 										dataType: "html",
 										data: {
 											method: "getDeaccessionSummaryHTML",
+											show_buttons: "none",
 											transaction_id: transaction_id
 										},
 										success: function(data) {
