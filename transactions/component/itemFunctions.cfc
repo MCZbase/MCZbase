@@ -2239,7 +2239,7 @@ limitations under the License.
 														<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id==#lookupEncumbrances.encumbrance_id#" target="_blank">
 															#lookupEncumbrances.encumbrance#
 														</a>
-													</cfelse>
+													<cfelse>
 														#lookupEncumbrances.encumbrance#
 													</cfif>
 													set by #lookupEncumbrances.encumbering_agent#.
