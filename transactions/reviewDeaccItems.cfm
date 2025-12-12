@@ -268,13 +268,10 @@ limitations under the License.
 			</cfif>
 		
 			<section class="row">
-				<h2 class="h3 w-100">
-					Review items in deaccession
-					<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#getAboutDeacc.deacc_number#</a>
-				</h2>
+				<h2 class="h3 w-100 mb-0 pb-0"> Review items in deaccession </h2>
 				<div class="col-12 col-md-4">
 					<div id="deaccDetails">
-						<!--- lookup information about deaccession via backing function --->
+						<!--- lookup information about deaccession via backing function, includes link to deaccession --->
 						<cfset deaccessionMetadata = getDeaccessionSummaryHtml(transaction_id=transaction_id)>
 						#deaccessionMetadata#
 					</div>
