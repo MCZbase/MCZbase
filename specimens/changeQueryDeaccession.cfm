@@ -70,6 +70,7 @@
 <cfset colcdes = valuelist(colcde.collection_cde)>
 
 <script type="text/javascript" src="/transactions/js/transactions.js"></script>
+<script type="text/javascript" src="/transactions/js/reviewDeaccItems.js"></script>
 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
@@ -99,7 +100,7 @@
 						<div class="col-12 col-md-3 pt-1">
 							<label for="deacc_number" class="data-entry-label">Deaccession Number</label>
 							<input type="hidden" id="deacc_transaction_id" name="deacc_transaction_id" value="">
-							<input type="text" name="deacc_number" id="deacc_number" size="20" class="reqdClr data-entry-text" required placeholder=”Dyyyy-n-Coll”>
+							<input type="text" name="deacc_number" id="deacc_number" size="20" class="reqdClr data-entry-text" required placeholder="Dyyyy-n-Coll">
 							<script>
 								$(document).ready(function() { 
 									makeDeaccessionAutocompleteMeta("deacc_number", "deacc_transaction_id");
