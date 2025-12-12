@@ -2000,7 +2000,7 @@ limitations under the License.
 											</h3>
 										</div>
 										<div class="card-body">
-											<form name="editLoanItemForm" id="editLoanItemForm" class="mb-0">
+											<form name="editDeaccItemForm" id="editDeaccItemForm" class="mb-0">
 												<input type="hidden" name="deacc_item_id" value="#lookupItem.deacc_item_id#">
 												<input type="hidden" name="part_id" value="#lookupItem.part_id#">
 												<input type="hidden" name="transaction_id" value="#lookupItem.transaction_id#">
