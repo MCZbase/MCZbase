@@ -1743,13 +1743,13 @@ limitations under the License.
 	<cfreturn getLoanSummaryThread.output>
 </cffunction>
 
-<!---  getDeaccessionSummaryHTML obtain an html summary block for a deaccession
+<!---  getDeaccessionSummaryHtml obtain an html summary block for a deaccession
  intent is to go on a page for reviewing/adding items to a deacession.
  @param transaction_id the id of the deaccession for which to obtain the summary.
  @param show_buttons, one of review, add, both, none, optional, default review, determines which buttons are shown.
  @return an html block summarizing the deaccession or an http 500 error if an error occurs.
 --->
-<cffunction name="getDeaccessionSummaryHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getDeaccessionSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="show_buttons" type="string" required="no" default="review">
 
