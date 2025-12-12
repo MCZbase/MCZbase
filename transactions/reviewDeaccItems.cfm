@@ -161,8 +161,9 @@ limitations under the License.
 <!-------------------------------------------------------------------------------->
 
 <cfif #action# is "entryPoint">
+	<!--- TODO: Redo as a query on cataloged items, then a query on parts, list parts per cataloged item --->
 	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select 
+		select distinct
 			cat_num, 
 			cataloged_item.collection_object_id,
 			collection,
@@ -268,7 +269,7 @@ limitations under the License.
 			</cfif>
 		
 			<section class="row">
-				<h2 class="h3 w-100 mb-0 pb-0"> Review items in deaccession </h2>
+				<h2 class="h3 w-100 mb-0 pb-0 ml-3"> Review items in deaccession </h2>
 				<div class="col-12 col-md-4">
 					<div id="deaccDetails">
 						<!--- lookup information about deaccession via backing function, includes link to deaccession --->
