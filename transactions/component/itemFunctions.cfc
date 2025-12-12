@@ -1925,4 +1925,373 @@ limitations under the License.
 	</cftransaction>
 </cffunction>
 
+<!--- getDeaccItemDialogHtml obtain an html block to populate dialog for editing a deaccession item 
+ @param deacc_item_id the id of the deaccession item for which to obtain the html.
+ @return an html block for editing the deaccession item or an http 500 error if an error occurs.
+--->
+<cffunction name="getDeaccItemDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="deacc_item_id" type="string" required="yes">
+
+	<cfthread name="getRemoveLoanItemHtmlThread" deacc_item_id="#arguments.deacc_item_id#">
+		<cftry>
+			<cfoutput>
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT coll_obj_disposition 
+						FROM ctcoll_obj_disp 
+						ORDER BY coll_obj_disposition
+				</cfquery>
+				<cfquery name="lookupItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						deaccession.deacc_number,
+						deaccession.transaction_id,
+						deaccession.deacc_type,
+						deaccession.deacc_status,
+						collection.institution_acronym,
+						cataloged_item.collection_cde, 
+						cataloged_item.cat_num,
+						coll_object.coll_obj_disposition,
+						coll_object.condition,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						deacc_item.deacc_item_id,
+						deacc_item.collection_object_id part_id,
+						deacc_item.reconciled_by_person_id,
+						MCZBASE.getPreferredAgentName(deacc_item.reconciled_by_person_id) as reconciled_by_agent,
+						to_char(deacc_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
+						deacc_item.item_descr,
+						deacc_item.item_instructions,
+						deacc_item.deacc_item_remarks,
+						specimen_part.sampled_from_obj_id,
+						case when specimen_part.sampled_from_obj_id is not null then 'yes' else 'no' end as is_subsample,
+						sampledFromCatItem.cat_num as sampled_from_cat_num,
+						sampledFromCatItem.collection_cde as sampled_from_collection_cde,
+						sampledFromPart.part_name as sampled_from_part_name,
+						sampledFromPart.preserve_method as sampled_from_preserve_method
+					FROM 
+						deacc_item
+						join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id
+						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+						left join coll_object sampledFrom on specimen_part.sampled_from_obj_id = sampledFrom.collection_object_id
+						left join specimen_part sampledFromPart on sampledFrom.collection_object_id = sampledFromPart.collection_object_id
+						left join cataloged_item sampledFromCatItem on sampledFromPart.derived_from_cat_item = sampledFromCatItem.collection_object_id
+					WHERE deacc_item.deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
+				</cfquery>
+				<cfif lookupItem.recordcount NEQ 1>
+					<cfthrow message="Unable to lookup deacc item by deacc_item_id=#encodeForHtml(deacc_item_id)#">
+				</cfif>
+				<cfloop query="lookupItem">
+					<cfset guid="#institution_acronym#:#collection_cde#:#cat_num#">
+					<div id="deaccItemEditorDiv">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12">
+									<div class="add-form mt-2">
+										<div class="add-form-header pt-1 px-2">
+											<h2 class="h2">Deaccession Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #deacc_number# #deacc_type# #deacc_status#</h2>
+											<cfif is_subsample EQ "yes">
+												<h3 class="h4">Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
+											</cfif>
+											<h3 class="h4">
+												Added to Deaccession by <a href="/agents/Agent.cfm?agent_id=#reconciled_by_person_id#" target="_blank">#reconciled_by_agent#</a>
+												on #reconciled_date#.  
+											</h3>
+										</div>
+										<div class="card-body">
+											<form name="editLoanItemForm" id="editLoanItemForm" class="mb-0">
+												<input type="hidden" name="deacc_item_id" value="#lookupItem.deacc_item_id#">
+												<input type="hidden" name="part_id" value="#lookupItem.part_id#">
+												<input type="hidden" name="transaction_id" value="#lookupItem.transaction_id#">
+												<input type="hidden" name="method" value="updateDeaccItem">
+												<div class="row mx-0 py-2">
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Deaccession Item Description</label>
+														<input type="text" name="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
+													</div>
+													<div class="col-12 px-1">
+														<label class="data-entry-label" for="item_instructions">Deaccession Item Instructions</label> 
+														<input type="text" name="item_instructions" id="item_instructions" value="#encodeForHtml(lookupItem.item_instructions)#" class="data-entry-input">
+													</div>
+													<div class="col-12 px-1">
+														<label class="data-entry-label" for="deacc_item_remarks">Deaccession Item Remarks</label>
+														<input type="text" name="deacc_item_remarks" id="deacc_item_remarks" value="#encodeForHtml(lookupItem.deacc_item_remarks)#" class="data-entry-input">
+													</div>
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Part Condition (#lookupItem.condition#)</label>
+														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
+													</div>
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Part Disposition (#lookupItem.coll_obj_disposition#)</label>
+														<select name="coll_obj_disposition" class="data-entry-select reqdClr" required>
+															<option value=""></option>
+															<cfloop query="ctDisp">
+																<cfset selected = "">
+																<cfif ctDisp.coll_obj_disposition EQ lookupItem.coll_obj_disposition>
+																	<cfset selected="selected='selected'">
+																</cfif>
+																<option value="#ctDisp.coll_obj_disposition#" #selected#>
+																	#ctDisp.coll_obj_disposition#
+																</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-12 px-1">
+														<button type="button" class="btn btn-primary btn-sm" 
+															onclick="submitDeaccItemEditForm('editDeaccItemForm','deaccItemEditStatusDiv');">
+															Save
+														</button>
+														<output id="deaccItemEditFormStatus">&nbsp;</output>
+														<script>
+															$(document).ready(function(){
+																$("##editDeaccItemForm").submit(function(evt){
+																	evt.preventDefault();
+																	submitDeaccItemEditForm('editDeaccItemForm','deaccItemEditStatusDiv');
+																});
+															});
+															function submitDeaccItemEditForm(formId, statusDivId){
+																setFeedbackControlState("deaccItemEditStatusDiv","saving")
+																var formData = $("##"+formId).serialize();
+																$.ajax({
+																	type: "POST",
+																	url: "/transactions/component/itemFunctions.cfc",
+																	data: formData,
+																	dataType: "json",
+																	success: function(response){
+																		console.log(response);
+																		var status = response.DATA[0][response.COLUMNS.indexOf("STATUS")];
+																		if (status == "1") {
+																			setFeedbackControlState("deaccItemEditStatusDiv","saved")
+																		} else {
+																			setFeedbackControlState("deaccItemEditStatusDiv","error")
+																		}
+																	},
+																	error: function (jqXHR, status, message) {
+																		handleFail(jqXHR,status,message,"updating deaccession item");
+																	}
+																});
+															}
+														</script>
+													</div>
+												</div>
+											</form>
+											<div id="deaccItemEditStatusDiv"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-12">
+									<ul>
+										<!---  lookup accession --->
+										<cfquery name="lookupAccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT 
+												accn.transaction_id,
+												accn.accn_number,
+												accn.accn_status,
+												accn.accn_type,
+												to_char(accn.received_date,'yyyy-mm-dd') as received_date, 
+												concattransagent(accn.transaction_id,'received from') received_from
+											FROM 
+												specimen_part
+												join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+												join accn on cataloged_item.accn_id = accn.transaction_id
+											WHERE 
+												specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+										</cfquery>
+										<cfloop query="lookupAccession">
+											<!--- should be one and only one accession --->
+											<li>
+												Accession:
+												<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccession.transaction_id#" target="_blank">#lookupAccession.accn_number#</a>
+												#lookupAccession.accn_type# (#lookupAccession.accn_status#).
+												Received: #lookupAccession.received_date#  
+												From: #lookupAccession.received_from#.
+											</li>
+											<!--- lookup any permits associated with this accession that have use restrictions or required benefits --->
+											<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT 
+													case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit.restriction_summary end as restriction_summary,
+													permit.specific_type,
+													permit.permit_num,
+													permit.permit_title,
+													permit.permit_id
+												FROM permit_trans 
+													join permit on permit_trans.permit_id = permit.permit_id
+												WHERE 
+													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.transaction_id#">
+													and permit.restriction_summary IS NOT NULL
+											</cfquery>
+											<cfquery name="accnBenefits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT 
+													case when length(permit.benefits_summary) > 30 then substr(permit.benefits_summary,1,30) || '...' else permit.benefits_summary end as benefits_summary,
+													case when length(permit.internal_benefits_summary) > 30 then substr(permit.internal_benefits_summary,1,30) || '...' else permit.internal_benefits_summary end as internal_benefits_summary,
+													permit.specific_type,
+													permit.permit_num,
+													permit.permit_title,
+													permit.permit_id
+												FROM permit_trans 
+													join permit on permit_trans.permit_id = permit.permit_id
+												WHERE 
+													permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccession.transaction_id#">
+													AND (permit.benefits_summary IS NOT NULL OR permit.internal_benefits_summary IS NOT NULL)	
+											</cfquery>
+											<cfif accnLimitations.recordcount GT 0 or accnBenefits.recordcount GT 0>
+												<li class="list-group-item py-0">
+													<cfif accnLimitations.recordcount GT 0>
+														<span class="font-weight-lessbold mb-0 d-inline-block">Permits with restrictions on use:</span>
+														<ul class="pl-0">
+															<cfloop query="accnLimitations">
+																<li class="small90">
+																	<a href="/transactions/Permit.cfm?action=view&permit_id=#accnLimitations.permit_id#" target="_blank">
+																		#accnLimitations.specific_type# #accnLimitations.permit_num#
+																	</a> 
+																	#accnLimitations.restriction_summary#
+																</li>
+															</cfloop>
+														</ul>
+													</cfif>
+													<cfif accnBenefits.recordcount GT 0>
+														<span class="font-weight-lessbold mb-0 d-inline-block">Permits with required benefits:</span>
+														<ul class="pl-0">
+															<cfloop query="accnBenefits">
+																<li class="small90">
+																	<a href="/transactions/Permit.cfm?action=view&permit_id=#accnBenefits.permit_id#" target="_blank">
+																		#accnBenefits.specific_type# #accnBenefits.permit_num#
+																	</a> 
+																	<cfif len(accnBenefits.benefits_summary) gt 0>
+																		<strong>Apply to All:</strong> #accnBenefits.benefits_summary#
+																	</cfif>
+																	<cfif len(accnBenefits.internal_benefits_summary) gt 0>
+																		<cfif len(accnBenefits.benefits_summary) gt 0>, </cfif>
+																		<strong>Apply to Harvard:</strong> #accnBenefits.internal_benefits_summary#
+																	</cfif>
+																</li>
+															</cfloop>
+														</ul>
+													</cfif>
+												</li>
+											</cfif>
+										</cfloop>
+									
+										<!--- lookup loans that this part is on, highlight any that are open --->
+										<cfquery name="lookupLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT 
+												loan_item.loan_item_state,
+												loan.loan_number,
+												loan.loan_type,
+												loan.loan_status,
+												loan.transaction_id,
+												to_char(loan.return_due_date,'yyyy-mm-dd') as return_due_date,
+												to_char(loan.closed_date,'yyyy-mm-dd') as closed_date
+											FROM 
+												loan_item
+												join loan on loan_item.transaction_id = loan.transaction_id
+											WHERE 
+												loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+										</cfquery>
+										<cfif lookupLoans.recordcount EQ 0>
+											<li>This part is not in any loans.</li>
+										<cfelse>
+											<cfloop query="lookupLoans">
+												<cfif loan_status EQ "open">
+													<li>
+														This part is currently in open loan 
+														<a href="/transactions/Loan.cfm?transaction_id=#transaction_id#" target="_blank">#loan_number#</a>
+														#loan_type# (#loan_status#) due #return_due_date#.
+														<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
+													</li>
+												<cfelse>
+													<li>
+														This part is in loan 
+														<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank"> #loan_number# </a>
+														#loan_type# (#loan_status#) 
+														<cfif len(closed_date) GT 0 and loan_status EQ 'closed'>on #closed_date#</cfif>.
+														<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
+													</li>
+												</cfif>
+											</cfloop>
+										</cfif>
+									</ul>
+								</div>
+							</div>
+						</div>
+				</cfloop>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRemoveLoanItemHtmlThread" />
+	<cfreturn getRemoveLoanItemHtmlThread.output>
+</cffunction>
+
+<!--- function updateDeaccItem to update the instructions, remarks, and description of an item in a deaccession.
+ @param deacc_item_id the id of the deacc item to update. 
+ @param item_instructions the new item instructions an empty value will set the field to null.
+ @param deacc_item_remarks the new deacc item remarks, an empty value will set the field to null.
+ @param item_descr the new item description, an empty value will be ignored.
+ @return a json structurre with status:1, or a http 500 response.
+--->
+<cffunction name="updateDeaccItem" access="remote" returntype="any" returnformat="json">
+	<cfargument name="deacc_item_id" type="numeric" required="yes">
+	<cfargument name="item_instructions" type="string" required="yes">
+	<cfargument name="deacc_item_remarks" type="string" required="yes">
+	<cfargument name="item_descr" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
+				UPDATE coll_object 
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
+			</cfquery>
+			<cfif upDisp_result.recordcount NEQ 1>
+				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+			</cfif>
+			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
+				UPDATE deacc_item SET
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					<cfif len(#item_instructions#) gt 0>
+						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
+					<cfelse>
+						,item_instructions = null
+					</cfif>
+					<cfif len(#deacc_item_remarks#) gt 0>
+						,deacc_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.deacc_item_remarks#">
+					<cfelse>
+						,deacc_item_remarks = null
+					</cfif>
+					<cfif len(arguments.item_descr) GT 0>
+						,item_descr = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_descr#">
+					</cfif>
+				WHERE
+					deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
+			</cfquery>
+			<cfif upItem_result.recordcount NEQ 1>
+				<cfthrow message="Record not updated. #transaction_id# #upItem_result.sql#">
+			</cfif>
+			<cfif upItem_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "deacc item updated.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+
 </cfcomponent>

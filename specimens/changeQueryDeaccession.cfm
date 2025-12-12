@@ -504,11 +504,7 @@
 							function launchDeaccEditDialog(part_id) { 
 								var deacc_item_id = $("##deacc_item_id_"+part_id).val();
 								var part_name = $("##part_name_"+part_id).val();
-								if (typeof openDeaccessionItemDialog === "function") {
-									openDeaccessionItemDialog(deacc_item_id,"editItemDialogDiv",part_name,null);
-								} else {
-									messageDialog("Edit dialog for deaccession items is not implemented.","Not Implemented");
-								}
+								openDeaccessionItemDialog(deacc_item_id,"editItemDialogDiv",part_name,null);
 							}
 
 							function addPartToDeaccession(part_id) { 

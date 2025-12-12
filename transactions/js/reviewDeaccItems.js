@@ -199,3 +199,32 @@ function success_updateDispn (r) {
 		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
+
+
+/** openDeaccessionItemDialog open a dialog for editing a deaccession item.
+ *
+ * @param deacc_item_id the primary key for the deaccession item to edit.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param name text to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openDeaccessionItemDialog(deacc_item_id,dialogId,name,callback) {
+   var title = "Edit " + name;
+   createGenericEditDialog(dialogId,title,callback);
+   jQuery.ajax({
+      url: "/transactions/component/itemFunctions.cfc",
+      data : {
+         method : "getDeaccItemDialogHtml",
+         deacc_item_id: deacc_item_id
+      },
+      success: function (result) {
+         $("#" + dialogId + "_div").html(result);
+      },
+      error: function (jqXHR, textStatus, error) {
+         handleFail(jqXHR,textStatus,error,"opening edit deaccession item dialog");
+      },
+      dataType: "html"
+   });
+};
+
