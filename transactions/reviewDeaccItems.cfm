@@ -227,7 +227,7 @@ limitations under the License.
 			left join deaccession d on t.transaction_id = d.transaction_id
 		where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	</cfquery>
-	<main class="container" id="content">
+	<main class="container-fluid mx-2" id="content">
 		<cfoutput>
 			<cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
 				<cfset fileName = "/download/ArctosLoanData_#getPartDeaccRequests.deacc_number#.csv">
