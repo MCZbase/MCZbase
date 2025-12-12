@@ -2211,6 +2211,47 @@ limitations under the License.
 												</cfif>
 											</cfloop>
 										</cfif>
+		
+										<!--- lookup any encumbrances this part is in --->
+										<cfquery name="lookupEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT 
+												encumbrance.encumbrance_id,
+												encumbrance.encumbrance,
+												MCZBASE.getPreferredAgentName(encumbrance.encumbering_agent_id) as encumbering_agent,
+												to_char(encumbrance.expiration_date,'yyyy-mm-dd') as expiration_date,
+												encumbrance.expiration_event,
+												encumbrance.remarks,
+												encumbrance.encumbrance_action
+											FROM
+												specimen_part
+												join coll_object_encumbrance on specimen_part.derived_from_cat_item = coll_object_encumbrance.collection_object_id
+												join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+											WHERE 
+												coll_object_encumbrance.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+										</cfquery>
+										<cfif lookupEncumbrances.recordcount EQ 0>
+											<li>This part is not under any encumbrances.</li>
+										<cfelse>
+											<cfloop query="lookupEncumbrances">
+												<li>
+													Encumbrance #lookupEncumbrances.encumbrance_action#
+													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+														<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id==#lookupEncumbrances.encumbrance_id#" target="_blank">
+															#lookupEncumbrances.encumbrance#
+														</a>
+													</cfelse>
+														#lookupEncumbrances.encumbrance#
+													</cfif>
+													set by #lookupEncumbrances.encumbering_agent#.
+													<cfif len(lookupEncumbrances.expiration_date) GT 0>
+														Expiring on #lookupEncumbrances.expiration_date# due to #lookupEncumbrances.expiration_event#.
+													</cfif>
+													<cfif len(lookupEncumbrances.remarks) GT 0>
+														Remarks: #lookupEncumbrances.remarks#.
+													</cfif>
+												</li>
+											</cfloop>
+										</cfif>
 									</ul>
 								</div>
 							</div>
