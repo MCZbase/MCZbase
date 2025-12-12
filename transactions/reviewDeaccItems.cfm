@@ -1,8 +1,8 @@
-<!--
+<!---
 transactions/reviewDeaccItems.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2021 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,11 +16,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 <cfset pageTitle="Review Deaccession Items">
 <cfinclude template="/shared/_header.cfm">
 
-<script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
+<cfinclude template="/transactions/component/itemFunctions.cfc" runonce="true">
+
+<script type='text/javascript' src='/transactions/js/reviewDeaccItems.js'></script>
 
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
@@ -33,7 +35,7 @@ limitations under the License.
 	<cfthrow message="No transaction specified.">
 </cfif>
 <cfif not isdefined("action")>
-	<cfset action="nothing">
+	<cfset action="entryPoint">
 </cfif>
 <!-------------------------------------------------------------------------------->
 <cfif #Action# is "killSS">
@@ -151,14 +153,14 @@ limitations under the License.
 		<cfif isdefined("spRedirAction") and len(#spRedirAction#) gt 0>
 			<cfset action=#spRedirAction#>
 		<cfelse>
-			<cfset action="nothing">
+			<cfset action="entryPoint">
 		</cfif>
 		<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#&partID=#partID#&deacc_item_remarks=#deacc_item_remarks#&action=#action#">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
 
-<cfif #action# is "nothing">
+<cfif #action# is "entryPoint">
 	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			cat_num, 
@@ -268,38 +270,63 @@ limitations under the License.
 			<section class="row">
 				<h2 class="h3">
 					Review items in deaccession
-					<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a>
+					<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#aboutDeacc.deacc_number#</a>
 				</h2>
-				<br>There are #partCount# items from #catCount# specimens in this deaccession.
-				<br>
-				<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
-				<form name="BulkUpdateDisp" method="post" action="a_deaccItemReview.cfm">
-					<br>Change disposition of all these items to:
-					<input type="hidden" name="Action" value="BulkUpdateDisp">
-					<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-					<select name="coll_obj_disposition" size="1">
-						<cfloop query="ctDisp">
-							<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-						</cfloop>				
-					</select>
-				<input type="submit" value="Update Dispositions" class="savBtn"
-					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
-			</form>
-		 	<cfif aboutDeacc.collection EQ 'Cryogenic'>
-				<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
-					<br>Change preservation method of all these items to:
-					<input type="hidden" name="Action" value="BulkUpdatePres">
-						<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-						<select name="part_preserve_method" size="1">
-							<cfloop query="ctPreserveMethod">
-								<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-							</cfloop>				
-						</select>
-					<input type="submit" value="Update Preservation method" class="savBtn"
-						onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
-				</form>
-			</cfif>
-			<p>Edit part counts (particularly for subsamples) in the cataloged item.</p>
+				<div class="col-12 col-md-4 pt-1">
+					<div id="deaccDetails">
+						<!--- lookup information about deaccession via backing function --->
+						<cfset aboutDeacc = getDeaccessionSummaryHtml(transaction_id=transaction_id)>
+						#aboutDeacc#
+					</div>
+				</div>
+				<div class="col-12 col-md-4 pt-1">
+					There are #partCount# items from #catCount# specimens in this deaccession.
+					<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep" class="btn btn-xs btn-secondary">Download (csv)</a>
+				</div>
+				<div class="col-12">
+					<div class="add-form mt-2">
+						<div class="add-form-header pt-1 px-2">
+							<h2 class="h4 mb-0 pb-0">Actions on each item</h2>
+						</div>
+						<div class="card-body form-row my-1">
+							<div class="col-12 col-md-6">
+								<form name="BulkUpdateDisp" method="post" action="a_deaccItemReview.cfm">
+									<label for="coll_obj_disposition" class="data-entry-label">
+										Change disposition of all these items to:
+									</label>
+									<input type="hidden" name="Action" value="BulkUpdateDisp">
+									<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+									<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select">
+										<cfloop query="ctDisp">
+											<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+										</cfloop>
+									</select>
+									<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary">
+								</form>
+							</div>
+						 	<cfif aboutDeacc.collection EQ 'Cryogenic'>
+								<div class="col-12 col-md-6">
+									<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
+										<br>Change preservation method of all these items to:
+										<input type="hidden" name="Action" value="BulkUpdatePres">
+										<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+										<select name="part_preserve_method" size="1">
+											<cfloop query="ctPreserveMethod">
+												<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+											</cfloop>				
+										</select>
+										<input type="submit" value="Update Preservation method" class="btn btn-xs btn-primary">
+									</form>
+								</div>
+							</cfif>
+							<div class="col-12 col-md-6">
+								Note: Edit part counts (particularly for subsamples) in the cataloged item.
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12">
+				
 		<table class="partname" id="t" class="sortable">
 			<tr>
 				<th class="inside">Cataloged Item</th>
@@ -378,9 +405,8 @@ limitations under the License.
 		
 		</cfoutput>
 		</table>
-		<cfoutput>
-			<br><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Edit Deaccession</a>
-		</cfoutput>
+		</div>
+		</section>
 	</main>
 </cfif>
 
