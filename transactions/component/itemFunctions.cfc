@@ -2230,7 +2230,7 @@ limitations under the License.
 												coll_object_encumbrance.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
 										</cfquery>
 										<cfif lookupEncumbrances.recordcount EQ 0>
-											<li>This part is not under any encumbrances.</li>
+											<li>This part is not in any encumbrances.</li>
 										<cfelse>
 											<cfloop query="lookupEncumbrances">
 												<li>
