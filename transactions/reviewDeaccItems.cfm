@@ -273,7 +273,7 @@ limitations under the License.
 				<div class="col-12 col-md-4">
 					<div id="deaccDetails">
 						<!--- lookup information about deaccession via backing function, includes link to deaccession --->
-						<cfset deaccessionMetadata = getDeaccessionSummaryHtml(transaction_id=transaction_id,buttons='add')>
+						<cfset deaccessionMetadata = getDeaccessionSummaryHtml(transaction_id=transaction_id,show_buttons='add')>
 						#deaccessionMetadata#
 					</div>
 				</div>
