@@ -304,7 +304,9 @@ limitations under the License.
 									<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary">
 								</form>
 							</div>
+							<cfset padding = "pt-3">
 						 	<cfif getAboutDeacc.collection EQ 'Cryogenic'>
+								<cfset padding = "p-1">
 								<div class="col-12 col-md-6">
 									<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
 										<br>Change preservation method of all these items to:
@@ -319,7 +321,7 @@ limitations under the License.
 									</form>
 								</div>
 							</cfif>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-6 border #padding#">
 								Note: Edit part counts (particularly for subsamples) in the cataloged item.
 							</div>
 						</div>
