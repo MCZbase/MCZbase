@@ -220,7 +220,7 @@ limitations under the License.
 			left join trans t on c.collection_id = t.collection_id 
 		where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	</cfquery>
-	<cfquery name="aboutDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="getAboutDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select d.deacc_number, c.collection_cde, c.collection
 		from collection c 
 			left join trans t on c.collection_id = t.collection_id 
@@ -270,13 +270,13 @@ limitations under the License.
 			<section class="row">
 				<h2 class="h3">
 					Review items in deaccession
-					<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#aboutDeacc.deacc_number#</a>
+					<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#getAboutDeacc.deacc_number#</a>
 				</h2>
 				<div class="col-12 col-md-4 pt-1">
 					<div id="deaccDetails">
 						<!--- lookup information about deaccession via backing function --->
-						<cfset aboutDeacc = getDeaccessionSummaryHtml(transaction_id=transaction_id)>
-						#aboutDeacc#
+						<cfset deaccessionMetadata = getDeaccessionSummaryHtml(transaction_id=transaction_id)>
+						#deaccessionMetadata#
 					</div>
 				</div>
 				<div class="col-12 col-md-4 pt-1">
@@ -304,7 +304,7 @@ limitations under the License.
 									<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary">
 								</form>
 							</div>
-						 	<cfif aboutDeacc.collection EQ 'Cryogenic'>
+						 	<cfif getAboutDeacc.collection EQ 'Cryogenic'>
 								<div class="col-12 col-md-6">
 									<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
 										<br>Change preservation method of all these items to:
