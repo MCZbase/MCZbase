@@ -455,7 +455,6 @@ limitations under the License.
 				}
 				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
 					doItemUpdate();
-					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
 				}
 			}
 			function reloadLoanSummaryData(){ 
@@ -960,7 +959,7 @@ limitations under the License.
 				<section name="loanItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this loan" tabindex="0">
 					<div class="col-12 pt-3 pb-1">
 						<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+							onClick="window.open('/Specimens.cfm?target_loan_id=#transaction_id#');">
 						<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"

@@ -812,6 +812,42 @@ limitations under the License.
 	<cfreturn getTransItemCountryThread.output>
 </cffunction>
 
+<!--- getLoanStatus obtain the status for a loan 
+  @param transaction_id the pk of the loan transaction.
+  @return the loan status string or empty string or an http error on failure.
+--->
+<cffunction name="getLoanStatus" access="remote" returntype="string">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfset theResult="" >
+	<cftry>
+		<cfif listcontainsnocase(session.roles,"manage_transactions")>
+			<cfquery name="loanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					loan_status
+				FROM
+					loan
+				WHERE
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif loanStatus.recordcount NEQ 1>
+				<cfthrow message="Unable to obtain loan status. Provided transaction_id does not match a record in the loan table.">
+			</cfif>
+			<cfset theResult = loanStatus.loan_status>
+		<cfelse>
+			<cfthrow message="Not authorized to obtain loan status.">
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+
 <!--- obtain counts of loan items --->
 <cffunction name="getLoanItemCounts" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">

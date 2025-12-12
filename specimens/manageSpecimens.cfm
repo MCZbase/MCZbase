@@ -23,8 +23,21 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template = "/specimens/component/manage.cfc">
 
+<cfif isdefined("url.result_id") and len(url.result_id) GT 0>
+	<cfset result_id = url.result_id>
+<cfelseif isdefined("form.result_id") and len(form.result_id) GT 0>
+	<cfset result_id = form.result_id>
+</cfif>
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided to manage.">
+</cfif>
+
+<cfif isdefined("url.target_loan_id") and len(url.target_loan_id) GT 0>
+	<cfset target_loan_id = url.target_loan_id>
+<cfelseif isdefined("form.target_loan_id") and len(form.target_loan_id) GT 0>
+	<cfset target_loan_id = form.target_loan_id>
+<cfelse>
+	<cfset target_loan_id = "">
 </cfif>
 
 <cfswitch expression="#action#">
@@ -65,11 +78,15 @@ limitations under the License.
 										</cfif>
 									</li>
 									<li class="nav-item mb-1">
-										<cfif findNoCase('master',Session.gitBranch) EQ 0>
-											<!--- TODO: In progress, BugID: 955 --->
-											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts To Loan (in progress)</a>
+										<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0>
+											<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT loan_number
+												FROM loan
+												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
+											</cfquery>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(url.target_loan_id)#" target="_blank">Add Parts to Loan #getLoan.loan_number#</a>
 										<cfelse>
-											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Add Parts to Loan</a>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts To Loan</a>
 										</cfif>
 									</li>
 								</cfif>

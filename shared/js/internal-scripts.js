@@ -913,7 +913,10 @@ function createGenericEditDialog(dialogId,title,closecallback,max_height=775,wid
 			w = width_cap;
 		}
 	}
-	console.log("Creating dialog in div with id: " + dialogId);
+	console.log("Creating dialog in div with id: [" + dialogId + "]");
+	if ($('[id="'+dialogId+'"]').length > 1) {
+		console.warn('Multiple elements with id="'+dialogId+'" found. This will cause problems closing and reusing the dialog.');
+	}
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
@@ -928,7 +931,7 @@ function createGenericEditDialog(dialogId,title,closecallback,max_height=775,wid
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				console.log("Button calling close on dialog in div with id: " + dialogId);
+				console.log("Button calling close on dialog in div with id: [" + dialogId + "]");
 				$("#"+dialogId).dialog('close');
 			}
 		},

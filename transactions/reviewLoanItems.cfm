@@ -535,25 +535,32 @@ limitations under the License.
 			</cfquery>
 		</cfif>
 
-		<script>
-			var bc = new BroadcastChannel('loan_channel');
-			function loanModifiedHere() { 
-				bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
-			}
-			bc.onmessage = function (message) { 
-				console.log(message);
-				if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
-					 reloadSummary();
+		<cfoutput>
+			<script>
+				var bc = new BroadcastChannel('loan_channel');
+				function loanModifiedHere() { 
+					bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
 				}
-				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
-					 reloadGridNoBroadcast();
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
+						 reloadSummary();
+					}
+					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("reloading grid from addloanitems message");
+						reloadGridNoBroadcast();
+					}
+					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("reloading grid from reviewitems message");
+						reloadGridNoBroadcast();
+					}
 				}
-			}
-			function reloadSummary() { 
-				// TODO: Implement
-				// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
-			}
-		</script>
+				function reloadSummary() { 
+					// TODO: Implement
+					// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
+				}
+			</script>
+		</cfoutput>
 		<main class="container-fluid" id="content">
 			<cfoutput>
 				<cfset isClosed = false>
@@ -726,6 +733,11 @@ limitations under the License.
 												<h2 class="h4 d-inline font-weight-normal">
 													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
 												</h2>
+											</cfif>
+											<cfif aboutLoan.nature_of_material NEQ ''>
+												<div class="p-1">
+													#aboutLoan.nature_of_material#
+												</div>
 											</cfif>
 											<cfif parentLoan.recordcount GT 0>
 												<h2 class="h4 font-weight-normal">

@@ -365,8 +365,8 @@ limitations under the License.
 													<cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 													<option value="#taxon_category#" #selected#>#taxon_category#</option>
 												</cfloop>
-												<option value="NOT NULL" #selected# >Any Category</option>
-												<option value="NULL" #selected# >No Category</option>
+												<option value="NOT NULL" >Any Category</option>
+												<option value="NULL" >No Category</option>
 											</select>
 										</div>
 										<div class="col-md-2">
