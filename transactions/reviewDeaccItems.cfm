@@ -371,7 +371,7 @@ limitations under the License.
 								<a href="/guid/#guid#" target="_blank">#guid#</a>  
 								<cfif len(#CustomID#) gt 0 AND otherIdOn>
 									Other ID: #CustomID#
-								<cfif>
+								</cfif>
 								#scientific_name#
 								#higher_geog#; #spec_locality#; #sovereign_nation#
 								#began_date#<cfif ended_date NEQ began_date>/#ended_date#</cfif>
