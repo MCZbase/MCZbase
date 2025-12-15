@@ -426,7 +426,7 @@ limitations under the License.
 								<!--- Output each part row --->
 								<div class="col-12 row border-top py-1">
 									<div class="col-12 col-md-2">
-										Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count_#
+										Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
 										<cfif len(mixed_scientific_name) gt 0>
 											<strong>Mixed Collection</strong>#mixed_scientific_name#
 										</cfif>
