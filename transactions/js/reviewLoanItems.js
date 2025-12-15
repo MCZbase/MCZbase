@@ -281,7 +281,7 @@ function addItemToLoan(part_id,transaction_id,remark,instructions,subsample,targ
  * @param loan_item_id the primary key for the loan item to edit.
  * @param dialogId the id in the dom for the div to turn into the dialog without 
  *  a leading # selector.
- * @param name the scientific name to display in the dialog title
+ * @param name text to display in the dialog title
  * @param callback a callback function to invoke on closing the dialog.
  */
 function openLoanItemDialog(loan_item_id,dialogId,name,callback) {

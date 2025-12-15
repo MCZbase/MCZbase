@@ -1,8 +1,8 @@
-<!--
+<!---
 transactions/reviewDeaccItems.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2021 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,11 +16,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 <cfset pageTitle="Review Deaccession Items">
 <cfinclude template="/shared/_header.cfm">
 
-<script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
+<cfinclude template="/transactions/component/itemFunctions.cfc" runonce="true">
+
+<script type='text/javascript' src='/transactions/js/reviewDeaccItems.js'></script>
 
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
@@ -33,7 +35,7 @@ limitations under the License.
 	<cfthrow message="No transaction specified.">
 </cfif>
 <cfif not isdefined("action")>
-	<cfset action="nothing">
+	<cfset action="entryPoint">
 </cfif>
 <!-------------------------------------------------------------------------------->
 <cfif #Action# is "killSS">
@@ -151,64 +153,60 @@ limitations under the License.
 		<cfif isdefined("spRedirAction") and len(#spRedirAction#) gt 0>
 			<cfset action=#spRedirAction#>
 		<cfelse>
-			<cfset action="nothing">
+			<cfset action="entryPoint">
 		</cfif>
 		<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#&partID=#partID#&deacc_item_remarks=#deacc_item_remarks#&action=#action#">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
 
-<cfif #action# is "nothing">
-	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select 
-			cat_num, 
+<cfif #action# is "entryPoint">
+	<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select distinct
 			cataloged_item.collection_object_id,
-			collection,
-			collection.collection_cde,
-			part_name,
-			preserve_method,
-			condition,
-			lot_count,
-			lot_count_modifier,
-			sampled_from_obj_id,
-			item_descr,
-			deacc_item_remarks,
-			item_instructions,
-			deacc_type,
-			deacc_reason,
-			coll_obj_disposition,
-			scientific_name,
-			Encumbrance,
+			cataloged_item.collection_cde,
+			cataloged_item.cat_num, 
+			collection.institution_acronym,
+			collection.collection,
+			deaccession.deacc_number,
+			deaccession.deacc_type,
+			deaccession.deacc_reason,
+			identification.scientific_name,
+			collecting_event.began_date,
+			collecting_event.ended_date,
+			locality.spec_locality,
+			locality.sovereign_nation,
+			geog_auth_rec.higher_geog,
+			encumbrance.Encumbrance,
 			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
-			deacc_number,
-			specimen_part.collection_object_id as partID,
 			concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
-			accn_number,
-			accn_id
+			accn.accn_number,
+			accn.transaction_id accn_id
 		 from 
-			deacc_item, 
-			deaccession,
-			specimen_part, 
-			coll_object,
-			cataloged_item,
-			coll_object_encumbrance,
-			encumbrance,
-			identification,
-			collection,
-			accn
+			deaccession
+			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+			join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+			join locality on collecting_event.locality_id = locality.locality_id
+			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+			left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+			join collection on cataloged_item.collection_id=collection.collection_id
+			join accn on cataloged_item.accn_id = accn.transaction_id
 		WHERE
-			deacc_item.collection_object_id = specimen_part.collection_object_id AND
-			deaccession.transaction_id = deacc_item.transaction_id AND
-			specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-			specimen_part.collection_object_id = coll_object.collection_object_id AND
-			cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-			coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-			cataloged_item.collection_object_id = identification.collection_object_id AND
-			identification.accepted_id_fg = 1 AND
-			cataloged_item.collection_id=collection.collection_id AND
-			cataloged_item.accn_id = accn.transaction_id AND
-			deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 		ORDER BY cat_num
+	</cfquery>
+	<cfquery name="getAllPartsCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT count(distinct(deacc_item.collection_object_id)) as part_count
+		FROM 
+			deaccession
+			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+		WHERE
+			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	</cfquery>
 	<!--- Obtain list of preserve_method values for the collection that this deaccession is from --->
 	<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -218,16 +216,66 @@ limitations under the License.
 			left join trans t on c.collection_id = t.collection_id 
 		where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	</cfquery>
-	<cfquery name="aboutDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="getAboutDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select d.deacc_number, c.collection_cde, c.collection
 		from collection c 
 			left join trans t on c.collection_id = t.collection_id 
 			left join deaccession d on t.transaction_id = d.transaction_id
 		where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	</cfquery>
-	<main class="container" id="content">
+	<main class="container-fluid mx-2" id="content">
 		<cfoutput>
 			<cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
+				<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct
+						cataloged_item.collection_object_id,
+						cataloged_item.collection_cde,
+						cataloged_item.cat_num, 
+						collection.institution_acronym,
+						collection.collection,
+						specimen_part.collection_object_id as partID,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						specimen_part.sampled_from_obj_id,
+						coll_object.condition,
+						coll_object.lot_count,
+						coll_object.lot_count_modifier,
+						coll_object.coll_obj_disposition,
+						deacc_item.item_descr,
+						deacc_item.deacc_item_remarks,
+						deacc_item.item_instructions,
+						deaccession.deacc_number,
+						deaccession.deacc_type,
+						deaccession.deacc_reason,
+						identification.scientific_name,
+						collecting_event.began_date,
+						collecting_event.ended_date,
+						locality.spec_locality,
+						locality.sovereign_nation,
+						geog_auth_rec.higher_geog,
+						encumbrance.Encumbrance,
+						decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
+						concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
+						accn.accn_number,
+						accn.transaction_id accn_id
+					 from 
+						deaccession
+						join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
+						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality on collecting_event.locality_id = locality.locality_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+						left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+						left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+						left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+						join collection on cataloged_item.collection_id=collection.collection_id
+						join accn on cataloged_item.accn_id = accn.transaction_id
+					WHERE
+						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					ORDER BY cat_num
+				</cfquery>
 				<cfset fileName = "/download/ArctosLoanData_#getPartDeaccRequests.deacc_number#.csv">
 				<cfset ac=getPartDeaccRequests.columnlist>
 				<cfset header=#trim(ac)#>
@@ -253,133 +301,175 @@ limitations under the License.
 			</cfif>
 		
 			<cfquery name="catCnt" dbtype="query">
-				select count(distinct(collection_object_id)) c from getPartDeaccRequests
+				select count(distinct(collection_object_id)) c from getCatItems
 			</cfquery>
 			<cfif catCnt.c eq ''><cfset catCount = 'no'><cfelse><cfset catCount = catCnt.c></cfif>
-			<cfquery name="prtItemCnt" dbtype="query">
-				select count(distinct(partID)) c from getPartDeaccRequests
-			</cfquery>
-			<cfif prtItemCnt.c eq ''><cfset partCount = 'no'><cfelse><cfset partCount = prtItemCnt.c></cfif>
+			<cfif getAllPartsCount.part_count eq 0><cfset partCount = 'no'><cfelse><cfset partCount = getAllPartsCount.part_count></cfif>
 			<cfset otherIdOn = false>
 			<cfif isdefined("showOtherId") and #showOtherID# is "true">
 				<cfset otherIdOn = true>
 			</cfif>
 		
 			<section class="row">
-				<h2 class="h3">
-					Review items in deaccession
-					<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a>
-				</h2>
-				<br>There are #partCount# items from #catCount# specimens in this deaccession.
-				<br>
-				<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
-				<form name="BulkUpdateDisp" method="post" action="a_deaccItemReview.cfm">
-					<br>Change disposition of all these items to:
-					<input type="hidden" name="Action" value="BulkUpdateDisp">
-					<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-					<select name="coll_obj_disposition" size="1">
-						<cfloop query="ctDisp">
-							<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-						</cfloop>				
-					</select>
-				<input type="submit" value="Update Dispositions" class="savBtn"
-					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
-			</form>
-		 	<cfif aboutDeacc.collection EQ 'Cryogenic'>
-				<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
-					<br>Change preservation method of all these items to:
-					<input type="hidden" name="Action" value="BulkUpdatePres">
-						<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-						<select name="part_preserve_method" size="1">
-							<cfloop query="ctPreserveMethod">
-								<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-							</cfloop>				
-						</select>
-					<input type="submit" value="Update Preservation method" class="savBtn"
-						onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
-				</form>
-			</cfif>
-			<p>Edit part counts (particularly for subsamples) in the cataloged item.</p>
-		<table class="partname" id="t" class="sortable">
-			<tr>
-				<th class="inside">Cataloged Item</th>
-				<cfif otherIdOn><th class="inside"> #session.CustomOtherIdentifier# </th></cfif>
-				<th class="inside">Scientific Name</th>
-				<th class="inside">Part Name & Count</th>
-				<th class="inside">Condition</th>
-				<th class="inside">Disposition Type</th>
-				<th class="inside">Deaccession Item Remarks</th>
-				<th class="inside">Deaccession Item Instructions</th>
-				<th class="inside">Accession</th>
-				<th class="inside">Encumbered</th>
-				<th>Remove</th>
-			</tr>
-		
-		<cfset i=1>
-		<cfloop query="getPartDeaccRequests">
-			<tr id="rowNum#partID#">
-				<td class="inside">
-					<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
-		
-				</td>
-				<cfif otherIdOn>
-				   <td class="inside">
-					#CustomID#&nbsp;
-				   </td>
-				</cfif>
-				<td class="inside">
-					<em>#scientific_name#</em>&nbsp;
-				</td>
-				<td class="inside">
-					#getPartDeaccRequests.part_name# (#preserve_method#) #lot_count# #lot_count_modifier#
-					<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
-					<input type="hidden" name="isSubsample#partID#" id="isSubsample#partID#" value="#sampled_from_obj_id#" />
-				</td>
-				<td class="inside">
-					<input type="text" name="condition#partID#"
-						size="10" class="reqdClr"
-						id="condition#partID#"
-						onchange="this.className='red';updateCondition('#partID#')" 
-		 				value="#condition#">
-						<span class="infoLink" onClick="chgCondition('#partID#')">History</span>
-				</td>
-				<td class="inside">
-					<cfset thisDisp = #coll_obj_disposition#>
-					<select name="coll_obj_disposition#partID#"
-						id="coll_obj_disposition#partID#"
-						 size="1" onchange="this.className='red';updateDispn('#partID#')">
-							<cfloop query="ctDisp">
-								<option
-									<cfif #ctDisp.coll_obj_disposition# is "#thisDisp#"> selected </cfif>
-									value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+				<h2 class="h3 w-100 mb-0 pb-0 ml-3"> Review items in deaccession </h2>
+				<div class="col-12 col-md-4">
+					<div id="deaccDetails">
+						<!--- lookup information about deaccession via backing function, includes link to deaccession --->
+						<cfset deaccessionMetadata = getDeaccessionSummaryHtml(transaction_id=transaction_id,show_buttons='add')>
+						#deaccessionMetadata#
+					</div>
+				</div>
+				<div class="col-12 col-md-4 pt-1">
+					There are #partCount# items from #catCount# specimens in this deaccession.
+					<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep" class="btn btn-xs btn-secondary">Download (csv)</a>
+				</div>
+				<div class="col-12">
+					<div class="add-form mt-2">
+						<div class="add-form-header pt-1 px-2">
+							<h2 class="h4 mb-0 pb-0">Actions on each item</h2>
+						</div>
+						<div class="card-body form-row my-1">
+							<div class="col-12 col-md-6">
+								<form name="BulkUpdateDisp" method="post" action="a_deaccItemReview.cfm">
+									<label for="coll_obj_disposition" class="data-entry-label">
+										Change disposition of all these items to:
+									</label>
+									<input type="hidden" name="Action" value="BulkUpdateDisp">
+									<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+									<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select">
+										<cfloop query="ctDisp">
+											<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+										</cfloop>
+									</select>
+									<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary">
+								</form>
+							</div>
+							<cfset padding = "pt-3">
+						 	<cfif getAboutDeacc.collection EQ 'Cryogenic'>
+								<cfset padding = "p-1">
+								<div class="col-12 col-md-6">
+									<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
+										<br>Change preservation method of all these items to:
+										<input type="hidden" name="Action" value="BulkUpdatePres">
+										<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+										<select name="part_preserve_method" size="1">
+											<cfloop query="ctPreserveMethod">
+												<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+											</cfloop>				
+										</select>
+										<input type="submit" value="Update Preservation method" class="btn btn-xs btn-primary">
+									</form>
+								</div>
+							</cfif>
+							<div class="col-12 col-md-6 border #padding#">
+								Note: Edit part counts (particularly for subsamples) in the cataloged item.
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12">
+					<cfloop query="getCatItems">
+						<div class="row col-12 border m-1">
+							<div class="col=12">
+								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+								<a href="/guid/#guid#" target="_blank">#guid#</a>  
+								<cfif len(#CustomID#) gt 0 AND otherIdOn>
+									Other ID: #CustomID#
+								</cfif>
+								#scientific_name#
+								#higher_geog#; #spec_locality#; #sovereign_nation#
+								#began_date#<cfif ended_date NEQ began_date>/#ended_date#</cfif>
+								<cfif len(#encumbrance#) gt 0>
+									Encumbered: #encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") >
+									Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
+								<cfelse>
+									Accession: #accn_number#
+								</cfif>
+							</div>
+							<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT DISTINCT
+									specimen_part.collection_object_id as partID,
+									specimen_part.part_name,
+									specimen_part.preserve_method,
+									specimen_part.sampled_from_obj_id,
+									coll_object.condition,
+									coll_object.lot_count,
+									coll_object.lot_count_modifier,
+									coll_object.coll_obj_disposition,
+									deacc_item.deacc_item_id,
+									deacc_item.item_descr,
+									deacc_item.deacc_item_remarks,
+									deacc_item.item_instructions,
+									deaccession.deacc_number,
+									deaccession.deacc_type,
+									deaccession.deacc_reason,
+									identification.scientific_name as mixed_scientific_name,
+									encumbrance.Encumbrance,
+									decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name
+								FROM 
+									deaccession
+									join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+									join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
+									join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+									join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+									left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+									left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+									left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+								WHERE
+									deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+									AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								ORDER BY 
+									part_name, preserve_method
+							</cfquery>
+							<cfloop query=getParts>
+								<cfset id = getParts.deacc_item_id>
+								<!--- Output each part row --->
+								<div class="col-12 row border-top mx-1 mt-1 px-1">
+									<div class="col-12 col-md-2">
+										Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
+										<cfif len(mixed_scientific_name) gt 0>
+											<strong>Mixed Collection</strong>#mixed_scientific_name#
+										</cfif>
+										<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
+										<span>History</span>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="condition_#id#" class="data-entry-label">Condition:</label>
+										<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="coll_obj_disposition_#id#" class="data-entry-label">Disposition:</label>
+										<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
+											<cfloop query="ctDisp">
+												<cfif ctDisp.coll_obj_disposition EQ coll_obj_disposition>
+													<cfset selected = "selected">
+												<cfelse>
+													<cfset selected = "">
+												</cfif>
+												<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="deacc_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
+										<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="item_instructions" class="data-entry-label">Instructions:</label>
+										<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
+									</div>
+									<div class="col-12 col-md-2">
+										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#>Remove</button>
+										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#">Edit</button>
+									</div>
+								</div>
 							</cfloop>
-					</select>
-				</td>
-				<td valign="top" class="inside">
-					<textarea name="deacc_Item_Remarks#partID#" id="deacc_Item_Remarks#partID#" rows="2" cols="20"
-					onchange="this.className='red';updateDeaccItemRemarks('#partID#')">#deacc_item_remarks#</textarea>
-				</td>
-				<td valign="top" class="inside">
-					<textarea name="item_instructions#partID#" id="item_instructions#partID#" rows="2" cols="20"
-					onchange="this.className='red';updateDeaccItemInstructions('#partID#')">#item_instructions#</textarea>
-				</td>
-				<td class="inside">
-					<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
-				</td>
-				<td class="inside">
-					#encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
-				</td>
-				<td class="inside">
-					<img src="/images/del.gif" class="likeLink" onclick="remPartFromDeacc(#partID#,#collection_object_id#);" />
-				</td>
-			</tr>
-		<cfset i=#i#+1>
-		</cfloop>
-		
-		</cfoutput>
-		</table>
-		<cfoutput>
-			<br><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Edit Deaccession</a>
+						</div>
+					</cfloop>
+				</div>
+			</section>
 		</cfoutput>
 	</main>
 </cfif>

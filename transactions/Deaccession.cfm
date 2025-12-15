@@ -781,12 +781,24 @@ limitations under the License.
 				</script>
 				<section name="deaccessionItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Deaccession">
 					<div class="col-12 pt-3 pb-1">
-						<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
+						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+								onClick="window.open('/Specimens.cfm?target_deacc_id=#transaction_id#');">
+						<cfelse>
+							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+								onClick="window.open('/SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
+						</cfif>
 						<input type="button" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/deaccByBarcode.cfm?transaction_id=#transaction_id#');">
-						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
+						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+							<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+								onClick="window.open('/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#');">
+							<input type="button" value="Review Items (old)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+								onClick="window.open('/a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
+						<cfelse>
+							<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+								onClick="window.open('/a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
+						</cfif>
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateItemSections(); ">
 					</div>

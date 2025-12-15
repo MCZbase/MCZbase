@@ -239,7 +239,8 @@ limitations under the License.
 							collecting_event.began_date,
 							collecting_event.ended_date,
 							locality.spec_locality,
-							geog_auth_rec.higher_geog
+							geog_auth_rec.higher_geog,
+							identification.scientific_name,
 						FROM 
 							user_search_table 
 							JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -247,6 +248,7 @@ limitations under the License.
 							JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 							JOIN locality on collecting_event.locality_id = locality.locality_id
 							JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+							LEFT JOIN identification on cataloged_item.collection_object_id = identification.collection_object_id and identification.accepted_id_fg = 1
 						WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						ORDER BY collection_cde, cat_num
 					</cfquery>
@@ -257,6 +259,7 @@ limitations under the License.
 								<a href="/guid/#guid#" target="_blank">#institution_acronym#:#collection_cde#:#cat_num#</a>
 							</div>
 							<div class="col-12 col-md-4 mb-1">
+								#scientific_name#
 								#higher_geog#
 								#spec_locality#
 							</div>
@@ -275,11 +278,13 @@ limitations under the License.
 									coll_obj_disposition,
 									lot_count, 
 									lot_count_modifier,
-									sampled_from_obj_id
+									sampled_from_obj_id,
+									identification.scientific_name mixed_scientific_name
 								FROM specimen_part
 									JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
 									JOIN coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+									LEFT JOIN identification on specimen_part.collection_object_id = identification.collection_object_id and identification.accepted_id_fg = 1
 								WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 									AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getCatItems.collection_object_id#">
 								ORDER BY part_name
@@ -336,6 +341,9 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<input type="hidden" name="part_name_#part_id#" id="part_name_#part_id#" value="#getParts.part_name# (#getParts.preserve_method#)">
 										<span>#getParts.part_name# (#getParts.preserve_method#) #getParts.lot_count_modifier#&nbsp;#getParts.lot_count#</span>
+										<cfif len(getParts.mixed_scientific_name) GT 0>
+											<strong>Mixed Collection:</strong>#getParts.mixed_scientific_name#
+										</cfif>
 										#partRemarks#
 									</div>
 									<div class="col-12 col-md-3">

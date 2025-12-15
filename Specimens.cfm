@@ -34,6 +34,7 @@ limitations under the License.
 	<cfset method = url.method>
 </cfif>
 
+<!--- check for optional target loan or deaccession to add specimens to, allows pass through to manage from the edit Loan/Deaccession pages --->
 <cfif isdefined("url.target_loan_id") and len(url.target_loan_id) GT 0>
 	<cfset target_loan_id = url.target_loan_id>
 <cfelseif isdefined("form.target_loan_id") and len(form.target_loan_id) GT 0>
@@ -55,6 +56,30 @@ limitations under the License.
 		</cfif>
 	<cfelse>
 		<cfset target_loan_id = "">
+	</cfif>
+</cfif>
+
+<cfif isdefined("url.target_deacc_id") and len(url.target_deacc_id) GT 0>
+	<cfset target_deacc_id = url.target_deacc_id>
+<cfelseif isdefined("form.target_deacc_id") and len(form.target_deacc_id) GT 0>
+	<cfset target_deacc_id = form.target_deacc_id>
+<cfelse>
+	<cfset target_deacc_id = "">
+</cfif>
+<cfif isdefined("target_deacc_id") and len(target_deacc_id) GT 0>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+		<cfquery name="getDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT deacc_number
+			FROM deaccession
+			WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_deacc_id#">
+		</cfquery>
+		<cfif getDeaccession.recordcount EQ 1>
+			<cfset target_deacc_number = getDeaccession.deacc_number>
+		<cfelse>
+			<cfset target_deacc_id = "">
+		</cfif>
+	<cfelse>
+		<cfset target_deacc_id = "">
 	</cfif>
 </cfif>
 
@@ -238,6 +263,9 @@ limitations under the License.
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
 						<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0 && isdefined("target_loan_number") and len(target_loan_number) GT 0>
 							to add to Loan #target_loan_number# (with manage)
+						</cfif>
+						<cfif isdefined("target_deacc_id") and len(target_deacc_id) GT 0 && isdefined("target_deacc_number") and len(target_deacc_number) GT 0>
+							to add to Deaccession #target_deacc_number# (with manage)
 						</cfif>
 					</h1>
 					<!--- populated with download dialog for external users --->
@@ -3576,11 +3604,14 @@ Target JSON:
 						loadColumnOrder('fixedsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfset addedIDs = "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
-							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'&target_loan_id=#encodeForUrl(target_loan_id)#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
-						<cfelse>
-							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
+						<cfif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
+							<cfset addedIDs = "#addedIDs#&target_deacc_id=#encodeForUrl(target_deacc_id)#">
+						</cfif>
+						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 					<cfelse>
 						$('##fixedmanageButton').html('');
 					</cfif>
@@ -4018,11 +4049,14 @@ Target JSON:
 						loadColumnOrder('keywordsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfset addedIDs = "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
-							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'&target_loan_id=#encodeForUrl(target_loan_id)#" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
-						<cfelse>
-							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
+							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
+						<cfif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
+							<cfset addedIDs = "#addedIDs#&target_deacc_id=#encodeForUrl(target_deacc_id)#">
+						</cfif>
+						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
 					<cfelse>
 						$('##keywordmanageButton').html('');
 					</cfif>
@@ -4255,11 +4289,14 @@ Target JSON:
 						loadColumnOrder('buildersearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfset addedIDs =  "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
-							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'&target_loan_id=#encodeForUrl(target_loan_id)#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
-						<cfelse>
-							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
+						<cfif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
+							<cfset addedIDs = "#addedIDs#&target_deacc_id=#encodeForUrl(target_deacc_id)#">
+						</cfif>
+						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 					<cfelse>
 						$('##buildermanageButton').html('');
 					</cfif>

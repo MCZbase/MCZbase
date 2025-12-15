@@ -69,9 +69,17 @@ limitations under the License.
 	<cfset action = form.action>
 </cfif>
 <cfif NOT isdefined("action")><cfset action=""></cfif>
+<cfif isdefined("url.message") and len(url.message) GT 0>
+	<cfset message = url.message>
+<cfelseif isdefined("form.message") and len(form.message) GT 0>
+	<cfset message = form.message>
+</cfif>
+<cfif NOT isdefined("message")><cfset message=""></cfif>
 
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<!--- optionally, if specified, add these loan items to a deaccession --->
 			<cfif isDefined("form.deaccession_transaction_id") AND len(form.deaccession_transaction_id) GT 0>
@@ -142,7 +150,6 @@ limitations under the License.
 						<cftransaction action="rollback">
 						<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 						<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-						<cfthrow message="#message#">
 					</cfcatch>
 					</cftry>
 				</cftransaction>
@@ -156,25 +163,31 @@ limitations under the License.
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
-						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 							UPDATE coll_object 
 							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.coll_obj_disposition#">
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
 						</cfquery>
+						<cfset countAffected = countAffected + upDisp_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk update of dispositions successful. Updated #countAffected# specimen parts.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetReturnDates">
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -196,21 +209,26 @@ limitations under the License.
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							and return_date is null
-							and loan_item_state is null
 					</cfquery>
+					<cfset countAffected = setClosedDate_result.recordcount>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk update of return dates successful, updated #countAffected# items.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsReturned">
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -223,21 +241,27 @@ limitations under the License.
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							and return_date is null
-							and loan_item_state is null
+							and (loan_item_state is null OR loan_item_state IN ('in loan','missing'))
 					</cfquery>
+					<cfset countAffected = setClosedDate_result.recordcount>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk return failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk mark items returned successful, updated #countAffected# items.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsConsumed">
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -251,19 +275,25 @@ limitations under the License.
 							and return_date is null
 							and loan_item_state = 'in loan'
 					</cfquery>
+					<cfset countAffected = setConsumed_result.recordcount>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk update of state failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk mark items consumed successful. Updated #countAffected# items.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkUpdateContainers">
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -309,21 +339,27 @@ limitations under the License.
 						<cfif changeParentContainer_result.recordcount NEQ 1>
 							<cfthrow message="Failed to move container #containerToMoveID# to new parent container #targetParentContainerID#.">
 						</cfif>
+						<cfset countAffected = countAffected + changeParentContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk update of containers successful. Updated #countAffected# specimen parts.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
 	<cfcase value="BulkUpdatePres">
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -333,26 +369,32 @@ limitations under the License.
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
-						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 							UPDATE specimen_part 
 							SET preserve_method  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
+						<cfset countAffected = countAffected + upDisp_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
+					<cfset message = "Bulk update of preservation methods failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk update of preservation methods successful. Updated #countAffected# specimen parts.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetDescription">
 		<!--- append the value of coll_object.condition to loan_item.item_descr if not already there. --->
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -368,7 +410,7 @@ limitations under the License.
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
 						</cfquery>
 						<cfif getCondition.recordcount GT 0 AND len(getCondition.condition) GT 0>
-							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 								UPDATE loan_item 
 								SET item_descr  = 
    								TRIM(
@@ -384,6 +426,7 @@ limitations under the License.
 										item_descr NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getCondition.condition#%">
 									)
 							</cfquery>
+							<cfset countAffected = countAffected + upDisp_result.recordcount>
 						</cfif>
 					</cfloop>
 					<cftransaction action="commit">
@@ -391,20 +434,25 @@ limitations under the License.
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk update of item descriptions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk update of item descriptions successful. Updated #countAffected# specimen parts.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetInstructions">
 		<!--- append a provided value to loan_item.item_instructions if not already there. --->
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cfif isDefined("form.item_instructions") AND len(trim(form.item_instructions)) GT 0>
 				<cftransaction>
 					<cftry>
-						<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollObjId_result">
 							UPDATE loan_item 
 							SET item_instructions =
    							TRIM(
@@ -420,20 +468,26 @@ limitations under the License.
 									item_instructions NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#form.item_instructions#%">
 								)
 						</cfquery>
+						<cfset countAffected = getCollObjId_result.recordcount>
 						<cftransaction action="commit">
 					<cfcatch>
 						<cftransaction action="rollback">
 						<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 						<cfset message = "Bulk update of item instructions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-						<cfthrow message="#message#">
 					</cfcatch>
 					</cftry>
 				</cftransaction>
 			</cfif>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk update of item instructions successful. Updated #countAffected# items.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMoveBackContainers">
+		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -480,6 +534,7 @@ limitations under the License.
 								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.old_parent_container_id#">
 								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.part_container_id#">
 							</cfquery>
+							<cfset countAffected = countAffected + changeParentContainer_result.recordcount>
 						<cfelse>
 							<cfthrow message="No previous container found for collection_object_id #getItems.collection_object_id#. Cannot continue.">
 						</cfif>
@@ -488,12 +543,15 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
+					<cfset message = "Bulk update of containers failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+			<cfif len(message) EQ 0>
+				<cfset message = "Bulk update of containers successful. Updated #countAffected# specimen parts.">
+			</cfif>
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
@@ -563,6 +621,9 @@ limitations under the License.
 		</cfoutput>
 		<main class="container-fluid" id="content">
 			<cfoutput>
+				<cfif isdefined("message") AND len(message) GT 0>
+					<h1 class=h2>#encodeForHtml(message)#</h2>
+				</cfif>
 				<cfset isClosed = false>
 				<cfset isInProcess = false>
 				<cfset isOpen = false>
