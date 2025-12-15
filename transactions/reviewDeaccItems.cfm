@@ -419,7 +419,8 @@ limitations under the License.
 								WHERE
 									deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 									AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-								ORDER BY cat_num
+								ORDER BY 
+									part_name, preserve_method
 							</cfquery>
 							<cfloop query=getParts>
 								<!--- Output each part row --->
