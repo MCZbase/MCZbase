@@ -389,7 +389,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select distinct
+								SELECT DISTINCT
 									specimen_part.collection_object_id as partID,
 									specimen_part.part_name,
 									specimen_part.preserve_method,
@@ -406,8 +406,8 @@ limitations under the License.
 									deaccession.deacc_reason,
 									identification.scientific_name as mixed_scientific_name,
 									encumbrance.Encumbrance,
-									decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
-								 from 
+									decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name
+								FROM 
 									deaccession
 									join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
 									join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
