@@ -604,10 +604,10 @@ limitations under the License.
 			</script>
 		</cfoutput>
 		<main class="container-fluid" id="content">
-			<cfif isdefined("message") AND len(message) GT 0>
-				<h1 class=h2>#encodeForHtml(message)#</h2>
-			</cfif>
 			<cfoutput>
+				<cfif isdefined("message") AND len(message) GT 0>
+					<h1 class=h2>#encodeForHtml(message)#</h2>
+				</cfif>
 				<cfset isClosed = false>
 				<cfset isInProcess = false>
 				<cfset isOpen = false>
