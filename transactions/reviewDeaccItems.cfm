@@ -398,6 +398,7 @@ limitations under the License.
 									coll_object.lot_count,
 									coll_object.lot_count_modifier,
 									coll_object.coll_obj_disposition,
+									deacc_item.deacc_item_id,
 									deacc_item.item_descr,
 									deacc_item.deacc_item_remarks,
 									deacc_item.item_instructions,
@@ -423,6 +424,7 @@ limitations under the License.
 									part_name, preserve_method
 							</cfquery>
 							<cfloop query=getParts>
+								<cfset id = getParts.deacc_item_id>
 								<!--- Output each part row --->
 								<div class="col-12 row border-top mx-1 mt-1 px-1">
 									<div class="col-12 col-md-2">
@@ -434,20 +436,33 @@ limitations under the License.
 										<span>History</span>
 									</div>
 									<div class="col-12 col-md-2">
-										Condition: #condition#
+										<label for="condition_#id#" class="data-entry-label">Condition:</label>
+										<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
 									</div>
 									<div class="col-12 col-md-2">
-										Disposition: #coll_obj_disposition#
+										<label for="coll_obj_disposition_#id#" class="data-entry-label">Disposition:</label>
+										<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
+											<cfloop query="ctDisp">
+												<cfif ctDisp.coll_obj_disposition EQ coll_obj_disposition>
+													<cfset selected = "selected">
+												<cfelse>
+													<cfset selected = "">
+												</cfif>
+												<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+											</cfloop>
+										</select>
 									</div>
 									<div class="col-12 col-md-2">
-										Remarks: #deacc_item_remarks#
+										<label for="deacc_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
+										<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
 									</div>
 									<div class="col-12 col-md-2">
-										Instructions: #item_instructions#
+										<label for="item_instructions" class="data-entry-label">Instructions:</label>
+										<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
 									</div>
 									<div class="col-12 col-md-2">
-										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession">Remove</button>
-										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" >Edit</button>
+										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#>Remove</button>
+										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#">Edit</button>
 									</div>
 								</div>
 							</cfloop>
