@@ -161,7 +161,6 @@ limitations under the License.
 <!-------------------------------------------------------------------------------->
 
 <cfif #action# is "entryPoint">
-	<!--- TODO: Redo as a query on cataloged items, then a query on parts, list parts per cataloged item --->
 	<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct
 			cataloged_item.collection_object_id,
@@ -197,6 +196,15 @@ limitations under the License.
 			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 			join collection on cataloged_item.collection_id=collection.collection_id
 			join accn on cataloged_item.accn_id = accn.transaction_id
+		WHERE
+			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+		ORDER BY cat_num
+	</cfquery>
+	<cfquery name="getAllPartsCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT count(distinct(deacc_item.collection_object_id)) as partCount
+		FROM 
+			deaccession
+			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
 		WHERE
 			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 		ORDER BY cat_num
@@ -294,13 +302,10 @@ limitations under the License.
 			</cfif>
 		
 			<cfquery name="catCnt" dbtype="query">
-				select count(distinct(collection_object_id)) c from getPartDeaccRequests
+				select count(distinct(collection_object_id)) c from getCatItems
 			</cfquery>
 			<cfif catCnt.c eq ''><cfset catCount = 'no'><cfelse><cfset catCount = catCnt.c></cfif>
-			<cfquery name="prtItemCnt" dbtype="query">
-				select count(distinct(partID)) c from getPartDeaccRequests
-			</cfquery>
-			<cfif prtItemCnt.c eq ''><cfset partCount = 'no'><cfelse><cfset partCount = prtItemCnt.c></cfif>
+			<cfif getAllParts.partCount eq 0><cfset partCount = 'no'><cfelse><cfset partCount = getAllParts.partCount></cfif>
 			<cfset otherIdOn = false>
 			<cfif isdefined("showOtherId") and #showOtherID# is "true">
 				<cfset otherIdOn = true>
