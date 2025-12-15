@@ -179,7 +179,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of dispositions successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -218,7 +218,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of return dates successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -251,7 +251,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk mark items returned successful, updated #countAffected# items.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -281,7 +281,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk mark items consumed successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -344,7 +344,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of containers successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -377,7 +377,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of preservation methods successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -428,7 +428,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of item descriptions successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -467,7 +467,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of item instructions successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
@@ -534,7 +534,7 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of containers successful.">
 			</cfif>
-			<cfset message = encodeForUrl("&message=#message#")>
+			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
