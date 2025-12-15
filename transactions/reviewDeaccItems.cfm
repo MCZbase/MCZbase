@@ -182,7 +182,7 @@ limitations under the License.
 			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
 			concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 			accn.accn_number,
-			accn.accn_id
+			accn.transaction_id accn_id
 		 from 
 			deaccession
 			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
@@ -250,7 +250,7 @@ limitations under the License.
 						decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
 						concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 						accn.accn_number,
-						accn.accn_id
+						accn.transaction_id accn_id
 					 from 
 						deaccession
 						join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
