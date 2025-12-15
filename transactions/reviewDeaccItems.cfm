@@ -378,7 +378,7 @@ limitations under the License.
 								<cfif len(#encumbrance#) gt 0>
 									Encumbered: #encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>
 								</cfif>
-								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_transactions") >
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") >
 									Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
 								<cfelse>
 									Accession: #accn_number#
