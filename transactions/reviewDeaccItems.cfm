@@ -207,7 +207,6 @@ limitations under the License.
 			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
 		WHERE
 			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-		ORDER BY cat_num
 	</cfquery>
 	<!--- Obtain list of preserve_method values for the collection that this deaccession is from --->
 	<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
