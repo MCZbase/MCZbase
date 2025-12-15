@@ -461,7 +461,7 @@ limitations under the License.
 										<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
 									</div>
 									<div class="col-12 col-md-2">
-										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#>Remove</button>
+										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#">Remove</button>
 										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#">Edit</button>
 									</div>
 								</div>
