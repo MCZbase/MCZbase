@@ -3564,7 +3564,7 @@ Target JSON:
 						loadColumnOrder('fixedsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfset addedIDs "">
+						<cfset addedIDs = "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
@@ -3807,7 +3807,7 @@ Target JSON:
 						loadColumnOrder('keywordsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfset addedIDs "">
+						<cfset addedIDs = "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
@@ -4047,7 +4047,7 @@ Target JSON:
 						loadColumnOrder('buildersearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfset addedIDs "">
+						<cfset addedIDs =  "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
