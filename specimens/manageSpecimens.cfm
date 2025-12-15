@@ -32,12 +32,20 @@ limitations under the License.
 	<cfthrow message = "No result_id provided to manage.">
 </cfif>
 
+<!--- Optional parameters for loan and deaccession actions where a target may be specified (passed through the search) --->
 <cfif isdefined("url.target_loan_id") and len(url.target_loan_id) GT 0>
 	<cfset target_loan_id = url.target_loan_id>
 <cfelseif isdefined("form.target_loan_id") and len(form.target_loan_id) GT 0>
 	<cfset target_loan_id = form.target_loan_id>
 <cfelse>
 	<cfset target_loan_id = "">
+</cfif>
+<cfif isdefined("url.target_deacc_id") and len(url.target_deacc_id) GT 0>
+	<cfset target_deacc_id = url.target_deacc_id>
+<cfelseif isdefined("form.target_deacc_id") and len(form.target_deacc_id) GT 0>
+	<cfset target_deacc_id = form.target_deacc_id>
+<cfelse>
+	<cfset target_deacc_id = "">
 </cfif>
 
 <cfswitch expression="#action#">
@@ -72,7 +80,16 @@ limitations under the License.
 									<li class="nav-item mb-1">
 										<cfif findNoCase('master',Session.gitBranch) EQ 0>
 											<!--- TODO: In progress, BugID: 955 --->
-											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
+											<cfif isdefined("target_deacc_id") and len(target_deacc_id) GT 0>
+												<cfquery name="getDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													SELECT deacc_number
+													FROM deaccession
+													WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
+												</cfquery>
+												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#target_deacc_id#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>
+											<cfelse>
+												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
+											</cfif>
 										<cfelse>
 											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
 										</cfif>
