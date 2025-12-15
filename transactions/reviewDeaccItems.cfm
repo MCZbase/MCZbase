@@ -164,53 +164,44 @@ limitations under the License.
 	<!--- TODO: Redo as a query on cataloged items, then a query on parts, list parts per cataloged item --->
 	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct
-			cat_num, 
 			cataloged_item.collection_object_id,
-			collection,
-			collection.collection_cde,
-			part_name,
-			preserve_method,
-			condition,
-			lot_count,
-			lot_count_modifier,
-			sampled_from_obj_id,
-			item_descr,
-			deacc_item_remarks,
-			item_instructions,
-			deacc_type,
-			deacc_reason,
-			coll_obj_disposition,
-			scientific_name,
-			Encumbrance,
-			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
-			deacc_number,
+			cataloged_item.collection_cde,
+			catloged_item.cat_num, 
+			collection.insitution_acronym,
+			collection.collection,
 			specimen_part.collection_object_id as partID,
+			specimen_part.part_name,
+			specimen_part.preserve_method,
+			specimen_part.sampled_from_obj_id,
+			coll_object.condition,
+			coll_object.lot_count,
+			coll_object.lot_count_modifier,
+			coll_object.coll_obj_disposition,
+			deacc_item.item_descr,
+			deacc_item.deacc_item_remarks,
+			deacc_item.item_instructions,
+			deaccession.deacc_number,
+			deaccession.deacc_type,
+			deaccesion.deacc_reason,
+			identification.scientific_name,
+			encumbrance.Encumbrance,
+			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
 			concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
-			accn_number,
-			accn_id
+			accn.accn_number,
+			accn.accn_id
 		 from 
-			deacc_item, 
-			deaccession,
-			specimen_part, 
-			coll_object,
-			cataloged_item,
-			coll_object_encumbrance,
-			encumbrance,
-			identification,
-			collection,
-			accn
+			deaccession
+			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+			join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+			join collection on cataloged_item.collection_id=collection.collection_id
+			join accn on cataloged_item.accn_id = accn.transaction_id
 		WHERE
-			deacc_item.collection_object_id = specimen_part.collection_object_id AND
-			deaccession.transaction_id = deacc_item.transaction_id AND
-			specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-			specimen_part.collection_object_id = coll_object.collection_object_id AND
-			cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-			coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-			cataloged_item.collection_object_id = identification.collection_object_id AND
-			identification.accepted_id_fg = 1 AND
-			cataloged_item.collection_id=collection.collection_id AND
-			cataloged_item.accn_id = accn.transaction_id AND
-			deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 		ORDER BY cat_num
 	</cfquery>
 	<!--- Obtain list of preserve_method values for the collection that this deaccession is from --->
