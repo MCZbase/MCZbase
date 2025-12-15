@@ -84,7 +84,7 @@ limitations under the License.
 												<cfquery name="getDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT deacc_number
 													FROM deaccession
-													WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
+													WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_deacc_id#">
 												</cfquery>
 												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#target_deacc_id#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>
 											<cfelse>
@@ -99,7 +99,7 @@ limitations under the License.
 											<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT loan_number
 												FROM loan
-												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#target_loan_id#">
+												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_loan_id#">
 											</cfquery>
 											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(url.target_loan_id)#" target="_blank">Add Parts to Loan #getLoan.loan_number#</a>
 										<cfelse>
