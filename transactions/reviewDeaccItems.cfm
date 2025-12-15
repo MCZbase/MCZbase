@@ -446,7 +446,7 @@ limitations under the License.
 										Instructions: #item_instructions#
 									</div>
 									<div class="col-12 col-md-2">
-										<button class="btn btn-xs btn-danger" onclick="remPartFromDeacc(#partID#,#collection_object_id#);" aria-label="Remove part from deaccession">Remove</button>
+										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession">Remove</button>
 										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" >Edit</button>
 									</div>
 								</div>
