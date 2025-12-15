@@ -5237,12 +5237,12 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<!--- check that the specified collection_object_id exists and is a specimen part --->
+			<!--- check that the specified collection_object_id exists and is a specimen part (or subsample) --->
 			<cfquery name="checkPartExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT collection_object_id
 				FROM coll_object
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-					AND coll_object_type = 'SP'
+					AND (coll_object_type = 'SP' or coll_object_type = 'SS')
 			</cfquery>
 			<cfif checkPartExists.recordcount EQ 0>
 				<cfthrow message="Error: Specified collection_object_id does not exist or is not a specimen part.">
