@@ -162,28 +162,22 @@ limitations under the License.
 
 <cfif #action# is "entryPoint">
 	<!--- TODO: Redo as a query on cataloged items, then a query on parts, list parts per cataloged item --->
-	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct
 			cataloged_item.collection_object_id,
 			cataloged_item.collection_cde,
 			catloged_item.cat_num, 
 			collection.insitution_acronym,
 			collection.collection,
-			specimen_part.collection_object_id as partID,
-			specimen_part.part_name,
-			specimen_part.preserve_method,
-			specimen_part.sampled_from_obj_id,
-			coll_object.condition,
-			coll_object.lot_count,
-			coll_object.lot_count_modifier,
-			coll_object.coll_obj_disposition,
-			deacc_item.item_descr,
-			deacc_item.deacc_item_remarks,
-			deacc_item.item_instructions,
 			deaccession.deacc_number,
 			deaccession.deacc_type,
 			deaccesion.deacc_reason,
 			identification.scientific_name,
+			collecting_event.began_date,
+			collecting_event.ended_date,
+			locality.spec_locality,
+			locality.sovereign_nation,
+			geog_auth_rec.higher_geog,
 			encumbrance.Encumbrance,
 			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
 			concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
@@ -195,6 +189,9 @@ limitations under the License.
 			join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
 			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+			join locality on collecting_event.locality_id = locality.locality_id
+			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 			left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
 			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
@@ -222,6 +219,56 @@ limitations under the License.
 	<main class="container-fluid mx-2" id="content">
 		<cfoutput>
 			<cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
+				<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct
+						cataloged_item.collection_object_id,
+						cataloged_item.collection_cde,
+						catloged_item.cat_num, 
+						collection.insitution_acronym,
+						collection.collection,
+						specimen_part.collection_object_id as partID,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						specimen_part.sampled_from_obj_id,
+						coll_object.condition,
+						coll_object.lot_count,
+						coll_object.lot_count_modifier,
+						coll_object.coll_obj_disposition,
+						deacc_item.item_descr,
+						deacc_item.deacc_item_remarks,
+						deacc_item.item_instructions,
+						deaccession.deacc_number,
+						deaccession.deacc_type,
+						deaccesion.deacc_reason,
+						identification.scientific_name,
+						collecting_event.began_date,
+						collecting_event.ended_date,
+						locality.spec_locality,
+						locality.sovereign_nation,
+						geog_auth_rec.higher_geog,
+						encumbrance.Encumbrance,
+						decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
+						concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
+						accn.accn_number,
+						accn.accn_id
+					 from 
+						deaccession
+						join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
+						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality on collecting_event.locality_id = locality.locality_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+						left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+						left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+						left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+						join collection on cataloged_item.collection_id=collection.collection_id
+						join accn on cataloged_item.accn_id = accn.transaction_id
+					WHERE
+						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					ORDER BY cat_num
+				</cfquery>
 				<cfset fileName = "/download/ArctosLoanData_#getPartDeaccRequests.deacc_number#.csv">
 				<cfset ac=getPartDeaccRequests.columnlist>
 				<cfset header=#trim(ac)#>
@@ -317,87 +364,92 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="col-12">
-				
-		<table class="partname" id="t" class="sortable">
-			<tr>
-				<th class="inside">Cataloged Item</th>
-				<cfif otherIdOn><th class="inside"> #session.CustomOtherIdentifier# </th></cfif>
-				<th class="inside">Scientific Name</th>
-				<th class="inside">Part Name & Count</th>
-				<th class="inside">Condition</th>
-				<th class="inside">Disposition Type</th>
-				<th class="inside">Deaccession Item Remarks</th>
-				<th class="inside">Deaccession Item Instructions</th>
-				<th class="inside">Accession</th>
-				<th class="inside">Encumbered</th>
-				<th>Remove</th>
-			</tr>
-		
-		<cfset i=1>
-		<cfloop query="getPartDeaccRequests">
-			<tr id="rowNum#partID#">
-				<td class="inside">
-					<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
-		
-				</td>
-				<cfif otherIdOn>
-				   <td class="inside">
-					#CustomID#&nbsp;
-				   </td>
-				</cfif>
-				<td class="inside">
-					<em>#scientific_name#</em>&nbsp;
-				</td>
-				<td class="inside">
-					#getPartDeaccRequests.part_name# (#preserve_method#) #lot_count# #lot_count_modifier#
-					<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
-					<input type="hidden" name="isSubsample#partID#" id="isSubsample#partID#" value="#sampled_from_obj_id#" />
-				</td>
-				<td class="inside">
-					<input type="text" name="condition#partID#"
-						size="10" class="reqdClr"
-						id="condition#partID#"
-						onchange="this.className='red';updateCondition('#partID#')" 
-		 				value="#condition#">
-						<span class="infoLink" onClick="chgCondition('#partID#')">History</span>
-				</td>
-				<td class="inside">
-					<cfset thisDisp = #coll_obj_disposition#>
-					<select name="coll_obj_disposition#partID#"
-						id="coll_obj_disposition#partID#"
-						 size="1" onchange="this.className='red';updateDispn('#partID#')">
-							<cfloop query="ctDisp">
-								<option
-									<cfif #ctDisp.coll_obj_disposition# is "#thisDisp#"> selected </cfif>
-									value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+					<cfloop query="getCatItems">
+						<div class="row col-12 border m-1">
+							<div class="col=12">
+								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+								<a href="/guid/#guid#" target="_blank">#guid#</a>  
+								<cfif len(#CustomID#) gt 0 AND otherIdOn>
+									Other ID: #CustomID#
+								<cfif>
+								#scientific_name#
+								#higher_geog#; #spec_locality#; #sovereign_nation#
+								#began_date#<cfif ended_date NEQ began_date>/#ended_date#</cfif>
+								<cfif len(#encumbrance#) gt 0>
+									Encumbered: #encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>
+								</cfif>
+								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_transactions") >
+									Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
+								<cfelse>
+									Accession: #accn_number#
+								</cfif>
+							</div>
+							<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select distinct
+									specimen_part.collection_object_id as partID,
+									specimen_part.part_name,
+									specimen_part.preserve_method,
+									specimen_part.sampled_from_obj_id,
+									coll_object.condition,
+									coll_object.lot_count,
+									coll_object.lot_count_modifier,
+									coll_object.coll_obj_disposition,
+									deacc_item.item_descr,
+									deacc_item.deacc_item_remarks,
+									deacc_item.item_instructions,
+									deaccession.deacc_number,
+									deaccession.deacc_type,
+									deaccesion.deacc_reason,
+									identification.scientific_name as mixed_scientific_name,
+									encumbrance.Encumbrance,
+									decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
+								 from 
+									deaccession
+									join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+									join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
+									join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+									join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+									left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+									left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+									left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+								WHERE
+									deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+								ORDER BY cat_num
+							</cfquery>
+							<cfloop query=getParts>
+								<!--- Output each part row --->
+								<div class="col-12 row border-top py-1">
+									<div class="col-12 col-md-2">
+										Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count_#
+										<cfif len(mixed_scientific_name) gt 0>
+											<strong>Mixed Collection</strong>#mixed_scientific_name#
+										</cfif>
+										<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
+										<span>History</span>
+									</div>
+									<div class="col-12 col-md-2">
+										Condition: #condition#
+									</div>
+									<div class="col-12 col-md-2">
+										Disposition: #coll_obj_disposition#
+									</div>
+									<div class="col-12 col-md-2">
+										Remarks: #deacc_item_remarks#
+									</div>
+									<div class="col-12 col-md-2">
+										Instructions: #item_instructions#
+									</div>
+									<div class="col-12 col-md-2">
+										<button class="btn btn-xs btn-danger" onclick="remPartFromDeacc(#partID#,#collection_object_id#);" aria-label="Remove part from deaccession">Remove</button>
+										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" >Edit</button>
+									</div>
+								</div>
 							</cfloop>
-					</select>
-				</td>
-				<td valign="top" class="inside">
-					<textarea name="deacc_Item_Remarks#partID#" id="deacc_Item_Remarks#partID#" rows="2" cols="20"
-					onchange="this.className='red';updateDeaccItemRemarks('#partID#')">#deacc_item_remarks#</textarea>
-				</td>
-				<td valign="top" class="inside">
-					<textarea name="item_instructions#partID#" id="item_instructions#partID#" rows="2" cols="20"
-					onchange="this.className='red';updateDeaccItemInstructions('#partID#')">#item_instructions#</textarea>
-				</td>
-				<td class="inside">
-					<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
-				</td>
-				<td class="inside">
-					#encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
-				</td>
-				<td class="inside">
-					<img src="/images/del.gif" class="likeLink" onclick="remPartFromDeacc(#partID#,#collection_object_id#);" />
-				</td>
-			</tr>
-		<cfset i=#i#+1>
-		</cfloop>
-		
+						</div>
+					</cfloop>
+				</div>
+			</section>
 		</cfoutput>
-		</table>
-		</div>
-		</section>
 	</main>
 </cfif>
 
