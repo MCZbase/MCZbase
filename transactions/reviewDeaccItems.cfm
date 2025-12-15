@@ -424,7 +424,7 @@ limitations under the License.
 							</cfquery>
 							<cfloop query=getParts>
 								<!--- Output each part row --->
-								<div class="col-12 row border-top py-1">
+								<div class="col-12 row border-top mx-1 mt-1 px-1">
 									<div class="col-12 col-md-2">
 										Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
 										<cfif len(mixed_scientific_name) gt 0>
