@@ -224,6 +224,7 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="BulkMarkItemsReturned">
 		<cfset message="">
+		<cfset countAffected = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -236,8 +237,9 @@ limitations under the License.
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							and return_date is null
-							and (loan_item_state is null OR loan_item_state <> 'returned')
+							and (loan_item_state is null OR loan_item_state IN ('in loan','missing'))
 					</cfquery>
+					<cfset countAffected = setClosedDate_result.recordcount>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
@@ -247,7 +249,7 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			<cfif len(message) EQ 0>
-				<cfset message = "Bulk mark items returned successful.">
+				<cfset message = "Bulk mark items returned successful, updated #countAffected# items.">
 			</cfif>
 			<cfset message = urlEncode("&message=#message#)>
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
