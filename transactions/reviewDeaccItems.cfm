@@ -166,7 +166,7 @@ limitations under the License.
 		select distinct
 			cataloged_item.collection_object_id,
 			cataloged_item.collection_cde,
-			catloged_item.cat_num, 
+			cataloged_item.cat_num, 
 			collection.institution_acronym,
 			collection.collection,
 			deaccession.deacc_number,
@@ -223,7 +223,7 @@ limitations under the License.
 					select distinct
 						cataloged_item.collection_object_id,
 						cataloged_item.collection_cde,
-						catloged_item.cat_num, 
+						cataloged_item.cat_num, 
 						collection.institution_acronym,
 						collection.collection,
 						specimen_part.collection_object_id as partID,
