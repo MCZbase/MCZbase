@@ -201,7 +201,7 @@ limitations under the License.
 		ORDER BY cat_num
 	</cfquery>
 	<cfquery name="getAllPartsCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT count(distinct(deacc_item.collection_object_id)) as partCount
+		SELECT count(distinct(deacc_item.collection_object_id)) as part_count
 		FROM 
 			deaccession
 			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
@@ -304,7 +304,7 @@ limitations under the License.
 				select count(distinct(collection_object_id)) c from getCatItems
 			</cfquery>
 			<cfif catCnt.c eq ''><cfset catCount = 'no'><cfelse><cfset catCount = catCnt.c></cfif>
-			<cfif getAllParts.partCount eq 0><cfset partCount = 'no'><cfelse><cfset partCount = getAllParts.partCount></cfif>
+			<cfif getAllPartsCount.part_count eq 0><cfset partCount = 'no'><cfelse><cfset partCount = getAllPartsCount.part_count></cfif>
 			<cfset otherIdOn = false>
 			<cfif isdefined("showOtherId") and #showOtherID# is "true">
 				<cfset otherIdOn = true>
