@@ -427,6 +427,7 @@ limitations under the License.
 								<cfset id = getParts.deacc_item_id>
 								<!--- Output each part row --->
 								<div class="col-12 row border-top mx-1 mt-1 px-1">
+									<cfset name="#guid# #part_name# (#preserve_method#)">
 									<div class="col-12 col-md-2">
 										Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
 										<cfif len(mixed_scientific_name) gt 0>
@@ -438,6 +439,11 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<label for="condition_#id#" class="data-entry-label">Condition:</label>
 										<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
+										<script>
+											$(document).ready(
+												$("##condition_#id#").onFocusOut( function(){  updateCondition("#id#"); } ); 
+											);
+										</script>
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="coll_obj_disposition_#id#" class="data-entry-label">Disposition:</label>
@@ -451,21 +457,61 @@ limitations under the License.
 												<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
 											</cfloop>
 										</select>
+										<script>
+											$(document).ready(
+												$("##coll_obj_disposition_#id#").onFocusOut( function(){  updateCondition("#id#"); } ); 
+											);
+										</script>
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="deacc_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
 										<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
+										<script>
+											$(document).ready(
+												$("##deacc_item_remarks_#id#").onFocusOut( function(){  updateDisposition("#id#"); } ); 
+											);
+										</script>
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="item_instructions" class="data-entry-label">Instructions:</label>
 										<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
+										<script>
+											$(document).ready(
+												$("##item_instructions_#id#").onFocusOut( function(){  updateInstructions("#id#"); } ); 
+											);
+										</script>
 									</div>
 									<div class="col-12 col-md-2">
-										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#">Remove</button>
-										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#">Edit</button>
+										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem(#id#);">Remove</button>
+										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog(#id#,"#name#");">Edit</button>
 									</div>
 								</div>
 							</cfloop>
+							<div id="deaccItemEditDialogDiv"></div>
+							<script>
+								function removeDeaccItem(deacc_item_id) { 
+									console.log(deacc_item_id);
+								}
+								function launchEditDialog(deacc_item_id,name) { 
+									console.log(deacc_item_id);
+									openDeaccessionItemDialog(deacc_item_id,"deacItemEditDialogDiv",name,refreshItems);
+								}
+								function updateCondition(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function updateRemarks(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function updateInstructions(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function updateDisposition(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function refreshItems() { 
+									
+								}
+							</script>
 						</div>
 					</cfloop>
 				</div>
