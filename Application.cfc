@@ -256,7 +256,6 @@ limitations under the License.
 		<cfset Application.max_pw_age = 365 />
 		<cfset Application.fromEmail = "#serverName#" />
 		<!--- Default header/style apperance --->
-		<cfset Application.header_color = "##E7E7E7" />
 		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
 		<cfset Application.collection_url = "/" />
 		<cfset Application.collection_link_text = "Error" />
@@ -267,8 +266,10 @@ limitations under the License.
 		<cfset Application.meta_keywords = "museum, collection, management, system" />
 		<cfset Application.domain = replace(Application.serverRootUrl,"#Application.protocol#://",".") />
 		<cfset Application.header_color = "##000066" />
+		<cfset Application.old_header_color = "##000000" />
 		<cfset Application.institutionlinkcolor = "##FF0000" />
 		<cfset Application.collectionlinkcolor = "##00FF00" />
+		<cfset Application.old_collectionlinkcolor = "##FF0000" />
 		<cfset Application.serverrole ="unknown">
 		<cfquery name="d" datasource="uam_god">
 			select ip from blacklist where sysdate-LISTDATE<180
@@ -279,26 +280,32 @@ limitations under the License.
 			<cfif serverName contains "-test">
 				 <cfset Application.serverrole ="test">
 			    <cfset Application.header_color = "##ADE1EA" />
+				 <cfset Application.old_header_color = "#Application.header_color#" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.old_collectionlinkcolor = "##94131C" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 		    <cfelseif serverName contains "-dev">
 				 <cfset Application.serverrole ="development">
 			    <cfset Application.header_color = "##CAEAAD" />
+				 <cfset Application.old_header_color = "#Application.header_color#" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.old_collectionlinkcolor = "##94131C" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
 				 <cfset Application.serverrole ="production">
                 <!--- Production MCZbase values --->
 			    <cfset Application.header_color = "##a51c30" />
+				 <cfset Application.old_header_color = "##000000" />
 			    <cfset Application.login_color = "##000000" />
 			    <cfset Application.institutionlinkcolor = "##ffffff" />
 			    <cfset Application.collectionlinkcolor = "##FFFFFF" />
+				 <cfset Application.old_collectionlinkcolor = "##FF0000" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/krono.gif" />
 			</cfif>
