@@ -261,7 +261,6 @@ limitations under the License.
 		<cfset Application.header_image_class = "mcz_logo_krono" />
 		<cfset Application.collection_url = "/" />
 		<cfset Application.collection_link_text = "Error" />
-		<cfset Application.old_collection_link_text = "Error" />
 		<cfset Application.institution_url = "/" />
 		<cfset Application.stylesheet = "" />
 		<cfset Application.institution_link_text = "Host configuration problem: #serverName# not recognized" />
