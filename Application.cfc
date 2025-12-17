@@ -261,6 +261,7 @@ limitations under the License.
 		<cfset Application.header_image_class = "mcz_logo_krono" />
 		<cfset Application.collection_url = "/" />
 		<cfset Application.collection_link_text = "Error" />
+		<cfset Application.old_collection_link_text = "Error" />
 		<cfset Application.institution_url = "/" />
 		<cfset Application.stylesheet = "" />
 		<cfset Application.institution_link_text = "Host configuration problem: #serverName# not recognized" />
@@ -287,7 +288,8 @@ limitations under the License.
 			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.old_collectionlinkcolor = "##94131C" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
+			    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
+			    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
 			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 				 <cfset Application.header_image_alt = "mcz kronosaurus logo with link to website" />
 			    <cfset Application.header_image_class = "mcz_logo_krono" />
@@ -300,7 +302,8 @@ limitations under the License.
 			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.old_collectionlinkcolor = "##94131C" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
+			    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
+			    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
 			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 			    <cfset Application.header_image_class = "mcz_logo_krono" />
 				 <cfset Application.header_image_alt = "mcz kronosaurus logo with link to website" />
@@ -315,7 +318,8 @@ limitations under the License.
 			    <cfset Application.institutionlinkcolor = "##ffffff" />
 			    <cfset Application.collectionlinkcolor = "##FFFFFF" />
 				 <cfset Application.old_collectionlinkcolor = "##FF0000" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
+			    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
+			    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
 			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 			    <cfset Application.header_image_class = "mcz_logo_krono" />
 				 <cfset Application.header_image_alt = "mcz kronosaurus logo with link to website" />
