@@ -305,6 +305,7 @@ limitations under the License.
 			    <cfset Application.header_image_class = "mcz_logo_krono" />
 				 <cfset Application.header_image_alt = "mcz kronosaurus logo with link to website" />
 			    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
+			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
 				 <cfset Application.serverrole ="production">
                 <!--- Production MCZbase values --->
