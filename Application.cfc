@@ -286,7 +286,10 @@ limitations under the License.
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.old_collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
-			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
+			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
+				 <cfset Application.header_image_alt = "mcz kronosaurus logo with link to website"" />
+			    <cfset Application.header_image_class = "mcz_logo_krono" />
+			    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 		    <cfelseif serverName contains "-dev">
 				 <cfset Application.serverrole ="development">
 			    <cfset Application.header_color = "##CAEAAD" />
@@ -296,7 +299,10 @@ limitations under the License.
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.old_collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
-			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
+			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
+			    <cfset Application.header_image_class = "mcz_logo_krono" />
+				 <cfset Application.header_image_alt = "mcz kronosaurus logo with link to website"" />
+			    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
 				 <cfset Application.serverrole ="production">
                 <!--- Production MCZbase values --->
@@ -306,8 +312,11 @@ limitations under the License.
 			    <cfset Application.institutionlinkcolor = "##ffffff" />
 			    <cfset Application.collectionlinkcolor = "##FFFFFF" />
 				 <cfset Application.old_collectionlinkcolor = "##FF0000" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
-			    <cfset Application.header_image = "/images/krono.gif" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" /><!--- " --->
+			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
+			    <cfset Application.header_image_class = "mcz_logo_krono" />
+				 <cfset Application.header_image_alt = "mcz kronosaurus logo with link to website"" />
+			    <cfset Application.old_header_image = "/images/krono.gif" />
 			</cfif>
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />
