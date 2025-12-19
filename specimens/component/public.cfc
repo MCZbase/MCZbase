@@ -1110,16 +1110,16 @@ limitations under the License.
 				<cfloop query="citations">
 					<div class="list-group pt-0 d-block pb-1 px-2 w-100 mb-0 small95">
 						<span class="d-inline"></span>
-						<a href="/publications/showPublication.cfm?publication_id=#publication_id#">#formatted_publication#</a>,
+						<a href="/publications/showPublication.cfm?publication_id=#publication_id#" target="_blank">#formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>page 
 							<cfif len(citation_page_uri) gt 0>
-								<a href ="#citation_page_uri#">#occurs_page_number#</a>,
+								<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
 							<cfelse>
 								#occurs_page_number#,
 							</cfif>
 						<cfelse>
 							<cfif len(citation_page_uri) gt 0>
-								<a href ="#citation_page_uri#">[link]</a>,
+								<a href ="#citation_page_uri#" target="_blank">[link]</a>,
 							</cfif>
 						</cfif>
 						<span class="font-weight-lessbold">#type_status#</span> of 
