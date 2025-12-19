@@ -54,6 +54,7 @@ limitations under the License.
 	<cfset session.meta_keywords =  Application.meta_keywords>
 	<cfset session.stylesheet =  Application.stylesheet>
 	<cfset session.header_credit = "">
+	<!--- NOTE: old_ values below are for use on the old includes/_header.cfm page, values above are shared or for redesigned shared/_header.cfm page --->
 	<cfset session.old_header_color = Application.old_header_color>
 	<cfset session.old_institutionlinkcolor = Application.old_institutionlinkcolor>
 	<cfset session.old_institution_link_text =  Application.old_institution_link_text>
