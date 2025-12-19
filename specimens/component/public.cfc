@@ -2508,7 +2508,7 @@ limitations under the License.
 													To: #loanList.recipient_institution#
 												</cfif>
 												<cfif loanList.return_due_date NEQ "" and loanList.closed_date EQ "">
-													<cfif loanList.return_due_date GT now()>
+													<cfif loanList.return_due_date LT now()>
 														<strong style="text-danger">Overdue: #loanList.return_due_date#</strong>
 													<cfelse>
 														Due: #loanList.return_due_date#
