@@ -19,13 +19,12 @@ limitations under the License.
 <!----------------------------------------------------------->
 <cffunction name="setDbUser" output="true" returntype="boolean">
 	<cfargument name="portal_id" type="string" required="false">
+	<!--- portal id may be provided from cf_users.exclusive_collection_id, obtained in initSession in getPrefs query --->
+	
 	<cfif not isdefined("portal_id") or len(portal_id) is 0 or not isnumeric(portal_id)>
 		<cfset portal_id=0>
 	</cfif>
 	<!--- get the information for the portal --->
-	<!---cfquery name="portalInfo" datasource="cf_dbuser">
-		select * from cf_collection where cf_collection_id = #portal_id#
-	</cfquery--->
 	<cfif session.roles does not contain "coldfusion_user">
 		<cfquery name="portalInfo" datasource="cf_dbuser">
 			select * from cf_collection 
@@ -38,16 +37,30 @@ limitations under the License.
 		<cfset session.flatTableName = "flat">
 	</cfif>
 	<cfset session.portal_id=portal_id>
+	<!--- set application-wide display parameters into session --->
+	<!--- NOTE the option exists to use fields from cf_collection to set these values on a per user basis 
+		based on cf_users.exclusive_collection_id, but we aren't currently doing this --->
 	<cfset session.header_color = Application.header_color>
 	<cfset session.header_image =  Application.header_image>
+	<cfset session.header_image_alt = Application.header_image_alt>
+	<cfset session.header_image_class = Application.header_image_class>
 	<cfset session.collection_url =  Application.collection_url>
+	<cfset session.collectionlinkcolor = Application.collectionlinkcolor>
 	<cfset session.collection_link_text =  Application.collection_link_text>
 	<cfset session.institution_url =  Application.institution_url>
 	<cfset session.institution_link_text =  Application.institution_link_text>
+	<cfset session.institutionlinkcolor = Application.institutionlinkcolor>
 	<cfset session.meta_description =  Application.meta_description>
 	<cfset session.meta_keywords =  Application.meta_keywords>
 	<cfset session.stylesheet =  Application.stylesheet>
 	<cfset session.header_credit = "">
+	<cfset session.old_header_color = Application.old_header_color>
+	<cfset session.old_institutionlinkcolor = Application.old_institutionlinkcolor>
+	<cfset session.old_institution_link_text =  Application.old_institution_link_text>
+	<cfset session.old_collectionlinkcolor = Application.old_collectionlinkcolor >
+	<cfset session.old_collection_link_text = Application.old_collection_link_text >
+	<cfset session.old_header_image = Application.old_header_image>
+	<cfset session.old_header_image = Application.old_header_image>
 	<cfreturn true>
 </cffunction>
 <!----------------------------------------------------------->
