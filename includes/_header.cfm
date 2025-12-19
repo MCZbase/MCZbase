@@ -2,8 +2,8 @@
 <cfset headerPath = "includes"><!--- Identify which header has been included --->
 <head>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script>
+<!--= Global site tag (gtag.js) - Google Analytics --->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script><!--- " --->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -11,7 +11,6 @@
 
   gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
 </script>
-
 
 <style>
 	table td {border:none;}
@@ -74,10 +73,21 @@
 	<!--- checkout is master, integration, test, and other non-redesign branches --->
 	<cfset targetMenu = "production">
 </cfif>
+<cfif NOT isDefined("session.header_color") or len(session.header_color) EQ 0>
+	<!--- fallback to use application values, this should not be needed as setDbUser should have run from initSession --->
+	<cfset session.old_header_color = Application.old_header_color>
+	<cfset session.old_collectionlinkcolor = Application.old_collectionlinkcolor>
+	<cfset session.institutionlinkcolor = Application.institutionlinkcolor>
+	<cfset session.institution_url = Application.institution_url>
+	<cfset session.old_header_image = Application.old_header_image>
+	<cfset session.old_collection_link_text = Application.old_collection_link_text>
+	<cfset session.old_institution_link_text = Application.old_institution_link_text>
+	<cfset session.header_image_alt = Application.header_image_alt>
+</cfif>
 <cfoutput>
-	<meta name="keywords" content="#session.meta_keywords#">
-	<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="keywords" content="#session.meta_keywords#">
+		<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	</head>
 	<body>
 	<noscript>
@@ -87,16 +97,16 @@
 		</div>
 	</noscript>
 
-	<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc --->
-	<div id="headerContent" style="background-color: #Application.header_color#;">
+	<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc or user specific in setDbUser--->
+	<div id="headerContent" style="background-color: #Session.old_header_color#;">
 		<div id="image_headerWrap">
 			<div class="headerText">
-				<a href="http://mcz.harvard.edu/" target="_blank">
-					<img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
+				<a href="#Session.institution_url#" target="_blank">
+					<img src="#Session.old_header_image#" alt="#Session.header_image_alt#">
 				</a>
-				<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc --->
-				<h1 style="color:#Application.collectionlinkcolor#;"><span style='font-size: 1.2rem;'>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
-				<h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
+				<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc or user specific in setDbUser --->
+				<h1 style="color:#Session.old_collectionlinkcolor#;">#Session.old_collection_link_text#</h1>
+				<h2 style="color:#Session.old_institutionlinkcolor#;"><a href="#Session.institution_url#" target="_blank"><span style="color:#Session.old_institutionlinkcolor#" class="headerInstitutionText">#Session.old_institution_link_text#</span></a></h2>
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
