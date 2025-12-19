@@ -257,7 +257,7 @@ limitations under the License.
 		<cfset Application.fromEmail = "#serverName#" />
 		<!--- Default header/style apperance --->
 		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
-		<cfset Application.old_header_image = "/images/genericHeaderIcon.gif" />
+		<cfset Application.old_header_image = "/images/genericHeaderIcon.gif" /><!--- NOTE: old_ variables are intended for use on old includes/_header.cfm --->
 		<cfset Application.header_image_alt = "logo with link to website" />
 		<cfset Application.header_image_class = "mcz_logo_krono" />
 		<cfset Application.collection_url = "/" />
@@ -272,6 +272,7 @@ limitations under the License.
 		<cfset Application.header_color = "##000066" />
 		<cfset Application.old_header_color = "##000000" />
 		<cfset Application.institutionlinkcolor = "##FF0000" />
+		<cfset Application.old_institutionlinkcolor = "##000066" />
 		<cfset Application.collectionlinkcolor = "##00FF00" />
 		<cfset Application.old_collectionlinkcolor = "##FF0000" />
 		<cfset Application.serverrole ="unknown">
