@@ -15,16 +15,21 @@
 			<!--- parent genus for subgenera, species, and subspecies --->
 			<div class="col-12 col-lg-6">
 				<cfquery name="genus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-					select scientific_name, display_name, author_text 
+					select scientific_name, display_name, author_text, phylum, phylclass, phylorder, family
 					from taxonomy 
 					where 
+						scientific_name is not null and
 						genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
 						subgenus is null and 
 						species is null and 
 						subspecies is null
 				</cfquery>
-				<cfif len(genus.scientific_name) gt 0>
-					<p>Parent Genus: <a href="/name/#genus.scientific_name#">#genus.display_name# <span class="sm-caps">#genus.author_text#</span></a></p>
+				<cfif genus.recordcount EQ 1>
+						<p>Parent Genus: <a href="/name/#genus.scientific_name#">#genus.display_name# <span class="sm-caps">#genus.author_text#</span></a></p>
+				<cfelseif genus.recordcount GT 1>
+					<cfloop query="genus">
+						<p>Generic Homonym: <a href="/name/#genus.scientific_name#">#genus.display_name# <span class="sm-caps">#genus.author_text#</span></a> (#genus.phylum#:#genus.family#)</p>
+					</cfloop>
 				<cfelse>
 					<p>There is no taxonomy record in MCZbase for the genus #t.genus#
 				</cfif>
