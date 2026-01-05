@@ -1418,9 +1418,9 @@ limitations under the License.
 								<li class="list-group-item">None</li>
 							</ul>
 						<cfelse>
-							<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
 							<cfset i = 0>
 							<cfloop query="groupMembers">
+								<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
 								<cfset i = i + 1>
 								<ul class="list-group list-group-horizontal form-row mx-0">
 									<li class="list-group-item px-0">
