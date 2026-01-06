@@ -301,6 +301,9 @@ limitations under the License.
 				<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
 				<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
 				<cfset Application.PageProblemEmail = "bhaley@oeb.harvard.edu" />
+				<cfset Application.header_image_class = "mcz_logo_krono" />
+				<cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
+				<cfset Application.old_header_image = "/images/krono.gif" />
 				<cfif Application.serverrole EQ "production">
 					 <!--- Production MCZbase values --->
 				    <cfset Application.header_color = "##a51c30" />
@@ -312,9 +315,6 @@ limitations under the License.
 					 <cfset Application.old_collectionlinkcolor = "##FF0000" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/krono.gif" />
 				<cfelseif Application.serverrole EQ "development">
 				    <cfset Application.header_color = "##CAEAAD" />
 					 <cfset Application.old_header_color = "#Application.header_color#" />
@@ -325,9 +325,6 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				<cfelse>
 				    <cfset Application.header_color = "##ADE1EA" />
 					 <cfset Application.old_header_color = "#Application.header_color#" />
@@ -338,9 +335,6 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				</cfif>
 			<cfelseif serverName contains "huh">
 				<!--- TODO: Set default user to limit to HUH VPDs. --->
@@ -352,6 +346,9 @@ limitations under the License.
 				<cfset Application.old_institution_link_text = "Harvard University Herbaria" />
 				<cfset Application.InstitutionBlurb = "Collections Database Harvard University Herbaria" />
 				<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
+				<cfset Application.header_image_class = "mcz_logo_krono" />
+				<cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
+				<cfset Application.old_header_image = "/images/krono.gif" />
 				<cfif Application.serverrole EQ "production">
 					 <!--- Production HUHbase values --->
 				    <cfset Application.header_color = "##a51c30" />
@@ -363,9 +360,6 @@ limitations under the License.
 					 <cfset Application.old_collectionlinkcolor = "##FF0000" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>HUH</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Botanical Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>HUH</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Botanical Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/krono.gif" />
 				<cfelseif Application.serverrole EQ "development">
 				    <cfset Application.header_color = "##CAEAAD" />
 					 <cfset Application.old_header_color = "#Application.header_color#" />
@@ -376,9 +370,6 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>HUH</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Botanical Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>HUH</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Botanical Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				<cfelse>
 				    <cfset Application.header_color = "##ADE1EA" />
 					 <cfset Application.old_header_color = "#Application.header_color#" />
@@ -389,9 +380,6 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>HUH</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Botanical Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>HUH</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Botanical Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				</cfif>
 			<cfelseif serverName contains "biodiversity">
 				<!--- placeholder for a combined biodiversity portal --->
@@ -403,6 +391,9 @@ limitations under the License.
 				<cfset Application.old_institution_link_text = "Museum of Comparative Zoology - Harvard University" />
 				<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
 				<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
+				<cfset Application.header_image_class = "mcz_logo_krono" />
+				<cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
+				<cfset Application.old_header_image = "/images/krono.gif" />
 				<cfif Application.serverrole EQ "production">
 				    <cfset Application.header_color = "##a51c30" />
 					 <cfset Application.old_header_color = "##000000" />
@@ -413,9 +404,6 @@ limitations under the License.
 					 <cfset Application.old_collectionlinkcolor = "##FF0000" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class='headerCollectionTextSmall' >BASE</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/krono.gif" />
 				<cfelseif Application.serverrole EQ "development">
 				    <cfset Application.header_color = "##CAEAAD" />
 					 <cfset Application.old_header_color = "#Application.header_color#" />
@@ -426,9 +414,6 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				<cfelse>
 				    <cfset Application.header_color = "##ADE1EA" />
 					 <cfset Application.old_header_color = "#Application.header_color#" />
@@ -439,9 +424,6 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
-				    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
-				    <cfset Application.header_image_class = "mcz_logo_krono" />
-				    <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				</cfif>
 			</cfif>
 			<!--- shared configuration information for Harvard deployment --->
