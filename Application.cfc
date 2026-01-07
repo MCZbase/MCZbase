@@ -286,7 +286,7 @@ limitations under the License.
 				 <cfset Application.serverrole ="production">
 			</cfif>
 			<!--- TODO: Choice of HUH or MCZ or biodiversity portal values here --->
-			<cfelseif serverName contains "mczbase">
+			<cfif serverName contains "mczbase">
 				<!--- MCZbase values --->
 				<!--- TODO: Set default user to limit to MCZ VPDs. --->
 				<cfset Application.meta_description = "MCZbase, the database of the natural science collections of the Museum of Comparative Zoology, Harvard University." />
