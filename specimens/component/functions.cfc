@@ -6114,7 +6114,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="determined_by_agent" class="data-entry-label">Determiner</label>
-													<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+													<input type="text" class="data-entry-input reqdClr" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#" required>
 													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
 												</div>
 												<div class="col-12 col-md-4 pb-2 px-1">
@@ -6759,6 +6759,9 @@ limitations under the License.
 		<cfset variables.attribute_remark = "">
 	</cfif>
 	<cfset variables.determined_by_agent_id = arguments.determined_by_agent_id>
+	<cfif variables.determined_by_agent_id EQ "">
+		<cfthrow message="No determiner agent is provided, you must select an agent from the autocomplete picklist.">
+	</cfif>
 	<cfif isdefined("arguments.determined_date")>
 		<cfset variables.determined_date = arguments.determined_date>
 	<cfelse>
