@@ -187,21 +187,18 @@ limitations under the License.
 		<cfif serverName is "mczbase-prod2.rc.fas.harvard.edu" or serverName is "mczbase-prod2">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
 		</cfif>
-		<!---cfif serverName is "mczbase-prod2">
-			<!--- TODO: When this goes to production, change block above instead --->
-			<cfset serverName="mczbase-prod2.rc.fas.harvard.edu">
-		</cfif--->
 		<cfif serverName is "mczbase-dev">
 			<cfset serverName="mczbase-dev.rc.fas.harvard.edu" />
 		</cfif>
 		<cfif serverName is "mczbase-dev2">
 			<cfset serverName="mczbase-dev2.rc.fas.harvard.edu" />
 		</cfif>
-		<cfif serverName is "mczbase-test">
-			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
-		</cfif>
 		<cfif serverName is "mczbase-test2">
 			<cfset serverName="mczbase-test2.rc.fas.harvard.edu" />
+		</cfif>
+		<cfif serverName is "huhbase-test">
+			<!--- TODO: set to huhbase-test server FQDN --->
+			<cfset serverName="huhbase-test.mcz.harvard.edu" />
 		</cfif>
  		<cfset Application.hostName = '#serverName#'><!--- make available for reference from the code --->
 
@@ -289,7 +286,7 @@ limitations under the License.
 				 <cfset Application.serverrole ="production">
 			</cfif>
 			<!--- TODO: Choice of HUH or MCZ or biodiversity portal values here --->
-			<cfif 1 EQ 1>
+			<cfelseif serverName contains "mczbase">
 				<!--- MCZbase values --->
 				<!--- TODO: Set default user to limit to MCZ VPDs. --->
 				<cfset Application.meta_description = "MCZbase, the database of the natural science collections of the Museum of Comparative Zoology, Harvard University." />
