@@ -6861,7 +6861,14 @@ limitations under the License.
 					select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
 				</cfquery>
 				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select COLLECTING_SOURCE from ctcollecting_source
+					SELECT collecting_source 
+					FROM ctcollecting_source 
+					ORDER BY 
+						CASE 
+							WHEN collecting_source = 'wild caught' THEN 1 
+							ELSE 2 
+						END,
+  						collecting_source
 				</cfquery>
 				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select geology_attribute from ctgeology_attribute order by ordinal
