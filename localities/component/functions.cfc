@@ -4832,7 +4832,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							WHEN collecting_source = 'wild caught' THEN 1 
 							ELSE 2 
 						END,
-  						collecting_source;
+  						collecting_source
 				</cfquery>
 				<cfquery name="ctCollecting_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_method from ctcollecting_method order by collecting_method
