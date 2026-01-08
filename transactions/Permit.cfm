@@ -1312,7 +1312,8 @@ limitations under the License.
 								<ul class="col-12 col-md-8 mx-0 px-4 float-left list-style-disc">
 									<cfloop query="permituse">
 										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = "(#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
-										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype#, type: #ttype# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
+										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
+										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
 									</cfloop>
 									<cfif permituse.recordCount eq 0>
 										<li>No linked transactions or shipments.</li>
@@ -1608,7 +1609,8 @@ limitations under the License.
 								<ul class="col-12 col-md-8 mx-0 px-4 float-left list-style-disc">
 									<cfloop query="permituse">
 										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = "(#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
-										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype#, type: #ttype# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
+										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
+										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
 									</cfloop>
 									<cfif permituse.recordCount eq 0>
 										<li>No linked transactions or shipments.</li>
