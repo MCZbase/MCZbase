@@ -5959,7 +5959,7 @@ limitations under the License.
 				<!--- check if the table is a special case --->
 				<cfif ucase(variables.table) EQ "CTASSOCIATED_GRANTS">
 					<cfset variables.field="ASSOCIATED_GRANT">
-				<cfelseif ucase(variables.table) EQ "CTCOLLECTION_FULL_NAMES">
+				<cfelseif ucase(variables.table) EQ "CTCOLLECTIONS_FULL_NAMES">
 					<cfset variables.field="COLLECTION">
 				<cfelse>
 					<!--- default is attribute field is the attribute code table name with CT prefix removed --->

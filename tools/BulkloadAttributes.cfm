@@ -561,8 +561,8 @@ limitations under the License.
 										where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
 									<cfelseif ctAttribute_code_tables.value_code_table EQ "CTASSOCIATED_GRANTS">
 										select ASSOCIATED_GRANT from CTASSOCIATED_GRANTS
-									<cfelseif ctAttribute_code_tables.value_code_table EQ "CTCOLLECTION_FULL_NAMES">
-										select COLLECTION from CTCOLLECTION_FULL_NAMES
+									<cfelseif ctAttribute_code_tables.value_code_table EQ "CTCOLLECTIONS_FULL_NAMES">
+										select COLLECTION from CTCOLLECTIONS_FULL_NAMES
 									</cfif>
 								)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
