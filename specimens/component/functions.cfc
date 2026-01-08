@@ -6389,7 +6389,7 @@ limitations under the License.
 								<cfset var field="">
 								<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
 									<cfset field="ASSOCIATED_GRANT">
-								<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
+								<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTIONS_FULL_NAMES">
 									<cfset field="COLLECTION">
 								<cfelse>
 									<cfset field=replace(valueCodeTable,"CT","","one")>
