@@ -581,7 +581,7 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#EXTENT_UNITS#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT_UNITS#" scale="5">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">
 							<cfelse>
 								,NULL
 							</cfif>
