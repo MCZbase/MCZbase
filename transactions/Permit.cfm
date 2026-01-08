@@ -1313,7 +1313,7 @@ limitations under the License.
 									<cfloop query="permituse">
 										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = "(#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
 										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
-										<cfif permituse.transaction_type EQ 'borrow'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
+										<cfif permituse.transaction_type EQ 'borrow' OR permituse.transaction_type EQ 'accn'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
 										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# #forText#: #guid_prefix#</li>
 									</cfloop>
 									<cfif permituse.recordCount eq 0>
@@ -1611,7 +1611,7 @@ limitations under the License.
 									<cfloop query="permituse">
 										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = "(#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
 										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
-										<cfif permituse.transaction_type EQ 'borrow'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
+										<cfif permituse.transaction_type EQ 'borrow' OR permituse.transaction_type EQ 'accn'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
 										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# #forText#: #guid_prefix#</li>
 									</cfloop>
 									<cfif permituse.recordCount eq 0>
