@@ -279,7 +279,8 @@ limitations under the License.
 									lot_count, 
 									lot_count_modifier,
 									sampled_from_obj_id,
-									identification.scientific_name mixed_scientific_name
+									identification.scientific_name mixed_scientific_name,
+									GET_PART_STORAGE_PARENTS(specimen_part.collection_object_id) AS storage_parents
 								FROM specimen_part
 									JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -344,6 +345,7 @@ limitations under the License.
 										<cfif len(getParts.mixed_scientific_name) GT 0>
 											<strong>Mixed Collection:</strong>#getParts.mixed_scientific_name#
 										</cfif>
+										#storageParents#
 										#partRemarks#
 									</div>
 									<div class="col-12 col-md-3">
