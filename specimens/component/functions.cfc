@@ -6446,7 +6446,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-xl-2 px-3 px-xl-3  mt-1 pb-2">
 							<label class="data-entry-label">Determiner</label>
-							<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
+							<input type="text" class="data-entry-input reqdClr" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#" required>
 							<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
 							<!--- make the determined by agent into an agent autocomplete --->
 							<script>
