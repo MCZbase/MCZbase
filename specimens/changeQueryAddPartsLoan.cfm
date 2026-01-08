@@ -345,7 +345,7 @@ limitations under the License.
 										<cfif len(getParts.mixed_scientific_name) GT 0>
 											<strong>Mixed Collection:</strong>#getParts.mixed_scientific_name#
 										</cfif>
-										#storageParents#
+										#storage_parents#
 										#partRemarks#
 									</div>
 									<div class="col-12 col-md-3">
