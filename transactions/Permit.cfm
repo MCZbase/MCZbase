@@ -1311,7 +1311,7 @@ limitations under the License.
 								<h2 class="h3">Permit used for</h2>
 								<ul class="col-12 col-md-8 mx-0 px-4 float-left list-style-disc">
 									<cfloop query="permituse">
-										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = "(#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
+										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = " (#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
 										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
 										<cfif permituse.transaction_type EQ 'borrow' OR permituse.transaction_type EQ 'accn'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
 										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# #forText#: #guid_prefix#</li>
@@ -1609,7 +1609,7 @@ limitations under the License.
 								<h2 class="h3">Permit used for</h2>
 								<ul class="col-12 col-md-8 mx-0 px-4 float-left list-style-disc">
 									<cfloop query="permituse">
-										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = "(#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
+										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = " (#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
 										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
 										<cfif permituse.transaction_type EQ 'borrow' OR permituse.transaction_type EQ 'accn'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
 										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# #forText#: #guid_prefix#</li>
