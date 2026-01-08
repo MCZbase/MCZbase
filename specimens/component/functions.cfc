@@ -5959,7 +5959,7 @@ limitations under the License.
 				<!--- check if the table is a special case --->
 				<cfif ucase(variables.table) EQ "CTASSOCIATED_GRANTS">
 					<cfset variables.field="ASSOCIATED_GRANT">
-				<cfelseif ucase(variables.table) EQ "CTCOLLECTION_FULL_NAMES">
+				<cfelseif ucase(variables.table) EQ "CTCOLLECTIONS_FULL_NAMES">
 					<cfset variables.field="COLLECTION">
 				<cfelse>
 					<!--- default is attribute field is the attribute code table name with CT prefix removed --->
@@ -6114,7 +6114,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="determined_by_agent" class="data-entry-label">Determiner</label>
-													<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+													<input type="text" class="data-entry-input reqdClr" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#" required>
 													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
 												</div>
 												<div class="col-12 col-md-4 pb-2 px-1">
@@ -6389,7 +6389,7 @@ limitations under the License.
 								<cfset var field="">
 								<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
 									<cfset field="ASSOCIATED_GRANT">
-								<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
+								<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTIONS_FULL_NAMES">
 									<cfset field="COLLECTION">
 								<cfelse>
 									<cfset field=replace(valueCodeTable,"CT","","one")>
@@ -6446,7 +6446,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-xl-2 px-3 px-xl-3  mt-1 pb-2">
 							<label class="data-entry-label">Determiner</label>
-							<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
+							<input type="text" class="data-entry-input reqdClr" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#" required>
 							<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
 							<!--- make the determined by agent into an agent autocomplete --->
 							<script>
@@ -6759,6 +6759,9 @@ limitations under the License.
 		<cfset variables.attribute_remark = "">
 	</cfif>
 	<cfset variables.determined_by_agent_id = arguments.determined_by_agent_id>
+	<cfif variables.determined_by_agent_id EQ "">
+		<cfthrow message="No determiner agent is provided, you must select an agent from the autocomplete picklist.">
+	</cfif>
 	<cfif isdefined("arguments.determined_date")>
 		<cfset variables.determined_date = arguments.determined_date>
 	<cfelse>

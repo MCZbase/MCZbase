@@ -240,7 +240,7 @@ limitations under the License.
 							collecting_event.ended_date,
 							locality.spec_locality,
 							geog_auth_rec.higher_geog,
-							identification.scientific_name,
+							identification.scientific_name
 						FROM 
 							user_search_table 
 							JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -279,7 +279,8 @@ limitations under the License.
 									lot_count, 
 									lot_count_modifier,
 									sampled_from_obj_id,
-									identification.scientific_name mixed_scientific_name
+									identification.scientific_name mixed_scientific_name,
+									GET_PART_STORAGE_PARENTS(specimen_part.collection_object_id) AS storage_parents
 								FROM specimen_part
 									JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -343,6 +344,9 @@ limitations under the License.
 										<span>#getParts.part_name# (#getParts.preserve_method#) #getParts.lot_count_modifier#&nbsp;#getParts.lot_count#</span>
 										<cfif len(getParts.mixed_scientific_name) GT 0>
 											<strong>Mixed Collection:</strong>#getParts.mixed_scientific_name#
+										</cfif>
+										<cfif #storage_parents# NEQ "Unplaced">
+											#storage_parents#
 										</cfif>
 										#partRemarks#
 									</div>
