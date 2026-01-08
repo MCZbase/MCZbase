@@ -240,7 +240,7 @@ limitations under the License.
 							collecting_event.ended_date,
 							locality.spec_locality,
 							geog_auth_rec.higher_geog,
-							identification.scientific_name,
+							identification.scientific_name
 						FROM 
 							user_search_table 
 							JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
