@@ -494,7 +494,7 @@ limitations under the License.
 								}
 								function launchEditDialog(deacc_item_id,name) { 
 									console.log(deacc_item_id);
-									openDeaccessionItemDialog(deacc_item_id,"deacItemEditDialogDiv",name,refreshItems);
+									openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems);
 								}
 								function updateCondition(deacc_item_id) {
 									console.log(deacc_item_id);
