@@ -459,18 +459,18 @@ limitations under the License.
 											</cfloop>
 										</select>
 										<script>
-											$(document).ready(
-												$("##coll_obj_disposition_#id#").onFocusOut( function(){  updateCondition("#id#"); } ); 
-											);
+											$(document).ready( function() {
+												$("##coll_obj_disposition_#id#").on("focusout", function(){  updateCondition("#id#"); } ); 
+											});
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="deacc_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
 										<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
 										<script>
-											$(document).ready(
-												$("##deacc_item_remarks_#id#").onFocusOut( function(){  updateDisposition("#id#"); } ); 
-											);
+											$(document).ready( function() {
+												$("##deacc_item_remarks_#id#").on("focusout", function(){  updateDisposition("#id#"); } ); 
+											});
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
