@@ -478,7 +478,7 @@ limitations under the License.
 										<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
 										<script>
 											$(document).ready( function() { 
-												$("##item_instructions_#id#").onFocusOut( function(){  updateInstructions("#id#"); } ); 
+												$("##item_instructions_#id#").on("focusout", function(){  updateInstructions("#id#"); } ); 
 											});
 										</script>
 									</div>
