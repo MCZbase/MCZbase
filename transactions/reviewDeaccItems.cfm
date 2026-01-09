@@ -488,7 +488,6 @@ limitations under the License.
 									</div>
 								</div>
 							</cfloop>
-							<div id="deaccItemEditDialogDiv"></div>
 							<script>
 								function removeDeaccItem(deacc_item_id) { 
 									console.log(deacc_item_id);
@@ -515,6 +514,7 @@ limitations under the License.
 							</script>
 						</div>
 					</cfloop>
+					<div id="deaccItemEditDialogDiv"></div>
 				</div>
 			</section>
 		</cfoutput>
