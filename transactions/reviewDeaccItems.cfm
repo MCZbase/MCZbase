@@ -441,7 +441,7 @@ limitations under the License.
 										<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
 										<script>
 											$(document).ready( function() {
-												$("##condition_#id#").on("focusout" function(){  updateCondition("#id#"); } ); 
+												$("##condition_#id#").on("focusout", function(){  updateCondition("#id#"); } ); 
 											});
 										</script>
 									</div>
