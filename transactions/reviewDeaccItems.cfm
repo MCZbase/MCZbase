@@ -440,9 +440,9 @@ limitations under the License.
 										<label for="condition_#id#" class="data-entry-label">Condition:</label>
 										<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
 										<script>
-											$(document).ready(
-												$("##condition_#id#").onFocusOut( function(){  updateCondition("#id#"); } ); 
-											);
+											$(document).ready( function() {
+												$("##condition_#id#").on("focusout" function(){  updateCondition("#id#"); } ); 
+											});
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
