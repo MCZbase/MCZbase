@@ -449,7 +449,7 @@ limitations under the License.
 										<label for="coll_obj_disposition_#id#" class="data-entry-label">Disposition:</label>
 										<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
 											<cfloop query="ctDisp">
-												<cfif ctDisp.coll_obj_disposition EQ coll_obj_disposition>
+												<cfif ctDisp.coll_obj_disposition EQ getParts.coll_obj_disposition>
 													<cfset selected = "selected">
 												<cfelse>
 													<cfset selected = "">
