@@ -484,7 +484,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem(#id#);">Remove</button>
-										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog(#id#,"#name#");">Edit</button>
+										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog(#id#,'#name#');">Edit</button>
 									</div>
 								</div>
 							</cfloop>
