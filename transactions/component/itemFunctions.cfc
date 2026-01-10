@@ -2396,6 +2396,7 @@ limitations under the License.
 					ORDER BY coll_obj_disposition
 				</cfquery>
 				<cfloop query="getCatItems">
+					<cfset catItemId = getCatItems.collection_object_id>
 					<div class="col=12">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<a href="/guid/#guid#" target="_blank">#guid#</a>  
@@ -2509,8 +2510,8 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-2">
-								<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem(#id#);">Remove</button>
-								<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog(#id#,'#name#');">Edit</button>
+								<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem#catItemId#(#id#);">Remove</button>
+								<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 							</div>
 						</div>
 					</cfloop>

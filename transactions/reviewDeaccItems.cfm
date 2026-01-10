@@ -375,10 +375,10 @@ limitations under the License.
 							#catItemBlock#
 						</div>
 						<script>
-							function removeDeaccItem(deacc_item_id) { 
+							function removeDeaccItem#catItemId#(deacc_item_id) { 
 								console.log(deacc_item_id);
 							}
-							function launchEditDialog(deacc_item_id,name) { 
+							function launchEditDialog#catItemId#(deacc_item_id,name) { 
 								console.log(deacc_item_id);
 								openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
 							}
