@@ -2524,7 +2524,7 @@ limitations under the License.
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getDeaccCatItemHtmlThread" />
-	<cfreturn getDeaccCatItemThreadHtmlThread.output>
+	<cfreturn getDeaccCatItemHtmlThread.output>
 </cffunction>
 
 </cfcomponent>
