@@ -2345,7 +2345,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfthread name="getDeaccCatItemHtmlThread" deacc_item_id="#arguments.deacc_item_id#">
+	<cfthread name="getDeaccCatItemHtmlThread" transaction_id="#arguments.transaction_id#" collection_object_id="#arguments.collection_object_id#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
