@@ -397,7 +397,7 @@ limitations under the License.
 							function refreshItems#catItemId#() { 
 								console.log("refresh items invoked for #catItemId#");
 								$.ajax({
-									url: '/transactions/component/itemFunctios.cfc',
+									url: '/transactions/component/itemFunctions.cfc',
 									type: 'POST',
 									data: {
 										method: 'getDeaccCatItemHtml',
