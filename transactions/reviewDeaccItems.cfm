@@ -407,8 +407,8 @@ limitations under the License.
 									success: function(data) {
 										$("##rowDiv#catItemId#").html(data);
 									},
-									error: function(xhr, status, error) {
-										handleError(xhr, status, error);
+      							error: function (jqXHR, textStatus, error) {
+         							handleFail(jqXHR,textStatus,error,"reloading deaccession item");
 									}
 								});
 								$("##rowDiv#catItemId#").html("");
