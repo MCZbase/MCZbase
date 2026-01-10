@@ -2345,7 +2345,8 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfthread name="getDeaccCatItemHtmlThread" transaction_id="#arguments.transaction_id#" collection_object_id="#arguments.collection_object_id#">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getDeaccCatItemHtmlThread#tn#" transaction_id="#arguments.transaction_id#" collection_object_id="#arguments.collection_object_id#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2523,8 +2524,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getDeaccCatItemHtmlThread" />
-	<cfreturn getDeaccCatItemHtmlThread.output>
+	<cfthread action="join" name="getDeaccCatItemHtmlThread#tn#" />
+	<cfreturn cfthread["getDeaccCatItemHtmlThread#tn#"].output>
 </cffunction>
 
 </cfcomponent>
