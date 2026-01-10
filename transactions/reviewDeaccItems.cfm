@@ -370,7 +370,7 @@ limitations under the License.
 				<div class="col-12">
 					<cfloop query="getCatItems">
 						<cfset catItemId = getCatItems.collection_object_id>
-						<div class="row col-12 border m-1" id="##rowDiv#catItemId#">
+						<div class="row col-12 border m-1" id="rowDiv#catItemId#">
 							<cfset catItemBlock = getDeaccCatItemHtml(transaction_id=transaction_id,collection_object_id=catItemId)>
 							#catItemBlock#
 						</div>
@@ -411,7 +411,6 @@ limitations under the License.
          							handleFail(jqXHR,textStatus,error,"reloading deaccession item");
 									}
 								});
-								$("##rowDiv#catItemId#").html("");
 							}
 						</script>
 					</cfloop>
