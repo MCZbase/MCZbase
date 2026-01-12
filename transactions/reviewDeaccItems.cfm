@@ -369,151 +369,52 @@ limitations under the License.
 				</div>
 				<div class="col-12">
 					<cfloop query="getCatItems">
-						<div class="row col-12 border m-1">
-							<div class="col=12">
-								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
-								<a href="/guid/#guid#" target="_blank">#guid#</a>  
-								<cfif len(#CustomID#) gt 0 AND otherIdOn>
-									Other ID: #CustomID#
-								</cfif>
-								#scientific_name#
-								#higher_geog#; #spec_locality#; #sovereign_nation#
-								#began_date#<cfif ended_date NEQ began_date>/#ended_date#</cfif>
-								<cfif len(#encumbrance#) gt 0>
-									Encumbered: #encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>
-								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") >
-									Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
-								<cfelse>
-									Accession: #accn_number#
-								</cfif>
-							</div>
-							<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT DISTINCT
-									specimen_part.collection_object_id as partID,
-									specimen_part.part_name,
-									specimen_part.preserve_method,
-									specimen_part.sampled_from_obj_id,
-									coll_object.condition,
-									coll_object.lot_count,
-									coll_object.lot_count_modifier,
-									coll_object.coll_obj_disposition,
-									deacc_item.deacc_item_id,
-									deacc_item.item_descr,
-									deacc_item.deacc_item_remarks,
-									deacc_item.item_instructions,
-									deaccession.deacc_number,
-									deaccession.deacc_type,
-									deaccession.deacc_reason,
-									identification.scientific_name as mixed_scientific_name,
-									encumbrance.Encumbrance,
-									decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name
-								FROM 
-									deaccession
-									join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
-									join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
-									join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-									join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-									left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
-									left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
-									left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-								WHERE
-									deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-									AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-								ORDER BY 
-									part_name, preserve_method
-							</cfquery>
-							<cfloop query=getParts>
-								<cfset id = getParts.deacc_item_id>
-								<!--- Output each part row --->
-								<div class="col-12 row border-top mx-1 mt-1 px-1">
-									<cfset name="#guid# #part_name# (#preserve_method#)">
-									<div class="col-12 col-md-2">
-										Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
-										<cfif len(mixed_scientific_name) gt 0>
-											<strong>Mixed Collection</strong>#mixed_scientific_name#
-										</cfif>
-										<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
-										<span>History</span>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="condition_#id#" class="data-entry-label">Condition:</label>
-										<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
-										<script>
-											$(document).ready(
-												$("##condition_#id#").onFocusOut( function(){  updateCondition("#id#"); } ); 
-											);
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="coll_obj_disposition_#id#" class="data-entry-label">Disposition:</label>
-										<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
-											<cfloop query="ctDisp">
-												<cfif ctDisp.coll_obj_disposition EQ coll_obj_disposition>
-													<cfset selected = "selected">
-												<cfelse>
-													<cfset selected = "">
-												</cfif>
-												<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
-											</cfloop>
-										</select>
-										<script>
-											$(document).ready(
-												$("##coll_obj_disposition_#id#").onFocusOut( function(){  updateCondition("#id#"); } ); 
-											);
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="deacc_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
-										<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
-										<script>
-											$(document).ready(
-												$("##deacc_item_remarks_#id#").onFocusOut( function(){  updateDisposition("#id#"); } ); 
-											);
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="item_instructions" class="data-entry-label">Instructions:</label>
-										<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
-										<script>
-											$(document).ready(
-												$("##item_instructions_#id#").onFocusOut( function(){  updateInstructions("#id#"); } ); 
-											);
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem(#id#);">Remove</button>
-										<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog(#id#,"#name#");">Edit</button>
-									</div>
-								</div>
-							</cfloop>
-							<div id="deaccItemEditDialogDiv"></div>
-							<script>
-								function removeDeaccItem(deacc_item_id) { 
-									console.log(deacc_item_id);
-								}
-								function launchEditDialog(deacc_item_id,name) { 
-									console.log(deacc_item_id);
-									openDeaccessionItemDialog(deacc_item_id,"deacItemEditDialogDiv",name,refreshItems);
-								}
-								function updateCondition(deacc_item_id) {
-									console.log(deacc_item_id);
-								}
-								function updateRemarks(deacc_item_id) {
-									console.log(deacc_item_id);
-								}
-								function updateInstructions(deacc_item_id) {
-									console.log(deacc_item_id);
-								}
-								function updateDisposition(deacc_item_id) {
-									console.log(deacc_item_id);
-								}
-								function refreshItems() { 
-									
-								}
-							</script>
+						<cfset catItemId = getCatItems.collection_object_id>
+						<div class="row col-12 border m-1" id="rowDiv#catItemId#">
+							<cfset catItemBlock = getDeaccCatItemHtml(transaction_id=transaction_id,collection_object_id=catItemId)>
+							#catItemBlock#
 						</div>
+						<script>
+							function removeDeaccItem#catItemId#(deacc_item_id) { 
+								console.log(deacc_item_id);
+							}
+							function launchEditDialog#catItemId#(deacc_item_id,name) { 
+								console.log(deacc_item_id);
+								openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
+							}
+							function updateCondition(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function updateRemarks(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function updateInstructions(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function updateDisposition(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function refreshItems#catItemId#() { 
+								console.log("refresh items invoked for #catItemId#");
+								$.ajax({
+									url: '/transactions/component/itemFunctions.cfc',
+									type: 'POST',
+									data: {
+										method: 'getDeaccCatItemHtml',
+										collection_object_id: '#catItemId#',
+										transaction_id: '#transaction_id#'
+									},
+									success: function(data) {
+										$("##rowDiv#catItemId#").html(data);
+									},
+      							error: function (jqXHR, textStatus, error) {
+         							handleFail(jqXHR,textStatus,error,"reloading deaccession item");
+									}
+								});
+							}
+						</script>
 					</cfloop>
+					<div id="deaccItemEditDialogDiv"></div>
 				</div>
 			</section>
 		</cfoutput>
