@@ -322,7 +322,7 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class='headerCollectionTextSmall'>BASE-DEV</span><span class='headerCollectionText'>:The Database of the Zoological Collections</span>" /><!--- " --->
-					<cfset Application.old_header_image = "/shared/images/mcz_krono_logo.png" />
+					<cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				<cfelse>
 				    <cfset Application.header_color = "##ADE1EA" />
 					 <cfset Application.old_header_color = "#Application.header_color#" />
@@ -333,7 +333,7 @@ limitations under the License.
 				    <cfset Application.old_collectionlinkcolor = "##94131C" />
 				    <cfset Application.collection_link_text = "<span style='font-size: 1.1rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
 				    <cfset Application.old_collection_link_text = "<span style='font-size: 1.2rem;'>MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections</span>" /><!--- " --->
-					 <cfset Application.old_header_image = "/shared/images/mcz_krono_logo.png" />
+					 <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				</cfif>
 			<cfelseif serverName contains "huh">
 				<!--- TODO: Set default user to limit to HUH VPDs. --->
