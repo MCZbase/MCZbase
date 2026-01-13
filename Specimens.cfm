@@ -1584,7 +1584,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class=""></span>
-													<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+													<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 														<div id="fixedmanageButtonExtra"></div>
 													</cfif>
 													<span id="fixedremoveButtonDiv" class=""></span>
@@ -1918,7 +1918,7 @@ limitations under the License.
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class=""></span>
-													<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+													<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 														<div id="keywordmanageButtonExtra"></div>
 													</cfif>
 													<span id="keywordremoveButtonDiv" class=""></span>
@@ -2551,7 +2551,7 @@ Target JSON:
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class=""></span>
-													<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+													<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 														<div id="buildermanageButtonExtra"></div>
 													</cfif>
 													<span id="builderremoveButtonDiv" class=""></span>
@@ -3324,7 +3324,7 @@ Target JSON:
 				$('##fixedresultLink').html('');
 				$("##fixedshowhide").html("");
 				$('##fixedmanageButton').html('');
-				<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+				<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 					$('##fixedmanageButtonExtra').html('');
 				</cfif>
 				$('##fixedremoveButtonDiv').html('');
@@ -3586,10 +3586,12 @@ Target JSON:
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							$('##fixedmanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="fixedDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id='+$('##result_id_fixedSearch').val()+'&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
+						<cfelseif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
+							$('##fixedmanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="fixedDirectDeaccPartButton" href="/specimens/changeQueryDeaccession.cfm?result_id='+$('##result_id_fixedSearch').val()+'&transaction_id=#encodeForUrl(target_deacc_id)#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>');
 						</cfif>
 					<cfelse>
 						$('##fixedmanageButton').html('');
-						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+						<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 							$('##fixedmanageButtonExtra').html('');
 						</cfif>
 					</cfif>
@@ -3655,7 +3657,7 @@ Target JSON:
 				$("##keywordresultLink").html("");
 				$("##keywordshowhide").html("");
 				$('##keywordmanageButton').html('');
-				<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+				<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 					$('##keywordmanageButtonExtra').html('');
 				</cfif>
 				$('##keywordremoveButtonDiv').html('');
@@ -3838,10 +3840,12 @@ Target JSON:
 						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							$('##keywordmanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="keywordDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id='+$('##result_id_keywordSearch').val()+'&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
+						<cfelseif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
+							$('##keywordmanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="keywordDirectDeaccPartButton" href="/specimens/changeQueryDeaccession.cfm?result_id='+$('##result_id_keywordSearch').val()+'&transaction_id=#encodeForUrl(target_deacc_id)#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>');
 						</cfif>
 					<cfelse>
 						$('##keywordmanageButton').html('');
-						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+						<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 							$('##keywordmanageButtonExtra').html('');
 						</cfif>
 					</cfif>
@@ -3906,7 +3910,7 @@ Target JSON:
 				$("##builderresultLink").html("");
 				$("##buildershowhide").html("");
 				$('##buildermanageButton').html('');
-				<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+				<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 					$('##buildermanageButtonExtra').html('');
 				</cfif>
 				$('##builderremoveButtonDiv').html('');
@@ -4087,10 +4091,12 @@ Target JSON:
 						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							$('##buildermanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="builderDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id='+$('##result_id_builderSearch').val()+'&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
+						<cfelseif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
+							$('##buildermanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="builderDirectDeaccPartButton" href="/specimens/changeQueryDeaccession.cfm?result_id='+$('##result_id_builderSearch').val()+'&transaction_id=#encodeForUrl(target_deacc_id)#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>');
 						</cfif>
 					<cfelse>
 						$('##buildermanageButton').html('');
-						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+						<cfif (isDefined("target_loan_id") and len(target_loan_id) GT 0) OR ( isdefined("target_deacc_id") and len(target_deacc_id) GT 0)>
 							$('##buildermanageButtonExtra').html('');
 						</cfif>
 					</cfif>
