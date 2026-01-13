@@ -3579,7 +3579,7 @@ Target JSON:
 						</cfif>
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
-							$('##fixedmanageButtonExtra').html('<a class="btn btn-xs btn-secondary" id="fixedDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id="+$('##result_id_fixedSearch').val()+"&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
+							$('##fixedmanageButtonExtra').html('<a class="btn btn-xs btn-secondary" id="fixedDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id='+$('##result_id_fixedSearch').val()+'&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
 						</cfif>
 					<cfelse>
 						$('##fixedmanageButton').html('');
