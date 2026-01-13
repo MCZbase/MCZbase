@@ -181,7 +181,7 @@ limitations under the License.
 	<cfargument name="deacc_item_id" type="string" required="yes">
 	<cfargument name="dialogId" type="string" required="yes">
 
-	<cfthread name="getRemoveDeaccItemDialogContentThread" deacc_item_id=arguments.deacc_item_id dialogId=arguments.dialogId >
+	<cfthread name="getRemoveDeaccItemDialogContentThread" deacc_item_id="#arguments.deacc_item_id#" dialogId="#arguments.dialogId#" >
 		<cfoutput>
 			<cftry>
 				<cfquery name="getItemInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
