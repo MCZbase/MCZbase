@@ -233,11 +233,7 @@ limitations under the License.
 					<div class="col-12">
 						<!--- on submit, call removePartFromDeacc with the deacc_item_id and selected disposition, then close the dialog --->
 						<button type="button" class="btn btn-xs btn-warning" 
-							onclick="removePartFromDeacc(
-								#deacc_item_id#,
-								document.getElementById('newDispositionSelect').value
-							); 
-							">
+							onclick="doDeaccItemRemoval();">
 							Remove
 						</button>
 						<script>
@@ -248,7 +244,7 @@ limitations under the License.
 							function doDeaccItemRemoval() { 
 								deacc_item_id = "#deacc_item_id#";
 								new_coll_obj_disposition = $("##newDispositionSelect").val();
-								function doRemovalOfDeaccItem(deacc_item_id,new_coll_obj_disposition,closeDialogCallback) {
+								function removePartFromDeacc(deacc_item_id,new_coll_obj_disposition,closeDialogCallback) {
 							}
 						</script>
 					</div>

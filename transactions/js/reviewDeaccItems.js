@@ -250,7 +250,7 @@ function openRemoveDeaccItemDialog(deacc_item_id, dialogId, callback) {
 	});
 }
 
-function doRemovalOfDeaccItem(deacc_item_id,coll_obj_disposition,callback) {
+function removePartFromDeacc(deacc_item_id,coll_obj_disposition,callback) {
 	$.ajax({
 		url: '/transactions/component/itemFunctioons.cfc',
 		type: 'POST',
