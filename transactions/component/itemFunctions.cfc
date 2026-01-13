@@ -307,6 +307,7 @@ limitations under the License.
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "deaccession item removed.", 1)>
+			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
