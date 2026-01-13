@@ -252,7 +252,7 @@ function openRemoveDeaccItemDialog(deacc_item_id, dialogId, callback) {
 
 function removePartFromDeacc(deacc_item_id,coll_obj_disposition,callback) {
 	$.ajax({
-		url: '/transactions/component/itemFunctioons.cfc',
+		url: '/transactions/component/itemFunctions.cfc',
 		type: 'POST',
 		data: {
 			method: 'removePartFromDeacc',
