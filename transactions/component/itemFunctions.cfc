@@ -2398,6 +2398,10 @@ limitations under the License.
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getDeaccCatItemHtmlThread#tn#" transaction_id="#arguments.transaction_id#" collection_object_id="#arguments.collection_object_id#">
+		<cfset otherIdOn = false>
+		<cfif isdefined("showOtherId") and #showOtherID# is "true">
+			<cfset otherIdOn = true>
+		</cfif>
 		<cftry>
 			<cfoutput>
 				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
