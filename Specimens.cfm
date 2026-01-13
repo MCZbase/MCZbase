@@ -263,7 +263,6 @@ limitations under the License.
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
 						<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0 && isdefined("target_loan_number") and len(target_loan_number) GT 0>
 							to add to Loan #target_loan_number# (with manage)
-							<a class="btn btn-xs btn-secondary disabled" id="directAddPartButton" href="" target="_blank" disabled>Add Parts to Loan #getLoan.loan_number#</a>
 						</cfif>
 						<cfif isdefined("target_deacc_id") and len(target_deacc_id) GT 0 && isdefined("target_deacc_number") and len(target_deacc_number) GT 0>
 							to add to Deaccession #target_deacc_number# (with manage)
@@ -1585,6 +1584,9 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class=""></span>
+													<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+														<div id="fixedmanageButtonExtra"></div>
+													</cfif>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
@@ -3316,6 +3318,9 @@ Target JSON:
 				$('##fixedresultLink').html('');
 				$("##fixedshowhide").html("");
 				$('##fixedmanageButton').html('');
+				<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+					$('##fixedmanageButtonExtra').html('');
+				</cfif>
 				$('##fixedremoveButtonDiv').html('');
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
@@ -3574,16 +3579,13 @@ Target JSON:
 						</cfif>
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
-							try { 
-								$("##directAddPartButton").removeClass('disabled');
-								$("##directAddPartButton").prop('disabled', false);
-								$("##directAddPartButton").attr("href", "/specimens/changeQueryAddPartsLoan.cfm?result_id="+$('##result_id_fixedSearch').val()+"&transaction_id=#encodeForUrl(target_loan_id)#");
-							} catch (e) { 
-								console.log(e);
-							}
+							$('##fixedmanageButtonExtra').html('<a class="btn btn-xs btn-secondary" id="fixedDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id="+$('##result_id_fixedSearch').val()+"&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
 						</cfif>
 					<cfelse>
 						$('##fixedmanageButton').html('');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##fixedmanageButtonExtra').html('');
+						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
