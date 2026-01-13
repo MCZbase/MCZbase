@@ -378,7 +378,7 @@ limitations under the License.
 							function removeDeaccItem#catItemId#(deacc_item_id) { 
 								console.log(deacc_item_id);
 								// bring up a dialog to determine the new coll object disposition and confirm deletion
-								openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#) { 
+								openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#);
 							};
 							function launchEditDialog#catItemId#(deacc_item_id,name) { 
 								console.log(deacc_item_id);
