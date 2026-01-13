@@ -261,7 +261,7 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getRemoveDeaccItemDialogContentThread">
+	<cfthread action="join" name="getRemoveDeaccItemDialogContentThread" />
 	<cfreturn getRemoveDeaccItemDialogContentThread.output>
 </cffunction>
 
