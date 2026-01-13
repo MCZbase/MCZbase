@@ -1918,6 +1918,9 @@ limitations under the License.
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class=""></span>
+													<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+														<div id="keywordmanageButtonExtra"></div>
+													</cfif>
 													<span id="keywordremoveButtonDiv" class=""></span>
 													<div id="keywordresultBMMapLinkContainer"></div>
 													<div id="keywordselectModeContainer" class="ml-3" style="display: none;" >
@@ -2548,6 +2551,9 @@ Target JSON:
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class=""></span>
+													<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+														<div id="buildermanageButtonExtra"></div>
+													</cfif>
 													<span id="builderremoveButtonDiv" class=""></span>
 													<div id="builderresultBMMapLinkContainer"></div>
 													<div id="builderselectModeContainer" class="ml-3" style="display: none;" >
@@ -3649,6 +3655,9 @@ Target JSON:
 				$("##keywordresultLink").html("");
 				$("##keywordshowhide").html("");
 				$('##keywordmanageButton').html('');
+				<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+					$('##keywordmanageButtonExtra').html('');
+				</cfif>
 				$('##keywordremoveButtonDiv').html('');
 				$('##keywordsaveDialogButton').html('');
 				$('##keywordactionFeedback').html('');
@@ -3827,8 +3836,14 @@ Target JSON:
 							<cfset addedIDs = "#addedIDs#&target_deacc_id=#encodeForUrl(target_deacc_id)#">
 						</cfif>
 						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##keywordmanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="keywordDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id='+$('##result_id_keywordSearch').val()+'&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
+						</cfif>
 					<cfelse>
 						$('##keywordmanageButton').html('');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##keywordmanageButtonExtra').html('');
+						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
@@ -3891,6 +3906,9 @@ Target JSON:
 				$("##builderresultLink").html("");
 				$("##buildershowhide").html("");
 				$('##buildermanageButton').html('');
+				<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+					$('##buildermanageButtonExtra').html('');
+				</cfif>
 				$('##builderremoveButtonDiv').html('');
 				$('##buildersaveDialogButton').html('');
 				$('##builderactionFeedback').html('');
@@ -4067,8 +4085,14 @@ Target JSON:
 							<cfset addedIDs = "#addedIDs#&target_deacc_id=#encodeForUrl(target_deacc_id)#">
 						</cfif>
 						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##buildermanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="builderDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id='+$('##result_id_builderSearch').val()+'&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
+						</cfif>
 					<cfelse>
 						$('##buildermanageButton').html('');
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							$('##buildermanageButtonExtra').html('');
+						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
