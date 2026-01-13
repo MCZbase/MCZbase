@@ -3573,13 +3573,15 @@ Target JSON:
 							<cfset addedIDs = "#addedIDs#&target_deacc_id=#encodeForUrl(target_deacc_id)#">
 						</cfif>
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
-						try { 
-							$("##directAddPartButton").removeClass('disabled');
-							$("##directAddPartButton").prop('disabled', false);
-							$("##directAddPartButton").href = "/specimens/changeQueryAddPartsLoan.cfm?result_id="+$('##result_id_fixedSearch').val()+"&transaction_id=#encodeForUrl(url.target_loan_id)#";
-						} catch (e) { 
-							console.log(e);
-						}
+						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
+							try { 
+								$("##directAddPartButton").removeClass('disabled');
+								$("##directAddPartButton").prop('disabled', false);
+								$("##directAddPartButton").attr("href", "/specimens/changeQueryAddPartsLoan.cfm?result_id="+$('##result_id_fixedSearch').val()+"&transaction_id=#encodeForUrl(target_loan_id)#");
+							} catch (e) { 
+								console.log(e);
+							}
+						</cfif>
 					<cfelse>
 						$('##fixedmanageButton').html('');
 					</cfif>
