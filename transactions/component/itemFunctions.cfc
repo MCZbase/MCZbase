@@ -199,7 +199,7 @@ limitations under the License.
 						JOIN cataloged_item ON specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 						JOIN collection ON cataloged_item.collection_id = collection.collection_id
 					WHERE 
-						deacc_item.deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.deacc_item_id#">
+						deacc_item.deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
 				</cfquery>
 				<cfquery name="ctDispo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_disposition 
@@ -233,7 +233,7 @@ limitations under the License.
 						<!--- on submit, call removePartFromDeacc with the deacc_item_id and selected disposition, then close the dialog --->
 						<button type="button" class="btn btn-xs btn-warning" 
 							onclick="removePartFromDeacc(
-								#arguments.deacc_item_id#,
+								#deacc_item_id#,
 								document.getElementById('newDispositionSelect').value
 							); 
 							">
