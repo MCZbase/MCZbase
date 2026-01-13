@@ -178,9 +178,10 @@ limitations under the License.
 </cffunction>
 
 <cffunction name="getRemoveDeaccItemDialogContent" access="remote" returntype="string" returnformat="plain">
-	<cfargument name="deacc_item_id" type="numeric" required="yes">
+	<cfargument name="deacc_item_id" type="string" required="yes">
+	<cfargument name="dialogId" type="string" required="yes">
 
-	<cfthread name="getRemoveDeaccItemDialogContentThread" deacc_item_id=arguments.deacc_item_id)>
+	<cfthread name="getRemoveDeaccItemDialogContentThread" deacc_item_id=arguments.deacc_item_id dialogId=arguments.dialogId >
 		<cfoutput>
 			<cftry>
 				<cfquery name="getItemInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -216,7 +217,6 @@ limitations under the License.
 					<h5>Remove Part #guid# #getItemInfo.part_name# (#getItemInfo.preserve_method#) from Deaccession</h5>
 					<p>Current disposition: <strong>#getItemInfo.coll_obj_disposition#</strong></p>
 					<div class="col-12">
-						<!--- TODO: implement --->
 						<label for="" class="data-entry-label">Choose disposition to set part to upon removal from deaccession:</label>
 						<select id="newDispositionSelect" class="data-entry-select">
 							<cfset selected = "selected">
@@ -239,7 +239,17 @@ limitations under the License.
 							">
 							Remove
 						</button>
-						<!--- expectation is that closing the dialog will invoke any needed callback to reload data in the calling page--->
+						<script>
+							function closeDialogCallback() { 
+								dialogId = "#dialogID#";
+								$("##"+dialogId).dialog("close");
+							}
+							function doDeaccItemRemoval() { 
+								deacc_item_id = "#deacc_item_id#";
+								new_coll_obj_disposition = $("##newDispositionSelect").val();
+								function doRemovalOfDeaccItem(deacc_item_id,new_coll_obj_disposition,closeDialogCallback) {
+							}
+						</script>
 					</div>
 				</div>
 			<cfcatch>

@@ -238,7 +238,8 @@ function openRemoveDeaccItemDialog(deacc_item_id, dialogId, callback) {
 		data: {
 			method: 'getRemoveDeaccItemDialogContent',
 			returnformat: "plain",
-			deacc_item_id: deacc_item_id
+			deacc_item_id: deacc_item_id,
+			dialogId: dialogId
 		},
 		success: function(data) {
 			$("#"+dialogId+"_div").html(data);
@@ -262,6 +263,9 @@ function doRemovalOfDeaccItem(deacc_item_id,coll_obj_disposition,callback) {
 			console.log("Successfully removed deaccession item " + deacc_item_id);
 			if (typeof callback === "function") {
 				callback();
+			} else if (typeof callback === "string") {
+				// look up function of that name and invoke it 
+				window[callback]();
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
