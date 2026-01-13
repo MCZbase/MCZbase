@@ -205,9 +205,10 @@ limitations under the License.
 					SELECT coll_obj_disposition 
 					FROM ctcoll_obj_disp
 					ORDER BY 
-						case coll_obj_disposition = 'in collection' then 1
-						else 2
-						end,
+						CASE 
+							WHEN coll_obj_disposition = 'in collection' then 1
+							ELSE 2
+						END,
 						coll_obj_disposition
 				</cfquery>
 				<cfset guid = "#getItemInfo.institution_acronym#:#getItemInfo.collection_cde#:#getItemInfo.cat_num#">
