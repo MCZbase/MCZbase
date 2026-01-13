@@ -244,7 +244,7 @@ limitations under the License.
 							function doDeaccItemRemoval() { 
 								deacc_item_id = "#deacc_item_id#";
 								new_coll_obj_disposition = $("##newDispositionSelect").val();
-								function removePartFromDeacc(deacc_item_id,new_coll_obj_disposition,closeDialogCallback) {
+								function removePartFromDeacc(deacc_item_id,new_coll_obj_disposition,closeDialogCallback);
 							}
 						</script>
 					</div>
