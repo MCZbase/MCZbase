@@ -393,46 +393,46 @@ limitations under the License.
 				<div class="col-12" id="allCatItemsDiv">
 					<cfset catItemBlock = getDeaccCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
 					#catItemBlock#
-					<div id="deaccItemEditDialogDiv"></div>
-					<div id="deaccItemRemoveDialogDiv"></div>
-					<script>
-						function refreshDeaccCatItem(catItemId) {
-							$.ajax({
-								url: '/transactions/component/itemFunctions.cfc',
-								type: 'POST',
-								data: {
-									method: 'getDeaccCatItemHtml',
-									collection_object_id: catItemId,
-									transaction_id: '#transaction_id#'
-								},
-								success: function(data) {
-									$("##rowDiv"+catItemId).html(data);
-								},
-      						error: function (jqXHR, textStatus, error) {
-         						handleFail(jqXHR,textStatus,error,"reloading deaccession item");
-								}
-							});
-						}
-						function reloadDataNoBroadcast() { 
-							// call getDeaccCatItemHtml and update allCatItemsDiv
-							$.ajax({
-								url: '/transactions/component/itemFunctions.cfc',
-								type: 'POST',
-								data: {
-									method: 'getDeaccCatItemHtml',
-									collection_object_id: "",
-									transaction_id: '#transaction_id#'
-								},
-								success: function(data) {
-									$("##allCatItemsDiv").html(data);
-								},
-								error: function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"reloading deaccession items list");
-								}
-							});
-						}
-					</script>
 				</div>
+				<div id="deaccItemEditDialogDiv"></div>
+				<div id="deaccItemRemoveDialogDiv"></div>
+				<script>
+					function refreshDeaccCatItem(catItemId) {
+						$.ajax({
+							url: '/transactions/component/itemFunctions.cfc',
+							type: 'POST',
+							data: {
+								method: 'getDeaccCatItemHtml',
+								collection_object_id: catItemId,
+								transaction_id: '#transaction_id#'
+							},
+							success: function(data) {
+								$("##rowDiv"+catItemId).html(data);
+							},
+      					error: function (jqXHR, textStatus, error) {
+         					handleFail(jqXHR,textStatus,error,"reloading deaccession item");
+							}
+						});
+					}
+					function reloadDataNoBroadcast() { 
+						// call getDeaccCatItemHtml and update allCatItemsDiv
+						$.ajax({
+							url: '/transactions/component/itemFunctions.cfc',
+							type: 'POST',
+							data: {
+								method: 'getDeaccCatItemHtml',
+								collection_object_id: "",
+								transaction_id: '#transaction_id#'
+							},
+							success: function(data) {
+								$("##allCatItemsDiv").html(data);
+							},
+							error: function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"reloading deaccession items list");
+							}
+						});
+					}
+				</script>
 			</section>
 		</cfoutput>
 	</main>
