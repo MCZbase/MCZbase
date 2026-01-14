@@ -235,8 +235,8 @@ limitations under the License.
 					if (message.data.source == "deaccession" && message.data.transaction_id == "#transaction_id#") { 
 						 reloadSummary();
 					}
-					if (message.data.source == "adddeaccessionitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading data from adddeaccessionitems message");
+					if (message.data.source == "adddeaccitems" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("reloading data from adddeaccitems message");
 						reloadDataNoBroadcast();
 					}
 					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
