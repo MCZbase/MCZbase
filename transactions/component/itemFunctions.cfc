@@ -2387,9 +2387,10 @@ limitations under the License.
 </cffunction>
 
 <!--- getDeaccCatItemHtml get a block of html for a cataloged item in a deaccession, listing
-  all its parts in the deaccession.
+  all its parts in the deaccession, or for all the cataloged items in a deaccession
 	@param transaction_id the id of the deaccession transaction.
-	@param collection_object_id the id of the cataloged item for which to obtain the html.
+	@param collection_object_id the id of the cataloged item for which to obtain the html
+      if collection_object_id is an empty string, html for all cataloged items in the deaccession is returned.
  @return an html block representing the deaccession item or an http 500 error if an error occurs.
 --->
 <cffunction name="getDeaccCatItemHtml" returntype="string" access="remote" returnformat="plain">
@@ -2401,6 +2402,10 @@ limitations under the License.
 		<cfset otherIdOn = false>
 		<cfif isdefined("showOtherId") and #showOtherID# is "true">
 			<cfset otherIdOn = true>
+		</cfif>
+		<cfset showMultiple = false>
+		<cfif len(trim(collection_object_id)) EQ 0
+			<cfset showMultiple = true>
 		</cfif>
 		<cftry>
 			<cfoutput>
@@ -2441,9 +2446,11 @@ limitations under the License.
 						join accn on cataloged_item.accn_id = accn.transaction_id
 					WHERE
 						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-						AND
-						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					ORDER BY cat_num
+						<cfif NOT showMultiple>
+							AND
+							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfif>
+					ORDER BY cataloged_item.collection_cde, cat_num
 				</cfquery>
 				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_disposition 
@@ -2452,6 +2459,9 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getCatItems">
 					<cfset catItemId = getCatItems.collection_object_id>
+					<cfif showMultiple>
+						<div class="row col-12 border m-1" id="rowDiv#catItemId#">
+					</cfif>
 					<div class="col=12">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<a href="/guid/#guid#" target="_blank">#guid#</a>  
@@ -2570,6 +2580,37 @@ limitations under the License.
 							</div>
 						</div>
 					</cfloop>
+					<cfif showMultiple>
+						</div>
+						<script>
+							function removeDeaccItem#catItemId#(deacc_item_id) { 
+								console.log(deacc_item_id);
+								// bring up a dialog to determine the new coll object disposition and confirm deletion
+								openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#);
+								deaccessionModifiedHere();
+							};
+							function launchEditDialog#catItemId#(deacc_item_id,name) { 
+								console.log(deacc_item_id);
+								openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
+							}
+							function updateCondition(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function updateRemarks(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function updateInstructions(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function updateDisposition(deacc_item_id) {
+								console.log(deacc_item_id);
+							}
+							function refreshItems#catItemId#() { 
+								console.log("refresh items invoked for #catItemId#");
+								refreshDeaccCatItem("#catItemId#");
+							}
+						</script>
+					</cfif>
 				</cfloop>
 			</cfoutput>
 		<cfcatch>

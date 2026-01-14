@@ -391,41 +391,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="col-12" id="allCatItemsDiv">
-					<cfloop query="getCatItems">
-						<cfset catItemId = getCatItems.collection_object_id>
-						<div class="row col-12 border m-1" id="rowDiv#catItemId#">
-							<cfset catItemBlock = getDeaccCatItemHtml(transaction_id=transaction_id,collection_object_id=catItemId)>
-							#catItemBlock#
-						</div>
-						<script>
-							function removeDeaccItem#catItemId#(deacc_item_id) { 
-								console.log(deacc_item_id);
-								// bring up a dialog to determine the new coll object disposition and confirm deletion
-								openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#);
-								deaccessionModifiedHere();
-							};
-							function launchEditDialog#catItemId#(deacc_item_id,name) { 
-								console.log(deacc_item_id);
-								openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
-							}
-							function updateCondition(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function updateRemarks(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function updateInstructions(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function updateDisposition(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function refreshItems#catItemId#() { 
-								console.log("refresh items invoked for #catItemId#");
-								refreshDeaccCatItem("#catItemId#");
-							}
-						</script>
-					</cfloop>
+					<cfset catItemBlock = getDeaccCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
+					#catItemBlock#
 					<div id="deaccItemEditDialogDiv"></div>
 					<div id="deaccItemRemoveDialogDiv"></div>
 					<script>
@@ -447,8 +414,22 @@ limitations under the License.
 							});
 						}
 						function reloadDataNoBroadcast() { 
-							// TODO: Implement just reload of cataloged items list
-							console.log("reloadDataNoBroadcast not yet implemented");
+							// call getDeaccCatItemHtml and update #allCatItemsDiv
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								data: {
+									method: 'getDeaccCatItemHtml',
+									collection_object_id: "",
+									transaction_id: '#transaction_id#'
+								},
+								success: function(data) {
+									$("#allCatItemsDiv").html(data);
+								},
+								error: function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"reloading deaccession items list");
+								}
+							});
 						}
 					</script>
 				</div>
