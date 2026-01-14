@@ -157,9 +157,10 @@ limitations under the License.
                </cfif>
 
 		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                       UPDATE coll_object SET coll_obj_disposition = 'deaccessioned - ' || '#partDisp#'
-			where collection_object_id =
-		<cfif #subsample# is 1>
+         UPDATE coll_object 
+			SET coll_obj_disposition = 'deaccessioned - ' || '#partDisp#'
+			WHERE collection_object_id =
+			<cfif #subsample# is 1>
 				#n.n#
 			<cfelse>
 				#partID#
@@ -176,95 +177,145 @@ limitations under the License.
 
 </cffunction>
 
+<cffunction name="getRemoveDeaccItemDialogContent" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="deacc_item_id" type="string" required="yes">
+	<cfargument name="dialogId" type="string" required="yes">
+
+	<cfthread name="getRemoveDeaccItemDialogContentThread" deacc_item_id="#arguments.deacc_item_id#" dialogId="#arguments.dialogId#" >
+		<cfoutput>
+			<cftry>
+				<cfquery name="getItemInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						collection.institution_acronym,
+						collection.collection_cde,
+						cataloged_item.cat_num,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						coll_object.coll_obj_disposition
+					FROM 
+						deacc_item
+						JOIN specimen_part ON deacc_item.collection_object_id = specimen_part.collection_object_id
+						JOIN coll_object ON specimen_part.collection_object_id = coll_object.collection_object_id
+						JOIN cataloged_item ON specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						JOIN collection ON cataloged_item.collection_id = collection.collection_id
+					WHERE 
+						deacc_item.deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
+				</cfquery>
+				<cfquery name="ctDispo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT coll_obj_disposition 
+					FROM ctcoll_obj_disp
+					ORDER BY 
+						CASE 
+							WHEN coll_obj_disposition = 'in collection' then 1
+							ELSE 2
+						END,
+						coll_obj_disposition
+				</cfquery>
+				<cfset guid = "#getItemInfo.institution_acronym#:#getItemInfo.collection_cde#:#getItemInfo.cat_num#">
+				<div class="form-row">
+					<!--- provide a dialog asking if the user is sure they want to remove the part from the deaccession,
+					     and a pick list of disposition values for the specimen part to be set to  --->
+					<h5>Remove Part #guid# #getItemInfo.part_name# (#getItemInfo.preserve_method#) from Deaccession</h5>
+					<p>Current disposition: <strong>#getItemInfo.coll_obj_disposition#</strong></p>
+					<div class="col-12">
+						<label for="" class="data-entry-label">Choose disposition to set part to upon removal from deaccession:</label>
+						<select id="newDispositionSelect" class="data-entry-select">
+							<cfset selected = "selected">
+							<cfloop query="ctDispo">
+								<option value="#ctDispo.coll_obj_disposition#" #selected#>#ctDispo.coll_obj_disposition#</option>
+								<cfset selected = "">
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12">
+						<p class="mt-2">Are you sure you want to remove this part from the deaccession?</p>
+					</div>
+					<div class="col-12">
+						<!--- on submit, call removePartFromDeacc with the deacc_item_id and selected disposition, then close the dialog --->
+						<button type="button" class="btn btn-xs btn-warning" 
+							onclick="doDeaccItemRemoval();">
+							Remove
+						</button>
+						<script>
+							function closeDialogCallback() { 
+								dialogId = "#dialogID#";
+								$("##"+dialogId).dialog("close");
+							}
+							function doDeaccItemRemoval() { 
+								deacc_item_id = "#deacc_item_id#";
+								new_coll_obj_disposition = $("##newDispositionSelect").val();
+								removePartFromDeacc(deacc_item_id,new_coll_obj_disposition,closeDialogCallback);
+							}
+						</script>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getRemoveDeaccItemDialogContentThread" />
+	<cfreturn getRemoveDeaccItemDialogContentThread.output>
+</cffunction>
+
 <!--- function removePartFromDeacc remove a part from a deaccession --->
-<cffunction name="removePartFromDeacc" access="remote" returntype="string" returnformat="plain">
-	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="partID" type="numeric" required="yes">
-	<cfoutput>
-	<cfif isdefined("coll_obj_disposition") AND coll_obj_disposition is not "in collection">
-		<!--- see if it's a subsample --->
-		<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select SAMPLED_FROM_OBJ_ID from 
-			specimen_part 
-			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
-		</cfquery>
-		<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
-					You cannot remove this item from a loan while it's disposition is "on loan." 
-			<br />Use the form below if you'd like to change the disposition and remove the item 
-			from the deaccession, or to delete the item from the database completely.
-			
-			<form name="cC" method="post" action="a_deaccItemReview.cfm">
-				<input type="hidden" name="action" />
-				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="deacc_item_remarks" value="#deacc_item_remarks#" />
-				<input type="hidden" name="partID" value="#partID#" />
-				<input type="hidden" name="spRedirAction" value="delete" />
-				Change disposition to: <select name="coll_obj_disposition" size="1">
-					<cfloop query="ctdeacc_type">
-						<option value="#deacc_type#">#ctdeacc_type.deacc_type#</option>
-					</cfloop>				
-				</select>
-				<p />
-				<input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Remove Item from Deaccession" 
-					onclick="cC.action.value='saveDisp'; submit();" />
-				
-				<p /><input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Delete Subsample From Database" 
-					onclick="cC.action.value='killSS'; submit();"/>
-					<p /><input type="button" 
-					class="qutBtn"
-					onmouseover="this.className='qutBtn btnhov'"
-					onmouseout="this.className='qutBtn'"
-					value="Discard Changes" 
-					onclick="cC.action.value='nothing'; submit();"/>
-			</form>
+<cffunction name="removePartFromDeacc" access="remote" returntype="any" returnformat="json">
+	<cfargument name="deacc_item_id" type="numeric" required="yes">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="getDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id, 
+					transaction_id
+				FROM deacc_item 
+				WHERE deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
+			</cfquery>
+			<cfif getDeaccItem.recordcount EQ 0>
+				<cfthrow message="Could not find deaccession item with specified deacc_item_id">
+			</cfif>
+			<cfif getDeaccItem.recordcount GT 1>
+				<cfthrow message="Multiple deaccession items found with specified deacc_item_id">
+			</cfif>
+			<cfset partID = getDeaccItem.collection_object_id>
+			<cfset transaction_id = getDeaccItem.transaction_id>
+			<!--- update the disposition of the collection object --->
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
+				UPDATE coll_object 
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
+			</cfquery>
+			<cfif upDisp_result.recordcount NEQ 1>
+				<cfthrow message="Error updating collection object disposition to specified value [#encodeForHtml(coll_obj_disposition)#]">
+			</cfif>
+			<!--- delete the deacc_item record --->
+			<cfquery name="deleDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleDeaccItem_result">
+				DELETE FROM deacc_item 
+				WHERE deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
+			</cfquery>
+			<cfif deleDeaccItem_result.recordcount NEQ 1>
+				<cfthrow message="Error deleting deaccession item record with specified deacc_item_id">
+			<cfelse>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "deaccession item removed.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
-		<cfelse>
-			You cannot remove this item from a loan while it's disposition is "deaccessioned." 
-			<br />Use the form below if you'd like to change the disposition and remove the item 
-			from the loan.
-			
-			<form name="cC" method="post" action="a_deaccItemReview.cfm">
-				<input type="hidden" name="action" />
-				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="deacc_item_remarks" value="#deacc_item_remarks#" />
-				<input type="hidden" name="partID" id="partID" value="#partID#" />
-				<input type="hidden" name="spRedirAction" value="delete" />
-				<br />Change disposition to: <select name="coll_obj_disposition" size="1">
-					<cfloop query="ctDisp">
-						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-					</cfloop>				
-				</select>
-				<br /><input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Remove Item from Deaccession" 
-					onclick="cC.action.value='saveDisp'; submit();" />
-				<br /><input type="button" 
-					class="qutBtn"
-					onmouseover="this.className='qutBtn btnhov'"
-					onmouseout="this.className='qutBtn'"
-					value="Discard Changes" 
-					onclick="cC.action.value='nothing'; submit();"/>
-			</form>
-			<cfabort>
-		</cfif>
-	</cfif>
-	<cfquery name="deleDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM deacc_item 
-		where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
-		and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-	</cfquery>
-		<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
-	</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
 </cffunction>
 
 <!--- function updateLoanItem to update the condition, instructions, remarks, and disposition of an item in a loan.
@@ -2347,6 +2398,10 @@ limitations under the License.
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getDeaccCatItemHtmlThread#tn#" transaction_id="#arguments.transaction_id#" collection_object_id="#arguments.collection_object_id#">
+		<cfset otherIdOn = false>
+		<cfif isdefined("showOtherId") and #showOtherID# is "true">
+			<cfset otherIdOn = true>
+		</cfif>
 		<cftry>
 			<cfoutput>
 				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">

@@ -2060,6 +2060,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<strong>Warning:</strong> No precision set for this georeference.
 									</li>
 								</cfif>
+								<cfif len(lat_long_remarks) GT 0>
+									<li>
+										Remarks: #lat_long_remarks#
+									</li>
+								</cfif>
 							</ul>
 							<script>
 								var bouncing#lat_long_id# = false;

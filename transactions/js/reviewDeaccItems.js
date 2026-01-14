@@ -228,3 +228,48 @@ function openDeaccessionItemDialog(deacc_item_id,dialogId,name,callback) {
    });
 };
 
+function openRemoveDeaccItemDialog(deacc_item_id, dialogId, callback) { 
+	var title = "Remove Part from Deaccession.";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+   createGenericEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		type: "get",
+		data: {
+			method: 'getRemoveDeaccItemDialogContent',
+			returnformat: "plain",
+			deacc_item_id: deacc_item_id,
+			dialogId: dialogId
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
+		}
+	});
+}
+
+function removePartFromDeacc(deacc_item_id,coll_obj_disposition,callback) {
+	$.ajax({
+		url: '/transactions/component/itemFunctions.cfc',
+		type: 'POST',
+		data: {
+			method: 'removePartFromDeacc',
+			deacc_item_id: deacc_item_id,
+			coll_obj_disposition: coll_obj_disposition
+		},
+		success: function(data) {
+			console.log("Successfully removed deaccession item " + deacc_item_id);
+			if (typeof callback === "function") {
+				callback();
+			} else if (typeof callback === "string") {
+				// look up function of that name and invoke it 
+				window[callback]();
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing deaccession item");
+		}
+	});
+}
