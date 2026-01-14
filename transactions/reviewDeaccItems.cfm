@@ -414,7 +414,7 @@ limitations under the License.
 							});
 						}
 						function reloadDataNoBroadcast() { 
-							// call getDeaccCatItemHtml and update #allCatItemsDiv
+							// call getDeaccCatItemHtml and update allCatItemsDiv
 							$.ajax({
 								url: '/transactions/component/itemFunctions.cfc',
 								type: 'POST',
@@ -424,7 +424,7 @@ limitations under the License.
 									transaction_id: '#transaction_id#'
 								},
 								success: function(data) {
-									$("#allCatItemsDiv").html(data);
+									$("##allCatItemsDiv").html(data);
 								},
 								error: function (jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error,"reloading deaccession items list");
