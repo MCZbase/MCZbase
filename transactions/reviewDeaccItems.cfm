@@ -225,6 +225,29 @@ limitations under the License.
 	</cfquery>
 	<main class="container-fluid mx-2" id="content">
 		<cfoutput>
+			<script>
+				var bc = new BroadcastChannel('deaccession_channel');
+				function deaccessionModifiedHere() { 
+					bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
+				}
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.source == "deaccession" && message.data.transaction_id == "#transaction_id#") { 
+						 reloadSummary();
+					}
+					if (message.data.source == "adddeaccessionitems" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("reloading data from adddeaccessionitems message");
+						reloadDataNoBroadcast();
+					}
+					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("reloading grid from reviewitems message");
+						reloadDataNoBroadcast();
+					}
+				}
+				function reloadSummary() { 
+					// TODO: Implement
+				}
+			</script>
 			<cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
 				<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct
@@ -367,7 +390,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="col-12">
+				<div class="col-12" id="allCatItemsDiv">
 					<cfloop query="getCatItems">
 						<cfset catItemId = getCatItems.collection_object_id>
 						<div class="row col-12 border m-1" id="rowDiv#catItemId#">
@@ -379,6 +402,7 @@ limitations under the License.
 								console.log(deacc_item_id);
 								// bring up a dialog to determine the new coll object disposition and confirm deletion
 								openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#);
+								deaccessionModifiedHere();
 							};
 							function launchEditDialog#catItemId#(deacc_item_id,name) { 
 								console.log(deacc_item_id);
@@ -398,26 +422,35 @@ limitations under the License.
 							}
 							function refreshItems#catItemId#() { 
 								console.log("refresh items invoked for #catItemId#");
-								$.ajax({
-									url: '/transactions/component/itemFunctions.cfc',
-									type: 'POST',
-									data: {
-										method: 'getDeaccCatItemHtml',
-										collection_object_id: '#catItemId#',
-										transaction_id: '#transaction_id#'
-									},
-									success: function(data) {
-										$("##rowDiv#catItemId#").html(data);
-									},
-      							error: function (jqXHR, textStatus, error) {
-         							handleFail(jqXHR,textStatus,error,"reloading deaccession item");
-									}
-								});
+								refreshDeaccCatItem(catItemId);
 							}
 						</script>
 					</cfloop>
 					<div id="deaccItemEditDialogDiv"></div>
 					<div id="deaccItemRemoveDialogDiv"></div>
+					<script>
+						function refreshDeaccCatItem(catItemId) {
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								data: {
+									method: 'getDeaccCatItemHtml',
+									collection_object_id: catItemId,
+									transaction_id: '#transaction_id#'
+								},
+								success: function(data) {
+									$("##rowDiv"+catItemId).html(data);
+								},
+      						error: function (jqXHR, textStatus, error) {
+         						handleFail(jqXHR,textStatus,error,"reloading deaccession item");
+								}
+							});
+						}
+						function reloadDataNoBroadcast() { 
+							// TODO: Implement just reload of cataloged items list
+							console.log("reloadDataNoBroadcast not yet implemented");
+						}
+					</script>
 				</div>
 			</section>
 		</cfoutput>
