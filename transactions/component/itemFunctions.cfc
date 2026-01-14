@@ -2583,31 +2583,35 @@ limitations under the License.
 					<cfif showMultiple>
 						</div>
 						<script>
-							function removeDeaccItem#catItemId#(deacc_item_id) { 
-								console.log(deacc_item_id);
-								// bring up a dialog to determine the new coll object disposition and confirm deletion
-								openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#);
-								deaccessionModifiedHere();
-							};
-							function launchEditDialog#catItemId#(deacc_item_id,name) { 
-								console.log(deacc_item_id);
-								openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
-							}
-							function updateCondition(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function updateRemarks(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function updateInstructions(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function updateDisposition(deacc_item_id) {
-								console.log(deacc_item_id);
-							}
-							function refreshItems#catItemId#() { 
-								console.log("refresh items invoked for #catItemId#");
-								refreshDeaccCatItem("#catItemId#");
+							if (typeof removeDeaccItem#catItemId# === 'function') {
+								console.log("functions for #catItemId# already defined");
+							} else {
+								function removeDeaccItem#catItemId#(deacc_item_id) { 
+									console.log(deacc_item_id);
+									// bring up a dialog to determine the new coll object disposition and confirm deletion
+									openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#);
+									deaccessionModifiedHere();
+								};
+								function launchEditDialog#catItemId#(deacc_item_id,name) { 
+									console.log(deacc_item_id);
+									openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
+								}
+								function updateCondition(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function updateRemarks(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function updateInstructions(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function updateDisposition(deacc_item_id) {
+									console.log(deacc_item_id);
+								}
+								function refreshItems#catItemId#() { 
+									console.log("refresh items invoked for #catItemId#");
+									refreshDeaccCatItem("#catItemId#");
+								}
 							}
 						</script>
 					</cfif>
