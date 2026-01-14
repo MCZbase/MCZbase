@@ -2404,7 +2404,7 @@ limitations under the License.
 			<cfset otherIdOn = true>
 		</cfif>
 		<cfset showMultiple = false>
-		<cfif len(trim(collection_object_id)) EQ 0
+		<cfif len(trim(collection_object_id)) EQ 0 >
 			<cfset showMultiple = true>
 		</cfif>
 		<cftry>
