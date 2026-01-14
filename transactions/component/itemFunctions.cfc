@@ -2511,7 +2511,7 @@ limitations under the License.
 							left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						WHERE
 							deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
 						ORDER BY 
 							part_name, preserve_method
 					</cfquery>
