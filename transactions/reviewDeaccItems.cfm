@@ -422,7 +422,7 @@ limitations under the License.
 							}
 							function refreshItems#catItemId#() { 
 								console.log("refresh items invoked for #catItemId#");
-								refreshDeaccCatItem(catItemId);
+								refreshDeaccCatItem("#catItemId#");
 							}
 						</script>
 					</cfloop>
