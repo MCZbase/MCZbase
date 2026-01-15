@@ -2055,8 +2055,6 @@ limitations under the License.
 										<div class="card-body">
 											<form name="editDeaccItemForm" id="editDeaccItemForm" class="mb-0">
 												<input type="hidden" name="deacc_item_id" value="#lookupItem.deacc_item_id#">
-												<input type="hidden" name="part_id" value="#lookupItem.part_id#">
-												<input type="hidden" name="transaction_id" value="#lookupItem.transaction_id#">
 												<input type="hidden" name="method" value="updateDeaccItem">
 												<div class="row mx-0 py-2">
 													<div class="col-12 col-md-6 px-1">
@@ -2342,22 +2340,30 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
+			<cfquery name="getPartId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM deacc_item
+				WHERE deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.deacc_item_id#">
+			</cfquery>
+			<cfif getPartId.recordcount NEQ 1>
+				<cfthrow message="Unable to obtain part_id for deacc_item_id=#encodeForHtml(arguments.deacc_item_id)#">
+			</cfif>
+			<cfset part_id = getPartId.collection_object_id>
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
 					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfif upDisp_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+				<cfthrow message="Record not updated. #encodeForHtml(deacc_item_id)# #upDisp_result.sql#">
 			</cfif>
 			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
 				UPDATE deacc_item SET
-					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					<cfif len(#item_instructions#) gt 0>
-						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
+						item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
 					<cfelse>
-						,item_instructions = null
+						item_instructions = null
 					</cfif>
 					<cfif len(#deacc_item_remarks#) gt 0>
 						,deacc_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.deacc_item_remarks#">
@@ -2371,7 +2377,7 @@ limitations under the License.
 					deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
 			</cfquery>
 			<cfif upItem_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #upItem_result.sql#">
+				<cfthrow message="Record not updated. #encodeForHtml(deacc_item_id)# #upItem_result.sql#">
 			</cfif>
 			<cfif upItem_result.recordcount eq 1>
 				<cfset theResult=queryNew("status, message")>
