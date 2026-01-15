@@ -2466,7 +2466,7 @@ limitations under the License.
 				<cfloop query="getCatItems">
 					<cfset catItemId = getCatItems.collection_object_id>
 					<cfif showMultiple>
-						<div class="row col-12 border m-1" id="rowDiv#catItemId#">
+						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
 					</cfif>
 					<div class="col=12">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
