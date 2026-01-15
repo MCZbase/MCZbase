@@ -432,6 +432,37 @@ limitations under the License.
 							}
 						});
 					}
+					function updateDeaccItem(deacc_item_id, item_instructions, deacc_item_remarks, coll_obj_disposition, condition, item_descr) {
+						setFeedbackControlState( "deaccItemStatusDiv_"+ deacc_item_id, "saving");
+						$.ajax({
+							url: '/transactions/component/itemFunctions.cfc',
+							type: 'POST',
+							dataType: 'json',
+							data: {
+								method: 'updateDeaccItem',
+								deacc_item_id: deacc_item_id,
+								item_instructions: item_instructions,
+								condition: condition,
+								deacc_item_remarks: deacc_item_remarks,
+								coll_obj_disposition: coll_obj_disposition,
+								item_descr: item_descr
+							},
+							success: function(data) {
+								if (data.SUCCESS) {
+									deaccessionModifiedHere();
+									setFeedbackControlState( "deaccItemStatusDiv_"+ deacc_item_id, "saved");
+								} else {
+									// launch message dialog with data.MESSAGE
+									setFeedbackControlState( "deaccItemStatusDiv_"+ deacc_item_id, "error");
+									messageDialog("Failed to update deaccession item: " + data.MESSAGE,"Error: Unable To Save");
+								}
+							},
+							error: function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"updating deaccession item");
+								setFeedbackControlState( "deaccItemStatusDiv_"+ deacc_item_id, "error");
+							}
+						});
+					}
 				</script>
 			</section>
 		</cfoutput>

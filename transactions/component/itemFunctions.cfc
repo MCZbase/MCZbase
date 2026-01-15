@@ -21,7 +21,9 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!---   Function addPartToDeacc add a part to a deaccession --->
+<!---   Function addPartToDeacc add a part to a deaccession DEPRECATED
+ @deprecated replace usages where retained with addPartToDeaccession
+--->
 <cffunction name="addPartToDeacc" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="partID" type="numeric" required="yes">
@@ -2071,7 +2073,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Condition (#lookupItem.condition#)</label>
-														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
+														<input type="text" name="condition" id="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Disposition (#lookupItem.coll_obj_disposition#)</label>
@@ -2325,6 +2327,8 @@ limitations under the License.
  @param deacc_item_id the id of the deacc item to update. 
  @param item_instructions the new item instructions an empty value will set the field to null.
  @param deacc_item_remarks the new deacc item remarks, an empty value will set the field to null.
+ @param coll_obj_disposition the new disposition of the collection object for the part being deaccessioned.
+ @param condition the new condition of the part being deaccessioned, an empty value will set the field to null.
  @param item_descr the new item description, an empty value will be ignored.
  @return a json structurre with status:1, or a http 500 response.
 --->
@@ -2332,6 +2336,8 @@ limitations under the License.
 	<cfargument name="deacc_item_id" type="numeric" required="yes">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="deacc_item_remarks" type="string" required="yes">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
+	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="item_descr" type="string" required="yes">
 
 	<cftransaction>
@@ -2533,7 +2539,7 @@ limitations under the License.
 								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
 								<script>
 									$(document).ready( function() {
-										$("##condition_#id#").on("focusout", function(){  updateCondition("#id#"); } ); 
+										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
@@ -2552,7 +2558,7 @@ limitations under the License.
 								</select>
 								<script>
 									$(document).ready( function() {
-										$("##coll_obj_disposition_#id#").on("focusout", function(){  updateCondition("#id#"); } ); 
+										$("##coll_obj_disposition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
@@ -2561,7 +2567,7 @@ limitations under the License.
 								<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
 								<script>
 									$(document).ready( function() {
-										$("##deacc_item_remarks_#id#").on("focusout", function(){  updateDisposition("#id#"); } ); 
+										$("##deacc_item_remarks_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
@@ -2570,13 +2576,14 @@ limitations under the License.
 								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
 								<script>
 									$(document).ready( function() { 
-										$("##item_instructions_#id#").on("focusout", function(){  updateInstructions("#id#"); } ); 
+										$("##item_instructions_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 pt-3">
 								<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem#catItemId#(#id#);">Remove</button>
 								<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
+								<output id="deaccItemStatusDiv_#id#"></output>
 							</div>
 						</div>
 					</cfloop>
@@ -2596,17 +2603,14 @@ limitations under the License.
 									console.log(deacc_item_id);
 									openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
 								}
-								function updateCondition(deacc_item_id) {
+								function doDeaccItemUpdate(deacc_item_id) {
 									console.log(deacc_item_id);
-								}
-								function updateRemarks(deacc_item_id) {
-									console.log(deacc_item_id);
-								}
-								function updateInstructions(deacc_item_id) {
-									console.log(deacc_item_id);
-								}
-								function updateDisposition(deacc_item_id) {
-									console.log(deacc_item_id);
+									deacc_item_remarks = $("##deacc_item_remarks_#id#").val();
+									item_instructions = $("##item_instructions_#id#").val();
+									condition = $("##condition_#id#").val();
+									coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
+									item_descr = ""; // not updating description here
+									updateDeaccItem(deacc_item_id, item_instructions, deacc_item_remarks, coll_obj_disposition, condition, item_descr);
 								}
 								function refreshItems#catItemId#() { 
 									console.log("refresh items invoked for #catItemId#");
