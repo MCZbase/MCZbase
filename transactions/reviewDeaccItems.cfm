@@ -448,14 +448,8 @@ limitations under the License.
 								item_descr: item_descr
 							},
 							success: function(data) {
-								if (data.SUCCESS) {
-									deaccessionModifiedHere();
-									setFeedbackControlState( "deaccItemStatusDiv_"+ deacc_item_id, "saved");
-								} else {
-									// launch message dialog with data.MESSAGE
-									setFeedbackControlState( "deaccItemStatusDiv_"+ deacc_item_id, "error");
-									messageDialog("Failed to update deaccession item: " + data.MESSAGE,"Error: Unable To Save");
-								}
+								deaccessionModifiedHere();
+								setFeedbackControlState( "deaccItemStatusDiv_"+ deacc_item_id, "saved");
 							},
 							error: function (jqXHR, textStatus, error) {
 								handleFail(jqXHR,textStatus,error,"updating deaccession item");
