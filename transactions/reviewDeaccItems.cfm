@@ -24,12 +24,22 @@ limitations under the License.
 <cfelse>
 	<cfset action = "entryPoint">
 </cfif>
+
 <cfif isDefined("url.transaction_id") AND len(url.transaction_id) GT 0>
 	<cfset transaction_id = url.transaction_id>
 <cfelseif isDefined("form.transaction_id") AND len(form.transaction_id) GT 0>
 	<cfset transaction_id = form.transaction_id>
 <cfelse>
 	<cfthrow message="No transaction specified.">
+</cfif>
+
+<!--- feedback message from actions other than entry point to show in entry point --->
+<cfif isDefined(url.resultMessage) AND len(url.resultMessage) GT 0>
+	<cfset resultMessage = url.resultMessage>
+<cfelseif isDefined(form.resultMessage) AND len(form.resultMessage) GT 0>
+	<cfset resultMessage = form.resultMessage>
+<cfelse>
+	<cfset resultMessage = "">
 </cfif>
 
 <!--- special case handling to dump deaccession items as csv --->
@@ -112,12 +122,6 @@ limitations under the License.
 
 <script type='text/javascript' src='/transactions/js/reviewDeaccItems.js'></script>
 
-<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select coll_obj_disposition from ctcoll_obj_disp
-</cfquery>
-<cfquery name="ctdeacc_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select deacc_type from ctdeacc_type
-</cfquery>
 
 <cfif not isdefined("transaction_id")>
 	<cfthrow message="No transaction specified.">
@@ -174,19 +178,28 @@ limitations under the License.
 
 <cfif #Action# is "BulkUpdateDisp">
 	<cfoutput>
-		<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select collection_object_id 
-			FROM deacc_item 
-			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-		</cfquery>
-		<cfloop query="getCollObjId">
-			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE coll_object 
-				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		<cftry>
+			<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id 
+				FROM deacc_item 
+				WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-		</cfloop>
-	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
+			<cfset counter = 0>
+			<cfloop query="getCollObjId">
+				<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
+					UPDATE coll_object 
+					SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfset counter = counter + upDisp_result.recordCount>
+			</cfloop>
+			<cfset message = "Updated dispositions for #counter# items.">
+			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#">
+		<cfcatch>
+			<!--- handle error --->
+			<cfset errorMessage = "Error updating dispositions: #cfcatch.message#">
+			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(errorMessage)#">
+		</cfcatch>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
@@ -312,6 +325,9 @@ limitations under the License.
 			left join deaccession d on t.transaction_id = d.transaction_id
 		where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	</cfquery>
+	<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select coll_obj_disposition from ctcoll_obj_disp
+	</cfquery>
 	<main class="container-fluid mx-2" id="content">
 		<cfoutput>
 			<script>
@@ -349,6 +365,11 @@ limitations under the License.
 			</cfif>
 		
 			<section class="row">
+				<cfif len(resultMessage) gt 0>
+					<h2 class="h3 w-100 p-1 alert alert-info">
+						#resultMessage#
+					</h2>
+				</cfif>
 				<h2 class="h3 w-100 mb-0 pb-0 ml-3"> Review items in deaccession </h2>
 				<div class="col-12 col-md-4">
 					<div id="deaccDetails">
