@@ -131,6 +131,7 @@ limitations under the License.
 </cfif>
 <!-------------------------------------------------------------------------------->
 <cfif #Action# is "killSS">
+	<!--- TODO: Replace with a backing method and ajax update --->
 	<cfoutput>
 <cftransaction>
 	<cfquery name="deleDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -194,7 +195,7 @@ limitations under the License.
 				<cfset counter = counter + upDisp_result.recordCount>
 			</cfloop>
 			<cfset message = "Updated dispositions for #counter# items.">
-			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#">
+			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(message)#">
 		<cfcatch>
 			<!--- handle error --->
 			<cfset errorMessage = "Error updating dispositions: #cfcatch.message#">
@@ -206,24 +207,35 @@ limitations under the License.
 
 <cfif #Action# is "BulkUpdatePres">
 	<cfoutput>
-		<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select collection_object_id 
-			FROM deacc_item 
-			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-		</cfquery>
-		<cfloop query="getCollObjId">
-			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE specimen_part 
-			SET preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
-			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		<cftry>
+			<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id 
+				FROM deacc_item 
+				WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-		</cfloop>
-	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
+			<cfloop query="getCollObjId">
+				<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
+					UPDATE specimen_part 
+					SET preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfif upDisp_result.recordCount NEQ 1>
+					<cfthrow message="Update failed for for collection_object_id #collection_object_id#">
+				</cfif>
+			</cfloop>
+			<cfset message = "Updated preservation method for all items.">
+			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(message)#">
+		<cfcatch>
+			<!--- handle error --->
+			<cfset errorMessage = "Error updating preservation methods: #cfcatch.message#">
+			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(errorMessage)#">
+		</cfcatch>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
 
 <cfif #Action# is "saveDisp">
+	<!--- TODO: Replace with a backing method and ajax update --->
 	<cfoutput>
 		<cftransaction>
 			<cftry>
@@ -247,16 +259,15 @@ limitations under the License.
 				</cfquery>
 				<cftransaction action="commit">
 			<cfcatch>
-				<cftransaction action="commit">
+				<cftransaction action="rollback">
+				<cfset message = "Error updating deaccession item: #cfcatch.message#">
+				<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(message)#">
 			</cfcatch>
 			</cftry>
 		</cftransaction>
-		<cfif isdefined("spRedirAction") and len(#spRedirAction#) gt 0>
-			<cfset action=#spRedirAction#>
-		<cfelse>
-			<cfset action="entryPoint">
-		</cfif>
-		<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#&partID=#partID#&deacc_item_remarks=#deacc_item_remarks#&action=#action#">
+		<cfset message = "Deaccession item updated.">
+		<cfset action="entryPoint">
+		<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(message)#">
 	</cfoutput>
 </cfif>
 
