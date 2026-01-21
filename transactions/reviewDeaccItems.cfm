@@ -17,7 +17,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- special case handling to dump deaccession items as csv --->
 <cfif isDefined("url.action") AND len(url.action) GT 0>
 	<cfset action = url.action>
 <cfelseif isDefined("form.action") AND len(form.action) GT 0>
@@ -25,9 +24,26 @@ limitations under the License.
 <cfelse>
 	<cfset action = "entryPoint">
 </cfif>
+<cfif isDefined("url.transaction_id") AND len(url.transaction_id) GT 0>
+	<cfset transaction_id = url.transaction_id>
+<cfelseif isDefined("form.transaction_id") AND len(form.transaction_id) GT 0>
+	<cfset transaction_id = form.transaction_id>
+<cfelse>
+	<cfthrow message="No transaction specified.">
+</cfif>
+
+<!--- special case handling to dump deaccession items as csv --->
 <cfif isDefined("action") AND variables.action is "download">
+	<cfquery name="getDeaccNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select deacc_number 
+		from deaccession 
+		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+	</cfquery>
+	<cfif getDeaccNumber.recordCount eq 0>
+		<cfthrow message="No such deaccession transaction as #encodeForHtml(transaction_id)#">
+	</cfif>
 	<cfset today = dateFormat(now(),"yyyymmdd")>
-	<cfset fileName = "deaccession_items_#getPartDeaccRequests.deacc_number#_#today#.csv">
+	<cfset fileName = "deaccession_items_#getDeaccNumber.deacc_number#_#today#.csv">
 	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct
 			cataloged_item.collection_object_id,
