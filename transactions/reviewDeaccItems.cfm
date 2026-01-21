@@ -233,6 +233,7 @@ limitations under the License.
 				<h2 class="h3">Download items</h2>
 				<a href="#Application.ServerRootUrl#/#fileName#">Right-click to save your download.</a>
 			</section>
+		</cfoutput>
 	</main>
 </cfif>
 
