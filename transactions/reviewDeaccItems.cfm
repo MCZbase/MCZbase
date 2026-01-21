@@ -17,6 +17,78 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<!--- special case handling to dump deaccession items as csv --->
+<cfif isDefined("url.action") AND len(url.action) GT 0>
+	<cfset action = url.action>
+<cfelse if isDefined("form.action") AND len(form.action) GT 0>
+	<cfset action = form.action>
+<cfelse>
+	<cfset action = "entryPoint">
+</cfif>
+<cfif isDefined("action") AND variables.action is "download">
+	<cfset today = dateFormat(now(),"yyyymmdd")>
+	<cfset fileName = "deaccession_items_#getPartDeaccRequests.deacc_number#_#today#.csv">
+	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select distinct
+			cataloged_item.collection_object_id,
+			cataloged_item.collection_cde,
+			cataloged_item.cat_num, 
+			collection.institution_acronym,
+			collection.collection,
+			specimen_part.collection_object_id as partID,
+			specimen_part.part_name,
+			specimen_part.preserve_method,
+			specimen_part.sampled_from_obj_id,
+			coll_object.condition,
+			coll_object.lot_count,
+			coll_object.lot_count_modifier,
+			coll_object.coll_obj_disposition,
+			deacc_item.item_descr,
+			deacc_item.deacc_item_remarks,
+			deacc_item.item_instructions,
+			deaccession.deacc_number,
+			deaccession.deacc_type,
+			deaccession.deacc_reason,
+			identification.scientific_name,
+			collecting_event.began_date,
+			collecting_event.ended_date,
+			locality.spec_locality,
+			locality.sovereign_nation,
+			geog_auth_rec.higher_geog,
+			encumbrance.Encumbrance,
+			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
+			concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
+			accn.accn_number,
+			accn.transaction_id accn_id
+		 from 
+			deaccession
+			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+			join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+			join locality on collecting_event.locality_id = locality.locality_id
+			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+			left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+			join collection on cataloged_item.collection_id=collection.collection_id
+			join accn on cataloged_item.accn_id = accn.transaction_id
+		WHERE
+			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+		ORDER BY cat_num
+	</cfquery>
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getPartDeaccRequests)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-Disposition" value="attachment; filename=#fileName#">
+	<cfheader name="Content-Length" value="#len(csv)#">
+	<cfheader name="Pragma" value="no-cache">
+	<cfheader name="Expires" value="0">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+
 <cfset pageTitle="Review Deaccession Items">
 <cfinclude template="/shared/_header.cfm">
 
@@ -157,84 +229,6 @@ limitations under the License.
 		</cfif>
 		<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#&partID=#partID#&deacc_item_remarks=#deacc_item_remarks#&action=#action#">
 	</cfoutput>
-</cfif>
-
-<cfif action EQ "download">
-	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select distinct
-			cataloged_item.collection_object_id,
-			cataloged_item.collection_cde,
-			cataloged_item.cat_num, 
-			collection.institution_acronym,
-			collection.collection,
-			specimen_part.collection_object_id as partID,
-			specimen_part.part_name,
-			specimen_part.preserve_method,
-			specimen_part.sampled_from_obj_id,
-			coll_object.condition,
-			coll_object.lot_count,
-			coll_object.lot_count_modifier,
-			coll_object.coll_obj_disposition,
-			deacc_item.item_descr,
-			deacc_item.deacc_item_remarks,
-			deacc_item.item_instructions,
-			deaccession.deacc_number,
-			deaccession.deacc_type,
-			deaccession.deacc_reason,
-			identification.scientific_name,
-			collecting_event.began_date,
-			collecting_event.ended_date,
-			locality.spec_locality,
-			locality.sovereign_nation,
-			geog_auth_rec.higher_geog,
-			encumbrance.Encumbrance,
-			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
-			concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
-			accn.accn_number,
-			accn.transaction_id accn_id
-		 from 
-			deaccession
-			join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
-			join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id 
-			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-			join locality on collecting_event.locality_id = locality.locality_id
-			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-			left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
-			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
-			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-			join collection on cataloged_item.collection_id=collection.collection_id
-			join accn on cataloged_item.accn_id = accn.transaction_id
-		WHERE
-			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-		ORDER BY cat_num
-	</cfquery>
-	<cfset fileName = "/download/ArctosLoanData_#getPartDeaccRequests.deacc_number#.csv">
-	<cfset ac=getPartDeaccRequests.columnlist>
-	<cfset header=#trim(ac)#>
-	<cffile action="write" file="#Application.webDirectory##fileName#" addnewline="yes" output="#header#">
-	<cfloop query="getPartDeaccRequests">
-		<cfset oneLine = "">
-		<cfloop list="#ac#" index="c">
-			<cfset thisData = evaluate(c)>
-			<cfif len(oneLine) is 0>
-				<cfset oneLine = '"#thisData#"'>
-			<cfelse>
-				<cfset oneLine = '#oneLine#,"#thisData#"'>
-			</cfif>
-		</cfloop>
-		<cfset oneLine = trim(oneLine)>
-		<cffile action="append" file="#Application.webDirectory##fileName#" addnewline="yes" output="#oneLine#">
-	</cfloop>
-	<main class="container-fluid mx-2" id="content">
-		<cfoutput>
-			<section class="row">
-				<h2 class="h3">Download items</h2>
-				<a href="#Application.ServerRootUrl#/#fileName#">Right-click to save your download.</a>
-			</section>
-		</cfoutput>
-	</main>
 </cfif>
 
 <!-------------------------------------------------------------------------------->
