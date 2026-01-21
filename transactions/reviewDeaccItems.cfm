@@ -349,7 +349,7 @@ limitations under the License.
 				</div>
 				<div class="col-12 col-md-4 pt-1">
 					There are #partCount# items from #catCount# specimens in this deaccession.
-					<a href="a_deaccItemReview.cfm?action=download&transaction_id=#transaction_id#" class="btn btn-xs btn-secondary">Download (csv)</a>
+					<a href="/transactions/reviewDeaccItems.cfm?action=download&transaction_id=#transaction_id#" class="btn btn-xs btn-secondary">Download (csv)</a>
 				</div>
 				<div class="col-12">
 					<div class="add-form mt-2">
