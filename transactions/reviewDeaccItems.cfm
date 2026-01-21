@@ -20,7 +20,7 @@ limitations under the License.
 <!--- special case handling to dump deaccession items as csv --->
 <cfif isDefined("url.action") AND len(url.action) GT 0>
 	<cfset action = url.action>
-<cfelse if isDefined("form.action") AND len(form.action) GT 0>
+<cfelseif isDefined("form.action") AND len(form.action) GT 0>
 	<cfset action = form.action>
 <cfelse>
 	<cfset action = "entryPoint">
