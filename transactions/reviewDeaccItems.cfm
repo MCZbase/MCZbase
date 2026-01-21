@@ -201,6 +201,7 @@ limitations under the License.
 			<cfset errorMessage = "Error updating dispositions: #cfcatch.message#">
 			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(errorMessage)#">
 		</cfcatch>
+		</cftry>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
@@ -230,6 +231,7 @@ limitations under the License.
 			<cfset errorMessage = "Error updating preservation methods: #cfcatch.message#">
 			<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#&resultMessage=#urlEncodedFormat(errorMessage)#">
 		</cfcatch>
+		</cftry>	
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
