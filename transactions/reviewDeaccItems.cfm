@@ -34,9 +34,9 @@ limitations under the License.
 </cfif>
 
 <!--- feedback message from actions other than entry point to show in entry point --->
-<cfif isDefined(url.resultMessage) AND len(url.resultMessage) GT 0>
+<cfif isDefined("url.resultMessage") AND len(url.resultMessage) GT 0>
 	<cfset resultMessage = url.resultMessage>
-<cfelseif isDefined(form.resultMessage) AND len(form.resultMessage) GT 0>
+<cfelseif isDefined("form.resultMessage") AND len(form.resultMessage) GT 0>
 	<cfset resultMessage = form.resultMessage>
 <cfelse>
 	<cfset resultMessage = "">
