@@ -415,6 +415,28 @@
 											<cfif len(partRemarks) GT 0>
 												<br>#partRemarks#
 											</cfif>
+											<!--- lookup material sample id from guid_our_thing table --->
+											<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+												FROM guid_our_thing
+												WHERE guid_is_a = 'materialSampleID'
+											 		AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
+												ORDER BY internal_fg DESC, timestamp_created DESC
+											</cfquery>
+											<cfif getMaterialSampleID.recordcount GT 0>
+												<div class="h4 mt-2">
+													<cfloop query="getMaterialSampleID">
+														<span class="font-italic">materialSampleID:</span> 
+															<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+															<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+																<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+																	<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+																</a>
+															</cfif>
+														</span>
+													</cfloop>
+												</div>
+											</cfif>
 										</div>
 										<div class="col-12 col-md-3">
 											<label class="data_entry_label" for="item_instructions_#part_id#">Item Instructions</label>
