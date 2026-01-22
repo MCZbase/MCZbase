@@ -1274,7 +1274,7 @@ limitations under the License.
 										<div class="add-form-header pt-1 px-2">
 											<h2 class="h2">
 												Loan Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #loan_number# #loan_type# #loan_status#
-												<span class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</span>
+												<div class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</div>
 											</h2>
 											<cfif is_subsample EQ "yes">
 												<h3 class="h4">Loaned Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
@@ -2068,7 +2068,10 @@ limitations under the License.
 								<div class="col-12">
 									<div class="add-form mt-2">
 										<div class="add-form-header pt-1 px-2">
-											<h2 class="h2">Deaccession Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #deacc_number# #deacc_type# #deacc_status# <span class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</span></h2>
+											<h2 class="h2">
+												Deaccession Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #deacc_number# #deacc_type# #deacc_status# 
+												<div class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</div>
+											</h2>
 											<cfif is_subsample EQ "yes">
 												<h3 class="h4">Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
 											</cfif>
@@ -2585,7 +2588,7 @@ limitations under the License.
 									<strong>Mixed Collection</strong>#mixed_scientific_name#
 								</cfif>
 								<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
-								<span class="smaller">[internal part collection_object_id: #partId#]</span>
+								<div class="smaller">[internal part collection_object_id: #partId#]</div>
 								<!--- lookup material sample id from guid_our_thing table --->
 								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
