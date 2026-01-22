@@ -4730,8 +4730,9 @@ limitations under the License.
 												<strong>In Deaccession:</strong>
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 													<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#checkDeaccession.transaction_id#" target="_blank"> 
-														#checkDeaccession.deacc_number# (#checkDeaccession.deacc_type#)
+														#checkDeaccession.deacc_number# 
 													</a>
+													(#checkDeaccession.deacc_type#)
 												<cfelse>
 													#checkDeaccession.deacc_number# (#checkDeaccession.deacc_type#)
 												</cfif>
