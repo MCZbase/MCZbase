@@ -2585,7 +2585,30 @@ limitations under the License.
 									<strong>Mixed Collection</strong>#mixed_scientific_name#
 								</cfif>
 								<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
-								<span>History</span>
+								<span class="smaller">[internal part collection_object_id: #partId#]</span>
+								<!--- lookup material sample id from guid_our_thing table --->
+								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+									FROM guid_our_thing
+									WHERE guid_is_a = 'materialSampleID'
+								 		AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.partId#">
+									ORDER BY internal_fg DESC, timestamp_created DESC
+								</cfquery>
+								<cfif getMaterialSampleID.recordcount GT 0>
+									<ul>
+										<cfloop query="getMaterialSampleID">
+											<li>
+												<span class="font-italic">materialSampleID:</span> 
+												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+													<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+													</a>
+												</cfif>
+												</li>
+										</cfloop>
+									</ul>
+								</cfif>
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="condition_#id#" class="data-entry-label">Condition:</label>
