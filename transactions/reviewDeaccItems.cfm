@@ -421,10 +421,12 @@ limitations under the License.
 								<cfset padding = "p-1">
 								<div class="col-12 col-md-6">
 									<form name="BulkUpdatePres" method="post" action="/transactions/reviewDeaccItems.cfm">
-										<br>Change preservation method of all these items to:
+										<label for="part_preserve_method_bulk" class="data-entry-label">
+											Change preservation method of all these items to:
+										</label>
 										<input type="hidden" name="Action" value="BulkUpdatePres">
 										<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-										<select name="part_preserve_method" size="1">
+										<select name="part_preserve_method" id="part_preserve_method_bulk" class="data-entry-select">
 											<cfloop query="ctPreserveMethod">
 												<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 											</cfloop>				
