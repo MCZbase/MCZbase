@@ -2580,7 +2580,7 @@ limitations under the License.
 					<cfloop query=getParts>
 						<cfset id = getParts.deacc_item_id>
 						<!--- Output each part row --->
-						<div id="historyDialog_#getParts.partID#">
+						<div id="historyDialog_#getParts.partID#"></div>
 						<div class="col-12 row border-top mx-1 mt-1 px-1">
 							<cfset name="#guid# #part_name# (#preserve_method#)">
 							<div class="col-12 col-md-2">
