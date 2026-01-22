@@ -402,7 +402,7 @@ limitations under the License.
 						</div>
 						<div class="card-body form-row my-1">
 							<div class="col-12 col-md-6">
-								<form name="BulkUpdateDisp" method="post" action="a_deaccItemReview.cfm">
+								<form name="BulkUpdateDisp" method="post" action="/trannsactions/reviewDeaccItems.cfm">
 									<label for="coll_obj_disposition" class="data-entry-label">
 										Change disposition of all these items to:
 									</label>
@@ -420,7 +420,7 @@ limitations under the License.
 						 	<cfif getAboutDeacc.collection EQ 'Cryogenic'>
 								<cfset padding = "p-1">
 								<div class="col-12 col-md-6">
-									<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
+									<form name="BulkUpdatePres" method="post" action="/transactions/reviewDeaccItems.cfm">
 										<br>Change preservation method of all these items to:
 										<input type="hidden" name="Action" value="BulkUpdatePres">
 										<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
