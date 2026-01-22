@@ -1290,7 +1290,7 @@ limitations under the License.
 				<cfthrow message="Record Masked">
 			</cfif>
 			<!--- return text instead of throwing an exception if mask parts --->
-			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 				<div class="mt-1"></div><!--- Masked, return no data on parts --->
 			<cfelse>
 				<!--- find out if any of this material is on loan --->
@@ -1478,7 +1478,12 @@ limitations under the License.
 							</cfif>
 							<div id="historyDialog#mainParts.part_id#"></div>
 							<tr class="#lineClass# #addedClass#">
-								<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
+								<td class="py-1">
+									<span class="font-weight-lessbold">#part_name#</span>
+									<cfif oneOfUs is "1">
+										<span class="small mb-0 pb-0">(#part_id#)</span>
+									</cfif>
+								</td>
 								<td class="py-1">
 									#part_condition#
 								</td>
@@ -1743,8 +1748,12 @@ limitations under the License.
 								<tr class="#addedClass#">
 									<td class="py-1">
 										<span class="d-inline-block pl-3">
-										<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
-										<span class="font-italic">Subsample:</span> #part_name#</span>
+											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
+											<span class="font-italic">Subsample:</span> #part_name#
+											<cfif oneOfUs is "1">
+												<span class="small mb-0 pb-0">(#subsampleParts.part_id#)</span>
+											</cfif>
+										</span>
 									</td>
 									<td class="py-1">
 										#part_condition#
@@ -1971,7 +1980,7 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="countParts">
 			<cfset row = StructNew()>
-			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 				<cfset row["ct"] = "">
 			<cfelse>
 				<cfset row["ct"] = "#countParts.ct#">
@@ -3786,7 +3795,7 @@ limitations under the License.
 				</cfquery>
 				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
-					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+					<cfif oneOfUs EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item">Masked</li>
 					<cfelse>
 						<cfloop query="object_rem">
