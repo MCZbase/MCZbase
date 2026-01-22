@@ -2360,12 +2360,12 @@ limitations under the License.
 			</cfif>
 			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
 				UPDATE deacc_item SET
-					<cfif len(#item_instructions#) gt 0>
+					<cfif len(#arguments.item_instructions#) gt 0>
 						item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
 					<cfelse>
 						item_instructions = null
 					</cfif>
-					<cfif len(#deacc_item_remarks#) gt 0>
+					<cfif len(#arguments.deacc_item_remarks#) gt 0>
 						,deacc_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.deacc_item_remarks#">
 					<cfelse>
 						,deacc_item_remarks = null
