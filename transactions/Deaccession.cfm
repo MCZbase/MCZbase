@@ -24,7 +24,8 @@
 <cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
 <cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
 <cfset MAGIC_DTYPE_INTERNALTRANSFER = 'transfer (internal)'><!--- Deaccession type of Transfer (internal) --->
-<cfset DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
+<!---  DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$' --->
+<cfset DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[\-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'><!--- Pattern for validating deaccession numbers Dyyyy-n-CCDE, javascript syntax --->
 <!---
 transactions/Deaccession.cfm
 
@@ -603,7 +604,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="deacc_number" class="data-entry-label">Deaccession Number (nnnnnn)</label>
+								<label for="deacc_number" class="data-entry-label">Deaccession Number (Dyyyy-nn-Col)</label>
 								<input type="text" name="deacc_number" id="deacc_number" value="#encodeForHTML(deaccessionDetails.deacc_number)#" class="reqdClr data-entry-input" 
 									required pattern="#DEACCNUMBERPATTERN#" >
 							</div>
