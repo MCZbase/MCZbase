@@ -185,9 +185,11 @@
 				deaccbc.onmessage = function (message) { 
 					console.log(message);
 					if (message.data.source == "deaccession" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("Deaccession modified elsewhere, reloading summary.");
 						reloadDeaccessionSummary();
 					}
 					if (message.data.source == "reviewdeaccitems" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("Deaccession items modified elsewhere, alerting user.");
 						messageDialog(
 							"Warning: You have added or removed an item from this deaccession, you must reload this page to see the current list of records this page affects.",
 							"Deaccession Item List Changed Warning"

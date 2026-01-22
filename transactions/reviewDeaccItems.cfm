@@ -351,7 +351,8 @@ limitations under the License.
 				bc.onmessage = function (message) { 
 					console.log(message);
 					if (message.data.source == "deaccession" && message.data.transaction_id == "#transaction_id#") { 
-						 reloadSummary();
+						console.log("reloading summary from deaccession message");
+						reloadSummary();
 					}
 					if (message.data.source == "adddeaccitems" && message.data.transaction_id == "#transaction_id#") { 
 						console.log("reloading data from adddeaccitems message");
@@ -359,6 +360,7 @@ limitations under the License.
 					}
 				}
 				function reloadSummary() { 
+					console.log("TODO: reloading deaccession summary");
 					// TODO: Implement
 				}
 			</script>

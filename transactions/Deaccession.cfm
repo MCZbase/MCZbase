@@ -441,9 +441,11 @@ limitations under the License.
 			bc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.source == "adddeaccitems" && message.data.transaction_id == "#transaction_id#") { 
+					console.log("received adddeaccitems message");
 					updateItemSections();
 				}
 				if (message.data.source == "reviewdeaccitems" && message.data.transaction_id == "#transaction_id#") { 
+					console.log("received reviewdeaccitems message");
 					updateItemSections();
 				}
 			}
