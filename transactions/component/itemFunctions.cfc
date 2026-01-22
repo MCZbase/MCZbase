@@ -2520,6 +2520,15 @@ limitations under the License.
 					ORDER BY coll_obj_disposition
 				</cfquery>
 				<cfloop query="getCatItems">
+					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT DISTINCT permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type
+						FROM cataloged_item ci
+							JOIN accn on ci.accn_id = accn.transaction_id
+							JOIN permit_trans on accn.transaction_id = permit_trans.transaction_id
+							JOIN permit on permit_trans.permit_id = permit.permit_id
+						WHERE ci.collection_object_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">
+							and permit.restriction_summary is not null
+					</cfquery>
 					<cfset catItemId = getCatItems.collection_object_id>
 					<cfif showMultiple>
 						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
@@ -2537,9 +2546,22 @@ limitations under the License.
 							Encumbered: #encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>
 						</cfif>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") >
-							Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
+							Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#" target="_blank">#accn_number#</a>
 						<cfelse>
 							Accession: #accn_number#
+						</cfif>
+						<cfif getRestrictions.recordcount GT 0>
+							<strong>Has Restrictions On Use</strong> See:
+							<cfloop query="getRestrictions">
+								<cfset permitText = getRestrictions.permit_num>
+								<cfif len(permitText ) EQ 0>
+									<cfset permitText = getRestrictions.permit_title>
+								</cfif>
+								<cfif len(permitText ) EQ 0>
+									<cfset permitText = getRestrictions.specific_type>
+								</cfif>
+								<a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#' target="_blank">#permitText#</a>
+							</cfloop>
 						</cfif>
 					</div>
 					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
