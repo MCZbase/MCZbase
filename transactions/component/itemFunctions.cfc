@@ -2043,7 +2043,7 @@ limitations under the License.
 								<div class="col-12">
 									<div class="add-form mt-2">
 										<div class="add-form-header pt-1 px-2">
-											<h2 class="h2">Deaccession Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #deacc_number# #deacc_type# #deacc_status#</h2>
+											<h2 class="h2">Deaccession Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #deacc_number# #deacc_type# #deacc_status# [part collection_object_id: #lookupItem.part_id#]</h2>
 											<cfif is_subsample EQ "yes">
 												<h3 class="h4">Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
 											</cfif>
