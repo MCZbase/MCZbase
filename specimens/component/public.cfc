@@ -1481,7 +1481,7 @@ limitations under the License.
 								<td class="py-1">
 									<span class="font-weight-lessbold">#part_name#</span>
 									<cfif oneOfUs is "1">
-										<span class="small mb-0 pb-0">(#part_id#)</span>
+										<span hidden class="part_id small mb-0 pb-0">(#part_id#)</span>
 									</cfif>
 								</td>
 								<td class="py-1">
@@ -1751,7 +1751,7 @@ limitations under the License.
 											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
 											<span class="font-italic">Subsample:</span> #part_name#
 											<cfif oneOfUs is "1">
-												<span class="small mb-0 pb-0">(#subsampleParts.part_id#)</span>
+												<span hidden class="part_id small mb-0 pb-0">(#subsampleParts.part_id#)</span>
 											</cfif>
 										</span>
 									</td>
@@ -3971,6 +3971,11 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<li class="list-group-item pt-0 pb-1">
+							<button class="btn btn-xs btn-info" onclick=" $('.part_id').removeAttr('hidden')">Show Internal Part collection_object_ids</button>
+						</li>
 					</cfif>
 				</ul>
 			<cfcatch>
