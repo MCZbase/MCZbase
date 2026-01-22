@@ -379,7 +379,7 @@ limitations under the License.
 		
 			<section class="row">
 				<cfif len(resultMessage) gt 0>
-					<h2 class="h3 w-100 p-1 alert alert-info">
+					<h2 class="h3 w-100 mx-3 my-1 p-1 alert alert-info">
 						#resultMessage#
 					</h2>
 				</cfif>
