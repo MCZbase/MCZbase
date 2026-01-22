@@ -4720,7 +4720,7 @@ limitations under the License.
 											</cfif>
 											<!--- check if in a deaccession --->
 											<cfquery name="checkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT transaction_id, deacc_number, deacc_type
+												SELECT deacc_item.transaction_id, deaccession.deacc_number, deaccesion.deacc_type
 												FROM
 													deacc_item 
 													join deaccession on deacc_item.transaction_id = deaccession.transaction_id
