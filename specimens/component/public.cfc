@@ -1481,7 +1481,7 @@ limitations under the License.
 								<td class="py-1">
 									<span class="font-weight-lessbold">#part_name#</span>
 									<cfif oneOfUs is "1">
-										<span hidden class="part_id small mb-0 pb-0">(#part_id#)</span>
+										<span hidden class="part_id small mb-0 pb-0">[part collection_object_id: #part_id#]</span>
 									</cfif>
 								</td>
 								<td class="py-1">
@@ -1751,7 +1751,7 @@ limitations under the License.
 											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
 											<span class="font-italic">Subsample:</span> #part_name#
 											<cfif oneOfUs is "1">
-												<span hidden class="part_id small mb-0 pb-0">(#subsampleParts.part_id#)</span>
+												<span hidden class="part_id small mb-0 pb-0">[part collection_object_id: #subsampleParts.part_id#]</span>
 											</cfif>
 										</span>
 									</td>
