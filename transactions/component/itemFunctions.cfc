@@ -1,8 +1,8 @@
 <!---
-transactions/addDeaccItemsByBarcode.cfm
+transactions/itemFunctions.cfc
  
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2021 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -2580,6 +2580,7 @@ limitations under the License.
 					<cfloop query=getParts>
 						<cfset id = getParts.deacc_item_id>
 						<!--- Output each part row --->
+						<div id="historyDialog_#getParts.partID#">
 						<div class="col-12 row border-top mx-1 mt-1 px-1">
 							<cfset name="#guid# #part_name# (#preserve_method#)">
 							<div class="col-12 col-md-2">
@@ -2614,7 +2615,10 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="condition_#id#" class="data-entry-label">Condition:</label>
+								<label for="condition_#id#" class="data-entry-label">
+									Condition:
+									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
+								</label>
 								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
 								<script>
 									$(document).ready( function() {

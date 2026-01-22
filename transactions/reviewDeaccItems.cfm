@@ -121,7 +121,7 @@ limitations under the License.
 <cfinclude template="/transactions/component/itemFunctions.cfc" runonce="true">
 
 <script type='text/javascript' src='/transactions/js/reviewDeaccItems.js'></script>
-
+<script type='text/javascript' src='/specimens/js/public.js'></script><!--- for openHistoryDialog() for parts --->
 
 <cfif not isdefined("transaction_id")>
 	<cfthrow message="No transaction specified.">
