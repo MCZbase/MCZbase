@@ -3973,8 +3973,8 @@ limitations under the License.
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						<li class="list-group-item pt-0 pb-1">
-							<button class="btn btn-xs btn-info" onclick=" $('.part_id').removeAttr('hidden')">Show Internal Part collection_object_ids</button>
+						<li id="show_part_ids_button" class="list-group-item pt-0 pb-1">
+							<button class="btn btn-xs btn-info" onclick=" $('.part_id').removeAttr('hidden'); $('##show_part_ids_button').hide();">Show Internal Part collection_object_ids</button>
 						</li>
 					</cfif>
 				</ul>
