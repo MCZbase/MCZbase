@@ -2534,6 +2534,7 @@ limitations under the License.
 						<cfelse>
 							Accession: #accn_number#
 						</cfif>
+					</div>
 					<div class="col-12 col-md-2">
 						<cfquery name="getEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
