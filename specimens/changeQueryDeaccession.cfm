@@ -308,7 +308,9 @@
 								collecting_event.began_date,
 								collecting_event.ended_date,
 								locality.spec_locality,
-								geog_auth_rec.higher_geog
+								geog_auth_rec.higher_geog,
+								GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) AS type_status,
+								GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) AS scientific_name_auths
 							FROM 
 								user_search_table 
 								JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -325,6 +327,7 @@
 							<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
 								<div class="col-12 col-md-4 mb-1">
 									<a href="/guid/#guid#" target="_blank">#institution_acronym#:#collection_cde#:#cat_num#</a>
+									#scientific_name_auths# #type_status#
 								</div>
 								<div class="col-12 col-md-4 mb-1">
 									#higher_geog#
