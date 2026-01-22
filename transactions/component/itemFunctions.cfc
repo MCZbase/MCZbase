@@ -2487,8 +2487,6 @@ limitations under the License.
 						locality.spec_locality,
 						locality.sovereign_nation,
 						geog_auth_rec.higher_geog,
-						encumbrance.Encumbrance,
-						decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
 						concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 						accn.accn_number,
 						accn.transaction_id accn_id
@@ -2501,8 +2499,6 @@ limitations under the License.
 						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						join locality on collecting_event.locality_id = locality.locality_id
 						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-						left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
-						left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 						left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						join collection on cataloged_item.collection_id=collection.collection_id
 						join accn on cataloged_item.accn_id = accn.transaction_id
@@ -2520,20 +2516,11 @@ limitations under the License.
 					ORDER BY coll_obj_disposition
 				</cfquery>
 				<cfloop query="getCatItems">
-					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT DISTINCT permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type
-						FROM cataloged_item ci
-							JOIN accn on ci.accn_id = accn.transaction_id
-							JOIN permit_trans on accn.transaction_id = permit_trans.transaction_id
-							JOIN permit on permit_trans.permit_id = permit.permit_id
-						WHERE ci.collection_object_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">
-							and permit.restriction_summary is not null
-					</cfquery>
 					<cfset catItemId = getCatItems.collection_object_id>
 					<cfif showMultiple>
 						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
 					</cfif>
-					<div class="col=12">
+					<div class="col-12 col-md-8">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<a href="/guid/#guid#" target="_blank">#guid#</a>  
 						<cfif len(#CustomID#) gt 0 AND otherIdOn>
@@ -2542,14 +2529,34 @@ limitations under the License.
 						#scientific_name#
 						#higher_geog#; #spec_locality#; #sovereign_nation#
 						#began_date#<cfif ended_date NEQ began_date>/#ended_date#</cfif>
-						<cfif len(#encumbrance#) gt 0>
-							Encumbered: #encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>
-						</cfif>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") >
 							Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#" target="_blank">#accn_number#</a>
 						<cfelse>
 							Accession: #accn_number#
 						</cfif>
+					<div class="col-12 col-md-2">
+						<cfquery name="getEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">) encumbranceDetail
+							FROM DUAL
+						</cfquery>
+						<cfif getEncumbrance.recordcount gt 0>
+							<strong>Encumbered:</strong>
+							<cfloop query="getEncumbrance">
+								<span>#getEncumbrance.encumbranceDetail#</span>
+							</cfloop>
+						</cfif>
+					</div>
+					<div class="col-12 col-md-2">
+						<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT DISTINCT permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type
+							FROM cataloged_item ci
+								JOIN accn on ci.accn_id = accn.transaction_id
+								JOIN permit_trans on accn.transaction_id = permit_trans.transaction_id
+								JOIN permit on permit_trans.permit_id = permit.permit_id
+							WHERE ci.collection_object_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">
+								and permit.restriction_summary is not null
+						</cfquery>
 						<cfif getRestrictions.recordcount GT 0>
 							<strong>Has Restrictions On Use</strong> See:
 							<cfloop query="getRestrictions">
