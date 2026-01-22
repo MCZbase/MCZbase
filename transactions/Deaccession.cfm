@@ -812,7 +812,7 @@ limitations under the License.
 							<cfset showAdd = "display:none;">
 						</cfif>
 						<input type="button" id="addItemsButton" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2" style="#showAdd#"
-							onClick="window.open('/SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
+							onClick="window.open('/Specimens.cfm?target_deacc_id=#transaction_id#');">
 						<input type="button" id="addItemsBarcodeButton" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2" style="#showAdd#"
 							onClick="window.open('/deaccByBarcode.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
