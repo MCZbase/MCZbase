@@ -783,10 +783,10 @@ limitations under the License.
 							function setAddButtonVisibility() { 
 								if ($('##deacc_status').val() == 'closed') {
 									$('##addItemsButton').hide();
-									$('##addItemsBarcodeButton"]').hide();
+									$('##addItemsBarcodeButton').hide();
 								} else {
 									$('##addItemsButton').show();
-									$('##addItemsBarcodeButton"]').show();
+									$('##addItemsBarcodeButton').show();
 								}
 							};
 						</script>
