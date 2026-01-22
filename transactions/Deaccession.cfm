@@ -443,7 +443,7 @@ limitations under the License.
 				if (message.data.source == "adddeaccitems" && message.data.transaction_id == "#transaction_id#") { 
 					updateItemSections();
 				}
-				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
+				if (message.data.source == "reviewdeaccitems" && message.data.transaction_id == "#transaction_id#") { 
 					updateItemSections();
 				}
 			}
