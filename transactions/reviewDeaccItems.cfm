@@ -402,7 +402,7 @@ limitations under the License.
 						</div>
 						<div class="card-body form-row my-1">
 							<div class="col-12 col-md-6">
-								<form name="BulkUpdateDisp" method="post" action="/trannsactions/reviewDeaccItems.cfm">
+								<form name="BulkUpdateDisp" method="post" action="/transactions/reviewDeaccItems.cfm">
 									<label for="coll_obj_disposition" class="data-entry-label">
 										Change disposition of all these items to:
 									</label>
