@@ -2541,7 +2541,7 @@ limitations under the License.
 								concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">) encumbranceDetail
 							FROM DUAL
 						</cfquery>
-						<cfif getEncumbrance.recordcount gt 0>
+						<cfif len(getEncumbrance.encumbranceDetail) GT 0>
 							<strong>Encumbered:</strong>
 							<cfloop query="getEncumbrance">
 								<span>#getEncumbrance.encumbranceDetail#</span>
