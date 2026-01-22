@@ -346,7 +346,7 @@ limitations under the License.
 			<script>
 				var bc = new BroadcastChannel('deaccession_channel');
 				function deaccessionModifiedHere() { 
-					bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
+					bc.postMessage({"source":"reviewdeaccitems","transaction_id":"#transaction_id#"});
 				}
 				bc.onmessage = function (message) { 
 					console.log(message);
@@ -355,10 +355,6 @@ limitations under the License.
 					}
 					if (message.data.source == "adddeaccitems" && message.data.transaction_id == "#transaction_id#") { 
 						console.log("reloading data from adddeaccitems message");
-						reloadDataNoBroadcast();
-					}
-					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading grid from reviewitems message");
 						reloadDataNoBroadcast();
 					}
 				}
