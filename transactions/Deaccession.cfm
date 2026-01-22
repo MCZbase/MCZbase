@@ -797,6 +797,7 @@ limitations under the License.
 				</section>
 				<script>
 					function updateItemSections() { 
+						console.log("updating deaccession item sections");
 						updateDeaccItemCount('#transaction_id#','deaccessionItemCountDiv');
 						updateDeaccItemDispositions('#transaction_id#','deaccessionItemDispositionsDiv');
 						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
