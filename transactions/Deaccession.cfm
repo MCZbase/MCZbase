@@ -447,7 +447,8 @@ limitations under the License.
 				}
 				if (message.data.source == "reviewdeaccitems" && message.data.transaction_id == "#transaction_id#") { 
 					console.log("received reviewdeaccitems message");
-					updateItemSections();
+					// pause to let a remove transaction complete before updating the item sections
+					setTimeout( function() { updateItemSections(); }, 2000);
 				}
 			}
 		</script>
