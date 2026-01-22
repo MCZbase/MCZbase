@@ -2646,7 +2646,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="condition_#id#" class="data-entry-label">
-									Condition:
+									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
 								</label>
 								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
@@ -2657,7 +2657,7 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="coll_obj_disposition_#id#" class="data-entry-label">Disposition:</label>
+								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
 								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
@@ -2685,7 +2685,7 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="item_instructions" class="data-entry-label">Instructions:</label>
+								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
 								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
 								<script>
 									$(document).ready( function() { 
