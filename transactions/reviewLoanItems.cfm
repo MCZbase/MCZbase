@@ -1790,9 +1790,6 @@ limitations under the License.
 									$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 								});
 							};
-							$(document).ready(function() {
-								loadGrid();
-							});
 						</script>
 	
 					</div>
