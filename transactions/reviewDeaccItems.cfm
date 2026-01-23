@@ -54,7 +54,7 @@ limitations under the License.
 	</cfif>
 	<cfset today = dateFormat(now(),"yyyymmdd")>
 	<cfset fileName = "deaccession_items_#getDeaccNumber.deacc_number#_#today#.csv">
-	<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="getDeaccItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct
 			cataloged_item.collection_object_id,
 			cataloged_item.collection_cde,
@@ -81,8 +81,10 @@ limitations under the License.
 			locality.spec_locality,
 			locality.sovereign_nation,
 			geog_auth_rec.higher_geog,
-			encumbrance.Encumbrance,
-			decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
+			MCZBASE.CONCATENCUMBRANCES(cataloged_item.collection_object_id) as encumbrance,
+			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
+			decode(MCZBASE.IS_ACCN_BENEFITS(cataloged_item.collection_object_id),1,'yes','') as has_required_benefits,
+			decode(MCZBASE.IS_ACCN_RESTRICTED(cataloged_item.collection_object_id),1,'yes','') as has_use_restrictions,
 			concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 			accn.accn_number,
 			accn.transaction_id accn_id
@@ -105,7 +107,7 @@ limitations under the License.
 		ORDER BY cat_num
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
-	<cfset csv = queryToCSV(getPartDeaccRequests)>
+	<cfset csv = queryToCSV(getDeaccItems)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-Disposition" value="attachment; filename=#fileName#">
 	<cfheader name="Content-Length" value="#len(csv)#">
