@@ -88,6 +88,7 @@ limitations under the License.
 			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
 			loan_item.resolution_remarks,
 			coll_obj_disposition,
+			MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as type_status,
 			MCZBASE.get_scientific_name_auths_pl(cataloged_item.collection_object_id) as scientific_name,
 			collecting_event.began_date,
 			collecting_event.ended_date,
@@ -1264,6 +1265,11 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+	
+					<!--- TODO: Replace grid --->
+					<div id="deaccItemEditDialogDiv"></div>
+					<div id="deaccItemRemoveDialogDiv"></div>
+
 					<div class="col-12">
 						<div class="container-fluid">
 							<div class="row">

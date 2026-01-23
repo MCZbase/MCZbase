@@ -75,7 +75,8 @@ limitations under the License.
 			deaccession.deacc_number,
 			deaccession.deacc_type,
 			deaccession.deacc_reason,
-			identification.scientific_name,
+			MCZBASE.get_scientific_name_auths_pl(cataloged_item.collection_object_id) as scientific_name,
+			MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as type_status,
 			collecting_event.began_date,
 			collecting_event.ended_date,
 			locality.spec_locality,
@@ -97,7 +98,6 @@ limitations under the License.
 			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 			join locality on collecting_event.locality_id = locality.locality_id
 			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 			join collection on cataloged_item.collection_id=collection.collection_id
 			join accn on cataloged_item.accn_id = accn.transaction_id
 		WHERE
