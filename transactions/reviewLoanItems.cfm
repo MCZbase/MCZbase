@@ -1271,8 +1271,8 @@ limitations under the License.
 						<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
 						#catItemBlock#
 					</div>
-					<div id="deaccItemEditDialogDiv"></div>
-					<div id="deaccItemRemoveDialogDiv"></div>
+					<div id="loanItemEditDialogDiv"></div>
+					<div id="loanItemRemoveDialogDiv"></div>
 
 					<div class="col-12">
 						<div class="container-fluid">
