@@ -2673,7 +2673,7 @@ limitations under the License.
 										<li>
 											<strong>Previous Location:</strong> 
 											<cfif getParts.short_location EQ getParts.previous_location>
-												same as current.
+												same
 											<cfelse>
 												#previous_location#
 											</cfif>
