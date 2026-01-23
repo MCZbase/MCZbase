@@ -97,8 +97,6 @@ limitations under the License.
 			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 			join locality on collecting_event.locality_id = locality.locality_id
 			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-			left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
-			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 			left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 			join collection on cataloged_item.collection_id=collection.collection_id
 			join accn on cataloged_item.accn_id = accn.transaction_id
