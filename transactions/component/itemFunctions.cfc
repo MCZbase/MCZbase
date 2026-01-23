@@ -2671,7 +2671,12 @@ limitations under the License.
 								<ul>
 									<cfif len(previous_location) GT 0>
 										<li>
-											<strong>Previous Location:</strong> #previous_location#
+											<strong>Previous Location:</strong> 
+											<cfif getParts.short_location EQ getParts.previous_location>
+												same as current.
+											<cfelse>
+												#previous_location#
+											</cfif>
 										</li>
 									</cfif>
 									<cfif len(stored_as_name) GT 0>
