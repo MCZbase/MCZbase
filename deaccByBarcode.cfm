@@ -164,7 +164,7 @@ t<cfinclude template="/includes/_header.cfm">
 		<cfif getPartDeaccRequests.recordcount is 0>
 			<br>This deaccession contains no parts.
 		<cfelse>
-			<br>Existing Parts (use <a href="/a_deaccItemReview.cfm?transaction_id=#transaction_id#">Deaccession Item Review</a> to adjust):
+			<br>Existing Parts (use <a href="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#">Deaccession Item Review</a> to adjust):
 			<table border>
 				<tr>
 					<th>Barcode</th>

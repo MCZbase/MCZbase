@@ -171,7 +171,7 @@ limitations under the License.
 		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContID.container_id#">
 	</cfquery>
 </cftransaction>
-	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
+	<cflocation url="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#">
 	</cfoutput>
 
 </cfif>
