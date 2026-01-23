@@ -2479,9 +2479,8 @@ limitations under the License.
 						cataloged_item.cat_num, 
 						collection.institution_acronym,
 						collection.collection,
-						deaccession.deacc_number,
-						deaccession.deacc_type,
-						deaccession.deacc_reason,
+						loan.loan_number,
+						loan.loan_type,
 						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 						collecting_event.began_date,
 						collecting_event.ended_date,
@@ -2731,7 +2730,7 @@ limitations under the License.
 									condition = $("##condition_#id#").val();
 									coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
 									item_descr = $("##item_descr_#id#").val();
-									updateLoanItem(deacc_item_id, item_instructions, deacc_item_remarks, coll_obj_disposition, condition, item_descr);
+									updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr);
 								}
 								function refreshItems#catItemId#() { 
 									console.log("refresh items invoked for #catItemId#");
