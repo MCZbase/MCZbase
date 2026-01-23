@@ -72,8 +72,6 @@ Disallow: /containerPositions.cfm
 Disallow: /CreateContainer.cfm
 Disallow: /CreateContainersForBarcodes.cfm
 Disallow: /DataEntry.cfm
-Disallow: /deaccByBarcode.cfm
-Disallow: /Deaccession.cfm
 Disallow: /download.cfm
 Disallow: /dumpAll.cfm
 Disallow: /edecView.cfm
