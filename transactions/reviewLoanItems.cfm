@@ -89,6 +89,11 @@ limitations under the License.
 			loan_item.resolution_remarks,
 			coll_obj_disposition,
 			MCZBASE.get_scientific_name_auths_pl(cataloged_item.collection_object_id) as scientific_name,
+			collecting_event.began_date,
+			collecting_event.ended_date,
+			locality.spec_locality,
+			locality.sovereign_nation,
+			geog_auth_rec.higher_geog,
 			MCZBASE.CONCATENCUMBRANCES(cataloged_item.collection_object_id) as encumbrance,
 			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
 			decode(MCZBASE.IS_ACCN_BENEFITS(cataloged_item.collection_object_id),1,'yes','') as has_required_benefits,
@@ -117,6 +122,7 @@ limitations under the License.
 			join collection on cataloged_item.collection_id=collection.collection_id 
 			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 			join locality on collecting_event.locality_id = locality.locality_id
+			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		WHERE
 			loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 		ORDER BY cat_num
