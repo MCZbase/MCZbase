@@ -1267,6 +1267,10 @@ limitations under the License.
 					</div>
 	
 					<!--- TODO: Replace grid --->
+					<div class="col-12" id="allCatItemsDiv">
+						<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
+						#catItemBlock#
+					</div>
 					<div id="deaccItemEditDialogDiv"></div>
 					<div id="deaccItemRemoveDialogDiv"></div>
 
