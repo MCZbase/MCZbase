@@ -2620,8 +2620,9 @@ limitations under the License.
 							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
 							join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-							left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
 							left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+							left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id 
+								and coll_obj_cont_hist.current_container_fg = 1
 						WHERE
 							loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
