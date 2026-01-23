@@ -339,7 +339,7 @@
 									<cfif began_date EQ ended_date>
 										#began_date#
 									<cfelse>
-										#began_date#-#ended_date#
+										#began_date#/#ended_date#
 									</cfif>
 								</div>
 
