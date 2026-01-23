@@ -1872,7 +1872,7 @@ limitations under the License.
 								<a href="/transactions/reviewDeaccItems.cfm?transaction_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Review Deaccession Items</a>
 							</cfif>
 							<cfif show_buttons EQ "add" OR show_buttons EQ "both">
-								<a href="/Specimens.cfm?target_loan_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Deaccession</a>
+								<a href="/Specimens.cfm?target_deacc_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Deaccession</a>
 							</cfif>
 						</div>
 					</cfif>
