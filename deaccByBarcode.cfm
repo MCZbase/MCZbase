@@ -1,4 +1,4 @@
-t<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/includes/_header.cfm">
 <script>
 	function addThis(i){
 			 $.getJSON("/component/functions.cfc",
