@@ -2600,7 +2600,7 @@ limitations under the License.
 							decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name
 						FROM 
 							loan
-							join loan_item on deaccession.transaction_id = loan_item.transaction_id
+							join loan_item on loan.transaction_id = loan_item.transaction_id
 							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
 							join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
