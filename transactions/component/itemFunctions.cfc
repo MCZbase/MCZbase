@@ -2583,6 +2583,7 @@ limitations under the License.
 							specimen_part.part_name,
 							specimen_part.preserve_method,
 							specimen_part.sampled_from_obj_id,
+							decode(sampled_from_obj_id,null,'no ','of ' || MCZbase.get_part_prep(sampled_from_obj_id)) as sampled_from_object,
 							coll_object.condition,
 							coll_object.lot_count,
 							coll_object.lot_count_modifier,
@@ -2593,11 +2594,26 @@ limitations under the License.
 							loan_item.item_instructions,
 							loan_item.loan_item_state,
 							loan_item.resolution_remarks,
+			reconciled_by_person_id,
+			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
+			to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
+							to_char(loan_item.return_date,'YYYY-MM-DD') return_date,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			loan_item.resolution_recorded_by_agent_id,
 							loan.loan_number,
 							loan.loan_type,
 							identification.scientific_name as mixed_scientific_name,
-							encumbrance.Encumbrance,
-							decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name
+			coll_obj_cont_hist.container_id,
+							MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
+			MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'room') as location_room,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'fixture') as location_fixture,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'tank') as location_tank,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'freezer') as location_freezer,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
+							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
+							MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location
 						FROM 
 							loan
 							join loan_item on loan.transaction_id = loan_item.transaction_id
@@ -2605,7 +2621,6 @@ limitations under the License.
 							join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
 							left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
-							left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 							left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						WHERE
 							loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
@@ -2613,18 +2628,18 @@ limitations under the License.
 						ORDER BY 
 							part_name, preserve_method
 					</cfquery>
-					<cfloop query=getParts>
+					<cfloop query="getParts">
 						<cfset id = getParts.loan_item_id>
 						<!--- Output each part row --->
 						<div id="historyDialog_#getParts.partID#"></div>
 						<div class="col-12 row border-top mx-1 mt-1 px-1">
 							<cfset name="#guid# #part_name# (#preserve_method#)">
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-4">
 								Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
 								<cfif len(mixed_scientific_name) gt 0>
 									<strong>Mixed Collection</strong>#mixed_scientific_name#
 								</cfif>
-								<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
+								<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong> #sampled_from_object#</cfif>
 								<div class="smaller">[internal part collection_object_id: #partId#]</div>
 								<!--- lookup material sample id from guid_our_thing table --->
 								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2649,6 +2664,37 @@ limitations under the License.
 										</cfloop>
 									</ul>
 								</cfif>
+							</div>
+							<div class="col-12 col-md-6">
+								<ul>
+									<li>
+										<strong>Storage Location:</strong> #getParts.location#
+									<cfif len(previous_location) GT 0>
+										<li>
+											<strong>Previous Location:</strong> #previous_location#
+										</li>
+									</cfif>
+									<cfif len(stored_as_name) GT 0>
+										<li>
+											<strong>Stored As:</strong> #stored_as_name#
+										</li>
+									</cfif>
+								</ul>
+							</div>
+							<div class="col-12 col-md-2">
+								#loan_item_state#
+								#return_date#
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="item_descr_#id#" class="data-entry-label">
+									Item Description:
+								</label>
+								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text">
+								<script>
+									$(document).ready( function() {
+										$("##item_descr_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
+									});
+								</script>
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="condition_#id#" class="data-entry-label">
