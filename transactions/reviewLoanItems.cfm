@@ -67,12 +67,15 @@ limitations under the License.
 	<cfset fileName = "loan_items_#getLoanNumber.loan_number#_#today#.csv">
 	<cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT DISTINCT
-			loan.transaction_id,
+			loan_number,
+			'MCZ:' || collection.collection_cde || ':' || cat_num as guid,
 			cat_num as catalog_number, 
 			collection,
 			collection.collection_cde,
 			part_name,
 			preserve_method,
+			lot_count,
+			lot_count_modifier,
 			condition,
 			decode(sampled_from_obj_id,null,'no ','of ' || MCZbase.get_part_prep(sampled_from_obj_id)) as sampled_from_obj_id,
 			item_descr,
@@ -104,11 +107,9 @@ limitations under the License.
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
 			mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
 			MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location,
-			loan_number,
-			specimen_part.collection_object_id as part_id,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
+			specimen_part.collection_object_id as part_id,
 			cataloged_item.collection_object_id as collection_object_id,
-			'MCZ:' || collection.collection_cde || ':' || cat_num as guid,
 			sovereign_nation
 		from 
 			loan
