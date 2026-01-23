@@ -2605,7 +2605,7 @@ limitations under the License.
 							identification.scientific_name as mixed_scientific_name,
 			coll_obj_cont_hist.container_id,
 							MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
-			MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
+							MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'room') as location_room,
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'fixture') as location_fixture,
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'tank') as location_tank,
@@ -2667,9 +2667,8 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div class="col-12 col-md-6">
+								<strong>Storage Location:</strong> #getParts.short_location#
 								<ul>
-									<li>
-										<strong>Storage Location:</strong> #getParts.location#
 									<cfif len(previous_location) GT 0>
 										<li>
 											<strong>Previous Location:</strong> #previous_location#
