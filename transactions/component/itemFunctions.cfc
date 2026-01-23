@@ -2740,6 +2740,7 @@ limitations under the License.
 							}
 						</script>
 					</cfif>
+				</cfloop>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
