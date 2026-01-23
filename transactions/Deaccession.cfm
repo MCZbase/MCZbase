@@ -819,6 +819,8 @@ limitations under the License.
 						<input type="button" id="addItemsButton" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2" style="#showAdd#"
 							onClick="window.open('/Specimens.cfm?target_deacc_id=#transaction_id#');">
 						<cfif findNoCase('master',Session.gitBranch) GT 0>
+							<input type="button" id="addItemsBarcodeButton" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2 disabled" style="#showAdd#" disabled>
+						<cfelse>
 							<input type="button" id="addItemsBarcodeButton" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2" style="#showAdd#"
 								onClick="window.open('/transactions/addDeaccItemsByBarcode.cfm?transaction_id=#transaction_id#');">
 						</cfif>
