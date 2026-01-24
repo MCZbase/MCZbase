@@ -2472,6 +2472,19 @@ limitations under the License.
 		<cftry>
 			<!--- Similar to getDeaccCatItemHtml but for loans instead of deaccessions --->
 			<cfoutput>
+				<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						loan_number,
+						loan_type,
+						loan_status
+					FROM 
+						loan
+					WHERE
+						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				</cfquery>
+				<cfif lookupLoan.recordcount NEQ 1>
+					<cfthrow message="Unable to lookup loan by transaction_id=#encodeForHtml(transaction_id)#">
+				</cfif>
 				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT DISTINCT
 						cataloged_item.collection_object_id,
@@ -2751,7 +2764,17 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-2 pt-3">
-								<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
+								<!--- determine action buttons to show based on loan status --->
+								<cfif lookupLoan.loan_status EQ "in-process">
+									<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
+								</cfif>
+								<cfif lookupLoan.loan_status EQ "open">
+									<cfif lookupLoan.loan_type EQ "consumable">
+										<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
+									<cfelse>
+										<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Return</button>
+									</cfif>
+								</cfif>
 								<button class="btn btn-xs btn-secondary" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 								<output id="loanItemStatusDiv_#id#"></output>
 							</div>
