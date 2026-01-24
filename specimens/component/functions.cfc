@@ -4712,15 +4712,32 @@ limitations under the License.
 									<div class="#phead# py-2 col-12 row mx-0">
 										<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 										<input type="hidden" name="method" value="updatePart">
-										<cfif getParts.is_subsample EQ 1>
-											<div class="col-12 px-1 my-1">
-												<strong>Subsample of:</strong> #parentPart#
-											</div>
-										<cfelse>
-											<div class="col-12 px-1 my-1">
-												<strong>Part:</strong> #parentPart#
-											</div>
-										</cfif>
+										<div class="col-12 px-1 my-1">
+											<cfif getParts.is_subsample EQ 1>
+													<strong>Subsample of:</strong> #parentPart#
+											<cfelse>
+													<strong>Part:</strong> #parentPart#
+											</cfif>
+											<!--- check if in a deaccession --->
+											<cfquery name="checkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT deacc_item.transaction_id, deaccession.deacc_number, deaccession.deacc_type
+												FROM
+													deacc_item 
+													join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+												WHERE deacc_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
+											</cfquery>
+											<cfif checkDeaccession.recordcount GT 0>
+												<strong>In Deaccession:</strong>
+												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+													<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#checkDeaccession.transaction_id#" target="_blank"> 
+														#checkDeaccession.deacc_number# 
+													</a>
+													(#checkDeaccession.deacc_type#)
+												<cfelse>
+													#checkDeaccession.deacc_number# (#checkDeaccession.deacc_type#)
+												</cfif>
+											</cfif>
+										</div>
 									</div>
 									<div class="form-row col-12 mt-2 pt-2 #marginSeparator#">
 										<div class="col-12 col-md-4 mb-2">

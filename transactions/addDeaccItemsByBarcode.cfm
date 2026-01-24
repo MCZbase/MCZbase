@@ -186,7 +186,7 @@ limitations under the License.
 				<cfif getPartDeaccRequests.recordcount is 0>
 					<h3 class="h3">This deaccession contains no parts.</h3>
 				<cfelse>
-					<br>Existing Parts (use <a href="/a_deaccItemReview.cfm?transaction_id=#transaction_id#">Deaccession Item Review</a> to adjust):
+					<br>Existing Parts (use <a href="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#">Deaccession Item Review</a> to adjust):
 					<table border>
 						<tr>
 							<th>Barcode</th>

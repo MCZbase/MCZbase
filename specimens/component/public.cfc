@@ -1290,7 +1290,7 @@ limitations under the License.
 				<cfthrow message="Record Masked">
 			</cfif>
 			<!--- return text instead of throwing an exception if mask parts --->
-			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 				<div class="mt-1"></div><!--- Masked, return no data on parts --->
 			<cfelse>
 				<!--- find out if any of this material is on loan --->
@@ -1478,7 +1478,12 @@ limitations under the License.
 							</cfif>
 							<div id="historyDialog#mainParts.part_id#"></div>
 							<tr class="#lineClass# #addedClass#">
-								<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
+								<td class="py-1">
+									<span class="font-weight-lessbold">#part_name#</span>
+									<cfif oneOfUs is "1">
+										<span hidden class="part_id small mb-0 pb-0">[part collection_object_id: #part_id#]</span>
+									</cfif>
+								</td>
 								<td class="py-1">
 									#part_condition#
 								</td>
@@ -1743,8 +1748,12 @@ limitations under the License.
 								<tr class="#addedClass#">
 									<td class="py-1">
 										<span class="d-inline-block pl-3">
-										<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
-										<span class="font-italic">Subsample:</span> #part_name#</span>
+											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
+											<span class="font-italic">Subsample:</span> #part_name#
+											<cfif oneOfUs is "1">
+												<span hidden class="part_id small mb-0 pb-0">[part collection_object_id: #subsampleParts.part_id#]</span>
+											</cfif>
+										</span>
 									</td>
 									<td class="py-1">
 										#part_condition#
@@ -1971,7 +1980,7 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="countParts">
 			<cfset row = StructNew()>
-			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 				<cfset row["ct"] = "">
 			<cfelse>
 				<cfset row["ct"] = "#countParts.ct#">
@@ -3786,7 +3795,7 @@ limitations under the License.
 				</cfquery>
 				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
-					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+					<cfif oneOfUs EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item">Masked</li>
 					<cfelse>
 						<cfloop query="object_rem">
@@ -3962,6 +3971,11 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<li id="show_part_ids_button" class="list-group-item pt-0 pb-1">
+							<button class="btn btn-xs btn-info" onclick=" $('.part_id').removeAttr('hidden');">Show Internal Part collection_object_ids</button>
+						</li>
 					</cfif>
 				</ul>
 			<cfcatch>

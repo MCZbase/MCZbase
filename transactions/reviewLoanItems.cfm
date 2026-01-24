@@ -17,35 +17,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset pageTitle="Review Loan Items">
-<cfinclude template="/shared/_header.cfm">
-<cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 <cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
 
-<script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
-<script type='text/javascript' src='/specimens/js/specimens.js'></script>
-<script type='text/javascript' src='/specimens/js/public.js'></script>
-<style>
-	.jqx-grid-cell {
-		background-color: #E9EDECd6;
-	}
-	.jqx-grid-cell-alt {
-		background-color: #f5f5f5;
-	}
-	}
-</style>
-<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select coll_obj_disposition from ctcoll_obj_disp
-</cfquery>
-<!--- set up a json source for a jqxDropDownList --->
-<cfset ctDispSource = "[">
-<cfset sep="">
-<cfloop query="ctDisp">
-	<cfset ctDispSource = "#ctDispSource##sep#'#ctDisp.coll_obj_disposition#'">
-	<cfset sep=",">
-</cfloop>
-<cfset ctDispSource = "#ctDispSource#]">
-
+<cfif isDefined("url.transaction_id") and len(url.transaction_id) GT 0>
+	<cfset transaction_id = url.transaction_id>
+<cfelseif isDefined("form.transaction_id") and len(form.transaction_id) GT 0>
+	<cfset transaction_id = form.transaction_id>
+</cfif>
 <cfif NOT isdefined("transaction_id") OR len(transaction_id) EQ 0>
 	<cfthrow message="No transaction specified">
 </cfif>
@@ -62,7 +40,6 @@ limitations under the License.
 <cfif checkForLoan.ct NEQ 1>
 	<cfthrow message="Provided transaction_id [#encodeForHtml(transaction_id)#] does not specify a loan">
 </cfif>
-
 <cfif isdefined("url.action") and len(url.action) GT 0>
 	<cfset action = url.action>
 <cfelseif isdefined("form.action") and len(form.action) GT 0>
@@ -75,6 +52,124 @@ limitations under the License.
 	<cfset message = form.message>
 </cfif>
 <cfif NOT isdefined("message")><cfset message=""></cfif>
+
+<!--- special case handling to dump loan items as csv --->
+<cfif isDefined("action") AND action is "download">
+	<cfquery name="getLoanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select loan_number 
+		from loan 
+		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+	</cfquery>
+	<cfif getLoanNumber.recordCount eq 0>
+		<cfthrow message="No such loan transaction as #encodeForHtml(transaction_id)#">
+	</cfif>
+	<cfset today = dateFormat(now(),"yyyymmdd")>
+	<cfset fileName = "loan_items_#getLoanNumber.loan_number#_#today#.csv">
+	<cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT DISTINCT
+			loan_number,
+			'MCZ:' || collection.collection_cde || ':' || cat_num as guid,
+			cat_num as catalog_number, 
+			collection,
+			collection.collection_cde,
+			part_name,
+			preserve_method,
+			lot_count,
+			lot_count_modifier,
+			condition,
+			decode(sampled_from_obj_id,null,'no ','of ' || MCZbase.get_part_prep(sampled_from_obj_id)) as subsample,
+			loan_item.loan_item_state,
+			item_descr as loan_item_description,
+			item_instructions as loan_item_instructions,
+			loan_item_remarks,
+			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as added_to_loan_by,
+			to_char(reconciled_date,'YYYY-MM-DD') as added_to_loan_date,
+			to_char(loan_item.return_date,'YYYY-MM-DD') item_return_date,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			loan_item.resolution_remarks,
+			coll_obj_disposition,
+			MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as type_status,
+			MCZBASE.get_scientific_name_auths_pl(cataloged_item.collection_object_id) as scientific_name,
+			collecting_event.began_date,
+			collecting_event.ended_date,
+			locality.spec_locality,
+			locality.sovereign_nation,
+			geog_auth_rec.higher_geog,
+			MCZBASE.CONCATENCUMBRANCES(cataloged_item.collection_object_id) as encumbrance,
+			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
+			decode(MCZBASE.IS_ACCN_BENEFITS(cataloged_item.collection_object_id),1,'yes','') as has_required_benefits,
+			decode(MCZBASE.IS_ACCN_RESTRICTED(cataloged_item.collection_object_id),1,'yes','') as has_use_restrictions,
+			MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
+			MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'room') as location_room,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'fixture') as location_fixture,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'tank') as location_tank,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'freezer') as location_freezer,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
+			mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
+			MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
+			specimen_part.collection_object_id as internal_part_id,
+			sovereign_nation
+		from 
+			loan
+			join loan_item on loan.transaction_id = loan_item.transaction_id
+			join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+			left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id 
+				and coll_obj_cont_hist.current_container_fg = 1
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+			join collection on cataloged_item.collection_id=collection.collection_id 
+			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+			join locality on collecting_event.locality_id = locality.locality_id
+			join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		WHERE
+			loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+		ORDER BY cat_num
+	</cfquery>
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getLoanItems)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-Disposition" value="attachment; filename=#fileName#">
+	<cfheader name="Content-Length" value="#len(csv)#">
+	<cfheader name="Pragma" value="no-cache">
+	<cfheader name="Expires" value="0">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+
+<!--- begin main page action handling and display ------------------------------- --->
+
+<cfset pageTitle="Review Loan Items">
+<cfinclude template="/shared/_header.cfm">
+<cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
+
+<script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
+<script type='text/javascript' src='/specimens/js/specimens.js'></script>
+<script type='text/javascript' src='/specimens/js/public.js'></script>
+
+<style>
+	.jqx-grid-cell {
+		background-color: #E9EDECd6;
+	}
+	.jqx-grid-cell-alt {
+		background-color: #f5f5f5;
+	}
+	}
+</style>
+
+<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	select coll_obj_disposition from ctcoll_obj_disp
+</cfquery>
+<!--- set up a json source for a jqxDropDownList --->
+<cfset ctDispSource = "[">
+<cfset sep="">
+<cfloop query="ctDisp">
+	<cfset ctDispSource = "#ctDispSource##sep#'#ctDisp.coll_obj_disposition#'">
+	<cfset sep=",">
+</cfloop>
+<cfset ctDispSource = "#ctDispSource#]">
 
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
@@ -1170,6 +1265,15 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+	
+					<!--- TODO: Replace grid --->
+					<div class="col-12" id="allCatItemsDiv">
+						<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
+						#catItemBlock#
+					</div>
+					<div id="loanItemEditDialogDiv"></div>
+					<div id="loanItemRemoveDialogDiv"></div>
+
 					<div class="col-12">
 						<div class="container-fluid">
 							<div class="row">
@@ -1686,9 +1790,6 @@ limitations under the License.
 									$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 								});
 							};
-							$(document).ready(function() {
-								loadGrid();
-							});
 						</script>
 	
 					</div>

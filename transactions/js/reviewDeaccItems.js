@@ -267,6 +267,10 @@ function removePartFromDeacc(deacc_item_id,coll_obj_disposition,callback) {
 				// look up function of that name and invoke it 
 				window[callback]();
 			}
+			// check if deaccessionModifiedHere function is defined and call it
+			if (typeof deaccessionModifiedHere === "function") {
+				deaccessionModifiedHere();
+			}
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"removing deaccession item");

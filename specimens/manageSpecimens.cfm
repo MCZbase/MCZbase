@@ -78,20 +78,15 @@ limitations under the License.
 										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
 									</li>
 									<li class="nav-item mb-1">
-										<cfif findNoCase('master',Session.gitBranch) EQ 0>
-											<!--- TODO: In progress, BugID: 955 --->
-											<cfif isdefined("target_deacc_id") and len(target_deacc_id) GT 0>
-												<cfquery name="getDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT deacc_number
-													FROM deaccession
-													WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_deacc_id#">
-												</cfquery>
-												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#target_deacc_id#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>
-											<cfelse>
-												<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
-											</cfif>
+										<cfif isdefined("target_deacc_id") and len(target_deacc_id) GT 0>
+											<cfquery name="getDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT deacc_number
+												FROM deaccession
+												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_deacc_id#">
+											</cfquery>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#target_deacc_id#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>
 										<cfelse>
-											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
 										</cfif>
 									</li>
 									<li class="nav-item mb-1">

@@ -1,8 +1,8 @@
 <!---
-transactions/addDeaccItemsByBarcode.cfm
+transactions/itemFunctions.cfc
  
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2021 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,7 +21,9 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!---   Function addPartToDeacc add a part to a deaccession --->
+<!---   Function addPartToDeacc add a part to a deaccession DEPRECATED
+ @deprecated replace usages where retained with addPartToDeaccession
+--->
 <cffunction name="addPartToDeacc" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="partID" type="numeric" required="yes">
@@ -621,7 +623,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanItemsQuery_result" timeout="#Application.query_timeout#">
-		select 
+		SELECT 
 			loan.transaction_id,
 			cat_num as catalog_number, 
 			collection,
@@ -1270,9 +1272,34 @@ limitations under the License.
 								<div class="col-12">
 									<div class="add-form mt-2">
 										<div class="add-form-header pt-1 px-2">
-											<h2 class="h2">Loan Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #loan_number# #loan_type# #loan_status#</h2>
+											<h2 class="h2">
+												Loan Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #loan_number# #loan_type# #loan_status#
+												<div class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</div>
+											</h2>
 											<cfif is_subsample EQ "yes">
 												<h3 class="h4">Loaned Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
+											</cfif>
+											<!--- lookup material sample id from guid_our_thing table --->
+											<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+												FROM guid_our_thing
+												WHERE guid_is_a = 'materialSampleID'
+											 		AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+												ORDER BY internal_fg DESC, timestamp_created DESC
+											</cfquery>
+											<cfif getMaterialSampleID.recordcount GT 0>
+												<div class="h4 mt-2">
+													<cfloop query="getMaterialSampleID">
+														<span class="font-italic">materialSampleID:</span> 
+															<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+															<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+																<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+																	<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+																</a>
+															</cfif>
+														</span>
+													</cfloop>
+												</div>
 											</cfif>
 											<h3 class="h4">
 												Added to Loan by <a href="/agents/Agent.cfm?agent_id=#reconciled_by_person_id#" target="_blank">#reconciled_by_agent#</a>
@@ -1845,7 +1872,7 @@ limitations under the License.
 								<a href="/transactions/reviewDeaccItems.cfm?transaction_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Review Deaccession Items</a>
 							</cfif>
 							<cfif show_buttons EQ "add" OR show_buttons EQ "both">
-								<a href="/Specimens.cfm?target_loan_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Deaccession</a>
+								<a href="/Specimens.cfm?target_deacc_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Deaccession</a>
 							</cfif>
 						</div>
 					</cfif>
@@ -2041,9 +2068,34 @@ limitations under the License.
 								<div class="col-12">
 									<div class="add-form mt-2">
 										<div class="add-form-header pt-1 px-2">
-											<h2 class="h2">Deaccession Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #deacc_number# #deacc_type# #deacc_status#</h2>
+											<h2 class="h2">
+												Deaccession Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #deacc_number# #deacc_type# #deacc_status# 
+												<div class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</div>
+											</h2>
 											<cfif is_subsample EQ "yes">
 												<h3 class="h4">Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
+											</cfif>
+											<!--- lookup material sample id from guid_our_thing table --->
+											<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+												FROM guid_our_thing
+												WHERE guid_is_a = 'materialSampleID'
+											 		AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+												ORDER BY internal_fg DESC, timestamp_created DESC
+											</cfquery>
+											<cfif getMaterialSampleID.recordcount GT 0>
+												<div class="h4 mt-2">
+													<cfloop query="getMaterialSampleID">
+														<span class="font-italic">materialSampleID:</span> 
+															<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+															<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+																<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+																	<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+																</a>
+															</cfif>
+														</span>
+													</cfloop>
+												</div>
 											</cfif>
 											<h3 class="h4">
 												Added to Deaccession by <a href="/agents/Agent.cfm?agent_id=#reconciled_by_person_id#" target="_blank">#reconciled_by_agent#</a>
@@ -2053,8 +2105,6 @@ limitations under the License.
 										<div class="card-body">
 											<form name="editDeaccItemForm" id="editDeaccItemForm" class="mb-0">
 												<input type="hidden" name="deacc_item_id" value="#lookupItem.deacc_item_id#">
-												<input type="hidden" name="part_id" value="#lookupItem.part_id#">
-												<input type="hidden" name="transaction_id" value="#lookupItem.transaction_id#">
 												<input type="hidden" name="method" value="updateDeaccItem">
 												<div class="row mx-0 py-2">
 													<div class="col-12 col-md-6 px-1">
@@ -2071,7 +2121,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Condition (#lookupItem.condition#)</label>
-														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
+														<input type="text" name="condition" id="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Disposition (#lookupItem.coll_obj_disposition#)</label>
@@ -2325,6 +2375,8 @@ limitations under the License.
  @param deacc_item_id the id of the deacc item to update. 
  @param item_instructions the new item instructions an empty value will set the field to null.
  @param deacc_item_remarks the new deacc item remarks, an empty value will set the field to null.
+ @param coll_obj_disposition the new disposition of the collection object for the part being deaccessioned.
+ @param condition the new condition of the part being deaccessioned, an empty value will set the field to null.
  @param item_descr the new item description, an empty value will be ignored.
  @return a json structurre with status:1, or a http 500 response.
 --->
@@ -2332,28 +2384,38 @@ limitations under the License.
 	<cfargument name="deacc_item_id" type="numeric" required="yes">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="deacc_item_remarks" type="string" required="yes">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
+	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="item_descr" type="string" required="yes">
 
 	<cftransaction>
 		<cftry>
+			<cfquery name="getPartId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM deacc_item
+				WHERE deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.deacc_item_id#">
+			</cfquery>
+			<cfif getPartId.recordcount NEQ 1>
+				<cfthrow message="Unable to obtain part_id for deacc_item_id=#encodeForHtml(arguments.deacc_item_id)#">
+			</cfif>
+			<cfset part_id = getPartId.collection_object_id>
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
 					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfif upDisp_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+				<cfthrow message="Record not updated. #encodeForHtml(deacc_item_id)# #upDisp_result.sql#">
 			</cfif>
 			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
 				UPDATE deacc_item SET
-					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-					<cfif len(#item_instructions#) gt 0>
-						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
+					<cfif len(#arguments.item_instructions#) gt 0>
+						item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
 					<cfelse>
-						,item_instructions = null
+						item_instructions = null
 					</cfif>
-					<cfif len(#deacc_item_remarks#) gt 0>
+					<cfif len(#arguments.deacc_item_remarks#) gt 0>
 						,deacc_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.deacc_item_remarks#">
 					<cfelse>
 						,deacc_item_remarks = null
@@ -2365,7 +2427,7 @@ limitations under the License.
 					deacc_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deacc_item_id#">
 			</cfquery>
 			<cfif upItem_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #upItem_result.sql#">
+				<cfthrow message="Record not updated. #encodeForHtml(deacc_item_id)# #upItem_result.sql#">
 			</cfif>
 			<cfif upItem_result.recordcount eq 1>
 				<cfset theResult=queryNew("status, message")>
@@ -2386,10 +2448,367 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<!--- getLoanCatItemHtml get a block of html for one or more cataloged items in a loan, listing
+  all each cataloged items parts that are in the loan.
+	@param transaction_id the id of the loan transaction.
+	@param collection_object_id the id of the cataloged item for which to obtain the html
+      if collection_object_id is an empty string, html for all cataloged items in the loan is returned.
+ @return an html block representing the loan item(s) or an http 500 error if an error occurs.
+--->
+<cffunction name="getLoanCatItemHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getLoanCatItemHtmlThread#tn#" transaction_id="#arguments.transaction_id#" collection_object_id="#arguments.collection_object_id#">
+		<cfset otherIdOn = false>
+		<cfif isdefined("showOtherId") and #showOtherID# is "true">
+			<cfset otherIdOn = true>
+		</cfif>
+		<cfset showMultiple = false>
+		<cfif len(trim(collection_object_id)) EQ 0 >
+			<cfset showMultiple = true>
+		</cfif>
+		<cftry>
+			<!--- Similar to getDeaccCatItemHtml but for loans instead of deaccessions --->
+			<cfoutput>
+				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT DISTINCT
+						cataloged_item.collection_object_id,
+						cataloged_item.collection_cde,
+						cataloged_item.cat_num, 
+						collection.institution_acronym,
+						collection.collection,
+						loan.loan_number,
+						loan.loan_type,
+						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
+						collecting_event.began_date,
+						collecting_event.ended_date,
+						locality.spec_locality,
+						locality.sovereign_nation,
+						geog_auth_rec.higher_geog,
+						concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
+						accn.accn_number,
+						accn.transaction_id accn_id,
+						get_top_typestatus(cataloged_item.collection_object_id) as type_status
+					 FROM 
+						loan	
+						join loan_item on loan.transaction_id = loan_item.transaction_id
+						join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality on collecting_event.locality_id = locality.locality_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+						join collection on cataloged_item.collection_id=collection.collection_id
+						join accn on cataloged_item.accn_id = accn.transaction_id
+					WHERE
+						loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+						<cfif NOT showMultiple>
+							AND
+							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfif>
+					ORDER BY cataloged_item.collection_cde, cat_num
+				</cfquery>
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT coll_obj_disposition 
+					FROM ctcoll_obj_disp
+					ORDER BY coll_obj_disposition
+				</cfquery>
+				<cfloop query="getCatItems">
+					<cfset catItemId = getCatItems.collection_object_id>
+
+					<cfif showMultiple>
+						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
+					</cfif>
+
+					<div class="col-12 col-md-4">
+						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+						<a href="/guid/#guid#" target="_blank">#guid#</a>  
+						<cfif len(#CustomID#) gt 0 AND otherIdOn>
+							Other ID: #CustomID#
+						</cfif>
+						#scientific_name#
+						#type_status#
+					</div>
+					<div class="col-12 col-md-4">
+						#higher_geog#; #spec_locality#; #sovereign_nation#
+						#began_date#<cfif ended_date NEQ began_date>/#ended_date#</cfif>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") >
+							Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#" target="_blank">#accn_number#</a>
+						<cfelse>
+							Accession: #accn_number#
+						</cfif>
+					</div>
+					<div class="col-12 col-md-2">
+						<cfquery name="getEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">) encumbranceDetail
+							FROM DUAL
+						</cfquery>
+						<cfif len(getEncumbrance.encumbranceDetail) GT 0>
+							<strong>Encumbered:</strong>
+							<cfloop query="getEncumbrance">
+								<span>#getEncumbrance.encumbranceDetail#</span>
+							</cfloop>
+						</cfif>
+					</div>
+					<div class="col-12 col-md-2">
+						<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT DISTINCT permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type
+							FROM cataloged_item ci
+								JOIN accn on ci.accn_id = accn.transaction_id
+								JOIN permit_trans on accn.transaction_id = permit_trans.transaction_id
+								JOIN permit on permit_trans.permit_id = permit.permit_id
+							WHERE ci.collection_object_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">
+								and permit.restriction_summary is not null
+						</cfquery>
+						<cfif getRestrictions.recordcount GT 0>
+							<strong>Has Restrictions On Use</strong> See:
+							<cfloop query="getRestrictions">
+								<cfset permitText = getRestrictions.permit_num>
+								<cfif len(permitText ) EQ 0>
+									<cfset permitText = getRestrictions.permit_title>
+								</cfif>
+								<cfif len(permitText ) EQ 0>
+									<cfset permitText = getRestrictions.specific_type>
+								</cfif>
+								<a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#' target="_blank">#permitText#</a>
+							</cfloop>
+						</cfif>
+					</div>
+					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT DISTINCT
+							specimen_part.collection_object_id as partID,
+							specimen_part.part_name,
+							specimen_part.preserve_method,
+							specimen_part.sampled_from_obj_id,
+							decode(sampled_from_obj_id,null,'no ','of ' || MCZbase.get_part_prep(sampled_from_obj_id)) as sampled_from_object,
+							coll_object.condition,
+							coll_object.lot_count,
+							coll_object.lot_count_modifier,
+							coll_object.coll_obj_disposition,
+							loan_item.loan_item_id,
+							loan_item.item_descr,
+							loan_item.loan_item_remarks,
+							loan_item.item_instructions,
+							loan_item.loan_item_state,
+							loan_item.resolution_remarks,
+			reconciled_by_person_id,
+			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
+			to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
+							to_char(loan_item.return_date,'YYYY-MM-DD') return_date,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			loan_item.resolution_recorded_by_agent_id,
+							loan.loan_number,
+							loan.loan_type,
+							identification.scientific_name as mixed_scientific_name,
+			coll_obj_cont_hist.container_id,
+							MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
+							MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'room') as location_room,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'fixture') as location_fixture,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'tank') as location_tank,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'freezer') as location_freezer,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
+							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
+							MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location
+						FROM 
+							loan
+							join loan_item on loan.transaction_id = loan_item.transaction_id
+							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+							join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+							left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+							left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id 
+								and coll_obj_cont_hist.current_container_fg = 1
+						WHERE
+							loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
+						ORDER BY 
+							part_name, preserve_method
+					</cfquery>
+					<cfloop query="getParts">
+						<cfset id = getParts.loan_item_id>
+						<!--- Output each part row --->
+						<div id="historyDialog_#getParts.partID#"></div>
+						<div class="col-12 row border-top mx-1 mt-1 px-1">
+							<cfset name="#guid# #part_name# (#preserve_method#)">
+							<div class="col-12 col-md-4">
+								Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
+								<cfif len(mixed_scientific_name) gt 0>
+									<strong>Mixed Collection</strong>#mixed_scientific_name#
+								</cfif>
+								<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong> #sampled_from_object#</cfif>
+								<div class="smaller">[internal part collection_object_id: #partId#]</div>
+								<!--- lookup material sample id from guid_our_thing table --->
+								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+									FROM guid_our_thing
+									WHERE guid_is_a = 'materialSampleID'
+								 		AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.partId#">
+									ORDER BY internal_fg DESC, timestamp_created DESC
+								</cfquery>
+								<cfif getMaterialSampleID.recordcount GT 0>
+									<ul>
+										<cfloop query="getMaterialSampleID">
+											<li>
+												<span class="font-italic">materialSampleID:</span> 
+												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+													<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+													</a>
+												</cfif>
+												</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
+							<div class="col-12 col-md-6">
+								<strong>Storage Location:</strong> #getParts.short_location#
+								<ul>
+									<cfif len(previous_location) GT 0>
+										<li>
+											<strong>Previous Location:</strong> 
+											<cfif getParts.short_location EQ getParts.previous_location>
+												same
+											<cfelse>
+												#previous_location#
+											</cfif>
+										</li>
+									</cfif>
+									<cfif len(stored_as_name) GT 0>
+										<li>
+											<strong>Stored As:</strong> #stored_as_name#
+										</li>
+									</cfif>
+								</ul>
+							</div>
+							<div class="col-12 col-md-2">
+								#loan_item_state#
+								#return_date#
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="item_descr_#id#" class="data-entry-label">
+									Item Description:
+								</label>
+								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text">
+								<script>
+									$(document).ready( function() {
+										$("##item_descr_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="condition_#id#" class="data-entry-label">
+									Part Condition:
+									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
+								</label>
+								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
+								<script>
+									$(document).ready( function() {
+										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
+									<cfset curr_part_disposition = getParts.coll_obj_disposition>
+									<cfloop query="ctDisp">
+										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
+											<cfset selected = "selected">
+										<cfelse>
+											<cfset selected = "">
+										</cfif>
+										<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+									</cfloop>
+								</select>
+								<script>
+									$(document).ready( function() {
+										$("##coll_obj_disposition_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="loan_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
+								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text">
+								<script>
+									$(document).ready( function() {
+										$("##loan_item_remarks_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
+								<script>
+									$(document).ready( function() { 
+										$("##item_instructions_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-2 pt-3">
+								<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
+								<button class="btn btn-xs btn-secondary" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
+								<output id="loanItemStatusDiv_#id#"></output>
+							</div>
+						</div>
+					</cfloop>
+
+					<cfif showMultiple>
+						</div>
+						<script>
+							if (typeof removeLoanItem#catItemId# === 'function') {
+								console.log("functions for #catItemId# already defined");
+							} else {
+								function removeLoanItem#catItemId#(loan_item_id) { 
+									console.log(loan_item_id);
+									// bring up a dialog to determine the new coll object disposition and confirm deletion
+									openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
+									deaccessionModifiedHere();
+								};
+								function launchEditDialog#catItemId#(loan_item_id,name) { 
+									console.log(loan_item_id);
+									openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
+								}
+								function doLoanItemUpdate(loan_item_id) {
+									console.log(loan_item_id);
+									loan_item_remarks = $("##loan_item_remarks_#id#").val();
+									item_instructions = $("##item_instructions_#id#").val();
+									condition = $("##condition_#id#").val();
+									coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
+									item_descr = $("##item_descr_#id#").val();
+									updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr);
+								}
+								function refreshItems#catItemId#() { 
+									console.log("refresh items invoked for #catItemId#");
+									refreshLoanCatItem("#catItemId#");
+								}
+							}
+						</script>
+					</cfif>
+				</cfloop>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getLoanCatItemHtmlThread#tn#" />
+	<cfreturn cfthread["getLoanCatItemHtmlThread#tn#"].output>
+</cffunction>
+
 <!--- getDeaccCatItemHtml get a block of html for a cataloged item in a deaccession, listing
-  all its parts in the deaccession.
+  all its parts in the deaccession, or for all the cataloged items in a deaccession
 	@param transaction_id the id of the deaccession transaction.
-	@param collection_object_id the id of the cataloged item for which to obtain the html.
+	@param collection_object_id the id of the cataloged item for which to obtain the html
+      if collection_object_id is an empty string, html for all cataloged items in the deaccession is returned.
  @return an html block representing the deaccession item or an http 500 error if an error occurs.
 --->
 <cffunction name="getDeaccCatItemHtml" returntype="string" access="remote" returnformat="plain">
@@ -2401,6 +2820,10 @@ limitations under the License.
 		<cfset otherIdOn = false>
 		<cfif isdefined("showOtherId") and #showOtherID# is "true">
 			<cfset otherIdOn = true>
+		</cfif>
+		<cfset showMultiple = false>
+		<cfif len(trim(collection_object_id)) EQ 0 >
+			<cfset showMultiple = true>
 		</cfif>
 		<cftry>
 			<cfoutput>
@@ -2420,11 +2843,10 @@ limitations under the License.
 						locality.spec_locality,
 						locality.sovereign_nation,
 						geog_auth_rec.higher_geog,
-						encumbrance.Encumbrance,
-						decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
 						concatSingleOtherId(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 						accn.accn_number,
-						accn.transaction_id accn_id
+						accn.transaction_id accn_id,
+						get_top_typestatus(cataloged_item.collection_object_id) as type_status
 					 from 
 						deaccession
 						join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
@@ -2434,16 +2856,16 @@ limitations under the License.
 						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						join locality on collecting_event.locality_id = locality.locality_id
 						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-						left join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
-						left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 						left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						join collection on cataloged_item.collection_id=collection.collection_id
 						join accn on cataloged_item.accn_id = accn.transaction_id
 					WHERE
 						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-						AND
-						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					ORDER BY cat_num
+						<cfif NOT showMultiple>
+							AND
+							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfif>
+					ORDER BY cataloged_item.collection_cde, cat_num
 				</cfquery>
 				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_disposition 
@@ -2452,22 +2874,62 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getCatItems">
 					<cfset catItemId = getCatItems.collection_object_id>
-					<div class="col=12">
+					<cfif showMultiple>
+						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
+					</cfif>
+					<div class="col-12 col-md-4">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<a href="/guid/#guid#" target="_blank">#guid#</a>  
 						<cfif len(#CustomID#) gt 0 AND otherIdOn>
 							Other ID: #CustomID#
 						</cfif>
 						#scientific_name#
+						#type_status#
+					</div>
+					<div class="col-12 col-md-4">
 						#higher_geog#; #spec_locality#; #sovereign_nation#
 						#began_date#<cfif ended_date NEQ began_date>/#ended_date#</cfif>
-						<cfif len(#encumbrance#) gt 0>
-							Encumbered: #encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>
-						</cfif>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") >
-							Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
+							Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#" target="_blank">#accn_number#</a>
 						<cfelse>
 							Accession: #accn_number#
+						</cfif>
+					</div>
+					<div class="col-12 col-md-2">
+						<cfquery name="getEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">) encumbranceDetail
+							FROM DUAL
+						</cfquery>
+						<cfif len(getEncumbrance.encumbranceDetail) GT 0>
+							<strong>Encumbered:</strong>
+							<cfloop query="getEncumbrance">
+								<span>#getEncumbrance.encumbranceDetail#</span>
+							</cfloop>
+						</cfif>
+					</div>
+					<div class="col-12 col-md-2">
+						<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT DISTINCT permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type
+							FROM cataloged_item ci
+								JOIN accn on ci.accn_id = accn.transaction_id
+								JOIN permit_trans on accn.transaction_id = permit_trans.transaction_id
+								JOIN permit on permit_trans.permit_id = permit.permit_id
+							WHERE ci.collection_object_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getCatItems.collection_object_id#">
+								and permit.restriction_summary is not null
+						</cfquery>
+						<cfif getRestrictions.recordcount GT 0>
+							<strong>Has Restrictions On Use</strong> See:
+							<cfloop query="getRestrictions">
+								<cfset permitText = getRestrictions.permit_num>
+								<cfif len(permitText ) EQ 0>
+									<cfset permitText = getRestrictions.permit_title>
+								</cfif>
+								<cfif len(permitText ) EQ 0>
+									<cfset permitText = getRestrictions.specific_type>
+								</cfif>
+								<a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#' target="_blank">#permitText#</a>
+							</cfloop>
 						</cfif>
 					</div>
 					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2501,13 +2963,14 @@ limitations under the License.
 							left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						WHERE
 							deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
 						ORDER BY 
 							part_name, preserve_method
 					</cfquery>
 					<cfloop query=getParts>
 						<cfset id = getParts.deacc_item_id>
 						<!--- Output each part row --->
+						<div id="historyDialog_#getParts.partID#"></div>
 						<div class="col-12 row border-top mx-1 mt-1 px-1">
 							<cfset name="#guid# #part_name# (#preserve_method#)">
 							<div class="col-12 col-md-2">
@@ -2516,19 +2979,45 @@ limitations under the License.
 									<strong>Mixed Collection</strong>#mixed_scientific_name#
 								</cfif>
 								<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
-								<span>History</span>
+								<div class="smaller">[internal part collection_object_id: #partId#]</div>
+								<!--- lookup material sample id from guid_our_thing table --->
+								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+									FROM guid_our_thing
+									WHERE guid_is_a = 'materialSampleID'
+								 		AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.partId#">
+									ORDER BY internal_fg DESC, timestamp_created DESC
+								</cfquery>
+								<cfif getMaterialSampleID.recordcount GT 0>
+									<ul>
+										<cfloop query="getMaterialSampleID">
+											<li>
+												<span class="font-italic">materialSampleID:</span> 
+												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+													<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+													</a>
+												</cfif>
+												</li>
+										</cfloop>
+									</ul>
+								</cfif>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="condition_#id#" class="data-entry-label">Condition:</label>
+								<label for="condition_#id#" class="data-entry-label">
+									Part Condition:
+									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
+								</label>
 								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
 								<script>
 									$(document).ready( function() {
-										$("##condition_#id#").on("focusout", function(){  updateCondition("#id#"); } ); 
+										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="coll_obj_disposition_#id#" class="data-entry-label">Disposition:</label>
+								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
 								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
@@ -2542,7 +3031,7 @@ limitations under the License.
 								</select>
 								<script>
 									$(document).ready( function() {
-										$("##coll_obj_disposition_#id#").on("focusout", function(){  updateCondition("#id#"); } ); 
+										$("##coll_obj_disposition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
@@ -2551,25 +3040,58 @@ limitations under the License.
 								<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
 								<script>
 									$(document).ready( function() {
-										$("##deacc_item_remarks_#id#").on("focusout", function(){  updateDisposition("#id#"); } ); 
+										$("##deacc_item_remarks_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="item_instructions" class="data-entry-label">Instructions:</label>
+								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
 								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
 								<script>
 									$(document).ready( function() { 
-										$("##item_instructions_#id#").on("focusout", function(){  updateInstructions("#id#"); } ); 
+										$("##item_instructions_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 pt-3">
 								<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem#catItemId#(#id#);">Remove</button>
 								<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
+								<output id="deaccItemStatusDiv_#id#"></output>
 							</div>
 						</div>
 					</cfloop>
+					<cfif showMultiple>
+						</div>
+						<script>
+							if (typeof removeDeaccItem#catItemId# === 'function') {
+								console.log("functions for #catItemId# already defined");
+							} else {
+								function removeDeaccItem#catItemId#(deacc_item_id) { 
+									console.log(deacc_item_id);
+									// bring up a dialog to determine the new coll object disposition and confirm deletion
+									openRemoveDeaccItemDialog(deacc_item_id, "deaccItemRemoveDialogDiv" , refreshItems#catItemId#);
+									deaccessionModifiedHere();
+								};
+								function launchEditDialog#catItemId#(deacc_item_id,name) { 
+									console.log(deacc_item_id);
+									openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
+								}
+								function doDeaccItemUpdate(deacc_item_id) {
+									console.log(deacc_item_id);
+									deacc_item_remarks = $("##deacc_item_remarks_#id#").val();
+									item_instructions = $("##item_instructions_#id#").val();
+									condition = $("##condition_#id#").val();
+									coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
+									item_descr = ""; // not updating description here
+									updateDeaccItem(deacc_item_id, item_instructions, deacc_item_remarks, coll_obj_disposition, condition, item_descr);
+								}
+								function refreshItems#catItemId#() { 
+									console.log("refresh items invoked for #catItemId#");
+									refreshDeaccCatItem("#catItemId#");
+								}
+							}
+						</script>
+					</cfif>
 				</cfloop>
 			</cfoutput>
 		<cfcatch>
