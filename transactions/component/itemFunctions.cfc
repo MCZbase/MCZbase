@@ -700,7 +700,10 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
-<!--- obtain an html block to populate dialog for removing loan items from a loan --->
+<!--- obtain an html block to populate dialog for removing loan items from a loan 
+ @param loan_item_id the loan item to remove.
+ @return an html block as a string or an http 500 on error.
+--->
 <cffunction name="getRemoveLoanItemDialogContent" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="loan_item_id" type="string" required="yes">
 
@@ -711,7 +714,7 @@ limitations under the License.
 						select coll_obj_disposition from ctcoll_obj_disp 
 				</cfquery>
 				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT coll_obj_disposition 
+					SELECT coll_obj_disposition, part_id, transaction_id
 					from loan_item
 						join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
 					where loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
