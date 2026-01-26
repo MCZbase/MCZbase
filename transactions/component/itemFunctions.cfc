@@ -2788,25 +2788,27 @@ limitations under the License.
 					<cfif showMultiple>
 						</div>
 						<script>
-							if (typeof removeLoanItem#catItemId# === 'function') {
-								console.log("functions for #catItemId# already defined");
-							} else {
-								console.log("defining functions for #catItemId#");
-								function removeLoanItem#catItemId#(loan_item_id) { 
-									console.log(loan_item_id);
-									// bring up a dialog to determine the new coll object disposition and confirm deletion
-									openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
-									loanModifiedHere();
+							$(document).ready(function() {
+								if (typeof removeLoanItem#catItemId# === 'function') {
+									console.log("functions for #catItemId# already defined");
+								} else {
+									console.log("defining functions for #catItemId#");
+									window["removeLoanItem#catItemId#"] = function removeLoanItem#catItemId#(loan_item_id) { 
+										console.log(loan_item_id);
+										// bring up a dialog to determine the new coll object disposition and confirm deletion
+										openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
+										loanModifiedHere();
+									};
+									window["launchEditDialog#catItemId#"] = launchEditDialog#catItemId#(loan_item_id,name) { 
+										console.log(loan_item_id);
+										openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
+									};
+									window["refreeshItems#catItemId#"] = function refreshItems#catItemId#() { 
+										console.log("refresh items invoked for #catItemId#");
+										refreshLoanCatItem("#catItemId#");
+									};
 								}
-								launchEditDialog#catItemId#(loan_item_id,name) { 
-									console.log(loan_item_id);
-									openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
-								}
-								function refreshItems#catItemId#() { 
-									console.log("refresh items invoked for #catItemId#");
-									refreshLoanCatItem("#catItemId#");
-								}
-							}
+							});
 							function doLoanItemUpdate(loan_item_id) {
 								console.log(loan_item_id);
 								let loan_item_remarks = $("##loan_item_remarks_#id#").val();
