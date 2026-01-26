@@ -714,7 +714,7 @@ limitations under the License.
 						select coll_obj_disposition from ctcoll_obj_disp 
 				</cfquery>
 				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT coll_obj_disposition, collection_object_id as part_id, transaction_id
+					SELECT coll_obj_disposition, coll_object.collection_object_id as part_id, transaction_id
 					from loan_item
 						join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
 					where loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
