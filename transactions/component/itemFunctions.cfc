@@ -715,9 +715,9 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_disposition, coll_object.collection_object_id as part_id, transaction_id
-					from loan_item
+					FROM loan_item
 						join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-					where loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
+					WHERE loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 				</cfquery>
 				<cfif lookupDisp.recordcount EQ 0>
 					<cfthrow message="Could not find loan item with specified loan_item_id">
@@ -739,12 +739,14 @@ limitations under the License.
 					}
 				</script>
 				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanItemsQuery_result">
-					select 
-						item_descr, collection_object_id as part_id, transaction_id
-					from 
+					SELECT 
+						item_descr, 
+						collection_object_id as part_id, 
+						transaction_id
+					FROM 
 						loan_item
 					WHERE
-						AND loan_item.loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
+						loan_item.loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 				</cfquery>
 				<h2 class="h3">Remove item #getLoanItemDetails.item_descr# from loan.</h2>
 				<!--- see if it's a subsample --->
