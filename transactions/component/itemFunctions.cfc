@@ -788,7 +788,7 @@ limitations under the License.
 				<p />
 				<script>
 					function closeRemoveItemDialog() {
-						$("##removeItemDialog").dialog("close"); 
+						$("##loanItemRemoveDialogDiv").dialog("close"); 
 					}
 				</script>
 				<cfif mustChangeDisposition>
