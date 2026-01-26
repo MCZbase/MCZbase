@@ -2765,7 +2765,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2 pt-3">
 								<!--- determine action buttons to show based on loan status --->
-								<cfif lookupLoan.loan_status EQ "in-process">
+								<cfif lookupLoan.loan_status EQ "in process">
 									<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
 								</cfif>
 								<cfif lookupLoan.loan_status EQ "open">
