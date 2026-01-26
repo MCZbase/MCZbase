@@ -2796,18 +2796,18 @@ limitations under the License.
 									// bring up a dialog to determine the new coll object disposition and confirm deletion
 									openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
 									loanModifiedHere();
-								};
+								}
 								function launchEditDialog#catItemId#(loan_item_id,name) { 
 									console.log(loan_item_id);
 									openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
 								}
 								function doLoanItemUpdate(loan_item_id) {
 									console.log(loan_item_id);
-									loan_item_remarks = $("##loan_item_remarks_#id#").val();
-									item_instructions = $("##item_instructions_#id#").val();
-									condition = $("##condition_#id#").val();
-									coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
-									item_descr = $("##item_descr_#id#").val();
+									let loan_item_remarks = $("##loan_item_remarks_#id#").val();
+									let item_instructions = $("##item_instructions_#id#").val();
+									let condition = $("##condition_#id#").val();
+									let coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
+									let item_descr = $("##item_descr_#id#").val();
 									updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr);
 								}
 								function refreshItems#catItemId#() { 
