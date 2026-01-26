@@ -1389,6 +1389,7 @@ limitations under the License.
 										}
 									});
 								};
+							}
 							function reloadGridNoBroadcast() { 
 								var dataAdapter = new $.jqx.dataAdapter(search);
 								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
