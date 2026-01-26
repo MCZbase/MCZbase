@@ -2653,7 +2653,7 @@ limitations under the License.
 						<cfset id = getParts.loan_item_id>
 						<!--- Output each part row --->
 						<div id="historyDialog_#getParts.partID#"></div>
-						<div class="col-12 row border-top mx-1 mt-1 px-1">
+						<div class="col-12 row border-top mx-1 mt-1 px-1 pb-1">
 							<cfset name="#guid# #part_name# (#preserve_method#)">
 							<div class="col-12 col-md-4">
 								Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
@@ -2710,7 +2710,7 @@ limitations under the License.
 								#loan_item_state#
 								#return_date#
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-6">
 								<label for="item_descr_#id#" class="data-entry-label">
 									Item Description:
 								</label>
@@ -2721,7 +2721,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-4">
 								<label for="condition_#id#" class="data-entry-label">
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
@@ -2752,7 +2752,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-5">
 								<label for="loan_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
 								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text">
 								<script>
@@ -2761,7 +2761,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-5">
 								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
 								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
 								<script>
