@@ -723,6 +723,8 @@ limitations under the License.
 					<cfthrow message="Could not find loan item with specified loan_item_id">
 				</cfif>
 				<cfset currentDisposition = lookupDisp.coll_obj_disposition>
+				<cfset part_id = lookupDisp.part_id>
+				<cfset transaction_id = lookupDisp.transaction_id>
 				<cfset onLoan=false>
 				<cfif currentDisposition is "on loan">
 					<cfset onLoan=true>
