@@ -2796,7 +2796,7 @@ limitations under the License.
 									window["removeLoanItem#catItemId#"] = function(loan_item_id) { 
 										console.log(loan_item_id);
 										// bring up a dialog to determine the new coll object disposition and confirm deletion
-										openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
+										openRemoveLoanItemDialog(loan_item_id, "#transaction_id#", "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
 										loanModifiedHere();
 									};
 									window["launchEditDialog#catItemId#"] = function(loan_item_id,name) { 
