@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) { 
+function openRemoveLoanItemDialog(part_id, dialogId, callback) { 
 	var title = "Remove Part from Loan.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
 	var thedialog = $("#"+dialogId).html(content)
@@ -64,8 +64,7 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) {
 		data: {
 			method: 'getRemoveLoanItemDialogContent',
 			returnformat: "plain",
-			part_id: part_id,
-			transaction_id: transaction_id
+			loan_item_id: loan_item_id
 		},
 		success: function(data) {
 			$("#"+dialogId+"_div").html(data);

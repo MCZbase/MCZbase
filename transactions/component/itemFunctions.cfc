@@ -702,8 +702,7 @@ limitations under the License.
 
 <!--- obtain an html block to populate dialog for removing loan items from a loan --->
 <cffunction name="getRemoveLoanItemDialogContent" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="transaction_id" type="string" required="yes">
-	<cfargument name="part_id" type="string" required="yes">
+	<cfargument name="loan_item_id" type="string" required="yes">
 
 	<cfthread name="getRemoveLoanItemHtmlThread">
 		<cftry>
@@ -713,9 +712,13 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_disposition 
-					from coll_object 
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					from loan_item
+						join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+					where loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 				</cfquery>
+				<cfif lookupDisp.recordcount EQ 0>
+					<cfthrow message="Could not find loan item with specified loan_item_id">
+				</cfif>
 				<cfset currentDisposition = lookupDisp.coll_obj_disposition>
 				<cfset onLoan=false>
 				<cfif currentDisposition is "on loan">
@@ -732,19 +735,18 @@ limitations under the License.
 				</script>
 				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanItemsQuery_result">
 					select 
-						item_descr
+						item_descr, collection_object_id as part_id, transaction_id
 					from 
 						loan_item
 					WHERE
-						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-						AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+						AND loan_item.loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 				</cfquery>
 				<h2 class="h3">Remove item #getLoanItemDetails.item_descr# from loan.</h2>
 				<!--- see if it's a subsample --->
 				<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select SAMPLED_FROM_OBJ_ID 
 					from specimen_part 
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoanItemDetails.part_id#">
 				</cfquery>
 				<cfset mustChangeDisposition=false>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
@@ -797,7 +799,6 @@ limitations under the License.
 						value="Delete Subsample From Database" disabled
 						onclick="alert('not implemented');">Delete Subsample From Database</button> 
 					--->
-					<!--- older code for onclick: cC.action.value='killSS'; submit();"/> --->
 				</cfif>
 				<p />
 			</cfoutput>
@@ -2796,7 +2797,7 @@ limitations under the License.
 									window["removeLoanItem#catItemId#"] = function(loan_item_id) { 
 										console.log(loan_item_id);
 										// bring up a dialog to determine the new coll object disposition and confirm deletion
-										openRemoveLoanItemDialog(loan_item_id, "#transaction_id#", "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
+										openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
 										loanModifiedHere();
 									};
 									window["launchEditDialog#catItemId#"] = function(loan_item_id,name) { 
