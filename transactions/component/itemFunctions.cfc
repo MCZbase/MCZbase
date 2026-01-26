@@ -797,7 +797,7 @@ limitations under the License.
 					<cfset disabled="">
 				</cfif>
 				<button id="removeItemButton" class="btn btn-xs btn-warning" value="Remove Item from Loan" #disabled#
-					onclick="removeLoanItemFromLoan(#part_id#, #transaction_id#,'updateStatus',closeRemoveItemDialog); ">Remove Item from Loan</button>
+					onclick="removeLoanItemFromLoan(#loan_item_id#,'updateStatus',closeRemoveItemDialog); ">Remove Item from Loan</button>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<!--- deleting subsample not implemented, departs from MCZ practice --->
 					<!---
