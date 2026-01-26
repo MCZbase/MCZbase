@@ -2793,17 +2793,17 @@ limitations under the License.
 									console.log("functions for #catItemId# already defined");
 								} else {
 									console.log("defining functions for #catItemId#");
-									window["removeLoanItem#catItemId#"] = function removeLoanItem#catItemId#(loan_item_id) { 
+									window["removeLoanItem#catItemId#"] = function(loan_item_id) { 
 										console.log(loan_item_id);
 										// bring up a dialog to determine the new coll object disposition and confirm deletion
 										openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
 										loanModifiedHere();
 									};
-									window["launchEditDialog#catItemId#"] = launchEditDialog#catItemId#(loan_item_id,name) { 
+									window["launchEditDialog#catItemId#"] = function(loan_item_id,name) { 
 										console.log(loan_item_id);
 										openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
 									};
-									window["refreeshItems#catItemId#"] = function refreshItems#catItemId#() { 
+									window["refreeshItems#catItemId#"] = function() { 
 										console.log("refresh items invoked for #catItemId#");
 										refreshLoanCatItem("#catItemId#");
 									};
