@@ -2803,7 +2803,7 @@ limitations under the License.
 										console.log(loan_item_id);
 										openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
 									};
-									window["refreeshItems#catItemId#"] = function() { 
+									window["refreshItems#catItemId#"] = function() { 
 										console.log("refresh items invoked for #catItemId#");
 										refreshLoanCatItem("#catItemId#");
 									};
