@@ -2770,9 +2770,13 @@ limitations under the License.
 								</cfif>
 								<cfif lookupLoan.loan_status EQ "open">
 									<cfif lookupLoan.loan_type EQ "consumable">
-										<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
+										<cfif getParts.loan_item_state NEQ "consumed">
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
+										</cfif>
 									<cfelse>
-										<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Return</button>
+										<cfif getParts.loan_item_state NEQ "returned">
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Return</button>
+										</cfif>
 									</cfif>
 								</cfif>
 								<button class="btn btn-xs btn-secondary" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
@@ -2791,7 +2795,7 @@ limitations under the License.
 									console.log(loan_item_id);
 									// bring up a dialog to determine the new coll object disposition and confirm deletion
 									openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
-									deaccessionModifiedHere();
+									loanModifiedHere();
 								};
 								function launchEditDialog#catItemId#(loan_item_id,name) { 
 									console.log(loan_item_id);

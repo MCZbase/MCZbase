@@ -1266,40 +1266,87 @@ limitations under the License.
 						</div>
 					</div>
 	
-					<!--- TODO: Replace grid --->
 					<div class="col-12 mb-3">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h1 class="h4">Loan Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
 						</div>
-					</div>
-					<div class="col-12" id="allCatItemsDiv">
-						<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
-						#catItemBlock#
+						<div class="col-12" id="allCatItemsDiv">
+							<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
+							#catItemBlock#
+						</div>
 					</div>
 					<div id="loanItemEditDialogDiv"></div>
 					<div id="loanItemRemoveDialogDiv"></div>
 					<div id="itemConditionHistoryDialog"></div>
-					<div id="removeItemDialog"></div><!--- TODO: Unused? --->
-					<div id="editItemDialog"></div><!--- TODO: Unused? --->
+					<script>
+						function removeLoanItem(item_collection_object_id) { 
+							openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'loanItemRemoveDialogDiv',reloadGrid);
+						};
+						function refresLoanCatItem(catItemId) {
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								data: {
+									method: 'getLoanCatItemHtml',
+									collection_object_id: catItemId,
+									transaction_id: '#transaction_id#'
+								},
+								success: function(data) {
+									$("##rowDiv"+catItemId).html(data);
+								},
+	      					error: function (jqXHR, textStatus, error) {
+	         					handleFail(jqXHR,textStatus,error,"reloading loan item");
+								}
+							});
+						}
+						function reloadDataNoBroadcast() { 
+							// call getLoanCatItemHtml and update allCatItemsDiv
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								data: {
+									method: 'getLoanCatItemHtml',
+									collection_object_id: "",
+									transaction_id: '#transaction_id#'
+								},
+								success: function(data) {
+									$("##allCatItemsDiv").html(data);
+								},
+								error: function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"reloading loan items list");
+								}
+							});
+						}
+						function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr) {
+							setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saving");
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								dataType: 'json',
+								data: {
+									method: 'updateLoanItem',
+									loan_item_id: loan_item_id,
+									item_instructions: item_instructions,
+									condition: condition,
+									loan_item_remarks: loan_item_remarks,
+									coll_obj_disposition: coll_obj_disposition,
+									item_descr: item_descr
+								},
+								success: function(data) {
+									loanModifiedHere();
+									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saved");
+								},
+								error: function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"updating loan item");
+									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "error");
+								}
+							});
+						}
+					</script>
 
 						<script>
-							var gotRunOnLoad = false;
 
-							function removeLoanItem(item_collection_object_id) { 
-								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog',reloadGrid);
-							};
 
-							window.columnHiddenSettings = new Object();
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								lookupColumnVisibilities ('#cgi.script_name#','Default');
-							</cfif>
-
-							$(document).ready(function() {
-								$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-								$('##resultCount').html('');
-								$('##resultLink').html('');
-							});
-		
 							var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								// Display a button to launch an edit dialog
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
