@@ -1365,8 +1365,7 @@ limitations under the License.
 								var loan_item_id = rowData['loan_item_id'];
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consume" aria-label="Mark Item as Consumed"/></span>';
 							};
-							var updateitemstoevaluate = {
-								updaterow: function (rowid, rowdata, commit) {
+							function updateRowOldContent (rowid, rowdata, commit) {
 									var data = "method=updateLoanItem";
 									data = data + "&transaction_id=" + rowdata.transaction_id;
 									data = data + "&part_id=" + rowdata.part_id;
@@ -1376,19 +1375,6 @@ limitations under the License.
 									data = data + "&loan_item_remarks=" + encodeURIComponent(rowdata.loan_item_remarks);
 									data = data + "&resolution_remarks=" + encodeURIComponent(rowdata.resolution_remarks);
 									data = data + "&item_descr=" + encodeURIComponent(rowdata.item_descr);
-									$.ajax({
-										dataType: 'json',
-										url: '/transactions/component/itemFunctions.cfc',
-										data: data,
-										success: function (data, status, xhr) {
-											commit(true);
-										},
-										error: function (jqXHR,textStatus,error) {
-											commit(false);
-											handleFail(jqXHR,textStatus,error,"saving loan item");
-										}
-									});
-								};
 							}
 							function reloadGridNoBroadcast() { 
 								var dataAdapter = new $.jqx.dataAdapter(search);
