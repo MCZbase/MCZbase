@@ -814,21 +814,18 @@ limitations under the License.
 	<cfreturn getRemoveLoanItemHtmlThread.output>
 </cffunction>
 
-<!--- delete an entry from the loan item table. 
-	@param transaction_id the transaction_id of the loan from which to remove the loan item.
-	@param partID the collection_object_id of the part to be removed as as an item from the specified loan.
+<!--- removePartFromLoan delete an entry from the loan item table. 
+	@param loan_item_id the loan item to remove.
 	@return a json structure including status: 1 or an http 500 with an error message
 --->
 <cffunction name="removePartFromLoan" access="remote">
-	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="loan_item_id" type="numeric" required="yes">
 
 	<cftransaction>
 		<cftry>
 			<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleLoanItem_result">
 				DELETE FROM loan_item 
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				where loan_item_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 			</cfquery>
 			<cfif deleLoanItem_result.recordcount eq 1>
 				<cfset theResult=queryNew("status, message")>

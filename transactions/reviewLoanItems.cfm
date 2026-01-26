@@ -1279,8 +1279,8 @@ limitations under the License.
 					<div id="loanItemRemoveDialogDiv"></div>
 					<div id="itemConditionHistoryDialog"></div>
 					<script>
-						function removeLoanItem(item_collection_object_id) { 
-							openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'loanItemRemoveDialogDiv',reloadGrid);
+						function removeLoanItem(loan_item_id) { 
+							openRemoveLoanItemDialog(loan_item_id,'loanItemRemoveDialogDiv',reloadGrid);
 						};
 						function refresLoanCatItem(catItemId) {
 							$.ajax({

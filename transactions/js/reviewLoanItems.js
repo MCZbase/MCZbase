@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-function openRemoveLoanItemDialog(part_id, dialogId, callback) { 
+function openRemoveLoanItemDialog(loan_item_id, dialogId, callback) { 
 	var title = "Remove Part from Loan.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
 	var thedialog = $("#"+dialogId).html(content)
@@ -103,14 +103,13 @@ function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targ
 	});
 };
 
-function removeLoanItemFromLoan(part_id, transaction_id,targetDiv,callback=null) { 
+function removeLoanItemFromLoan(loan_item_id,targetDiv,callback=null) { 
 	$("#"+targetDiv).html("Saving...");
 	jQuery.ajax({
 		url: "/transactions/component/itemFunctions.cfc",
 		data : {
 			method : "removePartFromLoan",
-			transaction_id: transaction_id,
-			part_id: part_id,
+			loan_item_id: loan_item_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
