@@ -701,11 +701,11 @@ limitations under the License.
 					}
 					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
 						console.log("reloading grid from addloanitems message");
-						reloadGridNoBroadcast();
+						reloadDataNoBroadcast();
 					}
 					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
 						console.log("reloading grid from reviewitems message");
-						reloadGridNoBroadcast();
+						reloadDataNoBroadcast();
 					}
 				}
 				function reloadSummary() { 
@@ -978,7 +978,7 @@ limitations under the License.
 																	$('##addloanitembutton').click(function(evt) { 
 																		evt.preventDefault();
 																		if ($('##guid').val() != "") { 
-																			openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid);
+																			openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadLoanItemsData);
 																		} else {
 																			messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
 																		};
@@ -1280,7 +1280,7 @@ limitations under the License.
 					<div id="itemConditionHistoryDialog"></div>
 					<script>
 						function removeLoanItem(loan_item_id) { 
-							openRemoveLoanItemDialog(loan_item_id,'loanItemRemoveDialogDiv',reloadGrid);
+							openRemoveLoanItemDialog(loan_item_id,'loanItemRemoveDialogDiv',reloadLoanItemsData);
 						};
 						function refreshLoanCatItem(catItemId) {
 							$.ajax({
@@ -1342,6 +1342,11 @@ limitations under the License.
 								}
 							});
 						}
+						function reloadLoanItemData() { 
+							reloadDataNoBroadcast();
+							// Broadcast that a change has happened to the loan items
+							bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
+						};
 					</script>
 
 						<script>
@@ -1376,17 +1381,6 @@ limitations under the License.
 									data = data + "&resolution_remarks=" + encodeURIComponent(rowdata.resolution_remarks);
 									data = data + "&item_descr=" + encodeURIComponent(rowdata.item_descr);
 							}
-							function reloadGridNoBroadcast() { 
-								var dataAdapter = new $.jqx.dataAdapter(search);
-								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
-								// refresh summary data 
-								reloadLoanSummaryData();
-							}
-							function reloadGrid() { 
-								reloadGridNoBroadcast();
-								// Broadcast that a change has happened to the loan items
-								bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
-							};
 							function reloadLoanSummaryData(){ 
 								// reload dispositions of loan items
 								$.ajax({
