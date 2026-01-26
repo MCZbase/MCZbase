@@ -1282,7 +1282,7 @@ limitations under the License.
 						function removeLoanItem(loan_item_id) { 
 							openRemoveLoanItemDialog(loan_item_id,'loanItemRemoveDialogDiv',reloadGrid);
 						};
-						function refresLoanCatItem(catItemId) {
+						function refreshLoanCatItem(catItemId) {
 							$.ajax({
 								url: '/transactions/component/itemFunctions.cfc',
 								type: 'POST',
