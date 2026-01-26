@@ -839,6 +839,8 @@ limitations under the License.
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "loan item removed from loan.", 1)>
+			<cfelse>
+				<cfthrow message="Record not deleted. loan_item_id not found [#encodeForHtml(loan_item_id)#] not found #deleLoanItem_result.sql#">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
