@@ -2710,23 +2710,23 @@ limitations under the License.
 								#loan_item_state#
 								#return_date#
 							</div>
-							<div class="col-12 col-md-5 w-100">
+							<div class="col-12 col-md-5">
 								<label for="item_descr_#id#" class="data-entry-label">
 									Item Description:
 								</label>
-								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text">
+								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
 										$("##item_descr_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-5 w-100">
+							<div class="col-12 col-md-5">
 								<label for="condition_#id#" class="data-entry-label">
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
 								</label>
-								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
+								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
 										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -2735,7 +2735,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
-								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
 										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
@@ -2752,18 +2752,18 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-5 w-100">
+							<div class="col-12 col-md-5">
 								<label for="loan_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
-								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text">
+								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
 										$("##loan_item_remarks_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-5 w-100">
+							<div class="col-12 col-md-5">
 								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
-								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() { 
 										$("##item_instructions_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
