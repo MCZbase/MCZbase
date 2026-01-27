@@ -2721,7 +2721,7 @@ limitations under the License.
 										<cfelse>
 											<cfset selected = "">
 										</cfif>
-										<option value="#ctIitemStates.loan_item_state#" #selected#>#ctItemStates.loan_item_state#</option>
+										<option value="#ctItemStates.loan_item_state#" #selected#>#ctItemStates.loan_item_state#</option>
 									</cfloop>
 								</select>
 								<cfif len(getParts.return_date) GT 0>
