@@ -2713,7 +2713,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State: </label>
-								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100">
+								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr">
 									<cfif getParts.loan_item_state EQ "">
 										<option selected></option>
 									</cfif>
@@ -2757,7 +2757,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
-								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100">
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100 reqdClr">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
 										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
