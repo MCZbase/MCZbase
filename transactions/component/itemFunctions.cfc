@@ -2492,6 +2492,11 @@ limitations under the License.
 				<cfif lookupLoan.recordcount NEQ 1>
 					<cfthrow message="Unable to lookup loan by transaction_id=#encodeForHtml(transaction_id)#">
 				</cfif>
+				<cfquery name="ctItemStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT loan_item_state 
+					FROM ctloan_item_state
+					ORDER BY loan_item_state
+				</cfquery>
 				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT DISTINCT
 						cataloged_item.collection_object_id,
@@ -2707,16 +2712,13 @@ limitations under the License.
 								</ul>
 							</div>
 							<div class="col-12 col-md-2">
-								<cfquery name="ctItemStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT loan_item_state 
-									FROM ctloan_item_state
-									ORDER BY loan_item_state
-								</cfquery>
 								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State: </label>
 								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100">
-									<cfset curr_part_disposition = getParts.loan_item_state>
+									<cfif getParts.loan_item_state EQ "">
+										<option selected></option>
+									</cfif>
 									<cfloop query="ctItemStates">
-										<cfif ctItemStates.loan_item_state EQ curr_part_disposition>
+										<cfif ctItemStates.loan_item_state EQ getParts.loan_item_state>
 											<cfset selected = "selected">
 										<cfelse>
 											<cfset selected = "">
