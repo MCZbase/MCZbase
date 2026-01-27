@@ -2707,8 +2707,28 @@ limitations under the License.
 								</ul>
 							</div>
 							<div class="col-12 col-md-2">
-								#loan_item_state#
-								#return_date#
+								<cfquery name="ctItemStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT loan_item_state 
+									FROM ctloan_item_state
+									ORDER BY loan_item_state
+								</cfquery>
+								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State: </label>
+								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100">
+									<cfset curr_part_disposition = getParts.loan_item_state>
+									<cfloop query="ctItemStates">
+										<cfif ctItemStates.loan_item_state EQ curr_part_disposition>
+											<cfset selected = "selected">
+										<cfelse>
+											<cfset selected = "">
+										</cfif>
+										<option value="#ctIitemStates.loan_item_state#" #selected#>#ctItemStates.loan_item_state#</option>
+									</cfloop>
+								</select>
+								<cfif len(getParts.return_date) GT 0>
+									<div class="smaller">
+										Return Date: #getParts.return_date#
+									</div>
+								</cfif>
 							</div>
 							<div class="col-12 col-md-5">
 								<label for="item_descr_#id#" class="data-entry-label">
