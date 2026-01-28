@@ -701,11 +701,11 @@ limitations under the License.
 					}
 					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
 						console.log("reloading grid from addloanitems message");
-						reloadGridNoBroadcast();
+						reloadDataNoBroadcast();
 					}
 					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
 						console.log("reloading grid from reviewitems message");
-						reloadGridNoBroadcast();
+						reloadDataNoBroadcast();
 					}
 				}
 				function reloadSummary() { 
@@ -978,7 +978,7 @@ limitations under the License.
 																	$('##addloanitembutton').click(function(evt) { 
 																		evt.preventDefault();
 																		if ($('##guid').val() != "") { 
-																			openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid);
+																			openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadLoanItemsData);
 																		} else {
 																			messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
 																		};
@@ -1266,225 +1266,92 @@ limitations under the License.
 						</div>
 					</div>
 	
-					<!--- TODO: Replace grid --->
-					<div class="col-12" id="allCatItemsDiv">
-						<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
-						#catItemBlock#
+					<div class="col-12 mb-3">
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+							<h2 class="h4">Loan Items</h2>
+						</div>
+						<div class="col-12" id="allCatItemsDiv">
+							<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
+							#catItemBlock#
+						</div>
 					</div>
 					<div id="loanItemEditDialogDiv"></div>
 					<div id="loanItemRemoveDialogDiv"></div>
-
-					<div class="col-12">
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col-12 mb-3">
-									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-									<h1 class="h4">Loan Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><span class="alert alert-warning py-1 mb-0 d-inline-block"><a class="messageResults" tabindex="0" aria-label="search results"></a></span></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
-										<div id="columnPickDialog" class="row pick-column-width">
-											<div class="row">
-												<div class="col-12 col-md-6">
-													<div id="columnPick" class="px-1"></div>
-												</div>
-												<div class="col-12 col-md-6 px-0">
-													<div id="columnPick1" class="px-1"></div>
-												</div>
-											</div>
-										</div>
-										<div id="columnPickDialogButton"></div>
-										<div id="resultDownloadButtonContainer"></div>
-										<div id="locationButtonContainer"></div>
-										<div id="freezerLocationButtonContainer"></div>
-										<output id="gridActionFeedbackDiv"></output>
-									</div>
-									<div class="row mt-0 mx-0">
-										<!--- Grid Related code is below along with search handlers --->
-										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-										<div id="enableselection"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="itemConditionHistoryDialog"></div>
-						<div id="removeItemDialog"></div>
-						<div id="editItemDialog"></div>
-						<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
-						<script>
-							var gotRunOnLoad = false;
-
-							function removeLoanItem(item_collection_object_id) { 
-								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog',reloadGrid);
-							};
-
-							window.columnHiddenSettings = new Object();
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								lookupColumnVisibilities ('#cgi.script_name#','Default');
-							</cfif>
-
-							$(document).ready(function() {
-								$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-								$('##resultCount').html('');
-								$('##resultLink').html('');
+					<div id="itemConditionHistoryDialog"></div>
+					<script>
+						function removeLoanItem(loan_item_id) { 
+							openRemoveLoanItemDialog(loan_item_id,'loanItemRemoveDialogDiv',reloadLoanItemsData);
+						};
+						function refreshLoanCatItem(catItemId) {
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								data: {
+									method: 'getLoanCatItemHtml',
+									collection_object_id: catItemId,
+									transaction_id: '#transaction_id#'
+								},
+								success: function(data) {
+									$("##rowDiv"+catItemId).html(data);
+								},
+	      					error: function (jqXHR, textStatus, error) {
+	         					handleFail(jqXHR,textStatus,error,"reloading loan item");
+								}
 							});
-		
-							function gridLoaded(gridId, searchType) { 
-								if (Object.keys(window.columnHiddenSettings).length == 0) { 
-									lookupColumnVisibilities ('#cgi.script_name#','Default');
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-									</cfif>
+						}
+						function reloadDataNoBroadcast() { 
+							// call getLoanCatItemHtml and update allCatItemsDiv
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								data: {
+									method: 'getLoanCatItemHtml',
+									collection_object_id: "",
+									transaction_id: '#transaction_id#'
+								},
+								success: function(data) {
+									$("##allCatItemsDiv").html(data);
+								},
+								error: function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"reloading loan items list");
 								}
-								setColumnVisibilities(window.columnHiddenSettings,gridId);
-								$("##overlay").hide();
-								var now = new Date();
-								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-								var filename = searchType + '_results_' + nowstring + '.csv';
-								// display the number of rows found
-								var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
-								var rowcount = datainformation.rowscount;
-								var items = "."
-								if (rowcount > 0) {
-									items = ". Click on conditions, instructions, remarks, or disposition cell to edit. ";
+							});
+						}
+						function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr) {
+							setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saving");
+							$.ajax({
+								url: '/transactions/component/itemFunctions.cfc',
+								type: 'POST',
+								dataType: 'json',
+								data: {
+									method: 'updateLoanItem',
+									loan_item_id: loan_item_id,
+									item_instructions: item_instructions,
+									condition: condition,
+									loan_item_remarks: loan_item_remarks,
+									coll_obj_disposition: coll_obj_disposition,
+									item_descr: item_descr
+								},
+								success: function(data) {
+									loanModifiedHere();
+									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saved");
+								},
+								error: function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"updating loan item");
+									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "error");
 								}
-								if (rowcount == 1) {
-									$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
-								} else { 
-									$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
-								}
-								// set maximum page size
-								if (rowcount > 100) { 
-									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','50', '100', rowcount], pagesize: 50});
-								} else if (rowcount > 50) { 
-									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','50', rowcount], pagesize: 50});
-								} else if (rowcount > 10) { 
-									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10', rowcount], pagesize: 50});
-								} else { 
-									$('##' + gridId).jqxGrid({ pageable: false });
-								}
-								// add a control to show/hide columns
-								var columns = $('##' + gridId).jqxGrid('columns').records;
-								var halfColumns = Math.round(columns.length/2);
-		
-								var columnListSource = [];
-								for (i = 1; i < halfColumns; i++) {
-									try {
-										var text = columns[i].text;
-										var datafield = columns[i].datafield;
-										var hideable = columns[i].hideable;
-										var hidden = columns[i].hidden;
-										var show = ! hidden;
-										if (hideable == true) { 
-											var listRow = { label: text, value: datafield, checked: show };
-											columnListSource.push(listRow);
-										}
-									} catch (e) {
-										console.log("Caught exception: " + e.message);
-									}
-								} 
-								$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
-								$("##columnPick").on('checkChange', function (event) {
-									$("##" + gridId).jqxGrid('beginupdate');
-									if (event.args.checked) {
-										$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-									} else {
-										$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-									}
-									$("##" + gridId).jqxGrid('endupdate');
-								});
-		
-								var columnListSource1 = [];
-								for (i = halfColumns; i < (halfColumns*2); i++) {
-									try {
-										var text = columns[i].text;
-										var datafield = columns[i].datafield;
-										var hideable = columns[i].hideable;
-										var hidden = columns[i].hidden;
-										var show = ! hidden;
-										if (hideable == true) { 
-											var listRow = { label: text, value: datafield, checked: show };
-											columnListSource1.push(listRow);
-										}
-									} catch (e) {
-										console.log("Caught exception: " + e.message);
-									}
-								} 
-								$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
-								$("##columnPick1").on('checkChange', function (event) {
-									$("##" + gridId).jqxGrid('beginupdate');
-									if (event.args.checked) {
-										$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-									} else {
-										$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-									}
-									$("##" + gridId).jqxGrid('endupdate');
-								});
-		
-								$("##columnPickDialog").dialog({ 
-									height: 'auto', 
-									width: 'auto',
-									adaptivewidth: true,
-									title: 'Show/Hide Columns',
-									autoOpen: false,
-									modal: true, 
-									reszable: true, 
-									buttons: { 
-										Ok: function(){ 
-											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-											</cfif>
-											$(this).dialog("close");
-										}
-									},
-									open: function (event, ui) { 
-										var maxZIndex = getMaxZIndex();
-										// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
-										$('.ui-dialog').css({'z-index': maxZIndex + 4 });
-										$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 }); 
-									} 
-								});
-								$("##columnPickDialogButton").html(
-									"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
-								);
-								// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
-								// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
-								var maxZIndex = getMaxZIndex();
-								$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-								$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-								$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-								$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
-								$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
-								<cfif isClosed>
-									// onstartup disable edit controls
-									if (gotRunOnLoad == false) {
-										disableEditControls();
-										$("##" + gridId).jqxGrid('setcolumnproperty', 'EditRow', 'hidden', true);
-										gotRunOnLoad = true;
-									}
-								</cfif>
-							};
-		
-							// Cell renderers
-							var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var result = "";
-								result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + rowData['guid'] + '">'+value+'</a></span>';
-								return result;
-							};
-							var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var result = "";
-								var itemid = rowData['part_id'];
-								<cfif isClosed>
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-								<cfelse>
-									if (itemid) {
-										result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ');" class="btn btn-xs btn-warning">Remove</a></span>';
-									} else { 
-										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-									}
-								</cfif>
-								return result;
-							};
+							});
+						}
+						function reloadLoanItemData() { 
+							reloadDataNoBroadcast();
+							// Broadcast that a change has happened to the loan items
+							bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
+						};
+					</script>
+
+						<script>
+
+
 							var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								// Display a button to launch an edit dialog
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -1503,68 +1370,7 @@ limitations under the License.
 								var loan_item_id = rowData['loan_item_id'];
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consume" aria-label="Mark Item as Consumed"/></span>';
 							};
-							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								return 'History';
-							};
-							var editableCellClass = function (row, columnfield, value) {
-								<cfif isClosed>
-									return 'flag-editable-cell';
-								<cfelse>
-									return 'bg-light editable-cell';
-								</cfif>
-							};
-							var historyButtonClick = function(row) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var itemid = rowData['part_id'];
-								openItemConditionHistoryDialog(itemid,'itemConditionHistoryDialog');
-							};
-		
-							var search = {
-								datatype: "json",
-								datafields:
-									[
-										{ name: 'transaction_id', type: 'string' },
-										{ name: 'loan_item_id', type: 'string' },
-										{ name: 'part_id', type: 'string' },
-										{ name: 'catalog_number', type: 'string' },
-										{ name: 'scientific_name', type: 'string' },
-										{ name: 'collection', type: 'string' },
-										{ name: 'collection_cde', type: 'string' },
-										{ name: 'part_name', type: 'string' },
-										{ name: 'preserve_method', type: 'string' },
-										{ name: 'condition', type: 'string' },
-										{ name: 'sampled_from_obj_id', type: 'string' },
-										{ name: 'item_descr', type: 'string' },
-										{ name: 'item_instructions', type: 'string' },
-										{ name: 'loan_item_remarks', type: 'string' },
-										{ name: 'reconciled_by_person_id', type: 'string' },
-										{ name: 'reconciled_by_agent', type: 'string' },
-										{ name: 'reconciled_date', type: 'string' },
-										{ name: 'return_date', type: 'string' },
-										{ name: 'resolution_recorded_by_agent', type: 'string' },
-										{ name: 'resolution_date', type: 'string' },
-										{ name: 'resolution_remarks', type: 'string' },
-										{ name: 'loan_item_state', type: 'string' },
-										{ name: 'coll_obj_disposition', type: 'string' },
-										{ name: 'encumbrance', type: 'string' },
-										{ name: 'encumbering_agent_name', type: 'string' },
-										{ name: 'location', type: 'string' },
-										{ name: 'short_location', type: 'string' },
-										{ name: 'location_room', type: 'string' },
-										{ name: 'location_compartment', type: 'string' },
-										{ name: 'location_freezer', type: 'string' },
-										{ name: 'location_fixture', type: 'string' },
-										{ name: 'location_tank', type: 'string' },
-										{ name: 'location_cryovat', type: 'string' },
-										{ name: 'previous_location', type: 'string' },
-										{ name: 'stored_as_name', type: 'string' },
-										{ name: 'sovereign_nation', type: 'string' },
-										{ name: 'loan_number', type: 'string' },
-										{ name: 'guid', type: 'string' },
-										{ name: 'collection_object_id', type: 'string' },
-										{ name: 'custom_id', type: 'string' }
-									],
-								updaterow: function (rowid, rowdata, commit) {
+							function updateRowOldContent (rowid, rowdata, commit) {
 									var data = "method=updateLoanItem";
 									data = data + "&transaction_id=" + rowdata.transaction_id;
 									data = data + "&part_id=" + rowdata.part_id;
@@ -1574,40 +1380,7 @@ limitations under the License.
 									data = data + "&loan_item_remarks=" + encodeURIComponent(rowdata.loan_item_remarks);
 									data = data + "&resolution_remarks=" + encodeURIComponent(rowdata.resolution_remarks);
 									data = data + "&item_descr=" + encodeURIComponent(rowdata.item_descr);
-									$.ajax({
-										dataType: 'json',
-										url: '/transactions/component/itemFunctions.cfc',
-										data: data,
-										success: function (data, status, xhr) {
-											commit(true);
-										},
-										error: function (jqXHR,textStatus,error) {
-											commit(false);
-											handleFail(jqXHR,textStatus,error,"saving loan item");
-										}
-									});
-								},
-								root: 'loanItemRecord',
-								id: 'itemId',
-								url: '/transactions/component/itemFunctions.cfc?method=getLoanItemsData&transaction_id=#transaction_id#',
-								timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
-								loadError: function(jqXHR, textStatus, error) { 
-									handleFail(jqXHR,textStatus,error,"loading loan items");
-								},
-								async: true
-							};
-		
-							function reloadGridNoBroadcast() { 
-								var dataAdapter = new $.jqx.dataAdapter(search);
-								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
-								// refresh summary data 
-								reloadLoanSummaryData();
 							}
-							function reloadGrid() { 
-								reloadGridNoBroadcast();
-								// Broadcast that a change has happened to the loan items
-								bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
-							};
 							function reloadLoanSummaryData(){ 
 								// reload dispositions of loan items
 								$.ajax({
@@ -1669,127 +1442,6 @@ limitations under the License.
 								});
 							}
 		
-							function loadGrid() { 
-								var dataAdapter = new $.jqx.dataAdapter(search);
-								var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-									// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-									var details = $($(parentElement).children()[0]);
-									details.html("<div id='rowDetailsTarget" + index + "'></div>");
-									createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-									// Workaround, expansion sits below row in zindex.
-									var maxZIndex = getMaxZIndex();
-									$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-								};
-								$("##searchResultsGrid").jqxGrid({
-									width: '100%',
-									autoheight: 'true',
-									source: dataAdapter,
-									filterable: true,
-									sortable: true,
-									pageable: true,
-									<cfif isClosed>
-										editable: false,
-									<cfelse>
-										editable: true,
-									</cfif>
-									enablemousewheel: #session.gridenablemousewheel#,
-									pagesize: 50,
-									pagesizeoptions: ['5','10','50','100'],
-									showaggregates: true,
-									columnsresize: true,
-									autoshowfiltericon: true,
-									autoshowcolumnsmenubutton: false,
-									autoshowloadelement: false, // overlay acts as load element for form+results
-									columnsreorder: true,
-									groupable: true,
-									selectionmode: 'singlerow',  // editable grid leaving as selection mode singlerow
-									altrows: true,
-									showtoolbar: false,
-									ready: function () {
-										$("##searchResultsGrid").jqxGrid('selectrow', 0);
-									},
-									columns: [
-										<cfif isClosed>
-											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: true, editable: false },
-										<cfelseif isInProcess>
-											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:false, hidden: false, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 78, hideable: false, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
-										<cfelse>
-											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: false, editable: false },
-											<cfif aboutLoan.loan_type EQ 'returnable'>
-												{text: 'Return', datafield: 'ReturnRow', width: 78, hideable: true, hidden: false, cellsrenderer: returnCellRenderer, editable: false },
-											<cfelseif aboutLoan.loan_type EQ 'consumable'>
-												{text: 'Consume', datafield: 'ConsumeRow', width: 80, hideable: true, hidden: false, cellsrenderer: consumedCellRenderer, editable: false },
-											</cfif>
-										</cfif>
-										{text: 'Loan Item State', datafield: 'loan_item_state', width:110, hideable: true, hidden: getColHidProp('loan_item_state', false), editable: false },
-										{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true), editable: false },
-										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', true), editable: false },
-										{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: getColHidProp('loan_number', true), editable: false },
-										{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: getColHidProp('collection', true), editable: false  },
-										{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: getColHidProp('collection_cde', false), editable: false  },
-										{text: 'Catalog Number', datafield: 'catalog_number', width:80, hideable: true, hidden: getColHidProp('catalog_number', false), editable: false, cellsrenderer: specimenCellRenderer },
-										{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: getColHidProp('guid', true), editable: false  },
-										{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: getColHidProp('#session.CustomOtherIdentifier#', true), editable: false },
-										{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: getColHidProp('scientific_name', false), editable: false },
-										{text: 'Stored As', datafield: 'stored_as_name', width:210, hideable: true, hidden: getColHidProp('stored_as_name', true), editable: false },
-										{text: 'Storage Location', datafield: 'short_location', width:210, hideable: true, hidden: getColHidProp('short_location', true), editable: false },
-										{text: 'Previous Location', datafield: 'previous_location', width:210, hideable: true, hidden: getColHidProp('previous_location', true), editable: false },
-										{text: 'Full Storage Location', datafield: 'location', width:210, hideable: true, hidden: getColHidProp('location', true), editable: false },
-										{text: 'Room', datafield: 'location_room', width:90, hideable: true, hidden: getColHidProp('location_room', true), editable: false },
-										{text: 'Fixture', datafield: 'location_fixture', width:90, hideable: true, hidden: getColHidProp('location_fixture', true), editable: false },
-										{text: 'Tank', datafield: 'location_tank', width:90, hideable: true, hidden: getColHidProp('location_tank', true), editable: false },
-										{text: 'Freezer', datafield: 'location_freezer', width:90, hideable: true, hidden: getColHidProp('location_freezer', true), editable: false },
-										{text: 'Cryovat', datafield: 'location_cryovat', width:90, hideable: true, hidden: getColHidProp('location_cryovat', true), editable: false },
-										{text: 'Compartment', datafield: 'location_compartment', width:90, hideable: true, hidden: getColHidProp('location_compartment', true), editable: false },
-										{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: getColHidProp('part_name', false), editable: false },
-										{text: 'Preserve Method', datafield: 'preserve_method', width:100, hideable: true, hidden: getColHidProp('preserve_method', false), editable: false },
-										{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: getColHidProp('sampled_from_obj_id', false), editable: false },
-										{text: 'Part Condition', datafield: 'condition', width:180, hideable: false, hidden: getColHidProp('condition', false), editable: true, cellclassname: editableCellClass },
-										{text: 'Item Descr', datafield: 'item_descr', width:200, hideable: false, hidden: getColHidProp('item_descr', false), editable: true, cellclassname: editableCellClass },
-										{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: getColHidProp('History', true), editable: false, 
-											cellsrenderer: historyCellRenderer, buttonclick: historyButtonClick
-										},
-										{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: getColHidProp('item_instructions', false), editable: true, cellclassname: editableCellClass },
-										{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: getColHidProp('loan_item_remarks', false), editable: true, cellclassname: editableCellClass },
-										{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: getColHidProp('coll_obj_disposition', false), editable: true, 
-											cellclassname: editableCellClass, 
-											columntype: 'dropdownlist',
-											initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
-										},
-										{text: 'Added By', datafield: 'reconciled_by_agent', width:110, hideable: true, hidden: getColHidProp('reconciled_by_agent', true), editable: false },
-										{text: 'Added Date', datafield: 'reconciled_date', width:110, hideable: true, hidden: getColHidProp('reconciled_date', false), editable: false },
-										{text: 'Return Date', datafield: 'return_date', width:110, hideable: true, hidden: getColHidProp('return_date', true), editable: false },
-										{text: 'Resolution By', datafield: 'resolution_recorded_by_agent', width:110, hideable: true, hidden: getColHidProp('resolution_recorded_by_agent', true), editable: false },
-										{text: 'Resolution Remarks', datafield: 'resolution_remarks', width:180, hideable: true, hidden: getColHidProp('resolution_remarks', true), editable: true, cellclassname: editableCellClass },	
-										{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: getColHidProp('encumbrance', false), editable: false },
-										{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: getColHidProp('encumbring_agent_id', true), editable: false },
-										{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: getColHidProp('sovereign_nation', false), editable: false }
-									],
-									rowdetails: true,
-									rowdetailstemplate: {
-										rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-										rowdetailsheight: 1 // row details will be placed in popup dialog
-									},
-									initrowdetails: initRowDetails
-								});
-								$("##searchResultsGrid").on("bindingcomplete", function(event) {
-									gridLoaded('searchResultsGrid','loan item');
-								});
-								$('##searchResultsGrid').on('rowexpand', function (event) {
-									// Create a content div, add it to the detail row, and make it into a dialog.
-									var args = event.args;
-									var rowIndex = args.rowindex;
-									var datarecord = args.owner.source.records[rowIndex];
-									createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-								});
-								$('##searchResultsGrid').on('rowcollapse', function (event) {
-									// remove the dialog holding the row details
-									var args = event.args;
-									var rowIndex = args.rowindex;
-									$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-								});
-							};
 						</script>
 	
 					</div>

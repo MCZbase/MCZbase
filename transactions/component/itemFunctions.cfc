@@ -700,10 +700,12 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
-<!--- obtain an html block to populate dialog for removing loan items from a loan --->
+<!--- obtain an html block to populate dialog for removing loan items from a loan 
+ @param loan_item_id the loan item to remove.
+ @return an html block as a string or an http 500 on error.
+--->
 <cffunction name="getRemoveLoanItemDialogContent" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="transaction_id" type="string" required="yes">
-	<cfargument name="part_id" type="string" required="yes">
+	<cfargument name="loan_item_id" type="string" required="yes">
 
 	<cfthread name="getRemoveLoanItemHtmlThread">
 		<cftry>
@@ -712,11 +714,17 @@ limitations under the License.
 						select coll_obj_disposition from ctcoll_obj_disp 
 				</cfquery>
 				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT coll_obj_disposition 
-					from coll_object 
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					SELECT coll_obj_disposition, coll_object.collection_object_id as part_id, transaction_id
+					FROM loan_item
+						join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+					WHERE loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 				</cfquery>
+				<cfif lookupDisp.recordcount EQ 0>
+					<cfthrow message="Could not find loan item with specified loan_item_id">
+				</cfif>
 				<cfset currentDisposition = lookupDisp.coll_obj_disposition>
+				<cfset part_id = lookupDisp.part_id>
+				<cfset transaction_id = lookupDisp.transaction_id>
 				<cfset onLoan=false>
 				<cfif currentDisposition is "on loan">
 					<cfset onLoan=true>
@@ -731,20 +739,21 @@ limitations under the License.
 					}
 				</script>
 				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanItemsQuery_result">
-					select 
-						item_descr
-					from 
+					SELECT 
+						item_descr, 
+						collection_object_id as part_id, 
+						transaction_id
+					FROM 
 						loan_item
 					WHERE
-						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-						AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+						loan_item.loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 				</cfquery>
 				<h2 class="h3">Remove item #getLoanItemDetails.item_descr# from loan.</h2>
 				<!--- see if it's a subsample --->
 				<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select SAMPLED_FROM_OBJ_ID 
 					from specimen_part 
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoanItemDetails.part_id#">
 				</cfquery>
 				<cfset mustChangeDisposition=false>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
@@ -779,7 +788,7 @@ limitations under the License.
 				<p />
 				<script>
 					function closeRemoveItemDialog() {
-						$("##removeItemDialog").dialog("close"); 
+						$("##loanItemRemoveDialogDiv").dialog("close"); 
 					}
 				</script>
 				<cfif mustChangeDisposition>
@@ -788,7 +797,7 @@ limitations under the License.
 					<cfset disabled="">
 				</cfif>
 				<button id="removeItemButton" class="btn btn-xs btn-warning" value="Remove Item from Loan" #disabled#
-					onclick="removeLoanItemFromLoan(#part_id#, #transaction_id#,'updateStatus',closeRemoveItemDialog); ">Remove Item from Loan</button>
+					onclick="removeLoanItemFromLoan(#loan_item_id#,'updateStatus',closeRemoveItemDialog); ">Remove Item from Loan</button>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<!--- deleting subsample not implemented, departs from MCZ practice --->
 					<!---
@@ -797,7 +806,6 @@ limitations under the License.
 						value="Delete Subsample From Database" disabled
 						onclick="alert('not implemented');">Delete Subsample From Database</button> 
 					--->
-					<!--- older code for onclick: cC.action.value='killSS'; submit();"/> --->
 				</cfif>
 				<p />
 			</cfoutput>
@@ -813,27 +821,26 @@ limitations under the License.
 	<cfreturn getRemoveLoanItemHtmlThread.output>
 </cffunction>
 
-<!--- delete an entry from the loan item table. 
-	@param transaction_id the transaction_id of the loan from which to remove the loan item.
-	@param partID the collection_object_id of the part to be removed as as an item from the specified loan.
+<!--- removePartFromLoan delete an entry from the loan item table. 
+	@param loan_item_id the loan item to remove.
 	@return a json structure including status: 1 or an http 500 with an error message
 --->
 <cffunction name="removePartFromLoan" access="remote">
-	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="loan_item_id" type="numeric" required="yes">
 
 	<cftransaction>
 		<cftry>
 			<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleLoanItem_result">
 				DELETE FROM loan_item 
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				where loan_item_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
 			</cfquery>
 			<cfif deleLoanItem_result.recordcount eq 1>
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "loan item removed from loan.", 1)>
+			<cfelse>
+				<cfthrow message="Record not deleted. loan_item_id not found [#encodeForHtml(loan_item_id)#] not found #deleLoanItem_result.sql#">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
@@ -2472,6 +2479,24 @@ limitations under the License.
 		<cftry>
 			<!--- Similar to getDeaccCatItemHtml but for loans instead of deaccessions --->
 			<cfoutput>
+				<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						loan_number,
+						loan_type,
+						loan_status
+					FROM 
+						loan
+					WHERE
+						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				</cfquery>
+				<cfif lookupLoan.recordcount NEQ 1>
+					<cfthrow message="Unable to lookup loan by transaction_id=#encodeForHtml(transaction_id)#">
+				</cfif>
+				<cfquery name="ctItemStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT loan_item_state 
+					FROM ctloan_item_state
+					ORDER BY loan_item_state
+				</cfquery>
 				<cfquery name="getCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT DISTINCT
 						cataloged_item.collection_object_id,
@@ -2633,7 +2658,7 @@ limitations under the License.
 						<cfset id = getParts.loan_item_id>
 						<!--- Output each part row --->
 						<div id="historyDialog_#getParts.partID#"></div>
-						<div class="col-12 row border-top mx-1 mt-1 px-1">
+						<div class="col-12 row border-top mx-1 mt-1 px-1 pb-1">
 							<cfset name="#guid# #part_name# (#preserve_method#)">
 							<div class="col-12 col-md-4">
 								Part Name: #part_name# (#preserve_method#) #lot_count_modifier# #lot_count#
@@ -2687,26 +2712,43 @@ limitations under the License.
 								</ul>
 							</div>
 							<div class="col-12 col-md-2">
-								#loan_item_state#
-								#return_date#
+								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State: </label>
+								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr">
+									<cfif getParts.loan_item_state EQ "">
+										<option selected></option>
+									</cfif>
+									<cfloop query="ctItemStates">
+										<cfif ctItemStates.loan_item_state EQ getParts.loan_item_state>
+											<cfset selected = "selected">
+										<cfelse>
+											<cfset selected = "">
+										</cfif>
+										<option value="#ctItemStates.loan_item_state#" #selected#>#ctItemStates.loan_item_state#</option>
+									</cfloop>
+								</select>
+								<cfif len(getParts.return_date) GT 0>
+									<div class="smaller">
+										Return Date: #getParts.return_date#
+									</div>
+								</cfif>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-5">
 								<label for="item_descr_#id#" class="data-entry-label">
 									Item Description:
 								</label>
-								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text">
+								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
 										$("##item_descr_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-5">
 								<label for="condition_#id#" class="data-entry-label">
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
 								</label>
-								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
+								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
 										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -2715,7 +2757,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
-								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100 reqdClr">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
 										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
@@ -2732,18 +2774,18 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-5">
 								<label for="loan_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
-								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text">
+								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
 										$("##loan_item_remarks_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-5">
 								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
-								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() { 
 										$("##item_instructions_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
@@ -2751,7 +2793,21 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-2 pt-3">
-								<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
+								<!--- determine action buttons to show based on loan status --->
+								<cfif lookupLoan.loan_status EQ "in process">
+									<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
+								</cfif>
+								<cfif lookupLoan.loan_status EQ "open">
+									<cfif lookupLoan.loan_type EQ "consumable">
+										<cfif getParts.loan_item_state NEQ "consumed">
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
+										</cfif>
+									<cfelse>
+										<cfif getParts.loan_item_state NEQ "returned">
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Return</button>
+										</cfif>
+									</cfif>
+								</cfif>
 								<button class="btn btn-xs btn-secondary" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 								<output id="loanItemStatusDiv_#id#"></output>
 							</div>
@@ -2761,32 +2817,35 @@ limitations under the License.
 					<cfif showMultiple>
 						</div>
 						<script>
-							if (typeof removeLoanItem#catItemId# === 'function') {
-								console.log("functions for #catItemId# already defined");
-							} else {
-								function removeLoanItem#catItemId#(loan_item_id) { 
-									console.log(loan_item_id);
-									// bring up a dialog to determine the new coll object disposition and confirm deletion
-									openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
-									deaccessionModifiedHere();
-								};
-								function launchEditDialog#catItemId#(loan_item_id,name) { 
-									console.log(loan_item_id);
-									openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
+							$(document).ready(function() {
+								if (typeof removeLoanItem#catItemId# === 'function') {
+									console.log("functions for #catItemId# already defined");
+								} else {
+									console.log("defining functions for #catItemId#");
+									window["removeLoanItem#catItemId#"] = function(loan_item_id) { 
+										console.log(loan_item_id);
+										// bring up a dialog to determine the new coll object disposition and confirm deletion
+										openRemoveLoanItemDialog(loan_item_id, "loanItemRemoveDialogDiv" , refreshItems#catItemId#);
+										loanModifiedHere();
+									};
+									window["launchEditDialog#catItemId#"] = function(loan_item_id,name) { 
+										console.log(loan_item_id);
+										openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",name,refreshItems#catItemId#);
+									};
+									window["refreshItems#catItemId#"] = function() { 
+										console.log("refresh items invoked for #catItemId#");
+										refreshLoanCatItem("#catItemId#");
+									};
 								}
-								function doLoanItemUpdate(loan_item_id) {
-									console.log(loan_item_id);
-									loan_item_remarks = $("##loan_item_remarks_#id#").val();
-									item_instructions = $("##item_instructions_#id#").val();
-									condition = $("##condition_#id#").val();
-									coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
-									item_descr = $("##item_descr_#id#").val();
-									updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr);
-								}
-								function refreshItems#catItemId#() { 
-									console.log("refresh items invoked for #catItemId#");
-									refreshLoanCatItem("#catItemId#");
-								}
+							});
+							function doLoanItemUpdate(loan_item_id) {
+								console.log(loan_item_id);
+								let loan_item_remarks = $("##loan_item_remarks_#id#").val();
+								let item_instructions = $("##item_instructions_#id#").val();
+								let condition = $("##condition_#id#").val();
+								let coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
+								let item_descr = $("##item_descr_#id#").val();
+								updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr);
 							}
 						</script>
 					</cfif>
