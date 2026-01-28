@@ -6488,13 +6488,16 @@ limitations under the License.
 				document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
 					button.addEventListener('click', function(event) {
 						event.preventDefault();
-						var id = button.id.slice(-1);
+						var id = button.id.replace("att_submit", "");
 						var feedbackOutput = 'att_output' + id;
+						var formID = "editAttribute" + id;
+						console.log("Form ID:", formID);
+						console.log("Serialized Data:", $('##' + formID).serialize());
 						setFeedbackControlState(feedbackOutput,"saving")
 						$.ajax({
 							url: '/specimens/component/functions.cfc',
 							type: 'POST',
-							data: $("##editAttribute" + id).serialize(),
+							data: $("##" + formID).serialize(),
 							success: function(response) {
 								setFeedbackControlState(feedbackOutput,"saved");
 								reloadAttributes();
@@ -6509,7 +6512,7 @@ limitations under the License.
 				document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
 					button.addEventListener('click', function(event) {
 						event.preventDefault();
-						var id = button.id.slice(-1);
+						var id = button.id.replace("att_delete", "");
 						var feedbackOutput = 'att_output' + id;
 						setFeedbackControlState(feedbackOutput,"deleting")
 						$.ajax({
