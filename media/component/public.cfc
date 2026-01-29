@@ -621,7 +621,7 @@ include this function and use it.
 				</cfif>
 				<cfif oneOfUs EQ 1>
 					<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select distinct container_id, label, container_type
+						select distinct container.container_id, container.label, container.container_type
 						from container
 							left join media_relations on media_relations.related_primary_key = container.container_id
 							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
