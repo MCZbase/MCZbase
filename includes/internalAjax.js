@@ -420,6 +420,8 @@ function pickedRelationship (id){
 		findCatalogedItem(idInputName,dispInputName,formName);
 	} else if (relatedTable=='project'){
 		getProject(idInputName,dispInputName,formName);
+	} else if (relatedTable=='container'){
+		makeContainerAutocompleteMeta(dispInputName, idInputName);
 	} else if (relatedTable=='taxonomy'){
 		taxaPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='publication'){
