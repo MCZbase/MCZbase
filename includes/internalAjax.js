@@ -394,6 +394,11 @@ function getNamedGroup(StringFld, IdFld, formName) {
     var pickwin = url + "?NameFld=" + StringFld + "&IdFld=" + IdFld + "&formName=" + formName;
     pickwin = window.open(pickwin, "", "width=600,height=400, resizable,scrollbars");
 }
+function getContainer(StringFld, IdFld, formName) {
+    var url = "/picks/pickContainer.cfm";
+    var pickwin = url + "?NameFld=" + StringFld + "&IdFld=" + IdFld + "&formName=" + formName;
+    pickwin = window.open(pickwin, "", "width=600,height=400, resizable,scrollbars");
+}
 function pickedRelationship (id){
 	var relationship=document.getElementById(id).value;
 	var formName=document.getElementById(id).form.getAttribute('name');
@@ -421,7 +426,7 @@ function pickedRelationship (id){
 	} else if (relatedTable=='project'){
 		getProject(idInputName,dispInputName,formName);
 	} else if (relatedTable=='container'){
-		makeContainerAutocompleteMeta(dispInputName, idInputName);
+		getContainer(idInputName,dispInputName,formName);
 	} else if (relatedTable=='taxonomy'){
 		taxaPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='publication'){
