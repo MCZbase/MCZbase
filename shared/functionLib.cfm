@@ -312,8 +312,23 @@ limitations under the License.
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#encodeForHtml(d.data)#", i)>
 			<cfset temp = QuerySetCell(result, "link", "/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(d.underscore_collection_id)#", i)>
+		<cfelseif table_name is "container">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT label, barcode, container_type, container_id
+				FROM container
+				WHERE container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery
+			<cfset data = "">
+			<cfif d.recordcount GT 0>
+			<cfif d.barcode NEQ d.label>
+				<cfset data = "#d.label# [#d.barcode#] (#d.container_type#)">
+			<cfelse>
+				<cfset data = "#d.label# (#d.container_type#)">
+			</cfif>
+			<cfset temp = QuerySetCell(result, "summary", "#data#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/ContainerDetails.cfm?container_id=#d.container_id#", i)>
 		<cfelse>
-		<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
+			<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
 		</cfif>
 		<cfset i=i+1>
 	</cfloop>
