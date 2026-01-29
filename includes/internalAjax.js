@@ -395,7 +395,7 @@ function getNamedGroup(StringFld, IdFld, formName) {
     pickwin = window.open(pickwin, "", "width=600,height=400, resizable,scrollbars");
 }
 function getContainer(StringFld, IdFld, formName) {
-    var url = "/picks/pickContainer.cfm";
+    var url = "/picks/ContainerPick.cfm";
     var pickwin = url + "?NameFld=" + StringFld + "&IdFld=" + IdFld + "&formName=" + formName;
     pickwin = window.open(pickwin, "", "width=600,height=400, resizable,scrollbars");
 }
