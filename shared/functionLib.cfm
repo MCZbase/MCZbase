@@ -320,10 +320,11 @@ limitations under the License.
 			</cfquery>
 			<cfset data = "">
 			<cfif d.recordcount GT 0>
-			<cfif d.barcode NEQ d.label>
-				<cfset data = "#d.label# [#d.barcode#] (#d.container_type#)">
-			<cfelse>
-				<cfset data = "#d.label# (#d.container_type#)">
+				<cfif d.barcode NEQ d.label>
+					<cfset data = "#d.label# [#d.barcode#] (#d.container_type#)">
+				<cfelse>
+					<cfset data = "#d.label# (#d.container_type#)">
+				</cfif>
 			</cfif>
 			<cfset temp = QuerySetCell(result, "summary", "#data#", i)>
 			<cfset temp = QuerySetCell(result, "link", "/ContainerDetails.cfm?container_id=#d.container_id#", i)>
