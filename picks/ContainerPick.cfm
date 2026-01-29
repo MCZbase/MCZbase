@@ -1,7 +1,7 @@
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Container Pick">
 <!--- build a container id search --->
-<form name="searchForContainer" action="AgentPick.cfm" method="post">
+<form name="searchForContainer" action="/picks/ContainerPick.cfm" method="post">
 	<br>Container Name: <input type="text" name="containername">
 	<br><input type="submit" value="Find Matches">
 	<input type="hidden" name="search" value="true">
@@ -18,14 +18,14 @@
 		<cfabort>
 	</cfif>
 	<cfoutput>
-		<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="getContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT label, barcode, container_type, container_id 
 			FROM container
 			where
 				UPPER(label) LIKE <cfqueryparam value="%#ucase(containername)#%" cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
 	</cfoutput>
-	<cfoutput query="getAgentId">
+	<cfoutput query="getContainerId">
 <br>
 <cfset thisName = #replace(label,"'","`","all")#>
 <cfif barcode NEQ label and len(barcode) GT 0>
