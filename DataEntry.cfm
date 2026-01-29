@@ -1306,6 +1306,61 @@ Some Totally Random String Data .....
 
 										</td>
 									</tr>
+								<cfelseif collection_cde is "Herp">
+									<tr>
+										<td colspan="2" align="center"><span class="f11a">Weight</span></td>
+										<td colspan="2" align="center"><span class="f11a">Total Length</span></td>
+										<td><span class="f11a">Date</span></td>
+										<td><span class="f11a">Determiner</span></td>
+									</tr>
+									<tr>
+										<td>
+											<input type="hidden" name="attribute_date_2" value="#attribute_date_2#" id="attribute_date_2" />
+											<input type="hidden" name="attribute_determiner_2" value="#attribute_determiner_2#" id="attribute_determiner_2" />
+											<input type="hidden" name="attribute_2" value="weight" />
+											<input type="text" name="attribute_value_2" value="#attribute_value_2#" size="2" id="attribute_value_2">
+										</td>
+										<td>
+											<select name="attribute_units_2" size="1" id="attribute_units_2" style="width: 35px;">
+												<cfloop query="ctWeight_Units">
+													<option <cfif #data.attribute_units_2# is #Weight_Units#> selected </cfif>value="#Weight_Units#">#Weight_Units#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td>
+											<input type="hidden" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" />
+											<input type="hidden" name="attribute_determiner_3" value="#attribute_determiner_3#" id="attribute_determiner_3" />
+											<input type="hidden" name="attribute_3" value="total height" />
+											<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="2" id="attribute_value_3">
+										</td>
+										<td>
+											<select name="attribute_units_3" size="1" id="attribute_units_3" style="width: 35px;">
+												<option value=""></option>
+												<cfloop query="ctLength_Units">
+													<option <cfif #data.attribute_units_3# is #Length_Units#> selected </cfif>value="#Length_Units#">#Length_Units#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td>
+											<input type="text" name="attribute_date_2" id="attribute_date_2" value="#attribute_date_2#" size="9">
+										</td>
+										<td>
+											<input type="text"
+											size="14"	name="attribute_determiner_2"
+												id="attribute_determiner_2"
+												value="#attribute_determiner_2#"
+        onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
+												onkeypress="return noenter(event);">
+										</td>
+									</tr>
+                           <!--- maintain attributes 4-6 as hiddens to not break the JS --->
+									<cfloop from="4" to="6" index="i">
+										<input type="hidden" name="attribute_#i#" id="attribute_#i#" value="">
+										<input type="hidden" name="attribute_value_#i#"  id="attribute_value_#i#" value="">
+										<input type="hidden" name="attribute_date_#i#"  id="attribute_date_#i#" value="">
+										<input type="hidden" name="attribute_determiner_#i#"  id="attribute_determiner_#i#" value="">
+										<input type="hidden" name="attribute_det_meth_#i#"  id="attribute_det_meth_#i#" value="">
+									</cfloop>
 								<cfelseif collection_cde is "Orn">
 									<tr>
 										<td><span class="f11a">Age Class</span></td>
