@@ -1155,6 +1155,14 @@ include this function and use it.
 						select null as transaction_id, null as accn_number from dual where 0=1
 					</cfquery>
 				</cfif>
+				<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct container.container_id, container.label, container.container_type
+					from container
+						left join media_relations on media_relations.related_primary_key = container.container_id
+						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and mczbase.ctmedia_relationship.auto_table = 'container'
+				</cfquery>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct agent_name.agent_name, agent.agent_id
 					from media_relations
@@ -1468,6 +1476,16 @@ include this function and use it.
 												<cfloop query="agents1">
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
+											</cfif>
+											<!---Display Containers--->
+											<cfif media_rel.media_relationship contains 'container'>
+												<cfif oneofus eq 1>
+													<cfloop query="getContainers">
+														<a class="font-weight-lessbold" href="/ContainerDetails.cfm?container_id=#getContainers.container_id#"> #getContainers.label# (#getContainers.container_type#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
+													</cfloop>
+												<cfelse>
+													<span class="d-inline font-italic">Hidden</span>
+												</cfif>
 											</cfif>
 											<!---Display Agent: shows agent query--->
 											<cfif media_rel.media_relationship eq 'shows agent'>
