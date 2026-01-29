@@ -317,7 +317,7 @@ limitations under the License.
 				SELECT label, barcode, container_type, container_id
 				FROM container
 				WHERE container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
-			</cfquery
+			</cfquery>
 			<cfset data = "">
 			<cfif d.recordcount GT 0>
 			<cfif d.barcode NEQ d.label>
