@@ -1174,13 +1174,8 @@ Some Totally Random String Data .....
 
 
 						<td>
-                            <img src="/images/info.gif" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
-							<cfif collection_cde is not "Crus" and collection_cde is not "Herb"
-								and collection_cde is not "ES" and collection_cde is not "Ich"
-								and collection_cde is not "Para" and collection_cde is not "Art" and not
-								(collection_cde is "Herp" and institution_acronym is "UAM") and not
-								(collection_cde is "Herp" and institution_acronym is "MCZ") and not
-								(collection_cde is "HerpOBS" and institution_acronym is "MCZ")>
+                     <img src="/images/info.gif" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
+							<cfif collection_cde is not "Ich" AND collection_cde is not "HerpOBS">
 								<table cellpadding="0" cellspacing="0">
 									<tr>
 
