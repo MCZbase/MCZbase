@@ -22,16 +22,19 @@
 			SELECT label, barcode, container_type, container_id 
 			FROM container
 			where
-				UPPER(label) LIKE <cfqueryparam value="%#ucase(containername)#%" cfsqltype="CF_SQL_VARCHAR">
+				UPPER(label) LIKE <cfqueryparam value="%#trim(ucase(containername))#%" cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
 	</cfoutput>
+	<cfif getContainerId.recordcount is 0>
+		No matching containers found.
+	</cfif>
 	<cfoutput query="getContainerId">
 <br>
 <cfset thisName = #replace(label,"'","`","all")#>
 <cfif barcode NEQ label and len(barcode) GT 0>
 	<cfset thisName = #thisName# & " [#barcode#]">
 </cfif>
-<a href="##" onClick="javascript: opener.document.#formName#.#containerIdFld#.value='#container_id#';opener.document.#formName#.#containerNameFld#.value='#thisName#';self.close();">
+<a href="##" onClick="javascript: opener.document.#formName#.#IdFld#.value='#container_id#';opener.document.#formName#.#NameFld#.value='#thisName#';self.close();">
 #label#
 <cfif barcode NEQ label and len(barcode) GT 0>
 	[#barcode#]
