@@ -426,7 +426,7 @@ function pickedRelationship (id){
 	} else if (relatedTable=='project'){
 		getProject(idInputName,dispInputName,formName);
 	} else if (relatedTable=='container'){
-		getContainer(idInputName,dispInputName,formName);
+		getContainer(dispInputName,idInputName,formName);
 	} else if (relatedTable=='taxonomy'){
 		taxaPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='publication'){
