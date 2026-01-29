@@ -485,6 +485,9 @@ function pickedRelationship (id){
 	} else if (relatedTable=='project'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeProjectAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='container'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeContainerAutocompleteMeta(dispInputName, idInputName);
 	} else if (relatedTable=='delete'){
 		$('#'+dispInputName).attr("readonly", true);
 		$('#'+dispInputName).value='Marked for deletion.....';
