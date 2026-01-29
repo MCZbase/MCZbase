@@ -30,7 +30,7 @@
 		coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id (+) AND
 		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id   (+) AND
 		cataloged_item.collection_object_id = identification.collection_object_id (+) AND
-		container.container_id = <cfqueryparam type="CF_SQL_DECIMAL" value="#container_id#">
+		container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 </cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT media.media_id,
