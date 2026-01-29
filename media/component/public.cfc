@@ -619,6 +619,20 @@ include this function and use it.
 						select null as transaction_id, null as accn_number from dual where 0=1
 					</cfquery>
 				</cfif>
+				<cfif oneOfUs EQ 1>
+					<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select distinct container_id, label, container_type
+						from container
+							left join media_relations on media_relations.related_primary_key = container.container_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'container'
+					</cfquery>
+				<cfelse>
+					<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select null as container_id, null as label, null as container_type from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct agent_name.agent_name, agent.agent_id
 					from media_relations
@@ -896,7 +910,7 @@ include this function and use it.
 										<cfif NOT directoryExists("#directory#")><cfset found = "#found# [Directory Not Found]"></cfif>
 										<cfset found = "<span class='strong text-danger'>#found#</span>"><!--- " --->
 									</cfif>
-									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr>
+									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr><!--- " --->
 								</cfif>
 							</cfif>
 							<cfif len(media_rel.media_relationship) gt 0>
@@ -955,6 +969,16 @@ include this function and use it.
 												<cfloop query="agents5">
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
+											</cfif>
+											<!---Display Containers--->
+											<cfif media_rel.media_relationship contains 'container'>
+												<cfif oneofus eq 1>
+													<cfloop query="getContainers">
+														<a class="font-weight-lessbold" href="/ContainerDetails.cfm?container_id=#getContainers.container_id#"> #getContainers.label# (#getContainers.container_type#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
+													</cfloop>
+												<cfelse>
+													<span class="d-inline font-italic">Hidden</span>
+												</cfif>
 											</cfif>
 											<!---Display Borrow--->
 											<cfif media_rel.media_relationship contains 'borrow'>
@@ -1409,7 +1433,7 @@ include this function and use it.
 										<cfif NOT directoryExists("#directory#")><cfset found = "#found# [Directory Not Found]"></cfif>
 										<cfset found = "<span class='strong text-danger'>#found#</span>"><!--- " --->
 									</cfif>
-									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr>
+									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr><!--- " --->
 								</cfif>
 							</cfif>
 							<cfif len(media_rel.media_relationship) gt 0>
