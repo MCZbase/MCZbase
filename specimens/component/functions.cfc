@@ -5291,6 +5291,16 @@ limitations under the License.
 				WHERE co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
 
+			<!--- check if this is a loan item, if so throw an exception --->
+			<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT loan_item_id
+				FROM loan_item
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif checkLoanItem.recordcount GT 0>
+				<cfthrow message="Error: Parts that are loan items cannot be deleted.">
+			</cfif>
+
 			<!--- delete the specimen part record --->
 			<cfquery name="deletePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePart_result">
 				DELETE FROM specimen_part
