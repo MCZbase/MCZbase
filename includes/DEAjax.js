@@ -1227,6 +1227,25 @@ function cleanup () {
 		} catch(e){
 			// whatever
 		}
+	} else if (thisCC == 'Herp') {
+		/******************************** Herpetology Routine ************************************************/
+		try {
+			var Att2UnitVal = document.getElementById('attribute_units_2').value; // weight
+			var Att3UnitVal = document.getElementById('attribute_units_3').value; //snout-vent length
+			var Att4UnitVal = document.getElementById('attribute_units_4').value; //tail length
+			var Det2UnitVal = document.getElementById('attribute_determiner_2').value; // weight
+			var Det3UnitVal = document.getElementById('attribute_determiner_3'); //snout-vent length
+			var Det4UnitVal = document.getElementById('attribute_determiner_4'); //tail length
+			Det3UnitVal.value = Det2UnitVal;
+			Det4UnitVal.value = Det2UnitVal;
+			var Date2UnitVal = document.getElementById('attribute_date_2').value; //weight
+			var Date3UnitVal = document.getElementById('attribute_date_3'); //snout-vent length
+			var Date4UnitVal = document.getElementById('attribute_date_4'); //tail length
+			Date3UnitVal.value = Date2UnitVal;
+			Date4UnitVal.value = Date2UnitVal;
+		} catch(e){
+			// whatever
+		}
 	} else if (thisCC == 'Orn') {
 		/************************************************** Bird Routine **************************************************/
 		try {
