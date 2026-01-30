@@ -1225,7 +1225,7 @@ Some Totally Random String Data .....
 										<tr>
 											<td nowrap="nowrap">
 												<input type="hidden" name="attribute_2" value="weight" />
-												<span class="f11a">Weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+												<span class="f11a">Weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 												<input type="text" name="attribute_value_2" value="#attribute_value_2#" size="4" id="attribute_value_2">
 												<select name="attribute_units_2" size="1" id="attribute_units_2" style="width: 40px;">
 													<option value=""></option>
@@ -1292,7 +1292,7 @@ Some Totally Random String Data .....
 													onblur="doAttributeDefaults();"
 													id="attribute_determiner_4" />
 												<span class="f11a">Meth</span>
-												<input size="15" title="ATTRIBUTE_DET_METH_4" type="text" name="attribute_det_meth_4" value="#attribute_det_meth_4#" id="attribute_det_meth_4">
+												<input size="12" title="ATTRIBUTE_DET_METH_4" type="text" name="attribute_det_meth_4" value="#attribute_det_meth_4#" id="attribute_det_meth_4">
 												<span class="f11a">Rem</span>
 												<input type="text" title="ATTRIBUTE_REMARKS_4" name="attribute_remarks_4" id="attribute_remarks_4" value="#attribute_remarks_4#">
 											</td>
