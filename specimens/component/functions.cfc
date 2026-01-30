@@ -4809,7 +4809,7 @@ limitations under the License.
 										</div>
 										<cfset everLoaned = false>
 										<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT distinct loan_item_id, loan_number
+											SELECT distinct loan_item_id, loan_item_state loan_number, transaction_id
 											FROM loan_item
 												join loan on loan_item.transaction_id = loan.transaction_id
 											WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
@@ -4837,6 +4837,14 @@ limitations under the License.
 											</cfif>
 											<output id="part_output#i#" aria-live="polite"></output>
 										</div>
+										<cfif checkLoanItem.recordcount GT 0>
+											<div class="col-12 col-md-3 pt-2">
+												<h3 class="h4">In Loans:</h3>
+												<cfloop query="checkLoanItem">
+													#checkLoanItem.loan_number# #checkLoanItem.loan_item_state#
+												</cfloop>
+											</div>
+										</cfif>
 									</div>
 								</form>
 						
