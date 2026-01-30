@@ -4807,10 +4807,22 @@ limitations under the License.
 												class="data-entry-textarea autogrow mb-1" maxlength="4000"
 											>#getParts.part_remarks#</textarea>
 										</div>
+										<cfset everLoaned = false>
+										<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT distinct loan_item_id, loan_number
+											FROM loan_item
+												join loan on loan_item.transaction_id = loan.transaction_id
+											WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+										</cfquery>
+										<cfif checkLoanItem.recordcount GT 0>
+											<cfset everLoaned = true>
+										</cfif>
 										<div class="col-12 col-md-3 pt-2">
 											<button id="part_submit#i#" value="Save" class="mt-2 btn btn-xs btn-primary" title="Save Part">Save</button>
 											<cfif getIdentifications.recordcount EQ 0>
-												<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
+												<cfif everLoaned EQ false>
+													<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
+												</cfif>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 													<cfif partsWithoutId GT 1>
 														<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
