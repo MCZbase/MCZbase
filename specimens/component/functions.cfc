@@ -4710,7 +4710,7 @@ limitations under the License.
 							<!--- check if part has ever been loaned --->
 							<cfset everLoaned = false>
 							<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT distinct loan_item_id, loan_item_state, loan_number, loan.transaction_id
+								SELECT distinct loan_item_id, loan_item_state, loan_number, loan.transaction_id, loan.loan_status
 								FROM loan_item
 									join loan on loan_item.transaction_id = loan.transaction_id
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
@@ -4858,9 +4858,9 @@ limitations under the License.
 										</div>
 										<cfif checkLoanItem.recordcount GT 0>
 											<div class="col-12">
-												<h3 class="h4">In Loans:</h3>
+												<span class="d-inline font-weight-lessbold">In Loans:</span>
 												<cfloop query="checkLoanItem">
-													#checkLoanItem.loan_number# #checkLoanItem.loan_item_state#
+													#checkLoanItem.loan_number# #checkLoanItem.loan_status# (Item: #checkLoanItem.loan_item_state#)
 												</cfloop>
 											</div>
 										</cfif>
