@@ -1194,7 +1194,7 @@ Some Totally Random String Data .....
 												</cfloop>
 											 </select>
 											<span class="f11a">Date</span>
-											<input type="text" title="ATTRIBUTE_DATE_X" name="attribute_date_1" value="#attribute_date_1#" id="attribute_date_1" size="10"
+											<input type="text" title="ATTRIBUTE_DATE_1" name="attribute_date_1" value="#attribute_date_1#" id="attribute_date_1" size="10"
 											<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Orn" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "HerpOBS" And #collection_cde# NEQ "Ich" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 														class="reqdClr"
 											</cfif>
@@ -1202,7 +1202,7 @@ Some Totally Random String Data .....
 											<span class="infoLink" onclick="copyAttributeDates('attribute_date_1');">Sync Att.</span>
 											<span class="f11a">Detr</span>
 											<input type="text"
-                                            title="ATTRIBUTE_DETERMINER_X"
+                                            title="ATTRIBUTE_DETERMINER_1"
 												name="attribute_determiner_1"
 												value="#attribute_determiner_1#"
 												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Orn" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "HerpOBS" And #collection_cde# NEQ "Ich" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
@@ -1221,18 +1221,18 @@ Some Totally Random String Data .....
 												id="attribute_det_meth_1">
 										</td>
 									</tr>
-									<cfif collection_cde is "Herp">
+									<cfif collection_cde is "Herp"><!--- " --->
 										<tr>
 											<td nowrap="nowrap">
 												<input type="hidden" name="attribute_2" value="weight" />
 												<span class="f11a">Weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
--                                   <select name="attribute_units_2" size="1" id="attribute_units_2" style="width: 40px;">
--                                       <option value=""></option>
--                                       <cfloop query="ctWeight_Units">
--                                          <option <cfif #data.attribute_units_2# is #Weight_Units#> selected </cfif>value="#Weight_Units#">#Weight_Units#</option>
--                                       </cfloop>
--                                   </select>
 												<input type="text" name="attribute_value_2" value="#attribute_value_2#" size="4" id="attribute_value_2">
+												<select name="attribute_units_2" size="1" id="attribute_units_2" style="width: 40px;">
+													<option value=""></option>
+													<cfloop query="ctWeight_Units">
+														<option <cfif #data.attribute_units_2# is #Weight_Units#> selected </cfif>value="#Weight_Units#">#Weight_Units#</option>
+													</cfloop>
+												</select>
 												<span class="f11a">Date</span>
 												<input type="text" title="ATTRIBUTE_DATE_2" name="attribute_date_2" value="#attribute_date_2#" id="attribute_date_2" size="10" >
 												<span class="f11a">Detr</span>
@@ -1252,12 +1252,12 @@ Some Totally Random String Data .....
 												<input type="hidden" name="attribute_3" value="snout-vent length" />
 												<span class="f11a">Snout-vent Length</span>
 												<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="4" id="attribute_value_3">
--                                   <select name="attribute_units_3" size="1" id="attribute_units_3" style="width: 40px;">
--                                       <option value=""></option>
--                                       <cfloop query="ctLength_Units">
--                                          <option <cfif #data.attribute_units_3# is #length_units#> selected </cfif>value="#Length_Units#">#length_units#</option>
--                                       </cfloop>
--                                   </select>
+												<select name="attribute_units_3" size="1" id="attribute_units_3" style="width: 40px;">
+													<option value=""></option>
+													<cfloop query="ctLength_Units">
+														<option <cfif #data.attribute_units_3# is #length_units#> selected </cfif>value="#Length_Units#">#length_units#</option>
+													</cfloop>
+												</select>
 												<span class="f11a">Date</span>
 												<input type="text" title="ATTRIBUTE_DATE_3" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" size="10" >
 												<span class="f11a">Detr</span>
@@ -1277,12 +1277,12 @@ Some Totally Random String Data .....
 												<input type="hidden" name="attribute_4" value="tail length" />
 												<span class="f11a">Tail Length&nbsp;&nbsp;&nbsp;</span>
 												<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="4" id="attribute_value_4">
--                                   <select name="attribute_units_4" size="1" id="attribute_units_4" style="width: 40px;">
--                                       <option value=""></option>
--                                       <cfloop query="ctLength_Units">
--                                          <option <cfif #data.attribute_units_4# is #length_units#> selected </cfif>value="#Length_Units#">#length_units#</option>
--                                       </cfloop>
--                                   </select>
+												<select name="attribute_units_4" size="1" id="attribute_units_4" style="width: 40px;">
+													<option value=""></option>
+													<cfloop query="ctLength_Units">
+														<option <cfif #data.attribute_units_4# is #length_units#> selected </cfif>value="#Length_Units#">#length_units#</option>
+													</cfloop>
+												</select>
 												<span class="f11a">Date</span>
 												<input type="text" title="ATTRIBUTE_DATE_4" name="attribute_date_4" value="#attribute_date_4#" id="attribute_date_4" size="10" >
 												<span class="f11a">Detr</span>
