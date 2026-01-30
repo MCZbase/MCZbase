@@ -4707,6 +4707,18 @@ limitations under the License.
 							<cfelse>
 								<cfset marginSeparator = "">
 							</cfif>
+							<!--- check if part has ever been loaned --->
+							<cfset everLoaned = false>
+							<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT distinct loan_item_id, loan_item_state, loan_number, loan.transaction_id
+								FROM loan_item
+									join loan on loan_item.transaction_id = loan.transaction_id
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
+							</cfquery>
+							<cfif checkLoanItem.recordcount GT 0>
+								<cfset everLoaned = true>
+							</cfif>
+
 							<div class="col-12 px-0 pb-3 #addedClass# rounded border mb-0 float-left">
 								<form name="editPart#i#" id="editPart#i#" class="mb-0">
 									<div class="#phead# py-2 col-12 row mx-0">
@@ -4807,20 +4819,10 @@ limitations under the License.
 												class="data-entry-textarea autogrow mb-1" maxlength="4000"
 											>#getParts.part_remarks#</textarea>
 										</div>
-										<cfset everLoaned = false>
-										<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT distinct loan_item_id, loan_item_state, loan_number, loan.transaction_id
-											FROM loan_item
-												join loan on loan_item.transaction_id = loan.transaction_id
-											WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-										</cfquery>
-										<cfif checkLoanItem.recordcount GT 0>
-											<cfset everLoaned = true>
-										</cfif>
 										<div class="col-12 col-md-3 pt-2">
 											<button id="part_submit#i#" value="Save" class="mt-2 btn btn-xs btn-primary" title="Save Part">Save</button>
 											<cfif getIdentifications.recordcount EQ 0>
-												<cfif everLoaned EQ false>
+												<cfif NOT everLoaned>
 													<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
 												</cfif>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -4838,7 +4840,7 @@ limitations under the License.
 											<output id="part_output#i#" aria-live="polite"></output>
 										</div>
 										<cfif checkLoanItem.recordcount GT 0>
-											<div class="col-12 col-md-3 pt-2">
+											<div class="col-12">
 												<h3 class="h4">In Loans:</h3>
 												<cfloop query="checkLoanItem">
 													#checkLoanItem.loan_number# #checkLoanItem.loan_item_state#
