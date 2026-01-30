@@ -1221,6 +1221,65 @@ Some Totally Random String Data .....
 												id="attribute_det_meth_1">
 										</td>
 									</tr>
+									<cfif collection_cde is "Herp">
+										<tr>
+											<td nowrap="nowrap">
+												<input type="hidden" name="attribute_2" value="weight" />
+												<span class="f11a">Weight</span>
+												<input type="text" name="attribute_value_2" value="#attribute_value_2#" size="4" id="attribute_value_2">
+												<span class="f11a">Date</span>
+												<input type="text" title="ATTRIBUTE_DATE_2" name="attribute_date_2" value="#attribute_date_2#" id="attribute_date_2" size="10" >
+												<span class="f11a">Detr</span>
+												<input type="text" title="ATTRIBUTE_DETERMINER_2" name="attribute_determiner_2" value="#attribute_determiner_2#"
+													onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
+													onkeypress="return noenter(event);"
+													onblur="doAttributeDefaults();"
+													id="attribute_determiner_2" />
+												<span class="f11a">Meth</span>
+												<input size="15" title="ATTRIBUTE_DET_METH_2" type="text" name="attribute_det_meth_2" value="#attribute_det_meth_2#" id="attribute_det_meth_2">
+												<span class="f11a">Rem</span>
+												<input type="text" title="ATTRIBUTE_REMARKS_X" name="attribute_remarks_2" id="attribute_remarks_2" value="#attribute_remarks_2#">
+											</td>
+										</tr>
+										<tr>
+											<td nowrap="nowrap">
+												<input type="hidden" name="attribute_3" value="snout-vent length" />
+												<span class="f11a">Snout-vent Length</span>
+												<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="4" id="attribute_value_3">
+												<span class="f11a">Date</span>
+												<input type="text" title="ATTRIBUTE_DATE_3" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" size="10" >
+												<span class="f11a">Detr</span>
+												<input type="text" title="ATTRIBUTE_DETERMINER_3" name="attribute_determiner_3" value="#attribute_determiner_3#"
+													onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
+													onkeypress="return noenter(event);"
+													onblur="doAttributeDefaults();"
+													id="attribute_determiner_3" />
+												<span class="f11a">Meth</span>
+												<input size="15" title="ATTRIBUTE_DET_METH_3" type="text" name="attribute_det_meth_3" value="#attribute_det_meth_3#" id="attribute_det_meth_3">
+												<span class="f11a">Rem</span>
+												<input type="text" title="ATTRIBUTE_REMARKS_4" name="attribute_remarks_3" id="attribute_remarks_3" value="#attribute_remarks_3#">
+											</td>
+										</tr>
+										<tr>
+											<td nowrap="nowrap">
+												<input type="hidden" name="attribute_4" value="tail length" />
+												<span class="f11a">Tail Length</span>
+												<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="4" id="attribute_value_4">
+												<span class="f11a">Date</span>
+												<input type="text" title="ATTRIBUTE_DATE_4" name="attribute_date_4" value="#attribute_date_4#" id="attribute_date_4" size="10" >
+												<span class="f11a">Detr</span>
+												<input type="text" title="ATTRIBUTE_DETERMINER_4" name="attribute_determiner_4" value="#attribute_determiner_4#"
+													onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
+													onkeypress="return noenter(event);"
+													onblur="doAttributeDefaults();"
+													id="attribute_determiner_4" />
+												<span class="f11a">Meth</span>
+												<input size="15" title="ATTRIBUTE_DET_METH_4" type="text" name="attribute_det_meth_4" value="#attribute_det_meth_4#" id="attribute_det_meth_4">
+												<span class="f11a">Rem</span>
+												<input type="text" title="ATTRIBUTE_REMARKS_4" name="attribute_remarks_4" id="attribute_remarks_4" value="#attribute_remarks_4#">
+											</td>
+										</tr>
+									</cfif>
 								</table>
 							<cfelse>
 								<input type="hidden" name="attribute_1" id="attribute_1" value="">
@@ -1303,65 +1362,6 @@ Some Totally Random String Data .....
 										</td>
 									</tr>
 								<cfelseif collection_cde is "Herp">
-									<tr>
-										<td colspan="2" align="center"><span class="f11a">Weight</span></td>
-										<td colspan="2" align="center"><span class="f11a">snout-vent length</span></td>
-										<td colspan="2" align="center"><span class="f11a">tail length</span></td>
-										<td><span class="f11a">Date</span></td>
-										<td><span class="f11a">Determiner</span></td>
-									</tr>
-									<tr>
-										<td>
-											<input type="hidden" name="attribute_2" value="weight" />
-											<input type="text" name="attribute_value_2" value="#attribute_value_2#" size="4" id="attribute_value_2">
-										</td>
-										<td>
-											<select name="attribute_units_2" size="1" id="attribute_units_2" style="width: 40px;">
-												<cfloop query="ctWeight_Units">
-													<option <cfif #data.attribute_units_2# is #Weight_Units#> selected </cfif>value="#Weight_Units#">#Weight_Units#</option>
-												</cfloop>
-											</select>
-										</td>
-										<td>
-											<input type="hidden" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" />
-											<input type="hidden" name="attribute_determiner_3" value="#attribute_determiner_3#" id="attribute_determiner_3" />
-											<input type="hidden" name="attribute_3" value="snout-vent length" />
-											<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="4" id="attribute_value_3">
-										</td>
-										<td>
-											<select name="attribute_units_3" size="1" id="attribute_units_3" style="width: 40px;">
-												<option value=""></option>
-												<cfloop query="ctLength_Units">
-													<option <cfif #data.attribute_units_3# is #Length_Units#> selected </cfif>value="#Length_Units#">#Length_Units#</option>
-												</cfloop>
-											</select>
-										</td>
-										<td>
-											<input type="hidden" name="attribute_date_4" value="#attribute_date_4#" id="attribute_date_4" />
-											<input type="hidden" name="attribute_determiner_4" value="#attribute_determiner_4#" id="attribute_determiner_4" />
-											<input type="hidden" name="attribute_4" value="tail length" />
-											<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="4" id="attribute_value_4">
-										</td>
-										<td>
-											<select name="attribute_units_4" size="1" id="attribute_units_4" style="width: 40px;">
-												<option value=""></option>
-												<cfloop query="ctLength_Units">
-													<option <cfif #data.attribute_units_4# is #Length_Units#> selected </cfif>value="#Length_Units#">#Length_Units#</option>
-												</cfloop>
-											</select>
-										</td>
-										<td>
-											<input type="text" name="attribute_date_2" id="attribute_date_2" value="#attribute_date_2#" size="9">
-										</td>
-										<td>
-											<input type="text"
-											size="14"	name="attribute_determiner_2"
-												id="attribute_determiner_2"
-												value="#attribute_determiner_2#"
-        										onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
-												onkeypress="return noenter(event);">
-										</td>
-									</tr>
                            <!--- maintain attributes 5-6 as hiddens to not break the JS --->
 									<cfloop from="5" to="6" index="i">
 										<input type="hidden" name="attribute_#i#" id="attribute_#i#" value="">
