@@ -1170,15 +1170,11 @@ Some Totally Random String Data .....
 				<table class="fs">
 				    <!----- attributes ------->
 					<tr>
-
-
-
 						<td>
                      <img src="/images/info.gif" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
 							<cfif collection_cde is not "Ich" AND collection_cde is not "HerpOBS">
 								<table cellpadding="0" cellspacing="0">
 									<tr>
-
 										<td nowrap="nowrap">
 											<span class="f11a">Sex</span>
 											 <input type="hidden" name="attribute_1" value="sex">
@@ -1309,7 +1305,8 @@ Some Totally Random String Data .....
 								<cfelseif collection_cde is "Herp">
 									<tr>
 										<td colspan="2" align="center"><span class="f11a">Weight</span></td>
-										<td colspan="2" align="center"><span class="f11a">Total Length</span></td>
+										<td colspan="2" align="center"><span class="f11a">snout-vent length</span></td>
+										<td colspan="2" align="center"><span class="f11a">tail length</span></td>
 										<td><span class="f11a">Date</span></td>
 										<td><span class="f11a">Determiner</span></td>
 									</tr>
@@ -1330,7 +1327,7 @@ Some Totally Random String Data .....
 										<td>
 											<input type="hidden" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" />
 											<input type="hidden" name="attribute_determiner_3" value="#attribute_determiner_3#" id="attribute_determiner_3" />
-											<input type="hidden" name="attribute_3" value="total height" />
+											<input type="hidden" name="attribute_3" value="snout-vent length" />
 											<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="2" id="attribute_value_3">
 										</td>
 										<td>
@@ -1338,6 +1335,20 @@ Some Totally Random String Data .....
 												<option value=""></option>
 												<cfloop query="ctLength_Units">
 													<option <cfif #data.attribute_units_3# is #Length_Units#> selected </cfif>value="#Length_Units#">#Length_Units#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td>
+											<input type="hidden" name="attribute_date_4" value="#attribute_date_4#" id="attribute_date_4" />
+											<input type="hidden" name="attribute_determiner_4" value="#attribute_determiner_4#" id="attribute_determiner_4" />
+											<input type="hidden" name="attribute_4" value="tail length" />
+											<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="2" id="attribute_value_4">
+										</td>
+										<td>
+											<select name="attribute_units_4" size="1" id="attribute_units_4" style="width: 35px;">
+												<option value=""></option>
+												<cfloop query="ctLength_Units">
+													<option <cfif #data.attribute_units_4# is #Length_Units#> selected </cfif>value="#Length_Units#">#Length_Units#</option>
 												</cfloop>
 											</select>
 										</td>
@@ -1353,8 +1364,8 @@ Some Totally Random String Data .....
 												onkeypress="return noenter(event);">
 										</td>
 									</tr>
-                           <!--- maintain attributes 4-6 as hiddens to not break the JS --->
-									<cfloop from="4" to="6" index="i">
+                           <!--- maintain attributes 5-6 as hiddens to not break the JS --->
+									<cfloop from="5" to="6" index="i">
 										<input type="hidden" name="attribute_#i#" id="attribute_#i#" value="">
 										<input type="hidden" name="attribute_value_#i#"  id="attribute_value_#i#" value="">
 										<input type="hidden" name="attribute_date_#i#"  id="attribute_date_#i#" value="">
