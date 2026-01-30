@@ -1225,12 +1225,12 @@ Some Totally Random String Data .....
 										<tr>
 											<td nowrap="nowrap">
 												<input type="hidden" name="attribute_2" value="weight" />
-												<span class="f11a">Weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+												<span class="f11a">Weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 												<input type="text" name="attribute_value_2" value="#attribute_value_2#" size="4" id="attribute_value_2">
 												<span class="f11a">Date</span>
 												<input type="text" title="ATTRIBUTE_DATE_2" name="attribute_date_2" value="#attribute_date_2#" id="attribute_date_2" size="10" >
 												<span class="f11a">Detr</span>
-												<input type="text" title="ATTRIBUTE_DETERMINER_2" name="attribute_determiner_2" value="#attribute_determiner_2#"
+												<input type="text" title="ATTRIBUTE_DETERMINER_2" name="attribute_determiner_2" value="#attribute_determiner_2#" size="12"
 													onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 													onkeypress="return noenter(event);"
 													onblur="doAttributeDefaults();"
@@ -1249,7 +1249,7 @@ Some Totally Random String Data .....
 												<span class="f11a">Date</span>
 												<input type="text" title="ATTRIBUTE_DATE_3" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" size="10" >
 												<span class="f11a">Detr</span>
-												<input type="text" title="ATTRIBUTE_DETERMINER_3" name="attribute_determiner_3" value="#attribute_determiner_3#"
+												<input type="text" title="ATTRIBUTE_DETERMINER_3" name="attribute_determiner_3" value="#attribute_determiner_3#" size="12"
 													onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 													onkeypress="return noenter(event);"
 													onblur="doAttributeDefaults();"
@@ -1263,12 +1263,12 @@ Some Totally Random String Data .....
 										<tr>
 											<td nowrap="nowrap">
 												<input type="hidden" name="attribute_4" value="tail length" />
-												<span class="f11a">Tail Length</span>
+												<span class="f11a">Tail Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 												<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="4" id="attribute_value_4">
 												<span class="f11a">Date</span>
 												<input type="text" title="ATTRIBUTE_DATE_4" name="attribute_date_4" value="#attribute_date_4#" id="attribute_date_4" size="10" >
 												<span class="f11a">Detr</span>
-												<input type="text" title="ATTRIBUTE_DETERMINER_4" name="attribute_determiner_4" value="#attribute_determiner_4#"
+												<input type="text" title="ATTRIBUTE_DETERMINER_4" name="attribute_determiner_4" value="#attribute_determiner_4#" size="12"
 													onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 													onkeypress="return noenter(event);"
 													onblur="doAttributeDefaults();"
