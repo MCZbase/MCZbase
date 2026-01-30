@@ -4714,6 +4714,7 @@ limitations under the License.
 								FROM loan_item
 									join loan on loan_item.transaction_id = loan.transaction_id
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
+								ORDER BY loan_number
 							</cfquery>
 							<cfif checkLoanItem.recordcount GT 0>
 								<cfset everLoaned = true>
@@ -4840,10 +4841,12 @@ limitations under the License.
 											<output id="part_output#i#" aria-live="polite"></output>
 										</div>
 										<cfif checkLoanItem.recordcount GT 0>
+											<cfset separator = "">
 											<div class="col-12">
 												<span class="d-inline font-weight-lessbold">In Loans:</span>
 												<cfloop query="checkLoanItem">
-													#checkLoanItem.loan_number# #checkLoanItem.loan_status# (Item: #checkLoanItem.loan_item_state#)
+													#separator##checkLoanItem.loan_number# #checkLoanItem.loan_status# (Item: #checkLoanItem.loan_item_state#)
+													<cfset separator = "; ">
 												</cfloop>
 											</div>
 										</cfif>
