@@ -322,7 +322,7 @@ table##t th {
 </cfif>
 <cfif action is "ajaxGrid">
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-	<cfset accnCleaned = replace(accn,"'","","All")>
+	<cfset accnCleaned = trim(replace(accn,"'","","All"))>
 	<cfset collnCleaned = replace(colln,"'","","All")>
 	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(*) as ct
@@ -330,7 +330,7 @@ table##t th {
 		WHERE 
 			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 		<cfif len(accn) gt 0>
-			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
 			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
