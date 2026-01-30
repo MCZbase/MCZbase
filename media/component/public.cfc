@@ -974,7 +974,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship contains 'container'>
 												<cfif oneofus eq 1>
 													<cfloop query="getContainers">
-														<a class="font-weight-lessbold" href="/ContainerDetails.cfm?container_id=#getContainers.container_id#"> #getContainers.label# (#getContainers.container_type#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/findContainer.cfm?container_label=#encodeForUrl(getContainers.container_label)#"> #getContainers.label# (#getContainers.container_type#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -1481,7 +1481,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship contains 'container'>
 												<cfif oneofus eq 1>
 													<cfloop query="getContainers">
-														<a class="font-weight-lessbold" href="/ContainerDetails.cfm?container_id=#getContainers.container_id#"> #getContainers.label# (#getContainers.container_type#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/findContainer.cfm?container_label=#encodeForUrl(getContainers.container_label)#"> #getContainers.label# (#getContainers.container_type#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
