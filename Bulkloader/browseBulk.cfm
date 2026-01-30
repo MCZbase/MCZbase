@@ -322,7 +322,7 @@ table##t th {
 </cfif>
 <cfif action is "ajaxGrid">
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-	<cfset accnCleaned = replace(accn,"'","","All")>
+	<cfset accnCleaned = trim(replace(accn,"'","","All"))>
 	<cfset collnCleaned = replace(colln,"'","","All")>
 	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(*) as ct
