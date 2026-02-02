@@ -2842,17 +2842,6 @@ limitations under the License.
 									};
 								}
 							});
-							function doLoanItemUpdate(loan_item_id) {
-								console.log(loan_item_id);
-								let loan_item_remarks = $("##loan_item_remarks_#id#").val();
-								let item_instructions = $("##item_instructions_#id#").val();
-								let condition = $("##condition_#id#").val();
-								let coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
-								let item_descr = $("##item_descr_#id#").val();
-								let loan_item_state = $("##loan_item_state_#id#").val();
-								console.log(loan_item_state);
-								updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state);
-							}
 						</script>
 					</cfif>
 				</cfloop>

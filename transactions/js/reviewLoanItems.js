@@ -102,6 +102,18 @@ function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll
 	});
 }
 
+function doLoanItemUpdate(loan_item_id) {
+	console.log(loan_item_id);
+	let loan_item_remarks = $("#loan_item_remarks_" + loan_item_id).val();
+	let item_instructions = $("#item_instructions_" + loan_item_id).val();
+	let condition = $("#conditin_" + loan_item_id).val();
+	let coll_obj_disposition = $("#coll_obj_disposition_" + loan_item_id).val();
+	let item_descr = $("#item_descr_" + loan_item_id).val();
+	let loan_item_state = $("#loan_item_state_" + loan_item_id).val();
+	console.log(loan_item_state);
+	updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state);
+}
+
 function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targetDiv) { 
 	$("#"+targetDiv).html("Saving...");
 	jQuery.ajax({
