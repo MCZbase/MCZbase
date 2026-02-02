@@ -444,7 +444,7 @@ limitations under the License.
 					<cfif len(arguments.item_descr) GT 0>
 						,item_descr = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_descr#">
 					</cfif>
-					<cfif len(loan_item_state) GT 0>
+					<cfif len(arguments.loan_item_state) GT 0>
 						,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">
 					</cfif>
 					<cfif structKeyExists(arguments,"resolution_remarks")> 
@@ -2850,6 +2850,7 @@ limitations under the License.
 								let coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
 								let item_descr = $("##item_descr_#id#").val();
 								let loan_item_state = $("##loan_item_state_#id#").val();
+								console.log(loan_item_state);
 								updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state);
 							}
 						</script>
