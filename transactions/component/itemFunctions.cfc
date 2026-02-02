@@ -1435,14 +1435,11 @@ limitations under the License.
 															Remove
 														</button>
 														<script>
-															function closeDialogCallback() { 
-																$("##loanItemEditDialogDiv").dialog("close");
-															}
 															function doRemove() { 
-																// close current dialog
-																closeDialog("loanItemEditorDiv");
 																// open remove dialog
 																openRemoveLoanItemDialog("#loan_item_id#", "loanItemRemoveDialogDiv" , refreshItems#lookupItem.catItemId#);
+																// close current dialog
+																$("##loanItemEditDialogDiv").dialog("close");
 															}
 														</script>
 													</div>
