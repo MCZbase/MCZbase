@@ -2727,7 +2727,7 @@ limitations under the License.
 								</select>
 								<script>
 									$(document).ready( function() { 
-										$("##loan_item_state_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
+										$("##loan_item_state_#id#").on("change", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 								<cfif len(getParts.return_date) GT 0>
@@ -2743,7 +2743,7 @@ limitations under the License.
 								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
-										$("##item_descr_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
+										$("##item_descr_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
@@ -2755,7 +2755,7 @@ limitations under the License.
 								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
-										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
+										$("##condition_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
@@ -2774,7 +2774,7 @@ limitations under the License.
 								</select>
 								<script>
 									$(document).ready( function() {
-										$("##coll_obj_disposition_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
+										$("##coll_obj_disposition_#id#").on("change", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
