@@ -1233,6 +1233,7 @@ limitations under the License.
 						collection.institution_acronym,
 						cataloged_item.collection_cde, 
 						cataloged_item.cat_num,
+						cataloged_item.collection_object_id as catItemId,
 						coll_object.coll_obj_disposition,
 						coll_object.condition,
 						specimen_part.part_name,
@@ -1429,6 +1430,17 @@ limitations under the License.
 																});
 															}
 														</script>
+														<button type="button" class="btn btn-danger btn-sm float-right" 
+															onclick=" doRemove(); ">
+															Remove
+														</button>
+														<script>
+															function doRemove() { 
+																// close current dialog
+																closeDialog("loanItemEditorDiv");
+																// open remove dialog
+																openRemoveLoanItemDialog(;#loan_item_id#;, "loanItemRemoveDialogDiv" , refreshItems#lookupItem.catItemId#);
+															}
 													</div>
 												</div>
 											</form>
