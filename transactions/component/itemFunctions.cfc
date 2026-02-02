@@ -2725,6 +2725,11 @@ limitations under the License.
 										<option value="#ctItemStates.loan_item_state#" #selected#>#ctItemStates.loan_item_state#</option>
 									</cfloop>
 								</select>
+								<script>
+									$(document).ready( function() { 
+										$("##loan_item_state_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
+									});
+								</script>
 								<cfif len(getParts.return_date) GT 0>
 									<div class="smaller">
 										Return Date: #getParts.return_date#
