@@ -1317,7 +1317,7 @@ limitations under the License.
 								}
 							});
 						}
-						function reloadLoanItemData() { 
+						function reloadLoanItemsData() { 
 							reloadDataNoBroadcast();
 							// Broadcast that a change has happened to the loan items
 							bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
