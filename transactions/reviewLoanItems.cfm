@@ -985,12 +985,11 @@ limitations under the License.
 																	});
 																});
 															</script>
-															<!---  script>
+															<script>
 																$(document).ready(function() {
 																	makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
 																});
-																// if added, validate that collection_object_id is set before submitting
-															</script --->
+															</script>
 														</div>
 													</div>
 												</div>
