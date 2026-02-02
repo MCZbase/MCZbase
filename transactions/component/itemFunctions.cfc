@@ -1444,6 +1444,7 @@ limitations under the License.
 																// open remove dialog
 																openRemoveLoanItemDialog("#loan_item_id#", "loanItemRemoveDialogDiv" , refreshItems#lookupItem.catItemId#);
 															}
+														</script>
 													</div>
 												</div>
 											</form>
