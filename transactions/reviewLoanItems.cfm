@@ -1317,31 +1317,6 @@ limitations under the License.
 								}
 							});
 						}
-						function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr) {
-							setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saving");
-							$.ajax({
-								url: '/transactions/component/itemFunctions.cfc',
-								type: 'POST',
-								dataType: 'json',
-								data: {
-									method: 'updateLoanItem',
-									loan_item_id: loan_item_id,
-									item_instructions: item_instructions,
-									condition: condition,
-									loan_item_remarks: loan_item_remarks,
-									coll_obj_disposition: coll_obj_disposition,
-									item_descr: item_descr
-								},
-								success: function(data) {
-									loanModifiedHere();
-									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saved");
-								},
-								error: function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"updating loan item");
-									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "error");
-								}
-							});
-						}
 						function reloadLoanItemData() { 
 							reloadDataNoBroadcast();
 							// Broadcast that a change has happened to the loan items
@@ -1370,17 +1345,6 @@ limitations under the License.
 								var loan_item_id = rowData['loan_item_id'];
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consume" aria-label="Mark Item as Consumed"/></span>';
 							};
-							function updateRowOldContent (rowid, rowdata, commit) {
-									var data = "method=updateLoanItem";
-									data = data + "&transaction_id=" + rowdata.transaction_id;
-									data = data + "&part_id=" + rowdata.part_id;
-									data = data + "&condition=" + encodeURIComponent(rowdata.condition);
-									data = data + "&item_instructions=" + encodeURIComponent(rowdata.item_instructions);
-									data = data + "&coll_obj_disposition=" + encodeURIComponent(rowdata.coll_obj_disposition);
-									data = data + "&loan_item_remarks=" + encodeURIComponent(rowdata.loan_item_remarks);
-									data = data + "&resolution_remarks=" + encodeURIComponent(rowdata.resolution_remarks);
-									data = data + "&item_descr=" + encodeURIComponent(rowdata.item_descr);
-							}
 							function reloadLoanSummaryData(){ 
 								// reload dispositions of loan items
 								$.ajax({

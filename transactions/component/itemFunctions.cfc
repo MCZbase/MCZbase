@@ -330,6 +330,7 @@ limitations under the License.
 
  TODO: use Primary Key loan_item_id instead of transaction_id and part_id to identify the loan item to update.
  
+ @param loan_item_id optional, the loan_item_id of the loan item to update: TODO, switch to this pkey instead of transaction_id and part_id.
  @param condition the new value of the coll_object.condition to save.
  @param item_instructions the new value of the loan_item.item_instructions to save.
  @param loan_item_remarks the new value of the loan_item.item_remarks to save.
@@ -339,12 +340,10 @@ limitations under the License.
  @param loan_item_state optional, the new value of loan_item.loan_item_state to save, if 
    not provided, the value will not be changed, if provided, values of returned, consumed, or missing 
    will mark the loan item as resolved, values of in loan or unknown will clear any returned date and agent.
- @param loan_item_id optional, the loan_item_id of the loan item to update: TODO, switch to this pkey instead of transaction_id and part_id.
  @return a json structurre with status:1, or a http 500 response.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
-	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="loan_item_id" type="string" required="yes" default="">
 	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="loan_item_remarks" type="string" required="yes">
@@ -352,18 +351,21 @@ limitations under the License.
 	<cfargument name="resolution_remarks" type="string" required="no">
 	<cfargument name="item_descr" type="string" required="yes">
 	<cfargument name="loan_item_state" type="string" required="no" default="">
-	<cfargument name="loan_item_id" type="string" required="no" default="">
 
 	<cftransaction>
 		<cftry>
 			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="confirmItem_result">
-				select loan_item_id, loan_item_state from loan_item
+				SELECT loan_item_id, loan_item_state,
+					transaction_id, collection_object_id as part_id
+				FROM loan_item
 				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#"> AND
-					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+					loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
-			<cfif confirmItem.recordcount EQ 0>
-				<cfthrow message="specified collection object is not a loan item in the specified transaction">
+			<cfif confirmItem.recordcount NEQ 1>
+				<cfthrow message="specified loan item not found">
+			<cfelse>
+				<cfset part_id = confirmItem.part_id>
+				<cfset transaction_id = confirmItem.transaction_id>
 			</cfif>
 			<cfif arguments.loan_item_state is not "" AND arguments.loan_item_state NEQ confirmItem.loan_item_state>
 				<cfif arguments.loan_item_state eq "returned">
@@ -383,7 +385,7 @@ limitations under the License.
 							loan_item
 							join loan on loan_item.transaction_id = loan.transaction_id
 						WHERE 
-							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							AND (loan_item_state = 'in loan') 
 							AND loan.loan_status = 'open'
 					</cfquery>
@@ -393,7 +395,7 @@ limitations under the License.
 							SET 
 								loan_status = 'open partially returned'
 							WHERE 
-								transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+								transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 								and loan_status = 'open'
 						</cfquery>
 					</cfif>
@@ -421,10 +423,10 @@ limitations under the License.
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
 					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfif upDisp_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+				<cfthrow message="Coll_object Record not updated. #part_id# #upDisp_result.sql#">
 			</cfif>
 			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
 				UPDATE loan_item SET
@@ -453,11 +455,10 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
-					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
 			<cfif upItem_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #part_id# #upItem_result.sql#">
+				<cfthrow message="Record not updated. #loan_item_id# #upItem_result.sql#">
 			</cfif>
 			<cfif upItem_result.recordcount eq 1>
 				<cfset theResult=queryNew("status, message")>
@@ -1320,8 +1321,6 @@ limitations under the License.
 										<div class="card-body">
 											<form name="editLoanItemForm" id="editLoanItemForm" class="mb-0">
 												<input type="hidden" name="loan_item_id" value="#lookupItem.loan_item_id#">
-												<input type="hidden" name="part_id" value="#lookupItem.part_id#">
-												<input type="hidden" name="transaction_id" value="#lookupItem.transaction_id#">
 												<input type="hidden" name="method" value="updateLoanItem">
 												<div class="row mx-0 py-2">
 													<div class="col-12 col-md-6 px-1">
@@ -2845,7 +2844,8 @@ limitations under the License.
 								let condition = $("##condition_#id#").val();
 								let coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
 								let item_descr = $("##item_descr_#id#").val();
-								updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr);
+								let loan_item_state = $("##loan_item_state_#id#").val();
+								updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state);
 							}
 						</script>
 					</cfif>
