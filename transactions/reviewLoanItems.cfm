@@ -1326,12 +1326,6 @@ limitations under the License.
 						<script>
 
 
-							var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to launch an edit dialog
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemDialog('+loan_item_id+',\'editItemDialog\',\'Loan Item\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Edit" aria-label="Edit"/></span>';
-							};
 							var returnCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								// Display a button to mark a loan item as returned
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);

@@ -442,12 +442,12 @@ limitations under the License.
 							</cfloop>
 						</div>
 					</cfloop>
-					<div id="editItemDialogDiv"></div>
+					<div id="loanItemEditDialogDiv"></div>
 					<script>
 						function launchEditDialog(part_id) { 
 							var loan_item_id = $("##loan_item_id_"+part_id).val();
 							var part_name = $("##part_name_"+part_id).val();
-							openLoanItemDialog(loan_item_id,"editItemDialogDiv",part_name,null);
+							openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",part_name,null);
 						}
 						function addPartToLoan(part_id) { 
 							// get values from inputs for part
