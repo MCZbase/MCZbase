@@ -106,7 +106,7 @@ function doLoanItemUpdate(loan_item_id) {
 	console.log(loan_item_id);
 	let loan_item_remarks = $("#loan_item_remarks_" + loan_item_id).val();
 	let item_instructions = $("#item_instructions_" + loan_item_id).val();
-	let condition = $("#conditin_" + loan_item_id).val();
+	let condition = $("#condition_" + loan_item_id).val();
 	let coll_obj_disposition = $("#coll_obj_disposition_" + loan_item_id).val();
 	let item_descr = $("#item_descr_" + loan_item_id).val();
 	let loan_item_state = $("#loan_item_state_" + loan_item_id).val();

@@ -344,12 +344,12 @@ limitations under the License.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
 	<cfargument name="loan_item_id" type="string" required="yes" default="">
-	<cfargument name="condition" type="string" required="no">
+	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
-	<cfargument name="resolution_remarks" type="string" required="no">
 	<cfargument name="item_descr" type="string" required="yes">
+	<cfargument name="resolution_remarks" type="string" required="no">
 	<cfargument name="loan_item_state" type="string" required="no" default="">
 
 	<cftransaction>
