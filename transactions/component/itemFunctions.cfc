@@ -344,7 +344,7 @@ limitations under the License.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
 	<cfargument name="loan_item_id" type="string" required="yes" default="">
-	<cfargument name="condition" type="string" required="yes">
+	<cfargument name="condition" type="string" required="no">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
@@ -421,8 +421,10 @@ limitations under the License.
 			</cfif>
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
-				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
-					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">
+					<cfif isDefined("arguments.condition") AND len(trim(arguments.condition)) GT 0>
+						, condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
+					</cfif>
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfif upDisp_result.recordcount NEQ 1>
@@ -1361,7 +1363,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Condition (#lookupItem.condition#)</label>
-														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
+														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input reqdClr">
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Disposition (#lookupItem.coll_obj_disposition#)</label>
