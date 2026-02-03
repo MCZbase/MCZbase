@@ -2848,11 +2848,11 @@ limitations under the License.
 								<cfif lookupLoan.loan_status EQ "open">
 									<cfif lookupLoan.loan_type EQ "consumable">
 										<cfif getParts.loan_item_state NEQ "consumed">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
 										</cfif>
 									<cfelse>
 										<cfif getParts.loan_item_state NEQ "returned">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Return</button>
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);" aria-label="Mark Item as Returned" >Return</button>
 										</cfif>
 									</cfif>
 								</cfif>
@@ -2884,9 +2884,13 @@ limitations under the License.
 										console.log("refresh items invoked for #catItemId#");
 										refreshLoanCatItem("#catItemId#");
 									};
-									window["returnLoanItemItem#catItemId#"] = function() { 
-										console.log("TDO: Implement");
-										refreshLoanCatItem("#catItemId#");
+									window["returnLoanItem#catItemId#"] = function(loan_item_id) { 
+										console.log(loan_item_id);
+										resolveLoanItem(loan_item_id,"loanItemStatusDiv_"+loan_item_id,"returned",refreshItems#catItemId#);
+									);
+									window["consumeLoanItem#catItemId#"] = function(loan_item_id) { 
+										console.log(loan_item_id);
+										resolveLoanItem(loan_item_id,"loanItemStatusDiv_"+loan_item_id,"consumed",refreshItems#catItemId#);
 									);
 								}
 							});
