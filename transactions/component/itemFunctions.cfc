@@ -1211,7 +1211,7 @@ limitations under the License.
 <cffunction name="getLoanItemDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="loan_item_id" type="string" required="yes">
 
-	<cfthread name="getRemoveLoanItemHtmlThread" loan_item_id="#arguments.loan_item_id#">
+	<cfthread name="getLoanItemDialogHtmlThread" loan_item_id="#arguments.loan_item_id#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1595,8 +1595,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getRemoveLoanItemHtmlThread" />
-	<cfreturn getRemoveLoanItemHtmlThread.output>
+	<cfthread action="join" name="getLoanItemDialogHtmlThread" />
+	<cfreturn getLoanItemDialogHtmlThread.output>
 </cffunction>
 
 <!--- getDispositionsList obtain an html list of distinct values of dispositions and loan item 
@@ -2561,6 +2561,27 @@ limitations under the License.
 						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
 					</cfif>
 
+
+					<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							count(specimen_part.collection_object_id) partCount
+						FROM
+							cataloged_item
+							join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
+					</cfquery>
+					<cfquery name="countPartsInThisLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							count(specimen_part.collection_object_id) partCount
+						FROM
+							cataloged_item
+							join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+							join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
+							AND loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					</cfquery>
 					<div class="col-12 col-md-4">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<a href="/guid/#guid#" target="_blank">#guid#</a>  
@@ -2569,6 +2590,11 @@ limitations under the License.
 						</cfif>
 						#scientific_name#
 						#type_status#
+						<cfif countPartsInThisLoan.partCount EQ countParts.partCount>
+							<span class="">All parts are in this loan.</span>
+						<cfelse>
+							<span class="small90">#countPartsInThisLoan.partCount# of #countParts.partCount# parts are in this loan.</span>
+						</cfif>
 					</div>
 					<div class="col-12 col-md-4">
 						#higher_geog#; #spec_locality#; #sovereign_nation#
@@ -2633,24 +2659,18 @@ limitations under the License.
 							loan_item.item_instructions,
 							loan_item.loan_item_state,
 							loan_item.resolution_remarks,
-			reconciled_by_person_id,
-			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
-			to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
+							reconciled_by_person_id,
+							MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
+							to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
 							to_char(loan_item.return_date,'YYYY-MM-DD') return_date,
-			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
-			loan_item.resolution_recorded_by_agent_id,
+							MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+							loan_item.resolution_recorded_by_agent_id,
 							loan.loan_number,
 							loan.loan_type,
 							identification.scientific_name as mixed_scientific_name,
-			coll_obj_cont_hist.container_id,
+							coll_obj_cont_hist.container_id,
 							MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
 							MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'room') as location_room,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'fixture') as location_fixture,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'tank') as location_tank,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'freezer') as location_freezer,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
 							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
 							MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location
 						FROM 
@@ -2706,7 +2726,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div class="col-12 col-md-6">
-								<strong>Storage Location:</strong> #getParts.short_location#
+								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encoodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
 								<ul>
 									<cfif len(previous_location) GT 0>
 										<li>
@@ -2724,6 +2744,11 @@ limitations under the License.
 										</li>
 									</cfif>
 								</ul>
+								<span class="small90">
+									Added to Loan by 
+									<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(reconciled_by_person_id)#" target="_blank">#getParts.reconciled_by_agent#</a> 
+									on #getParts.reconciled_date#
+								</span>
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State: </label>
@@ -2747,7 +2772,11 @@ limitations under the License.
 								</script>
 								<cfif len(getParts.return_date) GT 0>
 									<div class="smaller">
-										Return Date: #getParts.return_date#
+										Date Returned: #getParts.return_date#
+										<span class="small90">
+											Recorded by 
+											<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(resolution_recorded_by_agent_id)#" target="_blank">#getParts.resolution_recored_by_agent#</a> 
+										</span>
 									</div>
 								</cfif>
 							</div>
@@ -2855,6 +2884,10 @@ limitations under the License.
 										console.log("refresh items invoked for #catItemId#");
 										refreshLoanCatItem("#catItemId#");
 									};
+									window["returnLoanItemItem#catItemId#"] = function() { 
+										console.log("TDO: Implement");
+										refreshLoanCatItem("#catItemId#");
+									);
 								}
 							});
 						</script>
