@@ -2775,7 +2775,7 @@ limitations under the License.
 										Date Returned: #getParts.return_date#
 										<span class="small90">
 											Recorded by 
-											<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(resolution_recorded_by_agent_id)#" target="_blank">#getParts.resolution_recored_by_agent#</a> 
+											<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(resolution_recorded_by_agent_id)#" target="_blank">#getParts.resolution_recorded_by_agent#</a> 
 										</span>
 									</div>
 								</cfif>
