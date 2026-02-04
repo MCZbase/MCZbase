@@ -135,8 +135,11 @@ limitations under the License.
 				<cfloop query="usersColls">
 					<cfset collList = listToArray("#reportprefs#") >
 				</cfloop>
-				<!-- Add the All code so that reports in the form __All will be shown to everyone.  -->
+				<!--- Add the All code so that reports in the form __All will be shown to everyone.  --->
 				<cfset added = ArrayPrepend(collList,"All") >
+				<cfif userColls.reportprefs EQ "">
+					<h2 class="h3">You have no configured collections for reports, please file a bug report with the list of collections which you wish to see reports for by default here.</h2>
+				</cfif>
 			
 				<form name="print" id="print" method="post" action="report_printer.cfm">
 					<input type="hidden" name="action" value="print">
