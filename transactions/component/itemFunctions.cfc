@@ -2887,11 +2887,11 @@ limitations under the License.
 									window["returnLoanItem#catItemId#"] = function(loan_item_id) { 
 										console.log(loan_item_id);
 										resolveLoanItem(loan_item_id,"loanItemStatusDiv_"+loan_item_id,"returned",refreshItems#catItemId#);
-									);
+									};
 									window["consumeLoanItem#catItemId#"] = function(loan_item_id) { 
 										console.log(loan_item_id);
 										resolveLoanItem(loan_item_id,"loanItemStatusDiv_"+loan_item_id,"consumed",refreshItems#catItemId#);
-									);
+									};
 								}
 							});
 						</script>
