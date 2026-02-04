@@ -2726,7 +2726,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div class="col-12 col-md-6">
-								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encoodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
+								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
 								<ul>
 									<cfif len(previous_location) GT 0>
 										<li>
