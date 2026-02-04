@@ -2848,11 +2848,11 @@ limitations under the License.
 								<cfif lookupLoan.loan_status EQ "open">
 									<cfif lookupLoan.loan_type EQ "consumable">
 										<cfif getParts.loan_item_state NEQ "consumed">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem#catItemId#(#id#);">Consume</button>
 										</cfif>
 									<cfelse>
 										<cfif getParts.loan_item_state NEQ "returned">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);" aria-label="Mark Item as Returned" >Return</button>
+											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem#catItemId#(#id#);" aria-label="Mark Item as Returned" >Return</button>
 										</cfif>
 									</cfif>
 								</cfif>
