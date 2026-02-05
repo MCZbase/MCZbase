@@ -1236,10 +1236,9 @@ limitations under the License.
 							SELECT distinct 
 								collection_object_id,
 								institution_acronym, collection_cde, cat_num,
-								return_date,
 								scientific_name, type_status, higher_geog,
 								collection, chronostrat,lithostrat,
-								spec_locality, collectors, loan_item_remarks
+								spec_locality, collectors
 							FROM getLoanItems
 						</cfquery>
 					<cfelse>
@@ -1269,9 +1268,8 @@ limitations under the License.
 									</cfif>
 									<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 									<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
-									<!--- TODO: handle parts with different item instuctions, place into parts quer when groupBy=part --->
 									<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 									</cfif>
 								</div>
