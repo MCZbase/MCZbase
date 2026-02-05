@@ -2783,7 +2783,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-5">
 								<label for="item_descr_#id#" class="data-entry-label">
-									Item Description:
+									Loan Item Description:
 								</label>
 								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100">
 								<script>
@@ -2824,7 +2824,7 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-5">
-								<label for="loan_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
+								<label for="loan_item_remarks_#id#" class="data-entry-label">Loan Item Remarks:</label>
 								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() {
@@ -2833,7 +2833,7 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-5">
-								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
+								<label for="item_instructions" class="data-entry-label">Loan Item Instructions:</label>
 								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100">
 								<script>
 									$(document).ready( function() { 
