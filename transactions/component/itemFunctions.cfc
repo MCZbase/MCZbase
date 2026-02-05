@@ -2759,10 +2759,9 @@ limitations under the License.
 										<option selected></option>
 									</cfif>
 									<cfloop query="ctItemStates">
+										<cfset selected = "">
 										<cfif ctItemStates.loan_item_state EQ getParts.loan_item_state>
 											<cfset selected = "selected">
-										<cfelse>
-											<cfset selected = "">
 										</cfif>
 										<option value="#ctItemStates.loan_item_state#" #selected#>#ctItemStates.loan_item_state#</option>
 									</cfloop>
