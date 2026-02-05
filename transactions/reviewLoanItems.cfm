@@ -906,7 +906,7 @@ limitations under the License.
 											<p class="font-weight-normal mb-1 pb-0">
 												There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  
 												View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
-												<a href="/transactions/reviewLoanItems?transaction_id=#transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
+												<a href="/transactions/reviewLoanItems.cfm?acton=download&transaction_id=#transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
 											</p>
 											<cfif aboutLoan.loan_type EQ 'exhibition-master'>
 												<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
