@@ -90,6 +90,7 @@ limitations under the License.
 			coll_obj_disposition,
 			MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as type_status,
 			MCZBASE.get_scientific_name_auths_pl(cataloged_item.collection_object_id) as scientific_name,
+			MCZBASE.get_scientific_name_plain(cataloged_item.collection_object_id) as scientific_name_no_auth,
 			collecting_event.began_date,
 			collecting_event.ended_date,
 			locality.spec_locality,
