@@ -1425,6 +1425,7 @@ limitations under the License.
 										{ name: 'catalog_number', type: 'string' },
 										{ name: 'scientific_name', type: 'string' },
 										{ name: 'scientific_name_plain', type: 'string' },
+										{ name: 'scientific_name_auths_plain', type: 'string' },
 										{ name: 'collection', type: 'string' },
 										{ name: 'collection_cde', type: 'string' },
 										{ name: 'part_name', type: 'string' },
