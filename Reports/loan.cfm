@@ -1276,6 +1276,7 @@ limitations under the License.
 							</td>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
+									<!--- TODO: Look up parts separately instead of using concatenated parts string --->
 									<cfquery name="getLoanItemsParts" dbtype="query">
 										SELECT 
 											sum(lot_count) slc, 
