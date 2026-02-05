@@ -2753,7 +2753,7 @@ limitations under the License.
 								</span>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State: [#getParts.loan_item_state#]</label>
+								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State:</label>
 								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr">
 									<cfif getParts.loan_item_state EQ "">
 										<option selected></option>
