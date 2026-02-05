@@ -89,6 +89,11 @@ limitations under the License.
 			cataloged_item.collection_object_id as collection_object_id,
 			collection.institution_acronym as institution_acronym,
 			loan_number,
+			loan_item.loan_item_state,
+			loan_item.resolution_recorded_by_agent_id,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			loan_item.resolution_remarks,
+			to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
 			to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
 			MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
 			concattransagent(loan.transaction_id, 'received by')  recAgentName,
@@ -1035,6 +1040,10 @@ limitations under the License.
 								cataloged_item.collection_object_id as collection_object_id,
 								loan_number,
 								to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
+								loan_item.loan_item_state,
+								MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+								loan_item.resolution_remarks,
+								to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
 								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
 								loan_item.item_instructions,
 								concattransagent(loan.transaction_id, 'received by')  recAgentName,
@@ -1128,7 +1137,10 @@ limitations under the License.
 							<tr>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									#institution_acronym#:#collection_cde#:#cat_num#
-									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
+									<cfif loan_item_state NEQ 'in loan'>
+										<p>#loan_item_state# #return_date#</p>
+									</cfif>
+									<cfif top_loan_status EQ "closed">Added: #reconciled_date#</cfif>
 								</td>
 								<td style="width: 50%; vertical-align: top; #font# font-size: small;">
 									<div>
