@@ -2846,7 +2846,7 @@ limitations under the License.
 								<cfif lookupLoan.loan_status EQ "in process">
 									<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
 								</cfif>
-								<cfif lookupLoan.loan_status EQ "open">
+								<cfif left(lookupLoan.loan_status,4) EQ "open">
 									<cfif lookupLoan.loan_type EQ "consumable">
 										<cfif getParts.loan_item_state NEQ "consumed">
 											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem#catItemId#(#id#);">Consume</button>
