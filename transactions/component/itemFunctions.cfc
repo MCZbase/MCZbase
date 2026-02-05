@@ -1149,7 +1149,7 @@ limitations under the License.
 						<cfloop query="lookupParts">
 							<cfset i= i+1>
 							<form id="addPart_#i#">
-								<div class="form-row border">
+								<div class="form-row border py-1">
 									<div class="col-12">
 										<label class="data-entry-label">
 											#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier#
