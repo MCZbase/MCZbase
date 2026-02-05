@@ -1236,9 +1236,6 @@ limitations under the License.
 							SELECT distinct 
 								collection_object_id,
 								institution_acronym, collection_cde, cat_num,
-								reconciled_date,
-								loan_item_state,
-								item_instructions,
 								return_date,
 								scientific_name, type_status, higher_geog,
 								collection, chronostrat,lithostrat,
@@ -1255,10 +1252,12 @@ limitations under the License.
 						<tr>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
-								<cfif loan_item_state NEQ 'in loan'>
-									<p>#loan_item_state# #return_date#</p>
+								<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+									<cfif loan_item_state NEQ 'in loan'>
+										<p>#loan_item_state# #return_date#</p>
+									</cfif>
+									<cfif top_loan_status EQ "closed">Added: #reconciled_date#</cfif>
 								</cfif>
-								<cfif top_loan_status EQ "closed">Added: #reconciled_date#</cfif>
 							</td>
 							<td style="width: 50%; vertical-align: top; #font# font-size: small;">
 								<div>
@@ -1271,19 +1270,27 @@ limitations under the License.
 									<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 									<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
 									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
-									<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+									<!--- TODO: handle parts with different item instuctions, place into parts quer when groupBy=part --->
+									<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+									</cfif>
 								</div>
 							</td>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
 									<cfquery name="getLoanItemsParts" dbtype="query">
-										SELECT sum(lot_count) slc, parts
+										SELECT 
+											sum(lot_count) slc, 
+											parts, 
+											item_instructions,
+											return_date, 
+											loan_item_state
 										FROM getLoanItems
 										WHERE 
 											institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-										GROUP BY parts
+										GROUP BY parts, item_instructions, return_date, loan_item_state
 									</cfquery>
 									<cfloop query="getLoanItemsParts">
 										#parts#
@@ -1294,6 +1301,12 @@ limitations under the License.
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 									<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
+									<cfif isDefined("groupBy") AND groupBy EQ "part">
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										<cfif loan_item_state NEQ 'in loan'>
+											<p>#loan_item_state# #return_date#</p>
+										</cfif>
+									</cfif>
 								</cfif>
 								<cfif getRestrictions.recordcount GT 0>
 									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
