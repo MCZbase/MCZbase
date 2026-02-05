@@ -1251,7 +1251,10 @@ limitations under the License.
 						<tr>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
-								<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
+								<cfif loan_item_state NEQ 'in loan'>
+									<p>#loan_item_state# #return_date#</p>
+								</cfif>
+								<cfif top_loan_status EQ "closed">Added: #reconciled_date#</cfif>
 							</td>
 							<td style="width: 50%; vertical-align: top; #font# font-size: small;">
 								<div>
