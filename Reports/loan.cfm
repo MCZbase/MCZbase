@@ -90,6 +90,7 @@ limitations under the License.
 			collection.institution_acronym as institution_acronym,
 			loan_number,
 			loan_item.loan_item_state,
+			item_instructions,
 			loan_item.resolution_recorded_by_agent_id,
 			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
 			loan_item.resolution_remarks,
