@@ -1121,11 +1121,9 @@ limitations under the License.
 								SELECT distinct 
 									collection_object_id,
 									institution_acronym, collection_cde, cat_num,
-									reconciled_date,
 									scientific_name, type_status, higher_geog,
 									collection, chronostrat,lithostrat,
-									spec_locality, collectors, loan_item_remarks,
-									item_instructions
+									spec_locality, collectors
 								FROM getLoanItems
 							</cfquery>
 						<cfelse>
@@ -1153,8 +1151,10 @@ limitations under the License.
 										</cfif>
 										<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 										<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
-										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										</cfif>
 									</div>
 								</td>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
@@ -1295,18 +1295,16 @@ limitations under the License.
 									<cfloop query="getLoanItemsParts">
 										#parts#
 										<cfset totalSpecimens = totalSpecimens + slc>
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										<cfif loan_item_state NEQ 'in loan'>
+											<p>#loan_item_state# #return_date#</p>
+										</cfif>
 									</cfloop>
 								<cfelse>
 									<cfset totalSpecimens = totalSpecimens + lot_count>
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 									<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
-									<cfif isDefined("groupBy") AND groupBy EQ "part">
-										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
-										<cfif loan_item_state NEQ 'in loan'>
-											<p>#loan_item_state# #return_date#</p>
-										</cfif>
-									</cfif>
 								</cfif>
 								<cfif getRestrictions.recordcount GT 0>
 									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
