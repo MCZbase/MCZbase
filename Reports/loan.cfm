@@ -1237,6 +1237,7 @@ limitations under the License.
 								institution_acronym, collection_cde, cat_num,
 								reconciled_date,
 								loan_item_state,
+								item_instructions,
 								return_date,
 								scientific_name, type_status, higher_geog,
 								collection, chronostrat,lithostrat,

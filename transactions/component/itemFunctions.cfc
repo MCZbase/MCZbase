@@ -2584,7 +2584,7 @@ limitations under the License.
 							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
 							AND loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					</cfquery>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-4 px-1">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<a href="/guid/#guid#" target="_blank">#guid#</a>  
 						<cfif len(#CustomID#) gt 0 AND otherIdOn>
