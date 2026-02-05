@@ -1630,6 +1630,8 @@ limitations under the License.
 										{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: getColHidProp('guid', true), editable: false  },
 										{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: getColHidProp('#session.CustomOtherIdentifier#', true), editable: false },
 										{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: getColHidProp('scientific_name', false), editable: false },
+										{text: 'Scientific Name Plain', datafield: 'scientific_name_plain', width:20, hideable: true, hidden: true, editable: false },
+										{text: 'Scientific Name Auths Plain', datafield: 'scientific_name_auths_plain', width:20, hideable: true, hidden: true, editable: false },
 										{text: 'Stored As', datafield: 'stored_as_name', width:210, hideable: true, hidden: getColHidProp('stored_as_name', true), editable: false },
 										{text: 'Storage Location', datafield: 'short_location', width:210, hideable: true, hidden: getColHidProp('short_location', true), editable: false },
 										{text: 'Previous Location', datafield: 'previous_location', width:210, hideable: true, hidden: getColHidProp('previous_location', true), editable: false },
