@@ -1148,7 +1148,12 @@ limitations under the License.
 										<cfif loan_item_state NEQ 'in loan'>
 											<p>#loan_item_state# #return_date#</p>
 										</cfif>
-										<cfif top_loan_status EQ "closed">Added: #reconciled_date#</cfif>
+										<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+										<cfset loanDate = parseDateTime(getLoan.loan_date,'yyyy-mm-dd')>
+										<cfif dateDiff("d", loanDate, addedDate) GT 30>
+											Added: #reconciled_date#
+										</cfif>
 									</cfif>
 								</td>
 								<td style="width: 50%; vertical-align: top; #font# font-size: small;">
@@ -1278,7 +1283,12 @@ limitations under the License.
 									<cfif loan_item_state NEQ 'in loan'>
 										<p>#loan_item_state# #return_date#</p>
 									</cfif>
-									<cfif top_loan_status EQ "closed">Added: #reconciled_date#</cfif>
+									<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+									<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+									<cfset loanDate = parseDateTime(getLoan.loan_date,'yyyy-mm-dd')>
+									<cfif dateDiff("d", loanDate, addedDate) GT 30>
+										Added: #reconciled_date#
+									</cfif>
 								</cfif>
 							</td>
 							<td style="width: 50%; vertical-align: top; #font# font-size: small;">
