@@ -1156,7 +1156,7 @@ limitations under the License.
 										</cfif>
 									</cfif>
 								</td>
-								<td style="width: 50%; vertical-align: top; #font# font-size: small;">
+								<td style="width: 45%; vertical-align: top; #font# font-size: small;">
 									<div>
 										<em>#scientific_name#</em>
 										<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1172,7 +1172,7 @@ limitations under the License.
 										</cfif>
 									</div>
 								</td>
-								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
+								<td style="width: 30%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
 										<cfquery name="getLoanItemsParts" dbtype="query">
 											SELECT sum(lot_count) slc, lot_count_one_part, lot_count_modifier, part_name, preserve_method, 
@@ -1297,7 +1297,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</td>
-							<td style="width: 50%; vertical-align: top; #font# font-size: small;">
+							<td style="width: 45%; vertical-align: top; #font# font-size: small;">
 								<div>
 									<em>#scientific_name#</em>
 									<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1313,7 +1313,7 @@ limitations under the License.
 									</cfif>
 								</div>
 							</td>
-							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
+							<td style="width: 30%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
 									<cfquery name="getLoanItemsParts" dbtype="query">
 										SELECT 
