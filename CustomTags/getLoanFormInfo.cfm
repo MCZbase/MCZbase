@@ -6,6 +6,7 @@
       SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
+		replace(to_char(trans_date, 'yyyy-mm-dd'),' ','') as trans_date_iso,
 			    concattransagent(trans.transaction_id, 'in-house authorized by') authAgentName,
 			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
 			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,

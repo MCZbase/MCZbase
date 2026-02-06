@@ -1150,7 +1150,7 @@ limitations under the License.
 										</cfif>
 										<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
 										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
-										<cfset loanDate = parseDateTime(getLoan.trans_date,'yyyy-mm-dd')>
+										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 										<cfif dateDiff("d", loanDate, addedDate) GT 30>
 											Added: #reconciled_date#
 										</cfif>
@@ -1285,7 +1285,7 @@ limitations under the License.
 									</cfif>
 									<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
 									<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
-									<cfset loanDate = parseDateTime(getLoan.trans_date,'yyyy-mm-dd')>
+									<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 									<cfif dateDiff("d", loanDate, addedDate) GT 30>
 										Added: #reconciled_date#
 									</cfif>
