@@ -340,6 +340,12 @@ limitations under the License.
  @param loan_item_state optional, the new value of loan_item.loan_item_state to save, if 
    not provided, the value will not be changed, if provided, values of returned, consumed, or missing 
    will mark the loan item as resolved, values of in loan or unknown will clear any returned date and agent.
+ @param return_date optional, the new value of loan_item.return_date to save, 
+   if not provided, an existing value will not be changed, if provided with a value and loan_item_state is
+	not provided or is not being changed to a resolved state, the return date will be updated, if provided 
+	with a value and loan_item_state is being changed to returned, the return date will be updated 
+	to the provided value, if provided with a value and loan_item_state is being changed to consumed or missing, 
+	the return date will be cleared.
  @return a json structurre with status:1, or a http 500 response.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
@@ -351,6 +357,7 @@ limitations under the License.
 	<cfargument name="item_descr" type="string" required="yes">
 	<cfargument name="resolution_remarks" type="string" required="no">
 	<cfargument name="loan_item_state" type="string" required="no" default="">
+	<cfargument name="return_date" type="string" required="no" default="">
 
 	<cftransaction>
 		<cftry>
@@ -367,12 +374,19 @@ limitations under the License.
 				<cfset part_id = confirmItem.part_id>
 				<cfset transaction_id = confirmItem.transaction_id>
 			</cfif>
+			<cfset changedToReturned = false>
+			<cfset returnDateCleared = false>
 			<cfif arguments.loan_item_state is not "" AND arguments.loan_item_state NEQ confirmItem.loan_item_state>
 				<cfif arguments.loan_item_state eq "returned">
+					<cfset changedToReturned = true>
 					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE loan_item 
 						SET
-							return_date = sysdate,
+							<cfif return_date NEQ "">
+								return_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#arguments.return_date#">,
+							<cfelse>
+								return_date = sysdate,
+							</cfif>
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 						WHERE
 							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
@@ -408,6 +422,7 @@ limitations under the License.
 						WHERE
 							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
 					</cfquery>
+					<cfset returnDateCleared = true>
 				<cfelseif arguments.loan_item_state eq "in loan" or arguments.loan_item_state eq "unknown">
 					<cfquery name="clearReturnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE loan_item 
@@ -417,6 +432,7 @@ limitations under the License.
 						WHERE
 							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
 					</cfquery>
+					<cfset returnDateCleared = true>
 				</cfif>
 			</cfif>
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
@@ -446,8 +462,13 @@ limitations under the License.
 					<cfif len(arguments.item_descr) GT 0>
 						,item_descr = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_descr#">
 					</cfif>
-					<cfif len(arguments.loan_item_state) GT 0>
-						,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">
+					<cfif NOT changedToReturned>
+						<cfif len(arguments.loan_item_state) GT 0>
+							,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">
+						</cfif>
+						<cfif NOT returnDateCleared AND len(arguments.return_date) GT 0>
+							,return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#arguments.return_date#">
+						</cfif>
 					</cfif>
 					<cfif structKeyExists(arguments,"resolution_remarks")> 
 						<cfif len(#arguments.resolution_remarks#) gt 0>
@@ -1232,6 +1253,7 @@ limitations under the License.
 						loan.transaction_id,
 						loan.loan_type,
 						loan.loan_status,
+						loan.closed_date,
 						collection.institution_acronym,
 						cataloged_item.collection_cde, 
 						cataloged_item.cat_num,
@@ -1287,6 +1309,9 @@ limitations under the License.
 										<div class="add-form-header pt-1 px-2">
 											<h2 class="h2">
 												Loan Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #loan_number# #loan_type# #loan_status#
+												<cfif loan_status EQ "closed">
+													(closed on #closed_date#)
+												</cfif>
 												<div class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</div>
 											</h2>
 											<cfif is_subsample EQ "yes">
@@ -1328,7 +1353,7 @@ limitations under the License.
 												<input type="hidden" name="loan_item_id" value="#lookupItem.loan_item_id#">
 												<input type="hidden" name="method" value="updateLoanItem">
 												<div class="row mx-0 py-2">
-													<div class="col-12 col-md-6 px-1">
+													<div class="col-12 col-md-4 px-1">
 														<cfif len(lookupItem.loan_item_state) EQ 0>
 															<cfset state="">
 														<cfelse>
@@ -1348,9 +1373,18 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
+													<div class="col-12 col-md-4 px-1">
+														<label class="data-entry-label" for="return_date">Item Returned Date</label>
+														<input type="text" name="return_date" id="return_date"" value="#encodeForHtml(lookpItem.return_date)#" class="data-entry-input">
+														<script>
+															$(document).ready(function(){
+																$("##return_date").datepicker({ dateFormat: "yy-mm-dd" });
+															});
+														</script>
+													</div>
 													<div class="col-12 col-md-6 px-1">
-														<label class="data-entry-label">Loan Item Description</label>
-														<input type="text" name="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
+														<label class="data-entry-label" for="item_descr">Loan Item Description</label>
+														<input type="text" name="item_descr" id="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
 													</div>
 													<div class="col-12 px-1">
 														<label class="data-entry-label" for="item_instructions">Loan Item Instructions</label> 
