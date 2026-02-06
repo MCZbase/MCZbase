@@ -96,7 +96,7 @@ limitations under the License.
 			loan_item.resolution_remarks,
 			to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
 			to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
-			MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+			loan_item.loan_item_remarks,
 			concattransagent(loan.transaction_id, 'received by')  recAgentName,
 			cat_num,
 			MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
@@ -113,6 +113,10 @@ limitations under the License.
 			) as typestatusname,
 		
 			MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+			coll_object.lot_count as lot_count_one_part,
+			coll_object.lot_count_modifier,
+			specimen_part.part_name, 
+			specimen_part.preserve_method,
 			MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
 			MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
 			spec_locality,
@@ -1045,7 +1049,7 @@ limitations under the License.
 								MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
 								loan_item.resolution_remarks,
 								to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
-								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+								loan_item.loan_item_remarks,
 								loan_item.item_instructions,
 								concattransagent(loan.transaction_id, 'received by')  recAgentName,
 								cat_num,
@@ -1061,8 +1065,11 @@ limitations under the License.
 										MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
 									)
 								) as typestatusname,
-							
 								MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+								coll_object.lot_count as lot_count_one_part,
+								coll_object.lot_count_modifier,
+								specimen_part.part_name, 
+								specimen_part.preserve_method,
 								MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
 								MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
 								spec_locality,
@@ -1160,17 +1167,21 @@ limitations under the License.
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
 										<cfquery name="getLoanItemsParts" dbtype="query">
-											SELECT sum(lot_count) slc, parts
+											SELECT sum(lot_count) slc, lot_count_one_part, lot_count_modifier, part_name, preserve_method, loan_item_remarks, item_instructions
 											FROM getLoanItems
 											WHERE 
 												institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-											GROUP BY parts
+											GROUP BY lot_count_one_part, lot_count_modifier, part_name, preserve_method, loan_item_remarks, item_instructions
 										</cfquery>
 										<cfloop query="getLoanItemsParts">
-											#parts#
-											<cfset totalSpecimens = totalSpecimens + slc>
+											<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
+											#lot_count_one_part# #part_name#
+											<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+											<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
+											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 										</cfloop>
 									<cfelse>
 										<cfset totalSpecimens = totalSpecimens + lot_count>
@@ -1210,7 +1221,7 @@ limitations under the License.
 					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-						Subloan #getSubloans.loan_number# includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
+						Subloan #getSubloans.loan_number# #chr(69)#ncludes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
@@ -1218,7 +1229,7 @@ limitations under the License.
 				<div style="#font# font-size: 1em;">
 					<cfif masterTotal EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 					<cfif masterLotTotal EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-					<strong>Loan #loan_number# includes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
+					<strong>Loan #loan_number# #chr(69)#ncludes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
 				</div>
 				<cfset transaction_id = master_transaction_id >
 				<cf_getLoanFormInfo transaction_id="#master_transaction_id#">
@@ -1276,11 +1287,12 @@ limitations under the License.
 							</td>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
-									<!--- TODO: Look up parts separately instead of using concatenated parts string --->
 									<cfquery name="getLoanItemsParts" dbtype="query">
 										SELECT 
-											sum(lot_count) slc, 
-											parts, 
+											lot_count as lot_count_one_part,
+											lot_count_modifier,
+											part_name,
+											preserve_method,
 											item_instructions,
 											return_date, 
 											loan_item_state
@@ -1289,11 +1301,13 @@ limitations under the License.
 											institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-										GROUP BY parts, item_instructions, return_date, loan_item_state
+										GROUP BY lot_count, lot_count_modifier, part_name, preserve_method, item_instructions, return_date, loan_item_state
 									</cfquery>
 									<cfloop query="getLoanItemsParts">
-										#parts#
-										<cfset totalSpecimens = totalSpecimens + slc>
+										<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
+										#lot_count_one_part# #part_name# 
+										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+										<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
 										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 										<cfif loan_item_state NEQ 'in loan'>
 											<p>#loan_item_state# #return_date#</p>
