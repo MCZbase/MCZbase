@@ -1170,13 +1170,15 @@ limitations under the License.
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
 										<cfquery name="getLoanItemsParts" dbtype="query">
-											SELECT sum(lot_count) slc, lot_count_one_part, lot_count_modifier, part_name, preserve_method, loan_item_remarks, item_instructions, loan_item_state
+											SELECT sum(lot_count) slc, lot_count_one_part, lot_count_modifier, part_name, preserve_method, 
+												loan_item_remarks, item_instructions, loan_item_state, return_date
 											FROM getLoanItems
 											WHERE 
 												institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-											GROUP BY lot_count_one_part, lot_count_modifier, part_name, preserve_method, loan_item_remarks, item_instructions, loan_item_state
+											GROUP BY lot_count_one_part, lot_count_modifier, part_name, preserve_method, 
+												loan_item_remarks, item_instructions, loan_item_state, return_date
 										</cfquery>
 										<cfloop query="getLoanItemsParts">
 											<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
