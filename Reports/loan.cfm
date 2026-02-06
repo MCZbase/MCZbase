@@ -1183,6 +1183,9 @@ limitations under the License.
 											<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
 											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+											<cfif loan_item_state NEQ 'in loan'>
+												<BR>#loan_item_state# #return_date#
+											</cfif>
 										</cfloop>
 									<cfelse>
 										<cfset totalSpecimens = totalSpecimens + lot_count>
@@ -1295,6 +1298,7 @@ limitations under the License.
 											part_name,
 											preserve_method,
 											item_instructions,
+											loan_item_remarks,
 											return_date, 
 											loan_item_state
 										FROM getLoanItems
@@ -1302,16 +1306,17 @@ limitations under the License.
 											institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-										GROUP BY lot_count, lot_count_modifier, part_name, preserve_method, item_instructions, return_date, loan_item_state
+										GROUP BY lot_count, lot_count_modifier, part_name, preserve_method, item_instructions, loan_item_remarks, return_date, loan_item_state
 									</cfquery>
 									<cfloop query="getLoanItemsParts">
 										<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
 										#lot_count_one_part# #part_name# 
 										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 										<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
+										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 										<cfif loan_item_state NEQ 'in loan'>
-											<p>#loan_item_state# #return_date#</p>
+											<BR>#loan_item_state# #return_date#
 										</cfif>
 									</cfloop>
 								<cfelse>
