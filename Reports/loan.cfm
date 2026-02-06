@@ -1188,7 +1188,7 @@ limitations under the License.
 											</cfif>
 											<!--- new line if not last record for part to better separate multiple parts on same specimen --->
 											<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
-												<br>
+												<p> </p>
 											</cfif>
 										</cfloop>
 									<cfelse>
@@ -1324,7 +1324,7 @@ limitations under the License.
 										</cfif>
 										<!--- new line if not last record for part to better separate multiple parts on same specimen --->
 										<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
-											<br>
+											<p> </p>
 										</cfif>
 									</cfloop>
 								<cfelse>
