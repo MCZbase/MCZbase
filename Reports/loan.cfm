@@ -1119,8 +1119,8 @@ limitations under the License.
 					<table style="#font# font-size: 1em; width: 100%;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
-							<th style="width: 50%;">Taxon, Locality</th>
-							<th style="width: 25%;">Specimen Count</th>
+							<th style="width: 45%;">Taxon, Locality</th>
+							<th style="width: 30%;">Specimen Parts</th>
 						</tr>
 						<cfset totalLotCount = 0>
 						<cfset totalSpecimens = 0>
@@ -1260,8 +1260,8 @@ limitations under the License.
 				<table style="#font# font-size: 1em;">
 					<tr>
 						<th style="width: 25%;">MCZ Number</th>
-						<th style="width: 50%;">Taxon, Locality</th>
-						<th style="width: 25%;">Specimen Count</th>
+						<th style="width: 45%;">Taxon, Locality</th>
+						<th style="width: 30%;">Specimen Parts</th>
 					</tr>
 					<cfset totalLotCount = 0>
 					<cfset totalSpecimens = 0>
