@@ -1145,14 +1145,14 @@ limitations under the License.
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									#institution_acronym#:#collection_cde#:#cat_num#
 									<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
-										<cfif loan_item_state NEQ 'in loan'>
-											<p>#loan_item_state# #return_date#</p>
-										</cfif>
 										<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
 										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
 										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 										<cfif dateDiff("d", loanDate, addedDate) GT 30>
-											Added: #reconciled_date#
+											<p>added #reconciled_date#</p>
+										</cfif>
+										<cfif loan_item_state NEQ 'in loan'>
+											<p>#loan_item_state# #return_date#</p>
 										</cfif>
 									</cfif>
 								</td>
@@ -1194,7 +1194,7 @@ limitations under the License.
 											<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
 											<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 											<cfif dateDiff("d", loanDate, addedDate) GT 30>
-												<br>Added: #reconciled_date#
+												<br>added #reconciled_date#
 											</cfif>
 											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
@@ -1286,14 +1286,14 @@ limitations under the License.
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
 								<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
-									<cfif loan_item_state NEQ 'in loan'>
-										<p>#loan_item_state# #return_date#</p>
-									</cfif>
 									<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
 									<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
 									<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 									<cfif dateDiff("d", loanDate, addedDate) GT 30>
-										Added: #reconciled_date#
+										<p>added #reconciled_date#</p>
+									</cfif>
+									<cfif loan_item_state NEQ 'in loan'>
+										<p>#loan_item_state# #return_date#</p>
 									</cfif>
 								</cfif>
 							</td>
@@ -1343,7 +1343,7 @@ limitations under the License.
 										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
 										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 										<cfif dateDiff("d", loanDate, addedDate) GT 30>
-											<br>Added: #reconciled_date#
+											<br>added #reconciled_date#
 										</cfif>
 										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
