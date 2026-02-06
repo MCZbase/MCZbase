@@ -1149,10 +1149,10 @@ limitations under the License.
 										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
 										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 										<cfif dateDiff("d", loanDate, addedDate) GT 30>
-											<p>added #reconciled_date#</p>
+											<br>added #reconciled_date#
 										</cfif>
 										<cfif loan_item_state NEQ 'in loan'>
-											<p>#loan_item_state# #return_date#</p>
+											<br>#loan_item_state# #return_date#
 										</cfif>
 									</cfif>
 								</td>
@@ -1199,7 +1199,7 @@ limitations under the License.
 											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 											<cfif loan_item_state NEQ 'in loan'>
-												<BR>#loan_item_state# #return_date#
+												<br>#loan_item_state# #return_date#
 											</cfif>
 											<!--- new line if not last record for part to better separate multiple parts on same specimen --->
 											<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
@@ -1290,10 +1290,10 @@ limitations under the License.
 									<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
 									<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
 									<cfif dateDiff("d", loanDate, addedDate) GT 30>
-										<p>added #reconciled_date#</p>
+										<br>added #reconciled_date#
 									</cfif>
 									<cfif loan_item_state NEQ 'in loan'>
-										<p>#loan_item_state# #return_date#</p>
+										<br>#loan_item_state# #return_date#
 									</cfif>
 								</cfif>
 							</td>
@@ -1348,7 +1348,7 @@ limitations under the License.
 										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 										<cfif loan_item_state NEQ 'in loan'>
-											<BR>#loan_item_state# #return_date#
+											<br>#loan_item_state# #return_date#
 										</cfif>
 										<!--- new line if not last record for part to better separate multiple parts on same specimen --->
 										<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
