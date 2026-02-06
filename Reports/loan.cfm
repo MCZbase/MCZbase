@@ -435,7 +435,7 @@ limitations under the License.
 					</tr>
 					<tr>
 						<td style="width: 40%; vertical-align: top;">
-							<strong>ADDRESS:</strong>
+							<strong>ORIGINALLY SHIPPED TO:</strong>
 						</td>
 						<td style="width: 60%; vertical-align: top;">
 									#getLoan.shipped_to_address#
