@@ -127,10 +127,11 @@ limitations under the License.
 			cat_num_prefix,
 			cat_num_integer
 		FROM loan 
-			left join loan_item on loan.transaction_id = loan_item.transaction_id 
-			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-			left join collection on cataloged_item.collection_id = collection.collection_id 
+			join loan_item on loan.transaction_id = loan_item.transaction_id 
+			join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join collection on cataloged_item.collection_id = collection.collection_id 
 			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 			left join locality on collecting_event.locality_id = locality.locality_id 
 			left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
@@ -1081,11 +1082,11 @@ limitations under the License.
 								cat_num_integer,
 								part.condition as condition
 							FROM loan 
-								left join loan_item on loan.transaction_id = loan_item.transaction_id 
-								left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-								left join coll_object part on loan_item.collection_object_id = part.collection_object_id 
-								left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-								left join collection on cataloged_item.collection_id = collection.collection_id 
+								join loan_item on loan.transaction_id = loan_item.transaction_id 
+								join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+								join coll_object part on loan_item.collection_object_id = part.collection_object_id 
+								join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+								join collection on cataloged_item.collection_id = collection.collection_id 
 								left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 								left join locality on collecting_event.locality_id = locality.locality_id 
 								left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
