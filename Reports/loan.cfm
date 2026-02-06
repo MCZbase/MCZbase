@@ -1120,7 +1120,7 @@ limitations under the License.
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
 							<th style="width: 45%;">Taxon, Locality</th>
-							<th style="width: 30%;">Specimen Parts</th>
+							<th style="width: 30%;">Specimen Count</th>
 						</tr>
 						<cfset totalLotCount = 0>
 						<cfset totalSpecimens = 0>
@@ -1261,7 +1261,7 @@ limitations under the License.
 					<tr>
 						<th style="width: 25%;">MCZ Number</th>
 						<th style="width: 45%;">Taxon, Locality</th>
-						<th style="width: 30%;">Specimen Parts</th>
+						<th style="width: 30%;">Specimen Count</th>
 					</tr>
 					<cfset totalLotCount = 0>
 					<cfset totalSpecimens = 0>
