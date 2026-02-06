@@ -1067,8 +1067,8 @@ limitations under the License.
 									)
 								) as typestatusname,
 								MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
-								coll_object.lot_count as lot_count_one_part,
-								coll_object.lot_count_modifier,
+								part.lot_count as lot_count_one_part,
+								part.lot_count_modifier,
 								specimen_part.part_name, 
 								specimen_part.preserve_method,
 								MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
