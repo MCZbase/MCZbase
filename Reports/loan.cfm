@@ -1186,6 +1186,10 @@ limitations under the License.
 											<cfif loan_item_state NEQ 'in loan'>
 												<BR>#loan_item_state# #return_date#
 											</cfif>
+											<!--- new line if not last record for part to better separate multiple parts on same specimen --->
+											<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
+												<br>
+											</cfif>
 										</cfloop>
 									<cfelse>
 										<cfset totalSpecimens = totalSpecimens + lot_count>
@@ -1317,6 +1321,10 @@ limitations under the License.
 										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
 										<cfif loan_item_state NEQ 'in loan'>
 											<BR>#loan_item_state# #return_date#
+										</cfif>
+										<!--- new line if not last record for part to better separate multiple parts on same specimen --->
+										<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
+											<br>
 										</cfif>
 									</cfloop>
 								<cfelse>
