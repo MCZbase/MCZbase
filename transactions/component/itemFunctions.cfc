@@ -1375,7 +1375,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-4 px-1">
 														<label class="data-entry-label" for="return_date">Item Returned Date</label>
-														<input type="text" name="return_date" id="return_date"" value="#encodeForHtml(lookpItem.return_date)#" class="data-entry-input">
+														<input type="text" name="return_date" id="return_date"" value="#encodeForHtml(lookupItem.return_date)#" class="data-entry-input">
 														<script>
 															$(document).ready(function(){
 																$("##return_date").datepicker({ dateFormat: "yy-mm-dd" });
