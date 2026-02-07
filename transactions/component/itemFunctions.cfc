@@ -1667,6 +1667,13 @@ STATE TRANSITION BEHAVIOR:
 										(using today&##39;s date if a value is not specified on the form). Setting item state 
 										to "consumed", "missing",  "in loan" or "unknown" also clears the return date.
 									</p>
+									<p><strong>Part and Loan Item</strong> The part condition and part disposition are properties of the specimen part reflecting
+										the current condition and disposition of the part of the cataloged item in the collection.  The other fields on this 
+										form are properties of the loan item record and reflect the condition, disposition, and other information about the part 
+										with respect to this particular loan.  If the part is on multiple loans, the part condition and part disposition fields will 
+										reflect the current state of the part itself, while the other fields reflect the state of the part as a loan item in respect
+										to this loan, and these may differ.
+									</p>
 								</div>
 							</div>
 						</div>
