@@ -407,12 +407,10 @@ STATE TRANSITION BEHAVIOR:
 						<cfset returnDateValue = now()>
 					</cfif>
 					<cfset setResolutionAgent = true>
-					
 				<cfelseif new_state EQ "consumed" OR new_state EQ "missing">
 					<!--- Transitioning to consumed/missing: clear return_date, set resolution agent --->
 					<cfset clearReturnDate = true>
 					<cfset setResolutionAgent = true>
-					
 				<cfelseif new_state EQ "in loan" OR new_state EQ "unknown">
 					<!--- Transitioning to in loan/unknown: clear both return_date and resolution agent --->
 					<cfset clearReturnDate = true>
@@ -1663,6 +1661,12 @@ STATE TRANSITION BEHAVIOR:
 											</cfloop>
 										</cfif>
 									</ul>
+								</div>
+								<div class="col-12 mt=2">
+									<p><strong>Loan Item State Changes:</strong> Setting item state to "returned" records the return date 
+										(using today&##39;s date if a value is not specified on the form). Setting item state 
+										to "consumed", "missing",  "in loan" or "unknown" also clears the return date.
+									</p>
 								</div>
 							</div>
 						</div>
