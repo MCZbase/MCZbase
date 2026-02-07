@@ -320,33 +320,36 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-<!--- function updateLoanItem to update the condition, instructions, remarks, and disposition of an item in a loan.
- This is the backing function for the editable loan items grid and the edit loan item form.
- 
- @param transaction_id the transaction the loan item is in
- @param part_id the part participating in the loan item, loan item is a weak enity, 
-   it is keyed off of transaction_id and part_id 
-   (as collection_object_id of the collection object for the part).
+<!--- 
+function updateLoanItem updates the condition, instructions, remarks, disposition, and state of an item in a loan.
+This is the backing function for the editable loan items grid and the edit loan item form.
 
- TODO: use Primary Key loan_item_id instead of transaction_id and part_id to identify the loan item to update.
- 
- @param loan_item_id optional, the loan_item_id of the loan item to update: TODO, switch to this pkey instead of transaction_id and part_id.
- @param condition the new value of the coll_object.condition to save.
- @param item_instructions the new value of the loan_item.item_instructions to save.
- @param loan_item_remarks the new value of the loan_item.item_remarks to save.
- @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
- @param resolution_remarks optional, the new value of loan_item.resolution_remarks to save.
- @param item_descr the new value of loan_item.item_descr to save.
- @param loan_item_state optional, the new value of loan_item.loan_item_state to save, if 
-   not provided, the value will not be changed, if provided, values of returned, consumed, or missing 
-   will mark the loan item as resolved, values of in loan or unknown will clear any returned date and agent.
- @param return_date optional, the new value of loan_item.return_date to save, 
-   if not provided, an existing value will not be changed, if provided with a value and loan_item_state is
-	not provided or is not being changed to a resolved state, the return date will be updated, if provided 
-	with a value and loan_item_state is being changed to returned, the return date will be updated 
-	to the provided value, if provided with a value and loan_item_state is being changed to consumed or missing, 
-	the return date will be cleared.
- @return a json structurre with status:1, or a http 500 response.
+STATE TRANSITION BEHAVIOR:
+- "returned": Sets return_date (to provided value or now()), sets resolution_recorded_by_agent_id to current user.
+  If other items remain "in loan" and the parent loan is "open", updates loan status to "open partially returned".
+- "consumed" or "missing": Clears return_date (NULL), sets resolution_recorded_by_agent_id to current user.
+- "in loan" or "unknown": Clears both return_date and resolution_recorded_by_agent_id (NULL).
+
+@param loan_item_id the loan_item_id of the loan item to update.
+@param condition the new value of coll_object.condition to save. If empty, existing value is not changed.
+@param item_instructions the new value of loan_item.item_instructions to save. 
+  If empty, will set the value to NULL.
+@param loan_item_remarks the new value of loan_item.loan_item_remarks to save.
+  If empty, will set the value to NULL.
+@param coll_obj_disposition the new value of coll_object.coll_obj_disposition to save.
+@param item_descr the new value of loan_item.item_descr to save. 
+  If empty, existing value is not changed.
+@param resolution_remarks optional, the new value of loan_item.resolution_remarks to save.
+  If empty, will set the value to NULL.
+@param loan_item_state optional, the new value of loan_item.loan_item_state to save. 
+  If not provided, the value will not be changed. See STATE TRANSITION BEHAVIOR above for effects of state changes.
+@param return_date optional, the new value of loan_item.return_date to save.
+  - If loan_item_state is changing to "returned": Uses provided value, or now() if not provided.
+  - If loan_item_state is changing to "consumed", "missing", "in loan", or "unknown": return_date is cleared (NULL) regardless of this parameter.
+  - If loan_item_state is not changing: Updates to provided value if given, otherwise existing value is preserved.
+
+@return JSON structure with status and message. Success: {status: "1", message: "Loan item updated successfully."}
+  On error, returns HTTP 500 response.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
 	<cfargument name="loan_item_id" type="string" required="yes" default="">
@@ -359,137 +362,178 @@ limitations under the License.
 	<cfargument name="loan_item_state" type="string" required="no" default="">
 	<cfargument name="return_date" type="string" required="no" default="">
 
+	<cfset theResult = queryNew("status, message")>
+	<cfset t = queryaddrow(theResult,1)>
+	<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+	<cfset t = QuerySetCell(theResult, "message", "Update failed", 1)>
+
 	<cftransaction>
 		<cftry>
-			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="confirmItem_result">
-				SELECT loan_item_id, loan_item_state,
-					transaction_id, collection_object_id as part_id
+			<!--- Step 1: Get current loan item state --->
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					loan_item_id, 
+					loan_item_state,
+					transaction_id, 
+					collection_object_id as part_id
 				FROM loan_item
-				WHERE
-					loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
+				WHERE loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
+			
 			<cfif confirmItem.recordcount NEQ 1>
-				<cfthrow message="specified loan item not found">
-			<cfelse>
-				<cfset part_id = confirmItem.part_id>
-				<cfset transaction_id = confirmItem.transaction_id>
+				<cfthrow message="Specified loan item not found">
 			</cfif>
-			<cfset changedToReturned = false>
-			<cfset returnDateCleared = false>
-			<cfif arguments.loan_item_state is not "" AND arguments.loan_item_state NEQ confirmItem.loan_item_state>
-				<cfif arguments.loan_item_state eq "returned">
-					<cfset changedToReturned = true>
-					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET
-							<cfif return_date NEQ "">
-								return_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#arguments.return_date#">,
-							<cfelse>
-								return_date = sysdate,
-							</cfif>
-							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
-						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
-					</cfquery>
-					<!--- check if loan is open and has more than one outstanding loan item, if so, change to open-partially-returned --->
-					<cfquery name="checkLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT 
-							count(*) as outstanding_count
-						FROM 
-							loan_item
-							join loan on loan_item.transaction_id = loan.transaction_id
-						WHERE 
-							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-							AND (loan_item_state = 'in loan') 
-							AND loan.loan_status = 'open'
-					</cfquery>
-					<cfif checkLoanStatus.outstanding_count GT 1>
-						<cfquery name="setLoanPartiallyReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE loan 
-							SET 
-								loan_status = 'open partially returned'
-							WHERE 
-								transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-								and loan_status = 'open'
-						</cfquery>
+
+			<cfset part_id = confirmItem.part_id>
+			<cfset transaction_id = confirmItem.transaction_id>
+			<cfset old_state = confirmItem.loan_item_state>
+			<cfset new_state = arguments.loan_item_state>
+
+			<!--- Step 2: Determine what to set based on state transition logic --->
+			<cfset setReturnDate = false>
+			<cfset returnDateValue = "">
+			<cfset clearReturnDate = false>
+			<cfset setResolutionAgent = false>
+			<cfset clearResolutionAgent = false>
+			<cfset updateState = (len(new_state) GT 0 AND new_state NEQ old_state)>
+
+			<cfif updateState>
+				<cfif new_state EQ "returned">
+					<!--- Transitioning to returned: set return_date and resolution agent --->
+					<cfset setReturnDate = true>
+					<cfif len(arguments.return_date) GT 0>
+						<cfset returnDateValue = arguments.return_date>
+					<cfelse>
+						<cfset returnDateValue = now()>
 					</cfif>
- 				<cfelseif arguments.loan_item_state eq "consumed" or arguments.loan_item_state eq "missing">
-					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET
-							return_date = null,
-							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
-						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
-					</cfquery>
-					<cfset returnDateCleared = true>
-				<cfelseif arguments.loan_item_state eq "in loan" or arguments.loan_item_state eq "unknown">
-					<cfquery name="clearReturnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET
-							return_date = null,
-							resolution_recorded_by_agent_id = null	
-						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
-					</cfquery>
-					<cfset returnDateCleared = true>
+					<cfset setResolutionAgent = true>
+					
+				<cfelseif new_state EQ "consumed" OR new_state EQ "missing">
+					<!--- Transitioning to consumed/missing: clear return_date, set resolution agent --->
+					<cfset clearReturnDate = true>
+					<cfset setResolutionAgent = true>
+					
+				<cfelseif new_state EQ "in loan" OR new_state EQ "unknown">
+					<!--- Transitioning to in loan/unknown: clear both return_date and resolution agent --->
+					<cfset clearReturnDate = true>
+					<cfset clearResolutionAgent = true>
+				</cfif>
+			<cfelse>
+				<!--- No state change, but user may be updating return_date directly --->
+				<cfif len(arguments.return_date) GT 0>
+					<cfset setReturnDate = true>
+					<cfset returnDateValue = arguments.return_date>
 				</cfif>
 			</cfif>
+
+			<!--- Step 3: Update COLL_OBJECT --->
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
-				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">
-					<cfif isDefined("arguments.condition") AND len(trim(arguments.condition)) GT 0>
-						, condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
+				SET 
+					coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">
+					<cfif len(trim(arguments.condition)) GT 0>
+						,condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
 					</cfif>
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
+			
 			<cfif upDisp_result.recordcount NEQ 1>
-				<cfthrow message="Coll_object Record not updated. #part_id# #upDisp_result.sql#">
+				<cfthrow message="Coll_object record not updated. Part ID: #part_id#">
 			</cfif>
+
+			<!--- Step 4: Single UPDATE for LOAN_ITEM with all logic --->
 			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
-				UPDATE loan_item SET
+				UPDATE loan_item 
+				SET
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-					<cfif len(#item_instructions#) gt 0>
+					
+					<!--- Update instructions --->
+					<cfif len(arguments.item_instructions) GT 0>
 						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
 					<cfelse>
-						,item_instructions = null
+						,item_instructions = NULL
 					</cfif>
-					<cfif len(#loan_item_remarks#) gt 0>
+					
+					<!--- Update remarks --->
+					<cfif len(arguments.loan_item_remarks) GT 0>
 						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_remarks#">
 					<cfelse>
-						,loan_item_remarks = null
+						,loan_item_remarks = NULL
 					</cfif>
+					
+					<!--- Update description --->
 					<cfif len(arguments.item_descr) GT 0>
 						,item_descr = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_descr#">
 					</cfif>
-					<cfif NOT changedToReturned>
-						<cfif len(arguments.loan_item_state) GT 0>
-							,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">
-						</cfif>
-						<cfif NOT returnDateCleared AND len(arguments.return_date) GT 0>
-							,return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#arguments.return_date#">
-						</cfif>
-					</cfif>
-					<cfif structKeyExists(arguments,"resolution_remarks")> 
-						<cfif len(#arguments.resolution_remarks#) gt 0>
+					
+					<!--- Update resolution remarks --->
+					<cfif structKeyExists(arguments, "resolution_remarks")>
+						<cfif len(arguments.resolution_remarks) GT 0>
 							,resolution_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolution_remarks#">
 						<cfelse>
-							,resolution_remarks = null
+							,resolution_remarks = NULL
 						</cfif>
 					</cfif>
-				WHERE
-					loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
+					
+					<!--- Update state if changing --->
+					<cfif updateState>
+						,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_state#">
+					</cfif>
+					
+					<!--- Handle return_date based on state transition logic --->
+					<cfif clearReturnDate>
+						,return_date = NULL
+					<cfelseif setReturnDate>
+						,return_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#returnDateValue#">
+					</cfif>
+					
+					<!--- Handle resolution_recorded_by_agent_id based on state transition logic --->
+					<cfif clearResolutionAgent>
+						,resolution_recorded_by_agent_id = NULL
+					<cfelseif setResolutionAgent>
+						,resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+					</cfif>
+					
+				WHERE loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
+			
 			<cfif upItem_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #loan_item_id# #upItem_result.sql#">
+				<cfthrow message="Loan_item record not updated. Loan Item ID: #arguments.loan_item_id#">
 			</cfif>
-			<cfif upItem_result.recordcount eq 1>
-				<cfset theResult=queryNew("status, message")>
-				<cfset t = queryaddrow(theResult,1)>
-				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "loan item updated.", 1)>
+
+			<!--- Step 5: Handle loan status update if transitioning to returned --->
+			<cfif updateState AND new_state EQ "returned">
+				<!--- Check if loan should be marked as partially returned --->
+				<!--- Count remaining items in loan status (excluding the one we just updated) --->
+				<cfquery name="checkLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT COUNT(*) as outstanding_count
+					FROM loan_item
+					JOIN loan ON loan_item.transaction_id = loan.transaction_id
+					WHERE 
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						AND loan_item.loan_item_state = 'in loan'
+						AND loan_item.loan_item_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
+						AND loan.loan_status = 'open'
+				</cfquery>
+				
+				<cfif checkLoanStatus.outstanding_count GT 0>
+					<!--- There are still items out on loan, mark as partially returned --->
+					<cfquery name="setLoanPartiallyReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE loan 
+						SET loan_status = 'open partially returned'
+						WHERE 
+							transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							AND loan_status = 'open'
+					</cfquery>
+				</cfif>
 			</cfif>
+
+			<!--- Step 6: Set success result --->
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Loan item updated successfully.", 1)>
+			
 			<cftransaction action="commit">
+			
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -499,6 +543,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
+	
 	<cfreturn theResult>
 </cffunction>
 
