@@ -484,7 +484,7 @@ STATE TRANSITION BEHAVIOR:
 					<cfif clearReturnDate>
 						,return_date = NULL
 					<cfelseif setReturnDate>
-						,return_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#returnDateValue#">
+						,return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#returnDateValue#">
 					</cfif>
 					
 					<!--- Handle resolution_recorded_by_agent_id based on state transition logic --->
