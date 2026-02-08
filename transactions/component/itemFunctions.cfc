@@ -2924,7 +2924,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-5">
 								<label for="item_instructions" class="data-entry-label">Loan Item Instructions:</label>
-								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100 ediatable_control">
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() { 
 										$("##item_instructions_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
