@@ -709,36 +709,6 @@ limitations under the License.
 						reloadDataNoBroadcast();
 					}
 				}
-				function reloadSummary() { 
-					// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
-					// invoke getLoanSummaryLongerHtml(transaction_id=transaction_id) to populate loanSummaryDiv
-					$.ajax({
-						url: '/transactions/component/itemFunctions.cfc',
-						method: 'GET',
-						data: {transaction_id: "#transaction_id#", method: 'getLoanSummaryLongerHtml'},
-						success: function(data) { 
-							$("##loanSummaryDiv").html(data);
-							// if the loan status has changed, reload the page to get the appropriate buttons for the new state
-							var newStatus = $("##loanStatus").text();
-							if (newStatus != "#aboutLoan.loan_status#") { 
-								$("<div>Loan status has changed to " + newStatus + ". Reload page?</div>").dialog({
-									modal: true,
-									buttons: {
-										"Yes": function() { 
-											location.reload();
-										},
-										"No": function() { 
-											$(this).dialog("close");
-										}
-									}
-								});
-							}
-						},
-						error: function (jqXHR, textStatus, error) {
-							handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
-						}
-					});
-				}
 			</script>
 		</cfoutput>
 		<main class="container-fluid" id="content">
@@ -781,6 +751,38 @@ limitations under the License.
 				<cfif Find("open",aboutLoan.loan_status) EQ 1>
 					<cfset isOpen = true>
 				</cfif>
+				<script>
+					function reloadSummary() { 
+						// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
+						// invoke getLoanSummaryLongerHtml(transaction_id=transaction_id) to populate loanSummaryDiv
+						$.ajax({
+							url: '/transactions/component/itemFunctions.cfc',
+							method: 'GET',
+							data: {transaction_id: "#transaction_id#", method: 'getLoanSummaryLongerHtml'},
+							success: function(data) { 
+								$("##loanSummaryDiv").html(data);
+								// if the loan status has changed, reload the page to get the appropriate buttons for the new state
+								var newStatus = $("##loanStatus").text();
+								if (newStatus != "#aboutLoan.loan_status#") { 
+									$("<div>Loan status has changed to " + newStatus + ". Reload page?</div>").dialog({
+										modal: true,
+										buttons: {
+											"Yes": function() { 
+												location.reload();
+											},
+											"No": function() { 
+												$(this).dialog("close");
+											}
+										}
+									});
+								}
+							},
+							error: function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
+							}
+						});
+					}
+				</script>
 				<cfset multipleCollectionsText = "">
 				<cfif collectionCount GT 1>
 					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
