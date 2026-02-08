@@ -698,15 +698,17 @@ limitations under the License.
 				bc.onmessage = function (message) { 
 					console.log(message);
 					if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
-						 reloadSummary();
+						reloadSummary();
 					}
 					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading grid from addloanitems message");
+						console.log("reloading item list and summary from addloanitems message");
 						reloadDataNoBroadcast();
+						reloadSummary();
 					}
 					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading grid from reviewitems message");
+						console.log("reloading item list and summary from reviewitems message");
 						reloadDataNoBroadcast();
+						reloadSummary();
 					}
 				}
 			</script>
