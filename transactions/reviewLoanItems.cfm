@@ -1017,21 +1017,17 @@ limitations under the License.
 										<script>
 											function enableEditControls() { 
 												$('##bulkEditControlsDiv').removeClass('d-none');
-												$('##searchResultsGrid').jqxGrid({editable:true});
 												$('##enableEditControlsBtn').addClass('d-none');
 												$('##disableEditControlsBtn').removeClass('d-none');
-												$('.flag-editable-cell').addClass('bg-light');
-												$('.flag-editable-cell').addClass('editable-cell');
-												$('##searchResultsGrid').jqxGrid('showcolumn', 'EditRow');
+												$('.editable_control').prop('disabled', false);
+												$('.edit_button').removeClass('disabled');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
-												$('##searchResultsGrid').jqxGrid({editable:false});
 												$('##enableEditControlsBtn').removeClass('d-none');
 												$('##disableEditControlsBtn').addClass('d-none');
-												$('.flag-editable-cell').removeClass('bg-light');
-												$('.flag-editable-cell').removeClass('editable-cell');
-												$('##searchResultsGrid').jqxGrid('hidecolumn', 'EditRow');
+												$('.editable_control').prop('disabled', true);
+												$('.edit_button').addClass('disabled');
 											};
 										</script>
 									</cfif>

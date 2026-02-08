@@ -2844,7 +2844,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State:</label>
-								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr">
+								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr editable_control">
 									<cfif getParts.loan_item_state EQ "">
 										<option selected></option>
 									</cfif>
@@ -2875,7 +2875,7 @@ STATE TRANSITION BEHAVIOR:
 								<label for="item_descr_#id#" class="data-entry-label">
 									Loan Item Description:
 								</label>
-								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100">
+								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##item_descr_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
@@ -2887,7 +2887,7 @@ STATE TRANSITION BEHAVIOR:
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
 								</label>
-								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text w-100">
+								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##condition_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
@@ -2896,7 +2896,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
-								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100 reqdClr">
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100 reqdClr editable_control">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
 										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
@@ -2915,7 +2915,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-5">
 								<label for="loan_item_remarks_#id#" class="data-entry-label">Loan Item Remarks:</label>
-								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text w-100">
+								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##loan_item_remarks_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
@@ -2924,7 +2924,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-5">
 								<label for="item_instructions" class="data-entry-label">Loan Item Instructions:</label>
-								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100">
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100 ediatable_control">
 								<script>
 									$(document).ready( function() { 
 										$("##item_instructions_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
@@ -2934,20 +2934,20 @@ STATE TRANSITION BEHAVIOR:
 							<div class="col-12 col-md-2 pt-3">
 								<!--- determine action buttons to show based on loan status --->
 								<cfif lookupLoan.loan_status EQ "in process">
-									<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
+									<button class="btn btn-xs btn-danger editable_control" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
 								</cfif>
 								<cfif left(lookupLoan.loan_status,4) EQ "open">
 									<cfif lookupLoan.loan_type EQ "consumable">
 										<cfif getParts.loan_item_state NEQ "consumed">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem#catItemId#(#id#);">Consume</button>
+											<button class="btn btn-xs btn-primary editable_control" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem#catItemId#(#id#);">Consume</button>
 										</cfif>
 									<cfelse>
 										<cfif getParts.loan_item_state NEQ "returned">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem#catItemId#(#id#);" aria-label="Mark Item as Returned" >Return</button>
+											<button class="btn btn-xs btn-primary editable_control" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem#catItemId#(#id#);" aria-label="Mark Item as Returned" >Return</button>
 										</cfif>
 									</cfif>
 								</cfif>
-								<button class="btn btn-xs btn-secondary" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
+								<button class="btn btn-xs btn-secondary editable_control edit_button" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 								<output id="loanItemStatusDiv_#id#"></output>
 							</div>
 						</div>
