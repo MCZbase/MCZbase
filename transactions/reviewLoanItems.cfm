@@ -337,7 +337,7 @@ limitations under the License.
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							and return_date is null
-							and (loan_item_state is null OR loan_item_state IN ('in loan','missing'))
+							and (loan_item_state is null OR loan_item_state IN ('in loan','unknown','returned'))
 					</cfquery>
 					<cfset countAffected = setClosedDate_result.recordcount>
 					<cftransaction action="commit">
@@ -1207,14 +1207,24 @@ limitations under the License.
 														<cfif isOpen>
 															<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
 															<cfif aboutLoan.loan_type EQ 'returnable' or aboutLoan.loan_type contains 'exhibition'>
-																<div class="col-12 col-xl-6 border p-1">
-																	<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
-																		Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
-																		<input type="hidden" name="Action" value="BulkMarkItemsReturned">
-																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																		<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
-																	</form>
-																</div>
+																<cfquery name="ctReturnables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																	SELECT count(*) as ct
+																	FROM loan_item
+																	WHERE
+																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+																		and loan_item.return_date is null
+																		and (loan_item.loan_item_state is null or loan_item.loan_item_state IN ('on loan','unknown', 'returned'))
+																</cfquery>
+																<cfif ctReturnables.ct GT 0>
+																	<div class="col-12 col-xl-6 border p-1">
+																		<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
+																			Mark all #ctReturnables.ct# on loan items <span class="small90">(on loan, unknown, or returned with no return date)</span> as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+																			<input type="hidden" name="Action" value="BulkMarkItemsReturned">
+																			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																			<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+																		</form>
+																	</div>
+																</cfif>
 															</cfif>
 															<cfif aboutLoan.loan_type EQ 'consumable'>
 																<cfquery name="countConsumableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
