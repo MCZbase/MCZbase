@@ -254,6 +254,7 @@ limitations under the License.
 					</cfquery>
 					<cfloop query="getCatItems">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+						<cfset catItemId = "#getCatItems.collection_object_id#">
 						<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
 							<div class="col-12 col-md-4 mb-1">
 								<a href="/guid/#guid#" target="_blank">#institution_acronym#:#collection_cde#:#cat_num#</a>
@@ -439,15 +440,16 @@ limitations under the License.
 										</div>
 									</cfif>
 								</div>
-								<script>
-									$(document).ready(function() { 
-										window["refreshItems#catItemId#"] = function() { 
-											console.log("refresh items invoked for #catItemId#");
-											loanModifiedHere();
-										};
-									});
 							</cfloop>
 						</div>
+						<script>
+							$(document).ready(function() { 
+								window["refreshItems#getParts.catItemId#"] = function() { 
+									console.log("refresh items invoked for #getParts.catItemId#");
+									loanModifiedHere();
+								};
+							});
+						</script>
 					</cfloop>
 					<div id="loanItemEditDialogDiv"></div>
 					<script>
