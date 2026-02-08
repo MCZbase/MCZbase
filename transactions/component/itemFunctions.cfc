@@ -2561,6 +2561,168 @@ STATE TRANSITION BEHAVIOR:
 	<cfreturn theResult>
 </cffunction>
 
+
+<cffunction name="getLoanSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+
+	<cfoutput>
+		<cftry>
+			<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT l.loan_number, 
+					c.collection_cde, 
+					c.collection,
+					l.loan_type, 
+					l.loan_status, 
+					to_char(l.return_due_date,'yyyy-mm-dd') as return_due_date, 
+					to_char(l.closed_date,'yyyy-mm-dd') as closed_date,
+					l.loan_instructions,
+					trans.nature_of_material,
+					to_char(trans.trans_date,'yyyy-mm-dd') as loan_date
+				FROM 
+					trans
+					left join collection c on trans.collection_id = c.collection_id
+					left join loan l on trans.transaction_id = l.transaction_id
+				WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+			</cfquery>
+			<cfif aboutLoan.recordcount EQ 0>
+				<cfthrow message="No such transaction found.">
+			</cfif>
+			<cfloop query="aboutLoan">
+				<cfif aboutLoan.loan_number IS "">
+					<cfthrow message="Transaction with this transaction_id is not a loan.">
+				</cfif>
+				<cfif aboutLoan.loan_status EQ 'closed'>
+					<cfset isClosed = true>
+				</cfif>
+				<cfif aboutLoan.loan_status EQ 'in process'>
+					<cfset isInProcess = true>
+				</cfif>
+				<cfif Find("open",aboutLoan.loan_status) EQ 1>
+					<cfset isOpen = true>
+				</cfif>
+				<cfset multipleCollectionsText = "">
+				<cfif collectionCount GT 1>
+					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
+					<cfloop query="getCollections" >
+						<cfset multipleCollectionsText = "#multipleCollectionsText# #getCollections.collection_cde# (#getCollections.ct#) " >
+					</cfloop>
+				</cfif>
+				<!--- Parent exhibition-master loan of the current exhibition-subloan loan, if applicable--->
+				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT p.loan_number, p.transaction_id, p.loan_type
+					FROM loan c left join loan_relations lr on c.transaction_id = lr.related_transaction_id 
+						left join loan p on lr.transaction_id = p.transaction_id 
+					WHERE lr.relation_type = 'Subloan' 
+						and c.transaction_id = <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+	
+				<!--- count cataloged items and parts in the loan --->
+				<cfquery name="catCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(distinct(derived_from_cat_item)) c 
+					from loan_item
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					where
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				</cfquery>
+				<cfif catCnt.c eq ''>
+					<cfset catCount = 'no'>
+				<cfelse>
+					<cfset catCount = catCnt.c>
+				</cfif>
+				<cfquery name="prtItemCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(distinct(collection_object_id)) c 
+					from loan_item
+					where
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				</cfquery>
+				<cfif prtItemCnt.c eq ''>
+					<cfset partCount = 'no'>
+				<cfelse>
+					<cfset partCount = prtItemCnt.c>
+				</cfif>
+	
+				<h1 class="h3 mb-0 pb-0">
+					Review items in loan
+					<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
+				</h1>
+				<cfif collectionCount GT 1 >
+					<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
+				</cfif>
+				<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
+				<cfif isClosed>
+					<cfset statusWeight = "bold">
+				<cfelse>
+					<cfset statusWeight = "lessbold">
+				</cfif>
+				<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
+				<h2 class="h4 d-inline font-weight-normal"> &bull; Loan Date: <span class="text-capitalize font-weight-lessbold">#aboutLoan.loan_date#</span> </h2>
+				<cfif aboutLoan.return_due_date NEQ ''>
+					<h2 class="h4 d-inline font-weight-normal">
+						&bull; Due Date: <span class="font-weight-lessbold">#aboutLoan.return_due_date#</span>
+					</h2>
+				</cfif>
+				<cfif aboutLoan.closed_date NEQ ''>
+					<h2 class="h4 d-inline font-weight-normal">
+						&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
+					</h2>
+				</cfif>
+				<cfif aboutLoan.nature_of_material NEQ ''>
+					<div class="p-1">
+						#aboutLoan.nature_of_material#
+					</div>
+				</cfif>
+				<cfif parentLoan.recordcount GT 0>
+					<h2 class="h4 font-weight-normal">
+						Subloan of #parentLoan.loan_type#: 
+						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">
+							#encodeForHtml(parentLoan.loan_number)#
+						</a>
+					</h2>
+				</cfif>
+				<p class="font-weight-normal mb-1 pb-0">
+					There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  
+					View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
+					<a href="/transactions/reviewLoanItems.cfm?action=download&transaction_id=#transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
+				</p>
+				<cfif aboutLoan.loan_type EQ 'exhibition-master'>
+					<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT c.loan_number, c.transaction_id, count(loan_item.collection_object_id) as part_count
+						FROM loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
+							join loan c on lr.related_transaction_id = c.transaction_id 
+							left join loan_item on c.transaction_id = loan_item.transaction_id
+						WHERE lr.relation_type = 'Subloan'
+							 and p.transaction_id = <cfqueryparam value=#transaction_id# cfsqltype="CF_SQL_DECIMAL" >
+						GROUP BY c.loan_number, c.transaction_id
+						ORDER BY c.loan_number
+					</cfquery>
+					<cfif childLoans.recordcount GT 0>
+						<p class="font-weight-normal mb-1 pb-0">
+							Exhibition Subloans:
+							<ul>
+								<cfloop query="childLoans">
+									<li>
+										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#encodeForHtml(childLoans.loan_number)#</a>:
+										<a href="/transactions/reviewLoanItems.cfm?transaction_id=#childLoans.transaction_id#">Review items (#childLoans.part_count#)</a>
+									</li>
+								</cfloop>
+								</ul>
+							</p>
+					<cfelse>
+						<p class="font-weight-normal mb-1 pb-0">
+							No subloans associated with this exhibition-master loan.
+						</p>
+					</cfif>
+				</cfif>
+			</cfloop>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
+</cffunction>
+
 <!--- getLoanCatItemHtml get a block of html for one or more cataloged items in a loan, listing
   all each cataloged items parts that are in the loan.
 	@param transaction_id the id of the loan transaction.

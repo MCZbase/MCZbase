@@ -710,8 +710,34 @@ limitations under the License.
 					}
 				}
 				function reloadSummary() { 
-					// TODO: Implement
 					// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
+					// invoke getLoanSummaryHtml(transaction_id=transaction_id) to populate loanSummaryDiv
+					$.ajax({
+						url: '/transactions/component/itemFunctions.cfc',
+						method: 'GET',
+						data: {transaction_id: "#transaction_id#", method: 'getLoanSummaryHtml'},
+						success: function(data) { 
+							$("#loanSummaryDiv").html(data);
+							// if the loan status has changed, reload the page to get the appropriate buttons for the new state
+							var newStatus = $("#loanStatus").text();
+							if (newStatus != "#aboutLoan.loan_status#") { 
+								$("<div>Loan status has changed to " + newStatus + ". Reload page?</div>").dialog({
+									modal: true,
+									buttons: {
+										"Yes": function() { 
+											location.reload();
+										},
+										"No": function() { 
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},
+						error: function (jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
+						}
+					});
 				}
 			</script>
 		</cfoutput>
@@ -865,79 +891,8 @@ limitations under the License.
 							<div class="row">
 								<div class="col-12 mb-3">
 									<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
-										<div class="col-12 col-xl-6">
-											<h1 class="h3 mb-0 pb-0">
-												Review items in loan
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
-											</h1>
-											<cfif collectionCount GT 1 >
-												<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
-											</cfif>
-											<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
-											<cfif isClosed>
-												<cfset statusWeight = "bold">
-											<cfelse>
-												<cfset statusWeight = "lessbold">
-											</cfif>
-											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
-											<h2 class="h4 d-inline font-weight-normal"> &bull; Loan Date: <span class="text-capitalize font-weight-lessbold">#aboutLoan.loan_date#</span> </h2>
-											<cfif aboutLoan.return_due_date NEQ ''>
-												<h2 class="h4 d-inline font-weight-normal">
-													&bull; Due Date: <span class="font-weight-lessbold">#aboutLoan.return_due_date#</span>
-												</h2>
-											</cfif>
-											<cfif aboutLoan.closed_date NEQ ''>
-												<h2 class="h4 d-inline font-weight-normal">
-													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
-												</h2>
-											</cfif>
-											<cfif aboutLoan.nature_of_material NEQ ''>
-												<div class="p-1">
-													#aboutLoan.nature_of_material#
-												</div>
-											</cfif>
-											<cfif parentLoan.recordcount GT 0>
-												<h2 class="h4 font-weight-normal">
-													Subloan of #parentLoan.loan_type#: 
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">
-														#encodeForHtml(parentLoan.loan_number)#
-													</a>
-												</h2>
-											</cfif>
-											<p class="font-weight-normal mb-1 pb-0">
-												There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  
-												View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
-												<a href="/transactions/reviewLoanItems.cfm?action=download&transaction_id=#transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
-											</p>
-											<cfif aboutLoan.loan_type EQ 'exhibition-master'>
-												<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT c.loan_number, c.transaction_id, count(loan_item.collection_object_id) as part_count
-													FROM loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
-														join loan c on lr.related_transaction_id = c.transaction_id 
-														left join loan_item on c.transaction_id = loan_item.transaction_id
-													WHERE lr.relation_type = 'Subloan'
-														 and p.transaction_id = <cfqueryparam value=#transaction_id# cfsqltype="CF_SQL_DECIMAL" >
-													GROUP BY c.loan_number, c.transaction_id
-													ORDER BY c.loan_number
-												</cfquery>
-												<cfif childLoans.recordcount GT 0>
-													<p class="font-weight-normal mb-1 pb-0">
-														Exhibition Subloans:
-														<ul>
-															<cfloop query="childLoans">
-																<li>
-																	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#encodeForHtml(childLoans.loan_number)#</a>:
-																	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#childLoans.transaction_id#">Review items (#childLoans.part_count#)</a>
-																</li>
-															</cfloop>
-															</ul>
-														</p>
-												<cfelse>
-													<p class="font-weight-normal mb-1 pb-0">
-														No subloans associated with this exhibition-master loan.
-													</p>
-												</cfif>
-											</cfif>
+										<div class="col-12 col-xl-6" id="loanSummaryDiv">
+											<cfset loanSummarySection = getLoanSummaryHtml(transaction_id=transaction_id)>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
