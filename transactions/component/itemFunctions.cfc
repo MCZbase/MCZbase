@@ -2609,6 +2609,9 @@ STATE TRANSITION BEHAVIOR:
 					)
 				</cfquery>
 			</cfif>
+			<cfset isClosed = false>
+			<cfset isInProcess = false>
+			<cfset isOpen = false>
 			<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT l.loan_number, 
 					c.collection_cde, 
