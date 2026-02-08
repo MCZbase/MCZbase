@@ -1001,7 +1001,7 @@ limitations under the License.
 												</div>
 												<div class="card-body">
 													<div class="row mb-0 pb-0 px-2 mx-0">
-														<div class="col-12 col-xl-6 border p-1 row">
+														<div class="col-12 col-xl-6 border p-1">
 															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
 																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
