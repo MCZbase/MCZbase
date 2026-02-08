@@ -717,9 +717,9 @@ limitations under the License.
 						method: 'GET',
 						data: {transaction_id: "#transaction_id#", method: 'getLoanSummaryHtml'},
 						success: function(data) { 
-							$("#loanSummaryDiv").html(data);
+							$("##loanSummaryDiv").html(data);
 							// if the loan status has changed, reload the page to get the appropriate buttons for the new state
-							var newStatus = $("#loanStatus").text();
+							var newStatus = $("##loanStatus").text();
 							if (newStatus != "#aboutLoan.loan_status#") { 
 								$("<div>Loan status has changed to " + newStatus + ". Reload page?</div>").dialog({
 									modal: true,
