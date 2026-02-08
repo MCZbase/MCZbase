@@ -2699,6 +2699,7 @@ STATE TRANSITION BEHAVIOR:
 				<cfelse>
 					<cfset statusWeight = "lessbold">
 				</cfif>
+				<input type="hidden" id="loanStatus" value="#aboutLoan.loan_status#">
 				<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
 				<h2 class="h4 d-inline font-weight-normal"> &bull; Loan Date: <span class="text-capitalize font-weight-lessbold">#aboutLoan.loan_date#</span> </h2>
 				<cfif aboutLoan.return_due_date NEQ ''>
