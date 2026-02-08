@@ -2573,6 +2573,42 @@ STATE TRANSITION BEHAVIOR:
 
 	<cfoutput>
 		<cftry>
+			<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollections_result">
+				select count(*) as ct, collection.collection_cde 
+				from 
+					loan_item
+					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+					left join collection on cataloged_item.collection_id=collection.collection_id
+				WHERE
+					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
+				GROUP BY collection.collection_cde
+			</cfquery>
+			<cfset collectionCount = getCollections.recordcount>
+			<cfif collectionCount EQ 1 OR collectionCount EQ 0>
+				<!--- Obtain list of preserve_method values for the collection that this loan is from --->
+				<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct ct.preserve_method
+					from ctspecimen_preserv_method ct 
+						left join collection c on ct.collection_cde = c.collection_cde
+						left join trans t on c.collection_id = t.collection_id 
+					where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
+				</cfquery>
+			<cfelse>
+				<!--- Obtain list of preserve_method values that apply to all of collection for material in this loan--->
+				<cfset intersect = "">
+				<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct preserve_method from (
+						<cfloop query="getCollections" >
+							<cfif len(intersect) GT 0>#intersect#</cfif>
+							select preserve_method 
+							from ctspecimen_preserv_method
+							where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollections.collection_cde#">
+							<cfset intersect = "INTERSECT">
+						</cfloop>
+					)
+				</cfquery>
+			</cfif>
 			<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT l.loan_number, 
 					c.collection_cde, 
@@ -2588,7 +2624,7 @@ STATE TRANSITION BEHAVIOR:
 					trans
 					left join collection c on trans.collection_id = c.collection_id
 					left join loan l on trans.transaction_id = l.transaction_id
-				WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+				WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
 			</cfquery>
 			<cfif aboutLoan.recordcount EQ 0>
 				<cfthrow message="No such transaction found.">
@@ -2619,7 +2655,7 @@ STATE TRANSITION BEHAVIOR:
 					FROM loan c left join loan_relations lr on c.transaction_id = lr.related_transaction_id 
 						left join loan p on lr.transaction_id = p.transaction_id 
 					WHERE lr.relation_type = 'Subloan' 
-						and c.transaction_id = <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+						and c.transaction_id = <cfqueryparam value="#arguments.transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 	
 				<!--- count cataloged items and parts in the loan --->
@@ -2628,7 +2664,7 @@ STATE TRANSITION BEHAVIOR:
 					from loan_item
 						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
 					where
-						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
 				</cfquery>
 				<cfif catCnt.c eq ''>
 					<cfset catCount = 'no'>
@@ -2639,7 +2675,7 @@ STATE TRANSITION BEHAVIOR:
 					select count(distinct(collection_object_id)) c 
 					from loan_item
 					where
-						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
 				</cfquery>
 				<cfif prtItemCnt.c eq ''>
 					<cfset partCount = 'no'>
@@ -2649,7 +2685,7 @@ STATE TRANSITION BEHAVIOR:
 	
 				<h1 class="h3 mb-0 pb-0">
 					Review items in loan
-					<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
+					<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#arguments.transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
 				</h1>
 				<cfif collectionCount GT 1 >
 					<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
@@ -2687,8 +2723,8 @@ STATE TRANSITION BEHAVIOR:
 				</cfif>
 				<p class="font-weight-normal mb-1 pb-0">
 					There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  
-					View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
-					<a href="/transactions/reviewLoanItems.cfm?action=download&transaction_id=#transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
+					View <a href="/findContainer.cfm?loan_trans_id=#arguments.transaction_id#" target="_blank">Part Locations</a>
+					<a href="/transactions/reviewLoanItems.cfm?action=download&transaction_id=#arguments.transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
 				</p>
 				<cfif aboutLoan.loan_type EQ 'exhibition-master'>
 					<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2697,7 +2733,7 @@ STATE TRANSITION BEHAVIOR:
 							join loan c on lr.related_transaction_id = c.transaction_id 
 							left join loan_item on c.transaction_id = loan_item.transaction_id
 						WHERE lr.relation_type = 'Subloan'
-							 and p.transaction_id = <cfqueryparam value=#transaction_id# cfsqltype="CF_SQL_DECIMAL" >
+							 and p.transaction_id = <cfqueryparam value=#arguments.transaction_id# cfsqltype="CF_SQL_DECIMAL" >
 						GROUP BY c.loan_number, c.transaction_id
 						ORDER BY c.loan_number
 					</cfquery>
