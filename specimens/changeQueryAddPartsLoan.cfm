@@ -447,6 +447,7 @@ limitations under the License.
 								window["refreshItems#catItemId#"] = function() { 
 									console.log("refresh items invoked for #catItemId#");
 									loanModifiedHere();
+									messageDialog("Warning: You have removed a specimen part from the loan, you must reload this page to refresh.", "Loan Item Removed Changed Warning");
 								};
 							});
 						</script>
