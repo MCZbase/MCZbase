@@ -1001,11 +1001,11 @@ limitations under the License.
 												</div>
 												<div class="card-body">
 													<div class="row mb-0 pb-0 px-2 mx-0">
-														<div class="col-12 col-xl-6 border p-1">
+														<div class="col-12 col-xl-6 border p-1 row">
 															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
 																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																<div class="col-12 col-md-6">
+																<div class="col-12">
 																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these <span class="itemCountSpan">#partCount#</span> items to:</label>
 																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
 																		<option value=""></option>
@@ -1054,7 +1054,7 @@ limitations under the License.
 																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
 																	</div>
 																<cfelse>
-																	<div class="col-12 col-md-6">
+																	<div class="col-12">
 																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
 																	</div>
 																</cfif>
