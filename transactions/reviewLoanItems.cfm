@@ -1029,6 +1029,9 @@ limitations under the License.
 												$('.editable_control').prop('disabled', true);
 												$('.edit_button').addClass('disabled');
 											};
+											$(document).ready(function() { 
+												disableEditControls();
+											});
 										</script>
 									</cfif>
 									<div class="row #editVisibility#" id="bulkEditControlsDiv">
