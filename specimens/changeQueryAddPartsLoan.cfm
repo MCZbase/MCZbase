@@ -439,6 +439,13 @@ limitations under the License.
 										</div>
 									</cfif>
 								</div>
+								<script>
+									$(document).ready(function() { 
+										window["refreshItems#catItemId#"] = function() { 
+											console.log("refresh items invoked for #catItemId#");
+											loanModifiedHere();
+										};
+									});
 							</cfloop>
 						</div>
 					</cfloop>
