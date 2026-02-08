@@ -444,8 +444,8 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								window["refreshItems#getParts.catItemId#"] = function() { 
-									console.log("refresh items invoked for #getParts.catItemId#");
+								window["refreshItems#catItemId#"] = function() { 
+									console.log("refresh items invoked for #catItemId#");
 									loanModifiedHere();
 								};
 							});
