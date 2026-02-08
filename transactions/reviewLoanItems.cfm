@@ -1213,7 +1213,7 @@ limitations under the License.
 																	WHERE
 																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 																		and loan_item.return_date is null
-																		and (loan_item.loan_item_state is null or loan_item.loan_item_state IN ('on loan','unknown', 'returned'))
+																		and (loan_item.loan_item_state is null or loan_item.loan_item_state IN ('in loan','unknown', 'returned'))
 																</cfquery>
 																<cfif ctReturnables.ct GT 0>
 																	<div class="col-12 col-xl-6 border p-1">
