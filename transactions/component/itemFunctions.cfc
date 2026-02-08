@@ -1867,6 +1867,8 @@ STATE TRANSITION BEHAVIOR:
 </cffunction>
 
 <!--- obtain an html summary block for a loan intent is to go on a page for reviewing/adding items to a loan.
+ used on the add items to loan page. 
+ @see getLoanSummaryLongerHtml for a version with more information intended for the review loan items page.
  @param transaction_id the id of the loan for which to obtain the summary.
  @param show_buttons, one of review, add, both, none, optional, default review, determines which buttons are shown.
  @return an html block summarizing the loan or an http 500 error if an error occurs.
@@ -2561,8 +2563,12 @@ STATE TRANSITION BEHAVIOR:
 	<cfreturn theResult>
 </cffunction>
 
-
-<cffunction name="getLoanSummaryHtml" returntype="string" access="remote" returnformat="plain">
+<!--- getLoanSummaryLongerHtml return an html block describing a loan for the loan items review page 
+ @see getLoanSummary for a shorter version of the loan summary intended for the manage add items to loan page.
+ @param transaction_id the id of the loan transaction for which to obtain the html.
+ @return an html block describing the loan or a http 500 error if an error occurs.
+--->
+<cffunction name="getLoanSummaryLongerHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 
 	<cfoutput>

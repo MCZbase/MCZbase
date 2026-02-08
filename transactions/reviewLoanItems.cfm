@@ -711,11 +711,11 @@ limitations under the License.
 				}
 				function reloadSummary() { 
 					// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
-					// invoke getLoanSummaryHtml(transaction_id=transaction_id) to populate loanSummaryDiv
+					// invoke getLoanSummaryLongerHtml(transaction_id=transaction_id) to populate loanSummaryDiv
 					$.ajax({
 						url: '/transactions/component/itemFunctions.cfc',
 						method: 'GET',
-						data: {transaction_id: "#transaction_id#", method: 'getLoanSummaryHtml'},
+						data: {transaction_id: "#transaction_id#", method: 'getLoanSummaryLongerHtml'},
 						success: function(data) { 
 							$("##loanSummaryDiv").html(data);
 							// if the loan status has changed, reload the page to get the appropriate buttons for the new state
@@ -892,7 +892,7 @@ limitations under the License.
 								<div class="col-12 mb-3">
 									<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
 										<div class="col-12 col-xl-6" id="loanSummaryDiv">
-											<cfset loanSummarySection = getLoanSummaryHtml(transaction_id=transaction_id)>
+											<cfset loanSummarySection = getLoanSummaryLongerHtml(transaction_id=transaction_id)>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
