@@ -1026,11 +1026,7 @@ limitations under the License.
 																		});
 																	});
 																</script>
-																<cfif aboutLoan.loan_type NEQ 'consumable'>
-																	<div class="col-12 col-md-6">
-																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
-																	</div>
-																<cfelse>
+																<cfif aboutLoan.loan_type EQ 'consumable'>
 																	<div class="col-12" id="deaccessionDiv">
 																		<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
 																		<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
@@ -1056,6 +1052,10 @@ limitations under the License.
 																	</script>
 																	<div class="col-12">
 																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+																	</div>
+																<cfelse>
+																	<div class="col-12 col-md-6">
+																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
 																	</div>
 																</cfif>
 															</form>
