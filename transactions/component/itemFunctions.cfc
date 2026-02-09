@@ -3436,7 +3436,7 @@ STATE TRANSITION BEHAVIOR:
 									FROM loan_item
 										JOIN loan ON loan_item.transaction_id = loan.transaction_id
 									WHERE 
-										loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+										loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.partId#">
 								</cfquery>
 								<cfif getLoans.recordcount GT 0>
 									<div class="w-100">
