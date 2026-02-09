@@ -86,7 +86,7 @@ limitations under the License.
 											</cfquery>
 											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#target_deacc_id#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>
 										<cfelse>
-											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts to Deaccession</a>
 										</cfif>
 									</li>
 									<li class="nav-item mb-1">
