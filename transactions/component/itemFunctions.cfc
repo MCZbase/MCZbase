@@ -2906,9 +2906,9 @@ STATE TRANSITION BEHAVIOR:
 						#scientific_name#
 						#type_status#
 						<cfif countPartsInThisLoan.partCount EQ countParts.partCount>
-							<span class="">All parts are in this loan.</span>
+							<br><span class="small90">All parts are in this loan.</span>
 						<cfelse>
-							<span class="small90">#countPartsInThisLoan.partCount# of #countParts.partCount# parts are in this loan.</span>
+							<br><span class="small90">#countPartsInThisLoan.partCount# of #countParts.partCount# parts are in this loan.</span>
 						</cfif>
 					</div>
 					<div class="col-12 col-md-4">
