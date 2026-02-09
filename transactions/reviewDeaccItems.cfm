@@ -402,7 +402,7 @@ limitations under the License.
 					<cfset editVisibility = "d-none">
 					<div class="col-12 row mb-0 pb-0 px-2 mx-0">
 						<div class="col-12">
-							<h3 class="h4 text-danger">This deaccession is closed; edit functions are disabled.</h3>
+							<h3 class="h4 text-danger" id="closedHeadingLine">This deaccession is closed; edit functions are disabled.</h3>
 							<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
 								onclick=" enableEditControls(); "
 								aria-label="Enable bulk editing">Enable Editing</span>
@@ -417,6 +417,7 @@ limitations under the License.
 							$("##addDeaccItemsButton").removeClass('d-none');
 							$('##enableEditControlsBtn').addClass('d-none');
 							$('##disableEditControlsBtn').removeClass('d-none');
+							$('##closedHeadingLine').addClass('d-none');
 							$('.editable_control').prop('disabled', false);
 							$('.edit_button').removeClass('disabled');
 						};
@@ -425,6 +426,7 @@ limitations under the License.
 							$("##addDeaccItemsButton").addClass('d-none');
 							$('##enableEditControlsBtn').removeClass('d-none');
 							$('##disableEditControlsBtn').addClass('d-none');
+							$('##closedHeadingLine').removeClass('d-none');
 							$('.editable_control').prop('disabled', true);
 							$('.edit_button').addClass('disabled');
 						};
