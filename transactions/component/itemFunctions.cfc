@@ -3038,7 +3038,7 @@ STATE TRANSITION BEHAVIOR:
 										<cfloop query="getDeaccessions">
 											<li>In deaccession:
 												<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#getDeaccessions.transaction_id#">
-													#getLoans.loan_number#
+													#getDeaccessions.deacc_number#
 												</a>
 											</li>
 										</cfloop>
