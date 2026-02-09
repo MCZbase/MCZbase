@@ -129,9 +129,37 @@ limitations under the License.
 					<form name="newAccession" id="newAccession" class="" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeAccn">
 						<div class="form-row mb-2">
+							<div class="col-12">
+								<label class="data-entry-label" for="firstStep">Contemporary or Historic Accession</label>
+								<select id="firstStep" name="firstStep" class="reqdClr data-entry-select w-100" required onchange="handleFirstStepChange();" >
+									<option>-- Select One --</option>
+									<option value="contemporary" selected>Documentation of a contemporary accession (post-2013)</option>
+									<option value="historic">Documentation of a historic accession (pre-2014)</option>
+								</select>
+								<script>
+									handleFirstStepChange() { 
+										var firstStepValue = $('##firstStep').val();
+										if (firstStepValue === 'contemporary') {
+											$(".needs_first_step").prop('disabled',false);
+											$(".needs_first_step").removeClass('disabled');
+											// set status sole and selected option to pre-accession
+											$('##status').val('pre-accession');
+											$('##status').find('option').remove().end().append('<option value="pre-accession" selected>pre-accession</option>').val('pre-accession');
+										} else if (firstStepValue === 'historic') {
+											$(".needs_first_step").prop('disabled',false);
+											$(".needs_first_step").removeClass('disabled');
+											// set status sole and selected option to received
+											$('##status').find('option').remove().end().append('<option value="received" selected>received</option>').val('received');
+										} else {
+											$(".needs_first_step").prop('disabled',true);
+											$(".needs_first_step").addClass('disabled');
+										}
+									};
+								</script>
+							</div>
 							<div class="col-12 col-md-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1" required >
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1 disabled needs_first_step" required disabled >
 									<option value=""></option>
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -140,24 +168,17 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_number" class="data-entry-label">Accession Number (nnnnn)</label>
-								<input type="text" name="accn_number" class="reqdClr data-entry-input mb-1" id="accn_number" required pattern="#ACCNNUMBERPATTERN#">
+								<input type="text" name="accn_number" class="reqdClr data-entry-input mb-1 disabled needs_first_step" id="accn_number" required pattern="#ACCNNUMBERPATTERN#" disabled>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="status" class="data-entry-label">Status</label>
-								<select name="accn_status" id="status" class="reqdClr data-entry-select mb-1" required >
-									<cfloop query="ctAccnStatus">
-											<cfif #ctAccnStatus.accn_status# is "in process">
-												<cfset selected = "selected='selected'">
-											<cfelse>
-												<cfset selected="">
-											</cfif>
-											<option value="#ctAccnStatus.accn_status#" #selected# >#ctAccnStatus.accn_status#</option>
-									</cfloop>
+								<select name="accn_status" id="status" class="reqdClr data-entry-select mb-1 needs_first_step disabled" required disabled>
+									<option value="received" selected >received</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_type" class="data-entry-label">Accession Type</label>
-								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select mb-1" required >
+								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select mb-1 needs_first_step disabled" required disabled>
 									<option value=""></option>
 									<cfloop query="ctAccnType">
 											<option value="#ctAccnType.accn_type#">#ctAccnType.accn_type#</option>
@@ -465,7 +486,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
 								<label class="data-entry-label" for="collection_id">Department</label>
-								<select name="collection_id" id="collection_id" size="1" class="reqdClr data-entry-select" required >
+								<select name="collection_id" id="collection_id" size="1" class="reqdClr data-entry-select" required>
 									<cfloop query="ctcollection">
 										<option <cfif ctcollection.collection_id is accessionDetails.collection_id> selected </cfif>
 											value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -474,12 +495,13 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_number" class="data-entry-label">Accession Number (nnnnnn)</label>
-								<input type="text" name="accn_number" id="accn_number" value="#encodeForHTML(accessionDetails.accn_number)#" class="reqdClr data-entry-input" 
+								<input type="text" name="accn_number" id="accn_number" value="#encodeForHTML(accessionDetails.accn_number)#" 
+									class="reqdClr data-entry-input" 
 									required pattern="#ACCNNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_type" class="data-entry-label">Accession Type</label>
-								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required >
+								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required>
 									<cfloop query="ctAccnType">
 										<cfif ctAccnType.accn_type NEQ "transfer" OR accessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
 											<option <cfif ctAccnType.accn_type is accessionDetails.accn_type> selected="selected" </cfif>
