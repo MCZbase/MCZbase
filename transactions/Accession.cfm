@@ -141,6 +141,7 @@ limitations under the License.
 										var firstStepValue = $('##firstStep').val();
 										if (firstStepValue === 'contemporary') {
 											$("##createAccessionButton").prop('disabled',false);
+											$("##createAccessionButton").removeClass('disabled');
 											$(".needs_first_step").prop('disabled',false);
 											$(".needs_first_step").removeClass('disabled');
 											$(".needs_first_step").addClass('reqdClr');
@@ -151,6 +152,7 @@ limitations under the License.
 											$('textarea.autogrow').keyup();
 										} else if (firstStepValue === 'historic') {
 											$("##createAccessionButton").prop('disabled',false);
+											$("##createAccessionButton").removeClass('disabled');
 											$(".needs_first_step").prop('disabled',false);
 											$(".needs_first_step").removeClass('disabled');
 											$(".needs_first_step").addClass('reqdClr');
@@ -541,19 +543,25 @@ limitations under the License.
 									<!--- only admin_transaction can move out of state pre-accession --->
 									<input type="text" name="accn_status_view" id="accn_status" value="#encodeForHTML(accessionDetails.accn_status)#" class="reqdClr data-entry-input" disabled> 
 									<input type="hidden" name="accn_status" id="accn_status_submit" value="#encodeForHTML(accessionDetails.accn_status)#">
+								<cfelseif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions") and accessionDetails.accn_status IS 'declined'>
+									<!--- only admin_transaction can move out of state declined --->
+									<input type="text" name="accn_status_view" id="accn_status" value="#encodeForHTML(accessionDetails.accn_status)#" class="reqdClr data-entry-input" disabled> 
+									<input type="hidden" name="accn_status" id="accn_status_submit" value="#encodeForHTML(accessionDetails.accn_status)#">
 								<cfelseif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions")>
 									<span>
 										<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
 											<cfloop query="ctAccnStatus">
 												<cfif ctAccnStatus.accn_status is accessionDetails.accn_status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<cfif ctAccnStatus.accn_status NEQ "complete-reviewed" AND ctAccnStatus.accn_status NEQ "pre-accession">
-													<!--- only admin_transaction can move into state pre-accession or state complete-reviewed --->
+													<!--- only admin_transaction can move into state pre-accession or state complete-reviewed  --->
 													<option #selected# value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
 												</cfif>
 											</cfloop>
 										</select>
+										<!--- Note: if anyone places into state declined in error, they will have to file a bug report for an admin_transaction to fix the status --->
 									</span>
 								<cfelse>
+									<!--- user with role admin_transactions can see all status options --->
 									<span>
 										<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
 											<cfloop query="ctAccnStatus">
@@ -599,7 +607,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents do not appear here, there is an error).</span>
 								<script>
 								$(document).ready(function() { 
 									$('##agentWarningSpan').delay(1000).fadeIn(300);
@@ -698,8 +706,13 @@ limitations under the License.
 						updateItemSections();
 					});
 				</script>
-				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession">
-					<div class="col-12 pt-3 pb-1">
+				<cfset displayClass = "">
+				<cfif accessionDetails.accn_status EQ "declined" OR accessionDetails.accn_status EQ "pre-accession">
+					<!--- pre-accession and declined accessions cannot have associated items --->
+					<cfset displayClass = "d-none">
+				</cfif>
+				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession" id="accnItemsSection">
+					<div class="col-12 pt-3 pb-1 #displayClass#" id="accnItemButtonsDiv">
 						<input type="button" value="Add Items (Search &amp; Manage)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/Specimens.cfm?action=fixedSearch&collection_id=#accessionDetails.collection_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
