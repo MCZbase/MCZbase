@@ -3444,7 +3444,7 @@ STATE TRANSITION BEHAVIOR:
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
 								</label>
-								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
+								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -3453,7 +3453,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
-								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select editable_control">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
 										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
@@ -3472,7 +3472,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="deacc_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
-								<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
+								<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##deacc_item_remarks_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -3481,7 +3481,7 @@ STATE TRANSITION BEHAVIOR:
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
-								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text editable_control">
 								<script>
 									$(document).ready( function() { 
 										$("##item_instructions_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -3489,8 +3489,8 @@ STATE TRANSITION BEHAVIOR:
 								</script>
 							</div>
 							<div class="col-12 col-md-2 pt-3">
-								<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem#catItemId#(#id#);">Remove</button>
-								<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
+								<button class="btn btn-xs btn-danger edit_button" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem#catItemId#(#id#);">Remove</button>
+								<button class="btn btn-xs btn-secondary edit_button" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 								<output id="deaccItemStatusDiv_#id#"></output>
 							</div>
 							<cfif getLoans.recordcount GT 0>

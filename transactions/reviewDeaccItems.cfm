@@ -284,6 +284,7 @@ limitations under the License.
 			collection.institution_acronym,
 			collection.collection,
 			deaccession.deacc_number,
+			deaccession.deacc_status,
 			deaccession.deacc_type,
 			deaccession.deacc_reason,
 			identification.scientific_name,
@@ -315,6 +316,10 @@ limitations under the License.
 			deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 		ORDER BY cat_num
 	</cfquery>
+	<cfset isClosed = false>
+	<cfif getCatItems.recordCount GT 0 AND getCatItems.deacc_status EQ 'closed'>
+		<cfset isClosed = true>
+	</cfif>
 	<cfquery name="getAllPartsCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(distinct(deacc_item.collection_object_id)) as part_count
 		FROM 
@@ -393,8 +398,41 @@ limitations under the License.
 					There are #partCount# items from #catCount# specimens in this deaccession.
 					<a href="/transactions/reviewDeaccItems.cfm?action=download&transaction_id=#transaction_id#" target="_blank" class="btn btn-xs btn-secondary">Download (csv)</a>
 				</div>
+				<cfif isClosed>
+					<cfset editVisibility = "d-none">
+					<div class="row mb-0 pb-0 px-2 mx-0">
+						<div class="col-12">
+							<h3 class="h4 text-danger">This deaccession is closed; edit functions are disabled.</h3>
+							<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
+								onclick=" enableEditControls(); "
+								aria-label="Enable bulk editing">Enable Editing</span>
+							<span class="btn btn-xs btn-secondary d-none"
+								onclick=" disableEditControls(); " id="disableEditControlsBtn"
+								aria-label="Disable bulk editing">Disable Editing</span>
+						</div>
+					</div>
+					<script>
+						function enableEditControls() { 
+							$('##bulkEditControlsDiv').removeClass('d-none');
+							$('##enableEditControlsBtn').addClass('d-none');
+							$('##disableEditControlsBtn').removeClass('d-none');
+							$('.editable_control').prop('disabled', false);
+							$('.edit_button').removeClass('disabled');
+						};
+						function disableEditControls() { 
+							$('##bulkEditControlsDiv').addClass('d-none');
+							$('##enableEditControlsBtn').removeClass('d-none');
+							$('##disableEditControlsBtn').addClass('d-none');
+							$('.editable_control').prop('disabled', true);
+							$('.edit_button').addClass('disabled');
+						};
+						$(document).ready(function() { 
+							disableEditControls();
+						});
+					</script>
+				</cfif>
 				<div class="col-12">
-					<div class="add-form mt-2">
+					<div class="add-form mt-2" id="bulkEditControlsDiv">
 						<div class="add-form-header pt-1 px-2">
 							<h2 class="h4 mb-0 pb-0">Actions on each item</h2>
 						</div>
