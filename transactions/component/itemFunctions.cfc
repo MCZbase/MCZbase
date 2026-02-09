@@ -2990,6 +2990,15 @@ STATE TRANSITION BEHAVIOR:
 					</cfquery>
 					<cfloop query="getParts">
 						<cfset id = getParts.loan_item_id>
+						<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								deaccession.transaction_id,
+								deacccession.deacc_number,
+							FROM deacc_item
+								JOIN deaccession ON deacc_item.transaction_id = deaccession.transaction_id
+							WHERE 
+								deacc_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+						</cfquery>
 						<!--- Output each part row --->
 						<div id="historyDialog_#getParts.partID#"></div>
 						<div class="col-12 row border-top mx-1 mt-1 px-1 pb-1">
@@ -3021,6 +3030,17 @@ STATE TRANSITION BEHAVIOR:
 													</a>
 												</cfif>
 												</li>
+										</cfloop>
+									</ul>
+								</cfif>
+								<cfif getDeaccessions.recordcount GT 0>
+									<ul class="mb-1">
+										<cfloop query="getDeaccessions">
+											<li>In deaccession:
+												<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#getDeaccessions.transaction_id#">
+													#getLoans.loan_number#
+												</a>
+											</li>
 										</cfloop>
 									</ul>
 								</cfif>
