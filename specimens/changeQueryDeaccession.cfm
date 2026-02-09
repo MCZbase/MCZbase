@@ -30,11 +30,6 @@
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 <cfinclude template="/transactions/component/functions.cfc" runOnce="true">
 
-<!--- Enforce non‑master branch for safety, mirroring original file. --->
-<cfif findNoCase('master',Session.gitBranch) GT 0>
-	<cfthrow message="Not ready for production use.">
-</cfif>
-
 <!--- Obtain result_id and transaction_id from URL or FORM scopes --->
 <cfif isDefined("url.result_id") and len(url.result_id) GT 0>
 	<cfset result_id = url.result_id>
