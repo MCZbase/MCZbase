@@ -3060,7 +3060,7 @@ STATE TRANSITION BEHAVIOR:
 									</ul>
 								</cfif>
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-6 pr-1">
 								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
 								<ul class="mb-1">
 									<cfif len(previous_location) GT 0>
@@ -3085,7 +3085,7 @@ STATE TRANSITION BEHAVIOR:
 									on #getParts.reconciled_date#
 								</span>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 pl-1">
 								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State:</label>
 								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr editable_control">
 									<cfif getParts.loan_item_state EQ "">
@@ -3125,7 +3125,7 @@ STATE TRANSITION BEHAVIOR:
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-5 pr-1">
 								<label for="condition_#id#" class="data-entry-label">
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
@@ -3137,7 +3137,7 @@ STATE TRANSITION BEHAVIOR:
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 pl-1">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
 								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100 reqdClr editable_control">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
@@ -3165,7 +3165,7 @@ STATE TRANSITION BEHAVIOR:
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-5 pr-1">
 								<label for="item_instructions" class="data-entry-label">Loan Item Instructions:</label>
 								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100 editable_control">
 								<script>
@@ -3174,7 +3174,7 @@ STATE TRANSITION BEHAVIOR:
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 pt-3">
+							<div class="col-12 col-md-2 pt-3 pl-1">
 								<!--- determine action buttons to show based on loan status --->
 								<cfif lookupLoan.loan_status EQ "in process">
 									<button class="btn btn-xs btn-danger editable_control" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
