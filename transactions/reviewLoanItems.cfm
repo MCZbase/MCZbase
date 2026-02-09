@@ -884,7 +884,7 @@ limitations under the License.
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-12 mb-3">
-									<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
+									<div class="row mt-1 mb-0 pb-0 px-2 mx-0 border">
 										<div class="col-12 col-xl-6" id="loanSummaryDiv">
 											<cfset loanSummarySection = getLoanSummaryLongerHtml(transaction_id=transaction_id)>
 										</div>
