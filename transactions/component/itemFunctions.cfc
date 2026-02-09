@@ -608,6 +608,21 @@ STATE TRANSITION BEHAVIOR:
 							and coll_obj_disposition = 'on loan'
 					</cfquery>
 				</cfif>
+				<!--- check if loan is in status open, if so change loan to status open partially returned --->
+				<cfquery name="checkLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLoanStatus_result">
+					SELECT loan_status
+					FROM loan
+					WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartID.transaction_id#">
+				</cfquery>
+				<cfif checkLoanStatus_result.recordcount EQ 0>
+					<cfthrow message="could not find loan for loan item">
+				<cfelseif checkLoanStatus_result.loan_status EQ "open">
+					<cfquery name="updateLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoanStatus_result">
+						UPDATE loan 
+						SET loan_status = 'open partially returned'
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartID.transaction_id#">
+					</cfquery>
+				</cfif>
 			</cfif>
 			<cfif ok>
 				<cfset theResult=queryNew("status, message")>
@@ -3167,11 +3182,11 @@ STATE TRANSITION BEHAVIOR:
 								<cfif left(lookupLoan.loan_status,4) EQ "open">
 									<cfif lookupLoan.loan_type EQ "consumable">
 										<cfif getParts.loan_item_state NEQ "consumed">
-											<button class="btn btn-xs btn-primary editable_control" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem#catItemId#(#id#);">Consume</button>
+											<button class="btn btn-xs btn-primary editable_control" aria-label="Mark part as consumed" id="reconcileButton_#id#" onclick="consumeLoanItem#catItemId#(#id#);">Consume</button>
 										</cfif>
 									<cfelse>
 										<cfif getParts.loan_item_state NEQ "returned">
-											<button class="btn btn-xs btn-primary editable_control" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem#catItemId#(#id#);" aria-label="Mark Item as Returned" >Return</button>
+											<button class="btn btn-xs btn-primary editable_control" id="reconcileButton_#id#" onclick="returnLoanItem#catItemId#(#id#);" aria-label="Mark Item as Returned" >Return</button>
 										</cfif>
 									</cfif>
 								</cfif>
