@@ -148,6 +148,7 @@ limitations under the License.
 											// set status sole and selected option to pre-accession
 											$('##status').val('pre-accession');
 											$('##status').find('option').remove().end().append('<option value="pre-accession" selected>pre-accession</option>').val('pre-accession');
+											$('textarea.autogrow').keyup();
 										} else if (firstStepValue === 'historic') {
 											$("##createAccessionButton").prop('disabled',false);
 											$(".needs_first_step").prop('disabled',false);
@@ -156,6 +157,7 @@ limitations under the License.
 											$(".add_accession_row").removeClass('d-none');
 											// set status sole and selected option to received
 											$('##status').find('option').remove().end().append('<option value="received" selected>received</option>').val('received');
+											$('textarea.autogrow').keyup();
 										} else {
 											$("##createAccessionButton").prop('disabled',true);
 											$(".needs_first_step").prop('disabled',true);
