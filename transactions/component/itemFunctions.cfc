@@ -2993,7 +2993,7 @@ STATE TRANSITION BEHAVIOR:
 						<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								deaccession.transaction_id,
-								deacccession.deacc_number
+								deaccession.deacc_number
 							FROM deacc_item
 								JOIN deaccession ON deacc_item.transaction_id = deaccession.transaction_id
 							WHERE 
