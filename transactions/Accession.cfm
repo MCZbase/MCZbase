@@ -137,7 +137,7 @@ limitations under the License.
 									<option value="historic">Documentation of a historic accession (pre-2014)</option>
 								</select>
 								<script>
-									handleFirstStepChange() { 
+									function handleFirstStepChange() { 
 										var firstStepValue = $('##firstStep').val();
 										if (firstStepValue === 'contemporary') {
 											$(".needs_first_step").prop('disabled',false);
