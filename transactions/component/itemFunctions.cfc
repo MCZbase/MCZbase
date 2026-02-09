@@ -2997,7 +2997,7 @@ STATE TRANSITION BEHAVIOR:
 							FROM deacc_item
 								JOIN deaccession ON deacc_item.transaction_id = deaccession.transaction_id
 							WHERE 
-								deacc_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+								deacc_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.partId#">
 						</cfquery>
 						<!--- Output each part row --->
 						<div id="historyDialog_#getParts.partID#"></div>
