@@ -401,7 +401,7 @@ limitations under the License.
 				<cfif isClosed>
 					<cfset editVisibility = "d-none">
 					<div class="col-12 row mb-0 pb-0 px-2 mx-0">
-						<div class="col-12">
+						<div class="col-12 px-2">
 							<h3 class="h4 text-danger" id="closedHeadingLine">This deaccession is closed; edit functions are disabled.</h3>
 							<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
 								onclick=" enableEditControls(); "
