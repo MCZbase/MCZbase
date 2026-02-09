@@ -570,12 +570,11 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</span>
-									<!--- monitor accn_status for changes, if changing from pre-accession or declined, remove d-none class from accnItemButtonsDiv --->
+									<!--- monitor accn_status for changes on save, if changing from pre-accession or declined, remove d-none class from accnItemButtonsDiv --->
 									<script>
-										// monitor accn_status for changes, if changing from pre-accession or declined, remove d-none class from accnItemButtonsDiv 
 										$(document).ready(function() { 
-											$('##accn_status').change(function() {
-												var newStatus = $(this).val();
+											$("##submitButton").click(function() { 
+												var newStatus = $('##accn_status').val();
 												if (newStatus == 'pre-accession' || newStatus == 'declined') {
 													$('##accnItemButtonsDiv').addClass('d-none');
 												} else { 
