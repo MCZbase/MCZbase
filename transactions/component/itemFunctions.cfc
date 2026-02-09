@@ -3310,30 +3310,6 @@ STATE TRANSITION BEHAVIOR:
 						</cfif>
 						#scientific_name#
 						#type_status#
-						<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								loan.transaction_id,
-								loan.loan_number,
-								loan_item.loan_item_state
-							FROM loan_item
-								JOIN loan ON loan_item.transaction_id = loan.transaction_id
-							WHERE 
-								loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
-						</cfquery>
-						<cfif getLoans.recordcount GT 0>
-							<div class="w-100">
-								<h3 class="h5">This part is a loan item in #getLoans.recordcount# loan<cfif getLoans.recordcount GT 1>s</cfif>:</h3>
-								<ul class="mb-1">
-									<cfloop query="getLoans">
-										<li>
-											<a href="/transactions/Loan.cfm?action=edit&transaction_id=#getLoans.transaction_id#">
-												#getLoans.loan_number#
-											</a> (state: #getLoans.loan_item_state#).
-										</li>
-									</cfloop>
-								</ul>
-							</div>
-						</cfif>
 					</div>
 					<div class="col-12 col-md-4">
 						#higher_geog#; #spec_locality#; #sovereign_nation#
@@ -3451,6 +3427,30 @@ STATE TRANSITION BEHAVIOR:
 												</li>
 										</cfloop>
 									</ul>
+								</cfif>
+								<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT 
+										loan.transaction_id,
+										loan.loan_number,
+										loan_item.loan_item_state
+									FROM loan_item
+										JOIN loan ON loan_item.transaction_id = loan.transaction_id
+									WHERE 
+										loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+								</cfquery>
+								<cfif getLoans.recordcount GT 0>
+									<div class="w-100">
+										<h3 class="h5">This part is a loan item in #getLoans.recordcount# loan<cfif getLoans.recordcount GT 1>s</cfif>:</h3>
+										<ul class="mb-1">
+											<cfloop query="getLoans">
+												<li>
+													<a href="/transactions/Loan.cfm?action=edit&transaction_id=#getLoans.transaction_id#">
+														#getLoans.loan_number#
+													</a> (state: #getLoans.loan_item_state#).
+												</li>
+											</cfloop>
+										</ul>
+									</div>
 								</cfif>
 							</div>
 							<div class="col-12 col-md-2">
