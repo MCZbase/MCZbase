@@ -3438,20 +3438,6 @@ STATE TRANSITION BEHAVIOR:
 									WHERE 
 										loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.partId#">
 								</cfquery>
-								<cfif getLoans.recordcount GT 0>
-									<div class="w-100">
-										<h3 class="h5">This part is a loan item in #getLoans.recordcount# loan<cfif getLoans.recordcount GT 1>s</cfif>:</h3>
-										<ul class="mb-1">
-											<cfloop query="getLoans">
-												<li>
-													<a href="/transactions/Loan.cfm?action=edit&transaction_id=#getLoans.transaction_id#">
-														#getLoans.loan_number#
-													</a> (state: #getLoans.loan_item_state#).
-												</li>
-											</cfloop>
-										</ul>
-									</div>
-								</cfif>
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="condition_#id#" class="data-entry-label">
@@ -3507,6 +3493,20 @@ STATE TRANSITION BEHAVIOR:
 								<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 								<output id="deaccItemStatusDiv_#id#"></output>
 							</div>
+							<cfif getLoans.recordcount GT 0>
+								<div class="col-12">
+									<h3 class="h5">This part is a loan item in #getLoans.recordcount# loan<cfif getLoans.recordcount GT 1>s</cfif>:</h3>
+									<ul class="mb-1">
+										<cfloop query="getLoans">
+											<li>
+												<a href="/transactions/Loan.cfm?action=edit&transaction_id=#getLoans.transaction_id#">
+													#getLoans.loan_number#
+												</a> (state: #getLoans.loan_item_state#).
+											</li>
+										</cfloop>
+									</ul>
+								</div>
+							</cfif>
 						</div>
 					</cfloop>
 					<cfif showMultiple>
