@@ -766,17 +766,7 @@ limitations under the License.
 								// if the loan status has changed, reload the page to get the appropriate buttons for the new state
 								var newStatus = $("##loanStatus").val();
 								if (newStatus != "#aboutLoan.loan_status#") { 
-									$("<div>Loan status has changed to " + newStatus + ". Reload page?</div>").dialog({
-										modal: true,
-										buttons: {
-											"Yes": function() { 
-												location.reload();
-											},
-											"No": function() { 
-												$(this).dialog("close");
-											}
-										}
-									});
+									reloadPageDialog("Loan status has changed to " + newStatus + ". Reload page?","Loan Status Changed");
 								}
 							},
 							error: function (jqXHR, textStatus, error) {

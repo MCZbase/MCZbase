@@ -137,6 +137,51 @@ function prepareErrorMessage(message) {
 	return result;
 }
 
+/** create a dialog asking if user wishes to reload page, with option to cancel, and a 
+  message describing the reason for the dialog, typically a state change message.  
+  If user selects yes, page is reloaded, if no, dialog is closed and page is not reloaded.
+  @param dialogText the text to place in the dialog, typically describing the reason for the dialog, e.g. a state change message.
+  @param dialogTitle the title to place in the dialog header.
+*/
+function reloadPageDialog(dialogText, dialogTitle) {
+	if (!dialogTitle) { dialogTitle = "Error"; } 
+	console.log(dialogTitle);
+	if (dialogTitle=="Internal Server Error" && dialogText=="") { 
+		// internal server errors cause duplicate copies of message dialog to launch, one containing the message, one without
+		// supress the one without, but log to console.
+		console.log("reloadPageDialog invoked with no message text");
+	} else { 
+		// normal case, display a dialog with the message.
+		var titleTrimmed = dialogTitle.substring(0,50);
+		var reloadPageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+			modal: true,
+			resizable: false,
+			draggable: true,
+			width: 'auto',
+			minHeight: 80,
+			title: titleTrimmed,
+			buttons: {
+				"Yes": function() { 
+					location.reload();
+				},
+				"No": function() { 
+					$(this).dialog("close");
+				}
+			},
+			close: function() {
+				$(this).dialog( "destroy" );
+			},
+			open: function (event, ui) { 
+				// force the dialog to lay above any other elements in the page.
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			} 
+		});
+		reloadPageDialog.dialog('moveToTop');
+	}
+};
+
 /** Creates a simple message dialog with an OK button.  Creates a new div, 
  * types it as a jquery-ui modal dialog and displays it.
  *

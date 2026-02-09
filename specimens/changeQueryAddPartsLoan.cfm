@@ -130,7 +130,7 @@ limitations under the License.
 			resultbc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.result_id == "#result_id#") { 
-					messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+					reloadPageDialog("Warning: You have removed one or more records from this result set. Reload this page to see the current list of records this page affects?", "Result Set Changed Warning");
 					$(".makeChangeButton").prop("disabled",true);
 					$(".makeChangeButton").addClass("disabled");
 					$(".tabChangeButton").prop("disabled",true);
@@ -147,7 +147,7 @@ limitations under the License.
 					 reloadLoanSummary();
 				}
 				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-					messageDialog("Warning: You have added or removed an item from this loan, you must reload this page to see the current list of records this page affects.", "Loan Item List Changed Warning");
+					reloadPageDialog("Warning: You have added or removed an item from this loan.  Reload this page to see the current records?", "Loan Item List Changed Warning");
 				}
 			}
 		</script>
@@ -447,7 +447,7 @@ limitations under the License.
 								window["refreshItems#catItemId#"] = function() { 
 									console.log("refresh items invoked for #catItemId#");
 									loanModifiedHere();
-									messageDialog("Warning: You have removed a specimen part from the loan, you must reload this page to refresh.", "Loan Item Removed Changed Warning");
+									reloadPageDialog("Warning: You have removed a specimen part from the loan. Reload this page to see current records.", "Loan Item Removed Changed Warning");
 								};
 							});
 						</script>
