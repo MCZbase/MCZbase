@@ -129,9 +129,51 @@ limitations under the License.
 					<form name="newAccession" id="newAccession" class="" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeAccn">
 						<div class="form-row mb-2">
+							<div class="col-12">
+								<label class="data-entry-label" for="firstStep">Contemporary or Historic Accession</label>
+								<select id="firstStep" name="firstStep" class="reqdClr data-entry-select w-100" required onchange="handleFirstStepChange();" >
+									<option selected>-- Select One --</option>
+									<option value="contemporary">Documentation of a contemporary accession (post-2013)</option>
+									<option value="historic">Documentation of a historic accession (pre-2014)</option>
+								</select>
+								<script>
+									function handleFirstStepChange() { 
+										var firstStepValue = $('##firstStep').val();
+										if (firstStepValue === 'contemporary') {
+											$("##createAccessionButton").prop('disabled',false);
+											$("##createAccessionButton").removeClass('disabled');
+											$(".needs_first_step").prop('disabled',false);
+											$(".needs_first_step").removeClass('disabled');
+											$(".needs_first_step").addClass('reqdClr');
+											$(".add_accession_row").removeClass('d-none');
+											// set status sole and selected option to pre-accession
+											$('##status').val('pre-accession');
+											$('##status').find('option').remove().end().append('<option value="pre-accession" selected>pre-accession</option>').val('pre-accession');
+											$('textarea.autogrow').keyup();
+										} else if (firstStepValue === 'historic') {
+											$("##createAccessionButton").prop('disabled',false);
+											$("##createAccessionButton").removeClass('disabled');
+											$(".needs_first_step").prop('disabled',false);
+											$(".needs_first_step").removeClass('disabled');
+											$(".needs_first_step").addClass('reqdClr');
+											$(".add_accession_row").removeClass('d-none');
+											// set status sole and selected option to received
+											$('##status').find('option').remove().end().append('<option value="received" selected>received</option>').val('received');
+											$('textarea.autogrow').keyup();
+										} else {
+											$("##createAccessionButton").prop('disabled',true);
+											$(".needs_first_step").prop('disabled',true);
+											$(".needs_first_step").addClass('disabled');
+											$(".needs_first_step").removeClass('reqdClr');
+											$(".add_accession_row").addClass('d-none');
+											$('##status').find('option').remove().end().append('<option value="" selected></option>').val('');
+										}
+									};
+								</script>
+							</div>
 							<div class="col-12 col-md-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1" required >
+								<select name="collection_id" size="1" id="collection_id" class="data-entry-select mb-1 disabled needs_first_step" required disabled >
 									<option value=""></option>
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -140,24 +182,17 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_number" class="data-entry-label">Accession Number (nnnnn)</label>
-								<input type="text" name="accn_number" class="reqdClr data-entry-input mb-1" id="accn_number" required pattern="#ACCNNUMBERPATTERN#">
+								<input type="text" name="accn_number" class="data-entry-input mb-1 disabled needs_first_step" id="accn_number" required pattern="#ACCNNUMBERPATTERN#" disabled>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="status" class="data-entry-label">Status</label>
-								<select name="accn_status" id="status" class="reqdClr data-entry-select mb-1" required >
-									<cfloop query="ctAccnStatus">
-											<cfif #ctAccnStatus.accn_status# is "in process">
-												<cfset selected = "selected='selected'">
-											<cfelse>
-												<cfset selected="">
-											</cfif>
-											<option value="#ctAccnStatus.accn_status#" #selected# >#ctAccnStatus.accn_status#</option>
-									</cfloop>
+								<select name="accn_status" id="status" class="data-entry-select mb-1 needs_first_step disabled" required disabled>
+									<option value="received" selected >received</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_type" class="data-entry-label">Accession Type</label>
-								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select mb-1" required >
+								<select name="accn_type" id="accn_type" class="data-entry-select mb-1 needs_first_step disabled" required disabled>
 									<option value=""></option>
 									<cfloop query="ctAccnType">
 											<option value="#ctAccnType.accn_type#">#ctAccnType.accn_type#</option>
@@ -165,7 +200,7 @@ limitations under the License.
 								</select>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-6">
 								<span>
 									<label for="received_agent" class="data-entry-label">
@@ -203,7 +238,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="in_house_contact_agent_name" class="data-entry-label">
@@ -261,7 +296,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-4">
 								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
 								<input type="text" name="estimated_count" id="estimated_count" value="" required class="reqdClr w-100 data-entry-input mb-1">
@@ -281,7 +316,7 @@ limitations under the License.
 									class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
@@ -290,7 +325,7 @@ limitations under the License.
 									required ></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
@@ -298,7 +333,7 @@ limitations under the License.
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-4">
 								<label for="radio1" class="float-left text-left mt-1">To be MCZ cataloged</label>
 								<input type="radio" name="for_use_by" value="" checked="checked" id="radio1" class="mt-2 mx-3 float-left">
@@ -321,7 +356,7 @@ limitations under the License.
 						</script>
 						<div class="form-row my-2">
 							<div class="form-group col-12">
-								<input type="button" value="Create Accession" class="btn mt-2 btn-xs btn-primary"
+								<input type="button" value="Create Accession" class="btn mt-2 btn-xs btn-primary disabled" id="createAccessionButton" disabled
 									onClick="if (checkFormValidity($('##newAccession')[0])) { submit();  } ">
 							</div>
 						</div>
@@ -465,7 +500,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
 								<label class="data-entry-label" for="collection_id">Department</label>
-								<select name="collection_id" id="collection_id" size="1" class="reqdClr data-entry-select" required >
+								<select name="collection_id" id="collection_id" size="1" class="reqdClr data-entry-select" required>
 									<cfloop query="ctcollection">
 										<option <cfif ctcollection.collection_id is accessionDetails.collection_id> selected </cfif>
 											value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -474,12 +509,13 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_number" class="data-entry-label">Accession Number (nnnnnn)</label>
-								<input type="text" name="accn_number" id="accn_number" value="#encodeForHTML(accessionDetails.accn_number)#" class="reqdClr data-entry-input" 
+								<input type="text" name="accn_number" id="accn_number" value="#encodeForHTML(accessionDetails.accn_number)#" 
+									class="reqdClr data-entry-input" 
 									required pattern="#ACCNNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_type" class="data-entry-label">Accession Type</label>
-								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required >
+								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required>
 									<cfloop query="ctAccnType">
 										<cfif ctAccnType.accn_type NEQ "transfer" OR accessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
 											<option <cfif ctAccnType.accn_type is accessionDetails.accn_type> selected="selected" </cfif>
@@ -500,17 +536,53 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="accn_status" class="data-entry-label">Accession Status</label>
 								<cfif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions") and accessionDetails.accn_status IS 'complete-reviewed'>
+									<!--- only admin_transaction can move out of state complete-reviewed --->
 									<input type="text" name="accn_status_view" id="accn_status" value="#encodeForHTML(accessionDetails.accn_status)#" class="reqdClr data-entry-input" disabled> 
 									<input type="hidden" name="accn_status" id="accn_status_submit" value="#encodeForHTML(accessionDetails.accn_status)#"> 
-								<cfelse>
+								<cfelseif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions") and accessionDetails.accn_status IS 'pre-accession'>
+									<!--- only admin_transaction can move out of state pre-accession --->
+									<input type="text" name="accn_status_view" id="accn_status" value="#encodeForHTML(accessionDetails.accn_status)#" class="reqdClr data-entry-input" disabled> 
+									<input type="hidden" name="accn_status" id="accn_status_submit" value="#encodeForHTML(accessionDetails.accn_status)#">
+								<cfelseif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions") and accessionDetails.accn_status IS 'declined'>
+									<!--- only admin_transaction can move out of state declined --->
+									<input type="text" name="accn_status_view" id="accn_status" value="#encodeForHTML(accessionDetails.accn_status)#" class="reqdClr data-entry-input" disabled> 
+									<input type="hidden" name="accn_status" id="accn_status_submit" value="#encodeForHTML(accessionDetails.accn_status)#">
+								<cfelseif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions")>
 									<span>
 										<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
 											<cfloop query="ctAccnStatus">
-												<option <cfif ctAccnStatus.accn_status is accessionDetails.accn_status> selected="selected" </cfif>
-													value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
+												<cfif ctAccnStatus.accn_status is accessionDetails.accn_status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<cfif ctAccnStatus.accn_status NEQ "complete-reviewed" AND ctAccnStatus.accn_status NEQ "pre-accession">
+													<!--- only admin_transaction can move into state pre-accession or state complete-reviewed  --->
+													<option #selected# value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
+												</cfif>
+											</cfloop>
+										</select>
+										<!--- Note: if anyone places into state declined in error, they will have to file a bug report for an admin_transaction to fix the status --->
+									</span>
+								<cfelse>
+									<!--- user with role admin_transactions can see all status options --->
+									<span>
+										<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
+											<cfloop query="ctAccnStatus">
+												<cfif ctAccnStatus.accn_status is accessionDetails.accn_status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
 											</cfloop>
 										</select>
 									</span>
+									<!--- monitor accn_status for changes on save, if changing from pre-accession or declined, remove d-none class from accnItemButtonsDiv --->
+									<script>
+										$(document).ready(function() { 
+											$("##submitButton").click(function() { 
+												var newStatus = $('##accn_status').val();
+												if (newStatus == 'pre-accession' || newStatus == 'declined') {
+													$('##accnItemButtonsDiv').addClass('d-none');
+												} else { 
+													$('##accnItemButtonsDiv').removeClass('d-none');
+												}
+											});
+										});
+									</script>
 								</cfif>
 							</div>
 							<div class="col-12 col-md-2">
@@ -548,7 +620,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents do not appear here, there is an error).</span>
 								<script>
 								$(document).ready(function() { 
 									$('##agentWarningSpan').delay(1000).fadeIn(300);
@@ -647,8 +719,13 @@ limitations under the License.
 						updateItemSections();
 					});
 				</script>
-				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession">
-					<div class="col-12 pt-3 pb-1">
+				<cfset displayClass = "">
+				<cfif accessionDetails.accn_status EQ "declined" OR accessionDetails.accn_status EQ "pre-accession">
+					<!--- pre-accession and declined accessions cannot have associated items --->
+					<cfset displayClass = "d-none">
+				</cfif>
+				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession" id="accnItemsSection">
+					<div class="col-12 pt-3 pb-1 #displayClass#" id="accnItemButtonsDiv">
 						<input type="button" value="Add Items (Search &amp; Manage)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/Specimens.cfm?action=fixedSearch&collection_id=#accessionDetails.collection_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"

@@ -6,6 +6,7 @@
       SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
+		replace(to_char(trans_date, 'yyyy-mm-dd'),' ','') as trans_date_iso,
 			    concattransagent(trans.transaction_id, 'in-house authorized by') authAgentName,
 			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
 			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
@@ -141,6 +142,11 @@ select
 		 lot_count,
 		 condition,
 		 item_instructions,
+			loan_item.loan_item_state,
+			loan_item.resolution_recorded_by_agent_id,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
+			loan_item.resolution_remarks,
 		to_char(reconciled_date,'yyyy-mm-dd') reconciled_date,
 		 HTF.escape_sc(loan_item_remarks) loan_item_remarks,
 		 coll_obj_disposition,

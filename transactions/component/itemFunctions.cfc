@@ -320,152 +320,218 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-<!--- function updateLoanItem to update the condition, instructions, remarks, and disposition of an item in a loan.
- This is the backing function for the editable loan items grid and the edit loan item form.
- 
- @param transaction_id the transaction the loan item is in
- @param part_id the part participating in the loan item, loan item is a weak enity, 
-   it is keyed off of transaction_id and part_id 
-   (as collection_object_id of the collection object for the part).
+<!--- 
+function updateLoanItem updates the condition, instructions, remarks, disposition, and state of an item in a loan.
+This is the backing function for the editable loan items grid and the edit loan item form.
 
- TODO: use Primary Key loan_item_id instead of transaction_id and part_id to identify the loan item to update.
- 
- @param condition the new value of the coll_object.condition to save.
- @param item_instructions the new value of the loan_item.item_instructions to save.
- @param loan_item_remarks the new value of the loan_item.item_remarks to save.
- @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
- @param resolution_remarks optional, the new value of loan_item.resolution_remarks to save.
- @param item_descr the new value of loan_item.item_descr to save.
- @param loan_item_state optional, the new value of loan_item.loan_item_state to save, if 
-   not provided, the value will not be changed, if provided, values of returned, consumed, or missing 
-   will mark the loan item as resolved, values of in loan or unknown will clear any returned date and agent.
- @param loan_item_id optional, the loan_item_id of the loan item to update: TODO, switch to this pkey instead of transaction_id and part_id.
- @return a json structurre with status:1, or a http 500 response.
+STATE TRANSITION BEHAVIOR:
+- "returned": Sets return_date (to provided value or now()), sets resolution_recorded_by_agent_id to current user.
+  If other items remain "in loan" and the parent loan is "open", updates loan status to "open partially returned".
+- "consumed" or "missing": Clears return_date (NULL), sets resolution_recorded_by_agent_id to current user.
+- "in loan" or "unknown": Clears both return_date and resolution_recorded_by_agent_id (NULL).
+
+@param loan_item_id the loan_item_id of the loan item to update.
+@param condition the new value of coll_object.condition to save. If empty, existing value is not changed.
+@param item_instructions the new value of loan_item.item_instructions to save. 
+  If empty, will set the value to NULL.
+@param loan_item_remarks the new value of loan_item.loan_item_remarks to save.
+  If empty, will set the value to NULL.
+@param coll_obj_disposition the new value of coll_object.coll_obj_disposition to save.
+@param item_descr the new value of loan_item.item_descr to save. 
+  If empty, existing value is not changed.
+@param resolution_remarks optional, the new value of loan_item.resolution_remarks to save.
+  If empty, will set the value to NULL.
+@param loan_item_state optional, the new value of loan_item.loan_item_state to save. 
+  If not provided, the value will not be changed. See STATE TRANSITION BEHAVIOR above for effects of state changes.
+@param return_date optional, the new value of loan_item.return_date to save.
+  - If loan_item_state is changing to "returned": Uses provided value, or now() if not provided.
+  - If loan_item_state is changing to "consumed", "missing", "in loan", or "unknown": return_date is cleared (NULL) regardless of this parameter.
+  - If loan_item_state is not changing: Updates to provided value if given, otherwise existing value is preserved.
+
+@return JSON structure with status and message. Success: {status: "1", message: "Loan item updated successfully."}
+  On error, returns HTTP 500 response.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
-	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="loan_item_id" type="string" required="yes" default="">
 	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
-	<cfargument name="resolution_remarks" type="string" required="no">
 	<cfargument name="item_descr" type="string" required="yes">
+	<cfargument name="resolution_remarks" type="string" required="no">
 	<cfargument name="loan_item_state" type="string" required="no" default="">
-	<cfargument name="loan_item_id" type="string" required="no" default="">
+	<cfargument name="return_date" type="string" required="no" default="">
+
+	<cfset theResult = queryNew("status, message")>
+	<cfset t = queryaddrow(theResult,1)>
+	<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+	<cfset t = QuerySetCell(theResult, "message", "Update failed", 1)>
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="confirmItem_result">
-				select loan_item_id, loan_item_state from loan_item
-				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#"> AND
-					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+			<!--- Step 1: Get current loan item state --->
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					loan_item_id, 
+					loan_item_state,
+					transaction_id, 
+					collection_object_id as part_id
+				FROM loan_item
+				WHERE loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
-			<cfif confirmItem.recordcount EQ 0>
-				<cfthrow message="specified collection object is not a loan item in the specified transaction">
+			
+			<cfif confirmItem.recordcount NEQ 1>
+				<cfthrow message="Specified loan item not found">
 			</cfif>
-			<cfif arguments.loan_item_state is not "" AND arguments.loan_item_state NEQ confirmItem.loan_item_state>
-				<cfif arguments.loan_item_state eq "returned">
-					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET
-							return_date = sysdate,
-							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
-						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
-					</cfquery>
-					<!--- check if loan is open and has more than one outstanding loan item, if so, change to open-partially-returned --->
-					<cfquery name="checkLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT 
-							count(*) as outstanding_count
-						FROM 
-							loan_item
-							join loan on loan_item.transaction_id = loan.transaction_id
-						WHERE 
-							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
-							AND (loan_item_state = 'in loan') 
-							AND loan.loan_status = 'open'
-					</cfquery>
-					<cfif checkLoanStatus.outstanding_count GT 1>
-						<cfquery name="setLoanPartiallyReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE loan 
-							SET 
-								loan_status = 'open partially returned'
-							WHERE 
-								transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
-								and loan_status = 'open'
-						</cfquery>
+
+			<cfset part_id = confirmItem.part_id>
+			<cfset transaction_id = confirmItem.transaction_id>
+			<cfset old_state = confirmItem.loan_item_state>
+			<cfset new_state = arguments.loan_item_state>
+
+			<!--- Step 2: Determine what to set based on state transition logic --->
+			<cfset setReturnDate = false>
+			<cfset returnDateValue = "">
+			<cfset clearReturnDate = false>
+			<cfset setResolutionAgent = false>
+			<cfset clearResolutionAgent = false>
+			<cfset updateState = (len(new_state) GT 0 AND new_state NEQ old_state)>
+
+			<cfif updateState>
+				<cfif new_state EQ "returned">
+					<!--- Transitioning to returned: set return_date and resolution agent --->
+					<cfset setReturnDate = true>
+					<cfif len(arguments.return_date) GT 0>
+						<cfset returnDateValue = arguments.return_date>
+					<cfelse>
+						<cfset returnDateValue = now()>
 					</cfif>
- 				<cfelseif arguments.loan_item_state eq "consumed" or arguments.loan_item_state eq "missing">
-					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET
-							return_date = null,
-							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
-						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
-					</cfquery>
-				<cfelseif arguments.loan_item_state eq "in loan" or arguments.loan_item_state eq "unknown">
-					<cfquery name="clearReturnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET
-							return_date = null,
-							resolution_recorded_by_agent_id = null	
-						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
-					</cfquery>
+					<cfset setResolutionAgent = true>
+				<cfelseif new_state EQ "consumed" OR new_state EQ "missing">
+					<!--- Transitioning to consumed/missing: clear return_date, set resolution agent --->
+					<cfset clearReturnDate = true>
+					<cfset setResolutionAgent = true>
+				<cfelseif new_state EQ "in loan" OR new_state EQ "unknown">
+					<!--- Transitioning to in loan/unknown: clear both return_date and resolution agent --->
+					<cfset clearReturnDate = true>
+					<cfset clearResolutionAgent = true>
+				</cfif>
+			<cfelse>
+				<!--- No state change, but user may be updating return_date directly --->
+				<cfif len(arguments.return_date) GT 0>
+					<cfset setReturnDate = true>
+					<cfset returnDateValue = arguments.return_date>
 				</cfif>
 			</cfif>
+
+			<!--- Step 3: Update COLL_OBJECT --->
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
-				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
-					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
+				SET 
+					coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">
+					<cfif len(trim(arguments.condition)) GT 0>
+						,condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
+					</cfif>
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
+			
 			<cfif upDisp_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+				<cfthrow message="Coll_object record not updated. Part ID: #part_id#">
 			</cfif>
+
+			<!--- Step 4: Single UPDATE for LOAN_ITEM with all logic --->
 			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
-				UPDATE loan_item SET
+				UPDATE loan_item 
+				SET
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-					<cfif len(#item_instructions#) gt 0>
+					
+					<!--- Update instructions --->
+					<cfif len(arguments.item_instructions) GT 0>
 						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
 					<cfelse>
-						,item_instructions = null
+						,item_instructions = NULL
 					</cfif>
-					<cfif len(#loan_item_remarks#) gt 0>
+					
+					<!--- Update remarks --->
+					<cfif len(arguments.loan_item_remarks) GT 0>
 						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_remarks#">
 					<cfelse>
-						,loan_item_remarks = null
+						,loan_item_remarks = NULL
 					</cfif>
+					
+					<!--- Update description --->
 					<cfif len(arguments.item_descr) GT 0>
 						,item_descr = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_descr#">
 					</cfif>
-					<cfif len(loan_item_state) GT 0>
-						,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">
-					</cfif>
-					<cfif structKeyExists(arguments,"resolution_remarks")> 
-						<cfif len(#arguments.resolution_remarks#) gt 0>
+					
+					<!--- Update resolution remarks --->
+					<cfif structKeyExists(arguments, "resolution_remarks")>
+						<cfif len(arguments.resolution_remarks) GT 0>
 							,resolution_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolution_remarks#">
 						<cfelse>
-							,resolution_remarks = null
+							,resolution_remarks = NULL
 						</cfif>
 					</cfif>
-				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
-					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					
+					<!--- Update state if changing --->
+					<cfif updateState>
+						,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_state#">
+					</cfif>
+					
+					<!--- Handle return_date based on state transition logic --->
+					<cfif clearReturnDate>
+						,return_date = NULL
+					<cfelseif setReturnDate>
+						,return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#returnDateValue#">
+					</cfif>
+					
+					<!--- Handle resolution_recorded_by_agent_id based on state transition logic --->
+					<cfif clearResolutionAgent>
+						,resolution_recorded_by_agent_id = NULL
+					<cfelseif setResolutionAgent>
+						,resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+					</cfif>
+					
+				WHERE loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
 			</cfquery>
+			
 			<cfif upItem_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #part_id# #upItem_result.sql#">
+				<cfthrow message="Loan_item record not updated. Loan Item ID: #arguments.loan_item_id#">
 			</cfif>
-			<cfif upItem_result.recordcount eq 1>
-				<cfset theResult=queryNew("status, message")>
-				<cfset t = queryaddrow(theResult,1)>
-				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "loan item updated.", 1)>
+
+			<!--- Step 5: Handle loan status update if transitioning to returned --->
+			<cfif updateState AND new_state EQ "returned">
+				<!--- Check if loan should be marked as partially returned --->
+				<!--- Count remaining items in loan status (excluding the one we just updated) --->
+				<cfquery name="checkLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT COUNT(*) as outstanding_count
+					FROM loan_item
+					JOIN loan ON loan_item.transaction_id = loan.transaction_id
+					WHERE 
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						AND loan_item.loan_item_state = 'in loan'
+						AND loan_item.loan_item_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.loan_item_id#">
+						AND loan.loan_status = 'open'
+				</cfquery>
+				
+				<cfif checkLoanStatus.outstanding_count GT 0>
+					<!--- There are still items out on loan, mark as partially returned --->
+					<cfquery name="setLoanPartiallyReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE loan 
+						SET loan_status = 'open partially returned'
+						WHERE 
+							transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							AND loan_status = 'open'
+					</cfquery>
+				</cfif>
 			</cfif>
+
+			<!--- Step 6: Set success result --->
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Loan item updated successfully.", 1)>
+			
 			<cftransaction action="commit">
+			
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -475,6 +541,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
+	
 	<cfreturn theResult>
 </cffunction>
 
@@ -539,6 +606,21 @@ limitations under the License.
 						SET coll_obj_disposition = 'in collection'
 						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 							and coll_obj_disposition = 'on loan'
+					</cfquery>
+				</cfif>
+				<!--- check if loan is in status open, if so change loan to status open partially returned --->
+				<cfquery name="checkLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLoanStatus_result">
+					SELECT loan_status
+					FROM loan
+					WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartID.transaction_id#">
+				</cfquery>
+				<cfif checkLoanStatus_result.recordcount EQ 0>
+					<cfthrow message="could not find loan for loan item">
+				<cfelseif checkLoanStatus_result.loan_status EQ "open">
+					<cfquery name="updateLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoanStatus_result">
+						UPDATE loan 
+						SET loan_status = 'open partially returned'
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartID.transaction_id#">
 					</cfquery>
 				</cfif>
 			</cfif>
@@ -647,6 +729,8 @@ limitations under the License.
 			coll_obj_disposition,
 			coll_obj_cont_hist.container_id,
 			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
+			MCZBASE.get_scientific_name_auths_pl(cataloged_item.collection_object_id) as scientific_name_auths_plain,
+			MCZBASE.get_scientific_name_plain(cataloged_item.collection_object_id) as scientific_name_plain,
 			MCZBASE.CONCATENCUMBRANCES(cataloged_item.collection_object_id) as encumbrance,
 			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
 			MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
@@ -1144,7 +1228,7 @@ limitations under the License.
 						<cfloop query="lookupParts">
 							<cfset i= i+1>
 							<form id="addPart_#i#">
-								<div class="form-row border">
+								<div class="form-row border py-1">
 									<div class="col-12">
 										<label class="data-entry-label">
 											#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier#
@@ -1208,7 +1292,7 @@ limitations under the License.
 <cffunction name="getLoanItemDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="loan_item_id" type="string" required="yes">
 
-	<cfthread name="getRemoveLoanItemHtmlThread" loan_item_id="#arguments.loan_item_id#">
+	<cfthread name="getLoanItemDialogHtmlThread" loan_item_id="#arguments.loan_item_id#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1227,9 +1311,11 @@ limitations under the License.
 						loan.transaction_id,
 						loan.loan_type,
 						loan.loan_status,
+						loan.closed_date,
 						collection.institution_acronym,
 						cataloged_item.collection_cde, 
 						cataloged_item.cat_num,
+						cataloged_item.collection_object_id as catItemId,
 						coll_object.coll_obj_disposition,
 						coll_object.condition,
 						specimen_part.part_name,
@@ -1281,6 +1367,9 @@ limitations under the License.
 										<div class="add-form-header pt-1 px-2">
 											<h2 class="h2">
 												Loan Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #loan_number# #loan_type# #loan_status#
+												<cfif loan_status EQ "closed">
+													(closed on #closed_date#)
+												</cfif>
 												<div class="smaller">[internal part collection_object_id: #lookupItem.part_id#]</div>
 											</h2>
 											<cfif is_subsample EQ "yes">
@@ -1320,11 +1409,9 @@ limitations under the License.
 										<div class="card-body">
 											<form name="editLoanItemForm" id="editLoanItemForm" class="mb-0">
 												<input type="hidden" name="loan_item_id" value="#lookupItem.loan_item_id#">
-												<input type="hidden" name="part_id" value="#lookupItem.part_id#">
-												<input type="hidden" name="transaction_id" value="#lookupItem.transaction_id#">
 												<input type="hidden" name="method" value="updateLoanItem">
 												<div class="row mx-0 py-2">
-													<div class="col-12 col-md-6 px-1">
+													<div class="col-12 col-md-4 px-1">
 														<cfif len(lookupItem.loan_item_state) EQ 0>
 															<cfset state="">
 														<cfelse>
@@ -1344,9 +1431,18 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
+													<div class="col-12 col-md-2 px-1">
+														<label class="data-entry-label" for="return_date">Item Returned Date</label>
+														<input type="text" name="return_date" id="return_date"" value="#encodeForHtml(lookupItem.return_date)#" class="data-entry-input">
+														<script>
+															$(document).ready(function(){
+																$("##return_date").datepicker({ dateFormat: "yy-mm-dd" });
+															});
+														</script>
+													</div>
 													<div class="col-12 col-md-6 px-1">
-														<label class="data-entry-label">Loan Item Description</label>
-														<input type="text" name="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
+														<label class="data-entry-label" for="item_descr">Loan Item Description</label>
+														<input type="text" name="item_descr" id="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
 													</div>
 													<div class="col-12 px-1">
 														<label class="data-entry-label" for="item_instructions">Loan Item Instructions</label> 
@@ -1362,7 +1458,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Condition (#lookupItem.condition#)</label>
-														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
+														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input reqdClr">
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Disposition (#lookupItem.coll_obj_disposition#)</label>
@@ -1426,6 +1522,18 @@ limitations under the License.
 																		handleFail(jqXHR,status,message,"updating loan item");
 																	}
 																});
+															}
+														</script>
+														<button type="button" class="btn btn-danger btn-sm float-right" 
+															onclick=" doRemove(); ">
+															Remove
+														</button>
+														<script>
+															function doRemove() { 
+																// open remove dialog
+																openRemoveLoanItemDialog("#loan_item_id#", "loanItemRemoveDialogDiv" , refreshItems#lookupItem.catItemId#);
+																// close current dialog
+																$("##loanItemEditDialogDiv").dialog("close");
 															}
 														</script>
 													</div>
@@ -1569,6 +1677,19 @@ limitations under the License.
 										</cfif>
 									</ul>
 								</div>
+								<div class="col-12 mt=2">
+									<p><strong>Loan Item State Changes:</strong> Setting item state to "returned" records the return date 
+										(using today&##39;s date if a value is not specified on the form). Setting item state 
+										to "consumed", "missing",  "in loan" or "unknown" also clears the return date.
+									</p>
+									<p><strong>Part and Loan Item</strong> The part condition and part disposition are properties of the specimen part reflecting
+										the current condition and disposition of the part of the cataloged item in the collection.  The other fields on this 
+										form are properties of the loan item record and reflect the condition, disposition, and other information about the part 
+										with respect to this particular loan.  If the part is on multiple loans, the part condition and part disposition fields will 
+										reflect the current state of the part itself, while the other fields reflect the state of the part as a loan item in respect
+										to this loan, and these may differ.
+									</p>
+								</div>
 							</div>
 						</div>
 				</cfloop>
@@ -1581,8 +1702,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getRemoveLoanItemHtmlThread" />
-	<cfreturn getRemoveLoanItemHtmlThread.output>
+	<cfthread action="join" name="getLoanItemDialogHtmlThread" />
+	<cfreturn getLoanItemDialogHtmlThread.output>
 </cffunction>
 
 <!--- getDispositionsList obtain an html list of distinct values of dispositions and loan item 
@@ -1761,6 +1882,8 @@ limitations under the License.
 </cffunction>
 
 <!--- obtain an html summary block for a loan intent is to go on a page for reviewing/adding items to a loan.
+ used on the add items to loan page. 
+ @see getLoanSummaryLongerHtml for a version with more information intended for the review loan items page.
  @param transaction_id the id of the loan for which to obtain the summary.
  @param show_buttons, one of review, add, both, none, optional, default review, determines which buttons are shown.
  @return an html block summarizing the loan or an http 500 error if an error occurs.
@@ -1879,7 +2002,7 @@ limitations under the License.
 								<a href="/transactions/reviewDeaccItems.cfm?transaction_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Review Deaccession Items</a>
 							</cfif>
 							<cfif show_buttons EQ "add" OR show_buttons EQ "both">
-								<a href="/Specimens.cfm?target_deacc_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary">Add Items To Deaccession</a>
+								<a href="/Specimens.cfm?target_deacc_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary" id="addDeaccItemsButton">Add Items To Deaccession</a>
 							</cfif>
 						</div>
 					</cfif>
@@ -2455,6 +2578,212 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<!--- getLoanSummaryLongerHtml return an html block describing a loan for the loan items review page 
+ @see getLoanSummary for a shorter version of the loan summary intended for the manage add items to loan page.
+ @param transaction_id the id of the loan transaction for which to obtain the html.
+ @return an html block describing the loan or a http 500 error if an error occurs.
+--->
+<cffunction name="getLoanSummaryLongerHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+
+	<cfoutput>
+		<cftry>
+			<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollections_result">
+				select count(*) as ct, collection.collection_cde 
+				from 
+					loan_item
+					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+					left join collection on cataloged_item.collection_id=collection.collection_id
+				WHERE
+					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
+				GROUP BY collection.collection_cde
+			</cfquery>
+			<cfset collectionCount = getCollections.recordcount>
+			<cfif collectionCount EQ 1 OR collectionCount EQ 0>
+				<!--- Obtain list of preserve_method values for the collection that this loan is from --->
+				<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct ct.preserve_method
+					from ctspecimen_preserv_method ct 
+						left join collection c on ct.collection_cde = c.collection_cde
+						left join trans t on c.collection_id = t.collection_id 
+					where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
+				</cfquery>
+			<cfelse>
+				<!--- Obtain list of preserve_method values that apply to all of collection for material in this loan--->
+				<cfset intersect = "">
+				<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct preserve_method from (
+						<cfloop query="getCollections" >
+							<cfif len(intersect) GT 0>#intersect#</cfif>
+							select preserve_method 
+							from ctspecimen_preserv_method
+							where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollections.collection_cde#">
+							<cfset intersect = "INTERSECT">
+						</cfloop>
+					)
+				</cfquery>
+			</cfif>
+			<cfset isClosed = false>
+			<cfset isInProcess = false>
+			<cfset isOpen = false>
+			<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT l.loan_number, 
+					c.collection_cde, 
+					c.collection,
+					l.loan_type, 
+					l.loan_status, 
+					to_char(l.return_due_date,'yyyy-mm-dd') as return_due_date, 
+					to_char(l.closed_date,'yyyy-mm-dd') as closed_date,
+					l.loan_instructions,
+					trans.nature_of_material,
+					to_char(trans.trans_date,'yyyy-mm-dd') as loan_date
+				FROM 
+					trans
+					left join collection c on trans.collection_id = c.collection_id
+					left join loan l on trans.transaction_id = l.transaction_id
+				WHERE trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
+			</cfquery>
+			<cfif aboutLoan.recordcount EQ 0>
+				<cfthrow message="No such transaction found.">
+			</cfif>
+			<cfloop query="aboutLoan">
+				<cfif aboutLoan.loan_number IS "">
+					<cfthrow message="Transaction with this transaction_id is not a loan.">
+				</cfif>
+				<cfif aboutLoan.loan_status EQ 'closed'>
+					<cfset isClosed = true>
+				</cfif>
+				<cfif aboutLoan.loan_status EQ 'in process'>
+					<cfset isInProcess = true>
+				</cfif>
+				<cfif Find("open",aboutLoan.loan_status) EQ 1>
+					<cfset isOpen = true>
+				</cfif>
+				<cfset multipleCollectionsText = "">
+				<cfif collectionCount GT 1>
+					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
+					<cfloop query="getCollections" >
+						<cfset multipleCollectionsText = "#multipleCollectionsText# #getCollections.collection_cde# (#getCollections.ct#) " >
+					</cfloop>
+				</cfif>
+				<!--- Parent exhibition-master loan of the current exhibition-subloan loan, if applicable--->
+				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT p.loan_number, p.transaction_id, p.loan_type
+					FROM loan c left join loan_relations lr on c.transaction_id = lr.related_transaction_id 
+						left join loan p on lr.transaction_id = p.transaction_id 
+					WHERE lr.relation_type = 'Subloan' 
+						and c.transaction_id = <cfqueryparam value="#arguments.transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+	
+				<!--- count cataloged items and parts in the loan --->
+				<cfquery name="catCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(distinct(derived_from_cat_item)) c 
+					from loan_item
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					where
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
+				</cfquery>
+				<cfif catCnt.c eq ''>
+					<cfset catCount = 'no'>
+				<cfelse>
+					<cfset catCount = catCnt.c>
+				</cfif>
+				<cfquery name="prtItemCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(distinct(collection_object_id)) c 
+					from loan_item
+					where
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#" >
+				</cfquery>
+				<cfif prtItemCnt.c eq ''>
+					<cfset partCount = 'no'>
+				<cfelse>
+					<cfset partCount = prtItemCnt.c>
+				</cfif>
+	
+				<h1 class="h3 mb-0 pb-0">
+					Review items in loan
+					<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#arguments.transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
+				</h1>
+				<cfif collectionCount GT 1 >
+					<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
+				</cfif>
+				<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
+				<cfif isClosed>
+					<cfset statusWeight = "bold">
+				<cfelse>
+					<cfset statusWeight = "lessbold">
+				</cfif>
+				<input type="hidden" id="loanStatus" value="#aboutLoan.loan_status#">
+				<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
+				<h2 class="h4 d-inline font-weight-normal"> &bull; Loan Date: <span class="text-capitalize font-weight-lessbold">#aboutLoan.loan_date#</span> </h2>
+				<cfif aboutLoan.return_due_date NEQ ''>
+					<h2 class="h4 d-inline font-weight-normal">
+						&bull; Due Date: <span class="font-weight-lessbold">#aboutLoan.return_due_date#</span>
+					</h2>
+				</cfif>
+				<cfif aboutLoan.closed_date NEQ ''>
+					<h2 class="h4 d-inline font-weight-normal">
+						&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
+					</h2>
+				</cfif>
+				<cfif aboutLoan.nature_of_material NEQ ''>
+					<div class="p-1">
+						#aboutLoan.nature_of_material#
+					</div>
+				</cfif>
+				<cfif parentLoan.recordcount GT 0>
+					<h2 class="h4 font-weight-normal">
+						Subloan of #parentLoan.loan_type#: 
+						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">
+							#encodeForHtml(parentLoan.loan_number)#
+						</a>
+					</h2>
+				</cfif>
+				<p class="font-weight-normal mb-1 pb-0">
+					There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  
+					View <a href="/findContainer.cfm?loan_trans_id=#arguments.transaction_id#" target="_blank">Part Locations</a>
+					<a href="/transactions/reviewLoanItems.cfm?action=download&transaction_id=#arguments.transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
+				</p>
+				<cfif aboutLoan.loan_type EQ 'exhibition-master'>
+					<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT c.loan_number, c.transaction_id, count(loan_item.collection_object_id) as part_count
+						FROM loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
+							join loan c on lr.related_transaction_id = c.transaction_id 
+							left join loan_item on c.transaction_id = loan_item.transaction_id
+						WHERE lr.relation_type = 'Subloan'
+							 and p.transaction_id = <cfqueryparam value=#arguments.transaction_id# cfsqltype="CF_SQL_DECIMAL" >
+						GROUP BY c.loan_number, c.transaction_id
+						ORDER BY c.loan_number
+					</cfquery>
+					<cfif childLoans.recordcount GT 0>
+						<p class="font-weight-normal mb-1 pb-0">
+							Exhibition Subloans:
+							<ul>
+								<cfloop query="childLoans">
+									<li>
+										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#encodeForHtml(childLoans.loan_number)#</a>:
+										<a href="/transactions/reviewLoanItems.cfm?transaction_id=#childLoans.transaction_id#">Review items (#childLoans.part_count#)</a>
+									</li>
+								</cfloop>
+								</ul>
+							</p>
+					<cfelse>
+						<p class="font-weight-normal mb-1 pb-0">
+							No subloans associated with this exhibition-master loan.
+						</p>
+					</cfif>
+				</cfif>
+			</cfloop>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
+</cffunction>
+
 <!--- getLoanCatItemHtml get a block of html for one or more cataloged items in a loan, listing
   all each cataloged items parts that are in the loan.
 	@param transaction_id the id of the loan transaction.
@@ -2547,7 +2876,28 @@ limitations under the License.
 						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
 					</cfif>
 
-					<div class="col-12 col-md-4">
+
+					<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							count(specimen_part.collection_object_id) partCount
+						FROM
+							cataloged_item
+							join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
+					</cfquery>
+					<cfquery name="countPartsInThisLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							count(specimen_part.collection_object_id) partCount
+						FROM
+							cataloged_item
+							join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+							join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
+							AND loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					</cfquery>
+					<div class="col-12 col-md-4 px-1">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 						<a href="/guid/#guid#" target="_blank">#guid#</a>  
 						<cfif len(#CustomID#) gt 0 AND otherIdOn>
@@ -2555,6 +2905,11 @@ limitations under the License.
 						</cfif>
 						#scientific_name#
 						#type_status#
+						<cfif countPartsInThisLoan.partCount EQ countParts.partCount>
+							<br><span class="small90">All parts are in this loan.</span>
+						<cfelse>
+							<br><span class="small90">#countPartsInThisLoan.partCount# of #countParts.partCount# parts are in this loan.</span>
+						</cfif>
 					</div>
 					<div class="col-12 col-md-4">
 						#higher_geog#; #spec_locality#; #sovereign_nation#
@@ -2619,24 +2974,18 @@ limitations under the License.
 							loan_item.item_instructions,
 							loan_item.loan_item_state,
 							loan_item.resolution_remarks,
-			reconciled_by_person_id,
-			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
-			to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
+							reconciled_by_person_id,
+							MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
+							to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
 							to_char(loan_item.return_date,'YYYY-MM-DD') return_date,
-			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
-			loan_item.resolution_recorded_by_agent_id,
+							MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+							loan_item.resolution_recorded_by_agent_id,
 							loan.loan_number,
 							loan.loan_type,
 							identification.scientific_name as mixed_scientific_name,
-			coll_obj_cont_hist.container_id,
+							coll_obj_cont_hist.container_id,
 							MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
 							MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'room') as location_room,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'fixture') as location_fixture,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'tank') as location_tank,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'freezer') as location_freezer,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
-			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
 							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
 							MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location
 						FROM 
@@ -2656,6 +3005,15 @@ limitations under the License.
 					</cfquery>
 					<cfloop query="getParts">
 						<cfset id = getParts.loan_item_id>
+						<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								deaccession.transaction_id,
+								deaccession.deacc_number
+							FROM deacc_item
+								JOIN deaccession ON deacc_item.transaction_id = deaccession.transaction_id
+							WHERE 
+								deacc_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.partId#">
+						</cfquery>
 						<!--- Output each part row --->
 						<div id="historyDialog_#getParts.partID#"></div>
 						<div class="col-12 row border-top mx-1 mt-1 px-1 pb-1">
@@ -2690,10 +3048,21 @@ limitations under the License.
 										</cfloop>
 									</ul>
 								</cfif>
+								<cfif getDeaccessions.recordcount GT 0>
+									<ul class="mb-1">
+										<cfloop query="getDeaccessions">
+											<li>In deaccession:
+												<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#getDeaccessions.transaction_id#">
+													#getDeaccessions.deacc_number#
+												</a>
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
 							</div>
-							<div class="col-12 col-md-6">
-								<strong>Storage Location:</strong> #getParts.short_location#
-								<ul>
+							<div class="col-12 col-md-6 pr-1">
+								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
+								<ul class="mb-1">
 									<cfif len(previous_location) GT 0>
 										<li>
 											<strong>Previous Location:</strong> 
@@ -2710,54 +3079,67 @@ limitations under the License.
 										</li>
 									</cfif>
 								</ul>
+								<span class="small90">
+									Added to Loan by 
+									<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(reconciled_by_person_id)#" target="_blank">#getParts.reconciled_by_agent#</a> 
+									on #getParts.reconciled_date#
+								</span>
 							</div>
-							<div class="col-12 col-md-2">
-								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State: </label>
-								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr">
+							<div class="col-12 col-md-2 pl-1">
+								<label for="loan_item_state_#id#" class="data-entry-label"> Loan Item State:</label>
+								<select id="loan_item_state_#id#" name="loan_item_state" class="data-entry-select w-100 reqdClr editable_control">
 									<cfif getParts.loan_item_state EQ "">
 										<option selected></option>
 									</cfif>
 									<cfloop query="ctItemStates">
+										<cfset selected = "">
 										<cfif ctItemStates.loan_item_state EQ getParts.loan_item_state>
 											<cfset selected = "selected">
-										<cfelse>
-											<cfset selected = "">
 										</cfif>
 										<option value="#ctItemStates.loan_item_state#" #selected#>#ctItemStates.loan_item_state#</option>
 									</cfloop>
 								</select>
+								<script>
+									$(document).ready( function() { 
+										$("##loan_item_state_#id#").on("change", function(){  doLoanItemUpdate("#id#"); } ); 
+									});
+								</script>
 								<cfif len(getParts.return_date) GT 0>
 									<div class="smaller">
-										Return Date: #getParts.return_date#
+										Date Returned: #getParts.return_date#
+										<span class="small90">
+											Recorded by 
+											<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(resolution_recorded_by_agent_id)#" target="_blank">#getParts.resolution_recorded_by_agent#</a> 
+										</span>
 									</div>
 								</cfif>
 							</div>
 							<div class="col-12 col-md-5">
 								<label for="item_descr_#id#" class="data-entry-label">
-									Item Description:
+									Loan Item Description:
 								</label>
-								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100">
+								<input type="text" name="item_descr" id="item_descr_#id#" value="#item_descr#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() {
-										$("##item_descr_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
+										$("##item_descr_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-5 pr-1">
 								<label for="condition_#id#" class="data-entry-label">
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
 								</label>
-								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text w-100">
+								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() {
-										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
+										$("##condition_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 pl-1">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
-								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100 reqdClr">
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select w-100 reqdClr editable_control">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
 										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
@@ -2770,45 +3152,45 @@ limitations under the License.
 								</select>
 								<script>
 									$(document).ready( function() {
-										$("##coll_obj_disposition_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
+										$("##coll_obj_disposition_#id#").on("change", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
 							<div class="col-12 col-md-5">
-								<label for="loan_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
-								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text w-100">
+								<label for="loan_item_remarks_#id#" class="data-entry-label">Loan Item Remarks:</label>
+								<input type="text" name="loan_item_remarks" id="loan_item_remarks_#id#" value="#loan_item_remarks#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##loan_item_remarks_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-5">
-								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
-								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100">
+							<div class="col-12 col-md-5 pr-1">
+								<label for="item_instructions" class="data-entry-label">Loan Item Instructions:</label>
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text w-100 editable_control">
 								<script>
 									$(document).ready( function() { 
 										$("##item_instructions_#id#").on("focusout", function(){  doLoanItemUpdate("#id#"); } ); 
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 pt-3">
+							<div class="col-12 col-md-2 pt-3 pl-1">
 								<!--- determine action buttons to show based on loan status --->
 								<cfif lookupLoan.loan_status EQ "in process">
-									<button class="btn btn-xs btn-danger" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
+									<button class="btn btn-xs btn-danger editable_control" aria-label="Remove part from loan" id="removeButton_#id#" onclick="removeLoanItem#catItemId#(#id#);">Remove</button>
 								</cfif>
-								<cfif lookupLoan.loan_status EQ "open">
+								<cfif left(lookupLoan.loan_status,4) EQ "open">
 									<cfif lookupLoan.loan_type EQ "consumable">
 										<cfif getParts.loan_item_state NEQ "consumed">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="returnLoanItem(#id#, refreshItems#catItemId#);">Consume</button>
+											<button class="btn btn-xs btn-primary editable_control" aria-label="Mark part as consumed" id="reconcileButton_#id#" onclick="consumeLoanItem#catItemId#(#id#);">Consume</button>
 										</cfif>
 									<cfelse>
 										<cfif getParts.loan_item_state NEQ "returned">
-											<button class="btn btn-xs btn-primary" aria-label="Reconcile part return" id="reconcileButton_#id#" onclick="consumeLoanItem(#id#, refreshItems#catItemId#);">Return</button>
+											<button class="btn btn-xs btn-primary editable_control" id="reconcileButton_#id#" onclick="returnLoanItem#catItemId#(#id#);" aria-label="Mark Item as Returned" >Return</button>
 										</cfif>
 									</cfif>
 								</cfif>
-								<button class="btn btn-xs btn-secondary" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
+								<button class="btn btn-xs btn-secondary editable_control edit_button" aria-label="Edit loan item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 								<output id="loanItemStatusDiv_#id#"></output>
 							</div>
 						</div>
@@ -2836,17 +3218,16 @@ limitations under the License.
 										console.log("refresh items invoked for #catItemId#");
 										refreshLoanCatItem("#catItemId#");
 									};
+									window["returnLoanItem#catItemId#"] = function(loan_item_id) { 
+										console.log(loan_item_id);
+										resolveLoanItem(loan_item_id,"loanItemStatusDiv_"+loan_item_id,"returned",refreshItems#catItemId#);
+									};
+									window["consumeLoanItem#catItemId#"] = function(loan_item_id) { 
+										console.log(loan_item_id);
+										resolveLoanItem(loan_item_id,"loanItemStatusDiv_"+loan_item_id,"consumed",refreshItems#catItemId#);
+									};
 								}
 							});
-							function doLoanItemUpdate(loan_item_id) {
-								console.log(loan_item_id);
-								let loan_item_remarks = $("##loan_item_remarks_#id#").val();
-								let item_instructions = $("##item_instructions_#id#").val();
-								let condition = $("##condition_#id#").val();
-								let coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
-								let item_descr = $("##item_descr_#id#").val();
-								updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr);
-							}
 						</script>
 					</cfif>
 				</cfloop>
@@ -3062,13 +3443,23 @@ limitations under the License.
 										</cfloop>
 									</ul>
 								</cfif>
+								<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT 
+										loan.transaction_id,
+										loan.loan_number,
+										loan_item.loan_item_state
+									FROM loan_item
+										JOIN loan ON loan_item.transaction_id = loan.transaction_id
+									WHERE 
+										loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.partId#">
+								</cfquery>
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="condition_#id#" class="data-entry-label">
 									Part Condition:
 									<a class="smaller" href="javascript:void(0)" aria-label="Condition/Preparation History" onclick=" openHistoryDialog(#partId#, 'historyDialog_#partId#');">History</a>
 								</label>
-								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text">
+								<input type="text" name="condition" id="condition_#id#" value="#condition#" class="data-entry-text editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##condition_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -3077,7 +3468,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="coll_obj_disposition_#id#" class="data-entry-label">Part Disposition:</label>
-								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select">
+								<select id="coll_obj_disposition_#id#" name="coll_obj_disposition" class="data-entry-select editable_control">
 									<cfset curr_part_disposition = getParts.coll_obj_disposition>
 									<cfloop query="ctDisp">
 										<cfif ctDisp.coll_obj_disposition EQ curr_part_disposition>
@@ -3096,7 +3487,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="deacc_item_remarks_#id#" class="data-entry-label">Item Remarks:</label>
-								<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text">
+								<input type="text" name="deacc_item_remarks" id="deacc_item_remarks_#id#" value="#deacc_item_remarks#" class="data-entry-text editable_control">
 								<script>
 									$(document).ready( function() {
 										$("##deacc_item_remarks_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -3105,7 +3496,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="item_instructions" class="data-entry-label">Item Instructions:</label>
-								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text">
+								<input type="text" id="item_instructions_#id#" name="item_instructions" value="#item_instructions#" class="data-entry-text editable_control">
 								<script>
 									$(document).ready( function() { 
 										$("##item_instructions_#id#").on("focusout", function(){  doDeaccItemUpdate("#id#"); } ); 
@@ -3113,10 +3504,24 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-2 pt-3">
-								<button class="btn btn-xs btn-danger" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem#catItemId#(#id#);">Remove</button>
-								<button class="btn btn-xs btn-secondary" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
+								<button class="btn btn-xs btn-danger edit_button" aria-label="Remove part from deaccession" id="removeButton_#id#" onclick="removeDeaccItem#catItemId#(#id#);">Remove</button>
+								<button class="btn btn-xs btn-secondary edit_button" aria-label="Edit deaccession item" id="editButton_#id#" onclick="launchEditDialog#catItemId#(#id#,'#name#');">Edit</button>
 								<output id="deaccItemStatusDiv_#id#"></output>
 							</div>
+							<cfif getLoans.recordcount GT 0>
+								<div class="col-12">
+									<h3 class="h5">This part is a loan item in #getLoans.recordcount# loan<cfif getLoans.recordcount GT 1>s</cfif>:</h3>
+									<ul class="mb-1">
+										<cfloop query="getLoans">
+											<li>
+												<a href="/transactions/Loan.cfm?action=edit&transaction_id=#getLoans.transaction_id#">
+													#getLoans.loan_number#
+												</a> (state: #getLoans.loan_item_state#).
+											</li>
+										</cfloop>
+									</ul>
+								</div>
+							</cfif>
 						</div>
 					</cfloop>
 					<cfif showMultiple>

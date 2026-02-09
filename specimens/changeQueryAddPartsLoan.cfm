@@ -130,7 +130,7 @@ limitations under the License.
 			resultbc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.result_id == "#result_id#") { 
-					messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+					reloadPageDialog("Warning: You have removed one or more records from this result set. Reload this page to see the current list of records this page affects?", "Result Set Changed Warning");
 					$(".makeChangeButton").prop("disabled",true);
 					$(".makeChangeButton").addClass("disabled");
 					$(".tabChangeButton").prop("disabled",true);
@@ -147,7 +147,7 @@ limitations under the License.
 					 reloadLoanSummary();
 				}
 				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-					messageDialog("Warning: You have added or removed an item from this loan, you must reload this page to see the current list of records this page affects.", "Loan Item List Changed Warning");
+					reloadPageDialog("Warning: You have added or removed an item from this loan.  Reload this page to see the current records?", "Loan Item List Changed Warning");
 				}
 			}
 		</script>
@@ -254,6 +254,7 @@ limitations under the License.
 					</cfquery>
 					<cfloop query="getCatItems">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+						<cfset catItemId = "#getCatItems.collection_object_id#">
 						<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
 							<div class="col-12 col-md-4 mb-1">
 								<a href="/guid/#guid#" target="_blank">#institution_acronym#:#collection_cde#:#cat_num#</a>
@@ -441,13 +442,23 @@ limitations under the License.
 								</div>
 							</cfloop>
 						</div>
+						<script>
+							$(document).ready(function() { 
+								window["refreshItems#catItemId#"] = function() { 
+									console.log("refresh items invoked for #catItemId#");
+									loanModifiedHere();
+									reloadPageDialog("Warning: You have removed a specimen part from the loan. Reload this page to see current records.", "Loan Item Removed Changed Warning");
+								};
+							});
+						</script>
 					</cfloop>
-					<div id="editItemDialogDiv"></div>
+					<div id="loanItemEditDialogDiv"></div>
+					<div id="loanItemRemoveDialogDiv"></div>
 					<script>
 						function launchEditDialog(part_id) { 
 							var loan_item_id = $("##loan_item_id_"+part_id).val();
 							var part_name = $("##part_name_"+part_id).val();
-							openLoanItemDialog(loan_item_id,"editItemDialogDiv",part_name,null);
+							openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",part_name,null);
 						}
 						function addPartToLoan(part_id) { 
 							// get values from inputs for part

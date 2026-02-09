@@ -90,6 +90,7 @@ limitations under the License.
 			coll_obj_disposition,
 			MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as type_status,
 			MCZBASE.get_scientific_name_auths_pl(cataloged_item.collection_object_id) as scientific_name,
+			MCZBASE.get_scientific_name_plain(cataloged_item.collection_object_id) as scientific_name_no_auth,
 			collecting_event.began_date,
 			collecting_event.ended_date,
 			locality.spec_locality,
@@ -336,7 +337,7 @@ limitations under the License.
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							and return_date is null
-							and (loan_item_state is null OR loan_item_state IN ('in loan','missing'))
+							and (loan_item_state is null OR loan_item_state IN ('in loan','unknown','returned'))
 					</cfquery>
 					<cfset countAffected = setClosedDate_result.recordcount>
 					<cftransaction action="commit">
@@ -697,20 +698,18 @@ limitations under the License.
 				bc.onmessage = function (message) { 
 					console.log(message);
 					if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
-						 reloadSummary();
+						reloadSummary();
 					}
 					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading grid from addloanitems message");
+						console.log("reloading item list and summary from addloanitems message");
 						reloadDataNoBroadcast();
+						reloadSummary();
 					}
 					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading grid from reviewitems message");
+						console.log("reloading item list and summary from reviewitems message");
 						reloadDataNoBroadcast();
+						reloadSummary();
 					}
-				}
-				function reloadSummary() { 
-					// TODO: Implement
-					// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
 				}
 			</script>
 		</cfoutput>
@@ -754,6 +753,28 @@ limitations under the License.
 				<cfif Find("open",aboutLoan.loan_status) EQ 1>
 					<cfset isOpen = true>
 				</cfif>
+				<script>
+					function reloadSummary() { 
+						// If the loan has changed state (in process to open, any open to closed), put up a dialog to reload the page.
+						// invoke getLoanSummaryLongerHtml(transaction_id=transaction_id) to populate loanSummaryDiv
+						$.ajax({
+							url: '/transactions/component/itemFunctions.cfc',
+							method: 'GET',
+							data: {transaction_id: "#transaction_id#", method: 'getLoanSummaryLongerHtml'},
+							success: function(data) { 
+								$("##loanSummaryDiv").html(data);
+								// if the loan status has changed, reload the page to get the appropriate buttons for the new state
+								var newStatus = $("##loanStatus").val();
+								if (newStatus != "#aboutLoan.loan_status#") { 
+									reloadPageDialog("Loan status has changed to " + newStatus + ". Reload page?","Loan Status Changed");
+								}
+							},
+							error: function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
+							}
+						});
+					}
+				</script>
 				<cfset multipleCollectionsText = "">
 				<cfif collectionCount GT 1>
 					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
@@ -863,78 +884,9 @@ limitations under the License.
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-12 mb-3">
-									<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
-										<div class="col-12 col-xl-6">
-											<h1 class="h3 mb-0 pb-0">
-												Review items in loan
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
-											</h1>
-											<cfif collectionCount GT 1 >
-												<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
-											</cfif>
-											<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
-											<cfif isClosed>
-												<cfset statusWeight = "bold">
-											<cfelse>
-												<cfset statusWeight = "lessbold">
-											</cfif>
-											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
-											<h2 class="h4 d-inline font-weight-normal"> &bull; Loan Date: <span class="text-capitalize font-weight-lessbold">#aboutLoan.loan_date#</span> </h2>
-											<cfif aboutLoan.return_due_date NEQ ''>
-												<h2 class="h4 d-inline font-weight-normal">
-													&bull; Due Date: <span class="font-weight-lessbold">#aboutLoan.return_due_date#</span>
-												</h2>
-											</cfif>
-											<cfif aboutLoan.closed_date NEQ ''>
-												<h2 class="h4 d-inline font-weight-normal">
-													&bull; Closed Date: <span class="font-weight-lessbold">#aboutLoan.closed_date#</span> 
-												</h2>
-											</cfif>
-											<cfif aboutLoan.nature_of_material NEQ ''>
-												<div class="p-1">
-													#aboutLoan.nature_of_material#
-												</div>
-											</cfif>
-											<cfif parentLoan.recordcount GT 0>
-												<h2 class="h4 font-weight-normal">
-													Subloan of #parentLoan.loan_type#: 
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">
-														#encodeForHtml(parentLoan.loan_number)#
-													</a>
-												</h2>
-											</cfif>
-											<p class="font-weight-normal mb-1 pb-0">
-												There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
-											</p>
-											<cfif aboutLoan.loan_type EQ 'exhibition-master'>
-												<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT c.loan_number, c.transaction_id, count(loan_item.collection_object_id) as part_count
-													FROM loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
-														join loan c on lr.related_transaction_id = c.transaction_id 
-														left join loan_item on c.transaction_id = loan_item.transaction_id
-													WHERE lr.relation_type = 'Subloan'
-														 and p.transaction_id = <cfqueryparam value=#transaction_id# cfsqltype="CF_SQL_DECIMAL" >
-													GROUP BY c.loan_number, c.transaction_id
-													ORDER BY c.loan_number
-												</cfquery>
-												<cfif childLoans.recordcount GT 0>
-													<p class="font-weight-normal mb-1 pb-0">
-														Exhibition Subloans:
-														<ul>
-															<cfloop query="childLoans">
-																<li>
-																	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#encodeForHtml(childLoans.loan_number)#</a>:
-																	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#childLoans.transaction_id#">Review items (#childLoans.part_count#)</a>
-																</li>
-															</cfloop>
-															</ul>
-														</p>
-												<cfelse>
-													<p class="font-weight-normal mb-1 pb-0">
-														No subloans associated with this exhibition-master loan.
-													</p>
-												</cfif>
-											</cfif>
+									<div class="row mt-1 mb-0 pb-0 px-2 mx-0 border">
+										<div class="col-12 col-xl-6" id="loanSummaryDiv">
+											<cfset loanSummarySection = getLoanSummaryLongerHtml(transaction_id=transaction_id)>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
@@ -985,12 +937,11 @@ limitations under the License.
 																	});
 																});
 															</script>
-															<!---  script>
+															<script>
 																$(document).ready(function() {
 																	makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
 																});
-																// if added, validate that collection_object_id is set before submitting
-															</script --->
+															</script>
 														</div>
 													</div>
 												</div>
@@ -1003,7 +954,7 @@ limitations under the License.
 										<cfset editVisibility = "d-none">
 										<div class="row mb-0 pb-0 px-2 mx-0">
 											<div class="col-12">
-												<h3 class="h4 text-danger">This loan is closed; edit functions are disabled.</h3>
+												<h3 class="h4 text-danger" id="closedHeadingLine">This loan is closed; edit functions are disabled.</h3>
 												<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
 													onclick=" enableEditControls(); "
 													aria-label="Enable bulk editing">Enable Editing</span>
@@ -1015,22 +966,23 @@ limitations under the License.
 										<script>
 											function enableEditControls() { 
 												$('##bulkEditControlsDiv').removeClass('d-none');
-												$('##searchResultsGrid').jqxGrid({editable:true});
 												$('##enableEditControlsBtn').addClass('d-none');
 												$('##disableEditControlsBtn').removeClass('d-none');
-												$('.flag-editable-cell').addClass('bg-light');
-												$('.flag-editable-cell').addClass('editable-cell');
-												$('##searchResultsGrid').jqxGrid('showcolumn', 'EditRow');
+												$('##closedHeadingLine').addClass('d-none');
+												$('.editable_control').prop('disabled', false);
+												$('.edit_button').removeClass('disabled');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
-												$('##searchResultsGrid').jqxGrid({editable:false});
 												$('##enableEditControlsBtn').removeClass('d-none');
 												$('##disableEditControlsBtn').addClass('d-none');
-												$('.flag-editable-cell').removeClass('bg-light');
-												$('.flag-editable-cell').removeClass('editable-cell');
-												$('##searchResultsGrid').jqxGrid('hidecolumn', 'EditRow');
+												$('##closedHeadingLine').removeClass('d-none');
+												$('.editable_control').prop('disabled', true);
+												$('.edit_button').addClass('disabled');
 											};
+											$(document).ready(function() { 
+												disableEditControls();
+											});
 										</script>
 									</cfif>
 									<div class="row #editVisibility#" id="bulkEditControlsDiv">
@@ -1045,7 +997,7 @@ limitations under the License.
 															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
 																<input type="hidden" name="Action" value="BulkUpdateDisp">
 																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																<div class="col-12 col-md-6">
+																<div class="col-12">
 																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these <span class="itemCountSpan">#partCount#</span> items to:</label>
 																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
 																		<option value=""></option>
@@ -1066,11 +1018,7 @@ limitations under the License.
 																		});
 																	});
 																</script>
-																<cfif aboutLoan.loan_type NEQ 'consumable'>
-																	<div class="col-12 col-md-6">
-																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
-																	</div>
-																<cfelse>
+																<cfif aboutLoan.loan_type EQ 'consumable'>
 																	<div class="col-12" id="deaccessionDiv">
 																		<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
 																		<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
@@ -1096,6 +1044,10 @@ limitations under the License.
 																	</script>
 																	<div class="col-12">
 																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+																	</div>
+																<cfelse>
+																	<div class="col-12">
+																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
 																	</div>
 																</cfif>
 															</form>
@@ -1205,14 +1157,24 @@ limitations under the License.
 														<cfif isOpen>
 															<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
 															<cfif aboutLoan.loan_type EQ 'returnable' or aboutLoan.loan_type contains 'exhibition'>
-																<div class="col-12 col-xl-6 border p-1">
-																	<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
-																		Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
-																		<input type="hidden" name="Action" value="BulkMarkItemsReturned">
-																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																		<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
-																	</form>
-																</div>
+																<cfquery name="ctReturnables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																	SELECT count(*) as ct
+																	FROM loan_item
+																	WHERE
+																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+																		and loan_item.return_date is null
+																		and (loan_item.loan_item_state is null or loan_item.loan_item_state IN ('in loan','unknown', 'returned'))
+																</cfquery>
+																<cfif ctReturnables.ct GT 0>
+																	<div class="col-12 col-xl-6 border p-1">
+																		<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
+																			Mark all #ctReturnables.ct# on loan items <span class="small90">(on loan, unknown, or returned with no return date)</span> as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+																			<input type="hidden" name="Action" value="BulkMarkItemsReturned">
+																			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																			<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+																		</form>
+																	</div>
+																</cfif>
 															</cfif>
 															<cfif aboutLoan.loan_type EQ 'consumable'>
 																<cfquery name="countConsumableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1317,32 +1279,7 @@ limitations under the License.
 								}
 							});
 						}
-						function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr) {
-							setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saving");
-							$.ajax({
-								url: '/transactions/component/itemFunctions.cfc',
-								type: 'POST',
-								dataType: 'json',
-								data: {
-									method: 'updateLoanItem',
-									loan_item_id: loan_item_id,
-									item_instructions: item_instructions,
-									condition: condition,
-									loan_item_remarks: loan_item_remarks,
-									coll_obj_disposition: coll_obj_disposition,
-									item_descr: item_descr
-								},
-								success: function(data) {
-									loanModifiedHere();
-									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saved");
-								},
-								error: function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"updating loan item");
-									setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "error");
-								}
-							});
-						}
-						function reloadLoanItemData() { 
+						function reloadLoanItemsData() { 
 							reloadDataNoBroadcast();
 							// Broadcast that a change has happened to the loan items
 							bc.postMessage({"source":"reviewitems","transaction_id":"#transaction_id#"});
@@ -1352,12 +1289,6 @@ limitations under the License.
 						<script>
 
 
-							var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to launch an edit dialog
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemDialog('+loan_item_id+',\'editItemDialog\',\'Loan Item\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Edit" aria-label="Edit"/></span>';
-							};
 							var returnCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								// Display a button to mark a loan item as returned
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -1370,17 +1301,6 @@ limitations under the License.
 								var loan_item_id = rowData['loan_item_id'];
 								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consume" aria-label="Mark Item as Consumed"/></span>';
 							};
-							function updateRowOldContent (rowid, rowdata, commit) {
-									var data = "method=updateLoanItem";
-									data = data + "&transaction_id=" + rowdata.transaction_id;
-									data = data + "&part_id=" + rowdata.part_id;
-									data = data + "&condition=" + encodeURIComponent(rowdata.condition);
-									data = data + "&item_instructions=" + encodeURIComponent(rowdata.item_instructions);
-									data = data + "&coll_obj_disposition=" + encodeURIComponent(rowdata.coll_obj_disposition);
-									data = data + "&loan_item_remarks=" + encodeURIComponent(rowdata.loan_item_remarks);
-									data = data + "&resolution_remarks=" + encodeURIComponent(rowdata.resolution_remarks);
-									data = data + "&item_descr=" + encodeURIComponent(rowdata.item_descr);
-							}
 							function reloadLoanSummaryData(){ 
 								// reload dispositions of loan items
 								$.ajax({

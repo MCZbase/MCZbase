@@ -75,6 +75,45 @@ function openRemoveLoanItemDialog(loan_item_id, dialogId, callback) {
 	});
 }
 
+function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state) {
+	setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saving");
+	$.ajax({
+		url: '/transactions/component/itemFunctions.cfc',
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			method: 'updateLoanItem',
+			loan_item_id: loan_item_id,
+			item_instructions: item_instructions,
+			loan_item_state: loan_item_state,
+			condition: condition,
+			loan_item_remarks: loan_item_remarks,
+			coll_obj_disposition: coll_obj_disposition,
+			item_descr: item_descr
+		},
+		success: function(data) {
+			loanModifiedHere();
+			setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saved");
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"updating loan item");
+			setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "error");
+		}
+	});
+}
+
+function doLoanItemUpdate(loan_item_id) {
+	console.log(loan_item_id);
+	let loan_item_remarks = $("#loan_item_remarks_" + loan_item_id).val();
+	let item_instructions = $("#item_instructions_" + loan_item_id).val();
+	let condition = $("#condition_" + loan_item_id).val();
+	let coll_obj_disposition = $("#coll_obj_disposition_" + loan_item_id).val();
+	let item_descr = $("#item_descr_" + loan_item_id).val();
+	let loan_item_state = $("#loan_item_state_" + loan_item_id).val();
+	console.log(loan_item_state);
+	updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state);
+}
+
 function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targetDiv) { 
 	$("#"+targetDiv).html("Saving...");
 	jQuery.ajax({
