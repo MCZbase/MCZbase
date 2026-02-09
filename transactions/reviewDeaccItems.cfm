@@ -400,7 +400,7 @@ limitations under the License.
 				</div>
 				<cfif isClosed>
 					<cfset editVisibility = "d-none">
-					<div class="row mb-0 pb-0 px-2 mx-0">
+					<div class="col-12 row mb-0 pb-0 px-2 mx-0">
 						<div class="col-12">
 							<h3 class="h4 text-danger">This deaccession is closed; edit functions are disabled.</h3>
 							<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
@@ -414,6 +414,7 @@ limitations under the License.
 					<script>
 						function enableEditControls() { 
 							$('##bulkEditControlsDiv').removeClass('d-none');
+							$("##addDeaccItemsButton").removeClass('d-none');
 							$('##enableEditControlsBtn').addClass('d-none');
 							$('##disableEditControlsBtn').removeClass('d-none');
 							$('.editable_control').prop('disabled', false);
@@ -421,6 +422,7 @@ limitations under the License.
 						};
 						function disableEditControls() { 
 							$('##bulkEditControlsDiv').addClass('d-none');
+							$("##addDeaccItemsButton").addClass('d-none');
 							$('##enableEditControlsBtn').removeClass('d-none');
 							$('##disableEditControlsBtn').addClass('d-none');
 							$('.editable_control').prop('disabled', true);
