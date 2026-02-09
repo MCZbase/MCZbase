@@ -140,26 +140,36 @@ limitations under the License.
 									function handleFirstStepChange() { 
 										var firstStepValue = $('##firstStep').val();
 										if (firstStepValue === 'contemporary') {
+											$("##createAccessionButton").prop('disabled',false);
 											$(".needs_first_step").prop('disabled',false);
 											$(".needs_first_step").removeClass('disabled');
+											$(".needs_first_step").addClass('reqdClr');
+											$(".add_accession_row").removeClass('d-none');
 											// set status sole and selected option to pre-accession
 											$('##status').val('pre-accession');
 											$('##status').find('option').remove().end().append('<option value="pre-accession" selected>pre-accession</option>').val('pre-accession');
 										} else if (firstStepValue === 'historic') {
+											$("##createAccessionButton").prop('disabled',false);
 											$(".needs_first_step").prop('disabled',false);
 											$(".needs_first_step").removeClass('disabled');
+											$(".needs_first_step").addClass('reqdClr');
+											$(".add_accession_row").removeClass('d-none');
 											// set status sole and selected option to received
 											$('##status').find('option').remove().end().append('<option value="received" selected>received</option>').val('received');
 										} else {
+											$("##createAccessionButton").prop('disabled',true);
 											$(".needs_first_step").prop('disabled',true);
 											$(".needs_first_step").addClass('disabled');
+											$(".needs_first_step").removeClass('reqdClr');
+											$(".add_accession_row").addClass('d-none');
+											$('##status').find('option').remove().end().append('<option value="" selected></option>').val('');
 										}
 									};
 								</script>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1 disabled needs_first_step" required disabled >
+								<select name="collection_id" size="1" id="collection_id" class="data-entry-select mb-1 disabled needs_first_step" required disabled >
 									<option value=""></option>
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -168,17 +178,17 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_number" class="data-entry-label">Accession Number (nnnnn)</label>
-								<input type="text" name="accn_number" class="reqdClr data-entry-input mb-1 disabled needs_first_step" id="accn_number" required pattern="#ACCNNUMBERPATTERN#" disabled>
+								<input type="text" name="accn_number" class="data-entry-input mb-1 disabled needs_first_step" id="accn_number" required pattern="#ACCNNUMBERPATTERN#" disabled>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="status" class="data-entry-label">Status</label>
-								<select name="accn_status" id="status" class="reqdClr data-entry-select mb-1 needs_first_step disabled" required disabled>
+								<select name="accn_status" id="status" class="data-entry-select mb-1 needs_first_step disabled" required disabled>
 									<option value="received" selected >received</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_type" class="data-entry-label">Accession Type</label>
-								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select mb-1 needs_first_step disabled" required disabled>
+								<select name="accn_type" id="accn_type" class="data-entry-select mb-1 needs_first_step disabled" required disabled>
 									<option value=""></option>
 									<cfloop query="ctAccnType">
 											<option value="#ctAccnType.accn_type#">#ctAccnType.accn_type#</option>
@@ -186,7 +196,7 @@ limitations under the License.
 								</select>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-6">
 								<span>
 									<label for="received_agent" class="data-entry-label">
@@ -224,7 +234,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="in_house_contact_agent_name" class="data-entry-label">
@@ -282,7 +292,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-4">
 								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
 								<input type="text" name="estimated_count" id="estimated_count" value="" required class="reqdClr w-100 data-entry-input mb-1">
@@ -302,7 +312,7 @@ limitations under the License.
 									class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
@@ -311,7 +321,7 @@ limitations under the License.
 									required ></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
@@ -319,7 +329,7 @@ limitations under the License.
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-2 add_accession_row d-none">
 							<div class="col-12 col-md-4">
 								<label for="radio1" class="float-left text-left mt-1">To be MCZ cataloged</label>
 								<input type="radio" name="for_use_by" value="" checked="checked" id="radio1" class="mt-2 mx-3 float-left">
@@ -342,7 +352,7 @@ limitations under the License.
 						</script>
 						<div class="form-row my-2">
 							<div class="form-group col-12">
-								<input type="button" value="Create Accession" class="btn mt-2 btn-xs btn-primary"
+								<input type="button" value="Create Accession" class="btn mt-2 btn-xs btn-primary disabled" id="createAccessionButton" disabled
 									onClick="if (checkFormValidity($('##newAccession')[0])) { submit();  } ">
 							</div>
 						</div>
