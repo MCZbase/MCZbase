@@ -132,8 +132,8 @@ limitations under the License.
 							<div class="col-12">
 								<label class="data-entry-label" for="firstStep">Contemporary or Historic Accession</label>
 								<select id="firstStep" name="firstStep" class="reqdClr data-entry-select w-100" required onchange="handleFirstStepChange();" >
-									<option>-- Select One --</option>
-									<option value="contemporary" selected>Documentation of a contemporary accession (post-2013)</option>
+									<option selected>-- Select One --</option>
+									<option value="contemporary">Documentation of a contemporary accession (post-2013)</option>
 									<option value="historic">Documentation of a historic accession (pre-2014)</option>
 								</select>
 								<script>
