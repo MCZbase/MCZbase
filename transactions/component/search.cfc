@@ -1004,7 +1004,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("collection_id") and len(collection_id) GT 0>
 					and trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-					and accn.accn_status <> "pre-accession" 
+					and accn.accn_status <> 'pre-accession'
 					and accn.accn_status <> 'declined'
 				</cfif>
 			order by accn_number
