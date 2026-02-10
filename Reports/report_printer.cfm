@@ -137,7 +137,7 @@ limitations under the License.
 				</cfloop>
 				<!--- Add the All code so that reports in the form __All will be shown to everyone.  --->
 				<cfset added = ArrayPrepend(collList,"All") >
-				<cfif userColls.reportprefs EQ "">
+				<cfif usersColls.reportprefs EQ "">
 					<h2 class="h3">You have no configured collections for reports, please file a bug report with the list of collections which you wish to see reports for by default here.</h2>
 				</cfif>
 			
