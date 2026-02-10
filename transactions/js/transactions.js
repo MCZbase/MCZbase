@@ -2001,7 +2001,8 @@ function makeAccessionAutocompleteMeta(valueControl, idControl) {
 };
 
 /** Make a paired hidden id and text name control into an autocomplete accession picker, 
- * with a collection_id control as a limit on which collections are searched.
+ * with a collection_id control as a limit on which collections are searched, also limts to
+ * accessions that can take cataloged items.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected transaction_id (without a leading # selector).
