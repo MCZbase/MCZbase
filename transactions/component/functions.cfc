@@ -4434,6 +4434,8 @@ limitations under the License.
   * method addSubLoanToLoan given two transaction ids add one transaction as the subloan of another. 
   * @param transaction_id the parent transaction
   * @param subloan_transaction_id the child transaction
+  * @return a query object with the loan numbers and transaction ids of all subloans of the parent 
+  *  transaction after the new subloan is added, ordered by loan number.
 --->
 <cffunction name="addSubLoanToLoan" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
@@ -4449,6 +4451,27 @@ limitations under the License.
 				'Subloan'
 			)
 		</cfquery>
+		<!--- set the recipient institution of the subloan to be the same as the recipient institution of the parent loan --->
+		<!--- obtain the recipient institution of the parent loan --->
+		<cfquery name="getRecipientInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT agent_id 
+			FROM trans_agent
+			WHERE
+				transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+				AND
+				trans_agent_role = 'recipient institution'
+		</cfquery>
+		<cfif getRecipientInstitution.recordcount EQ 1>
+			<!--- set the recipient institution of child loans to that of the parent loan --->
+			<cfquery name="propagateRecipientToChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE trans_agent
+				SET agent_id = <cfqueryparam value="#getRecipientInstitution.transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+				WHERE transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+					and
+					trans_agent_role = 'recipient institution'
+			</cfquery>
+		</cfif>
+		<!--- return the updated list of child loans for the parent loan --->
 		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select l.loan_number, l.transaction_id 
 			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
