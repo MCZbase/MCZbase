@@ -4446,8 +4446,8 @@ limitations under the License.
 			insert into loan_relations 
 				(transaction_id, related_transaction_id, relation_type)
 			values (
-				<cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
-				<cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#arguments.transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#arguments.subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
 				'Subloan'
 			)
 		</cfquery>
@@ -4457,7 +4457,7 @@ limitations under the License.
 			SELECT agent_id 
 			FROM trans_agent
 			WHERE
-				transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+				transaction_id = <cfqueryparam value = "#arguments.transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 				AND
 				trans_agent_role = 'recipient institution'
 		</cfquery>
@@ -4466,7 +4466,7 @@ limitations under the License.
 			<cfquery name="propagateRecipientToChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE trans_agent
 				SET agent_id = <cfqueryparam value="#getRecipientInstitution.agent_id#" cfsqltype="CF_SQL_DECIMAL">
-				WHERE transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+				WHERE transaction_id = <cfqueryparam value = "#arguments.subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 					and
 					trans_agent_role = 'recipient institution'
 			</cfquery>
@@ -4475,7 +4475,7 @@ limitations under the License.
 		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select l.loan_number, l.transaction_id 
 			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
-			where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			where lr.transaction_id = <cfqueryparam value = "#arguments.transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 			order by l.loan_number
 		</cfquery>
 	<cfcatch>
