@@ -4465,7 +4465,7 @@ limitations under the License.
 			<!--- set the recipient institution of child loans to that of the parent loan --->
 			<cfquery name="propagateRecipientToChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE trans_agent
-				SET agent_id = <cfqueryparam value="#getRecipientInstitution.transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+				SET agent_id = <cfqueryparam value="#getRecipientInstitution.agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				WHERE transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 					and
 					trans_agent_role = 'recipient institution'
