@@ -2230,7 +2230,7 @@
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE cttaxon_attribute_type 
 			SET 
-				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#" />,
+				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_attribute_type#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				hidden_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
 			WHERE
