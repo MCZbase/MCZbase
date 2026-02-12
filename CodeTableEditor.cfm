@@ -859,10 +859,10 @@
 	<cfelseif tbl is "CTTAXON_CATEGORY"><!---------------------------------------------------->
 		<!---  taxon category code table includes field for category type, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select taxon_category, category_type, description from cttaxon_category order by taxon_category
+			select taxon_category, category_type, description, hidden_fg from cttaxon_category order by taxon_category
 		</cfquery>
 		<h2>Categorization of taxonomy records.</h2>
-		<p>Each taxon_category must have a category_type, some category types have functional roles in the code.</p>
+		<p>Each taxon_category must have a category_type, some category types have functional roles in the code, category types may be set to public or internal only visibility.</p>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
@@ -871,6 +871,7 @@
 					<th>Taxon Category</th>
 					<th>Category Type</th>
 					<th>Description</th>
+					<th>Visibility</th>
 					<th></th>
 				</tr>
 				<tr>
@@ -882,6 +883,12 @@
 					</td>
 					<td>
 						<input type="text" name="description">
+					</td>
+					<td>
+						<select name="hidden_fg">
+							<option value="0" selected="selected" >Public</option>
+							<option value="1">Hidden</option>
+						</select>
 					</td>
 					<td>
 						<input type="submit" 
@@ -896,6 +903,8 @@
 				<th>Taxon Category</th>
 				<th>Category Type</th>
 				<th>Description</th>
+				<th>Visibility</th>
+				<th></th>
 			</tr>
 			<cfset i = 1>
 			<cfloop query="q">
@@ -910,6 +919,104 @@
 						</td>
 						<td>
 							<input type="text" name="category_type" value="#category_type#" class="reqdClr">
+						</td>
+						<td>
+							<input type="description" name="description" value="#stripQuotes(description)#">
+						</td>
+						<td>
+							<cfif hidden_fg EQ 0> 
+								<cfset publicselected = "selected='selected'">
+								<cfset hiddenselected = "">
+							<cfelse>
+								<cfset publicselected = "">
+								<cfset hiddenselected = "selected='selected'">
+							</cfif>
+							<select name="hidden_fg">
+								<option value="0" #publicselected#>Public</option>
+								<option value="1" #hiddenselected#>Hidden</option>
+							</select>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE"><!---------------------------------------------------->
+		<!---  taxon attribute type table includes field for visibility, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select taxon_attribute_type, hidden_fg, description from cttaxon_attribute_type order by taxon_attribute_type
+		</cfquery>
+		<h2>Types of taxonomy attributes.</h2>
+		<p>Each taxon_attribute must have a type, types can have visibility public or hidden, hidden taxon attributes are shown to internal users only.</p>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Taxon Attribute Type</th>
+					<th>Visibility</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<select name="hidden_fg">
+							<option value="0" selected="selected" >Public</option>
+							<option value="1">Hidden</option>
+						</select>
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Taxon Attribute Type</th>
+				<th>Visibility</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#taxon_attribute_type#">
+						<td>
+							<input type="text" name="taxon_attribute_type" value="#taxon_attribute_type#" class="reqdClr">
+						</td>
+						<td>
+							<select name="hidden_fg">
+								<cfif hidden_fg EQ 0> 
+									<cfset publicselected = "selected='selected'">
+									<cfset hiddenselected = "">
+								<cfelse>
+									<cfset publicselected = "">
+									<cfset hiddenselected = "selected='selected'">
+								</cfif>
+								<option value="0" #publicselected#>Public</option>
+								<option value="1" #hiddenselected#>Hidden</option>
+							</select>
 						</td>
 						<td>
 							<input type="description" name="description" value="#stripQuotes(description)#">
@@ -1936,9 +2043,15 @@
 		</cfquery>
 	<cfelseif tbl is "CTTAXON_CATEGORY">
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from CTTAXON_CATEGORY
-			where
+			DELETE FROM CTTAXON_CATEGORY
+			WHERE
 				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM CTTAXON_ATTRIBUTE_TYPE
+			WHERE
+				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2108,9 +2221,20 @@
 			SET 
 				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
-				category_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />
+				category_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />,
+				hidden_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
 			WHERE
 				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE cttaxon_attribute_type 
+			SET 
+				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_attribute_type#" />,
+				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				hidden_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
+			WHERE
+				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2293,10 +2417,24 @@
 			INSERT INTO cttaxon_category (
 				taxon_category,
 				category_type,
-				description
+				description,
+				hidden_fg
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO cttaxon_attribute_type (
+				taxon_attribute_type,
+				hidden_fg,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
