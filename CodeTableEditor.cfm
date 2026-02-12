@@ -1003,7 +1003,7 @@
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#taxon_attribute_type#">
 						<td>
-							<input type="text" name="taxon_attribute_type" value="#taxon_category#" class="reqdClr">
+							<input type="text" name="taxon_attribute_type" value="#taxon_attribute_type#" class="reqdClr">
 						</td>
 						<td>
 							<select name="hidden_fg">
