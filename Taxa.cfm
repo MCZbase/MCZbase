@@ -56,6 +56,7 @@ limitations under the License.
 		WHERE hidden_fg = 0
 	</cfif>
 	ORDER BY taxon_attribute_type
+</cfquery>
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
