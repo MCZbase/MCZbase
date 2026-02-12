@@ -26,7 +26,11 @@ limitations under the License.
 	<cfset defaultenablebrowserselection = "true">
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
-</cfif>	
+</cfif>
+<cfset oneOfUs = false>	
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = true>
+</cfif>
 
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as cnt from taxonomy
@@ -38,8 +42,20 @@ limitations under the License.
 	select nomenclatural_code from ctnomenclatural_code order by sort_order
 </cfquery>
 <cfquery name="cttaxon_category" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-	select taxon_category from cttaxon_category order by taxon_category
+	SELECT taxon_category 
+	FROM cttaxon_category 
+	<cfif NOT oneOfUs>
+		WHERE hidden_fg = 0
+	</cfif>
+	ORDER BY taxon_category
 </cfquery>
+<cfquery name="cttaxon_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+	SELECT taxon_attribute_type 
+	FROM cttaxon_attribute_type 
+	<cfif NOT oneOfUs>
+		WHERE hidden_fg = 0
+	</cfif>
+	ORDER BY taxon_attribute_type
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
