@@ -2221,7 +2221,7 @@
 			SET 
 				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
-				category_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />
+				category_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />,
 				hidden_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
 			WHERE
 				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
