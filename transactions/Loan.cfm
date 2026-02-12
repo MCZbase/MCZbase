@@ -1010,7 +1010,7 @@ limitations under the License.
 						<cfset restrictionsVisibility = "hidden">
 					</cfif>
 					<div id="restrictionWarningDiv" class="col-12 pt-2 border rounded bg-verylightred" #restrictionsVisibility#>
-						<div class="h2">One of more specimens in this loan has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
+						<div class="h2">One of more specimens in this loan has restrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
 					</div>
 				</section>
 				<section class="row mx-0">

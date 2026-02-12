@@ -898,7 +898,7 @@ limitations under the License.
 				</cfif>
 				<section class="row mx-0">
 					<div id="restrictionWarningDiv" class="col-12 pt-2 border rounded bg-verylightred" #restrictionsVisibility#>
-						<div class="h2">One of more specimens in this deaccession has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
+						<div class="h2">One of more specimens in this deaccession has restrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
 					</div>
 				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
