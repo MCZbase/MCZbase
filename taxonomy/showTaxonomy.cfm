@@ -256,7 +256,7 @@
 			taxon_category.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 			<cfif NOT (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
 				AND cttaxon_category.hidden_fg = 0
-			<cfif>
+			</cfif>
 	</cfquery>
 	<cfquery name="getTaxonAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
@@ -268,7 +268,7 @@
 			taxon_attribute.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 			<cfif NOT (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
 				AND cttaxon_attribute_type.hidden_fg = 0
-			<cfif>
+			</cfif>
 		ORDER BY
 			taxon_attribute.taxon_attribute_type, taxon_attribute.attribute_value
 	</cfquery>
