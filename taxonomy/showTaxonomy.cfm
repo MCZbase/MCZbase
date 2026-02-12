@@ -260,8 +260,12 @@
 			taxon_attribute.taxon_attribute_type, taxon_attribute.attribute_value
 		FROM
 			taxon_attribute
+			join cttaxon_attribute_type on taxon_attribute.taxon_attribute_type = cttaxon_attribute_type.taxon_attribute_type
 		WHERE
 			taxon_attribute.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+			<cfif NOT (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
+				AND cttaxon_attribute_type.hidden = 0
+			<cfif>
 		ORDER BY
 			taxon_attribute.taxon_attribute_type, taxon_attribute.attribute_value
 	</cfquery>
