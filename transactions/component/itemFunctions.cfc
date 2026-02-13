@@ -1232,6 +1232,9 @@ STATE TRANSITION BEHAVIOR:
 									<div class="col-12">
 										<label class="data-entry-label">
 											#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier#
+											<cfif lookupParts.recordcount GT 1>
+												<small class="small90">[internal part collection_object_id: #lookupParts.part_id#.</small>
+											</cfif>
 										</label>
 										<input disabled type="text" value="#coll_obj_disposition# #condition#" class="data-entry-input w-100">
 									</div>
