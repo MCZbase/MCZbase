@@ -350,6 +350,9 @@ limitations under the License.
 											#storage_parents#
 										</cfif>
 										#partRemarks#
+										<cfif getParts.recordcount GT 1>
+											<br><span class="small90">[internal part collection_object_id: #getParts.part_id#]</span>
+										</cfif>
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data_entry_label" for="item_instructions_#part_id#">Item Instructions</label>
