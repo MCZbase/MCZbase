@@ -56,10 +56,51 @@ limitations under the License.
 
 <cfset pageTitle="Shipment Cost Report">
 <cfinclude template="/shared/_header.cfm">
+<cfquery name="collectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT collection_cde, institution_acronym 
+	FROM collection
+</cfquery>
 
 <cfoutput>
 	<main class="container-fluid" id="content">
 		<h2 class=h2>Shipments and Costs #encodeForHtml(start_date)# to #encodeForHtml(end_date)#</h2>
+		<form id="cost_report_form" name="cost_report_form"  method="post" action="/transactions/ShipmentReport.cfm">
+			<div class="form-row">
+				<div class="col-12 col-md-3">
+					<label for="start_date" class="data-entry-label">Start Date</label>
+					<input type="text" value="#dateformat(start_date,'yyyy-mm-dd')#" name="start_date" id="start_date" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="end_date" class="data-entry-label">End Date</label>
+					<input type="text" value="#dateformat(end_date,'yyyy-mm-dd')#" name="end_date" id="end_date" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collection_cde" class="data-entry-label">Collection</label>
+					<select name="collection_cde" id="collection_cde" class="data-entry-select">
+						<cfset hasSelection = false;
+						<cfloop query="collectionCodes">
+							<cfif collectionCodes.collection_cde = collection_cde>
+								<cfset selected = "selected">
+								<cfset hasSelection = true>
+							<cfelse>
+								<cfset selected = "">
+							</cfif>
+							
+						</cfloop>
+						<cfif hasSelection EQ true>
+							<cfset selected = "selected">
+							<cfset hasSelection = true>
+						<cfelse>
+							<cfset selected = "">
+						</cfif>
+						<cfset option = "" #selected#>All</option>
+					</select>
+				</div>
+				<div class="col-12 col-md-3">
+					<button class="btn btn-primary pt-3" type="submit" aria-label="get report for specified date range and collection">Get Report<button>
+				</div>
+			</div>
+		</form>
 		<cfquery name="shipmentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(*) all_shipments, count(ALL shipment.costs) shipments_with_costs, institution_acronym, collection_cde, sum(costs) sum_costs
 			FROM shipment 
