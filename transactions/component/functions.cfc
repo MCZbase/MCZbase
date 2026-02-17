@@ -1075,7 +1075,8 @@ limitations under the License.
 								shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
 								toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr,
 								fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr,
-								shipment.print_flag
+								shipment.print_flag,
+								shipment.costs
 						 from shipment
 								left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
 								left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
@@ -1131,7 +1132,7 @@ limitations under the License.
 						<div class='shipments bg-white border my-2'>
 							<table class='table table-responsive d-md-table mb-0'>
 								<thead class='thead-light'>
-									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th>
+									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th><th>Costs ($):</th>
 								</thead>
 								<tbody>
 									<tr>
@@ -1139,6 +1140,7 @@ limitations under the License.
 										<td>#shipped_carrier_method#&nbsp;</td>
 										<td>#no_of_packages#&nbsp;</td>
 										<td>#carriers_tracking_number#</td>
+										<td>#costs#</td>
 									</tr>
 									<cfif len(shipment_remarks) GT 0>
 										<tr>
@@ -1356,7 +1358,8 @@ limitations under the License.
 				shipped_from_addr_id, 
 				fromaddr.formatted_addr as shipped_from_address, 
 				toaddr.formatted_addr as shipped_to_address,
-				shipment.print_flag
+				shipment.print_flag,
+				shipment.costs
 			from shipment
 				left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
 				left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
@@ -5362,6 +5365,7 @@ limitations under the License.
    <cfargument name="package_weight" type="string" required="no">
    <cfargument name="no_of_packages" type="string" required="no">
    <cfargument name="hazmat_fg" type="numeric" required="no">
+   <cfargument name="costs" type="string" required="no">
    <cfargument name="insured_for_insured_value" type="string" required="no">
    <cfargument name="shipment_remarks" type="string" required="no">
    <cfargument name="contents" type="string" required="no">
@@ -5399,7 +5403,8 @@ limitations under the License.
                 </cfif>
                 hazmat_fg, shipment_remarks, contents, foreign_shipment_fg,
                 shipped_to_addr_id, shipped_from_addr_id,
-                print_flag
+                print_flag,
+					 costs
              )
              values (
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
@@ -5420,7 +5425,12 @@ limitations under the License.
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
-                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#printFlag#">
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#printFlag#">,
+					 <cfif isDefined("costs") and len(costs) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#costs#">
+					 <cfelse>
+						NULL
+ 					 </cfif>
              )
          </cfquery>
       <cfelse>
@@ -5445,7 +5455,12 @@ limitations under the License.
                 contents = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
                 foreign_shipment_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
                 shipped_to_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
-                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
+                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
+					 <cfif isDefined("costs") and len(costs) gt 0>
+						costs = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#costs#">
+					 <cfelseif isDefined("costs") and len(costs) eq 0>
+						costs = NULL
+ 					 </cfif>
              where
                 shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> and
                 transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
