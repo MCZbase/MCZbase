@@ -93,7 +93,7 @@ limitations under the License.
 						<cfelse>
 							<cfset selected = "">
 						</cfif>
-						<cfset option = "" #selected#>All</option>
+						<cfset option="#selected#">All</option>
 					</select>
 				</div>
 				<div class="col-12 col-md-3">
