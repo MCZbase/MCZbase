@@ -1187,6 +1187,7 @@ function setupNewShipment(transaction_id) {
 	$("#hazmat_fg option[value='0']").prop('selected',true); 
 	$("#shipmentFormPermits").html(""); 
 	$("#shipmentFormStatus").html(""); 
+	$("#costs").html(""); 
 	$(".ui-dialog-buttonpane button").addClass("btn btn-primary btn-sm");
 }
 
@@ -1224,6 +1225,7 @@ function loadShipment(shipmentId,form) {
 					$("#shipped_to_addr").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
 					$("#shipped_from_addr").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
 					$("#shipped_carrier_method").val(result.DATA.SHIPPED_CARRIER_METHOD[i]);
+					$("#costs").val(result.DATA.COSTS[i]);
 					var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
 $(target).attr("selected",true);
 					if (result.DATA.FOREIGN_SHIPMENT_FG[i] == 0) { 
