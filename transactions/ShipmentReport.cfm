@@ -34,6 +34,10 @@ limitations under the License.
 <cfif len(start_date) EQ 0>
 	<!--- set to most recent July 1 if not provided --->
 	<cfset start_date = dateFormat(createDate(year(now()), 7, 1), "yyyy-mm-dd")>
+	<!--- if in the future, use last July 1 --->
+	<cfif start_date GT dateFormat(now(), "yyyy-mm-dd")>
+		<cfset start_date = dateFormat(createDate(year(now())-1, 7, 1), "yyyy-mm-dd")>
+	</cfif>
 </cfif>
 <cfif len(end_date) EQ 0>
 	<!--- set to today if not provided --->
