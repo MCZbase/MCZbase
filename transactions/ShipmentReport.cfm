@@ -31,11 +31,11 @@ limitations under the License.
 <cfelseif isDefined("form.end_date") and len(form.end_date) GT 0>
 	<cfset end_date = form.end_date>
 </cfif>
-<cfif len(start_date)>
+<cfif len(start_date) EQ 0>
 	<!--- set to most recent July 1 if not provided --->
 	<cfset start_date = dateFormat(createDate(year(now()), 7, 1), "yyyy-mm-dd")>
 </cfif>
-<cfif len(end_date)>
+<cfif len(end_date) EQ 0>
 	<!--- set to today if not provided --->
 	<cfset end_date = dateFormat(now(), "yyyy-mm-dd")>
 </cfif>
@@ -63,9 +63,7 @@ limitations under the License.
 
 <cfoutput>
 	<main class="container-fluid" id="content">
-		<cfset sds = dateFormat(createDate(year(start_date), month(start_date), day(start_date)), "yyyy-mm-dd")>
-		<cfset eds = dateFormat(createDate(year(end_date), month(end_date), day(end_date)), "yyyy-mm-dd")>
-		<h2 class=h2>Shipments and Costs #encodeForHtml(sds)# to #encodeForHtml(eds)#</h2>
+		<h2 class=h2>Shipments and Costs #encodeForHtml(start_date)# to #encodeForHtml(end_date)#</h2>
 		<form id="cost_report_form" name="cost_report_form"  method="post" action="/transactions/ShipmentReport.cfm">
 			<div class="form-row">
 				<div class="col-12 col-md-3">
