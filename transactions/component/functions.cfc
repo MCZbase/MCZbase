@@ -1132,7 +1132,7 @@ limitations under the License.
 						<div class='shipments bg-white border my-2'>
 							<table class='table table-responsive d-md-table mb-0'>
 								<thead class='thead-light'>
-									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th colspan="2"Tracking Number:</th><th>Costs ($):</th>
+									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th colspan="2">Tracking Number:</th><th>Costs ($):</th>
 								</thead>
 								<tbody>
 									<tr>
