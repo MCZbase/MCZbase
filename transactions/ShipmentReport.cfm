@@ -63,7 +63,9 @@ limitations under the License.
 
 <cfoutput>
 	<main class="container-fluid" id="content">
-		<h2 class=h2>Shipments and Costs #encodeForHtml(start_date)# to #encodeForHtml(end_date)#</h2>
+		<cfset sds = dateFormat(createDate(year(start_date), month(start_date), day(start_date)), "yyyy-mm-dd")>
+		<cfset eds = dateFormat(createDate(year(end_date), month(end_date), day(end_date)), "yyyy-mm-dd")>
+		<h2 class=h2>Shipments and Costs #encodeForHtml(sds)# to #encodeForHtml(eds)#</h2>
 		<form id="cost_report_form" name="cost_report_form"  method="post" action="/transactions/ShipmentReport.cfm">
 			<div class="form-row">
 				<div class="col-12 col-md-3">
@@ -115,6 +117,9 @@ limitations under the License.
 			GROUP BY collection.institution_acronym, collection.collection_cde
 		</cfquery>
 		<ul>
+			<cfif shipmentCount.recordCount EQ 0>
+				<li>No shipments found for specified date range and collection.</li>
+			</cfif>
 			<cfloop query="shipmentCount">
 				<li>#institution_acronym#:#collection_cde# All Shipments:#all_shipments# With Costs:#shipments_with_costs# $:#sum_costs#</li>
 			</cfloop>
