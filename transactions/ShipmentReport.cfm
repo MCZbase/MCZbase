@@ -102,7 +102,7 @@ limitations under the License.
 			</div>
 		</form>
 		<cfquery name="shipmentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT count(*) all_shipments, count(ALL shipment.costs) shipments_with_costs, institution_acronym, collection.collection_cde, sum(costs) sum_costs
+			SELECT count(*) all_shipments, count(ALL shipment.costs) shipments_with_costs, collection.institution_acronym, collection.collection_cde, sum(costs) sum_costs
 			FROM shipment 
 				join trans on shipment.transaction_id = trans.transaction_id
 				join collection on trans.collection_id = collection.collection_id
@@ -112,7 +112,7 @@ limitations under the License.
 				<cfif len(collection_cde) GT 0>
 					AND collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
-			GROUP BY institution_acronym, collection.collection_cde
+			GROUP BY collection.institution_acronym, collection.collection_cde
 		</cfquery>
 		<ul>
 			<cfloop query="shipmentCount">
