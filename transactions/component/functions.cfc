@@ -1132,24 +1132,24 @@ limitations under the License.
 						<div class='shipments bg-white border my-2'>
 							<table class='table table-responsive d-md-table mb-0'>
 								<thead class='thead-light'>
-									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th><th>Costs ($):</th>
+									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th colspan="2"Tracking Number:</th><th>Costs ($):</th>
 								</thead>
 								<tbody>
 									<tr>
 										<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>
 										<td>#shipped_carrier_method#&nbsp;</td>
 										<td>#no_of_packages#&nbsp;</td>
-										<td>#carriers_tracking_number#</td>
+										<td colspan="2">#carriers_tracking_number#</td>
 										<td>#costs#</td>
 									</tr>
 									<cfif len(shipment_remarks) GT 0>
 										<tr>
-											<td colspan="4"><span class="font-weight-lessbold">Shipment Remarks:</span> #shipment_remarks#</td>
+											<td colspan="5"><span class="font-weight-lessbold">Shipment Remarks:</span> #shipment_remarks#</td>
 										</tr>
 									</cfif>
 									<cfif len(contents) GT 0>
 										<tr>
-											<td colspan="4"><span class="font-weight-lessbold">Contents:</span> #contents#</td>
+											<td colspan="5"><span class="font-weight-lessbold">Contents:</span> #contents#</td>
 										</tr>
 									</cfif>
 								</tbody>
