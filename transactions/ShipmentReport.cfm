@@ -101,7 +101,7 @@ limitations under the License.
 					</select>
 				</div>
 				<div class="col-12 col-md-3">
-					<button class="btn btn-primary pt-3" type="submit" aria-label="get report for specified date range and collection">Get Report</button>
+					<button class="btn btn-xs btn-primary mt-3" type="submit" aria-label="get report for specified date range and collection">Get Report</button>
 				</div>
 			</div>
 		</form>
