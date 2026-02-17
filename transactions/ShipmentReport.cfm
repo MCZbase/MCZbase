@@ -79,7 +79,7 @@ limitations under the License.
 					<select name="collection_cde" id="collection_cde" class="data-entry-select">
 						<cfset hasSelection = false>
 						<cfloop query="collectionCodes">
-							<cfif collectionCodes.collection_cde = collection_cde>
+							<cfif collectionCodes.collection_cde EQ collection_cde>
 								<cfset selected = "selected">
 								<cfset hasSelection = true>
 							<cfelse>
