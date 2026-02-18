@@ -80,8 +80,8 @@ limitations under the License.
 				</div>
 				<script>
 					$(document).ready( function() {
-						$( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
-						$( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+						$( "##start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+						$( "##end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
 					});
 				</script>
 				<div class="col-12 col-md-3">
