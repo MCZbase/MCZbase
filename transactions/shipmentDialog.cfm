@@ -131,7 +131,7 @@
 										</div>
 									</div>
 									<div class="row mt-2">
-										<div class="col-12">
+										<div class="col-12 col-md-10">
 											<span class="data-entry-label">
 												<label for="packed_by_agent">Packed By Agent</label>
 												<span id="packed_by_agent_view_link" class="px-2">&nbsp;</span>
@@ -149,6 +149,11 @@
 													$(makeRichTransAgentPicker('packed_by_agent','packed_by_agent_id','packed_by_agent_icon','packed_by_agent_view_link',null)); 
 												});
 											</script>
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="costs" class="data-entry-label">Costs ($)</label>
+											<input type="text" validate="float" label="Numeric value required."
+												value="" name="costs" id="costs" pattern="^[0-9.]*$" class="data-entry-input">
 										</div>
 									</div>
 									<div class="row mt-2">
