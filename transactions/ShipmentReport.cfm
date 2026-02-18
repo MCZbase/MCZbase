@@ -133,7 +133,7 @@ limitations under the License.
 				<cfif len(collection_cde) GT 0>
 					AND collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
-			GROUP BY collection.institution_acronym, collection.collection_cde
+			GROUP BY collection.institution_acronym, collection.collection_cde, collection.collection_id
 		</cfquery>
 		<cfif shipmentCount.recordCount EQ 0>
 				<div class=h3>No shipments found for specified date range and collection.</div>
