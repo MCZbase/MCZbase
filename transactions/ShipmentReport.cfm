@@ -82,8 +82,9 @@ limitations under the License.
 					<label for="collection_cde" class="data-entry-label">Collection</label>
 					<select name="collection_cde" id="collection_cde" class="data-entry-select">
 						<cfset hasSelection = false>
+						<cfset current_collection_cde = #collection_cde#>
 						<cfloop query="collectionCodes">
-							<cfif collectionCodes.collection_cde EQ collection_cde>
+							<cfif collectionCodes.collection_cde EQ current_collection_cde>
 								<cfset selected = "selected">
 								<cfset hasSelection = true>
 							<cfelse>
