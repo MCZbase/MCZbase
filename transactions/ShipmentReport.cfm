@@ -136,7 +136,7 @@ limitations under the License.
 			GROUP BY collection.institution_acronym, collection.collection_cde, collection.collection_id
 		</cfquery>
 		<cfif shipmentCount.recordCount EQ 0>
-			<div class=h3>No shipments found for specified date range and collection.</div>
+			<div class="h3 mt-2">No shipments found for specified date range and collection.</div>
 		<cfelse>
 			<table class="table table-striped table-responsive mt-2">
 				<tr>
