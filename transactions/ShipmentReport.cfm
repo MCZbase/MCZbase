@@ -113,6 +113,10 @@ limitations under the License.
 				count(DISTINCT accn.transaction_id) accessions,
 				count(DISTINCT deaccession.transaction_id) deaccessions,
 				count(DISTINCT borrow.transaction_id) borrows,
+				count(ALL loan.transaction_id) loan_shipments,
+				count(ALL accn.transaction_id) accession_shipments,
+				count(ALL deaccession.transaction_id) deaccession_shipments,
+				count(ALL borrow.transaction_id) borrow_shipments,
 				collection.institution_acronym, collection.collection_cde, 
 				sum(costs) sum_costs
 			FROM shipment 
@@ -137,10 +141,10 @@ limitations under the License.
 				<tr>
 					<th>Collection</th>
 					<th>All Shipments</th>
-					<th>Loans with Shipments</th>
-					<th>Accessions with Shipments</th>
-					<th>Deaccession with Shipments</th>
-					<th>Borrows with Shipments</th>
+					<th>Loan Shipments</th>
+					<th>Accession Shipments</th>
+					<th>Deaccession Shipments</th>
+					<th>Borrow Shipments</th>
 					<th>Shipments with Costs</th>
 					<th>Total Costs</th>
 				</tr>
@@ -148,10 +152,10 @@ limitations under the License.
 					<tr>
 						<td>#institution_acronym#:#collection_cde#</td>
 						<td>#all_shipments#</td>
-						<td>#loans#</td>
-						<td>#accessions#</td>
-						<td>#deaccessions#</td>
-						<td>#borrows#</td>
+						<td>#loan_shipments#</td>
+						<td>#accession_shipments#</td>
+						<td>#deaccession_shipments#</td>
+						<td>#borrow_shipments#</td>
 						<td>#shipments_with_costs#</td> 
 						<td>
 							<cfif sum_costs EQ "">
