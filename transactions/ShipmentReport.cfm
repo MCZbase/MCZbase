@@ -133,7 +133,7 @@ limitations under the License.
 		<cfif shipmentCount.recordCount EQ 0>
 				<div class=h3>No shipments found for specified date range and collection.</div>
 		<cfelse>
-			<table class="table table-striped table-responsive">
+			<table class="table table-striped table-responsive mt-2">
 				<tr>
 					<th>Collection</th>
 					<th>All Shipments</th>
