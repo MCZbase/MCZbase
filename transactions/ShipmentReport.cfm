@@ -118,6 +118,7 @@ limitations under the License.
 				count(ALL deaccession.transaction_id) deaccession_shipments,
 				count(ALL borrow.transaction_id) borrow_shipments,
 				collection.institution_acronym, collection.collection_cde, 
+				collection.collection_id,
 				sum(costs) sum_costs
 			FROM shipment 
 				join trans on shipment.transaction_id = trans.transaction_id
@@ -150,7 +151,7 @@ limitations under the License.
 				</tr>
 				<cfloop query="shipmentCount">
 					<tr>
-						<td>#institution_acronym#:#collection_cde#</td>
+						<td><a href="/Transactions.cfm?action=findAll&execute=true&method=getTransactions&collection_id=#collection_id#&shipment_count=1%2B&trans_date=#start_date#&to_trans_date=#end_date#">#institution_acronym#:#collection_cde#</a></td>
 						<td>#all_shipments#</td>
 						<td>#loan_shipments#</td>
 						<td>#accession_shipments#</td>
