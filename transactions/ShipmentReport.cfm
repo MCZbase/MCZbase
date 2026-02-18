@@ -89,7 +89,7 @@ limitations under the License.
 							<cfelse>
 								<cfset selected = "">
 							</cfif>
-							
+							<option #selected# value="#collectionCodes.collection_cde#">collectionCodes.collection_cde</option>
 						</cfloop>
 						<cfif hasSelection EQ true>
 							<cfset selected = "selected">
@@ -97,7 +97,7 @@ limitations under the License.
 						<cfelse>
 							<cfset selected = "">
 						</cfif>
-						<cfset option="#selected#">All</option>
+						<option value="" #selected# >All</option>
 					</select>
 				</div>
 				<div class="col-12 col-md-3">
@@ -136,7 +136,7 @@ limitations under the License.
 			GROUP BY collection.institution_acronym, collection.collection_cde, collection.collection_id
 		</cfquery>
 		<cfif shipmentCount.recordCount EQ 0>
-				<div class=h3>No shipments found for specified date range and collection.</div>
+			<div class=h3>No shipments found for specified date range and collection.</div>
 		<cfelse>
 			<table class="table table-striped table-responsive mt-2">
 				<tr>
