@@ -89,7 +89,7 @@ limitations under the License.
 							<cfelse>
 								<cfset selected = "">
 							</cfif>
-							<option #selected# value="#collectionCodes.collection_cde#">collectionCodes.collection_cde</option>
+							<option #selected# value="#collectionCodes.collection_cde#">#collectionCodes.collection_cde#</option>
 						</cfloop>
 						<cfif hasSelection EQ true>
 							<cfset selected = "selected">
