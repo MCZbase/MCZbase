@@ -106,10 +106,22 @@ limitations under the License.
 			</div>
 		</form>
 		<cfquery name="shipmentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT count(*) all_shipments, count(ALL shipment.costs) shipments_with_costs, collection.institution_acronym, collection.collection_cde, sum(costs) sum_costs
+			SELECT 
+				count(*) all_shipments, 
+				count(ALL shipment.costs) shipments_with_costs, 
+				count(DISTINCT loan.transaction_id) loans,
+				count(DISTINCT accn.transaction_id) accessions,
+				count(DISTINCT deaccession.transaction_id) deaccessions,
+				count(DISTINCT borrow.transaction_id) borrows,
+				collection.institution_acronym, collection.collection_cde, 
+				sum(costs) sum_costs
 			FROM shipment 
 				join trans on shipment.transaction_id = trans.transaction_id
 				join collection on trans.collection_id = collection.collection_id
+				left join loan on trans.transaction_id = loan.transaction_id
+				left join accn on trans.transaction_id = accn.transaction_id
+				left join deaccession on trans.transaction_id = deaccession.transaction_id
+				left join borrow on trans.transaction_id = borrow.transaction_id
 			WHERE
 				shipment.shipped_date <= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#end_date#">
 				AND shipment.shipped_date >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#start_date#">
@@ -118,14 +130,40 @@ limitations under the License.
 				</cfif>
 			GROUP BY collection.institution_acronym, collection.collection_cde
 		</cfquery>
-		<ul>
-			<cfif shipmentCount.recordCount EQ 0>
-				<li>No shipments found for specified date range and collection.</li>
-			</cfif>
-			<cfloop query="shipmentCount">
-				<li>#institution_acronym#:#collection_cde# All Shipments:#all_shipments# With Costs:#shipments_with_costs# $:#sum_costs#</li>
-			</cfloop>
-		</ul>
+		<cfif shipmentCount.recordCount EQ 0>
+				<div class=h3>No shipments found for specified date range and collection.</div>
+		<cfelse>
+			<table class="table table-striped table-responsive">
+				<tr>
+					<th>Collection</th>
+					<th>All Shipments</th>
+					<th>Loans with Shipments</th>
+					<th>Accessions with Shipments</th>
+					<th>Deaccession with Shipments</th>
+					<th>Borrows with Shipments</th>
+					<th>Shipments with Costs</th>
+					<th>Total Costs</th>
+				</tr>
+				<cfloop query="shipmentCount">
+					<tr>
+						<td>#institution_acronym#:#collection_cde#</td>
+						<td>#all_shipments#</td>
+						<td>#loans#</td>
+						<td>#accessions#</td>
+						<td>#deaccessions#</td>
+						<td>#borrows#</td>
+						<td>#shipments_with_costs#</td> 
+						<td>
+							<cfif sum_costs EQ "">
+								$0
+							<cfelse>
+								$#sum_costs#
+							</cfif>
+						</td>
+					</tr>
+				</cfloop>
+		</table
+		</cfif>
 	</main>
 </cfoutput>
 
