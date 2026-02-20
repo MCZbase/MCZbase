@@ -48,6 +48,7 @@ limitations under the License.
 	<cfargument name="taxon_status" type="string" required="no">
 	<cfargument name="taxon_remarks" type="string" required="no">
 	<cfargument name="taxon_category" type="string" required="no">
+	<cfargument name="source_authority" type="string" required="no">
 	<cfargument name="nomenclatural_code" type="string" required="no">
 	<cfargument name="division" type="string" required="no">
 	<cfargument name="subdivision" type="string" required="no">
@@ -646,6 +647,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>
 					AND taxonomy.taxon_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_status#">
+				</cfif>
+				<cfif isdefined("source_authority") AND len(source_authority) gt 0>
+					AND taxonomy.source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 				</cfif>
 				<cfif isdefined("taxon_category") AND len(taxon_category) GT 0>
 					<cfif taxon_category IS 'NULL' AND oneOfUs>
