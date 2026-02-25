@@ -196,9 +196,11 @@ limitations under the License.
 		<cfif serverName is "mczbase-test2">
 			<cfset serverName="mczbase-test2.rc.fas.harvard.edu" />
 		</cfif>
+		<cfif serverName is "mczbase-test">
+			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
+		</cfif>
 		<cfif serverName is "huhbase-test">
-			<!--- TODO: set to huhbase-test server FQDN --->
-			<cfset serverName="huhbase-test.mcz.harvard.edu" />
+			<cfset serverName="huhbase-test.rc.fas.harvard.edu" />
 		</cfif>
  		<cfset Application.hostName = '#serverName#'><!--- make available for reference from the code --->
 
