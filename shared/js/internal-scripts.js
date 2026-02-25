@@ -485,6 +485,9 @@ function pickedRelationship (id){
 	} else if (relatedTable=='project'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeProjectAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='container'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeContainerAutocompleteMeta(dispInputName, idInputName);
 	} else if (relatedTable=='delete'){
 		$('#'+dispInputName).attr("readonly", true);
 		$('#'+dispInputName).value='Marked for deletion.....';
@@ -953,6 +956,13 @@ function createGenericEditDialog(dialogId,title,closecallback,max_height=775,wid
 			console.log("Close called on dialog in div with id: " + dialogId);
 			if (jQuery.type(closecallback)==='function')	{
 				closecallback();
+			} else if (typeof callback === "string" && callback) {
+				try { 
+					// look up function of that name and invoke it 
+					window[callback]();
+				} catch (e) {
+					console.error("Error invoking callback by name: " + e);
+				}
 			}
 			$("#"+dialogId+"_div").html("");
 			try {

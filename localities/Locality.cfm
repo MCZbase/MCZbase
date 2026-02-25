@@ -442,14 +442,17 @@ limitations under the License.
 							,LAT_LONG_REMARKS
 							,MAX_ERROR_DISTANCE
 							,MAX_ERROR_UNITS
+							,COORDINATE_PRECISION
 							,NEAREST_NAMED_PLACE
 							,LAT_LONG_FOR_NNP_FG
 							,FIELD_VERIFIED_FG
 							,ACCEPTED_LAT_LONG_FG
 							,EXTENT
+							,EXTENT_UNITS
 							,GPSACCURACY
 							,SPATIALFIT
 							,FOOTPRINT_SPATIALFIT
+							,ERROR_POLYGON 
 							,GEOREFMETHOD
 							,VERIFICATIONSTATUS
 							,verified_by_agent_id)
@@ -551,6 +554,11 @@ limitations under the License.
 							<cfelse>
 								,NULL
 							</cfif>
+							<cfif len(#COORDINATE_PRECISION#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COORDINATE_PRECISION#">
+							<cfelse>
+								,NULL
+							</cfif>
 							<cfif len(#NEAREST_NAMED_PLACE#) gt 0>
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
 							<cfelse>
@@ -572,6 +580,11 @@ limitations under the License.
 							<cfelse>
 								,NULL
 							</cfif>
+							<cfif len(#EXTENT_UNITS#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">
+							<cfelse>
+								,NULL
+							</cfif>
 							<cfif len(#GPSACCURACY#) gt 0>
 								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">
 							<cfelse>
@@ -584,6 +597,11 @@ limitations under the License.
 							</cfif>
 							<cfif len(#FOOTPRINT_SPATIALFIT#) gt 0>
 								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#FOOTPRINT_SPATIALFIT#" scale="3">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#ERROR_POLYGON#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#ERROR_POLYGON#" scale="3">
 							<cfelse>
 								,NULL
 							</cfif>

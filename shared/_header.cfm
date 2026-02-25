@@ -653,6 +653,7 @@ limitations under the License.
 										<a class="dropdown-item" href="/Transactions.cfm?action=findBorrows">Borrows</a> 
 										<a class="dropdown-item" href="/Transactions.cfm?action=findDeaccessions">Deacessions</a> 
 										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
+										<a class="dropdown-item" href="/transactions/ShipmentReport.cfm">Shipment Report</a> 
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>

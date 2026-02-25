@@ -130,7 +130,7 @@ limitations under the License.
 			resultbc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.result_id == "#result_id#") { 
-					messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+					reloadPageDialog("Warning: You have removed one or more records from this result set. Reload this page to see the current list of records this page affects?", "Result Set Changed Warning");
 					$(".makeChangeButton").prop("disabled",true);
 					$(".makeChangeButton").addClass("disabled");
 					$(".tabChangeButton").prop("disabled",true);
@@ -147,7 +147,7 @@ limitations under the License.
 					 reloadLoanSummary();
 				}
 				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-					messageDialog("Warning: You have added or removed an item from this loan, you must reload this page to see the current list of records this page affects.", "Loan Item List Changed Warning");
+					reloadPageDialog("Warning: You have added or removed an item from this loan.  Reload this page to see the current records?", "Loan Item List Changed Warning");
 				}
 			}
 		</script>
@@ -240,7 +240,7 @@ limitations under the License.
 							collecting_event.ended_date,
 							locality.spec_locality,
 							geog_auth_rec.higher_geog,
-							identification.scientific_name,
+							identification.scientific_name
 						FROM 
 							user_search_table 
 							JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -254,6 +254,7 @@ limitations under the License.
 					</cfquery>
 					<cfloop query="getCatItems">
 						<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+						<cfset catItemId = "#getCatItems.collection_object_id#">
 						<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
 							<div class="col-12 col-md-4 mb-1">
 								<a href="/guid/#guid#" target="_blank">#institution_acronym#:#collection_cde#:#cat_num#</a>
@@ -267,7 +268,7 @@ limitations under the License.
 								<cfif began_date EQ ended_date>
 									#began_date#
 								<cfelse>
-									#began_date#-#ended_date#
+									#began_date#/#ended_date#
 								</cfif>
 							</div>
 							<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -279,7 +280,8 @@ limitations under the License.
 									lot_count, 
 									lot_count_modifier,
 									sampled_from_obj_id,
-									identification.scientific_name mixed_scientific_name
+									identification.scientific_name mixed_scientific_name,
+									GET_PART_STORAGE_PARENTS(specimen_part.collection_object_id) AS storage_parents
 								FROM specimen_part
 									JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -344,7 +346,13 @@ limitations under the License.
 										<cfif len(getParts.mixed_scientific_name) GT 0>
 											<strong>Mixed Collection:</strong>#getParts.mixed_scientific_name#
 										</cfif>
+										<cfif #storage_parents# NEQ "Unplaced">
+											#storage_parents#
+										</cfif>
 										#partRemarks#
+										<cfif getParts.recordcount GT 1>
+											<br><span class="small90">[internal part collection_object_id: #getParts.part_id#]</span>
+										</cfif>
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data_entry_label" for="item_instructions_#part_id#">Item Instructions</label>
@@ -437,13 +445,23 @@ limitations under the License.
 								</div>
 							</cfloop>
 						</div>
+						<script>
+							$(document).ready(function() { 
+								window["refreshItems#catItemId#"] = function() { 
+									console.log("refresh items invoked for #catItemId#");
+									loanModifiedHere();
+									reloadPageDialog("Warning: You have removed a specimen part from the loan. Reload this page to see current records.", "Loan Item Removed Changed Warning");
+								};
+							});
+						</script>
 					</cfloop>
-					<div id="editItemDialogDiv"></div>
+					<div id="loanItemEditDialogDiv"></div>
+					<div id="loanItemRemoveDialogDiv"></div>
 					<script>
 						function launchEditDialog(part_id) { 
 							var loan_item_id = $("##loan_item_id_"+part_id).val();
 							var part_name = $("##part_name_"+part_id).val();
-							openLoanItemDialog(loan_item_id,"editItemDialogDiv",part_name,null);
+							openLoanItemDialog(loan_item_id,"loanItemEditDialogDiv",part_name,null);
 						}
 						function addPartToLoan(part_id) { 
 							// get values from inputs for part

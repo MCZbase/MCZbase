@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) { 
+function openRemoveLoanItemDialog(loan_item_id, dialogId, callback) { 
 	var title = "Remove Part from Loan.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
 	var thedialog = $("#"+dialogId).html(content)
@@ -64,8 +64,7 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) {
 		data: {
 			method: 'getRemoveLoanItemDialogContent',
 			returnformat: "plain",
-			part_id: part_id,
-			transaction_id: transaction_id
+			loan_item_id: loan_item_id
 		},
 		success: function(data) {
 			$("#"+dialogId+"_div").html(data);
@@ -74,6 +73,45 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) {
 			handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
 		}
 	});
+}
+
+function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state) {
+	setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saving");
+	$.ajax({
+		url: '/transactions/component/itemFunctions.cfc',
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			method: 'updateLoanItem',
+			loan_item_id: loan_item_id,
+			item_instructions: item_instructions,
+			loan_item_state: loan_item_state,
+			condition: condition,
+			loan_item_remarks: loan_item_remarks,
+			coll_obj_disposition: coll_obj_disposition,
+			item_descr: item_descr
+		},
+		success: function(data) {
+			loanModifiedHere();
+			setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saved");
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"updating loan item");
+			setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "error");
+		}
+	});
+}
+
+function doLoanItemUpdate(loan_item_id) {
+	console.log(loan_item_id);
+	let loan_item_remarks = $("#loan_item_remarks_" + loan_item_id).val();
+	let item_instructions = $("#item_instructions_" + loan_item_id).val();
+	let condition = $("#condition_" + loan_item_id).val();
+	let coll_obj_disposition = $("#coll_obj_disposition_" + loan_item_id).val();
+	let item_descr = $("#item_descr_" + loan_item_id).val();
+	let loan_item_state = $("#loan_item_state_" + loan_item_id).val();
+	console.log(loan_item_state);
+	updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state);
 }
 
 function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targetDiv) { 
@@ -104,14 +142,13 @@ function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targ
 	});
 };
 
-function removeLoanItemFromLoan(part_id, transaction_id,targetDiv,callback=null) { 
+function removeLoanItemFromLoan(loan_item_id,targetDiv,callback=null) { 
 	$("#"+targetDiv).html("Saving...");
 	jQuery.ajax({
 		url: "/transactions/component/itemFunctions.cfc",
 		data : {
 			method : "removePartFromLoan",
-			transaction_id: transaction_id,
-			part_id: part_id,
+			loan_item_id: loan_item_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},

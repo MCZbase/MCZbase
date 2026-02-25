@@ -89,8 +89,14 @@ limitations under the License.
 			cataloged_item.collection_object_id as collection_object_id,
 			collection.institution_acronym as institution_acronym,
 			loan_number,
+			loan_item.loan_item_state,
+			item_instructions,
+			loan_item.resolution_recorded_by_agent_id,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			loan_item.resolution_remarks,
+			to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
 			to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
-			MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+			loan_item.loan_item_remarks,
 			concattransagent(loan.transaction_id, 'received by')  recAgentName,
 			cat_num,
 			MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
@@ -107,6 +113,10 @@ limitations under the License.
 			) as typestatusname,
 		
 			MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+			coll_object.lot_count as lot_count_one_part,
+			coll_object.lot_count_modifier,
+			specimen_part.part_name, 
+			specimen_part.preserve_method,
 			MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
 			MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
 			spec_locality,
@@ -117,10 +127,11 @@ limitations under the License.
 			cat_num_prefix,
 			cat_num_integer
 		FROM loan 
-			left join loan_item on loan.transaction_id = loan_item.transaction_id 
-			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-			left join collection on cataloged_item.collection_id = collection.collection_id 
+			join loan_item on loan.transaction_id = loan_item.transaction_id 
+			join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join collection on cataloged_item.collection_id = collection.collection_id 
 			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 			left join locality on collecting_event.locality_id = locality.locality_id 
 			left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
@@ -424,7 +435,7 @@ limitations under the License.
 					</tr>
 					<tr>
 						<td style="width: 40%; vertical-align: top;">
-							<strong>ADDRESS:</strong>
+							<strong>ORIGINALLY SHIPPED TO:</strong>
 						</td>
 						<td style="width: 60%; vertical-align: top;">
 									#getLoan.shipped_to_address#
@@ -1035,7 +1046,11 @@ limitations under the License.
 								cataloged_item.collection_object_id as collection_object_id,
 								loan_number,
 								to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
-								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+								loan_item.loan_item_state,
+								MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+								loan_item.resolution_remarks,
+								to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
+								loan_item.loan_item_remarks,
 								loan_item.item_instructions,
 								concattransagent(loan.transaction_id, 'received by')  recAgentName,
 								cat_num,
@@ -1051,8 +1066,11 @@ limitations under the License.
 										MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
 									)
 								) as typestatusname,
-							
 								MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+								part.lot_count as lot_count_one_part,
+								part.lot_count_modifier,
+								specimen_part.part_name, 
+								specimen_part.preserve_method,
 								MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
 								MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
 								spec_locality,
@@ -1064,11 +1082,11 @@ limitations under the License.
 								cat_num_integer,
 								part.condition as condition
 							FROM loan 
-								left join loan_item on loan.transaction_id = loan_item.transaction_id 
-								left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-								left join coll_object part on loan_item.collection_object_id = part.collection_object_id 
-								left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-								left join collection on cataloged_item.collection_id = collection.collection_id 
+								join loan_item on loan.transaction_id = loan_item.transaction_id 
+								join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+								join coll_object part on loan_item.collection_object_id = part.collection_object_id 
+								join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+								join collection on cataloged_item.collection_id = collection.collection_id 
 								left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 								left join locality on collecting_event.locality_id = locality.locality_id 
 								left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
@@ -1101,8 +1119,8 @@ limitations under the License.
 					<table style="#font# font-size: 1em; width: 100%;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
-							<th style="width: 50%;">Taxon, Locality</th>
-							<th style="width: 25%;">Specimen Count</th>
+							<th style="width: 45%;">Taxon, Locality</th>
+							<th style="width: 30%;">Specimen Count</th>
 						</tr>
 						<cfset totalLotCount = 0>
 						<cfset totalSpecimens = 0>
@@ -1111,11 +1129,9 @@ limitations under the License.
 								SELECT distinct 
 									collection_object_id,
 									institution_acronym, collection_cde, cat_num,
-									reconciled_date,
 									scientific_name, type_status, higher_geog,
 									collection, chronostrat,lithostrat,
-									spec_locality, collectors, loan_item_remarks,
-									item_instructions
+									spec_locality, collectors
 								FROM getLoanItems
 							</cfquery>
 						<cfelse>
@@ -1128,9 +1144,19 @@ limitations under the License.
 							<tr>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									#institution_acronym#:#collection_cde#:#cat_num#
-									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
+									<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+										<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+										<cfif dateDiff("d", loanDate, addedDate) GT 30>
+											<br>added #reconciled_date#
+										</cfif>
+										<cfif loan_item_state NEQ 'in loan'>
+											<br>#loan_item_state# #return_date#
+										</cfif>
+									</cfif>
 								</td>
-								<td style="width: 50%; vertical-align: top; #font# font-size: small;">
+								<td style="width: 45%; vertical-align: top; #font# font-size: small;">
 									<div>
 										<em>#scientific_name#</em>
 										<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1140,24 +1166,45 @@ limitations under the License.
 										</cfif>
 										<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 										<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
-										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										</cfif>
 									</div>
 								</td>
-								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
+								<td style="width: 30%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
 										<cfquery name="getLoanItemsParts" dbtype="query">
-											SELECT sum(lot_count) slc, parts
+											SELECT sum(lot_count) slc, lot_count_one_part, lot_count_modifier, part_name, preserve_method, 
+												loan_item_remarks, item_instructions, loan_item_state, return_date, reconciled_date
 											FROM getLoanItems
 											WHERE 
 												institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-											GROUP BY parts
+											GROUP BY lot_count_one_part, lot_count_modifier, part_name, preserve_method, 
+												loan_item_remarks, item_instructions, loan_item_state, return_date, reconciled_date
 										</cfquery>
 										<cfloop query="getLoanItemsParts">
-											#parts#
-											<cfset totalSpecimens = totalSpecimens + slc>
+											<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
+											#lot_count_one_part# #part_name#
+											<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+											<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
+											<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+											<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+											<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+											<cfif dateDiff("d", loanDate, addedDate) GT 30>
+												<br>added #reconciled_date#
+											</cfif>
+											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+											<cfif loan_item_state NEQ 'in loan'>
+												<br>#loan_item_state# #return_date#
+											</cfif>
+											<!--- new line if not last record for part to better separate multiple parts on same specimen --->
+											<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
+												<p> </p>
+											</cfif>
 										</cfloop>
 									<cfelse>
 										<cfset totalSpecimens = totalSpecimens + lot_count>
@@ -1197,7 +1244,7 @@ limitations under the License.
 					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-						Subloan #getSubloans.loan_number# includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
+						Subloan #getSubloans.loan_number# #chr(69)#ncludes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
@@ -1205,7 +1252,7 @@ limitations under the License.
 				<div style="#font# font-size: 1em;">
 					<cfif masterTotal EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 					<cfif masterLotTotal EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-					<strong>Loan #loan_number# includes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
+					<strong>Loan #loan_number# #chr(69)#ncludes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
 				</div>
 				<cfset transaction_id = master_transaction_id >
 				<cf_getLoanFormInfo transaction_id="#master_transaction_id#">
@@ -1213,8 +1260,8 @@ limitations under the License.
 				<table style="#font# font-size: 1em;">
 					<tr>
 						<th style="width: 25%;">MCZ Number</th>
-						<th style="width: 50%;">Taxon, Locality</th>
-						<th style="width: 25%;">Specimen Count</th>
+						<th style="width: 45%;">Taxon, Locality</th>
+						<th style="width: 30%;">Specimen Count</th>
 					</tr>
 					<cfset totalLotCount = 0>
 					<cfset totalSpecimens = 0>
@@ -1223,10 +1270,9 @@ limitations under the License.
 							SELECT distinct 
 								collection_object_id,
 								institution_acronym, collection_cde, cat_num,
-								reconciled_date,
 								scientific_name, type_status, higher_geog,
 								collection, chronostrat,lithostrat,
-								spec_locality, collectors, loan_item_remarks
+								spec_locality, collectors
 							FROM getLoanItems
 						</cfquery>
 					<cfelse>
@@ -1239,9 +1285,19 @@ limitations under the License.
 						<tr>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
-								<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
+								<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+									<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+									<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+									<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+									<cfif dateDiff("d", loanDate, addedDate) GT 30>
+										<br>added #reconciled_date#
+									</cfif>
+									<cfif loan_item_state NEQ 'in loan'>
+										<br>#loan_item_state# #return_date#
+									</cfif>
+								</cfif>
 							</td>
-							<td style="width: 50%; vertical-align: top; #font# font-size: small;">
+							<td style="width: 45%; vertical-align: top; #font# font-size: small;">
 								<div>
 									<em>#scientific_name#</em>
 									<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1251,24 +1307,53 @@ limitations under the License.
 									</cfif>
 									<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 									<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
-									<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+									<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+									</cfif>
 								</div>
 							</td>
-							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
+							<td style="width: 30%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
 									<cfquery name="getLoanItemsParts" dbtype="query">
-										SELECT sum(lot_count) slc, parts
+										SELECT 
+											lot_count as lot_count_one_part,
+											lot_count_modifier,
+											part_name,
+											preserve_method,
+											item_instructions,
+											loan_item_remarks,
+											return_date,
+											reconciled_date,
+											loan_item_state
 										FROM getLoanItems
 										WHERE 
 											institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-										GROUP BY parts
+										GROUP BY lot_count, lot_count_modifier, part_name, preserve_method,
+											item_instructions, loan_item_remarks, return_date, reconciled_date, loan_item_state
 									</cfquery>
 									<cfloop query="getLoanItemsParts">
-										#parts#
-										<cfset totalSpecimens = totalSpecimens + slc>
+										<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
+										#lot_count_one_part# #part_name# 
+										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+										<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
+										<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+										<cfif dateDiff("d", loanDate, addedDate) GT 30>
+											<br>added #reconciled_date#
+										</cfif>
+										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										<cfif loan_item_state NEQ 'in loan'>
+											<br>#loan_item_state# #return_date#
+										</cfif>
+										<!--- new line if not last record for part to better separate multiple parts on same specimen --->
+										<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
+											<p> </p>
+										</cfif>
 									</cfloop>
 								<cfelse>
 									<cfset totalSpecimens = totalSpecimens + lot_count>

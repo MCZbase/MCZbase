@@ -332,6 +332,7 @@
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findBorrows">Borrow</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findDeaccessions">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
+									<a class="dropdown-item" target="_top" href="/transactions/ShipmentReport.cfm">Shipment Report</a> 
 								</div>
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>

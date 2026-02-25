@@ -24,12 +24,13 @@
 <cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
 <cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
 <cfset MAGIC_DTYPE_INTERNALTRANSFER = 'transfer (internal)'><!--- Deaccession type of Transfer (internal) --->
-<cfset DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
-<!--
+<!---  DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$' --->
+<cfset DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[\-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'><!--- Pattern for validating deaccession numbers Dyyyy-n-CCDE, javascript syntax --->
+<!---
 transactions/Deaccession.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2021 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -43,7 +44,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 <cfif not isdefined('action') OR action is "nothing">
 	<!--- redirect to deaccession search page --->
 	<cflocation url="/Transactions.cfm?action=findDeaccessions" addtoken="false">
@@ -434,6 +435,24 @@ limitations under the License.
 	</cfif>
 	<cfoutput>
 		<script>
+			var bc = new BroadcastChannel('deaccession_channel');
+			function deaccessionModifiedHere() { 
+				bc.postMessage({"source":"deaccession","transaction_id":"#transaction_id#"});
+			}
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "adddeaccitems" && message.data.transaction_id == "#transaction_id#") { 
+					console.log("received adddeaccitems message");
+					updateItemSections();
+				}
+				if (message.data.source == "reviewdeaccitems" && message.data.transaction_id == "#transaction_id#") { 
+					console.log("received reviewdeaccitems message");
+					// pause to let a remove transaction complete before updating the item sections
+					setTimeout( function() { updateItemSections(); }, 2000);
+				}
+			}
+		</script>
+		<script>
 			function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
 				console.log(targetid);
 				var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
@@ -586,7 +605,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="deacc_number" class="data-entry-label">Deaccession Number (nnnnnn)</label>
+								<label for="deacc_number" class="data-entry-label">Deaccession Number (Dyyyy-nn-Col)</label>
 								<input type="text" name="deacc_number" id="deacc_number" value="#encodeForHTML(deaccessionDetails.deacc_number)#" class="reqdClr data-entry-input" 
 									required pattern="#DEACCNUMBERPATTERN#" >
 							</div>
@@ -753,6 +772,8 @@ limitations under the License.
 										$('##saveResultDiv').removeClass('text-danger');
 										$('##saveResultDiv').removeClass('text-warning');
 										loadAgentTable("agentTableContainerDiv",#transaction_id#,"editDeaccessionForm",handleChange);
+										setAddButtonVisibility();
+										deaccessionModifiedHere();
 									},
 									error: function(jqXHR,textStatus,error){
 										$('##saveResultDiv').html('Error.');
@@ -763,11 +784,21 @@ limitations under the License.
 									}
 								});
 							};
+							function setAddButtonVisibility() { 
+								if ($('##deacc_status').val() == 'closed') {
+									$('##addItemsButton').hide();
+									$('##addItemsBarcodeButton').hide();
+								} else {
+									$('##addItemsButton').show();
+									$('##addItemsBarcodeButton').show();
+								}
+							};
 						</script>
 					</form>
 				</section>
 				<script>
 					function updateItemSections() { 
+						console.log("updating deaccession item sections");
 						updateDeaccItemCount('#transaction_id#','deaccessionItemCountDiv');
 						updateDeaccItemDispositions('#transaction_id#','deaccessionItemDispositionsDiv');
 						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
@@ -781,24 +812,20 @@ limitations under the License.
 				</script>
 				<section name="deaccessionItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Deaccession">
 					<div class="col-12 pt-3 pb-1">
-						<cfif findNoCase('master',Session.gitBranch) EQ 0>
-							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-								onClick="window.open('/Specimens.cfm?target_deacc_id=#transaction_id#');">
-						<cfelse>
-							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-								onClick="window.open('/SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
+						<cfset showAdd = "">
+						<cfif deaccessionDetails.deacc_status EQ "closed">
+							<cfset showAdd = "display:none;">
 						</cfif>
-						<input type="button" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/deaccByBarcode.cfm?transaction_id=#transaction_id#');">
-						<cfif findNoCase('master',Session.gitBranch) EQ 0>
-							<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-								onClick="window.open('/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#');">
-							<input type="button" value="Review Items (old)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-								onClick="window.open('/a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
+						<input type="button" id="addItemsButton" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2" style="#showAdd#"
+							onClick="window.open('/Specimens.cfm?target_deacc_id=#transaction_id#');">
+						<cfif findNoCase('master',Session.gitBranch) GT 0>
+							<input type="button" id="addItemsBarcodeButton" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2 disabled" style="#showAdd#" disabled>
 						<cfelse>
-							<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-								onClick="window.open('/a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
+							<input type="button" id="addItemsBarcodeButton" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2" style="#showAdd#"
+								onClick="window.open('/transactions/addDeaccItemsByBarcode.cfm?transaction_id=#transaction_id#');">
 						</cfif>
+						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateItemSections(); ">
 					</div>
@@ -871,7 +898,7 @@ limitations under the License.
 				</cfif>
 				<section class="row mx-0">
 					<div id="restrictionWarningDiv" class="col-12 pt-2 border rounded bg-verylightred" #restrictionsVisibility#>
-						<div class="h2">One of more specimens in this deaccession has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
+						<div class="h2">One of more specimens in this deaccession has restrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
 					</div>
 				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">

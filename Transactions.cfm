@@ -3561,7 +3561,7 @@ $(document).ready(function() {
 		var result = "";
 		var transaction_id = rowData['transaction_id'];
 		if (value > 0) {
-			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/a_deaccItemReview.cfm?transaction_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/transactions/reviewDeaccItems.cfm?transaction_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
 		} else { 
 			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 		}

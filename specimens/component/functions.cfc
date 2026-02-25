@@ -4707,20 +4707,50 @@ limitations under the License.
 							<cfelse>
 								<cfset marginSeparator = "">
 							</cfif>
+							<!--- check if part has ever been loaned --->
+							<cfset everLoaned = false>
+							<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT distinct loan_item_id, loan_item_state, loan_number, loan.transaction_id, loan.loan_status
+								FROM loan_item
+									join loan on loan_item.transaction_id = loan.transaction_id
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
+								ORDER BY loan_number
+							</cfquery>
+							<cfif checkLoanItem.recordcount GT 0>
+								<cfset everLoaned = true>
+							</cfif>
+
 							<div class="col-12 px-0 pb-3 #addedClass# rounded border mb-0 float-left">
 								<form name="editPart#i#" id="editPart#i#" class="mb-0">
 									<div class="#phead# py-2 col-12 row mx-0">
 										<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 										<input type="hidden" name="method" value="updatePart">
-										<cfif getParts.is_subsample EQ 1>
-											<div class="col-12 px-1 my-1">
-												<strong>Subsample of:</strong> #parentPart#
-											</div>
-										<cfelse>
-											<div class="col-12 px-1 my-1">
-												<strong>Part:</strong> #parentPart#
-											</div>
-										</cfif>
+										<div class="col-12 px-1 my-1">
+											<cfif getParts.is_subsample EQ 1>
+													<strong>Subsample of:</strong> #parentPart#
+											<cfelse>
+													<strong>Part:</strong> #parentPart#
+											</cfif>
+											<!--- check if in a deaccession --->
+											<cfquery name="checkDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT deacc_item.transaction_id, deaccession.deacc_number, deaccession.deacc_type
+												FROM
+													deacc_item 
+													join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+												WHERE deacc_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
+											</cfquery>
+											<cfif checkDeaccession.recordcount GT 0>
+												<strong>In Deaccession:</strong>
+												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+													<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#checkDeaccession.transaction_id#" target="_blank"> 
+														#checkDeaccession.deacc_number# 
+													</a>
+													(#checkDeaccession.deacc_type#)
+												<cfelse>
+													#checkDeaccession.deacc_number# (#checkDeaccession.deacc_type#)
+												</cfif>
+											</cfif>
+										</div>
 									</div>
 									<div class="form-row col-12 mt-2 pt-2 #marginSeparator#">
 										<div class="col-12 col-md-4 mb-2">
@@ -4810,7 +4840,9 @@ limitations under the License.
 										<div class="col-12 col-md-3 pt-2">
 											<button id="part_submit#i#" value="Save" class="mt-2 btn btn-xs btn-primary" title="Save Part">Save</button>
 											<cfif getIdentifications.recordcount EQ 0>
-												<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
+												<cfif NOT everLoaned>
+													<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
+												</cfif>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 													<cfif partsWithoutId GT 1>
 														<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
@@ -4825,6 +4857,16 @@ limitations under the License.
 											</cfif>
 											<output id="part_output#i#" aria-live="polite"></output>
 										</div>
+										<cfif checkLoanItem.recordcount GT 0>
+											<cfset separator = "">
+											<div class="col-12">
+												<span class="d-inline font-weight-lessbold">In Loans:</span>
+												<cfloop query="checkLoanItem">
+													#separator##checkLoanItem.loan_number# #checkLoanItem.loan_status# (Item: #checkLoanItem.loan_item_state#)
+													<cfset separator = "; ">
+												</cfloop>
+											</div>
+										</cfif>
 									</div>
 								</form>
 						
@@ -5290,6 +5332,16 @@ limitations under the License.
 				SET co_collection_object_id = NULL
 				WHERE co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
+
+			<!--- check if this is a loan item, if so throw an exception --->
+			<cfquery name="checkLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT loan_item_id
+				FROM loan_item
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif checkLoanItem.recordcount GT 0>
+				<cfthrow message="Error: Parts that are loan items cannot be deleted.">
+			</cfif>
 
 			<!--- delete the specimen part record --->
 			<cfquery name="deletePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePart_result">
@@ -5959,7 +6011,7 @@ limitations under the License.
 				<!--- check if the table is a special case --->
 				<cfif ucase(variables.table) EQ "CTASSOCIATED_GRANTS">
 					<cfset variables.field="ASSOCIATED_GRANT">
-				<cfelseif ucase(variables.table) EQ "CTCOLLECTION_FULL_NAMES">
+				<cfelseif ucase(variables.table) EQ "CTCOLLECTIONS_FULL_NAMES">
 					<cfset variables.field="COLLECTION">
 				<cfelse>
 					<!--- default is attribute field is the attribute code table name with CT prefix removed --->
@@ -6114,7 +6166,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="determined_by_agent" class="data-entry-label">Determiner</label>
-													<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+													<input type="text" class="data-entry-input reqdClr" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#" required>
 													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
 												</div>
 												<div class="col-12 col-md-4 pb-2 px-1">
@@ -6389,7 +6441,7 @@ limitations under the License.
 								<cfset var field="">
 								<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
 									<cfset field="ASSOCIATED_GRANT">
-								<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
+								<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTIONS_FULL_NAMES">
 									<cfset field="COLLECTION">
 								<cfelse>
 									<cfset field=replace(valueCodeTable,"CT","","one")>
@@ -6446,7 +6498,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-xl-2 px-3 px-xl-3  mt-1 pb-2">
 							<label class="data-entry-label">Determiner</label>
-							<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
+							<input type="text" class="data-entry-input reqdClr" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#" required>
 							<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
 							<!--- make the determined by agent into an agent autocomplete --->
 							<script>
@@ -6488,13 +6540,16 @@ limitations under the License.
 				document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
 					button.addEventListener('click', function(event) {
 						event.preventDefault();
-						var id = button.id.slice(-1);
+						var id = button.id.replace("att_submit", "");
 						var feedbackOutput = 'att_output' + id;
+						var formID = "editAttribute" + id;
+						console.log("Form ID:", formID);
+						console.log("Serialized Data:", $('##' + formID).serialize());
 						setFeedbackControlState(feedbackOutput,"saving")
 						$.ajax({
 							url: '/specimens/component/functions.cfc',
 							type: 'POST',
-							data: $("##editAttribute" + id).serialize(),
+							data: $("##" + formID).serialize(),
 							success: function(response) {
 								setFeedbackControlState(feedbackOutput,"saved");
 								reloadAttributes();
@@ -6509,7 +6564,7 @@ limitations under the License.
 				document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
 					button.addEventListener('click', function(event) {
 						event.preventDefault();
-						var id = button.id.slice(-1);
+						var id = button.id.replace("att_delete", "");
 						var feedbackOutput = 'att_output' + id;
 						setFeedbackControlState(feedbackOutput,"deleting")
 						$.ajax({
@@ -6759,6 +6814,9 @@ limitations under the License.
 		<cfset variables.attribute_remark = "">
 	</cfif>
 	<cfset variables.determined_by_agent_id = arguments.determined_by_agent_id>
+	<cfif variables.determined_by_agent_id EQ "">
+		<cfthrow message="No determiner agent is provided, you must select an agent from the autocomplete picklist.">
+	</cfif>
 	<cfif isdefined("arguments.determined_date")>
 		<cfset variables.determined_date = arguments.determined_date>
 	<cfelse>
@@ -6858,7 +6916,14 @@ limitations under the License.
 					select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
 				</cfquery>
 				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select COLLECTING_SOURCE from ctcollecting_source
+					SELECT collecting_source 
+					FROM ctcollecting_source 
+					ORDER BY 
+						CASE 
+							WHEN collecting_source = 'wild caught' THEN 1 
+							ELSE 2 
+						END,
+  						collecting_source
 				</cfquery>
 				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select geology_attribute from ctgeology_attribute order by ordinal

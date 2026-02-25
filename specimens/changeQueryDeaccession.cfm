@@ -30,11 +30,6 @@
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 <cfinclude template="/transactions/component/functions.cfc" runOnce="true">
 
-<!--- Enforce non‑master branch for safety, mirroring original file. --->
-<cfif findNoCase('master',Session.gitBranch) GT 0>
-	<cfthrow message="Not ready for production use.">
-</cfif>
-
 <!--- Obtain result_id and transaction_id from URL or FORM scopes --->
 <cfif isDefined("url.result_id") and len(url.result_id) GT 0>
 	<cfset result_id = url.result_id>
@@ -185,9 +180,11 @@
 				deaccbc.onmessage = function (message) { 
 					console.log(message);
 					if (message.data.source == "deaccession" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("Deaccession modified elsewhere, reloading summary.");
 						reloadDeaccessionSummary();
 					}
 					if (message.data.source == "reviewdeaccitems" && message.data.transaction_id == "#transaction_id#") { 
+						console.log("Deaccession items modified elsewhere, alerting user.");
 						messageDialog(
 							"Warning: You have added or removed an item from this deaccession, you must reload this page to see the current list of records this page affects.",
 							"Deaccession Item List Changed Warning"
@@ -308,7 +305,9 @@
 								collecting_event.began_date,
 								collecting_event.ended_date,
 								locality.spec_locality,
-								geog_auth_rec.higher_geog
+								geog_auth_rec.higher_geog,
+								GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) AS type_status,
+								GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) AS scientific_name_auths
 							FROM 
 								user_search_table 
 								JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -325,6 +324,7 @@
 							<div class="row border border-2 mx-0 mb-2 p-2" style="border: 2px solid black !important;">
 								<div class="col-12 col-md-4 mb-1">
 									<a href="/guid/#guid#" target="_blank">#institution_acronym#:#collection_cde#:#cat_num#</a>
+									#scientific_name_auths# #type_status#
 								</div>
 								<div class="col-12 col-md-4 mb-1">
 									#higher_geog#
@@ -334,7 +334,7 @@
 									<cfif began_date EQ ended_date>
 										#began_date#
 									<cfelse>
-										#began_date#-#ended_date#
+										#began_date#/#ended_date#
 									</cfif>
 								</div>
 
@@ -415,6 +415,28 @@
 											<cfif len(partRemarks) GT 0>
 												<br>#partRemarks#
 											</cfif>
+											<!--- lookup material sample id from guid_our_thing table --->
+											<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+												FROM guid_our_thing
+												WHERE guid_is_a = 'materialSampleID'
+											 		AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
+												ORDER BY internal_fg DESC, timestamp_created DESC
+											</cfquery>
+											<cfif getMaterialSampleID.recordcount GT 0>
+												<div class="h4 mt-2">
+													<cfloop query="getMaterialSampleID">
+														<span class="font-italic">materialSampleID:</span> 
+															<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+															<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+																<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+																	<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+																</a>
+															</cfif>
+														</span>
+													</cfloop>
+												</div>
+											</cfif>
 										</div>
 										<div class="col-12 col-md-3">
 											<label class="data_entry_label" for="item_instructions_#part_id#">Item Instructions</label>
@@ -482,14 +504,27 @@
 											</div>
 										</cfif>
 
-										<cfif getParts.coll_obj_disposition contains "on loan">
+										<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT 
+												loan.transaction_id,
+												loan.loan_number,
+												loan_item.loan_item_state
+											FROM loan_item
+												JOIN loan ON loan_item.transaction_id = loan.transaction_id
+											WHERE 
+												loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#getParts.part_id#">
+										</cfquery>
+										<cfif getLoans.recordcount GT 0>
 											<div class="col-12">
+												<h3 class="h5">This part is a loan item in #getLoans.recordcount# loan<cfif getLoans.recordcount GT 1>s</cfif>:</h3>
 												<ul class="mb-1">
-													<li>
-														<span class="text-danger font-weight-bold">
-															This part is currently on loan (disposition: #getParts.coll_obj_disposition#) and may not be available for deaccession.
-														</span>
-													</li>
+													<cfloop query="getLoans">
+														<li>
+															<a href="/transactions/Loan.cfm?action=edit&transaction_id=#getLoans.transaction_id#">
+																#getLoans.loan_number#
+															</a> (state: #getLoans.loan_item_state#).
+														</li>
+													</cfloop>
 												</ul>
 											</div>
 										</cfif>

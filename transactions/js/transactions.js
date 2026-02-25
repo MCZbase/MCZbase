@@ -1187,6 +1187,7 @@ function setupNewShipment(transaction_id) {
 	$("#hazmat_fg option[value='0']").prop('selected',true); 
 	$("#shipmentFormPermits").html(""); 
 	$("#shipmentFormStatus").html(""); 
+	$("#costs").html(""); 
 	$(".ui-dialog-buttonpane button").addClass("btn btn-primary btn-sm");
 }
 
@@ -1224,6 +1225,7 @@ function loadShipment(shipmentId,form) {
 					$("#shipped_to_addr").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
 					$("#shipped_from_addr").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
 					$("#shipped_carrier_method").val(result.DATA.SHIPPED_CARRIER_METHOD[i]);
+					$("#costs").val(result.DATA.COSTS[i]);
 					var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
 $(target).attr("selected",true);
 					if (result.DATA.FOREIGN_SHIPMENT_FG[i] == 0) { 
@@ -2001,7 +2003,8 @@ function makeAccessionAutocompleteMeta(valueControl, idControl) {
 };
 
 /** Make a paired hidden id and text name control into an autocomplete accession picker, 
- * with a collection_id control as a limit on which collections are searched.
+ * with a collection_id control as a limit on which collections are searched, also limts to
+ * accessions that can take cataloged items.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected transaction_id (without a leading # selector).

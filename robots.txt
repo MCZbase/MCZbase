@@ -53,7 +53,6 @@ Disallow: /users/
 Disallow: /vocabularies/component/
 Disallow: /.gitignore
 Disallow: /.vimrc
-Disallow: /a_deaccItemReview.cfm
 Disallow: /AdminUsers.cfm
 Disallow: /agents/editAgent.cfm
 Disallow: /containers/allContainerLeafNodes.cfm
@@ -73,8 +72,6 @@ Disallow: /containerPositions.cfm
 Disallow: /CreateContainer.cfm
 Disallow: /CreateContainersForBarcodes.cfm
 Disallow: /DataEntry.cfm
-Disallow: /deaccByBarcode.cfm
-Disallow: /Deaccession.cfm
 Disallow: /download.cfm
 Disallow: /dumpAll.cfm
 Disallow: /edecView.cfm
