@@ -1,8 +1,8 @@
 <cfset pageTitle = "Search Taxonomy">
-<!--
+<!---
 Taxa.cfm
 
-Copyright 2020-2022 President and Fellows of Harvard College
+Copyright 2020-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 
 <cfset addedMetaDescription = "Search MCZbase for taxonomic name records, including accepted, unaccepted, used, and unused names, higher taxonomy, and common names.">
 <cfinclude template = "/shared/_header.cfm">
