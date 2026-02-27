@@ -836,201 +836,30 @@ limitations under the License.
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
-									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization" async></script>
-									<script src="/shared/js/deck.gl.min.js"></script>
-									<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
-									<script src="/shared/js/deckgl-google-maps.min.js"></script>
+				
 									<div class="heatmap">
-                                    <script>
-                                        var map;
-                                        var overlay;
-                                        var heatmapLayer;
-                                        var pointLayer;          // NEW: scatterplot layer
-                                        var heatmapVisible = true;
-                                        var useAltGradient = false;
-                                        var currentView = 'heatmap';  // NEW: 'heatmap' or 'points'
+									<script>
+                                      // bounds data from points2 query
+                                      window.MCZ_BOUNDS = {
+                                        minlat: #points2.minlat#,
+                                        minlong: #points2.minlong#,
+                                        maxlat: #points2.maxlat#,
+                                        maxlong: #points2.maxlong#
+                                      };
 
-                                        function initMap() {
-                                          var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
-                                          var sw = new google.maps.LatLng(#points2.minlat#, #points2.minlong#);
-                                          var bounds = new google.maps.LatLngBounds(sw, ne);
-
-                                          var centerpoint = bounds.getCenter();
-
-                                          var mapOptions = {
-                                            zoom: 1,
-                                            minZoom: 1,
-                                            maxZoom: 13,
-                                            center: centerpoint,
-                                            controlSize: 20,
-                                            mapTypeId: "hybrid"
-                                          };
-
-                                          map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-                                          if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-                                            var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-                                            var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-                                            bounds.extend(extendPoint1);
-                                            bounds.extend(extendPoint2);
-                                          } else {
-                                            google.maps.event.addListener(map, 'bounds_changed', function () {
-                                              var extendPoint3 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-                                              var extendPoint4 = new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
-                                              bounds.extend(extendPoint3);
-                                              bounds.extend(extendPoint4);
-                                            });
-                                          }
-
-                                          map.fitBounds(bounds);
-
-                                          overlay = new deck.GoogleMapsOverlay({
-                                            layers: []
-                                          });
-                                          overlay.setMap(map);
-
-                                          var heatmapData = getPoints();
-
-                                          // Heatmap view
-                                          heatmapLayer = new deck.HeatmapLayer({
-                                            id: 'mcz-heatmap',
-                                            data: heatmapData,
-                                            getPosition: function (d) { return [d.longitude, d.latitude]; },
-                                            getWeight: function (d) { return d.weight || 1; },
-                                            radiusPixels: 30,
-                                            intensity: 1,
-                                            threshold: 0.05,
-                                            opacity: 0.9,
-                                            colorRange: [
-                                              [0, 255, 255, 0],
-                                              [0, 255, 255, 255],
-                                              [0, 191, 255, 255],
-                                              [0, 127, 255, 255],
-                                              [0, 63, 255, 255],
-                                              [0, 0, 255, 255],
-                                              [0, 0, 223, 255],
-                                              [0, 0, 191, 255],
-                                              [0, 0, 159, 255],
-                                              [0, 0, 127, 255],
-                                              [63, 0, 91, 255],
-                                              [127, 0, 63, 255],
-                                              [191, 0, 31, 255],
-                                              [255, 0, 0, 255]
-                                            ]
-                                          });
-
-                                          // NEW: point distribution view
-                                          pointLayer = new deck.ScatterplotLayer({
-                                            id: 'mcz-points',
-                                            data: heatmapData,  // same data
-                                            getPosition: function (d) { return [d.longitude, d.latitude]; },
-                                            getRadius: function () { return 1000; }, // meters; tune this
-                                            getFillColor: function () { return [0, 255, 0, 180]; }, // green-ish
-                                            radiusMinPixels: 2,   // minimum visible size
-                                            radiusMaxPixels: 10,  // clamp max on screen
-                                            pickable: false
-                                          });
-
-                                          // Start in heatmap view
-                                          currentView = 'heatmap';
-                                          overlay.setProps({
-                                            layers: [heatmapLayer]
-                                          });
-
-                                          var btnGradient = document.getElementById("change-gradient");
-                                          if (btnGradient) {
-                                            btnGradient.addEventListener("click", changeGradient);
-                                          }
-
-                                          // NEW: hook up toggle-view button
-                                          var btnToggleView = document.getElementById("toggle-view");
-                                          if (btnToggleView) {
-                                            btnToggleView.addEventListener("click", toggleView);
-                                          }
-                                        }
-
-                                        // Optional: you can keep toggleHeatmap if you still need it
-                                        function toggleHeatmap() {
-                                          heatmapVisible = !heatmapVisible;
-                                          if (heatmapVisible && currentView === 'heatmap') {
-                                            overlay.setProps({ layers: [heatmapLayer] });
-                                          } else if (!heatmapVisible) {
-                                            overlay.setProps({ layers: [] });
-                                          }
-                                        }
-
-                                        // NEW: switch between heatmap and point distribution
-                                        function toggleView() {
-                                          if (currentView === 'heatmap') {
-                                            currentView = 'points';
-                                            overlay.setProps({ layers: [pointLayer] });
-                                          } else {
-                                            currentView = 'heatmap';
-                                            overlay.setProps({ layers: [heatmapLayer] });
-                                          }
-                                        }
-
-                                        function changeGradient() {
-                                          useAltGradient = !useAltGradient;
-
-                                          var defaultGradient = [
-                                            [0, 255, 255, 0],
-                                            [0, 255, 255, 255],
-                                            [0, 191, 255, 255],
-                                            [0, 127, 255, 255],
-                                            [0, 63, 255, 255],
-                                            [0, 0, 255, 255],
-                                            [0, 0, 223, 255],
-                                            [0, 0, 191, 255],
-                                            [0, 0, 159, 255],
-                                            [0, 0, 127, 255],
-                                            [63, 0, 91, 255],
-                                            [127, 0, 63, 255],
-                                            [191, 0, 31, 255],
-                                            [255, 0, 0, 255]
-                                          ];
-
-                                          var altGradient = [
-                                            [255, 255, 178, 0],
-                                            [254, 204, 92, 255],
-                                            [253, 141, 60, 255],
-                                            [240, 59, 32, 255],
-                                            [189, 0, 38, 255]
-                                          ];
-
-                                          var newColorRange = useAltGradient ? altGradient : defaultGradient;
-
-                                          heatmapLayer = new deck.HeatmapLayer({
-                                            id: heatmapLayer.props.id,
-                                            data: heatmapLayer.props.data,
-                                            getPosition: heatmapLayer.props.getPosition,
-                                            getWeight: heatmapLayer.props.getWeight,
-                                            radiusPixels: heatmapLayer.props.radiusPixels,
-                                            intensity: heatmapLayer.props.intensity,
-                                            threshold: heatmapLayer.props.threshold,
-                                            opacity: heatmapLayer.props.opacity,
-                                            colorRange: newColorRange
-                                          });
-
-                                          if (currentView === 'heatmap') {
-                                            overlay.setProps({
-                                              layers: [heatmapLayer]
-                                            });
-                                          }
-                                        }
-
-                                        function getPoints() {
-                                          return [
-                                            <cfloop query="points">
-                                              {
-                                                latitude: #points.Latitude#,
-                                                longitude: #points.Longitude#,
-                                                weight: 1
-                                              },
-                                            </cfloop>
-                                          ];
-                                        }
-
+                                      // heatmap data from points query
+                                      window.MCZ_HEATMAP_DATA = [
+                                        <cfloop query="points">
+                                          {
+                                            latitude: #points.Latitude#,
+                                            longitude: #points.Longitude#,
+                                            weight: 1
+                                          },
+                                        </cfloop>
+                                      ];
+                                    </script>
+									
+                                	<script>
                                         // If you're still not using callback=initMap on the Google script,
                                         // keep this; otherwise you can omit it if you're using callback.
                                         window.onload = initMap;
