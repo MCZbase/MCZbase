@@ -839,7 +839,6 @@ limitations under the License.
 				
 									<div class="heatmap">
 									<script>
-                                      // bounds data from points2 query
                                       window.MCZ_BOUNDS = {
                                         minlat: #points2.minlat#,
                                         minlong: #points2.minlong#,
@@ -847,7 +846,6 @@ limitations under the License.
                                         maxlong: #points2.maxlong#
                                       };
 
-                                      // heatmap data from points query
                                       window.MCZ_HEATMAP_DATA = [
                                         <cfloop query="points">
                                           {
@@ -857,13 +855,9 @@ limitations under the License.
                                           },
                                         </cfloop>
                                       ];
+
+                                      window.onload = initMap;
                                     </script>
-									
-                                	<script>
-                                        // If you're still not using callback=initMap on the Google script,
-                                        // keep this; otherwise you can omit it if you're using callback.
-                                        window.onload = initMap;
-                                     </script>
 								
                                      <div class="p-0 mx-1">
                                           <div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>

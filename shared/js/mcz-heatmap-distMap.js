@@ -2,19 +2,18 @@
 //js code for heat map and distribution map include deckgl
 //
 //
+// /shared/js/mcz-heatmap.js
+
 var map;
 var overlay;
 var heatmapLayer;
 var pointLayer;
-var heatmapVisible = true;
-var useAltGradient = false;
-var currentView = 'heatmap';
+var currentView = 'heatmap'; // 'heatmap' or 'points'
 
-// This will be filled from the page via a global variable
-// e.g., window.MCZ_HEATMAP_DATA
 function initMap() {
+  // Expect these to be defined by the CF page
   if (!window.MCZ_HEATMAP_DATA || !window.MCZ_BOUNDS) {
-    console.error("Missing MCZ_HEATMAP_DATA or MCZ_BOUNDS");
+    console.error("initMap: Missing MCZ_HEATMAP_DATA or MCZ_BOUNDS");
     return;
   }
 
@@ -33,7 +32,6 @@ function initMap() {
   };
 
   map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
   map.fitBounds(bounds);
 
   overlay = new deck.GoogleMapsOverlay({
@@ -41,11 +39,12 @@ function initMap() {
   });
   overlay.setMap(map);
 
-  var heatmapData = MCZ_HEATMAP_DATA;
+  var data = MCZ_HEATMAP_DATA;
 
+  // Heatmap layer
   heatmapLayer = new deck.HeatmapLayer({
     id: 'mcz-heatmap',
-    data: heatmapData,
+    data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
     getWeight: function (d) { return d.weight || 1; },
     radiusPixels: 30,
@@ -70,20 +69,23 @@ function initMap() {
     ]
   });
 
+  // Point distribution layer
   pointLayer = new deck.ScatterplotLayer({
     id: 'mcz-points',
-    data: heatmapData,
+    data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
-    getRadius: function () { return 1000; },
-    getFillColor: function () { return [0, 255, 0, 180]; },
+    getRadius: function () { return 1000; },      // meters; adjust as needed
     radiusMinPixels: 2,
     radiusMaxPixels: 10,
+    getFillColor: function () { return [0, 255, 0, 180]; },
     pickable: false
   });
 
+  // Start in heatmap view
   currentView = 'heatmap';
   overlay.setProps({ layers: [heatmapLayer] });
 
+  // Wire up buttons
   var btnGradient = document.getElementById("change-gradient");
   if (btnGradient) {
     btnGradient.addEventListener("click", changeGradient);
@@ -93,41 +95,32 @@ function initMap() {
   if (btnToggleView) {
     btnToggleView.addEventListener("click", toggleView);
   }
+
+  console.log("initMap: initialized, starting in heatmap view");
 }
 
-//function toggleView() {
-//  if (currentView === 'heatmap') {
-//    currentView = 'points';
-//    overlay.setProps({ layers: [pointLayer] });
-//  } else {
-//    currentView = 'heatmap';
-//    overlay.setProps({ layers: [heatmapLayer] });
-//  }
-//}
-
 function toggleView() {
-  if (!overlay) {
-    console.error("toggleView: overlay not ready yet");
-    return;
-  }
-  if (!heatmapLayer || !pointLayer) {
-    console.error("toggleView: layers not ready yet");
+  if (!overlay || !heatmapLayer || !pointLayer) {
+    console.error("toggleView: overlay or layers not ready");
     return;
   }
 
   if (currentView === 'heatmap') {
     currentView = 'points';
-    console.log("Switching to points view");
+    console.log("toggleView: switching to points");
     overlay.setProps({ layers: [pointLayer] });
   } else {
     currentView = 'heatmap';
-    console.log("Switching to heatmap view");
+    console.log("toggleView: switching to heatmap");
     overlay.setProps({ layers: [heatmapLayer] });
   }
 }
 
 function changeGradient() {
-  useAltGradient = !useAltGradient;
+  if (!heatmapLayer) {
+    console.error("changeGradient: heatmapLayer not ready");
+    return;
+  }
 
   var defaultGradient = [
     [0, 255, 255, 0],
@@ -154,7 +147,12 @@ function changeGradient() {
     [189, 0, 38, 255]
   ];
 
-  var newColorRange = useAltGradient ? altGradient : defaultGradient;
+  // Toggle based on current colorRange
+  var current = heatmapLayer.props.colorRange;
+  var useAlt = current && current.length === altGradient.length &&
+               current[0][0] === altGradient[0][0];
+
+  var newColorRange = useAlt ? defaultGradient : altGradient;
 
   heatmapLayer = new deck.HeatmapLayer({
     id: heatmapLayer.props.id,
@@ -171,4 +169,6 @@ function changeGradient() {
   if (currentView === 'heatmap') {
     overlay.setProps({ layers: [heatmapLayer] });
   }
+
+  console.log("changeGradient: updated gradient");
 }
