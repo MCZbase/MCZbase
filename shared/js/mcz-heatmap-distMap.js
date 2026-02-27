@@ -41,12 +41,8 @@ function initMap() {
 
   // Clean/sanitize data from MCZ_HEATMAP_DATA
   var raw = MCZ_HEATMAP_DATA || [];
- // var data = [];
-	var data = [
-  { latitude: 42.37, longitude: -71.11, weight: 1 },
-  { latitude: 42.38, longitude: -71.10, weight: 2 },
-  { latitude: 42.36, longitude: -71.12, weight: 1 }
-];
+  var data = [];
+
   for (var i = 0; i < raw.length; i++) {
     var d = raw[i];
     if (!d) continue;
@@ -135,27 +131,73 @@ function initMap() {
 }
 
 function toggleView() {
-  if (!overlay || !heatmapLayer || !pointLayer) {
-    console.error("toggleView: overlay or layers not ready");
+  if (!overlay || !window.MCZ_CLEAN_DATA) {
+    console.error("toggleView: overlay or data not ready");
     return;
   }
 
+  var data = window.MCZ_CLEAN_DATA;
+
   if (currentView === 'heatmap') {
+    // Switch to points
     currentView = 'points';
     console.log("toggleView: switching to points");
+
+    pointLayer = new deck.ScatterplotLayer({
+      id: 'mcz-points',
+      data: data,
+      getPosition: function (d) { return [d.longitude, d.latitude]; },
+      getRadius: function () { return 1000; },
+      radiusMinPixels: 2,
+      radiusMaxPixels: 10,
+      getFillColor: function () { return [0, 255, 0, 180]; },
+      pickable: false
+    });
+
     overlay.setProps({ layers: [pointLayer] });
   } else {
+    // Switch to heatmap
     currentView = 'heatmap';
     console.log("toggleView: switching to heatmap");
+
+    heatmapLayer = new deck.HeatmapLayer({
+      id: 'mcz-heatmap',
+      data: data,
+      getPosition: function (d) { return [d.longitude, d.latitude]; },
+      getWeight: function (d) { return d.weight || 1; },
+      radiusPixels: 30,
+      intensity: 1,
+      threshold: 0.05,
+      opacity: 0.9,
+      colorRange: (heatmapLayer && heatmapLayer.props && heatmapLayer.props.colorRange) || [
+        [0, 255, 255, 0],
+        [0, 255, 255, 255],
+        [0, 191, 255, 255],
+        [0, 127, 255, 255],
+        [0, 63, 255, 255],
+        [0, 0, 255, 255],
+        [0, 0, 223, 255],
+        [0, 0, 191, 255],
+        [0, 0, 159, 255],
+        [0, 0, 127, 255],
+        [63, 0, 91, 255],
+        [127, 0, 63, 255],
+        [191, 0, 31, 255],
+        [255, 0, 0, 255]
+      ]
+    });
+
     overlay.setProps({ layers: [heatmapLayer] });
   }
 }
 
 function changeGradient() {
-  if (!heatmapLayer) {
-    console.error("changeGradient: heatmapLayer not ready");
+  if (!window.MCZ_CLEAN_DATA) {
+    console.error("changeGradient: data not ready");
     return;
   }
+
+  var data = window.MCZ_CLEAN_DATA;
 
   var defaultGradient = [
     [0, 255, 255, 0],
@@ -182,26 +224,28 @@ function changeGradient() {
     [189, 0, 38, 255]
   ];
 
-  // Toggle based on current colorRange
-  var current = heatmapLayer.props.colorRange;
-  var useAlt = current && current.length === altGradient.length &&
-               current[0][0] === altGradient[0][0];
+  // Decide which gradient to use next
+  var current = (heatmapLayer && heatmapLayer.props && heatmapLayer.props.colorRange) || defaultGradient;
+  var useAlt =
+    current.length === altGradient.length &&
+    current[0][0] === altGradient[0][0];
 
   var newColorRange = useAlt ? defaultGradient : altGradient;
 
+  // Rebuild heatmapLayer with new gradient
   heatmapLayer = new deck.HeatmapLayer({
-    id: heatmapLayer.props.id,
-    data: heatmapLayer.props.data,
-    getPosition: heatmapLayer.props.getPosition,
-    getWeight: heatmapLayer.props.getWeight,
-    radiusPixels: heatmapLayer.props.radiusPixels,
-    intensity: heatmapLayer.props.intensity,
-    threshold: heatmapLayer.props.threshold,
-    opacity: heatmapLayer.props.opacity,
+    id: 'mcz-heatmap',
+    data: data,
+    getPosition: function (d) { return [d.longitude, d.latitude]; },
+    getWeight: function (d) { return d.weight || 1; },
+    radiusPixels: 30,
+    intensity: 1,
+    threshold: 0.05,
+    opacity: 0.9,
     colorRange: newColorRange
   });
 
-  if (currentView === 'heatmap') {
+  if (currentView === 'heatmap' && overlay) {
     overlay.setProps({ layers: [heatmapLayer] });
   }
 
