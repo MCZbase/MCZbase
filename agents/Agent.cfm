@@ -860,6 +860,7 @@ limitations under the License.
                                               }<cfif currentrow LT recordcount>,</cfif>
                                             </cfloop>
                                           ];
+<<<<<<< HEAD
 
                                           window.onload = function () {
                                             if (typeof initMap === 'function') {
@@ -869,6 +870,12 @@ limitations under the License.
                                             }
                                           };
                                         </script>
+=======
+                                        }
+										  // Run initMap after the page and scripts have loaded
+  										window.onload = initMap;
+                                     </script>
+>>>>>>> 03f174a627 (Redmine Issue 1013. Google Maps -- removing heat layer, providing deckgl as replacement)
 								
                                      	<div class="p-0 mx-1">
                                             <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
