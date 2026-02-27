@@ -41,7 +41,12 @@ function initMap() {
 
   // Clean/sanitize data from MCZ_HEATMAP_DATA
   var raw = MCZ_HEATMAP_DATA || [];
-  var data = [];
+ // var data = [];
+	var data = [
+  { latitude: 42.37, longitude: -71.11, weight: 1 },
+  { latitude: 42.38, longitude: -71.10, weight: 2 },
+  { latitude: 42.36, longitude: -71.12, weight: 1 }
+];
   for (var i = 0; i < raw.length; i++) {
     var d = raw[i];
     if (!d) continue;
