@@ -985,6 +985,7 @@ limitations under the License.
                                               </cfloop>
                                             ];
                                           }
+<<<<<<< HEAD
 >>>>>>> 9530943d31 (Redmine Issue 1013. Google Maps -- removing heat layer, providing deckgl as replacement)
                                         </script>
 								
@@ -1007,6 +1008,16 @@ limitations under the License.
                                           	</div>
                                      	</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
+=======
+                                    </script>
+									<cfdump var="#points#">
+									<div class="p-0 mx-1">
+										<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
+										<div id="floating-panel" class="w-100 mx-auto">
+											<span class="text-left d-block float-left">Collecting Event Map</span>
+											<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Toggle Marker Color</button>
+										</div>
+>>>>>>> 7c07e00592 (Redmine Issue 1013. Google Maps -- removing heat layer, providing deckgl as replacement)
 									</div>
 								</div>
 							</section>
