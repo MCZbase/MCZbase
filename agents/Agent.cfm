@@ -994,9 +994,8 @@ limitations under the License.
                                                 {
                                                   latitude: #points.Latitude#,
                                                   longitude: #points.Longitude#,
-                                                  // If you have intensity/weight in the query, put it here:
-                                                  // weight: #points.Intensity#
-                                                  weight: 1
+                                                   weight: #points.Intensity#
+                                                  //weight: 1
                                                 },
                                               </cfloop>
                                             ];
