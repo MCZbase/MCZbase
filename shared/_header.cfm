@@ -166,7 +166,7 @@ limitations under the License.
 <script src="/shared/js/deck.gl.min.js"></script>
 <script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
 <script src="/shared/js/deckgl-google-maps.min.js"></script>
-<script src="/shared/js/mcz-heatmap.js"></script>
+<script src="/shared/js/mcz-heatmap-distMap.js"></script>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
