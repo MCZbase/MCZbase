@@ -1000,7 +1000,8 @@ limitations under the License.
                                               </cfloop>
                                             ];
                                           }
-                                        </script>
+                                    </script>
+									<cfdump var="#points#">
 									<div class="p-0 mx-1">
 										<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
