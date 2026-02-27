@@ -994,8 +994,7 @@ limitations under the License.
                                                 {
                                                   latitude: #points.Latitude#,
                                                   longitude: #points.Longitude#,
-                                                   weight: #points.Intensity#
-                                                  //weight: 1
+                                                  weight: 1
                                                 },
                                               </cfloop>
                                             ];
