@@ -162,13 +162,13 @@ limitations under the License.
 <!--- media zoom on hover library --->
 <script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>
 <link rel="stylesheet" href="/lib/misc/multizoom/multizoom.css">
-	
-<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization"></script>
-<script src="/shared/js/deck.gl.min.js"></script>
-<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
-<script src="/shared/js/deckgl-google-maps.min.js"></script>
-<script src="/shared/js/mcz-heatmap-distMap.js"></script>
-
+<cfif CGI.script_name IS "/agents/Agent.cfm">
+	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization"></script>
+	<script src="/shared/js/deck.gl.min.js"></script>
+	<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
+	<script src="/shared/js/deckgl-google-maps.min.js"></script>
+	<script src="/shared/js/mcz-heatmap-distMap.js"></script>
+</cfif>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
