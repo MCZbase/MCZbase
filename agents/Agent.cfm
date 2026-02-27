@@ -836,91 +836,172 @@ limitations under the License.
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
+									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 									<script src="/shared/js/deck.gl.min.js"></script>
 									<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
 									<script src="/shared/js/deckgl-google-maps.min.js"></script>
-									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<div class="heatmap">
-									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-									<script>
-										let map, heatmap;
-										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-											var bounds = new google.maps.LatLngBounds(sw, ne);
-											for (i = 0; i < bounds.length; i++) {
-												if (bounds[i].lat != " ") {
-													var weightedLoc = {
-														location: new google.maps.LatLng(#points2.minlat#, #points2.minlong#),
-														weight: parseFloat(bounds[i].Intensity)
-													};
-													heat.push(weightedLoc);
-												} 
-											}
-											var centerpoint = weightedLoc;
-											var mapOptions = {
-												zoom: 1,
-												minZoom: 1,
-												maxZoom: 13,
-												center: centerpoint,
-												controlSize: 20,
-												mapTypeId: "hybrid",
-											};
-											map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                                        <script>
+                                          let map;
+                                          let overlay;          // deck.gl GoogleMapsOverlay
+                                          let heatmapLayer;     // deck.gl HeatmapLayer
+                                          let heatmapVisible = true;
+                                          let useAltGradient = false;
 
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-											} else {
-												google.maps.event.addListener(map,'bounds_changed',function(){
-												//var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
-												bounds.extend(extendPoint3);
-												bounds.extend(extendPoint4);
-												});
-											}
-											map.fitBounds(bounds);
-											heatmap = new google.maps.visualization.HeatmapLayer({
-												data: getPoints(),
-												map: map,
-											});
-											document
-												.getElementById("change-gradient")
-												.addEventListener("click", changeGradient);
-											}
-										function toggleHeatmap(){
-											heatmap.setMap(heatmap.getMap() ? null : map);
-										}
-										function changeGradient() {
-											const gradient = [
-												"rgba(0, 255, 255, 0)",
-												"rgba(0, 255, 255, 1)",
-												"rgba(0, 191, 255, 1)",
-												"rgba(0, 127, 255, 1)",
-												"rgba(0, 63, 255, 1)",
-												"rgba(0, 0, 255, 1)",
-												"rgba(0, 0, 223, 1)",
-												"rgba(0, 0, 191, 1)",
-												"rgba(0, 0, 159, 1)",
-												"rgba(0, 0, 127, 1)",
-												"rgba(63, 0, 91, 1)",
-												"rgba(127, 0, 63, 1)",
-												"rgba(191, 0, 31, 1)",
-												"rgba(255, 0, 0, 1)",
-											];
-											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-										}
-										function getPoints() {
-											return [
-											<cfloop query="points">
-												new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
-											</cfloop>
-											]
-										}
-									</script>
+                                          function initMap() {
+                                            // --- your existing bounds setup (using points2) ---
+                                            var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
+                                            var sw = new google.maps.LatLng(#points2.minlat#, #points2.minlong#);
+                                            var bounds = new google.maps.LatLngBounds(sw, ne);
+
+                                            // NOTE: your original loop over "bounds" doesn't really make sense,
+                                            // and used an undefined "heat" array; removing that here.
+                                            // You can re-add any weighting logic by changing getPoints() below.
+
+                                            // Pick a reasonable centerpoint; use bounds center if available
+                                            var centerpoint = bounds.getCenter();
+
+                                            var mapOptions = {
+                                              zoom: 1,
+                                              minZoom: 1,
+                                              maxZoom: 13,
+                                              center: centerpoint,
+                                              controlSize: 20,
+                                              mapTypeId: "hybrid"
+                                            };
+
+                                            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+                                            if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+                                              var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+                                              var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+                                              bounds.extend(extendPoint1);
+                                              bounds.extend(extendPoint2);
+                                            } else {
+                                              google.maps.event.addListener(map, 'bounds_changed', function() {
+                                                var extendPoint3 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+                                                var extendPoint4 = new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
+                                                bounds.extend(extendPoint3);
+                                                bounds.extend(extendPoint4);
+                                              });
+                                            }
+
+                                            map.fitBounds(bounds);
+
+                                            // --- NEW: create deck.gl overlay on top of Google Maps ---
+                                            overlay = new deck.GoogleMapsOverlay({
+                                              layers: []
+                                            });
+                                            overlay.setMap(map);
+
+                                            // --- NEW: build deck.gl heatmap data from CF query "points" ---
+                                            const heatmapData = getPoints(); // now returns plain JS objects
+
+                                            // --- NEW: create deck.gl HeatmapLayer ---
+                                            heatmapLayer = new deck.HeatmapLayer({
+                                              id: 'mcz-heatmap',
+                                              data: heatmapData,
+                                              getPosition: d => [d.longitude, d.latitude],
+                                              getWeight: d => d.weight || 1,
+
+                                              radiusPixels: 30,   // adjust to taste (similar to radius in Google heatmap)
+                                              intensity: 1,
+                                              threshold: 0.05,
+                                              opacity: 0.9,
+                                              colorRange: [
+                                                [0, 255, 255, 0],
+                                                [0, 255, 255, 255],
+                                                [0, 191, 255, 255],
+                                                [0, 127, 255, 255],
+                                                [0, 63, 255, 255],
+                                                [0, 0, 255, 255],
+                                                [0, 0, 223, 255],
+                                                [0, 0, 191, 255],
+                                                [0, 0, 159, 255],
+                                                [0, 0, 127, 255],
+                                                [63, 0, 91, 255],
+                                                [127, 0, 63, 255],
+                                                [191, 0, 31, 255],
+                                                [255, 0, 0, 255]
+                                              ]
+                                            });
+
+                                            overlay.setProps({
+                                              layers: [heatmapLayer]
+                                            });
+
+                                            // Attach button handler (same element id as before)
+                                            const btn = document.getElementById("change-gradient");
+                                            if (btn) {
+                                              btn.addEventListener("click", changeGradient);
+                                            }
+                                          }
+
+                                          // Toggle visibility by showing/hiding the layer in the overlay
+                                          function toggleHeatmap() {
+                                            heatmapVisible = !heatmapVisible;
+                                            overlay.setProps({
+                                              layers: heatmapVisible ? [heatmapLayer] : []
+                                            });
+                                          }
+
+                                          // Toggle between two color ranges (gradients)
+                                          function changeGradient() {
+                                            useAltGradient = !useAltGradient;
+
+                                            const defaultGradient = [
+                                              [0, 255, 255, 0],
+                                              [0, 255, 255, 255],
+                                              [0, 191, 255, 255],
+                                              [0, 127, 255, 255],
+                                              [0, 63, 255, 255],
+                                              [0, 0, 255, 255],
+                                              [0, 0, 223, 255],
+                                              [0, 0, 191, 255],
+                                              [0, 0, 159, 255],
+                                              [0, 0, 127, 255],
+                                              [63, 0, 91, 255],
+                                              [127, 0, 63, 255],
+                                              [191, 0, 31, 255],
+                                              [255, 0, 0, 255]
+                                            ];
+
+                                            const altGradient = [
+                                              [255, 255, 178, 0],
+                                              [254, 204, 92, 255],
+                                              [253, 141, 60, 255],
+                                              [240, 59, 32, 255],
+                                              [189, 0, 38, 255]
+                                            ];
+
+                                            const newColorRange = useAltGradient ? altGradient : defaultGradient;
+
+                                            // Recreate the layer with the new colorRange
+                                            heatmapLayer = new deck.HeatmapLayer({
+                                              ...heatmapLayer.props,
+                                              colorRange: newColorRange
+                                            });
+
+                                            overlay.setProps({
+                                              layers: heatmapVisible ? [heatmapLayer] : []
+                                            });
+                                          }
+
+                                          // Build data for deck.gl: plain objects instead of google.maps.LatLng
+                                          function getPoints() {
+                                            return [
+                                              <cfloop query="points">
+                                                {
+                                                  latitude: #points.Latitude#,
+                                                  longitude: #points.Longitude#,
+                                                  // If you have intensity/weight in the query, put it here:
+                                                  // weight: #points.Intensity#
+                                                  weight: 1
+                                                },
+                                              </cfloop>
+                                            ];
+                                          }
+                                        </script>
 									<div class="p-0 mx-1">
 										<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
