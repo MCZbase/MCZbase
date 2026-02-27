@@ -293,6 +293,7 @@ limitations under the License.
 							<cfset alsoSupported['deaccession']="DEACC_NUMBER">
 							<cfset alsoSupported['loan']="LOAN_NUMBER">
 							<cfset alsoSupported['borrow']="BORROW_NUMBER">
+							<cfset alsoSupported['container']="BARCODE or LABEL">
 							<cfquery name="getRelationshipTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									media_relationship, description, label, auto_table, cols.column_name as primary_key
@@ -1392,6 +1393,40 @@ limitations under the License.
 													cf_temp_media
 												SET
 													status = concat(nvl2(status, status || '; ', ''),'failed to find named group for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
+												WHERE
+													username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+											</cfquery>
+										<cfelse>
+											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE cf_temp_media 
+												SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCollection.underscore_collection_id#"> 
+												WHERE MEDIA_RELATED_TO_#i# is not null 
+													AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+													AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+											</cfquery>
+										</cfif>
+									<cfelseif getMediaRel.media_relationship contains 'container' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
+										<cfquery name="lookupContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT container_id
+											FROM #theTable#
+											WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
+										</cfquery>
+										<cfif lookupContainer.recordcount EQ 0>
+											<!--- no match on barcode, try label --->
+											<cfquery name="lookupContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT container_id
+												FROM #theTable#
+												WHERE
+													label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
+											</cfquery>
+										</cfif>
+										<cfif lookupContainer.recordcount NEQ 1>
+											<cfquery name="warningFailedContainerMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE
+													cf_temp_media
+												SET
+													status = concat(nvl2(status, status || '; ', ''),'failed to find container for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
 												WHERE
 													username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
