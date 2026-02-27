@@ -50,8 +50,11 @@ function initMap() {
     var lon = parseFloat(d.longitude);
     var w = d.weight || 1;
 
-    // Skip rows with non-finite lat/lon
+    // Skip rows with non-finite or out-of-range lat/lon
     if (!isFinite(lat) || !isFinite(lon)) {
+      continue;
+    }
+    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
       continue;
     }
 
@@ -67,7 +70,6 @@ function initMap() {
   if (!data.length) {
     console.error("initMap: No valid points for heatmap");
   }
-
   // Heatmap layer
   heatmapLayer = new deck.HeatmapLayer({
     id: 'mcz-heatmap',
