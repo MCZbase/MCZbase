@@ -1033,7 +1033,7 @@ limitations under the License.
 
                                         // If you're still not using callback=initMap on the Google script,
                                         // keep this; otherwise you can omit it if you're using callback.
-                                        // window.onload = initMap;
+                                        window.onload = initMap;
                                      </script>
 								
                                      <div class="p-0 mx-1">
