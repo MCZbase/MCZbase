@@ -867,7 +867,125 @@ limitations under the License.
                                             } else {
                                               console.error("window.onload: initMap is not defined");
                                             }
+<<<<<<< HEAD
                                           };
+=======
+
+                                            map.fitBounds(bounds);
+
+                                            // --- NEW: create deck.gl overlay on top of Google Maps ---
+                                            overlay = new deck.GoogleMapsOverlay({
+                                              layers: []
+                                            });
+                                            overlay.setMap(map);
+
+                                            // --- NEW: build deck.gl heatmap data from CF query "points" ---
+                                            const heatmapData = getPoints(); // now returns plain JS objects
+
+                                            // --- NEW: create deck.gl HeatmapLayer ---
+                                            heatmapLayer = new deck.HeatmapLayer({
+                                              id: 'mcz-heatmap',
+                                              data: heatmapData,
+                                              getPosition: d => [d.longitude, d.latitude],
+                                              getWeight: d => d.weight || 1,
+
+                                              radiusPixels: 30,   // adjust to taste (similar to radius in Google heatmap)
+                                              intensity: 1,
+                                              threshold: 0.05,
+                                              opacity: 0.9,
+                                              colorRange: [
+                                                [0, 255, 255, 0],
+                                                [0, 255, 255, 255],
+                                                [0, 191, 255, 255],
+                                                [0, 127, 255, 255],
+                                                [0, 63, 255, 255],
+                                                [0, 0, 255, 255],
+                                                [0, 0, 223, 255],
+                                                [0, 0, 191, 255],
+                                                [0, 0, 159, 255],
+                                                [0, 0, 127, 255],
+                                                [63, 0, 91, 255],
+                                                [127, 0, 63, 255],
+                                                [191, 0, 31, 255],
+                                                [255, 0, 0, 255]
+                                              ]
+                                            });
+
+                                            overlay.setProps({
+                                              layers: [heatmapLayer]
+                                            });
+
+                                            // Attach button handler (same element id as before)
+                                            const btn = document.getElementById("change-gradient");
+                                            if (btn) {
+                                              btn.addEventListener("click", changeGradient);
+                                            }
+                                          }
+
+                                          // Toggle visibility by showing/hiding the layer in the overlay
+                                          function toggleHeatmap() {
+                                            heatmapVisible = !heatmapVisible;
+                                            overlay.setProps({
+                                              layers: heatmapVisible ? [heatmapLayer] : []
+                                            });
+                                          }
+
+                                          // Toggle between two color ranges (gradients)
+                                          function changeGradient() {
+                                            useAltGradient = !useAltGradient;
+
+                                            const defaultGradient = [
+                                              [0, 255, 255, 0],
+                                              [0, 255, 255, 255],
+                                              [0, 191, 255, 255],
+                                              [0, 127, 255, 255],
+                                              [0, 63, 255, 255],
+                                              [0, 0, 255, 255],
+                                              [0, 0, 223, 255],
+                                              [0, 0, 191, 255],
+                                              [0, 0, 159, 255],
+                                              [0, 0, 127, 255],
+                                              [63, 0, 91, 255],
+                                              [127, 0, 63, 255],
+                                              [191, 0, 31, 255],
+                                              [255, 0, 0, 255]
+                                            ];
+
+                                            const altGradient = [
+                                              [255, 255, 178, 0],
+                                              [254, 204, 92, 255],
+                                              [253, 141, 60, 255],
+                                              [240, 59, 32, 255],
+                                              [189, 0, 38, 255]
+                                            ];
+
+                                            const newColorRange = useAltGradient ? altGradient : defaultGradient;
+
+                                            // Recreate the layer with the new colorRange
+                                            heatmapLayer = new deck.HeatmapLayer({
+                                              ...heatmapLayer.props,
+                                              colorRange: newColorRange
+                                            });
+
+                                            overlay.setProps({
+                                              layers: heatmapVisible ? [heatmapLayer] : []
+                                            });
+                                          }
+
+                                          // Build data for deck.gl: plain objects instead of google.maps.LatLng
+                                          function getPoints() {
+                                            return [
+                                              <cfloop query="points">
+                                                {
+                                                  latitude: #points.Latitude#,
+                                                  longitude: #points.Longitude#,
+                                                   weight: #points.Intensity#
+                                                  //weight: 1
+                                                },
+                                              </cfloop>
+                                            ];
+                                          }
+>>>>>>> 9530943d31 (Redmine Issue 1013. Google Maps -- removing heat layer, providing deckgl as replacement)
                                         </script>
 								
                                      	<div class="p-0 mx-1">
