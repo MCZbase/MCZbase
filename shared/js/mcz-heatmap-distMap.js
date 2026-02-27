@@ -95,12 +95,33 @@ function initMap() {
   }
 }
 
+//function toggleView() {
+//  if (currentView === 'heatmap') {
+//    currentView = 'points';
+//    overlay.setProps({ layers: [pointLayer] });
+//  } else {
+//    currentView = 'heatmap';
+//    overlay.setProps({ layers: [heatmapLayer] });
+//  }
+//}
+
 function toggleView() {
+  if (!overlay) {
+    console.error("toggleView: overlay not ready yet");
+    return;
+  }
+  if (!heatmapLayer || !pointLayer) {
+    console.error("toggleView: layers not ready yet");
+    return;
+  }
+
   if (currentView === 'heatmap') {
     currentView = 'points';
+    console.log("Switching to points view");
     overlay.setProps({ layers: [pointLayer] });
   } else {
     currentView = 'heatmap';
+    console.log("Switching to heatmap view");
     overlay.setProps({ layers: [heatmapLayer] });
   }
 }
