@@ -39,7 +39,34 @@ function initMap() {
   });
   overlay.setMap(map);
 
-  var data = MCZ_HEATMAP_DATA;
+  // Clean/sanitize data from MCZ_HEATMAP_DATA
+  var raw = MCZ_HEATMAP_DATA || [];
+  var data = [];
+  for (var i = 0; i < raw.length; i++) {
+    var d = raw[i];
+    if (!d) continue;
+
+    var lat = parseFloat(d.latitude);
+    var lon = parseFloat(d.longitude);
+    var w = d.weight || 1;
+
+    // Skip rows with non-finite lat/lon
+    if (!isFinite(lat) || !isFinite(lon)) {
+      continue;
+    }
+
+    data.push({
+      latitude: lat,
+      longitude: lon,
+      weight: w
+    });
+  }
+
+  console.log("initMap: raw points =", raw.length, "valid points =", data.length);
+
+  if (!data.length) {
+    console.error("initMap: No valid points for heatmap");
+  }
 
   // Heatmap layer
   heatmapLayer = new deck.HeatmapLayer({
@@ -74,7 +101,7 @@ function initMap() {
     id: 'mcz-points',
     data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
-    getRadius: function () { return 1000; },      // meters; adjust as needed
+    getRadius: function () { return 1000; },
     radiusMinPixels: 2,
     radiusMaxPixels: 10,
     getFillColor: function () { return [0, 255, 0, 180]; },
@@ -84,7 +111,8 @@ function initMap() {
   // Start in heatmap view
   currentView = 'heatmap';
   overlay.setProps({ layers: [heatmapLayer] });
-
+	
+ 
   // Wire up buttons
   var btnGradient = document.getElementById("change-gradient");
   if (btnGradient) {
