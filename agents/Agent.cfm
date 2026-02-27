@@ -856,7 +856,7 @@ limitations under the License.
                                         </cfloop>
                                       ];
 
-                                      window.onload = initMap;
+                                      //window.onload = initMap;
                                     </script>
 								
                                      <div class="p-0 mx-1">
