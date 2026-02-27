@@ -839,7 +839,7 @@ limitations under the License.
                                 line-height: 1.5;
                               }
                             </style>
-							<cfif points.recordcount gt 0>
+				            <cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
 									<div class="heatmap">
@@ -856,11 +856,10 @@ limitations under the License.
                                               {
                                                 latitude: #points.Latitude#,
                                                 longitude: #points.Longitude#,
-                                                weight: #points.record_count#
+                                                weight: 1
                                               }<cfif currentrow LT recordcount>,</cfif>
                                             </cfloop>
                                           ];
-<<<<<<< HEAD
 
                                           window.onload = function () {
                                             if (typeof initMap === 'function') {
@@ -870,15 +869,9 @@ limitations under the License.
                                             }
                                           };
                                         </script>
-=======
-                                        }
-										  // Run initMap after the page and scripts have loaded
-  										window.onload = initMap;
-                                     </script>
->>>>>>> 03f174a627 (Redmine Issue 1013. Google Maps -- removing heat layer, providing deckgl as replacement)
 								
                                      	<div class="p-0 mx-1">
-                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
+                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Collecting Event Map</h4>
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                                  <div class="float-left">
