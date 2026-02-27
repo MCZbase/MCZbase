@@ -856,7 +856,13 @@ limitations under the License.
                                         </cfloop>
                                       ];
 
-                                      //window.onload = initMap;
+                                      window.onload = function () {
+                                        if (typeof initMap === 'function') {
+                                          initMap();
+                                        } else {
+                                          console.error("window.onload: initMap is not defined");
+                                        }
+                                      };
                                     </script>
 								
                                      <div class="p-0 mx-1">
