@@ -852,7 +852,7 @@ limitations under the License.
                                             latitude: #points.Latitude#,
                                             longitude: #points.Longitude#,
                                             weight: 1
-                                          },
+                                          }<cfif currentrow LT recordcount>,</cfif>
                                         </cfloop>
                                       ];
 
