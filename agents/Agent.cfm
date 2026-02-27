@@ -842,11 +842,11 @@ limitations under the License.
 									<script src="/shared/js/deckgl-google-maps.min.js"></script>
 									<div class="heatmap">
                                         <script>
-                                          let map;
-                                          let overlay;          // deck.gl GoogleMapsOverlay
-                                          let heatmapLayer;     // deck.gl HeatmapLayer
-                                          let heatmapVisible = true;
-                                          let useAltGradient = false;
+                                          var map;
+                                          var overlay;
+                                          var heatmapLayer;
+                                          var heatmapVisible = true;
+                                          var useAltGradient = false;
 
                                           function initMap() {
                                             // --- your existing bounds setup (using points2) ---
