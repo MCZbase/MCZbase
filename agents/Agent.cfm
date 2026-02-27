@@ -873,7 +873,7 @@ limitations under the License.
                                               Toggle Heatmap / Points
                                               </button>
                                               <button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">
-                                                  Toggle Marker Color
+                                                  Toggle Heatmap Color
                                           </button>
                                           </div>
                                      </div>

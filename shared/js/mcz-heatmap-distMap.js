@@ -165,56 +165,75 @@ function changeGradient() {
 
   var data = MCZ_CLEAN_DATA;
 
+  // Default blue-ish gradient
   var defaultGradient = [
-    [0, 255, 255, 0],
+    [0, 255, 255,   0],
     [0, 255, 255, 255],
     [0, 191, 255, 255],
     [0, 127, 255, 255],
-    [0, 63, 255, 255],
-    [0, 0, 255, 255],
-    [0, 0, 223, 255],
-    [0, 0, 191, 255],
-    [0, 0, 159, 255],
-    [0, 0, 127, 255],
-    [63, 0, 91, 255],
-    [127, 0, 63, 255],
-    [191, 0, 31, 255],
-    [255, 0, 0, 255]
+    [0,  63, 255, 255],
+    [0,   0, 255, 255],
+    [0,   0, 223, 255],
+    [0,   0, 191, 255],
+    [0,   0, 159, 255],
+    [0,   0, 127, 255],
+    [63,  0,  91, 255],
+    [127, 0,  63, 255],
+    [191, 0,  31, 255],
+    [255, 0,   0, 255]
   ];
 
+  // Richer orange/red gradient, more steps
   var altGradient = [
-    [255, 255, 178, 0],
-    [254, 204, 92, 255],
-    [253, 141, 60, 255],
-    [240, 59, 32, 255],
-    [189, 0, 38, 255]
+    [255, 255, 204,   0],
+    [255, 237, 160, 255],
+    [254, 217, 118, 255],
+    [254, 178,  76, 255],
+    [253, 141,  60, 255],
+    [252,  78,  42, 255],
+    [227,  26,  28, 255],
+    [177,   0,  38, 255]
   ];
 
+  // Check what we’re currently using
   var current =
     (heatmapLayer && heatmapLayer.props && heatmapLayer.props.colorRange) ||
     defaultGradient;
 
-  var useAlt =
+  var usingAlt =
     current.length === altGradient.length &&
-    current[0][0] === altGradient[0][0];
+    current[0][0] === altGradient[0][0] &&
+    current[0][1] === altGradient[0][1];
 
-  var newColorRange = useAlt ? defaultGradient : altGradient;
+  var newGradient, newRadius, newIntensity;
+
+  if (usingAlt) {
+    // Switch back to default: slightly smaller radius/intensity
+    newGradient  = defaultGradient;
+    newRadius    = 30;
+    newIntensity = 1;
+  } else {
+    // Switch to orange/red: make it "spread" more
+    newGradient  = altGradient;
+    newRadius    = 45;   // was 30
+    newIntensity = 1.5;  // was 1
+  }
 
   heatmapLayer = new deck.HeatmapLayer({
     id: 'mcz-heatmap',
     data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
     getWeight: function (d) { return d.weight || 1; },
-    radiusPixels: 30,
-    intensity: 1,
+    radiusPixels: newRadius,
+    intensity: newIntensity,
     threshold: 0.05,
     opacity: 0.9,
-    colorRange: newColorRange
+    colorRange: newGradient
   });
 
   if (currentView === 'heatmap' && overlay) {
     overlay.setProps({ layers: [heatmapLayer] });
   }
 
-  console.log("changeGradient: updated gradient");
+  console.log("changeGradient: updated gradient, radius =", newRadius, "intensity =", newIntensity);
 }
