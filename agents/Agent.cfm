@@ -868,8 +868,6 @@ limitations under the License.
                                               console.error("window.onload: initMap is not defined");
                                             }
                                           };
-
-
                                         </script>
 								
                                      	<div class="p-0 mx-1">
