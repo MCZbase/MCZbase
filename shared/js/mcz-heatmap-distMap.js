@@ -3,7 +3,6 @@
 //
 //
 // /shared/js/mcz-heatmap.js
-// /shared/js/mcz-heatmap.js
 
 var map;
 var overlay;
@@ -217,4 +216,5 @@ function changeGradient() {
     overlay.setProps({ layers: [heatmapLayer] });
   }
 
-  console.log("changeGradient: updated
+  console.log("changeGradient: updated gradient");
+}
