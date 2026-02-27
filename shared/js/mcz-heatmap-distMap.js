@@ -215,7 +215,7 @@ function changeGradient() {
   } else {
     // Switch to orange/red: make it "spread" more
     newGradient  = altGradient;
-    newRadius    = 45;   // was 30
+    newRadius    = 40;   // was 30
     newIntensity = 1.5;  // was 1
   }
 
