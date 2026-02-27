@@ -997,6 +997,8 @@ limitations under the License.
                                             </cfloop>
                                           ];
                                         }
+										  // Run initMap after the page and scripts have loaded
+  										window.onload = initMap;
                                      </script>
 								
                                      <div class="p-0 mx-1">
