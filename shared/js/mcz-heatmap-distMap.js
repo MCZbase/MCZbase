@@ -146,7 +146,7 @@ function toggleView() {
       data: data,
       getPosition: function (d) { return [d.longitude, d.latitude]; },
       getWeight: function (d) { return d.weight || 1; },
-      radiusPixels: 30,
+      radiusPixels: 20,
       intensity: 1.5,
       threshold: 0.00,
       opacity: 0.9,
@@ -198,7 +198,7 @@ function changeGradient() {
     current[0][1] === altGradient[0][1];
 
   var newGradient  = usingAlt ? defaultGradient : altGradient;
-  var newRadius    = 30;
+  var newRadius    = 20;
   var newIntensity = 1.5;
     
     
