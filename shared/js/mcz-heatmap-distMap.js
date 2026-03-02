@@ -179,21 +179,12 @@ function changeGradient() {
     ];
 	
     var altGradient = [
-     /// [ 91, 101, 172, 255], //deep bright blue
-      // very low density: very faint light purple
-      //[140, 100, 180, 255],   // light purple, mostly transparent
-      // low density: light/mid purple
-      [160, 110, 190, 255],
-      [180, 130, 200, 255],
-      // mid densities: yellowish
-     // [220, 180,  40, 255],   // yellow‑orange
-      [255, 215,   0, 255],   // golden yellow
-      // mid‑high: cyan-ish transition toward blue
-      [ 50, 190, 230, 255],   // teal/cyan
-      // high density: bright blues
-     // [  0, 150, 255, 255],   // bright sky blue
-      [  0, 110, 255, 255],   // strong blue
-      [  210, 31, 184, 255]    // deep bright blue
+    
+      [255, 212, 229, 255],
+      [212, 255, 234, 255],
+      [238, 203, 255, 255],  
+      [254, 255, 163, 255],   
+      [219, 220, 255, 255]
     ];
 	
   // Check what we’re currently using
