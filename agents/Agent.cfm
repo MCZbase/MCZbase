@@ -470,7 +470,7 @@ limitations under the License.
 																		goNextAgent()
 																	}, false)
 																	$("##agent_media_img").scrollTop(function (event) {
-																		event.preventDefault();
+																	//	event.preventDefault();
 																		var ya = event.scrollTop;
 																		if (ya > $nextAgent) { 
 																			currentAgentImage = 0;
