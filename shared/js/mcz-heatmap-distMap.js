@@ -165,7 +165,7 @@ function changeGradient() {
 
   var data = MCZ_CLEAN_DATA;
 
- // Default: blue → cyan (no yellow)
+   // Default: blue → cyan (no yellow)
   var defaultGradient = [
     [  0,   0,  80,   0],  // transparent start
     [  0,   0, 120, 255],
@@ -174,13 +174,13 @@ function changeGradient() {
     [ 80, 200, 255, 255]
   ];
 
-  // Alternate: purple → blue (no yellow)
+  // Alternate: purple → yellow/orange → blue
   var altGradient = [
-    [ 40,   0,  70,   0],  // transparent start
-    [ 60,   0, 110, 255],
-    [ 80,  40, 140, 255],
-    [ 60,  80, 170, 255],
-    [ 40, 110, 200, 255]
+    [ 40,   0,  70,   0],  // transparent purple
+    [ 60,   0, 110, 255],  // purple
+    [255, 215,   0, 255],  // yellow (gold)
+    [255, 140,   0, 255],  // orange
+    [ 40, 110, 200, 255]   // blue
   ];
 	
   // Check what we’re currently using
@@ -203,8 +203,8 @@ function changeGradient() {
   } else {
     // Switch to orange/red: make it "spread" more
     newGradient  = altGradient;
-    newRadius    = 45;   // was 30
-    newIntensity = 1.5;  // was 1
+    newRadius    = 30;   // was 30
+    newIntensity = 1;  // was 1
   }
 
   heatmapLayer = new deck.HeatmapLayer({
