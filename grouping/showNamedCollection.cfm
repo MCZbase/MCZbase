@@ -511,36 +511,36 @@ limitations under the License.
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>
 
-                               <!--- <cfif points.recordcount gt 0>
+                                <cfif points.recordcount gt 0>
                                   <section class="heatmap mt-2 float-left w-100">
 
                                     <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
                                     <script>
-                  //                    window.MCZ_BOUNDS = {
-//                                        minlat: #points2.minlat#,
-//                                        minlong: #points2.minlong#,
-//                                        maxlat: #points2.maxlat#,
-//                                        maxlong: #points2.maxlong#
-//                                      };
-//
-//                                      window.MCZ_HEATMAP_DATA = [
-//                                        <cfloop query="points">
-//                                          {
-//                                            latitude: #points.Latitude#,
-//                                            longitude: #points.Longitude#,
-//                                            weight: 1
-//                                          }<cfif currentrow LT recordcount>,</cfif>
-//                                        </cfloop>
-//                                      ];
-//
-//                                      // Use the shared initMap from /shared/js/mcz-heatmap.js
-//                                      window.onload = function () {
-//                                        if (typeof initMap === 'function') {
-//                                          initMap();
-//                                        } else {
-//                                          console.error("window.onload: initMap is not defined");
-//                                        }
-//                                      };
+                                      window.MCZ_BOUNDS = {
+                                        minlat: #points2.minlat#,
+                                        minlong: #points2.minlong#,
+                                        maxlat: #points2.maxlat#,
+                                        maxlong: #points2.maxlong#
+                                      };
+
+                                      window.MCZ_HEATMAP_DATA = [
+                                        <cfloop query="points">
+                                          {
+                                            latitude: #points.Latitude#,
+                                            longitude: #points.Longitude#,
+                                            weight: 1
+                                          }<cfif currentrow LT recordcount>,</cfif>
+                                        </cfloop>
+                                      ];
+
+                                      // Use the shared initMap from /shared/js/mcz-heatmap.js
+                                      window.onload = function () {
+                                        if (typeof initMap === 'function') {
+                                          initMap();
+                                        } else {
+                                          console.error("window.onload: initMap is not defined");
+                                        }
+                                      };
                                     </script>
 
                                     <div class="col-12 px-0 float-left">
@@ -575,7 +575,7 @@ limitations under the License.
                                   </section>
                                 </cfif>
 
---->
+
 								<section class="otherImages float-left w-100 mt-4">
 									<div class="other-images">
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
