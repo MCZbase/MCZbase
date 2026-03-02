@@ -459,7 +459,7 @@ limitations under the License.
 																function goAgent() { 
 																	currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 																}
-																$(document).ready(function () {
+												                $(document).ready(function () {
 																	$inputAgent.addEventListener('change', function (e) {
 																		goAgent()
 																	}, false)
