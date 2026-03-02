@@ -207,6 +207,8 @@ function changeGradient() {
     data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
     getWeight: function (d) { return d.weight || 1; },
+    radiusPixels: 20,
+    intensity: 1.5,
     threshold: 0.0,
     opacity: 0.9,
     colorRange: newGradient
