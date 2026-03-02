@@ -108,7 +108,7 @@ function toggleView() {
       data: data,
       getPosition: function (d) { return [d.longitude, d.latitude]; },
       getRadius: function () { return 1000; },   // meters; adjust as needed
-      radiusMinPixels: 3,
+      radiusMinPixels: 2,
       radiusMaxPixels: 10,
       getFillColor: function () { return [0, 255, 0, 180]; },
       pickable: false
@@ -146,9 +146,9 @@ function toggleView() {
       data: data,
       getPosition: function (d) { return [d.longitude, d.latitude]; },
       getWeight: function (d) { return d.weight || 1; },
-      radiusPixels: 10,
-      intensity: 1.8,
-      threshold: 0.00,
+      radiusPixels: 20,
+      intensity: 1.0,
+      threshold: 0.03,
       opacity: 0.9,
       colorRange: existingRange
     });
@@ -161,7 +161,7 @@ function changeGradient() {
 
     var data = MCZ_CLEAN_DATA;
 
-   var defaultGradient = [
+    var defaultGradient = [
       [0, 255, 255, 60],
       [0, 255, 255, 255],
       [0, 191, 255, 255],
@@ -176,19 +176,24 @@ function changeGradient() {
       [127, 0, 63, 255],
       [191, 0, 31, 255],
       [255, 0, 0, 255]
-   ];
+    ];
 	
-  // Alternate: purple → yellow/orange → blue
-  var altGradient = [
-      [150, 100, 180,  80],  // light purple, faint (low density)
-      [190, 140, 210, 255],  // light/mid purple
-      [190, 126, 210, 255],  // light-med blue
-      [152, 227, 250,  98],
-      [255, 215,   0, 255],  // yellow (gold)
-      [255, 140,   0, 255],  // orange
-      [249,  52, 192,  98],  // orange
-      [ 40, 110, 200, 255]   // blue
-  ];
+    var altGradient = [
+      // very low density: very faint light purple
+      [140, 100, 180,  40],   // light purple, mostly transparent
+      // low density: light/mid purple
+      [160, 110, 190, 120],
+      [180, 130, 200, 200],
+      // mid densities: yellowish
+      [220, 180,  40, 255],   // yellow‑orange
+      [255, 215,   0, 255],   // golden yellow
+      // mid‑high: cyan-ish transition toward blue
+      [ 50, 190, 230, 255],   // teal/cyan
+      // high density: bright blues
+      [  0, 150, 255, 255],   // bright sky blue
+      [  0, 110, 255, 255],   // strong blue
+      [  0,  70, 230, 255]    // deep bright blue
+    ];
 	
   // Check what we’re currently using
   var current =
@@ -201,8 +206,8 @@ function changeGradient() {
     current[0][1] === altGradient[0][1];
 
   var newGradient  = usingAlt ? defaultGradient : altGradient;
-  var newRadius    = 10;
-  var newIntensity = 1.5;
+  var newRadius    = 20;
+  var newIntensity = 1.0;
     
     
   heatmapLayer = new deck.HeatmapLayer({
@@ -210,9 +215,9 @@ function changeGradient() {
     data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
     getWeight: function (d) { return d.weight || 1; },
-    radiusPixels: 10,
-    intensity: 1.8,
-    threshold: 0.0,
+    radiusPixels: 20,
+    intensity: 1.0,
+    threshold: 0.03,
     opacity: 0.9,
     colorRange: newGradient
   });
