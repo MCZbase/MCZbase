@@ -185,7 +185,7 @@ function changeGradient() {
       [250, 162,  22,  98], // light orange
       [250, 125,  22,  98], // orange
       [250,  25,   0,  98], //bright orange 
-      [255,  237, 27, 100] //bright orange 
+      [255,  237, 27, 255] // yellow
     ];
 	
   // Check what we’re currently using
