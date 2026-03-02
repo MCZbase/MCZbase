@@ -184,7 +184,7 @@ function changeGradient() {
       [212, 255, 234, 255],
       [238, 203, 255, 255],  
       [254, 255, 163, 255],   
-      [219, 220, 255, 255]
+      [219, 22, 250, 98]
     ];
 	
   // Check what we’re currently using
