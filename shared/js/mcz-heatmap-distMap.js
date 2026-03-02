@@ -146,9 +146,9 @@ function toggleView() {
       data: data,
       getPosition: function (d) { return [d.longitude, d.latitude]; },
       getWeight: function (d) { return d.weight || 1; },
-      radiusPixels: 30,
-      intensity: 1,
-      threshold: 0.05,
+      radiusPixels: 25,
+      intensity: 1.5,
+      threshold: 0.00,
       opacity: 0.9,
       colorRange: existingRange
     });
@@ -158,21 +158,9 @@ function toggleView() {
 }
 
 function changeGradient() {
-  if (!MCZ_CLEAN_DATA) {
-    console.error("changeGradient: data not ready");
-    return;
-  }
 
-  var data = MCZ_CLEAN_DATA;
+    var data = MCZ_CLEAN_DATA;
 
-//  var defaultGradient = [
-//    [  0,   0,  80,   0],  // transparent dark blue
-//    [  0,   0, 120, 255],  // blue
-//    [  0,  60, 170, 255],  // lighter blue
-//    [255, 215,   0, 255],  // yellow (center)
-//    [255, 140,   0, 255],  // orange
-//    [200,   0,   0, 255]   // red
-//  ];
    var defaultGradient = [
       [0, 255, 255, 0],
       [0, 255, 255, 255],
@@ -209,18 +197,18 @@ function changeGradient() {
     current[0][0] === altGradient[0][0] &&
     current[0][1] === altGradient[0][1];
 
-  var newGradient, newRadius, newIntensity;
-
+//  var newGradient, newRadius, newIntensity;
+//
   if (usingAlt) {
-    // Switch back to default: slightly smaller radius/intensity
-    newGradient  = defaultGradient;
-    newRadius    = 30;
-    newIntensity = 1;
+//    // Switch back to default: slightly smaller radius/intensity
+   newGradient  = defaultGradient;
+//    newRadius    = 30;
+//    newIntensity = 1;
   } else {
-    // Switch to orange/red: make it "spread" more
-    newGradient  = altGradient;
-    newRadius    = 30;   // was 30
-    newIntensity = 1;  // was 1
+//    // Switch to orange/red: make it "spread" more
+   newGradient  = altGradient;
+//    newRadius    = 30;   // was 30
+//    newIntensity = 1;  // was 1
   }
 
   heatmapLayer = new deck.HeatmapLayer({
@@ -228,9 +216,9 @@ function changeGradient() {
     data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
     getWeight: function (d) { return d.weight || 1; },
-    radiusPixels: newRadius,
-    intensity: newIntensity,
-    threshold: 0.05,
+    radiusPixels: 25,
+    intensity: 1.5,
+    threshold: 0.0,
     opacity: 0.9,
     colorRange: newGradient
   });
