@@ -552,7 +552,7 @@ limitations under the License.
                                         <!-- Map container: needs explicit height -->
                                         <div id="map"
                                              class="w-100 rounded"
-                                             style="height: auto;"
+                                             style="height: 600px;"
                                              aria-label="Map of georeferenced specimen locations">
                                         </div>
 
