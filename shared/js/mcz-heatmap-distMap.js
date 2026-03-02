@@ -121,7 +121,7 @@ function toggleView() {
     console.log("toggleView: switching to heatmap");
 
     var defaultGradient = [
-      [0, 255, 255, 0],
+      [0, 255, 255, 60],
       [0, 255, 255, 255],
       [0, 191, 255, 255],
       [0, 127, 255, 255],
