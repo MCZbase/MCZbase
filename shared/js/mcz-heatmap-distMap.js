@@ -165,36 +165,26 @@ function changeGradient() {
 
   var data = MCZ_CLEAN_DATA;
 
-  // Default blue-ish gradient
+  // Viridis-style (default)
   var defaultGradient = [
-    [0, 255, 255,   0],
-    [0, 255, 255, 255],
-    [0, 191, 255, 255],
-    [0, 127, 255, 255],
-    [0,  63, 255, 255],
-    [0,   0, 255, 255],
-    [0,   0, 223, 255],
-    [0,   0, 191, 255],
-    [0,   0, 159, 255],
-    [0,   0, 127, 255],
-    [63,  0,  91, 255],
-    [127, 0,  63, 255],
-    [191, 0,  31, 255],
-    [255, 0,   0, 255]
+    [68,   1,  84,   0],
+    [68,   1,  84, 255],
+    [59,  82, 139, 255],
+    [33, 145, 140, 255],
+    [94, 201,  97, 255],
+    [253,231,  37, 255]
   ];
 
-  // Richer orange/red gradient, more steps
+  // Cividis-style (alternate)
   var altGradient = [
-    [255, 255, 204,   0],
-    [255, 237, 160, 255],
-    [254, 217, 118, 255],
-    [254, 178,  76, 255],
-    [253, 141,  60, 255],
-    [252,  78,  42, 255],
-    [227,  26,  28, 255],
-    [177,   0,  38, 255]
+    [  0,  32,  77,   0],
+    [  0,  32,  77, 255],
+    [ 60,  78, 138, 255],
+    [123,122, 117, 255],
+    [187,165,  84, 255],
+    [255,206,  69, 255]
   ];
-
+	
   // Check what we’re currently using
   var current =
     (heatmapLayer && heatmapLayer.props && heatmapLayer.props.colorRange) ||
@@ -215,7 +205,7 @@ function changeGradient() {
   } else {
     // Switch to orange/red: make it "spread" more
     newGradient  = altGradient;
-    newRadius    = 40;   // was 30
+    newRadius    = 45;   // was 30
     newIntensity = 1.5;  // was 1
   }
 
