@@ -179,11 +179,13 @@ function changeGradient() {
     ];
 	
     var altGradient = [
-      [229, 255, 25, 255], // light green
-      [254, 234, 25, 255], // yellow
-      [254, 189,  3,  255],  // orange
-      [252, 127,  1, 255], // dark orange
-      [255, 159,  2,  255] // orange
+      [229, 255, 25], // light green
+      [225, 185, 72], // light brown
+      [218, 141, 53],
+      [254, 234, 25], // yellow
+      [254, 189,  3],  // orange
+      [252, 127,  1], // dark orange
+      [255, 159,  2] // orange
     ];
 	
   // Check what we’re currently using
