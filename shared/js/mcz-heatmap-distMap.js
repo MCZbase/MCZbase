@@ -108,7 +108,7 @@ function toggleView() {
       data: data,
       getPosition: function (d) { return [d.longitude, d.latitude]; },
       getRadius: function () { return 1000; },   // meters; adjust as needed
-      radiusMinPixels: 2,
+      radiusMinPixels: 20,
       radiusMaxPixels: 10,
       getFillColor: function () { return [0, 255, 0, 180]; },
       pickable: false
@@ -146,7 +146,7 @@ function toggleView() {
       data: data,
       getPosition: function (d) { return [d.longitude, d.latitude]; },
       getWeight: function (d) { return d.weight || 1; },
-      radiusPixels: 25,
+      radiusPixels: 20,
       intensity: 1.5,
       threshold: 0.00,
       opacity: 0.9,
