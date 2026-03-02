@@ -163,6 +163,11 @@ limitations under the License.
 <script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>
 <link rel="stylesheet" href="/lib/misc/multizoom/multizoom.css">
 <cfif CGI.script_name IS "/agents/Agent.cfm">
+    <!--
+      Note: We deliberately load the Google Maps JS API synchronously (no async/callback)
+      to keep initMap timing simple with our deck.gl integration. This triggers a
+      "loaded directly without loading=async" console warning, which is acceptable here.
+    -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization"></script>
 	<script src="/shared/js/deck.gl.min.js"></script>
 	<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
