@@ -1,6 +1,6 @@
 <cfset pageTitle = "Agent Details">
 <!---
-/agents/Agent.cfm
+agents/Agent.cfm
 
 Form for displaying agent details, editing agent details, and creating new agents.
 
