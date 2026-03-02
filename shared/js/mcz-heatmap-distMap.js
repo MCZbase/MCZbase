@@ -165,13 +165,13 @@ function changeGradient() {
 
   var data = MCZ_CLEAN_DATA;
 
-   // Default: blue → cyan (no yellow)
   var defaultGradient = [
-    [  0,   0,  80,   0],  // transparent start
-    [  0,   0, 120, 255],
-    [  0,  60, 170, 255],
-    [  0, 130, 210, 255],
-    [ 80, 200, 255, 255]
+    [  0,   0,  80,   0],  // transparent dark blue
+    [  0,   0, 120, 255],  // blue
+    [  0,  60, 170, 255],  // lighter blue
+    [255, 215,   0, 255],  // yellow (center)
+    [255, 140,   0, 255],  // orange
+    [200,   0,   0, 255]   // red
   ];
 
   // Alternate: purple → yellow/orange → blue
