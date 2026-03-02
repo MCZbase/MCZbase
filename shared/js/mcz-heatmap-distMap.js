@@ -180,6 +180,7 @@ function changeGradient() {
 	
     var altGradient = [
       [229, 255, 25, 60], // light green
+      [229, 255, 25, 255], // light green
       [225, 185, 72], // light brown
       [218, 141, 53],
       [254, 234, 25], // yellow
