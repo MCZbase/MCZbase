@@ -186,10 +186,10 @@ function changeGradient() {
       [160, 110, 190, 255],
       [180, 130, 200, 255],
       // mid densities: yellowish
-      [220, 180,  40, 255],   // yellow‑orange
+     // [220, 180,  40, 255],   // yellow‑orange
       [255, 215,   0, 255],   // golden yellow
       // mid‑high: cyan-ish transition toward blue
-     // [ 50, 190, 230, 255],   // teal/cyan
+      [ 50, 190, 230, 255],   // teal/cyan
       // high density: bright blues
      // [  0, 150, 255, 255],   // bright sky blue
       [  0, 110, 255, 255],   // strong blue
