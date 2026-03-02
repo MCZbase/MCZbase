@@ -22,11 +22,11 @@
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
 <cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[\-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
-<!--
+<!---
 transactions/Loan.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2025 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to loan search page --->
 	<cflocation url="/Transactions.cfm?action=findLoans" addtoken="false">
