@@ -638,28 +638,43 @@ limitations under the License.
 														function goAgent() { 
 															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
-														$(document).ready(function () {
-															$inputAgent.addEventListener('change', function (e) {
-																goAgent()
-															}, false)
-															$prevAgent.addEventListener('click', function (e) {
-																goPreviousAgent()
-															}, false)
-															$nextAgent.addEventListener('click', function (e) {
-																goNextAgent()
-															}, false)
-															$("##agent_media_img").scrollTop(function (event) {
-																try {
-																	event.preventDefault();
-																} catch { }
-																var ya = event.scrollTop;
-																if (ya > $nextAgent) { 
-																	currentAgentImage = 0;
-																} else { 
-																	goPreviousAgent();
-																}
-															});
-														});
+													//	$(document).ready(function () {
+														//	$inputAgent.addEventListener('change', function (e) {
+//																goAgent()
+//															}, false)
+//															$prevAgent.addEventListener('click', function (e) {
+//																goPreviousAgent()
+//															}, false)
+//															$nextAgent.addEventListener('click', function (e) {
+//																goNextAgent()
+//															}, false)
+//															$("##agent_media_img").scrollTop(function (event) {
+//																try {
+//																	event.preventDefault();
+//																} catch { }
+//																var ya = event.scrollTop;
+//																if (ya > $nextAgent) { 
+//																	currentAgentImage = 0;
+//																} else { 
+//																	goPreviousAgent();
+//																}
+//                                                        
+//															});
+//														});
+                                                        // looking to use this code instead (below) to eliminate warnings in console //
+                                                          $(document).ready(function () {
+                                                                $inputAgent.addEventListener('change', function () {
+                                                                  goAgent();
+                                                                }, false);
+
+                                                                $prevAgent.addEventListener('click', function () {
+                                                                  goPreviousAgent();
+                                                                }, false);
+
+                                                                $nextAgent.addEventListener('click', function () {
+                                                                  goNextAgent();
+                                                                }, false);
+                                                            });
 													</script>
 												</cfif>
 												<cfif collectingImagesForCarousel.recordcount gt 0>
