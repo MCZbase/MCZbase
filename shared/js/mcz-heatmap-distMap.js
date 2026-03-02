@@ -179,12 +179,13 @@ function changeGradient() {
     ];
 	
     var altGradient = [
-      [193, 120, 250,  255], // purple
+      [193, 120, 250, 255], // purple
       [250,  22, 160,  98], // pink
       [224,  22, 250,  98],  // purple
       [250, 162,  22,  98], // light orange
       [250, 125,  22,  98], // orange
-      [250,  25,   0,  98] //bright orange 
+      [250,  25,   0,  98], //bright orange 
+      [255,  237, 27, 100] //bright orange 
     ];
 	
   // Check what we’re currently using
