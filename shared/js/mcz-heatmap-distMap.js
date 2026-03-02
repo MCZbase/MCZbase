@@ -165,24 +165,22 @@ function changeGradient() {
 
   var data = MCZ_CLEAN_DATA;
 
-  // Viridis-style (default)
+ // Default: blue → cyan (no yellow)
   var defaultGradient = [
-    [68,   1,  84,   0],
-    [68,   1,  84, 255],
-    [59,  82, 139, 255],
-    [33, 145, 140, 255],
-    [94, 201,  97, 255],
-    [253,231,  37, 255]
+    [  0,   0,  80,   0],  // transparent start
+    [  0,   0, 120, 255],
+    [  0,  60, 170, 255],
+    [  0, 130, 210, 255],
+    [ 80, 200, 255, 255]
   ];
 
-  // Cividis-style (alternate)
+  // Alternate: purple → blue (no yellow)
   var altGradient = [
-    [  0,  32,  77,   0],
-    [  0,  32,  77, 255],
-    [ 60,  78, 138, 255],
-    [123,122, 117, 255],
-    [187,165,  84, 255],
-    [255,206,  69, 255]
+    [ 40,   0,  70,   0],  // transparent start
+    [ 60,   0, 110, 255],
+    [ 80,  40, 140, 255],
+    [ 60,  80, 170, 255],
+    [ 40, 110, 200, 255]
   ];
 	
   // Check what we’re currently using
