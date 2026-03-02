@@ -165,15 +165,31 @@ function changeGradient() {
 
   var data = MCZ_CLEAN_DATA;
 
-  var defaultGradient = [
-    [  0,   0,  80,   0],  // transparent dark blue
-    [  0,   0, 120, 255],  // blue
-    [  0,  60, 170, 255],  // lighter blue
-    [255, 215,   0, 255],  // yellow (center)
-    [255, 140,   0, 255],  // orange
-    [200,   0,   0, 255]   // red
-  ];
-
+//  var defaultGradient = [
+//    [  0,   0,  80,   0],  // transparent dark blue
+//    [  0,   0, 120, 255],  // blue
+//    [  0,  60, 170, 255],  // lighter blue
+//    [255, 215,   0, 255],  // yellow (center)
+//    [255, 140,   0, 255],  // orange
+//    [200,   0,   0, 255]   // red
+//  ];
+   var defaultGradient = [
+      [0, 255, 255, 0],
+      [0, 255, 255, 255],
+      [0, 191, 255, 255],
+      [0, 127, 255, 255],
+      [0, 63, 255, 255],
+      [0, 0, 255, 255],
+      [0, 0, 223, 255],
+      [0, 0, 191, 255],
+      [0, 0, 159, 255],
+      [0, 0, 127, 255],
+      [63, 0, 91, 255],
+      [127, 0, 63, 255],
+      [191, 0, 31, 255],
+      [255, 0, 0, 255]
+   ];
+	
   // Alternate: purple → yellow/orange → blue
   var altGradient = [
     [ 40,   0,  70,   0],  // transparent purple
