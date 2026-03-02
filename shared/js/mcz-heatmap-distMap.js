@@ -182,7 +182,8 @@ function changeGradient() {
       [229, 255, 25, 60], // light green
       [229, 255, 25, 255], // light green
       [225, 185, 72], // light brown
-      [218, 141, 53],
+      [218, 141, 53], //orange brown
+      [228, 175, 109, 255],// light orange brown
       [254, 234, 25], // yellow
       [254, 189,  3],  // orange
       [252, 127,  1], // dark orange
