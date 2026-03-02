@@ -180,11 +180,11 @@ function changeGradient() {
 	
   // Alternate: purple → yellow/orange → blue
   var altGradient = [
-    [ 40,   0,  70,   0],  // transparent purple
-    [ 60,   0, 110, 255],  // purple
-    [255, 215,   0, 255],  // yellow (gold)
-    [255, 140,   0, 255],  // orange
-    [ 40, 110, 200, 255]   // blue
+   [150, 100, 180,  60],  // light purple, faint (low density)
+   [190, 140, 210, 255],  // light/mid purple
+   [255, 215,   0, 255],  // yellow (gold)
+   [255, 140,   0, 255],  // orange
+   [ 40, 110, 200, 255]   // blue
   ];
 	
   // Check what we’re currently using
