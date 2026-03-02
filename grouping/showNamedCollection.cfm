@@ -510,120 +510,183 @@ limitations under the License.
 									join underscore_relation u on u.collection_object_id = flat.collection_object_id
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>
-								<cfif points.recordcount gt 0>
-									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-									<section class="heatmap mt-2 float-left w-100">
-										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-										<script>
-										let map, heatmap;
-										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-											var bounds = new google.maps.LatLngBounds(sw, ne);
-											for (i = 0; i < bounds.length; i++) {
-												if (bounds[i].lat != " ") {
-													var weightedLoc = {
-														location: new google.maps.LatLng(#points2.minlat#,#points2.minlong#),
-														weight: parseFloat(bounds[i].Intensity)
-													};
-													heat.push(weightedLoc);
-												} 
-											}
-											var centerpoint = weightedLoc;
-											var mapOptions = {
-												zoom: 1,
-												minZoom: 1,
-												maxZoom: 13,
-												center: centerpoint,
-												controlSize: 20,
-												mapTypeId: "hybrid",
-											};
-											map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                                <!---<cfif points.recordcount gt 0>
+                                    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+                                    <section class="heatmap mt-2 float-left w-100">
+                                        <script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+                                        <script>
+                                        let map, heatmap;
+                                        function initMap() {
+                                            var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+                                            var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+                                            var bounds = new google.maps.LatLngBounds(sw, ne);
+                                            for (i = 0; i < bounds.length; i++) {
+                                                if (bounds[i].lat != " ") {
+                                                    var weightedLoc = {
+                                                        location: new google.maps.LatLng(#points2.minlat#,#points2.minlong#),
+                                                        weight: parseFloat(bounds[i].Intensity)
+                                                    };
+                                                    heat.push(weightedLoc);
+                                                } 
+                                            }
+                                            var centerpoint = weightedLoc;
+                                            var mapOptions = {
+                                                zoom: 1,
+                                                minZoom: 1,
+                                                maxZoom: 13,
+                                                center: centerpoint,
+                                                controlSize: 20,
+                                                mapTypeId: "hybrid",
+                                            };
+                                            map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-											} else {
-												google.maps.event.addListener(map,'bounds_changed',function(){
-												//var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
-												bounds.extend(extendPoint3);
-												bounds.extend(extendPoint4);
-												});
-											}
-											map.fitBounds(bounds);
+                                            if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+                                                var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+                                                var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+                                                bounds.extend(extendPoint1);
+                                                bounds.extend(extendPoint2);
+                                            } else {
+                                                google.maps.event.addListener(map,'bounds_changed',function(){
+                                                //var bounds = map.getBounds();
+                                                var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+                                                var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
+                                                bounds.extend(extendPoint3);
+                                                bounds.extend(extendPoint4);
+                                                });
+                                            }
+                                            map.fitBounds(bounds);
 
-											heatmap = new google.maps.visualization.HeatmapLayer({
-												data: getPoints(),
-												map: map,
-											});
-													document
-														.getElementById("toggle-heatmap")
-														.addEventListener("click", toggleHeatmap);
-													document
-														.getElementById("change-gradient")
-														.addEventListener("click", changeGradient);
-													document
-														.getElementById("change-opacity")
-														.addEventListener("click", changeOpacity);
-													document
-														.getElementById("change-radius")
-														.addEventListener("click", changeRadius);
-											}
-											function toggleHeatmap(){
-												heatmap.setMap(heatmap.getMap() ? null : map);
-											}
-											function changeGradient() {
-												const gradient = [
-													"rgba(0, 255, 255, 0)",
-													"rgba(0, 255, 255, 1)",
-													"rgba(0, 191, 255, 1)",
-													"rgba(0, 127, 255, 1)",
-													"rgba(0, 63, 255, 1)",
-													"rgba(0, 0, 255, 1)",
-													"rgba(0, 0, 223, 1)",
-													"rgba(0, 0, 191, 1)",
-													"rgba(0, 0, 159, 1)",
-													"rgba(0, 0, 127, 1)",
-													"rgba(63, 0, 91, 1)",
-													"rgba(127, 0, 63, 1)",
-													"rgba(191, 0, 31, 1)",
-													"rgba(255, 0, 0, 1)",
-												];
-												heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-											}
-											function changeRadius() {
-												heatmap.set("radius", heatmap.get("radius") ? null : 20);
-											}
-											function changeOpacity() {
-												heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-											}
-										function getPoints() {
-											return [
-												<cfloop query="points">
-													new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
-												</cfloop>
-											]
-										}
-									</script>
-										<div class="col-12 px-0 float-left">
-											<div class="border rounded px-1 mx-1 pb-1">
-												<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
-												<div id="map" class="w-100 rounded"></div>
-												<div id="floating-panel" class="w-100 mx-auto">
-													<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
-													<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
-													<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
-													<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
-												</div>
-											</div>
-										</div>
-										<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-									</section><!--- end heat map--->
-								</cfif>
+                                            heatmap = new google.maps.visualization.HeatmapLayer({
+                                                data: getPoints(),
+                                                map: map,
+                                            });
+                                                    document
+                                                        .getElementById("toggle-heatmap")
+                                                        .addEventListener("click", toggleHeatmap);
+                                                    document
+                                                        .getElementById("change-gradient")
+                                                        .addEventListener("click", changeGradient);
+                                                    document
+                                                        .getElementById("change-opacity")
+                                                        .addEventListener("click", changeOpacity);
+                                                    document
+                                                        .getElementById("change-radius")
+                                                        .addEventListener("click", changeRadius);
+                                            }
+                                            function toggleHeatmap(){
+                                                heatmap.setMap(heatmap.getMap() ? null : map);
+                                            }
+                                            function changeGradient() {
+                                                const gradient = [
+                                                    "rgba(0, 255, 255, 0)",
+                                                    "rgba(0, 255, 255, 1)",
+                                                    "rgba(0, 191, 255, 1)",
+                                                    "rgba(0, 127, 255, 1)",
+                                                    "rgba(0, 63, 255, 1)",
+                                                    "rgba(0, 0, 255, 1)",
+                                                    "rgba(0, 0, 223, 1)",
+                                                    "rgba(0, 0, 191, 1)",
+                                                    "rgba(0, 0, 159, 1)",
+                                                    "rgba(0, 0, 127, 1)",
+                                                    "rgba(63, 0, 91, 1)",
+                                                    "rgba(127, 0, 63, 1)",
+                                                    "rgba(191, 0, 31, 1)",
+                                                    "rgba(255, 0, 0, 1)",
+                                                ];
+                                                heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+                                            }
+                                            function changeRadius() {
+                                                heatmap.set("radius", heatmap.get("radius") ? null : 20);
+                                            }
+                                            function changeOpacity() {
+                                                heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+                                            }
+                                        function getPoints() {
+                                            return [
+                                                <cfloop query="points">
+                                                    new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
+                                                </cfloop>
+                                            ]
+                                        }
+                                    </script>
+                                        <div class="col-12 px-0 float-left">
+                                            <div class="border rounded px-1 mx-1 pb-1">
+                                                <h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
+                                                <div id="map" class="w-100 rounded"></div>
+                                                <div id="floating-panel" class="w-100 mx-auto">
+                                                    <button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
+                                                    <button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
+                                                    <button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
+                                                    <button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+                                    </section><!--- end heat map--->--->
+                                <cfif points.recordcount gt 0>
+                                  <section class="heatmap mt-2 float-left w-100">
+
+                                    <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
+                                    <script>
+                                      window.MCZ_BOUNDS = {
+                                        minlat: #points2.minlat#,
+                                        minlong: #points2.minlong#,
+                                        maxlat: #points2.maxlat#,
+                                        maxlong: #points2.maxlong#
+                                      };
+
+                                      window.MCZ_HEATMAP_DATA = [
+                                        <cfloop query="points">
+                                          {
+                                            latitude: #points.Latitude#,
+                                            longitude: #points.Longitude#,
+                                            weight: 1
+                                          }<cfif currentrow LT recordcount>,</cfif>
+                                        </cfloop>
+                                      ];
+
+                                      // Use the shared initMap from /shared/js/mcz-heatmap.js
+                                      window.onload = function () {
+                                        if (typeof initMap === 'function') {
+                                          initMap();
+                                        } else {
+                                          console.error("window.onload: initMap is not defined");
+                                        }
+                                      };
+                                    </script>
+
+                                    <div class="col-12 px-0 float-left">
+                                      <div class="border rounded px-1 mx-1 pb-1">
+                                        <h2 class="px-3 text-center pt-2">
+                                          Heat Map of Georeferenced Specimen Locations
+                                        </h2>
+
+                                        <!-- Map container: needs explicit height -->
+                                        <div id="map"
+                                             class="w-100 rounded"
+                                             style="height: 300px;"
+                                             aria-label="Map of georeferenced specimen locations">
+                                        </div>
+
+                                        <!-- Controls: use the same IDs the shared JS expects -->
+                                        <div id="floating-panel" class="w-100 mx-auto">
+                                          <button id="toggle-view"
+                                                  class="mt-1 border-info rounded"
+                                                  aria-label="Toggle between heatmap and point distribution views">
+                                            Map View
+                                          </button>
+                                          <button id="change-gradient"
+                                                  class="mt-1 border-info rounded"
+                                                  aria-label="Toggle heatmap color scheme">
+                                            Heatmap Color
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </section>
+                                </cfif>
+
 
 								<section class="otherImages float-left w-100 mt-4">
 									<div class="other-images">
