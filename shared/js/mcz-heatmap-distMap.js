@@ -179,11 +179,11 @@ function changeGradient() {
     ];
 	
     var altGradient = [
-       [ 91, 101, 172, 100], //deep bright blue
+       [ 91, 101, 172, 150], //deep bright blue
       // very low density: very faint light purple
-      [140, 100, 180, 125],   // light purple, mostly transparent
+      [140, 100, 180, 160],   // light purple, mostly transparent
       // low density: light/mid purple
-      [160, 110, 190, 150],
+      [160, 110, 190, 180],
       [180, 130, 200, 200],
       // mid densities: yellowish
       [220, 180,  40, 255],   // yellow‑orange
