@@ -868,10 +868,10 @@ limitations under the License.
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               	<span class="text-left d-block float-left">Collecting Event Map</span>
-                                              	<button id="change-gradient" aria-label="toggle between heatmap and points" class="border mt-2 ml-2 py-0 rounded btn-xs btn small float-right">
+                                              	<button id="change-gradient" aria-label="toggle between heatmap and points" class="border mt-2 ml-2 py-0 rounded btn-xs btn small float-right"   title="Toggle heatmap color scheme">
                                                   Color
                                           		</button>
-												<button id="toggle-view" aria-label="toggle heatmap color scheme" class="border mt-2 mx-2 py-0 rounded btn-xs btn small float-right">
+												<button id="toggle-view" aria-label="toggle heatmap color scheme" class="border mt-2 mx-2 py-0 rounded btn-xs btn small float-right" title="Toggle between heatmap and point distribution">
                                              	  View
                                               	</button>
                                               	
