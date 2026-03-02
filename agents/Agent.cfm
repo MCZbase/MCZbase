@@ -868,12 +868,13 @@ limitations under the License.
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               	<span class="text-left d-block float-left">Collecting Event Map</span>
-                                              	<button id="toggle-view" class="border mt-2 py-0 rounded btn-xs btn small float-right mr-2">
-                                             	  Toggle Heatmap / Points
-                                              	</button>
-                                              	<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">
+                                              	<button id="change-gradient" class="border mt-2 ml-2 py-0 rounded btn-xs btn small float-right">
                                                   Toggle Heatmap Color
                                           		</button>
+												<button id="toggle-view" class="border mt-2 mx-2 py-0 rounded btn-xs btn small float-right">
+                                             	  Toggle Heatmap / Points
+                                              	</button>
+                                              	
                                           	</div>
                                      	</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
