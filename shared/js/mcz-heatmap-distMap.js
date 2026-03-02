@@ -162,7 +162,7 @@ function changeGradient() {
     var data = MCZ_CLEAN_DATA;
 
    var defaultGradient = [
-      [0, 255, 255, 0],
+      [0, 255, 255, 60],
       [0, 255, 255, 255],
       [0, 191, 255, 255],
       [0, 127, 255, 255],
@@ -197,27 +197,16 @@ function changeGradient() {
     current[0][0] === altGradient[0][0] &&
     current[0][1] === altGradient[0][1];
 
-//  var newGradient, newRadius, newIntensity;
-//
-  if (usingAlt) {
-//    // Switch back to default: slightly smaller radius/intensity
-   newGradient  = defaultGradient;
-//    newRadius    = 30;
-//    newIntensity = 1;
-  } else {
-//    // Switch to orange/red: make it "spread" more
-   newGradient  = altGradient;
-//    newRadius    = 30;   // was 30
-//    newIntensity = 1;  // was 1
-  }
-
+  var newGradient  = usingAlt ? defaultGradient : altGradient;
+  var newRadius    = 25;
+  var newIntensity = 1.5;
+    
+    
   heatmapLayer = new deck.HeatmapLayer({
     id: 'mcz-heatmap',
     data: data,
     getPosition: function (d) { return [d.longitude, d.latitude]; },
     getWeight: function (d) { return d.weight || 1; },
-    radiusPixels: 25,
-    intensity: 1.5,
     threshold: 0.0,
     opacity: 0.9,
     colorRange: newGradient
