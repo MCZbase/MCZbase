@@ -836,49 +836,48 @@ limitations under the License.
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
-				
 									<div class="heatmap">
-									<script>
-                                      window.MCZ_BOUNDS = {
-                                        minlat: #points2.minlat#,
-                                        minlong: #points2.minlong#,
-                                        maxlat: #points2.maxlat#,
-                                        maxlong: #points2.maxlong#
-                                      };
+										<script>
+                                      	window.MCZ_BOUNDS = {
+											minlat: #points2.minlat#,
+                                        	minlong: #points2.minlong#,
+                                        	maxlat: #points2.maxlat#,
+                                        	maxlong: #points2.maxlong#
+										};
 
-                                      window.MCZ_HEATMAP_DATA = [
-                                        <cfloop query="points">
-                                          {
-                                            latitude: #points.Latitude#,
-                                            longitude: #points.Longitude#,
-                                            weight: 1
-                                          }<cfif currentrow LT recordcount>,</cfif>
-                                        </cfloop>
-                                      ];
+                                      	window.MCZ_HEATMAP_DATA = [
+                                        	<cfloop query="points">
+                                          	{
+												latitude: #points.Latitude#,
+                                            	longitude: #points.Longitude#,
+												weight: 1
+                                          	}<cfif currentrow LT recordcount>,</cfif>
+                                        	</cfloop>
+                                      	];
 
-                                      window.onload = function () {
-                                        if (typeof initMap === 'function') {
-                                          initMap();
-                                        } else {
-                                          console.error("window.onload: initMap is not defined");
-                                        }
-                                      };
-                                    </script>
+                                      	window.onload = function () {
+                                        	if (typeof initMap === 'function') {
+                                          	initMap();
+                                        	} else {
+                                          	console.error("window.onload: initMap is not defined");
+                                        	}
+                                      	};
+                                    	</script>
 								
-                                     <div class="p-0 mx-1">
-                                          <div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
-                                          <div id="floating-panel" class="w-100 mx-auto">
-                                              <span class="text-left d-block float-left">Collecting Event Map</span>
-                                              <button id="toggle-view" class="border mt-2 py-0 rounded btn-xs btn small float-right mr-2">
-                                              Toggle Heatmap / Points
-                                              </button>
-                                              <button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">
+                                     	<div class="p-0 mx-1">
+                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
+                                          	<div id="floating-panel" class="w-100 mx-auto">
+                                              	<span class="text-left d-block float-left">Collecting Event Map</span>
+                                              	<button id="toggle-view" class="border mt-2 py-0 rounded btn-xs btn small float-right mr-2">
+                                             	  Toggle Heatmap / Points
+                                              	</button>
+                                              	<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">
                                                   Toggle Heatmap Color
-                                          </button>
-                                          </div>
-                                     </div>
-									
-									<!--Async script executes immediately and must be after any DOM elements used in callback.-->
+                                          		</button>
+                                          	</div>
+                                     	</div>
+										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
+									</div>
 								</div>
 							</section>
 							</cfif>
