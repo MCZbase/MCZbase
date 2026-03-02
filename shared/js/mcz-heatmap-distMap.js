@@ -191,9 +191,9 @@ function changeGradient() {
       // mid‑high: cyan-ish transition toward blue
      // [ 50, 190, 230, 255],   // teal/cyan
       // high density: bright blues
-      [  0, 150, 255, 255],   // bright sky blue
+     // [  0, 150, 255, 255],   // bright sky blue
       [  0, 110, 255, 255],   // strong blue
-      [  0, 234, 199, 255]    // deep bright blue
+      [  210, 31, 184, 255]    // deep bright blue
     ];
 	
   // Check what we’re currently using
