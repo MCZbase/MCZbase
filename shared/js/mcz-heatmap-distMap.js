@@ -147,7 +147,7 @@ function toggleView() {
       getPosition: function (d) { return [d.longitude, d.latitude]; },
       getWeight: function (d) { return d.weight || 1; },
       radiusPixels: 10,
-      intensity: 1.5,
+      intensity: 1.8,
       threshold: 0.00,
       opacity: 0.9,
       colorRange: existingRange
@@ -211,7 +211,7 @@ function changeGradient() {
     getPosition: function (d) { return [d.longitude, d.latitude]; },
     getWeight: function (d) { return d.weight || 1; },
     radiusPixels: 10,
-    intensity: 1.5,
+    intensity: 1.8,
     threshold: 0.0,
     opacity: 0.9,
     colorRange: newGradient
