@@ -13,10 +13,10 @@ var MCZ_CLEAN_DATA = null;     // sanitized data array
 
 function initMap() {
   // Expect these globals from the CF page
-  if (!window.MCZ_HEATMAP_DATA || !window.MCZ_BOUNDS) {
-    console.error("initMap: Missing MCZ_HEATMAP_DATA or MCZ_BOUNDS");
-    return;
-  }
+//  if (!window.MCZ_HEATMAP_DATA || !window.MCZ_BOUNDS) {
+//    console.error("initMap: Missing MCZ_HEATMAP_DATA or MCZ_BOUNDS");
+//    return;
+//  }
 
   // Set up map bounds and center from MCZ_BOUNDS
   var ne = new google.maps.LatLng(MCZ_BOUNDS.maxlat, MCZ_BOUNDS.maxlong);
@@ -65,11 +65,11 @@ function initMap() {
 
   MCZ_CLEAN_DATA = data;
 
-  console.log("initMap: raw points =", raw.length, "valid points =", data.length);
+ // console.log("initMap: raw points =", raw.length, "valid points =", data.length);
 
-  if (!data.length) {
-    console.error("initMap: No valid points for heatmap");
-  }
+//  if (!data.length) {
+//    console.error("initMap: No valid points for heatmap");
+//  }
 
   currentView = 'heatmap';
   overlay.setProps({ layers: [] });
@@ -87,21 +87,21 @@ function initMap() {
 
   // Start in heatmap view
   toggleView(); // first call: builds and shows heatmap
-  console.log("initMap: initialized, starting in heatmap view");
+ // console.log("initMap: initialized, starting in heatmap view");
 }
 
 function toggleView() {
-  if (!overlay || !MCZ_CLEAN_DATA) {
-    console.error("toggleView: overlay or data not ready");
-    return;
-  }
+//  if (!overlay || !MCZ_CLEAN_DATA) {
+//    console.error("toggleView: overlay or data not ready");
+//    return;
+//  }
 
   var data = MCZ_CLEAN_DATA;
 
   if (currentView === 'heatmap') {
     // Switch to points
     currentView = 'points';
-    console.log("toggleView: switching to points");
+   // console.log("toggleView: switching to points");
 
     pointLayer = new deck.ScatterplotLayer({
       id: 'mcz-points',
@@ -118,7 +118,7 @@ function toggleView() {
   } else {
     // Switch to heatmap
     currentView = 'heatmap';
-    console.log("toggleView: switching to heatmap");
+ //   console.log("toggleView: switching to heatmap");
 
     var defaultGradient = [
       [0, 255, 255, 60],
@@ -222,5 +222,5 @@ function changeGradient() {
     overlay.setProps({ layers: [heatmapLayer] });
   }
 
-  console.log("changeGradient: updated gradient, radius =", newRadius, "intensity =", newIntensity);
+  //console.log("changeGradient: updated gradient, radius =", newRadius, "intensity =", newIntensity);
 }
