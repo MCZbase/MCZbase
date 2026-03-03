@@ -162,6 +162,7 @@ limitations under the License.
 <!--- media zoom on hover library --->
 <script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>
 <link rel="stylesheet" href="/lib/misc/multizoom/multizoom.css">
+<!---Heatmap and Point distribution Map (deckgl and Google)--->
 <cfif CGI.script_name IS "/agents/Agent.cfm" OR CGI.script_name IS "/grouping/showNamedCollection.cfm">
     <!--
       Note: We deliberately load the Google Maps JS API synchronously (no async/callback)
