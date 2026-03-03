@@ -184,6 +184,7 @@ function changeGradient() {
       [229, 255,  200, 255], // light blue
       [225, 209,  82, 255], // light orange
       [255, 165,  61, 255], // medium orange
+      [255, 169,  61, 255], // medium orange
       [255,  57, 122, 255],// hot pink
       [255,  57, 120, 255],// hot pink
       [255, 128,   20, 255], // dark orange
