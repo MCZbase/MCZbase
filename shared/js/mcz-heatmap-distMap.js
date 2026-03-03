@@ -180,8 +180,8 @@ function changeGradient() {
 	
     var altGradient = [
       [229, 255,  25, 60], // light green
-      [229, 255,  0, 255], // light green-yellow
       [229, 255,  25, 255], // light green-yellow
+      [229, 255,  200, 255], // light blue
       [225, 209,  82, 255], // light orange
       [255, 165,  61, 255], // medium orange
       [255,  57, 122, 255],// hot pink
