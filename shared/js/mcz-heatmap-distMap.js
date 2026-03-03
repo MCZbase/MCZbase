@@ -179,7 +179,7 @@ function changeGradient() {
     ];
 	
     var altGradient = [
-      [229, 255,  25, 60], // light green-yellow
+     // [229, 255,  25, 60], // light green-yellow
       [229, 255,  25, 255], // light green
       [255, 165,  61, 255], // orange
       [255, 105,   0, 255], // dark orange
