@@ -878,7 +878,7 @@ limitations under the License.
                                                       <option value="points">Points</option>
                                                     </select>
 
-                                                    <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
+                                                    <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary float-left ml-1" aria-label="Toggle heatmap color scheme">
                                                       Color
                                                     </button>  
                                                 </div>
