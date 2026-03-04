@@ -834,7 +834,7 @@ limitations under the License.
 								and collector_role='c'
 							</cfquery>
                             <style>
-                              #view-mode {
+                              ##view-mode {
                                 font-size: 0.875rem;   /* same as .btn-sm in Bootstrap 4/5 */
                                 line-height: 1.5;
                               }
