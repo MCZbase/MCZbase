@@ -871,14 +871,13 @@ limitations under the License.
                                               
                                                 <div class="float-left">
                                                     <select id="view-mode"
-                                                            class="mt-1 data-entry-select float-left"
-                                                            aria-label="Select map view mode"
-                                                            style="background:##d7d7d7;border: 1px solid hsl(0,2%,47%);display:inline-block;">
+                                                            class="mt-1 btn btn-xs btn-secondary"
+                                                            aria-label="Select map view mode">
                                                       <option value="heatmap">Heatmap</option>
                                                       <option value="points">Points</option>
                                                     </select>
 
-                                                    <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary float-left ml-1" aria-label="Toggle heatmap color scheme">
+                                                    <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
                                                       Color
                                                     </button>  
                                                 </div>
