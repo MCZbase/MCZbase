@@ -420,7 +420,7 @@ limitations under the License.
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="hidden" id="max_img_count">#specimenImagesForCarousel.recordcount#</div>
 									<section class="imagesLeft">
-										<div class="col-12 px-1">
+										<div class="col-12 float-left px-0">
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImagesForCarousel.recordcount# Specimen Images</h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
@@ -544,7 +544,7 @@ limitations under the License.
                                     </script>
 
                                     <div class="col-12 px-0">
-                                      <div class="border float-left col-12 rounded px-2 mx-1 pb-1">
+                                      <div class="border float-left col-12 rounded px-2 pb-1">
                                         <h2 class="px-3 text-center pt-2">
                                           Heat Map of Georeferenced Specimen Locations
                                         </h2>
