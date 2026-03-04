@@ -502,6 +502,8 @@ limitations under the License.
 										</script>
 									</section><!--- end specimen images --->
 								</cfif>
+                                                
+                                                
 								<!---  occurrence map --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points2_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(0,24,0,0)#">
 									SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
@@ -542,8 +544,7 @@ limitations under the License.
                                     </script>
 
                                     <div class="col-12 px-0">
-                                      <!-- IMPORTANT: no float-left on the card -->
-                                      <div class="border col-12 rounded px-1 mx-1 pb-1">
+                                      <div class="border float-left col-12 rounded px-1 mx-1 pb-1">
                                         <h2 class="px-3 text-center pt-2">
                                           Heat Map of Georeferenced Specimen Locations
                                         </h2>
