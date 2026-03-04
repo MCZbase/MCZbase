@@ -873,7 +873,7 @@ limitations under the License.
                                                     <select id="view-mode"
                                                             class="mt-1 data-entry-select float-left"
                                                             aria-label="Select map view mode"
-                                                            >
+                                                            style="background:##d7d7d7;border: 1px solid hsl(0,2%,47%);display:inline-block;">
                                                       <option value="heatmap">Heatmap</option>
                                                       <option value="points">Points</option>
                                                     </select>
