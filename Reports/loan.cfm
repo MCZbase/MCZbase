@@ -1248,7 +1248,7 @@ limitations under the License.
 						</cfloop>
 					</table>
 					<cfif getLoanItemsLoop.recordcount EQ 0>
-						<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
+						<div style="#font# font-size: 1em; margin-bottom: 2em;">
 							No Cataloged Items Included, See Nature of Material for Details. 
 						</div>
 					</cfif>
