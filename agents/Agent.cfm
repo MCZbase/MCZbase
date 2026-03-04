@@ -835,7 +835,7 @@ limitations under the License.
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
-								<div class="card mb-2 py-1 bg-light border">
+								<div class="card mb-2 py-1 bg-light">
 									<div class="heatmap">
                                         <script>
                                           window.MCZ_BOUNDS = {
@@ -865,11 +865,11 @@ limitations under the License.
                                         </script>
 								
                                      	<div class="p-0 mx-1">
-                                            <h4 class="text-left d-block headerLnk mx-2 mt-0 mb-1">Collecting Event Map</h4>
+                                            <h4 class="text-left d-block headerLnk mx-2 mt-0 mb-1 float-left">Collecting Event Map</h4>
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               
-                                                <div class="float-left">
+                                                <div class="float-left w=50">
                                                     <select id="view-mode"
                                                             class="mt-1 btn btn-xs btn-secondary"
                                                             aria-label="Select map view mode">
