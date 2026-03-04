@@ -414,7 +414,7 @@ limitations under the License.
 										(#getSubloanCount.item_ct# specimen#plural#)
 									</cfloop>
 									<cfif getSubloans.recordcount EQ 0>
-										#getSubloan.collection# #getSubloans.loan_number# (no cataloged items)
+										#getSubloan.collection# #getSubloans.loan_number# (see Nature of Material)
 									</cfif>
 								</div>
 							</cfloop>
