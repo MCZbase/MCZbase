@@ -868,16 +868,18 @@ limitations under the License.
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               	<span class="text-left d-block mt-1 float-left">Collecting Event Map</span>
-                                                <select id="view-mode"
-                                                        class="mt-1 btn btn-xs btn-secondary"
-                                                        aria-label="Select map view mode">
-                                                  <option value="heatmap">Heatmap</option>
-                                                  <option value="points">Points</option>
-                                                </select>
+                                                <div class="float-right w=50">
+                                                    <select id="view-mode"
+                                                            class="mt-1 btn btn-xs btn-secondary"
+                                                            aria-label="Select map view mode">
+                                                      <option value="heatmap">Heatmap</option>
+                                                      <option value="points">Points</option>
+                                                    </select>
 
-                                                <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
-                                                  Color
-                                                </button>        	
+                                                    <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
+                                                      Color
+                                                    </button>  
+                                                </div>
                                           	</div>
                                      	</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
