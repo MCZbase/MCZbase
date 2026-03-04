@@ -45,10 +45,13 @@ limitations under the License.
 	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			loan.transaction_id, 
-			loan.loan_number
+			loan.loan_number,
+			collection.collection
 		FROM
 			loan_relations
 			join loan on loan_relations.related_transaction_id = loan.transaction_id
+			join trans on loan.transaction_id = trans.transaction_id	
+			join collection on trans.collection_id = collection.collection_id
 		WHERE
 			loan_relations.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			AND
@@ -410,6 +413,9 @@ limitations under the License.
 										<cfif getSubloanCount.item_ct EQ 1><cfset plural = ""><cfelse><cfset plural = "s"></cfif>
 										(#getSubloanCount.item_ct# specimen#plural#)
 									</cfloop>
+									<cfif getSubloanCount.recordcount EQ 0 >
+										#getSubloans.collection# #getSubloans.loan_number# (see Nature of Material)
+									</cfif>
 								</div>
 							</cfloop>
 							<!--- div style="#font# font-size: 1em;">
@@ -1241,6 +1247,11 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + 1>
 						</cfloop>
 					</table>
+					<cfif getLoanItemsLoop.recordcount EQ 0>
+						<div style="#font# font-size: 1em; margin-bottom: 2em;">
+							No Cataloged Items Encluded, See Nature of Material for Details. 
+						</div>
+					</cfif>
 					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
