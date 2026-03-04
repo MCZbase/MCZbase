@@ -833,6 +833,12 @@ limitations under the License.
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								and collector_role='c'
 							</cfquery>
+                            <style>
+                              #view-mode {
+                                font-size: 0.875rem;   /* same as .btn-sm in Bootstrap 4/5 */
+                                line-height: 1.5;
+                              }
+                            </style>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
@@ -870,7 +876,7 @@ limitations under the License.
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                                  <div class="float-left">
                                                     <select id="view-mode"
-                                                            class="mt-1 btn btn-xs btn-secondary text-left small95"
+                                                            class="mt-1 btn btn-xs btn-secondary text-left"
                                                             aria-label="Select map view mode">
                                                       <option value="heatmap">Heatmap</option>
                                                       <option value="points">Points</option>
