@@ -545,35 +545,36 @@ limitations under the License.
 
                                         <div class="col-12 px-0 float-left">
                                             <div class="border rounded px-1 mx-1 pb-1">
-                                                    <h2 class="px-3 text-center pt-2">
-                                                      Heat Map of Georeferenced Specimen Locations
-                                                    </h2>
+                                                <h2 class="px-3 text-center pt-2">
+                                                Heat Map of Georeferenced Specimen Locations
+                                                </h2>
 
-                                                    <!-- Map container: needs explicit height -->
-                                                    <div id="map"
-                                                         class="w-100 rounded"
-                                                         style="height: 600px;"
-                                                         aria-label="Map of georeferenced specimen locations">
+                                                <!-- Map container: needs explicit height -->
+                                                <div id="map"
+                                                    class="w-100 rounded"
+                                                    style="height: 600px;"
+                                                    aria-label="Map of georeferenced specimen locations">
+                                                </div>
+                                                <!-- Controls: use the same IDs the shared JS expects -->
+                                                <div id="floating-panel" class="w-100 mx-auto">
+
+                                                    <div class="float-left w=50">
+                                                        <select id="view-mode"
+                                                            class="mt-1 btn btn-xs btn-secondary"
+                                                            aria-label="Select map view mode">
+                                                            <option value="heatmap">Heatmap</option>
+                                                            <option value="points">Points</option>
+                                                        </select>
+
+                                                        <button id="change-gradient" 
+                                                            class="mt-1 btn btn-xs btn-secondary" 
+                                                            aria-label="Toggle heatmap color scheme">
+                                                            Color
+                                                        </button>  
                                                     </div>
-
-                                                    <!-- Controls: use the same IDs the shared JS expects -->
-                                                    <div id="floating-panel" class="w-100 mx-auto">
-                                                        
-                                                        <div class="float-right w=50">
-                                                            <select id="view-mode"
-                                                                    class="mt-1 btn btn-xs btn-secondary"
-                                                                    aria-label="Select map view mode">
-                                                              <option value="heatmap">Heatmap</option>
-                                                              <option value="points">Points</option>
-                                                            </select>
-
-                                                            <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
-                                                              Color
-                                                            </button>  
-                                                        </div>
-                                                   </div>
-                                               </div>
-                                           </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                      </section>
                                </cfif>
 
