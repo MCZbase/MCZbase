@@ -558,7 +558,7 @@ limitations under the License.
 
                                                     <!-- Controls: use the same IDs the shared JS expects -->
                                                     <div id="floating-panel" class="w-100 mx-auto">
-                                                        <h2 class="text-left d-block mt-1 float-left">Collecting Event Map</span>
+                                                        
                                                         <div class="float-right w=50">
                                                             <select id="view-mode"
                                                                     class="mt-1 btn btn-xs btn-secondary"
