@@ -865,7 +865,7 @@ limitations under the License.
                                         </script>
 								
                                      	<div class="p-0 mx-1">
-                                            <h2 class="text-left d-block mt-1 float-left">Collecting Event Map</h2>
+                                            <h2 class="text-left d-block mx-2 mt-0 float-left">Collecting Event Map</h2>
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               
