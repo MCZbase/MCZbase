@@ -869,16 +869,14 @@ limitations under the License.
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               	<span class="text-left d-block mt-1 float-left">Collecting Event Map</span>
                                                 <select id="view-mode"
-                                                        class="mt-1 border-info rounded"
+                                                        class="mt-1 btn btn-xs btn-secondary"
                                                         aria-label="Select map view mode">
                                                   <option value="heatmap">Heatmap</option>
                                                   <option value="points">Points</option>
                                                 </select>
 
-                                                <button id="change-gradient"
-                                                        class="mt-1 border-info rounded"
-                                                        aria-label="Toggle heatmap color scheme">
-                                                  Heatmap Color
+                                                <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
+                                                  Color
                                                 </button>        	
                                           	</div>
                                      	</div>
