@@ -513,7 +513,6 @@ limitations under the License.
 
                                 <cfif points.recordcount gt 0>
                                   <section class="heatmap mt-2 w-100">
-
                                     <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
                                     <script>
                                       window.MCZ_BOUNDS = {
@@ -544,7 +543,7 @@ limitations under the License.
 
                                     <div class="col-12 px-0">
                                       <!-- IMPORTANT: no float-left on the card -->
-                                      <div class="border rounded px-1 mx-1 pb-1">
+                                      <div class="border col-12 rounded px-1 mx-1 pb-1">
                                         <h2 class="px-3 text-center pt-2">
                                           Heat Map of Georeferenced Specimen Locations
                                         </h2>
@@ -555,11 +554,8 @@ limitations under the License.
                                              style="height: 600px;"
                                              aria-label="Map of georeferenced specimen locations">
                                         </div>
-
                                         <!-- Controls: use the same IDs the shared JS expects -->
-                                        <div id="floating-panel" class="w-100 mx-auto pt-2">
-                                          <!-- no float-left, no w=50 -->
-                                          <div>
+                                        <div id="floating-panel" class="w-100 mx-auto pt-1">
                                             <select id="view-mode"
                                                     class="mt-1 btn btn-xs btn-secondary text-left"
                                                     aria-label="Select map view mode">
@@ -572,7 +568,6 @@ limitations under the License.
                                                     aria-label="Toggle heatmap color scheme">
                                               Color
                                             </button>
-                                          </div>
                                         </div>
                                       </div>
                                     </div>
