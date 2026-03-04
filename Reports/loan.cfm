@@ -413,7 +413,7 @@ limitations under the License.
 										<cfif getSubloanCount.item_ct EQ 1><cfset plural = ""><cfelse><cfset plural = "s"></cfif>
 										(#getSubloanCount.item_ct# specimen#plural#)
 									</cfloop>
-									<cfif getSubloanCount.recordcount EQ 0>
+									<cfif getSubloanCount.recordcount EQ 0 OR getSubloanCount.recordcount EQ 1 and getSubloanCount.lot_ct EQ 0>
 										#getSubloan.collection# #getSubloans.loan_number# (see Nature of Material)
 									</cfif>
 								</div>
