@@ -871,7 +871,7 @@ limitations under the License.
                                               
                                                 <div class="float-left">
                                                     <select id="view-mode"
-                                                            class="mt-1 btn btn-xs btn-secondary"
+                                                            class="mt-1 btn btn-xs btn-secondary text-left"
                                                             aria-label="Select map view mode">
                                                       <option value="heatmap">Heatmap</option>
                                                       <option value="points">Points</option>
