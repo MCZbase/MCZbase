@@ -837,44 +837,49 @@ limitations under the License.
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
 									<div class="heatmap">
-										<script>
-                                      	window.MCZ_BOUNDS = {
-											minlat: #points2.minlat#,
-                                        	minlong: #points2.minlong#,
-                                        	maxlat: #points2.maxlat#,
-                                        	maxlong: #points2.maxlong#
-										};
+                                        <script>
+                                          window.MCZ_BOUNDS = {
+                                            minlat: #points2.minlat#,
+                                            minlong: #points2.minlong#,
+                                            maxlat: #points2.maxlat#,
+                                            maxlong: #points2.maxlong#
+                                          };
 
-                                      	window.MCZ_HEATMAP_DATA = [
-                                        	<cfloop query="points">
-                                          	{
-												latitude: #points.Latitude#,
-                                            	longitude: #points.Longitude#,
-												weight: 1
-                                          	}<cfif currentrow LT recordcount>,</cfif>
-                                        	</cfloop>
-                                      	];
+                                          window.MCZ_HEATMAP_DATA = [
+                                            <cfloop query="points">
+                                              {
+                                                latitude: #points.Latitude#,
+                                                longitude: #points.Longitude#,
+                                                weight: 1
+                                              }<cfif currentrow LT recordcount>,</cfif>
+                                            </cfloop>
+                                          ];
 
-                                      	window.onload = function () {
-                                        	if (typeof initMap === 'function') {
-                                          	initMap();
-                                        	} else {
-                                          	console.error("window.onload: initMap is not defined");
-                                        	}
-                                      	};
-                                    	</script>
+                                          window.onload = function () {
+                                            if (typeof initMap === 'function') {
+                                              initMap();
+                                            } else {
+                                              console.error("window.onload: initMap is not defined");
+                                            }
+                                          };
+                                        </script>
 								
                                      	<div class="p-0 mx-1">
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               	<span class="text-left d-block mt-1 float-left">Collecting Event Map</span>
-                                              	<button id="change-gradient" aria-label="toggle between heatmap and points" class="border mt-2 ml-2 py-0 rounded btn-xs btn small float-right"   title="Toggle heatmap color scheme">
-                                                  Color
-                                          		</button>
-												<button id="toggle-view" aria-label="toggle heatmap color scheme" class="border mt-2 mx-1 py-0 rounded btn-xs btn small float-right" title="Toggle between heatmap and point distribution">
-                                             	  View
-                                              	</button>
-                                              	
+                                                <select id="view-mode"
+                                                        class="mt-1 border-info rounded"
+                                                        aria-label="Select map view mode">
+                                                  <option value="heatmap">Heatmap</option>
+                                                  <option value="points">Points</option>
+                                                </select>
+
+                                                <button id="change-gradient"
+                                                        class="mt-1 border-info rounded"
+                                                        aria-label="Toggle heatmap color scheme">
+                                                  Heatmap Color
+                                                </button>        	
                                           	</div>
                                      	</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
