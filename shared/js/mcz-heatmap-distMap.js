@@ -71,130 +71,38 @@ function initMap() {
 //    console.error("initMap: No valid points for heatmap");
 //  }
 
-//  currentView = 'heatmap';
-//  overlay.setProps({ layers: [] });
-//
-//  // Wire up buttons
-//  var btnGradient = document.getElementById("change-gradient");
-//  if (btnGradient) {
-//    btnGradient.addEventListener("click", changeGradient);
-//  }
-//
-//  var btnToggleView = document.getElementById("toggle-view");
-//  if (btnToggleView) {
-//    btnToggleView.addEventListener("click", toggleView);
-//  }
-//
-//  // Start in heatmap view
-//  toggleView(); // first call: builds and shows heatmap
-// // console.log("initMap: initialized, starting in heatmap view");
-//}
+  currentView = 'heatmap';
+  overlay.setProps({ layers: [] });
 
-var btnGradient = document.getElementById("change-gradient");
-if (btnGradient) {
-  btnGradient.addEventListener("click", changeGradient);
-}
-
-var selectView = document.getElementById("view-mode");
-if (selectView) {
-  selectView.addEventListener("change", function () {
-    toggleView(selectView.value);
-  });
-}
-
-// Start in heatmap view by default
-currentView = 'heatmap';
-toggleView('heatmap');
-
-//function toggleView() {
-////  if (!overlay || !MCZ_CLEAN_DATA) {
-////    console.error("toggleView: overlay or data not ready");
-////    return;
-////  }
-//
-//  var data = MCZ_CLEAN_DATA;
-//
-//  if (currentView === 'heatmap') {
-//    // Switch to points
-//    currentView = 'points';
-//   // console.log("toggleView: switching to points");
-//
-//    pointLayer = new deck.ScatterplotLayer({
-//      id: 'mcz-points',
-//      data: data,
-//      getPosition: function (d) { return [d.longitude, d.latitude]; },
-//      getRadius: function () { return 1000; },   // meters; adjust as needed
-//      radiusMinPixels: 2,
-//      radiusMaxPixels: 10,
-//      getFillColor: function () { return [0, 255, 0, 180]; },
-//      pickable: false
-//    });
-//
-//    overlay.setProps({ layers: [pointLayer] });
-//  } else {
-//    // Switch to heatmap
-//    currentView = 'heatmap';
-// //   console.log("toggleView: switching to heatmap");
-//
-//    var defaultGradient = [
-//      [0, 255, 255, 60],
-//      [0, 255, 255, 255],
-//      [0, 191, 255, 255],
-//      [0, 127, 255, 255],
-//      [0, 63, 255, 255],
-//      [0, 0, 255, 255],
-//      [0, 0, 223, 255],
-//      [0, 0, 191, 255],
-//      [0, 0, 159, 255],
-//      [0, 0, 127, 255],
-//      [63, 0, 91, 255],
-//      [127, 0, 63, 255],
-//      [191, 0, 31, 255],
-//      [255, 0, 0, 255]
-//    ];
-//
-//    var existingRange =
-//      (heatmapLayer && heatmapLayer.props && heatmapLayer.props.colorRange) ||
-//      defaultGradient;
-//
-//    heatmapLayer = new deck.HeatmapLayer({
-//      id: 'mcz-heatmap',
-//      data: data,
-//      getPosition: function (d) { return [d.longitude, d.latitude]; },
-//      getWeight: function (d) { return d.weight || 1; },
-//      radiusPixels: 20,
-//      intensity: 1.0,
-//      threshold: 0.03,
-//      opacity: 0.9,
-//      colorRange: existingRange
-//    });
-//
-//    overlay.setProps({ layers: [heatmapLayer] });
-//  }
-//}
-
-function toggleView(mode) {
-  if (!overlay || !MCZ_CLEAN_DATA) {
-    console.error("toggleView: overlay or data not ready");
-    return;
-  }
-
-  // If no explicit mode provided, flip between modes (fallback)
-  if (!mode) {
-    mode = (currentView === 'heatmap') ? 'points' : 'heatmap';
-  }
-
-  currentView = mode;
-  var data = MCZ_CLEAN_DATA;
-
-  // Show/hide Heatmap Color button based on mode
+  // Wire up buttons
   var btnGradient = document.getElementById("change-gradient");
   if (btnGradient) {
-    btnGradient.style.display = (currentView === 'heatmap') ? '' : 'none';
+    btnGradient.addEventListener("click", changeGradient);
   }
 
-  if (currentView === 'points') {
-    // Points view
+  var btnToggleView = document.getElementById("toggle-view");
+  if (btnToggleView) {
+    btnToggleView.addEventListener("click", toggleView);
+  }
+
+  // Start in heatmap view
+  toggleView(); // first call: builds and shows heatmap
+ // console.log("initMap: initialized, starting in heatmap view");
+}
+
+function toggleView() {
+//  if (!overlay || !MCZ_CLEAN_DATA) {
+//    console.error("toggleView: overlay or data not ready");
+//    return;
+//  }
+
+  var data = MCZ_CLEAN_DATA;
+
+  if (currentView === 'heatmap') {
+    // Switch to points
+    currentView = 'points';
+   // console.log("toggleView: switching to points");
+
     pointLayer = new deck.ScatterplotLayer({
       id: 'mcz-points',
       data: data,
@@ -207,9 +115,11 @@ function toggleView(mode) {
     });
 
     overlay.setProps({ layers: [pointLayer] });
-
   } else {
-    // Heatmap view
+    // Switch to heatmap
+    currentView = 'heatmap';
+ //   console.log("toggleView: switching to heatmap");
+
     var defaultGradient = [
       [0, 255, 255, 60],
       [0, 255, 255, 255],
@@ -246,46 +156,41 @@ function toggleView(mode) {
     overlay.setProps({ layers: [heatmapLayer] });
   }
 }
-    
+
 function changeGradient() {
-  if (!MCZ_CLEAN_DATA) {
-    console.error("changeGradient: data not ready");
-    return;
-  }
 
-  var data = MCZ_CLEAN_DATA;
+    var data = MCZ_CLEAN_DATA;
 
-  var defaultGradient = [
-    [0, 255, 255, 60],
-    [0, 255, 255, 255],
-    [0, 191, 255, 255],
-    [0, 127, 255, 255],
-    [0, 63, 255, 255],
-    [0, 0, 255, 255],
-    [0, 0, 223, 255],
-    [0, 0, 191, 255],
-    [0, 0, 159, 255],
-    [0, 0, 127, 255],
-    [63, 0, 91, 255],
-    [127, 0, 63, 255],
-    [191, 0, 31, 255],
-    [255, 0, 0, 255]
-  ];
-
-  // Your color-blind-friendly alternate palette
-  var altGradient = [
-    [229, 255,  25,  60], // light green-yellow (faint)
-    [229, 255,  25, 255], // light green-yellow
-    [255, 170,  73, 255], // orange
-    [255, 165,  61, 255], // orange
-    [255, 105,   0, 255], // dark orange
-    [230,   5,  36, 255], // red-orange
-    [255,  41,  61, 255], // bright orange-red
-    [255,  50,  43, 255], // bright orange-red
-    [255,  57, 122, 255], // hot pink
-    [255,  73, 140, 255]  // hot pink
-  ];
-
+    var defaultGradient = [
+      [0, 255, 255, 60],
+      [0, 255, 255, 255],
+      [0, 191, 255, 255],
+      [0, 127, 255, 255],
+      [0, 63, 255, 255],
+      [0, 0, 255, 255],
+      [0, 0, 223, 255],
+      [0, 0, 191, 255],
+      [0, 0, 159, 255],
+      [0, 0, 127, 255],
+      [63, 0, 91, 255],
+      [127, 0, 63, 255],
+      [191, 0, 31, 255],
+      [255, 0, 0, 255]
+    ];
+	    
+    var altGradient = [
+      [229, 255,  25, 60], // light green-yellow
+      [229, 255,  25, 255], // light green
+      [255, 170,  73, 255], // orange
+      [255, 165,  61, 255], //  orange
+      [255, 105,   0, 255], // dark orange
+      [230,   5,  36, 255], // dark orange
+      [255,  41,  61, 255], // bright orange
+      [255,  50,  43, 255], // bright orange
+      [255,  57, 122, 255],// hot pink
+      [255,  73, 140, 255]// hot pink
+    ];
+	
   // Check what we’re currently using
   var current =
     (heatmapLayer && heatmapLayer.props && heatmapLayer.props.colorRange) ||
@@ -297,7 +202,10 @@ function changeGradient() {
     current[0][1] === altGradient[0][1];
 
   var newGradient  = usingAlt ? defaultGradient : altGradient;
-
+  var newRadius    = 20;
+  var newIntensity = 1.0;
+    
+    
   heatmapLayer = new deck.HeatmapLayer({
     id: 'mcz-heatmap',
     data: data,
@@ -313,4 +221,6 @@ function changeGradient() {
   if (currentView === 'heatmap' && overlay) {
     overlay.setProps({ layers: [heatmapLayer] });
   }
+
+  //console.log("changeGradient: updated gradient, radius =", newRadius, "intensity =", newIntensity);
 }

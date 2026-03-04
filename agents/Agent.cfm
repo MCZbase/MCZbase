@@ -868,21 +868,12 @@ limitations under the License.
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                               	<span class="text-left d-block mt-1 float-left">Collecting Event Map</span>
-                                              	<!-- View mode dropdown -->
-                                                <label for="view-mode" class="sr-only">Map view mode</label>
-                                                <select id="view-mode"
-                                                        class="mt-1 border-info rounded"
-                                                        aria-label="Select map view mode">
-                                                  <option value="heatmap">Heatmap</option>
-                                                  <option value="points">Points</option>
-                                                </select>
-
-                                                <!-- Heatmap color button (only shown in heatmap mode) -->
-                                                <button id="change-gradient"
-                                                        class="mt-1 border-info rounded"
-                                                        aria-label="Toggle heatmap color scheme">
-                                                  Heatmap Color
-                                                </button>
+                                              	<button id="change-gradient" aria-label="toggle between heatmap and points" class="border mt-2 ml-2 py-0 rounded btn-xs btn small float-right"   title="Toggle heatmap color scheme">
+                                                  Color
+                                          		</button>
+												<button id="toggle-view" aria-label="toggle heatmap color scheme" class="border mt-2 mx-1 py-0 rounded btn-xs btn small float-right" title="Toggle between heatmap and point distribution">
+                                             	  View
+                                              	</button>
                                               	
                                           	</div>
                                      	</div>
