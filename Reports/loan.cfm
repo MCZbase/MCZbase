@@ -1247,6 +1247,11 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + 1>
 						</cfloop>
 					</table>
+					<cfif getLoanItemsLoop.recordcount EQ 0>
+						<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
+							No Cataloged Items Included, See Nature of Material for Details. 
+						</div>
+					</cfif>
 					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
