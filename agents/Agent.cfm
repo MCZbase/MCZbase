@@ -868,10 +868,9 @@ limitations under the License.
                                             <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Collecting Event Map</h4>
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
-                                              
-                                                <div class="float-left">
+                                                 <div class="float-left">
                                                     <select id="view-mode"
-                                                            class="mt-1 btn btn-xs btn-secondary text-left"
+                                                            class="mt-1 btn btn-xs btn-secondary text-left small95"
                                                             aria-label="Select map view mode">
                                                       <option value="heatmap">Heatmap</option>
                                                       <option value="points">Points</option>
