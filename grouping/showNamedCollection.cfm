@@ -512,68 +512,70 @@ limitations under the License.
 								</cfquery>
 
                                 <cfif points.recordcount gt 0>
-                                  <section class="heatmap mt-2 float-left w-100">
+                                    <section class="heatmap mt-2 float-left w-100">
 
-                                    <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
-                                    <script>
-                                      window.MCZ_BOUNDS = {
-                                        minlat: #points2.minlat#,
-                                        minlong: #points2.minlong#,
-                                        maxlat: #points2.maxlat#,
-                                        maxlong: #points2.maxlong#
-                                      };
+                                        <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
+                                        <script>
+                                          window.MCZ_BOUNDS = {
+                                            minlat: #points2.minlat#,
+                                            minlong: #points2.minlong#,
+                                            maxlat: #points2.maxlat#,
+                                            maxlong: #points2.maxlong#
+                                          };
 
-                                      window.MCZ_HEATMAP_DATA = [
-                                        <cfloop query="points">
-                                          {
-                                            latitude: #points.Latitude#,
-                                            longitude: #points.Longitude#,
-                                            weight: 1
-                                          }<cfif currentrow LT recordcount>,</cfif>
-                                        </cfloop>
-                                      ];
+                                          window.MCZ_HEATMAP_DATA = [
+                                            <cfloop query="points">
+                                              {
+                                                latitude: #points.Latitude#,
+                                                longitude: #points.Longitude#,
+                                                weight: 1
+                                              }<cfif currentrow LT recordcount>,</cfif>
+                                            </cfloop>
+                                          ];
 
-                                      // Use the shared initMap from /shared/js/mcz-heatmap.js
-                                      window.onload = function () {
-                                        if (typeof initMap === 'function') {
-                                          initMap();
-                                        } else {
-                                          console.error("window.onload: initMap is not defined");
-                                        }
-                                      };
-                                    </script>
+                                          // Use the shared initMap from /shared/js/mcz-heatmap.js
+                                          window.onload = function () {
+                                            if (typeof initMap === 'function') {
+                                              initMap();
+                                            } else {
+                                              console.error("window.onload: initMap is not defined");
+                                            }
+                                          };
+                                        </script>
 
-                                    <div class="col-12 px-0 float-left">
-                                      <div class="border rounded px-1 mx-1 pb-1">
-                                        <h2 class="px-3 text-center pt-2">
-                                          Heat Map of Georeferenced Specimen Locations
-                                        </h2>
+                                        <div class="col-12 px-0 float-left">
+                                            <div class="border rounded px-1 mx-1 pb-1">
+                                                    <h2 class="px-3 text-center pt-2">
+                                                      Heat Map of Georeferenced Specimen Locations
+                                                    </h2>
 
-                                        <!-- Map container: needs explicit height -->
-                                        <div id="map"
-                                             class="w-100 rounded"
-                                             style="height: 600px;"
-                                             aria-label="Map of georeferenced specimen locations">
-                                        </div>
+                                                    <!-- Map container: needs explicit height -->
+                                                    <div id="map"
+                                                         class="w-100 rounded"
+                                                         style="height: 600px;"
+                                                         aria-label="Map of georeferenced specimen locations">
+                                                    </div>
 
-                                        <!-- Controls: use the same IDs the shared JS expects -->
-                                        <div id="floating-panel" class="w-100 mx-auto">
-                                          <button id="toggle-view"
-                                                  class="mt-1 border-info rounded"
-                                                  aria-label="Toggle between heatmap and point distribution views">
-                                            Map View
-                                          </button>
-                                          <button id="change-gradient"
-                                                  class="mt-1 border-info rounded"
-                                                  aria-label="Toggle heatmap color scheme">
-                                            Heatmap Color
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div>
+                                                    <!-- Controls: use the same IDs the shared JS expects -->
+                                                    <div id="floating-panel" class="w-100 mx-auto">
+                                                        <h2 class="text-left d-block mt-1 float-left">Collecting Event Map</span>
+                                                        <div class="float-right w=50">
+                                                            <select id="view-mode"
+                                                                    class="mt-1 btn btn-xs btn-secondary"
+                                                                    aria-label="Select map view mode">
+                                                              <option value="heatmap">Heatmap</option>
+                                                              <option value="points">Points</option>
+                                                            </select>
 
-                                  </section>
-                                </cfif>
+                                                            <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
+                                                              Color
+                                                            </button>  
+                                                        </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                     </section>
+                               </cfif>
 
 
 								<section class="otherImages float-left w-100 mt-4">
