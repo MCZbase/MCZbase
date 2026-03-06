@@ -80,7 +80,7 @@ function initWikiDrawer(options) {
                 'wiki-content-title',
                 openWikiDrawer,
                 closeWikiDrawer,
-                titleLink,
+                true,
                 0
             );
 
