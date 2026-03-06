@@ -395,7 +395,8 @@ limitations under the License.
 	<cfreturn LOCAL.Return />
 
 </cffunction>
-                
+
+<!----------------------------------------------------->               
 <cffunction name="renderWikiButtons"
            access="public"
            returntype="string"

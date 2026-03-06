@@ -1,6 +1,6 @@
 // JavaScript Document
 // wikiDrawer.js
-
+/**** Functions to load wiki content and display it in a target div within an MCZbase page, including support for a wikiDrawer drawer container ******/
 /**
  * Show a wiki article in a target div, with options for showing images and specifying a target div for content.
  * @param page the name of the wiki page to load.
@@ -20,33 +20,49 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 		$('#'+titleTargetDiv).html('Wiki Article: ' + page);
 	}
 	$.ajax({
-		url: '/shared/component/functions.cfc?method=getWikiArticle',
-		data: {
-			page: page,
-			showImages: showImages,
-			section: section,
-			returnFormat: 'json'
-		},
-		dataType: 'json',
-		success: function(response) {
-			var html = response.result || response.RESULT || "<div>Section not found.</div>";
-			if (typeof openFunction === 'function') {
-				openFunction();
-			}
-			if (typeof onSuccess === 'function') {
-				options.onSuccess(html);
-			} else {
-				$('#'+targetDiv).html(html);
-				processWikiContent($('#'+targetDiv));
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			if (typeof closeFunction === 'function') {
-				closeFunction();
-			}
-			handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
-		}
-	});
+    url: '/shared/component/functions.cfc?method=getWikiArticle',
+    method: 'GET',
+    data: {
+        page: page,
+        showImages: showImages ? 'true' : 'false',   // CF-friendly booleans
+        section: section || '',
+        returnFormat: 'json'
+    },
+    dataType: 'json',
+    success: function (response) {
+        // CF can return { "RESULT": "<html>..." } or lowercased depending on version
+        var html = response.result || response.RESULT || "<div>Section not found.</div>";
+
+        // Call the open callback first (e.g. openWikiDrawer)
+        if (typeof openFunction === 'function') {
+            openFunction();
+        }
+
+        // If caller supplied a custom success handler, use it
+        if (typeof onSuccess === 'function') {
+            onSuccess(html);          // <-- use onSuccess, not options.onSuccess
+        } else {
+            // Otherwise, put HTML into the target div and post-process
+            var $target = $('#' + targetDiv);
+            $target.html(html);
+
+            // If you have any cleanup/transform logic
+            if (typeof processWikiContent === 'function') {
+                processWikiContent($target);
+            }
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        if (typeof closeFunction === 'function') {
+            closeFunction();
+        }
+        if (typeof handleFail === 'function') {
+            handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
+        } else {
+            console.error("Error loading wiki content:", textStatus, errorThrown);
+        }
+    }
+});
 }
 
 

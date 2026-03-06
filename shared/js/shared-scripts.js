@@ -2,7 +2,7 @@
  * Place scripts that should be available on all web pages for all users here.
 */
 
-/**** Functions to load wiki content and display it in a target div within an MCZbase page, including support for a wikiDrawer drawer container ******/
+
 
 
 
