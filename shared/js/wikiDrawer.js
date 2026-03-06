@@ -12,60 +12,62 @@
  * @param titleLink boolean indicating whether to create a link to the wiki page in the title div, true to create a link, false to just show the title.
  * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
  */
-function showWiki(page, showImages, targetDiv, titleDivId, openFunction, closeFunction, canEdit, section, onSuccess) {
-	$('#'+targetDiv).html('Loading...');
-	if (titleLink) {
-		$('#'+titleTargetDiv).html('Wiki Article: <a href="https://code.mcz.harvard.edu/wiki/index.php?title=' + page + '" target="_blank">' + page + '</a>');
-	} else {
-		$('#'+titleTargetDiv).html('Wiki Article: ' + page);
-	}
-	$.ajax({
-    url: '/shared/component/functions.cfc?method=getWikiArticle',
-    method: 'GET',
-    data: {
-        page: page,
-        showImages: showImages ? 'true' : 'false',   // CF-friendly booleans
-        section: section || '',
-        returnFormat: 'json'
-    },
-    dataType: 'json',
-    success: function (response) {
-        // CF can return { "RESULT": "<html>..." } or lowercased depending on version
-        var html = response.result || response.RESULT || "<div>Section not found.</div>";
+function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section = null) {
 
-        // Call the open callback first (e.g. openWikiDrawer)
-        if (typeof openFunction === 'function') {
-            openFunction();
-        }
+    $.ajax({
+        url: '/shared/component/functions.cfc?method=getWikiArticle',
+        method: 'GET',
+        data: {
+            page: page,
+            showImages: showImages ? 'true' : 'false',  // CF-friendly
+            section: section || '',
+            returnFormat: 'json'
+        },
+        dataType: 'json',
+        success: function (response) {
+            // CF remote CFC returns {"RESULT":"<html>..."}
+            var html = response.result || response.RESULT || "<div>Section not found.</div>";
 
-        // If caller supplied a custom success handler, use it
-        if (typeof onSuccess === 'function') {
-            onSuccess(html);          // <-- use onSuccess, not options.onSuccess
-        } else {
-            // Otherwise, put HTML into the target div and post-process
-            var $target = $('#' + targetDiv);
-            $target.html(html);
+            // Open the drawer (if callback provided)
+            if (typeof openFunction === 'function') {
+                openFunction();
+            }
 
-            // If you have any cleanup/transform logic
+            // Insert the HTML into the target div
+            var $content = $('#' + targetDiv);
+            $content.html(html);
+
+            // Optional: post-process HTML if you have such a function
             if (typeof processWikiContent === 'function') {
-                processWikiContent($target);
+                processWikiContent($content);
+            }
+
+            // Set the title, if a titleTargetDiv was provided
+            if (titleTargetDiv) {
+                var $title = $('#' + titleTargetDiv);
+                var titleText = page.replace(/_/g, ' ');
+
+                if (titleLink) {
+                    // If you had titleLink behavior before, adapt as needed:
+                    // e.g., make it an <a>:
+                    $title.html('<a href="' + titleLink + '">' + titleText + '</a>');
+                } else {
+                    $title.text(titleText);
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (typeof closeFunction === 'function') {
+                closeFunction();
+            }
+            if (typeof handleFail === 'function') {
+                handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
+            } else {
+                console.error("Error loading wiki content for page " + page + ":", textStatus, errorThrown);
             }
         }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-        if (typeof closeFunction === 'function') {
-            closeFunction();
-        }
-        if (typeof handleFail === 'function') {
-            handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
-        } else {
-            console.error("Error loading wiki content:", textStatus, errorThrown);
-        }
-    }
-});
+    });
 }
-
-
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
 function openWikiDrawer() {
@@ -124,32 +126,30 @@ function processWikiContent($container) {
 /**** End wiki content loading and processing functions ****/
 
 function initWikiDrawer(options) {
-    // options: { targetWikiPage, canEdit }
+    $(function () {
+        $('#show-wiki').on('click', function (e) {
+            e.preventDefault();
 
-    $('#show-wiki').on('click', function (e) {
-        e.preventDefault();
+            showWiki(
+                options.targetWikiPage,     // page
+                false,                      // showImages
+                'wiki-content',             // targetDiv
+                'wiki-content-title',       // titleTargetDiv
+                openWikiDrawer,             // openFunction
+                closeWikiDrawer,            // closeFunction
+                null,                       // titleLink (or a URL if you use it)
+                0                           // section
+            );
 
-        showWiki(
-            options.targetWikiPage,
-            false,
-            "wiki-content",
-            "wiki-content-title",
-            openWikiDrawer,
-            closeWikiDrawer,
-            options.canEdit,
-            0
-        );
+            $('#show-wiki').hide();
+            $('#hide-wiki').show();
+        });
 
-        $("#show-wiki").hide();
-        $("#hide-wiki").show();
-    });
+        $('#hide-wiki').on('click', function (e) {
+            e.preventDefault();
+            closeWikiDrawer();
+        });
 
-    $('#hide-wiki').on('click', function (e) {
-        e.preventDefault();
-        closeWikiDrawer();
-    });
-
-    $(document).ready(function () {
-        $("#hide-wiki").hide();
+        $('#hide-wiki').hide();
     });
 }
