@@ -678,45 +678,6 @@ limitations under the License.
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
-<!--- wiki drawer outside of main --->
-<!---<cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
-	<cfoutput>
-		<cfset targetWikiPage = "Locality">
-		<cfif action EQ "edit">
-			<cfset targetWikiPage = "Edit_Locality">
-		</cfif>
-		<div id="wikiDrawer" class="wiki-drawer border">
-			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-				<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
-				<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div id="wiki-content" class="p-3"></div>
-		</div>--->
 
-		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
-		<script>
-//			$('##show-wiki').on('click', function(e) {
-//				e.preventDefault();
-//				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-//					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-//				<cfelse>
-//					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-//				</cfif>
-//				$("##show-wiki").hide();
-//				$("##hide-wiki").show();
-//			});
-//			$('##hide-wiki').on('click', function(e) {
-//				e.preventDefault();
-//				closeWikiDrawer();
-//			});
-//			$(document).ready(function() {
-//				$("##hide-wiki").hide();
-//			});
-//			
-		</script>
-<!---	</cfoutput>
-</cfif>--->
 
 <cfinclude template = "/shared/_footer.cfm">
