@@ -675,6 +675,7 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
+<script src="/shared/js/wikiDrawer.js"></script>
 <cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <!--- wiki drawer outside of main --->
@@ -717,5 +718,5 @@ limitations under the License.
 		</script>
 <!---	</cfoutput>
 </cfif>--->
-<script src="/shared/js/wikiDrawer.js"></script>
+
 <cfinclude template = "/shared/_footer.cfm">
