@@ -459,7 +459,7 @@ limitations under the License.
 																function goAgent() { 
 																	currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 																}
-																$(document).ready(function () {
+												                $(document).ready(function () {
 																	$inputAgent.addEventListener('change', function (e) {
 																		goAgent()
 																	}, false)
@@ -470,7 +470,7 @@ limitations under the License.
 																		goNextAgent()
 																	}, false)
 																	$("##agent_media_img").scrollTop(function (event) {
-																		event.preventDefault();
+																	//	event.preventDefault();
 																		var ya = event.scrollTop;
 																		if (ya > $nextAgent) { 
 																			currentAgentImage = 0;
@@ -833,99 +833,63 @@ limitations under the License.
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								and collector_role='c'
 							</cfquery>
+                            <style>
+                              ##view-mode {
+                                font-size: 0.875rem;   /* same as .btn-sm in Bootstrap 4/5 */
+                                line-height: 1.5;
+                              }
+                            </style>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
-									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<div class="heatmap">
-									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-									<script>
-										let map, heatmap;
-										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-											var bounds = new google.maps.LatLngBounds(sw, ne);
-											for (i = 0; i < bounds.length; i++) {
-												if (bounds[i].lat != " ") {
-													var weightedLoc = {
-														location: new google.maps.LatLng(#points2.minlat#, #points2.minlong#),
-														weight: parseFloat(bounds[i].Intensity)
-													};
-													heat.push(weightedLoc);
-												} 
-											}
-											var centerpoint = weightedLoc;
-											var mapOptions = {
-												zoom: 1,
-												minZoom: 1,
-												maxZoom: 13,
-												center: centerpoint,
-												controlSize: 20,
-												mapTypeId: "hybrid",
-											};
-											map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                                        <script>
+                                          window.MCZ_BOUNDS = {
+                                            minlat: #points2.minlat#,
+                                            minlong: #points2.minlong#,
+                                            maxlat: #points2.maxlat#,
+                                            maxlong: #points2.maxlong#
+                                          };
 
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-											} else {
-												google.maps.event.addListener(map,'bounds_changed',function(){
-												//var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
-												bounds.extend(extendPoint3);
-												bounds.extend(extendPoint4);
-												});
-											}
-											map.fitBounds(bounds);
-											heatmap = new google.maps.visualization.HeatmapLayer({
-												data: getPoints(),
-												map: map,
-											});
-											document
-												.getElementById("change-gradient")
-												.addEventListener("click", changeGradient);
-											}
-										function toggleHeatmap(){
-											heatmap.setMap(heatmap.getMap() ? null : map);
-										}
-										function changeGradient() {
-											const gradient = [
-												"rgba(0, 255, 255, 0)",
-												"rgba(0, 255, 255, 1)",
-												"rgba(0, 191, 255, 1)",
-												"rgba(0, 127, 255, 1)",
-												"rgba(0, 63, 255, 1)",
-												"rgba(0, 0, 255, 1)",
-												"rgba(0, 0, 223, 1)",
-												"rgba(0, 0, 191, 1)",
-												"rgba(0, 0, 159, 1)",
-												"rgba(0, 0, 127, 1)",
-												"rgba(63, 0, 91, 1)",
-												"rgba(127, 0, 63, 1)",
-												"rgba(191, 0, 31, 1)",
-												"rgba(255, 0, 0, 1)",
-											];
-											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-										}
-										function getPoints() {
-											return [
-											<cfloop query="points">
-												new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
-											</cfloop>
-											]
-										}
-									</script>
-									<div class="p-0 mx-1">
-										<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
-										<div id="floating-panel" class="w-100 mx-auto">
-											<span class="text-left d-block float-left">Collecting Event Map</span>
-											<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Toggle Marker Color</button>
-										</div>
+                                          window.MCZ_HEATMAP_DATA = [
+                                            <cfloop query="points">
+                                              {
+                                                latitude: #points.Latitude#,
+                                                longitude: #points.Longitude#,
+                                                weight: 1
+                                              }<cfif currentrow LT recordcount>,</cfif>
+                                            </cfloop>
+                                          ];
+
+                                          window.onload = function () {
+                                            if (typeof initMap === 'function') {
+                                              initMap();
+                                            } else {
+                                              console.error("window.onload: initMap is not defined");
+                                            }
+                                          };
+                                        </script>
+								
+                                     	<div class="p-0 mx-1">
+                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Collecting Event Map</h4>
+                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
+                                          	<div id="floating-panel" class="w-100 mx-auto">
+                                                 <div class="float-left">
+                                                    <select id="view-mode"
+                                                            class="mt-1 btn btn-xs btn-secondary text-left"
+                                                            aria-label="Select map view mode">
+                                                      <option value="heatmap">Heatmap</option>
+                                                      <option value="points">Points</option>
+                                                    </select>
+
+                                                    <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
+                                                      Color
+                                                    </button>  
+                                                </div>
+                                          	</div>
+                                     	</div>
+										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
 									</div>
-									<!--Async script executes immediately and must be after any DOM elements used in callback.-->
 								</div>
 							</section>
 							</cfif>
