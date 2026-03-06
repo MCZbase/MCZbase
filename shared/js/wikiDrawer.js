@@ -31,52 +31,41 @@ function closeWikiDrawer() {
 }
 
 
-function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section = null) {
-    $.ajax({
-        url: '/shared/component/functions.cfc?method=getWikiArticle',
-        method: 'GET',
-        data: {
-            page: page,
-            showImages: showImages ? 'true' : 'false',
-            section: section || '',
-            returnFormat: 'json'
-        },
-        dataType: 'json',
-        success: function (response) {
-            var html = response.result || response.RESULT || "<div>Section not found.</div>";
-
-            if (typeof openFunction === 'function') {
-                openFunction();
-            }
-
-            var $content = $('#' + targetDiv);
-            $content.html(html);
-
-            if (typeof processWikiContent === 'function') {
-                processWikiContent($content);
-            }
-
-            if (titleTargetDiv) {
-                var $title = $('#' + titleTargetDiv);
-                var titleText = page.replace(/_/g, ' ');
-                if (titleLink) {
-                    $title.html('<a href="' + titleLink + '">' + titleText + '</a>');
-                } else {
-                    $title.text(titleText);
-                }
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            if (typeof closeFunction === 'function') {
-                closeFunction();
-            }
-            if (typeof handleFail === 'function') {
-                handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
-            } else {
-                console.error("Error loading wiki content for page " + page + ":", textStatus, errorThrown);
-            }
-        }
-    });
+function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section) {
+	$('#'+targetDiv).html('Loading...');
+	if (titleLink) {
+		$('#'+titleTargetDiv).html('Wiki Article: <a href="https://code.mcz.harvard.edu/wiki/index.php?title=' + page + '" target="_blank">' + page + '</a>');
+	} else {
+		$('#'+titleTargetDiv).html('Wiki Article: ' + page);
+	}
+	$.ajax({
+		url: '/shared/component/functions.cfc?method=getWikiArticle',
+		data: {
+			page: page,
+			showImages: showImages,
+			section: section,
+			returnFormat: 'json'
+		},
+		dataType: 'json',
+		success: function(response) {
+			var html = response.result || response.RESULT || "<div>Section not found.</div>";
+			if (typeof openFunction === 'function') {
+				openFunction();
+			}
+			if (typeof onSuccess === 'function') {
+				options.onSuccess(html);
+			} else {
+				$('#'+targetDiv).html(html);
+				processWikiContent($('#'+targetDiv));
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			if (typeof closeFunction === 'function') {
+				closeFunction();
+			}
+			handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
+		}
+	});
 }
 
 function initWikiDrawer(options) {
