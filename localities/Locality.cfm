@@ -46,6 +46,7 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/shared/functionLib.cfm">
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
@@ -681,6 +682,7 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
+
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
