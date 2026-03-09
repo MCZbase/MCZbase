@@ -407,14 +407,14 @@ limitations under the License.
     <cfset var html = "">
 
     <!-- Only show on redesign branches, same condition you used before -->
-    <cfif structKeyExists(Session, "gitBranch") AND findNoCase("redesign", Session.gitBranch) GT 0>
+<!---    <cfif structKeyExists(Session, "gitBranch") AND findNoCase("redesign", Session.gitBranch) GT 0>--->
         <cfsavecontent variable="html">
             <cfoutput>
                 <button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
                 <button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
             </cfoutput>
         </cfsavecontent>
-    </cfif>
+  <!---  </cfif>--->
 
     <cfreturn html>
 </cffunction>
