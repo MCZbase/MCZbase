@@ -113,25 +113,25 @@ limitations under the License.
 </cffunction>
 		
 <!------------------------------------------------------------------------------------->
-<cfif NOT IsCustomFunction(unsafeSql)>
-    <cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
-        <cfargument name="sql" required="true" type="string">
-        <!--- NOTE: Limited use, poor approach to sanitizing sql, it is well understood that methods that "exclude bad" can be evaded in ways that "allow only good" cannot. --->
-        <cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,declare,all_tables,v$session,all_users">
-        <cfset dels="';','|',">
-        <cfset unsafeFound=0>
-        <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#">
-            <cfif ListFindNoCase(nono, i)>
-                <cfset unsafeFound=1>
-            </cfif>
-        </cfloop>
-        <cfif unsafeFound gt 0>
-            <cfreturn true>
-        <cfelse>
-            <cfreturn false>
+
+<cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
+    <cfargument name="sql" required="true" type="string">
+    <!--- NOTE: Limited use, poor approach to sanitizing sql, it is well understood that methods that "exclude bad" can be evaded in ways that "allow only good" cannot. --->
+    <cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,declare,all_tables,v$session,all_users">
+    <cfset dels="';','|',">
+    <cfset unsafeFound=0>
+    <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#">
+        <cfif ListFindNoCase(nono, i)>
+            <cfset unsafeFound=1>
         </cfif>
-    </cffunction>
-</cfif>
+    </cfloop>
+    <cfif unsafeFound gt 0>
+        <cfreturn true>
+    <cfelse>
+        <cfreturn false>
+    </cfif>
+</cffunction>
+
 <!----------------------------------------------------->
 <!----------------------------------------------------->
 <cffunction name="getMediaRelations" access="public" output="false" returntype="Query">

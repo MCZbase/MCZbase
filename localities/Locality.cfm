@@ -46,7 +46,7 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-<cfinclude template = "/shared/functionLib.cfm">
+
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
