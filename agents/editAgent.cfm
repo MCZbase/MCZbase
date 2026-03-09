@@ -1405,5 +1405,7 @@ limitations under the License.
 	</cfoutput>
 </cfcase>
 </cfswitch>
-
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset targetWikiPage = (action EQ "edit" ? "Agent" : "Agent")>
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
