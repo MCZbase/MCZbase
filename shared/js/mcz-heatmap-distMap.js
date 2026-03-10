@@ -115,33 +115,7 @@ function toggleView() {
   if (btnGradient) {
     btnGradient.style.display = (currentView === 'heatmap') ? '' : 'none';
   }
-  // Wire up dropdown for view mode + dynamic title
-  var selectView = document.getElementById("view-mode");
-  if (selectView) {
-    // default to heatmap
-    selectView.value = 'heatmap';
-
-    selectView.addEventListener("change", function () {
-      var titleEl = document.getElementById("map-title");
-      if (titleEl) {
-        if (selectView.value === 'heatmap') {
-          titleEl.textContent = "Specimen Record Density per Locality";
-        } else {
-          titleEl.textContent = "Specimen Locality Distribution";
-        }
-      }
-      // then update layers
-      toggleView();
-    });
-  }
-
-  // Initial view: heatmap + initial title
-  currentView = 'heatmap';
-  var titleElInit = document.getElementById("map-title");
-  if (titleElInit) {
-    titleElInit.textContent = "Specimen Record Density per Locality";
-  }
-  toggleView();
+    
 
   if (currentView === 'points') {
     // Points view
