@@ -134,7 +134,7 @@ function toggleView() {
   } else {
     // Heatmap view
     var defaultGradient = [
-      [0, 255, 255, 60],
+      [0, 255, 255, 150],// color density 150
       [0, 255, 255, 255],
       [0, 191, 255, 255],
       [0, 127, 255, 255],
@@ -179,7 +179,7 @@ function changeGradient() {
   var data = MCZ_CLEAN_DATA;
 
   var defaultGradient = [
-    [0, 255, 255, 60],
+    [0, 255, 255, 150],
     [0, 255, 255, 255],
     [0, 191, 255, 255],
     [0, 127, 255, 255],
@@ -197,7 +197,7 @@ function changeGradient() {
 
   // Your alternate palette for color-blind users
   var altGradient = [
-    [229, 255,  25,  60], // light green-yellow (faint)
+    [229, 255,  25, 150], // light green-yellow (faint)
     [229, 255,  25, 255], // light green-yellow
     [255, 170,  73, 255], // orange
     [255, 165,  61, 255], // orange
