@@ -874,7 +874,7 @@ limitations under the License.
                                         </script>
 								
                                      	<div class="p-0 mx-1">
-                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Georeferenced Locality Map</h4>
+                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Georeferenced Localities"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                                  <div class="float-left">
