@@ -874,7 +874,7 @@ limitations under the License.
                                         </script>
 								
                                      	<div class="p-0 mx-1">
-                                            <h4 id="map-title" class="text-left d-block mx-2 mt-0 mb-1 float-left">Georeferenced Locality Map</h4>
+                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Georeferenced Locality Map</h4>
                                           	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Georeferenced Localities"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                                  <div class="float-left">
@@ -889,6 +889,9 @@ limitations under the License.
                                                       Color
                                                     </button>  
                                                 </div>
+                                                  <span id="view-description" class="ml-2 small text-muted">
+                                                    Specimen record density per locality
+                                                  </span>
                                           	</div>
                                      	</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
