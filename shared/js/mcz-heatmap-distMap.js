@@ -115,6 +115,15 @@ function toggleView() {
   if (btnGradient) {
     btnGradient.style.display = (currentView === 'heatmap') ? '' : 'none';
   }
+      // Update dynamic title based on mode
+  var titleEl = document.getElementById("map-title");
+  if (titleEl) {
+    if (currentView === 'heatmap') {
+      titleEl.textContent = "Specimen Record Density per Locality";
+    } else {
+      titleEl.textContent = "Specimen Locality Distribution";
+    }
+  }
 
   if (currentView === 'points') {
     // Points view

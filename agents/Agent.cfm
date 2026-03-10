@@ -874,8 +874,8 @@ limitations under the License.
                                         </script>
 								
                                      	<div class="p-0 mx-1">
-                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Specimen Record Density per Locality</h4>
-                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Specimen Record Density per Locality"></div>
+                                            <h4 id="map-title" class="text-left d-block mx-2 mt-0 mb-1 float-left">Specimen Record Density per Locality</h4>
+                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Georeferenced Locality Map"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                                  <div class="float-left">
                                                     <select id="view-mode"
