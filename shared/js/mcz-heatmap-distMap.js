@@ -125,7 +125,7 @@ function toggleView() {
       getRadius: function () { return 1000; }, // meters
       radiusMinPixels: 2,
       radiusMaxPixels: 10,
-      getFillColor: function () { return [0, 255, 0, 180]; },
+      getFillColor: function () { return [222, 138, 23, 255]; },//orange-gold color
       pickable: false
     });
 
