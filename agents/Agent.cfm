@@ -842,13 +842,6 @@ limitations under the License.
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
-<<<<<<< HEAD
-=======
-									<script src="/shared/js/deck.gl.min.js"></script>
-									<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
-									<script src="/shared/js/deckgl-google-maps.min.js"></script>
-									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
->>>>>>> 7fc8791cbb (Redmine Issue 1013. Google Maps -- removing heat layer, providing deckgl as replacement)
 									<div class="heatmap">
                                         <script>
                                           window.MCZ_BOUNDS = {
