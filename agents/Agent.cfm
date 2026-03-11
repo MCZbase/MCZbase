@@ -871,8 +871,8 @@ limitations under the License.
                                         </script>
 								
                                      	<div class="p-0 mx-1">
-                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Collecting Event Map</h4>
-                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
+                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
+                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Map of Georeferenced Localities"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                                  <div class="float-left">
                                                     <select id="view-mode"
@@ -886,6 +886,9 @@ limitations under the License.
                                                       Color
                                                     </button>  
                                                 </div>
+                                                <span id="view-description" class="ml-2 small text-muted">
+                                                    Specimen record density per locality
+                                                </span>
                                           	</div>
                                      	</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->

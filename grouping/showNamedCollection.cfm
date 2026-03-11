@@ -552,14 +552,14 @@ limitations under the License.
                                     <div class="col-12 px-0">
                                       <div class="border float-left col-12 rounded px-2 pb-1">
                                         <h2 class="px-3 text-center pt-2">
-                                          Heat Map of Georeferenced Specimen Locations
+                                          Map of Georeferenced Localities
                                         </h2>
 
                                         <!-- Map container -->
                                         <div id="map"
                                              class="w-100 rounded"
                                              style="height: 600px;"
-                                             aria-label="Map of georeferenced specimen locations">
+                                             aria-label="Map of georeferenced localities">
                                         </div>
                                         <!-- Controls: use the same IDs the shared JS expects -->
                                         <div id="floating-panel" class="w-100 mx-auto pt-1">
