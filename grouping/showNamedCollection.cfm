@@ -575,6 +575,9 @@ limitations under the License.
                                                     aria-label="Toggle heatmap color scheme">
                                               Color
                                             </button>
+                                            <span id="view-description" class="ml-2 small text-muted">
+                                                Specimen record density per locality
+                                            </span>
                                         </div>
                                       </div>
                                     </div>
