@@ -115,6 +115,16 @@ function toggleView() {
   if (btnGradient) {
     btnGradient.style.display = (currentView === 'heatmap') ? '' : 'none';
   }
+    
+ //  update description text next to controls
+  var descEl = document.getElementById("view-description");
+  if (descEl) {
+    if (currentView === 'heatmap') {
+      descEl.textContent = "Specimen record density per locality";
+    } else {
+      descEl.textContent = "Locality distribution (one point per locality)";
+    }
+  }
 
   //  update description text next to controls
   var descEl = document.getElementById("view-description");
@@ -135,7 +145,7 @@ function toggleView() {
       getRadius: function () { return 1000; }, // meters
       radiusMinPixels: 2,
       radiusMaxPixels: 10,
-      getFillColor: function () { return [0, 255, 0, 180]; },
+      getFillColor: function () { return [222, 138, 23, 255]; },//orange-gold color
       pickable: false
     });
 
