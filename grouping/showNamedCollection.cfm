@@ -267,14 +267,13 @@ limitations under the License.
 			var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentCollectingImage = 1;
 		</script>
-		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">          
             SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
             FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-                left join collector on collector.collection_object_id = flat.collection_object_id
-                left join agent on agent.agent_id = collector.agent_id
+                join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
+                join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
             WHERE 
-                collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-                and collector.collector_role = 'c'
+                underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
                 and flat.guid IS NOT NULL
                 and flat.dec_lat is not null
                 and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
