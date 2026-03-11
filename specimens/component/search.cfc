@@ -1523,6 +1523,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="received_date" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="underscore_collection" type="string" required="no">
+	<cfargument name="root_container_label" type="string" required="no">
+	<cfargument name="root_container_barcode" type="string" required="no">
+	<cfargument name="root_container_type" type="string" required="no">
 
 	<cfargument name="debug" type="string" required="no">
 	<cfargument name="recordstartindex" type="string" required="no">
@@ -2338,6 +2341,25 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
+	</cfif>
+
+	<cfif isDefined("root_container_label") AND len(root_container_label) GT 0>
+		<cfset field = '"field": "ROOT_CONTAINER_LABEL"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#root_container_label#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("root_container_barcode") AND len(root_container_barcode) GT 0>
+		<cfset field = '"field": "ROOT_CONTAINER_BARCODE"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#root_container_barcode#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("root_container_type") AND len(root_container_type) GT 0>
+		<cfset field = '"field": "ROOT_CONTAINER_TYPE"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#root_container_type#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
 	</cfif>
 
 	<cfset search_json = "#search_json#]">
