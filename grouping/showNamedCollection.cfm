@@ -552,7 +552,7 @@ limitations under the License.
                                     <div class="col-12 px-0">
                                       <div class="border float-left col-12 rounded px-2 pb-1">
                                         <h2 class="px-3 text-center pt-2">
-                                          Heat Map of Georeferenced Specimen Locations
+                                          Map of Georeferenced Localities
                                         </h2>
 
                                         <!-- Map container -->
@@ -575,6 +575,7 @@ limitations under the License.
                                                     aria-label="Toggle heatmap color scheme">
                                               Color
                                             </button>
+                                            <span id="view-description" class="ml-2 small text-muted">Specimen record density per locality</span>
                                         </div>
                                       </div>
                                     </div>
