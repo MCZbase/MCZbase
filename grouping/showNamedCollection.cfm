@@ -535,7 +535,7 @@ limitations under the License.
                                           {
                                             latitude: #points.Latitude#,
                                             longitude: #points.Longitude#,
-                                            weight: 1
+                                            weight: #points.record_count#
                                           }<cfif currentrow LT recordcount>,</cfif>
                                         </cfloop>
                                       ];
