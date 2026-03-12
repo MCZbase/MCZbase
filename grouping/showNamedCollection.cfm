@@ -535,7 +535,7 @@ limitations under the License.
                                           {
                                             latitude: #points.Latitude#,
                                             longitude: #points.Longitude#,
-                                            weight: 1
+                                            weight: #points.record_count#
                                           }<cfif currentrow LT recordcount>,</cfif>
                                         </cfloop>
                                       ];
@@ -559,7 +559,7 @@ limitations under the License.
                                         <div id="map"
                                              class="w-100 rounded"
                                              style="height: 600px;"
-                                             aria-label="Map of georeferenced localities">
+                                             aria-label="Map of georeferenced specimen locations">
                                         </div>
                                         <!-- Controls: use the same IDs the shared JS expects -->
                                         <div id="floating-panel" class="w-100 mx-auto pt-1">
@@ -575,9 +575,7 @@ limitations under the License.
                                                     aria-label="Toggle heatmap color scheme">
                                               Color
                                             </button>
-                                            <span id="view-description" class="ml-2 small text-muted">
-                                                Specimen record density per locality
-                                            </span>
+                                            <span id="view-description" class="ml-2 small text-muted">Specimen record density per locality</span>
                                         </div>
                                       </div>
                                     </div>
