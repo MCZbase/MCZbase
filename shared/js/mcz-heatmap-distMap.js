@@ -126,6 +126,16 @@ function toggleView() {
     }
   }
 
+  //  update description text next to controls
+  var descEl = document.getElementById("view-description");
+  if (descEl) {
+    if (currentView === 'heatmap') {
+      descEl.textContent = "Specimen record density per locality";
+    } else {
+      descEl.textContent = "Locality distribution (one point per locality)";
+    }
+  }
+    
   if (currentView === 'points') {
     // Points view
     pointLayer = new deck.ScatterplotLayer({

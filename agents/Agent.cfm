@@ -842,7 +842,7 @@ limitations under the License.
                                 line-height: 1.5;
                               }
                             </style>
-							<cfif points.recordcount gt 0>
+				            <cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
 									<div class="heatmap">
