@@ -20,12 +20,12 @@ limitations under the License.
 --->
 <!--- Display and manage application roles with user counts and privilege counts. --->
 <cfinclude template="/shared/_header.cfm">
-<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-<cfif NOT isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action = "entryPoint"></cfif>
-<cfif isDefined("url.role_name")><cfset variables.role_name = url.role_name></cfif>
-<cfif NOT isDefined("variables.role_name")><cfset variables.role_name = ""></cfif>
+<cfif isDefined("url.action")><cfset local.action = url.action></cfif>
+<cfif NOT isDefined("local.action") OR len(local.action) EQ 0><cfset local.action = "entryPoint"></cfif>
+<cfif isDefined("url.role_name")><cfset local.role_name = url.role_name></cfif>
+<cfif NOT isDefined("local.role_name")><cfset local.role_name = ""></cfif>
 
-<cfswitch expression="#variables.action#">
+<cfswitch expression="#local.action#">
 	<cfcase value="entryPoint">
 		<script src="/lib/misc/sorttable.js"></script>
 		<main class="container py-3" id="content">
@@ -49,6 +49,7 @@ limitations under the License.
 								SELECT COUNT(DISTINCT tp.table_name)
 								FROM dba_tab_privs tp
 								WHERE UPPER(tp.grantee) = UPPER(r.role_name)
+									AND tp.owner = 'MCZBASE'
 							) AS priv_count
 						FROM cf_ctuser_roles r
 						ORDER BY r.role_name
@@ -86,7 +87,7 @@ limitations under the License.
 		</main>
 	</cfcase>
 	<cfcase value="defineRole">
-		<cfif len(variables.role_name) EQ 0>
+		<cfif len(local.role_name) EQ 0>
 			<cflocation url="/Admin/user_roles.cfm" addtoken="no">
 		</cfif>
 		<cfquery name="roleDetail" datasource="uam_god">
@@ -94,7 +95,7 @@ limitations under the License.
 				role_name,
 				description
 			FROM cf_ctuser_roles
-			WHERE UPPER(role_name) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.role_name#">)
+			WHERE UPPER(role_name) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
 		</cfquery>
 		<cfif roleDetail.recordCount EQ 0>
 			<cflocation url="/Admin/user_roles.cfm" addtoken="no">
@@ -110,7 +111,8 @@ limitations under the License.
 				AND o.owner = tp.owner
 				AND o.object_type IN ('PROCEDURE', 'FUNCTION', 'PACKAGE', 'PACKAGE BODY', 'TYPE')
 			WHERE tp.privilege = 'EXECUTE'
-				AND UPPER(tp.grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.role_name#">)
+				AND UPPER(tp.grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
+				AND tp.owner = 'MCZBASE'
 			ORDER BY o.object_type, tp.table_name
 		</cfquery>
 		<cfquery name="tablePrivs" datasource="uam_god">
@@ -125,7 +127,8 @@ limitations under the License.
 			WHERE grantee IN (
 				SELECT role FROM dba_roles
 			)
-			AND UPPER(grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.role_name#">)
+			AND UPPER(grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
+			AND owner = 'MCZBASE'
 			GROUP BY table_name, grantee
 			ORDER BY table_name
 		</cfquery>
@@ -183,26 +186,24 @@ limitations under the License.
 					<cfif execPrivs.recordCount EQ 0>
 						<p class="px-4 text-muted">No execute privileges on PL/SQL objects found for this role.</p>
 					<cfelse>
-						<div class="table-responsive">
-							<table class="table table-striped">
-								<thead class="thead-light">
+						<table id="execPrivsTable" class="sortable table table-responsive d-xl-table">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">Object Type</th>
+									<th scope="col">Owner</th>
+									<th scope="col">Object Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="execPrivs">
 									<tr>
-										<th scope="col">Object Type</th>
-										<th scope="col">Owner</th>
-										<th scope="col">Object Name</th>
+										<td>#encodeForHtml(object_type)#</td>
+										<td>#encodeForHtml(owner)#</td>
+										<td>#encodeForHtml(object_name)#</td>
 									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="execPrivs">
-										<tr>
-											<td>#encodeForHtml(object_type)#</td>
-											<td>#encodeForHtml(owner)#</td>
-											<td>#encodeForHtml(object_name)#</td>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</div>
+								</cfloop>
+							</tbody>
+						</table>
 					</cfif>
 				</div>
 			</section>
