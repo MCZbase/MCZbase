@@ -54,34 +54,32 @@ limitations under the License.
 						ORDER BY r.role_name
 					</cfquery>
 					<cfoutput>
-					<div class="table-responsive">
-						<table class="sortable table table-striped">
-							<thead class="thead-light">
+					<table id="rolesTable" class="sortable table table-responsive d-xl-table">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">Role Name</th>
+								<th scope="col">Description</th>
+								<th scope="col">Users Granted</th>
+								<th scope="col">Tables with Privileges</th>
+								<th scope="col">DB Definition</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="roleList">
 								<tr>
-									<th scope="col">Role Name</th>
-									<th scope="col">Description</th>
-									<th scope="col">Users Granted</th>
-									<th scope="col">Tables with Privileges</th>
-									<th scope="col">DB Definition</th>
+									<td>#encodeForHtml(role_name)#</td>
+									<td>#encodeForHtml(description)#</td>
+									<td>#encodeForHtml(user_count)#</td>
+									<td>#encodeForHtml(priv_count)#</td>
+									<td>
+										<a class="btn btn-xs btn-secondary" href="/Admin/user_roles.cfm?action=defineRole&amp;role_name=#encodeForUrl(role_name)#">
+											View Privileges
+										</a>
+									</td>
 								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="roleList">
-									<tr>
-										<td>#encodeForHtml(role_name)#</td>
-										<td>#encodeForHtml(description)#</td>
-										<td>#encodeForHtml(user_count)#</td>
-										<td>#encodeForHtml(priv_count)#</td>
-										<td>
-											<a class="btn btn-xs btn-secondary" href="/Admin/user_roles.cfm?action=defineRole&amp;role_name=#encodeForUrl(role_name)#">
-												View Privileges
-											</a>
-										</td>
-									</tr>
-								</cfloop>
-							</tbody>
-						</table>
-					</div>
+							</cfloop>
+						</tbody>
+					</table>
 					</cfoutput>
 				</div>
 			</section>
@@ -131,6 +129,7 @@ limitations under the License.
 			GROUP BY table_name, grantee
 			ORDER BY table_name
 		</cfquery>
+		<script src="/lib/misc/sorttable.js"></script>
 		<cfoutput>
 		<main class="container py-3" id="content">
 			<section class="row my-2">
@@ -149,32 +148,30 @@ limitations under the License.
 					<cfif tablePrivs.recordCount EQ 0>
 						<p class="px-4 text-muted">No table-level privileges found for this role.</p>
 					<cfelse>
-						<div class="table-responsive">
-							<table class="table table-striped">
-								<thead class="thead-light">
+						<table id="tablePrivsTable" class="sortable table table-responsive d-xl-table">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">Role</th>
+									<th scope="col">Table Name</th>
+									<th scope="col">Select</th>
+									<th scope="col">Insert</th>
+									<th scope="col">Update</th>
+									<th scope="col">Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="tablePrivs">
 									<tr>
-										<th scope="col">Role</th>
-										<th scope="col">Table Name</th>
-										<th scope="col">Select</th>
-										<th scope="col">Insert</th>
-										<th scope="col">Update</th>
-										<th scope="col">Delete</th>
+										<td>#encodeForHtml(grantee)#</td>
+										<td>#encodeForHtml(table_name)#</td>
+										<td>#encodeForHtml(select_priv)#</td>
+										<td>#encodeForHtml(insert_priv)#</td>
+										<td>#encodeForHtml(update_priv)#</td>
+										<td>#encodeForHtml(delete_priv)#</td>
 									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="tablePrivs">
-										<tr>
-											<td>#encodeForHtml(grantee)#</td>
-											<td>#encodeForHtml(table_name)#</td>
-											<td>#encodeForHtml(select_priv)#</td>
-											<td>#encodeForHtml(insert_priv)#</td>
-											<td>#encodeForHtml(update_priv)#</td>
-											<td>#encodeForHtml(delete_priv)#</td>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</div>
+								</cfloop>
+							</tbody>
+						</table>
 					</cfif>
 				</div>
 			</section>
