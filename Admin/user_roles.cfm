@@ -25,10 +25,10 @@ limitations under the License.
 <cfif isDefined("url.role_name")><cfset local.role_name = url.role_name></cfif>
 <cfif NOT isDefined("local.role_name")><cfset local.role_name = ""></cfif>
 
-<cfswitch expression="#local.action#">
-	<cfcase value="entryPoint">
-		<script src="/lib/misc/sorttable.js"></script>
-		<main class="container py-3" id="content">
+<script src="/lib/misc/sorttable.js"></script>
+<main class="container py-3" id="content">
+	<cfswitch expression="#local.action#">
+		<cfcase value="entryPoint">
 			<section class="row my-2">
 				<div class="col-12">
 					<h1 class="h2 px-4">Application Roles</h1>
@@ -84,57 +84,54 @@ limitations under the License.
 					</cfoutput>
 				</div>
 			</section>
-		</main>
-	</cfcase>
-	<cfcase value="defineRole">
-		<cfif len(local.role_name) EQ 0>
-			<cflocation url="/Admin/user_roles.cfm" addtoken="no">
-		</cfif>
-		<cfquery name="roleDetail" datasource="uam_god">
-			SELECT
-				role_name,
-				description
-			FROM cf_ctuser_roles
-			WHERE UPPER(role_name) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
-		</cfquery>
-		<cfif roleDetail.recordCount EQ 0>
-			<cflocation url="/Admin/user_roles.cfm" addtoken="no">
-		</cfif>
-		<cfquery name="execPrivs" datasource="uam_god">
-			SELECT
-				tp.owner,
-				tp.table_name AS object_name,
-				o.object_type
-			FROM dba_tab_privs tp
-			LEFT JOIN dba_objects o
-				ON o.object_name = tp.table_name
-				AND o.owner = tp.owner
-				AND o.object_type IN ('PROCEDURE', 'FUNCTION', 'PACKAGE', 'PACKAGE BODY', 'TYPE')
-			WHERE tp.privilege = 'EXECUTE'
-				AND UPPER(tp.grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
-				AND tp.owner = 'MCZBASE'
-			ORDER BY o.object_type, tp.table_name
-		</cfquery>
-		<cfquery name="tablePrivs" datasource="uam_god">
-			SELECT
-				table_name,
-				grantee,
-				MAX(DECODE(privilege, 'SELECT', 'yes', 'no')) AS select_priv,
-				MAX(DECODE(privilege, 'INSERT', 'yes', 'no')) AS insert_priv,
-				MAX(DECODE(privilege, 'UPDATE', 'yes', 'no')) AS update_priv,
-				MAX(DECODE(privilege, 'DELETE', 'yes', 'no')) AS delete_priv
-			FROM dba_tab_privs
-			WHERE grantee IN (
-				SELECT role FROM dba_roles
-			)
-			AND UPPER(grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
-			AND owner = 'MCZBASE'
-			GROUP BY table_name, grantee
-			ORDER BY table_name
-		</cfquery>
-		<script src="/lib/misc/sorttable.js"></script>
-		<cfoutput>
-		<main class="container py-3" id="content">
+		</cfcase>
+		<cfcase value="defineRole">
+			<cfif len(local.role_name) EQ 0>
+				<cflocation url="/Admin/user_roles.cfm" addtoken="no">
+			</cfif>
+			<cfquery name="roleDetail" datasource="uam_god">
+				SELECT
+					role_name,
+					description
+				FROM cf_ctuser_roles
+				WHERE UPPER(role_name) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
+			</cfquery>
+			<cfif roleDetail.recordCount EQ 0>
+				<cflocation url="/Admin/user_roles.cfm" addtoken="no">
+			</cfif>
+			<cfquery name="execPrivs" datasource="uam_god">
+				SELECT
+					tp.owner,
+					tp.table_name AS object_name,
+					o.object_type
+				FROM dba_tab_privs tp
+				LEFT JOIN dba_objects o
+					ON o.object_name = tp.table_name
+					AND o.owner = tp.owner
+					AND o.object_type IN ('PROCEDURE', 'FUNCTION', 'PACKAGE', 'PACKAGE BODY', 'TYPE')
+				WHERE tp.privilege = 'EXECUTE'
+					AND UPPER(tp.grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
+					AND tp.owner = 'MCZBASE'
+				ORDER BY o.object_type, tp.table_name
+			</cfquery>
+			<cfquery name="tablePrivs" datasource="uam_god">
+				SELECT
+					table_name,
+					grantee,
+					MAX(DECODE(privilege, 'SELECT', 'yes', 'no')) AS select_priv,
+					MAX(DECODE(privilege, 'INSERT', 'yes', 'no')) AS insert_priv,
+					MAX(DECODE(privilege, 'UPDATE', 'yes', 'no')) AS update_priv,
+					MAX(DECODE(privilege, 'DELETE', 'yes', 'no')) AS delete_priv
+				FROM dba_tab_privs
+				WHERE grantee IN (
+					SELECT role FROM dba_roles
+				)
+				AND UPPER(grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.role_name#">)
+				AND owner = 'MCZBASE'
+				GROUP BY table_name, grantee
+				ORDER BY table_name
+			</cfquery>
+			<cfoutput>
 			<section class="row my-2">
 				<div class="col-12">
 					<h1 class="h2 px-4">
@@ -207,12 +204,12 @@ limitations under the License.
 					</cfif>
 				</div>
 			</section>
-		</main>
-		</cfoutput>
-	</cfcase>
-	<cfdefaultcase>
-		<cflocation url="/Admin/user_roles.cfm" addtoken="no">
-	</cfdefaultcase>
-</cfswitch>
+			</cfoutput>
+		</cfcase>
+		<cfdefaultcase>
+			<cflocation url="/Admin/user_roles.cfm" addtoken="no">
+		</cfdefaultcase>
+	</cfswitch>
+</main>
 
 <cfinclude template="/shared/_footer.cfm">
