@@ -21,12 +21,12 @@ limitations under the License.
 <!--- Display and manage application roles with user counts and privilege counts. --->
 <cfinclude template="/shared/_header.cfm">
 <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-<cfif NOT isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action = "nothing"></cfif>
+<cfif NOT isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action = "entryPoint"></cfif>
 <cfif isDefined("url.role_name")><cfset variables.role_name = url.role_name></cfif>
 <cfif NOT isDefined("variables.role_name")><cfset variables.role_name = ""></cfif>
 
 <cfswitch expression="#variables.action#">
-	<cfcase value="nothing">
+	<cfcase value="entryPoint">
 		<main class="container py-3" id="content">
 			<section class="row my-2">
 				<div class="col-12">
