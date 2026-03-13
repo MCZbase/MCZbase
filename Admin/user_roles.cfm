@@ -100,6 +100,20 @@ limitations under the License.
 		<cfif roleDetail.recordCount EQ 0>
 			<cflocation url="/Admin/user_roles.cfm" addtoken="no">
 		</cfif>
+		<cfquery name="execPrivs" datasource="uam_god">
+			SELECT
+				tp.owner,
+				tp.table_name AS object_name,
+				o.object_type
+			FROM dba_tab_privs tp
+			LEFT JOIN dba_objects o
+				ON o.object_name = tp.table_name
+				AND o.owner = tp.owner
+				AND o.object_type IN ('PROCEDURE', 'FUNCTION', 'PACKAGE', 'PACKAGE BODY', 'TYPE')
+			WHERE tp.privilege = 'EXECUTE'
+				AND UPPER(tp.grantee) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.role_name#">)
+			ORDER BY o.object_type, tp.table_name
+		</cfquery>
 		<cfquery name="tablePrivs" datasource="uam_god">
 			SELECT
 				table_name,
@@ -155,6 +169,37 @@ limitations under the License.
 											<td>#encodeForHtml(insert_priv)#</td>
 											<td>#encodeForHtml(update_priv)#</td>
 											<td>#encodeForHtml(delete_priv)#</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</cfif>
+				</div>
+			</section>
+			<section class="row my-2">
+				<div class="col-12">
+					<h2 class="h4 px-4">Execute Privileges (Procedures, Functions, Packages)</h2>
+				</div>
+				<div class="col-12">
+					<cfif execPrivs.recordCount EQ 0>
+						<p class="px-4 text-muted">No execute privileges on PL/SQL objects found for this role.</p>
+					<cfelse>
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead class="thead-light">
+									<tr>
+										<th scope="col">Object Type</th>
+										<th scope="col">Owner</th>
+										<th scope="col">Object Name</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="execPrivs">
+										<tr>
+											<td>#encodeForHtml(object_type)#</td>
+											<td>#encodeForHtml(owner)#</td>
+											<td>#encodeForHtml(object_name)#</td>
 										</tr>
 									</cfloop>
 								</tbody>
