@@ -27,6 +27,7 @@ limitations under the License.
 
 <cfswitch expression="#variables.action#">
 	<cfcase value="entryPoint">
+		<script src="/lib/misc/sorttable.js"></script>
 		<main class="container py-3" id="content">
 			<section class="row my-2">
 				<div class="col-12">
@@ -54,7 +55,7 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 					<div class="table-responsive">
-						<table class="table table-striped">
+						<table class="sortable table table-striped">
 							<thead class="thead-light">
 								<tr>
 									<th scope="col">Role Name</th>
