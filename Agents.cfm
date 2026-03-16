@@ -342,7 +342,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<div class="col-12 col-md-4 px-0 mt-2">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-2 px-md-2 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
+												<label class="data-entry-label px-2 px-md-2 px-lg-3 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
 												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
@@ -352,7 +352,7 @@ limitations under the License.
 									</cfif>
 									<div class="col-12 col-md-4 px-0 mt-2">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-2 px-md-2 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
+											<label class="data-entry-label px-2 px-md-2 px-lg-3 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
 											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>		
@@ -361,7 +361,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4 px-0 mt-2">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-2 px-md-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
+											<label class="data-entry-label px-2 px-md-2 px-lg-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
 											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
