@@ -683,7 +683,7 @@ limitations under the License.
 
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
-<cfoutput>#renderWikiDrawer(targetWikiPage)#</cfoutput>
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 
 
 <cfinclude template = "/shared/_footer.cfm">
