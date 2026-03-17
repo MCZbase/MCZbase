@@ -137,7 +137,7 @@ limitations under the License.
 	<cfoutput>
 		<main id="content">
             <cftry>
-                  <cfoutput>#renderWikiButtons()#</cfoutput>
+                  <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btn border-0")#</cfoutput>
                   <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
             </cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
