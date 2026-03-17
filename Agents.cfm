@@ -140,9 +140,9 @@ limitations under the License.
                   <cfoutput>#renderWikiButtons()#</cfoutput>
                   <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
             </cftry>
-			<section class="container-fluid mb-3 mr-md-5" role="search" aria-labelledby="formheader">
+			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
-					<div class="search-box">
+					<div class="search-box mr-md-5">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
 						</div>
