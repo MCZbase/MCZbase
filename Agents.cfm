@@ -284,19 +284,19 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-2">
-										<div class="col-12 col-md-4 col-lg-6 pl-lg-0 pr-lg-0 col-xl-4 mt-2">
+										<div class="col-12 col-md-4 col-lg-6 px-0 pl-lg-0 pr-lg-0 col-xl-4 mt-2">
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-4 col-lg-6 pl-lg-2 pr-lg-0 col-xl-4 mt-2">
+										<div class="col-12 col-md-4 col-lg-6 px-0 pl-lg-2 pr-lg-0 col-xl-4 mt-2">
 											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
 										</div>
-										<div class="col-12 col-md-4 col-lg-6 px-lg-0 col-xl-4 mt-2">
+										<div class="col-12 col-md-4 col-lg-6 px-0 px-lg-0 col-xl-4 mt-2">
 											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
-										<div class="col-12 col-md-4 col-lg-6 pr-lg-0 pl-lg-2 col-xl-4 mt-2 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-4 col-lg-6 px-0 pr-lg-0 pl-lg-2 col-xl-4 mt-2 mt-md-2 mt-xl-0">
 											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
@@ -304,7 +304,7 @@ limitations under the License.
 											<label for="email" class="data-entry-label" id="email_label">Email</label>
 											<input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
 										</div>
-										<div class="col-12 col-md-3 col-lg-6 col-xl-3 mt-2 pl-lg-2 pr-lg-0 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-3 col-lg-6 col-xl-3 mt-2 px-0 pl-lg-2 pr-lg-0 mt-md-2 mt-xl-0">
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
 										</div>
@@ -371,7 +371,7 @@ limitations under the License.
 											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-lg-5 col-xl-5 px-lg-0" placeholder="yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
-											<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput col-4 col-lg-5 col-xl-4 px-0 px-lg-0 data-entry-input" placeholder="yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput col-4 col-lg-5 col-xl-4 px-lg-0 data-entry-input" placeholder="yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 								</div>
