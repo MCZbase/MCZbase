@@ -212,7 +212,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-3 col-xl-2 px-0 mt-2">
+									<div class="col-12 col-md-4 col-xl-2 px-0 mt-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
@@ -230,7 +230,7 @@ limitations under the License.
 											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-7 col-lg-5 col-xl-3 px-0 px-md-2 mt-2">
+									<div class="col-12 col-md-8 col-lg-5 col-xl-3 px-0 px-md-2 mt-2">
 										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
