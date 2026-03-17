@@ -141,7 +141,7 @@ limitations under the License.
                   <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
             </cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
-				<div class="row mx-0 mb-3">
+				<div class="d-flex flex-wrap mx-0 mb-0">
 					<div class="search-box mr-md-3">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
@@ -263,7 +263,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-12 col-md-4 col-lg-4 col-xl-1 px-0 pl-md-2 mt-md-2 mt-xl-0">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-1 px-0 pl-md-0 mt-md-2 mt-xl-0">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
