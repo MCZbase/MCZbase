@@ -349,29 +349,29 @@ limitations under the License.
 										<div class="col-12 col-md-4 px-0 mt-2">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
-												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-lg-5 px-lg-0 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-lg-5 px-lg-0 col-xl-5" placeholder="#dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
-												<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput col-4 col-lg-5 px-lg-0 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+												<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput col-4 col-lg-5 px-lg-0 col-xl-4 data-entry-input" placeholder="#dateplaceholder#" title="end of date range">
 											</div>
 										</div>
 									</cfif>
 									<div class="col-12 col-md-4 px-0 mt-2">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
-											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-lg-5 px-lg-0 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
+											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-lg-5 px-lg-0 col-xl-5" placeholder="#dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>		
-											<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput col-4 col-lg-5 col-xl-4 px-lg-0 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+											<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput col-4 col-lg-5 col-xl-4 px-lg-0 data-entry-input" placeholder="#dateplaceholder#" title="end of date range">
 										</div>
 									</div>
 									<div class="col-12 col-md-4 px-0 mt-2">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
-											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-lg-5 col-xl-5 px-lg-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
+											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-5 col-md-5 col-lg-5 col-xl-5 px-lg-0" placeholder="yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
-											<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput col-4 col-lg-5 col-xl-4 px-0 px-lg-0 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput col-4 col-lg-5 col-xl-4 px-0 px-lg-0 data-entry-input" placeholder="yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 								</div>
