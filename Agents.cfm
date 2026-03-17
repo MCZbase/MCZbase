@@ -439,7 +439,7 @@ limitations under the License.
 						</div><!--- col --->
 					</div><!--- search box --->
 				</div><!--- row --->
-                                                        <cfoutput>Action is: #action#</cfoutput>
+                                                      
 			</section>
 		
 			<!--- Results table as a jqxGrid. --->
