@@ -18,18 +18,40 @@
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
 function openWikiDrawer() {
-	$('#wikiDrawer').addClass('open');
-	$('#content').addClass('pushed');
-	$("#show-wiki").hide();
-	$("#hide-wiki").show();
-}
-function closeWikiDrawer() {
-	$('#wikiDrawer').removeClass('open');
-	$('#content').removeClass('pushed');
-	$("#show-wiki").show();
-	$("#hide-wiki").hide();
+    $('#wikiDrawer').addClass('open');
+    $('#content').addClass('pushed');
+
+    // Form pages: toggle Show/Hide buttons if they exist
+    if ($("#show-wiki").length) {
+        $("#show-wiki").hide();
+    }
+    if ($("#hide-wiki").length) {
+        $("#hide-wiki").show();
+    }
+
+    // Search page: hide the vertical tab if it exists
+    if ($("#wiki-tab-button").length) {
+        $("#wiki-tab-button").hide();
+    }
 }
 
+function closeWikiDrawer() {
+    $('#wikiDrawer').removeClass('open');
+    $('#content').removeClass('pushed');
+
+    // Form pages
+    if ($("#show-wiki").length) {
+        $("#show-wiki").show();
+    }
+    if ($("#hide-wiki").length) {
+        $("#hide-wiki").hide();
+    }
+
+    // Search page: show the vertical tab again
+    if ($("#wiki-tab-button").length) {
+        $("#wiki-tab-button").show();
+    }
+}
 
 function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section = null) {
 	$('#'+targetDiv).html('Loading...');

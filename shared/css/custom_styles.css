@@ -2760,14 +2760,14 @@ an overlay that prevents interaction with them.
 .wiki-tab-container {
     position: fixed;
     right: 0;
-    top: 40%;          /* adjust as needed */
+    top: 30%;          /* adjust as needed */
     z-index: 1050;     /* above main content */
 }
 
 /* Rotate text so you read it by tilting your head to the right */
 .wiki-tab-button {
     padding: 6px 12px;
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
     transform-origin: right center;
     white-space: nowrap;
     border-radius: 4px 4px 0 0; /* optional tab look */
