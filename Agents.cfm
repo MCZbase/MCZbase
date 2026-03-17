@@ -212,7 +212,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-4 col-xl-2 px-0 mt-2">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-2 px-0 mt-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
@@ -263,7 +263,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-12 col-md-2 col-lg-2 col-xl-1 mt-md-2 mt-xl-0">
+									<div class="col-12 col-md-2 col-lg-4 col-xl-1 mt-md-2 mt-xl-0">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
@@ -288,15 +288,15 @@ limitations under the License.
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 col-lg-6 col-xl-4">
 											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 col-lg-6 col-xl-4">
 											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
-										<div class="col-12 col-md-4 col-xl-4 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-4 col-lg-6 col-xl-4 mt-md-2 mt-xl-0">
 											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
@@ -311,7 +311,7 @@ limitations under the License.
 										<cfif listcontainsnocase(session.roles,"manage_transactions")>
 											<cfset vcollmd = "col-md-1">
 										<cfelse>
-											<cfset vcollmd = "col-md-2">
+											<cfset vcollmd = "col-md-3">
 										</cfif>
 										<div class="col-12 #vcollmd# mt-2 mt-xl-0">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
