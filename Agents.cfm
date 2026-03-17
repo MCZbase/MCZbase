@@ -181,7 +181,7 @@ limitations under the License.
 											}
 										}
 									</script>
-									<div class="col-12 col-md-5 col-lg-5 col-xl-5 mt-2 px-0 pr-md-2">
+									<div class="col-12 col-sm-7 col-md-5 col-lg-5 col-xl-5 mt-2 px-0 pr-md-2">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
 										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
 											onblur=" specificagentBlurHandler();"
@@ -320,7 +320,7 @@ limitations under the License.
 												</select>
 											</div>
 										</cfif>
-										<div class="col-12 col-md-3 col-lg-3 px-0 pl-lg-0 pr-lg-2 mt-2 mt-xl-0">
+										<div class="col-12 col-md-3 col-lg-3 px-0 pl-md-2 pr-md-0 pl-lg-2 pr-lg-0 mt-2 mt-xl-0">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
