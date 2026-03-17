@@ -1019,7 +1019,8 @@ limitations under the License.
 		</div>
 	</div>
 </div><!--- overlay container --->
-                                            
+        <cfdump var="#action#" label="Action variable">
+<cfabort>                                    
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset targetWikiPage = (action EQ "search" ? "Agent_Search" : "Agent")>
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
