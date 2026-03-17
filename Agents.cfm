@@ -19,6 +19,8 @@ limitations under the License.
 
 --->
 <cfset pageTitle = "Search Agents">
+<cfset action="search">
+<cfparam name="targetWikiPage" default="Agent_Search">
 <cfinclude template = "/shared/_header.cfm">
 
 <cfset defaultSelectionMode = "none">
@@ -27,7 +29,7 @@ limitations under the License.
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
-<cfset action="search">
+
 
 <cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select distinct(prefix) as dist_prefix from person where prefix is not null
@@ -1018,11 +1020,9 @@ limitations under the License.
 		</div>
 	</div>
 </div><!--- overlay container --->
-        <cfdump var="#action#" label="Action variable">
-        <cfdump var="#targetWikiPage#" label="target variable">
+    
                                    
 <script src="/shared/js/wikiDrawer.js"></script>
-<cfset targetWikiPage = "Agent_Search">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
     
 <cfinclude template = "/shared/_footer.cfm">
