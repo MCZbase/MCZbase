@@ -297,7 +297,7 @@ limitations under the License.
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
 										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pr-lg-0 pl-lg-2 mt-2 mt-md-2 mt-xl-0">
-											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
+											<label for="address" class="data-entry-label" id="address_label">Address (Corresp./Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
 										<div class="col-12 col-md-6 col-lg-6 col-xl-3 px-0 px-lg-0 px-md-0 px-lg-0 mt-2 mt-md-2 mt-xl-0">
