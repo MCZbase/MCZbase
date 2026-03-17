@@ -313,7 +313,7 @@ limitations under the License.
 										<cfelse>
 											<cfset vcollmd = "col-md-3">
 										</cfif>
-										<div class="col-12 #vcollmd# col-lg-3 pl-lg-0 pr-lg-2 mt-2 mt-xl-0">
+										<div class="col-12 #vcollmd# col-lg-3 px-0 pl-lg-0 pr-lg-2 mt-2 mt-xl-0">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
@@ -324,7 +324,7 @@ limitations under the License.
 											</select>
 										</div>
 										<cfif listcontainsnocase(session.roles,"manage_transactions")>
-											<div class="col-12 col-md-1 col-lg-3 px-lg-0 mt-2 mt-xl-0">
+											<div class="col-12 col-md-1 col-lg-3 px-0 px-lg-0 mt-2 mt-xl-0">
 												<label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
 												<select id="ranking" name="ranking" class="data-entry-select">
 													<option></option>
