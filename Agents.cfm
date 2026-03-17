@@ -27,7 +27,9 @@ limitations under the License.
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
-
+<cfif not isdefined("action")>
+	<cfset action="search">
+</cfif>
 <cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select distinct(prefix) as dist_prefix from person where prefix is not null
 </cfquery>
