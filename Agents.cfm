@@ -193,7 +193,7 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-2 col-lg-2 col-xl-1 px-0 px-md-0 mt-2">
-										<label for="specificagent" class="data-entry-label" id="specificagent_label">Agent ID</label>
+										<label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">Agent ID</label>
 										<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-5 col-lg-5 col-xl-2 px-0 pl-md-2 mt-2">
