@@ -415,9 +415,6 @@ limitations under the License.
                         <button id="wiki-tab-button" type="button" class="btn btn-info btn-xs wiki-tab-button" onclick="openWikiDrawer();">
                             Wiki Article
                         </button>
-                         <button id="wiki-tab-button" type="button" class="btn btn-info btn-xs wiki-tab-button" onclick="closeWikiDrawer();">
-                            Wiki Article
-                        </button>
                     </div>
                 <cfelse>
                     <!-- Inline buttons under the form for create/edit -->
