@@ -159,7 +159,7 @@ limitations under the License.
 								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
 							});
 						</script>
-						<div class="col-12 px-4 pt-3 pb-2" id="searchFormDiv">
+						<div class="col-12 px-3 pt-3 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
 								<div class="d-flex flex-wrap mb-0">
@@ -296,7 +296,7 @@ limitations under the License.
 											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
-										<div class="col-12 col-md-4 col-lg-6 pl-lg-0 pl-lg-0 col-xl-4 mt-2 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-4 col-lg-6 pr-lg-0 pl-lg-2 col-xl-4 mt-2 mt-md-2 mt-xl-0">
 											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
@@ -313,7 +313,7 @@ limitations under the License.
 										<cfelse>
 											<cfset vcollmd = "col-md-3">
 										</cfif>
-										<div class="col-12 #vcollmd# pl-lg-0 pr-lg-2 mt-2 mt-xl-0">
+										<div class="col-12 #vcollmd# col-lg-3 pl-lg-0 pr-lg-2 mt-2 mt-xl-0">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
