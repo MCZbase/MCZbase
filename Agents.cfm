@@ -1023,6 +1023,6 @@ limitations under the License.
                                             
 <script src="/shared/js/wikiDrawer.js"></script>
 
-<cfoutput>#renderWikiDrawer(pageType="search")#</cfoutput>
+<cfoutput>#renderWikiDrawer(action,targetWikiPage)#</cfoutput>
     
 <cfinclude template = "/shared/_footer.cfm">
