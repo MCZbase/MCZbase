@@ -137,6 +137,10 @@ limitations under the License.
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
+            <cftry>
+                  <cfoutput>#renderWikiButtons()#</cfoutput>
+                  <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+            </cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
 					<div class="search-box">
@@ -508,6 +512,8 @@ limitations under the License.
 					</div>
 				</div>
 			</section>
+                <cfdump var="#targetWikiPage#">
+                <cfdump var="#action#">
 		</main>
 
 		<script>
