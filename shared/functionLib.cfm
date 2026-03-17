@@ -419,53 +419,7 @@ limitations under the License.
     <cfreturn html>
 </cffunction>
 
-Usage:
-
-Edit/Create:
-
-cfml
-
-Copy code
-<cfoutput>#renderWikiButtons()#</cfoutput>
-
-Search:
-
-cfml
-
-Copy code
-<cfoutput>
-  #renderWikiButtons(buttonClass="btn btn-xs btn-info wiki-search-btn")#
-</cfoutput>
-
-And again define .wiki-search-btn in your CSS.
-
-Either way, you get the same buttons, but with a different class on search pages.
-
-
-
-
-
-
-
-
-
-Message GPT-5.1
-
-
-
-
-Get started
-Release notes
-Send feedback
-Digital Accessibility
-Privacy policy
-Terms of service
-Prompts
-Attach Files
-
     <cfset var html = "">
-
-
         <cfsavecontent variable="html">
             <cfoutput>
                 <button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
