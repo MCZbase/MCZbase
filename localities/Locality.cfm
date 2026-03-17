@@ -269,7 +269,7 @@ limitations under the License.
 								</form>
 							</div>
                            <cftry>
-                                <cfoutput>#renderWikiButtons()#</cfoutput>
+                                <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-info")#</cfoutput>
                                 <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
                             </cftry>
 							<!---<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
