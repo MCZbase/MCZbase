@@ -162,7 +162,7 @@ limitations under the License.
 						<div class="col-12 px-4 pt-3 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
-								<div class="d-flex flex-wrap mb-2">
+								<div class="d-flex flex-wrap mb-0">
 									<div class="col-12 col-md-12 col-lg-12 col-xl-5 px-0">
 										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name
 											<span class="small90">
@@ -211,7 +211,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="d-flex flex-wrap mb-2">
+								<div class="d-flex flex-wrap mb-0">
 									<div class="col-12 col-md-4 col-lg-4 col-xl-2 px-0 mt-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
@@ -230,7 +230,7 @@ limitations under the License.
 											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-7 col-lg-9 col-xl-3 px-0 pl-md-2 mt-2">
+									<div class="col-12 col-md-7 col-lg-9 col-xl-3 px-0 pl-md-2 pl-lg-0 mt-2">
 										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -284,7 +284,7 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-2">
-										<div class="col-12 col-md-4 col-lg-6 pl-lg-2 pr-lg-0 col-xl-4 mt-2">
+										<div class="col-12 col-md-4 col-lg-6 pl-lg-0 pr-lg-0 col-xl-4 mt-2">
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
@@ -296,7 +296,7 @@ limitations under the License.
 											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
-										<div class="col-12 col-md-4 col-lg-6 pl-lg-0 pl-lg-2 col-xl-4 mt-2 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-4 col-lg-6 pl-lg-0 pl-lg-0 col-xl-4 mt-2 mt-md-2 mt-xl-0">
 											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
