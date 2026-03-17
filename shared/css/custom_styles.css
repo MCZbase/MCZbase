@@ -811,132 +811,7 @@ body.modal-open {
 .list-group-item {
 	background-color: transparent;
 }
-/***********************************************/
-/* BELOW: filter and column slider menu styles */
-/***********************************************/
-/*#cbp-spmenu-s2 {
-	z-index: 600;
-}*/
-/* #showRightPush black label "Filters" tab that moves the filter for what is in the columns*/
-/*section a#showRightPush {
-	width: 30px;
-	margin-left: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	margin-top: 163px;
-	padding: 7px 1px 7px 5px;
-	position: relative;
-	letter-spacing: .07rem;
-	font-weight: bold;
-	font-size: 1rem;
-	transform-origin: top left;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}*/
-/* #showLeftPush black label "Columns" tab that moves the filter for displaying the columns*/
-/*section a#showLeftPush {
-	width: 32px;
-	margin-right: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	right: 30px;
-	padding: 7px 3px 7px 5px;
-	position: relative;
-	letter-spacing: .07em;
-	font-weight: bold;
-	font-size: 1rem;
-	margin-top: 301px;
-	transform-origin: top right;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu {
-	background: white;
-	position: fixed;
-	z-index: 5000;
-}
-.cbp-spmenu h3.filters {
-	color: #3E6F7D;
-	font-size: 1.7rem;
-	padding: 20px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -298px;
-}
-.cbp-spmenu a {
-	display: block;
-	font-size: 1.1rem;
-	font-weight: 400;
-	color: #006ee3;
-}
-.cbp-spmenu a:hover {
-	cursor: pointer;
-	font-weight: 400;
-}
-.cbp-spmenu a:active {
-	color: azure;
-}
-.cbp-spmenu-vertical {
-	width: 298px;
-	height: 100%;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
 
-.cbp-spmenu-right {
-	right: -298px;
-}
-.cbp-spmenu-right.cbp-spmenu-open {
-	right: 0px;
-	border-left: 1px solid #ccc;
-	padding-right: 3px;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu, .cbp-spmenu-push {
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu h3.columns {
-	color: #3E6F7D;
-	font-size: 1.3rem;
-	padding: 16px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -392px;
-}
-
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu section a.disabled {
-	display: none;
-}
-.cbp-spmenu-vertical-left {
-	width: 214px;
-	height: 420px;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu-left.cbp-spmenu-open {
-	right: 0px;
-	border: 1px solid #ccc;
-	border-right: none;
-	transition: all 0.3s ease;
-}*/
 #clearfilter {
 	margin-left: 1rem;
 	margin-top: 1rem;
@@ -2881,7 +2756,22 @@ an overlay that prevents interaction with them.
 .mw-toc-heading {
 	margin-bottom: 0;
 }
+/* Fixed to right side of viewport */
+.wiki-tab-container {
+    position: fixed;
+    right: 0;
+    top: 40%;          /* adjust as needed */
+    z-index: 1050;     /* above main content */
+}
 
+/* Rotate text so you read it by tilting your head to the right */
+.wiki-tab-button {
+    padding: 6px 12px;
+    transform: rotate(-90deg);
+    transform-origin: right center;
+    white-space: nowrap;
+    border-radius: 4px 4px 0 0; /* optional tab look */
+}
 
 /****************end all screen styles*********************/
 /**********************************************************/
