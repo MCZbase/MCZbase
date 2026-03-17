@@ -407,71 +407,46 @@ limitations under the License.
 
     <cfset var html = "">
 
+
         <cfsavecontent variable="html">
             <cfoutput>
-                <cfif arguments.pageType EQ "search">
-                    <!-- Right-side vertical tab for search pages -->
-                    <div class="wiki-tab-container">
-                        <button id="wiki-tab-button" type="button" class="btn btn-info btn-xs wiki-tab-button" onclick="openWikiDrawer();">
-                            Wiki Article
-                        </button>
-                    </div>
-                <cfelse>
-                    <!-- Inline buttons under the form for create/edit -->
-                    <button id="show-wiki"
-                            class="btn btn-xs btn-info"
-                            type="button"
-                            onclick="openWikiDrawer();">
-                        Show Wiki Article
-                    </button>
-                    <button id="hide-wiki"
-                            class="btn btn-xs btn-info"
-                            type="button"
-                            onclick="closeWikiDrawer();">
-                        Hide Wiki Article
-                    </button>
-                </cfif>
+                <button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+                <button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
             </cfoutput>
         </cfsavecontent>
-
-    <cfreturn html>
-</cffunction>         
+  <cfreturn html>
+</cffunction>
+        
 <cffunction name="renderWikiDrawer"
            access="public"
            returntype="string"
            output="false">
-    <cfargument name="action" type="string" required="false" default="">
+    <cfargument name="action" type="string" required="true">
     <cfargument name="targetWikiPage" type="string" required="true">
 
-    <cfset var html    = "">
-    <cfset var canEdit = false>
+    <cfset var html   = "">
+    <cfset var canEdit = false>-
 
-    <!-- Determine if user can edit -->
+    <!--- Determine if user can edit --->
     <cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
         <cfset canEdit = true>
     </cfif>
 
-    <!-- Show drawer for new/edit OR when action is blank (search pages) -->
-    <cfif arguments.action EQ "new"
-        OR arguments.action EQ "edit"
-        OR arguments.action EQ "search" >
-
+    <!-- Only show drawer for new/edit actions, like your original code -->
+   <cfif arguments.action EQ "new" OR arguments.action EQ "edit">
         <cfsavecontent variable="html">
             <cfoutput>
-                <div id="wikiDrawer" class="wiki-drawer border" style="display:none;">
+                <div id="wikiDrawer" class="wiki-drawer border">
                     <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
                         <h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
-                        <button type="button"
-                                class="close"
-                                id="closeWikiDrawer"
-                                aria-label="Close"
-                                onclick="closeWikiDrawer();">
+                        <button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div id="wiki-content" class="p-3"></div>
                 </div>
 
+                <!-- Initialize the drawer behavior using the shared JS function -->
                 <script>
                     initWikiDrawer({
                         targetWikiPage: "#encodeForJavaScript(arguments.targetWikiPage)#",
