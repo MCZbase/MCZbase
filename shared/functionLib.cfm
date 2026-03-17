@@ -419,15 +419,7 @@ limitations under the License.
     <cfreturn html>
 </cffunction>
 
-    <cfset var html = "">
-        <cfsavecontent variable="html">
-            <cfoutput>
-                <button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-                <button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
-            </cfoutput>
-        </cfsavecontent>
-  <cfreturn html>
-</cffunction>
+
         
 <cffunction name="renderWikiDrawer"
            access="public"
