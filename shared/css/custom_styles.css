@@ -2246,9 +2246,9 @@ button.help-btnSearchWiki {
 	transform-origin: right top;
 	margin-bottom: 15px;
 	top: 12.5rem;
-	right: -92px;
-	z-index:1; 
-	padding-top:.15rem;
+	right: -128px;
+	z-index: 1; 
+	padding-top: .5rem;
 	padding-bottom: .15rem; 
 	font-size: 13.5px;
 	margin-top:0;
