@@ -29,6 +29,7 @@ limitations under the License.
 </cfif>	
 <cfif not isdefined("action")>
 	<cfset action="search">
+    <cfset targetWikiPage = "Agent_Search">
 </cfif>
 <cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select distinct(prefix) as dist_prefix from person where prefix is not null
@@ -1021,8 +1022,7 @@ limitations under the License.
 </div><!--- overlay container --->
                                             
 <script src="/shared/js/wikiDrawer.js"></script>
-<cfset action="search">>
-<cfset targetWikiPage = "Agent_Search">
+
 <cfoutput>#renderWikiDrawer(pageType="search")#</cfoutput>
     
 <cfinclude template = "/shared/_footer.cfm">
