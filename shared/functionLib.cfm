@@ -409,8 +409,7 @@ limitations under the License.
 
     <cfset var html = "">
  <cflog file="wikiDebug" text="renderWikiButtons called with pageType=#arguments.pageType#">
-<!---    <cfif structKeyExists(Session, "gitBranch")
-       AND findNoCase("redesign", Session.gitBranch) GT 0>--->
+
 
         <cfsavecontent variable="html">
             <cfoutput>
@@ -441,7 +440,6 @@ limitations under the License.
                 </cfif>
             </cfoutput>
         </cfsavecontent>
-<!---    </cfif>--->
 
     <cfreturn html>
 </cffunction>         
@@ -463,7 +461,7 @@ limitations under the License.
     <!-- Show drawer for new/edit OR when action is blank (search pages) -->
     <cfif arguments.action EQ "new"
         OR arguments.action EQ "edit"
-        OR arguments.action EQ "" >
+        OR arguments.action EQ "search" >
 
         <cfsavecontent variable="html">
             <cfoutput>
