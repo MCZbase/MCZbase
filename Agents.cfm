@@ -1021,7 +1021,8 @@ limitations under the License.
 </div><!--- overlay container --->
                                             
 <script src="/shared/js/wikiDrawer.js"></script>
-<cfset targetWikiPage = (action EQ "search" ? "Agent_Search" : targetWikiPage)>
+<cfset action="search">>
+<cfset targetWikiPage = "Agent_Search">
 <cfoutput>#renderWikiDrawer(pageType="search")#</cfoutput>
     
 <cfinclude template = "/shared/_footer.cfm">
