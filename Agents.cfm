@@ -230,7 +230,7 @@ limitations under the License.
 											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-8 col-lg-5 col-xl-3 px-0 px-md-2 mt-2">
+									<div class="col-12 col-md-7 col-lg-8 col-xl-3 px-0 px-md-2 mt-2">
 										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -241,7 +241,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 									</div>
-									<div class="col-12 col-md-7 col-lg-4 col-xl-4 px-0 mt-2">
+									<div class="col-12 col-md-7 col-lg-6 col-xl-4 px-0 mt-2">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -252,7 +252,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 									</div>
-									<div class="col-12 col-md-7 col-lg-4 col-xl-3 mt-2">
+									<div class="col-12 col-md-7 col-lg-6 col-xl-3 mt-2">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -263,7 +263,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-12 col-md-2 col-xl-1 mt-md-2 mt-xl-0">
+									<div class="col-12 col-md-2 col-lg-2 col-xl-1 mt-md-2 mt-xl-0">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
@@ -284,7 +284,7 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 col-lg-8 col-xl-4">
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
