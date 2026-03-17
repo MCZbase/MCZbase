@@ -404,22 +404,18 @@ limitations under the License.
            access="public"
            returntype="string"
            output="false">
-    <cfargument name="pageType" type="string" required="false" default="form">
-    <!-- pageType: "form" for create/edit, "search" for search pages -->
 
     <cfset var html = "">
- <cflog file="wikiDebug" text="renderWikiButtons called with pageType=#arguments.pageType#">
-
 
         <cfsavecontent variable="html">
             <cfoutput>
                 <cfif arguments.pageType EQ "search">
                     <!-- Right-side vertical tab for search pages -->
                     <div class="wiki-tab-container">
-                        <button id="wiki-tab-button"
-                                type="button"
-                                class="btn btn-info wiki-tab-button"
-                                onclick="openWikiDrawer();">
+                        <button id="wiki-tab-button" type="button" class="btn btn-info btn-xs wiki-tab-button" onclick="openWikiDrawer();">
+                            Wiki Article
+                        </button>
+                         <button id="wiki-tab-button" type="button" class="btn btn-info btn-xs wiki-tab-button" onclick="closeWikiDrawer();">
                             Wiki Article
                         </button>
                     </div>
