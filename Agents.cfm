@@ -308,22 +308,7 @@ limitations under the License.
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
 										</div>
-										<cfif listcontainsnocase(session.roles,"manage_transactions")>
-											<cfset vcollmd = "col-md-1">
-										<cfelse>
-											<cfset vcollmd = "col-md-3">
-										</cfif>
-										<div class="col-12 #vcollmd# col-lg-3 px-0 pl-lg-0 pr-lg-2 mt-2 mt-xl-0">
-											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
-											<select id="edited" name="edited" class="data-entry-select">
-												<option></option>
-												<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="1" #sel# >Yes *</option>
-												<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="0" #sel#>No</option>
-											</select>
-										</div>
-										<cfif listcontainsnocase(session.roles,"manage_transactions")>
+								        <cfif listcontainsnocase(session.roles,"manage_transactions")>
 											<div class="col-12 col-md-3 col-lg-3 px-0 px-lg-0 mt-2 mt-xl-0">
 												<label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
 												<select id="ranking" name="ranking" class="data-entry-select">
@@ -335,6 +320,17 @@ limitations under the License.
 												</select>
 											</div>
 										</cfif>
+										<div class="col-12 col-md-3 col-lg-3 px-0 pl-lg-0 pr-lg-2 mt-2 mt-xl-0">
+											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
+											<select id="edited" name="edited" class="data-entry-select">
+												<option></option>
+												<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="1" #sel# >Yes *</option>
+												<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="0" #sel#>No</option>
+											</select>
+										</div>
+							
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
