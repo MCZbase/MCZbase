@@ -138,7 +138,7 @@ limitations under the License.
 	<cfoutput>
 		<main id="content">
             <cftry>
-                  <cfoutput>#renderWikiButtons(pageType="search")#</cfoutput>
+                  <cfoutput>#renderWikiButtons()#</cfoutput>
                   <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
             </cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
@@ -512,8 +512,6 @@ limitations under the License.
 					</div>
 				</div>
 			</section>
-                <cfdump var="#targetWikiPage#">
-                <cfdump var="#action#">
 		</main>
 
 		<script>
@@ -1029,6 +1027,7 @@ limitations under the License.
     
                                    
 <script src="/shared/js/wikiDrawer.js"></script>
+<cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
     
 <cfinclude template = "/shared/_footer.cfm">
