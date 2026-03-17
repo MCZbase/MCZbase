@@ -181,7 +181,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
-                            <cfoutput>#renderWikiButtons()#</cfoutput>
+                            <cfoutput>#renderWikiButtons(pageType="edit")#</cfoutput>
                            
 							<!---<cfif findNoCase('redesign',Session.gitBranch) GT 0>
 								<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
@@ -269,7 +269,7 @@ limitations under the License.
 								</form>
 							</div>
                            <cftry>
-                                <cfoutput>#renderWikiButtons()#</cfoutput>
+                                <cfoutput>#renderWikiButtons(pageType="create")#</cfoutput>
                                 <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
                             </cftry>
 							<!---<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
@@ -683,7 +683,7 @@ limitations under the License.
 
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
-<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+<cfoutput>#renderWikiDrawer(targetWikiPage)#</cfoutput>
 
 
 <cfinclude template = "/shared/_footer.cfm">
