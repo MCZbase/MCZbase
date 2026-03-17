@@ -433,7 +433,7 @@ limitations under the License.
     </cfif>
 
     <!-- Only show drawer for new/edit actions, like your original code -->
-   <cfif arguments.action EQ "new" OR arguments.action EQ "edit">
+   <cfif arguments.action EQ "new" OR arguments.action EQ "edit" OR arguments.action EQ "search">
         <cfsavecontent variable="html">
             <cfoutput>
                 <div id="wikiDrawer" class="wiki-drawer border">
