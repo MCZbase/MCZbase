@@ -395,7 +395,7 @@ limitations under the License.
 										</div>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 											<div class="col-12 col-md-3 col-lg-6 px-0 pr-md-2 px-lg-0 mt-2">
-												<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Transactions in Collection</label>
+												<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
 												<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
 													<option></option>
 													<cfloop query="collections">
@@ -405,7 +405,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 col-md-3 col-lg-6 pl-lg-2 px-0 px-md-0 pr-lg-0 mt-2">
-												<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights Role</label>
+												<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
 												<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
 													<option></option>
 													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
