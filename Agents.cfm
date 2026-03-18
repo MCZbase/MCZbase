@@ -214,7 +214,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="d-flex flex-wrap mb-0">
-									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 my-2">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
