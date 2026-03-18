@@ -213,8 +213,8 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="d-flex flex-wrap mb-0 border p-1 m-1">
-                                    <span class="small">Name</span>
+								<div class="d-flex flex-wrap mb-0 border rounded p-1 m-1">
+                                    <span class="small w-100">Name</span>
 									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2 mt-md-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
@@ -235,7 +235,7 @@ limitations under the License.
 									</div>
                                 
 									<div class="col-12 col-md-9 col-lg-9 col-xl-3 px-0 pl-md-0 pl-lg-0 mt-2">
-										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
+										<label for="first_name" class="data-entry-label" id="first_name_label">First
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
@@ -246,7 +246,7 @@ limitations under the License.
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 									</div>
 									<div class="col-12 col-md-9 col-lg-9 col-xl-3 px-0 px-xl-2 mt-2">
-										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
+										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
@@ -257,7 +257,7 @@ limitations under the License.
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 									</div>
 									<div class="col-12 col-md-9 col-lg-9 px-0 col-xl-3 pr-xl-2 pl-xl-0 mt-2">
-										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
+										<label for="last_name" class="data-entry-label" id="last_name_label">Last 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
