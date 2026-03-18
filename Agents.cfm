@@ -213,7 +213,8 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="d-flex flex-wrap mb-0">
+								<div class="d-flex flex-wrap mb-0 border p-1 m-1">
+                                    <span class="small">Name</span>
 									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2 mt-md-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
@@ -232,6 +233,7 @@ limitations under the License.
 											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
+                                
 									<div class="col-12 col-md-9 col-lg-9 col-xl-3 px-0 pl-md-0 pl-lg-0 mt-2">
 										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
 											<span class="small">
