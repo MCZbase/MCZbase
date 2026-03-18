@@ -243,7 +243,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 									</div>
-									<div class="col-12 col-md-9 col-lg-9 col-xl-4 px-0 px-xl-2 mt-2">
+									<div class="col-12 col-md-9 col-lg-9 col-xl-3 px-0 px-xl-2 mt-2">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
