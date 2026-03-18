@@ -286,11 +286,11 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-2">
-										<div class="col-12 col-md-6 col-lg-6 px-0 pl-lg-0 pr-lg-0 col-xl-4 mt-2">
+										<div class="col-12 col-md-6 col-lg-6 px-0 pl-lg-0 pr-lg-0 pr-xl-2 col-xl-4 mt-2">
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pl-lg-2 pr-lg-0 mt-2">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pl-lg-2 pr-lg-0 pr-xl-2 mt-2">
 											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
 										</div>
