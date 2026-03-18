@@ -396,7 +396,7 @@ limitations under the License.
 											</select>
 										</div>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-											<div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 pr-md-2 px-lg-0 mt-2">
+											<div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 pr-md-2 px-lg-0 pl-xl-2 mt-2">
 												<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
 												<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
 													<option></option>
