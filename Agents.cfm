@@ -183,7 +183,7 @@ limitations under the License.
 											}
 										}
 									</script>
-									<div class="col-12 col-md-5 col-lg-5 col-xl-5 mt-2 px-0 pr-md-2">
+									<div class="col-12 col-md-5 col-lg-5 col-xl-3 mt-2 pl-xl-2 pr-xl-0 px-0 pr-md-2">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
 										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
 											onblur=" specificagentBlurHandler();"
@@ -214,7 +214,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="d-flex flex-wrap mb-0">
-									<div class="col-12 col-md-4 col-lg-4 col-xl-2 px-0 mt-2">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
@@ -243,7 +243,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 									</div>
-									<div class="col-12 col-md-9 col-lg-9 col-xl-4 px-0 mt-2">
+									<div class="col-12 col-md-9 col-lg-9 col-xl-4 px-0 px-xl-2 mt-2">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -254,7 +254,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 									</div>
-									<div class="col-12 col-md-9 col-lg-9 px-0 col-xl-3 mt-2">
+									<div class="col-12 col-md-9 col-lg-9 px-0 col-xl-3 pr-xl-2 pl-xl-0 mt-2">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
