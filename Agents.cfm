@@ -144,7 +144,7 @@ limitations under the License.
             </cfif>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="d-flex flex-wrap mx-0 mb-0">
-					<div class="search-box mr-md-3">
+					<div class="search-box mr-md-4">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
 						</div>
@@ -298,15 +298,15 @@ limitations under the License.
 											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pr-lg-0 pl-lg-2 mt-2 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pr-lg-0 pl-lg-2 mt-2 mt-md-2 mt-xl-2 ml-xl-0 mr-xl-2">
 											<label for="address" class="data-entry-label" id="address_label">Address (Corresp./Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-3 px-0 px-lg-0 px-md-0 px-lg-0 mt-2 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-3 px-0 px-lg-0 px-md-0 px-lg-0 mt-2 mt-md-2 mt-xl-2">
 											<label for="email" class="data-entry-label" id="email_label">Email</label>
 											<input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-3 mt-2 px-0 pl-md-2 pl-lg-2 pr-lg-0 mt-md-2 mt-xl-0">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-3 mt-2 px-0 pl-md-2 pl-lg-2 pr-lg-0 mt-md-2 mt-xl-2">
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
 										</div>
