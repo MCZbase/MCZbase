@@ -144,7 +144,7 @@ limitations under the License.
             </cfif>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="d-flex flex-wrap mx-0 mb-0">
-					<div class="search-box mr-md-4">
+					<div class="search-box mr-md-5">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
 						</div>
