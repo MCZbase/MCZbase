@@ -298,11 +298,11 @@ limitations under the License.
 											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pr-lg-0 pl-lg-2 mt-2 mt-md-2 mt-xl-2 ml-xl-0 mr-xl-2">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pr-lg-0 pl-lg-2 mt-2 mt-md-2 mt-xl-2 pl-xl-0 pr-xl-2">
 											<label for="address" class="data-entry-label" id="address_label">Address (Corresp./Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-3 px-0 px-lg-0 px-md-0 px-lg-0 mt-2 mt-md-2 mt-xl-2">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-3 px-0 px-lg-0 px-md-0 px-lg-0  mt-2 mt-md-2 mt-xl-2">
 											<label for="email" class="data-entry-label" id="email_label">Email</label>
 											<input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
 										</div>
@@ -311,7 +311,7 @@ limitations under the License.
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
 										</div>
 								        <cfif listcontainsnocase(session.roles,"manage_transactions")>
-											<div class="col-12 col-md-3 col-lg-3 px-0 px-lg-0 mt-2 mt-xl-0">
+											<div class="col-12 col-md-3 col-lg-3 px-0 px-lg-0 mt-2 mt-xl-2">
 												<label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
 												<select id="ranking" name="ranking" class="data-entry-select">
 													<option></option>
@@ -322,7 +322,7 @@ limitations under the License.
 												</select>
 											</div>
 										</cfif>
-										<div class="col-12 col-md-3 col-lg-3 px-0 pl-md-2 pr-md-0 pl-lg-2 pr-lg-0 mt-2 mt-xl-0">
+										<div class="col-12 col-md-3 col-lg-3 px-0 pl-md-2 pr-md-0 pl-lg-2 pr-lg-0 mt-2 mt-xl-2">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
