@@ -17,26 +17,29 @@
 
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
-function resizeGridToContent() {
-    var $grid = $("#searchResultsGrid");
-    if ($grid.length) {
-        var newWidth = $("#content").width();
-        $grid.jqxGrid('width', newWidth);  // this does NOT clear data
-    }
+function resizeAllGridsToContent() {
+    var $content = $("#content");
+    if (!$content.length) return;
+
+    var newWidth = $content.width();
+
+    $('.jqxGrid').each(function () {
+        $(this).jqxGrid('width', newWidth);
+    });
 }
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open');
 	$('#content').addClass('pushed');
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
-     resizeGridToContent();
+    resizeAllGridsToContent();
 }
 function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
-    resizeGridToContent();
+    resizeAllGridsToContent();
 }
 
 
