@@ -183,7 +183,7 @@ limitations under the License.
 											}
 										}
 									</script>
-									<div class="col-12 col-sm-7 col-md-5 col-lg-5 col-xl-5 mt-2 px-0 pr-md-2">
+									<div class="col-12 col-md-5 col-lg-5 col-xl-5 mt-2 px-0 pr-md-2">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
 										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
 											onblur=" specificagentBlurHandler();"
@@ -345,7 +345,7 @@ limitations under the License.
 								<div class="d-flex flex-wrap mb-2">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<div class="col-12 col-md-4 px-0 mt-2">
-											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mr-md-1 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mr-md-1 pt-1 px-0 pr-md-1 pr-lg-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
 												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
