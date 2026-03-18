@@ -214,7 +214,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="d-flex flex-wrap mb-0">
-									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2 mt-md-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
@@ -290,7 +290,7 @@ limitations under the License.
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-0 pl-lg-2 pr-lg-0 pr-xl-2 mt-2">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-0 pl-lg-0 pr-lg-0 pr-xl-2 mt-2">
 											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
 										</div>
