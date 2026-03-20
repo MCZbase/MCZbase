@@ -2207,30 +2207,7 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-/*button.help-btn {
-	background-color: #1b1b1b;
-	color: white;
-	float:right;
-	-webkit-backface-visibility: hidden;
-	-webkit-transform: translateX(-98%) rotate(-90deg);
-	-webkit-transform-origin: right top;
-	-moz-transform: translateX(-98%) rotate(-90deg);
-	-moz-transform-origin: right top;
-	-o-transform: translateX(-98%) rotate(-90deg);
-	-o-transform-origin: right top;
-	transform: translateX(-98%) rotate(-90deg);
-	transform-origin: right top;
-	margin-bottom: 15px;
-	top: .75rem;
-	right: -92px;
-	z-index:1; 
-	padding-top:.15rem;
-	padding-bottom: .15rem; 
-	font-size: 13.5px;
-	margin-top:0;
-	position: absolute;
-}
-*/
+
 button.help-btnSearchWiki {
     background-color: #1b1b1b;
     color: white;
@@ -2257,10 +2234,7 @@ button.help-btnSearchWiki {
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
 }
-/*.jqx-fill-state-normal { 
-	border-color: #e0da76; 
-	background-color: #fdfcf3;
-}*/
+
 #collapseKeyword h2.headerSm {
 	font-size: 1.25rem;
 }
@@ -2787,21 +2761,21 @@ an overlay that prevents interaction with them.
 	margin-bottom: 0;
 }
 /* Fixed to right side of viewport */
-.wiki-tab-container {
+/*.wiki-tab-container {
     position: fixed;
     right: 0;
-    top: 30%;          /* adjust as needed */
-    z-index: 1050;     /* above main content */
-}
+    top: 30%;          
+    z-index: 1050;    
+}*/
 
-/* Rotate text so you read it by tilting your head to the right */
-.wiki-tab-button {
+/* Rotate text so you read it by tilting your head to the right/search help button */
+/*.wiki-tab-button {
     padding: 6px 12px;
     transform: rotate(90deg);
     transform-origin: right center;
     white-space: nowrap;
-    border-radius: 4px 4px 0 0; /* optional tab look */
-}
+    border-radius: 4px 4px 0 0; 
+}*/
 /* Desktop / large screens: push content */
 @media (min-width: 768px) {
     #content.pushed {
