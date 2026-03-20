@@ -123,10 +123,8 @@ function initWikiDrawer(options) {
 
         $('#hide-wiki').hide();
   
-        // Three different help buttons, three different asides
-        $('#show-search-help-basic').on('click', function (e) {
+      $('#show-search-help-basic').on('click', function (e) {
             e.preventDefault();
-            // toggle behavior
             if ($('#wikiDrawer').hasClass('open')) {
                 closeWikiDrawer();
             } else {
