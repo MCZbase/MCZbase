@@ -124,6 +124,11 @@ function initWikiDrawer(options) {
     });
     $('#show-search-help').on('click', function (e) {
         e.preventDefault();
+            // If the drawer is already open, close it
+        if ($('#wikiDrawer').hasClass('open')) {
+            closeWikiDrawer();
+            return;
+        }
         showDivInWikiDrawer('collapseFixed', 'Search Help');
     });
 }
