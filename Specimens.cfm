@@ -340,7 +340,7 @@ limitations under the License.
 									<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseFixedBasic" style="display:none;">
+									<aside id="collapseFixedBasic" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3 border-dark">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
