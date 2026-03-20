@@ -2207,7 +2207,7 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-button.help-btn {
+/*button.help-btn {
 	background-color: #1b1b1b;
 	color: white;
 	float:right;
@@ -2230,7 +2230,7 @@ button.help-btn {
 	margin-top:0;
 	position: absolute;
 }
-
+*/
 button.help-btnSearchWiki {
     background-color: #1b1b1b;
     color: white;
@@ -2251,7 +2251,7 @@ button.help-btnSearchWiki {
     padding-top: .75rem;
     padding-bottom: .15rem; 
     font-size: 13.5px;
-    margin-top:0;
+    margin-top: 0;
     position: absolute;
 
     /* Only bottom-left and bottom-right rounded */

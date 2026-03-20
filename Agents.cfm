@@ -138,7 +138,7 @@ limitations under the License.
 		<main id="content">
             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
             <cftry>
-                  <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-info help-btnSearchWiki border-0")#</cfoutput>
+                  <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs help-btnSearchWiki border-0")#</cfoutput>
                   <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
             </cftry>
             </cfif>
