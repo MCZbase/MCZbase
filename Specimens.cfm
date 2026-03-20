@@ -4602,24 +4602,7 @@ Target JSON:
 
 </cfoutput>
 <script src="/shared/js/wikiDrawer.js"></script>
-<script>
-  function showDivInWikiDrawer(divId, titleText) {
-    var $src = $('##' + divId);
-    console.log('showDivInWikiDrawer called; source length =', $src.length);
-    if (!$src.length) return;
-
-    if (titleText) {
-      $('##wiki-content-title').text(titleText);
-    }
-    $('##wiki-content').html($src.html());
-    openWikiDrawer();
-  }
-
-  $(function () {
-    $('##show-search-help').on('click', function (e) {
-      e.preventDefault();
-      showDivInWikiDrawer('Search_Operators', 'Basic Search Help');
-    });
-  });
-</script>
+<cfset action = "search">
+<cfset targetWikiPage = "Search_Operators">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
