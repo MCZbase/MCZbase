@@ -2235,10 +2235,10 @@ button.help-btnSearchWiki {
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
 }
 
-#collapseKeyword h2.headerSm {
+#wikiDrawer h2.headerSm {
 	font-size: 1.25rem;
 }
-#collapseKeyword dt {
+#wikiDrawer dt {
 	float:left;
 	display: inline-block;
 	min-width: 25px!important;
