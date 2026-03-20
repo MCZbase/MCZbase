@@ -4601,4 +4601,12 @@ Target JSON:
 </script>
 
 </cfoutput>
+<script src="/shared/js/wikiDrawer.js"></script>
+<script>
+  $(function () {
+    initWikiDrawer({
+      targetWikiPage: 'Search_Operators'  // or whatever wiki article you want for the Show Wiki button
+    });
+  });
+</script>
 <cfinclude template="/shared/_footer.cfm">
