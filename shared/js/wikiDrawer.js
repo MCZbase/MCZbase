@@ -121,14 +121,35 @@ function initWikiDrawer(options) {
         });
 
         $('#hide-wiki').hide();
-    });
-    $('#show-search-help').on('click', function (e) {
-        e.preventDefault();
-            // If the drawer is already open, close it
-        if ($('#wikiDrawer').hasClass('open')) {
-            closeWikiDrawer();
-            return;
-        }
-        showDivInWikiDrawer('collapseFixed', 'Search Help');
-    });
+  
+        // Three different help buttons, three different asides
+        $('#show-search-help-basic').on('click', function (e) {
+            e.preventDefault();
+            // toggle behavior
+            if ($('#wikiDrawer').hasClass('open')) {
+                closeWikiDrawer();
+            } else {
+                showDivInWikiDrawer('collapseFixedBasic', 'Basic Search Help');
+            }
+        });
+
+        $('#show-search-help-keyword').on('click', function (e) {
+            e.preventDefault();
+            if ($('#wikiDrawer').hasClass('open')) {
+                closeWikiDrawer();
+            } else {
+                showDivInWikiDrawer('collapseKeyword', 'Keyword Search Help');
+            }
+        });
+
+        $('#show-search-help-builder').on('click', function (e) {
+            e.preventDefault();
+            if ($('#wikiDrawer').hasClass('open')) {
+                closeWikiDrawer();
+            } else {
+                showDivInWikiDrawer('collapseBuilder', 'Builder Search Help');
+            }
+        });
+        
+   });
 }

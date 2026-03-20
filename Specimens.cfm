@@ -337,10 +337,10 @@ limitations under the License.
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div class="d-flex justify-content-end px-0"> 
-									<button id="show-search-help" class="btn btn-xs btn-dark help-btnSearchWiki border-0" type="button">
+									<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSearchWiki border-0" type="button">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseFixed" style="display:none;">
+									<aside class="collapse collapseStyle" id="collapseFixedBasic" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3 border-dark">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
@@ -1775,10 +1775,10 @@ limitations under the License.
 							<!---Keyword Search/results tab panel--->
 							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
 								<div class="d-flex justify-content-end px-0"> 
-									<button class="btn btn-xs btn-dark help-btnSearchWiki" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
-													Search Help
+									<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSearchWiki" type="button">
+				                        Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseKeyword">
+									<aside class="collapse collapseStyle" id="collapseKeywordHelp">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Keyword Search Help</h2>
 											<p>
@@ -1978,10 +1978,10 @@ Target JSON:
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
 									<div class="col-9 float-right px-3"> 
-									<button class="btn btn-xs btn-dark help-btnSearchWiki border-0" type="button" data-toggle="collapse" data-target="##collapseBuilder" aria-expanded="false" aria-controls="collapseBuilder">
+									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSearchWiki border-0" type="button">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseBuilder">
+									<aside class="collapse collapseStyle" id="collapseBuilderHelp">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
 											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>.
@@ -4603,6 +4603,6 @@ Target JSON:
 </cfoutput>
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
-<cfset targetWikiPage = "Search_Operators">
+<cfset targetWikiPage = null>
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
