@@ -98,6 +98,31 @@ function showDivInWikiDrawer(divId, titleText) {
 
 function initWikiDrawer(options) {
     $(function () {
+        $('#show-wiki').on('click', function (e) {
+            e.preventDefault();
+
+                showWiki(
+                    options.targetWikiPage,
+                    false,
+                    'wiki-content',
+                    'wiki-content-title',
+                    openWikiDrawer,
+                    closeWikiDrawer,
+                    true,
+                    0
+                );
+
+                $('#show-wiki').hide();
+                $('#hide-wiki').show();
+            });
+
+            $('#hide-wiki').on('click', function (e) {
+                e.preventDefault();
+                closeWikiDrawer();
+            });
+
+            $('#hide-wiki').hide();
+
         // Keep your existing #show-wiki and #hide-wiki handlers as-is.
 
         // ONE generic handler for all help buttons
