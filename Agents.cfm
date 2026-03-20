@@ -165,7 +165,7 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
 								<div class="d-flex flex-wrap mb-0">
-									<div class="col-12 col-md-12 col-lg-12 col-xl-5 my-2 px-0">
+									<div class="col-12 col-md-12 col-lg-12 col-xl-5 mb-2 mt-0 px-0">
 										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name
 											<span class="small90">
 												(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -183,7 +183,7 @@ limitations under the License.
 											}
 										}
 									</script>
-									<div class="col-12 col-md-5 col-lg-5 col-xl-3 pl-xl-2 pr-xl-0 px-0 pr-md-2 my-2">
+									<div class="col-12 col-md-5 col-lg-5 col-xl-3 pl-xl-2 pr-xl-0 px-0 pr-md-2 mt-0 mb-2">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
 										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
 											onblur=" specificagentBlurHandler();"
@@ -194,11 +194,11 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-2 col-lg-2 col-xl-1 px-0 px-md-0 my-2">
+									<div class="col-12 col-md-2 col-lg-2 col-xl-1 px-0 px-md-0 my-1">
 										<label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">Agent ID</label>
 										<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
 									</div>
-									<div class="col-12 col-md-5 col-lg-5 col-xl-2 px-0 pl-md-2 my-2">
+									<div class="col-12 col-md-5 col-lg-5 col-xl-2 px-0 pl-md-2 mb-2">
 										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
 										<select id="agent_type" name="agent_type" class="data-entry-select">
 											<option></option>
@@ -213,8 +213,8 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="d-flex flex-wrap mb-0 border rounded p-1 m-1">
-                                    <span class="small w-100">Name</span>
+								<div class="d-flex flex-wrap mb-0 border rounded px-1 pb-2 mt-2">
+                                    <span class="small w-100">NAME</span>
 									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2 mt-md-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
@@ -267,7 +267,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-12 col-md-4 col-lg-4 col-xl-1 px-0 pl-md-0 mt-md-2 mt-xl-2">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-1 px-0 pl-md-0 mt-md-2 mt-lg-2 mt-xl-2">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
