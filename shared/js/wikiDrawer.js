@@ -98,57 +98,24 @@ function showDivInWikiDrawer(divId, titleText) {
 
 function initWikiDrawer(options) {
     $(function () {
-        $('#show-wiki').on('click', function (e) {
+        // Keep your existing #show-wiki and #hide-wiki handlers as-is.
+
+        // ONE generic handler for all help buttons
+        $(document).on('click', '.js-search-help', function (e) {
             e.preventDefault();
 
-            showWiki(
-                options.targetWikiPage,
-                false,
-                'wiki-content',
-                'wiki-content-title',
-                openWikiDrawer,
-                closeWikiDrawer,
-                true,
-                0
-            );
+            var targetId = $(this).data('helpTarget'); // e.g. "collapseKeywordHelp"
+            if (!targetId) {
+                console.warn('js-search-help clicked without data-help-target');
+                return;
+            }
 
-            $('#show-wiki').hide();
-            $('#hide-wiki').show();
-        });
-
-        $('#hide-wiki').on('click', function (e) {
-            e.preventDefault();
-            closeWikiDrawer();
-        });
-
-        $('#hide-wiki').hide();
-  
-      $('#show-search-help-basic').on('click', function (e) {
-            e.preventDefault();
+            // Toggle behavior: if the drawer is open, close it; otherwise show this aside
             if ($('#wikiDrawer').hasClass('open')) {
                 closeWikiDrawer();
             } else {
-                showDivInWikiDrawer('collapseFixedBasic', 'Basic Search Help');
+                showDivInWikiDrawer(targetId, 'Search Help');
             }
         });
-
-        $('#show-search-help-keyword').on('click', function (e) {
-            e.preventDefault();
-            if ($('#wikiDrawer').hasClass('open')) {
-                closeWikiDrawer();
-            } else {
-                showDivInWikiDrawer('collapseKeywordHelp', 'Keyword Search Help');
-            }
-        });
-
-        $('#show-search-help-builder').on('click', function (e) {
-            e.preventDefault();
-            if ($('#wikiDrawer').hasClass('open')) {
-                closeWikiDrawer();
-            } else {
-                showDivInWikiDrawer('collapseBuilderHelp', 'Builder Search Help');
-            }
-        });
-        
-   });
+    });
 }
