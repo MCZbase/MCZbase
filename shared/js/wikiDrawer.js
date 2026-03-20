@@ -42,7 +42,20 @@ function closeWikiDrawer() {
     resizeAllGridsToContent();
 }
 
+function showDivInWikiDrawer(divId, titleText) {
+    var $src = $('#' + divId);
+    if (!$src.length) {
+        console.warn('showDivInWikiDrawer: source div not found:', divId);
+        return;
+    }
 
+    if (titleText) {
+        $('#wiki-content-title').text(titleText);
+    }
+
+    $('#wiki-content').html($src.html());
+    openWikiDrawer();
+}
 function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section = null) {
 	$('#'+targetDiv).html('Loading...');
 	if (titleLink) {
@@ -80,20 +93,7 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 	});
 }
 
-function showDivInWikiDrawer(divId, titleText) {
-    var $src = $('#' + divId);
-    if (!$src.length) {
-        console.warn('showDivInWikiDrawer: source div not found:', divId);
-        return;
-    }
 
-    if (titleText) {
-        $('#wiki-content-title').text(titleText);
-    }
-
-    $('#wiki-content').html($src.html());
-    openWikiDrawer();
-}
 
 function initWikiDrawer(options) {
     $(function () {
