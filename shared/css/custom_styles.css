@@ -2799,7 +2799,13 @@ an overlay that prevents interaction with them.
     white-space: nowrap;
     border-radius: 4px 4px 0 0; /* optional tab look */
 }
-
+/* Desktop / large screens: push content */
+@media (min-width: 768px) {
+    #content.pushed {
+        margin-left: 400px;
+        width: calc(100% - 400px);
+    }
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 
