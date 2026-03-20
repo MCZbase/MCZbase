@@ -4618,7 +4618,7 @@ Target JSON:
   $(function () {
     $('##show-search-help').on('click', function (e) {
       e.preventDefault();
-      showDivInWikiDrawer('collapseFixed', 'Basic Search Help');
+      showDivInWikiDrawer('Search_Operators', 'Basic Search Help');
     });
   });
 </script>
