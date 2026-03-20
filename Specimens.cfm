@@ -4603,13 +4603,6 @@ Target JSON:
 </cfoutput>
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
-<script>
-  $(function () {
-    // You don’t need a wiki article here; we just want the drawer + help buttons.
-    initWikiDrawer({
-      targetWikiPage: "Search_Operators"
-    });
-  });
-</script>
+<cfset targetWikiPage = "Search_Operators">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
