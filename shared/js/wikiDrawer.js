@@ -138,7 +138,7 @@ function initWikiDrawer(options) {
             if ($('#wikiDrawer').hasClass('open')) {
                 closeWikiDrawer();
             } else {
-                showDivInWikiDrawer('collapseKeyword', 'Keyword Search Help');
+                showDivInWikiDrawer('collapseKeywordHelp', 'Keyword Search Help');
             }
         });
 
@@ -147,7 +147,7 @@ function initWikiDrawer(options) {
             if ($('#wikiDrawer').hasClass('open')) {
                 closeWikiDrawer();
             } else {
-                showDivInWikiDrawer('collapseBuilder', 'Builder Search Help');
+                showDivInWikiDrawer('collapseBuilderHelp', 'Builder Search Help');
             }
         });
         

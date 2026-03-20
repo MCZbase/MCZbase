@@ -4604,5 +4604,6 @@ Target JSON:
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
 <cfset targetWikiPage = "Search_Operators">
+<cfset targetWikiPage = "Keyword_Search">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
