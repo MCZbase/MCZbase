@@ -2719,6 +2719,9 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
+html,body {
+    overflow-x:hidden;
+}
 .wiki-drawer {
 	position: fixed;
 	top: 0;
@@ -2740,10 +2743,10 @@ form.form-inline.logout-style {
 	width: 100%;
 	box-sizing: border-box;
 }
-#content.pushed {
+/*#content.pushed {
 	margin-left: 400px;
 	width: calc(100% - 400px);
-}
+}*/
 
 div.mw-parser-output h1 {
 	font-size: 20px;
