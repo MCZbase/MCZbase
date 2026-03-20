@@ -4603,9 +4603,22 @@ Target JSON:
 </cfoutput>
 <script src="/shared/js/wikiDrawer.js"></script>
 <script>
+  function showDivInWikiDrawer(divId, titleText) {
+    var $src = $('##' + divId);
+    console.log('showDivInWikiDrawer called; source length =', $src.length);
+    if (!$src.length) return;
+
+    if (titleText) {
+      $('##wiki-content-title').text(titleText);
+    }
+    $('##wiki-content').html($src.html());
+    openWikiDrawer();
+  }
+
   $(function () {
-    initWikiDrawer({
-      targetWikiPage: null  // or whatever wiki article you want for the Show Wiki button
+    $('##show-search-help').on('click', function (e) {
+      e.preventDefault();
+      showDivInWikiDrawer('collapseFixed', 'Basic Search Help');
     });
   });
 </script>
