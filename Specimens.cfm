@@ -1952,7 +1952,7 @@ limitations under the License.
 
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
-												<div class="row mx-0 mt-0""> 
+												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
