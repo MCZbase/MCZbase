@@ -336,7 +336,7 @@ limitations under the License.
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
-								<div class="col-9 d-flex justify-content-end px-0"> 
+								<div class="d-flex justify-content-end px-0"> 
 									<button id="show-search-help" class="btn btn-xs btn-dark btn-info help-btnSearchWiki border-0" type="button">
 										Search Help
 									</button>
