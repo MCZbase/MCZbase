@@ -337,7 +337,7 @@ limitations under the License.
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div class="d-flex justify-content-end px-0"> 
-									<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSearchWiki border-0 js-search-help" type="button">
+									<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>
 									<aside class="collapse collapseStyle" id="collapseFixedBasic" style="display:none;">
@@ -1775,7 +1775,7 @@ limitations under the License.
 							<!---Keyword Search/results tab panel--->
 							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
 								<div class="d-flex justify-content-end px-0"> 
-									<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSearchWiki js-search-help" type="button">
+									<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSearchWiki js-search-help" type="button" data-help-target="collapseKeywordHelp">
 				                        Search Help
 									</button>
 									<aside class="collapse collapseStyle" id="collapseKeywordHelp" style="display:none;">
@@ -1978,7 +1978,7 @@ Target JSON:
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
 									<div class="d-flex justify-content-end px-0"> 
-									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSearchWiki js-search-help border-0" type="button">
+									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSearchWiki js-search-help border-0" type="button" data-help-target="collapseBuilderHelp">
 										Search Help
 									</button>
 									<aside class="collapse collapseStyle" id="collapseBuilderHelp" style="display:none;">
