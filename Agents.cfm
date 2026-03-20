@@ -213,7 +213,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="d-flex flex-wrap mb-0 border rounded px-1 pb-2 mt-2">
+								<div class="d-flex flex-wrap border rounded px-1 pb-2 mb-2 mt-2">
                                     <span class="small w-100">NAME</span>
 									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-0 mt-2 mt-md-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
