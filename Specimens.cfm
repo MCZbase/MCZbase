@@ -4605,7 +4605,7 @@ Target JSON:
 <script>
   $(function () {
     initWikiDrawer({
-      targetWikiPage: 'Search_Operators'  // or whatever wiki article you want for the Show Wiki button
+      targetWikiPage: null  // or whatever wiki article you want for the Show Wiki button
     });
   });
 </script>
