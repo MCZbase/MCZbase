@@ -1778,7 +1778,7 @@ limitations under the License.
 									<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSearchWiki" type="button">
 				                        Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseKeywordHelp">
+									<aside class="collapse collapseStyle" id="collapseKeywordHelp" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Keyword Search Help</h2>
 											<p>
@@ -1981,7 +1981,7 @@ Target JSON:
 									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSearchWiki border-0" type="button">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseBuilderHelp">
+									<aside class="collapse collapseStyle" id="collapseBuilderHelp" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
 											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>.
