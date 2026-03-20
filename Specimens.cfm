@@ -4607,7 +4607,7 @@ Target JSON:
   $(function () {
     // You don’t need a wiki article here; we just want the drawer + help buttons.
     initWikiDrawer({
-      targetWikiPage: null
+      targetWikiPage: "Search_Operators"
     });
   });
 </script>
