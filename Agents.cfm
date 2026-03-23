@@ -231,7 +231,7 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="my-3 border px-3" style="background-color:##deebec">
+                                 <fieldset class="my-3 border px-3 bg-verylightteal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1">
@@ -264,7 +264,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>	
-                                        <div class="col-12 col-md-4 col-lg-2 col-xl-3 px-1 mb-1 form-group">
+                                        <div class="col-12 col-md-4 col-lg-1 col-xl-3 px-1 mb-1 form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
                                             <span class="small">
@@ -284,7 +284,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-2 col-xl-1 pb-2 px-1 mb-1">
+                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-2 px-1 mb-1">
                                             <div class="form-group mb-0">
                                                 <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                                 <select id="suffix" name="suffix" class="data-entry-select">
