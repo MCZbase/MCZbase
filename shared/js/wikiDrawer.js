@@ -149,3 +149,31 @@ function initWikiDrawer(options) {
         });
     });
 }
+
+
+$(function () {
+    // Map panel IDs to their help aside IDs
+    var tabHelpMap = {
+        'fixedSearchPanel':   'collapseFixedBasic',
+        'keywordSearchPanel': 'collapseKeywordHelp',
+        'builderSearchPanel': 'collapseBuilderHelp'
+    };
+
+    // When a tab is shown
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        // e.target is the newly activated tab link
+        var href = $(e.target).attr('href'); // e.g. "#fixedSearchPanel"
+        if (!href || href.charAt(0) !== '#') return;
+
+        var panelId = href.substring(1); // "fixedSearchPanel"
+        var helpId  = tabHelpMap[panelId];
+
+        // If the drawer isn't open, do nothing
+        if (!$('#wikiDrawer').hasClass('open')) return;
+
+        // If we have a mapped help aside for this tab, show it in the drawer
+        if (helpId) {
+            showDivInWikiDrawer(helpId, 'Search Help');
+        }
+    });
+});
