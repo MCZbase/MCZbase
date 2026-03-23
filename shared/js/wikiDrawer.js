@@ -39,7 +39,9 @@ function closeWikiDrawer() {
 	$('#content').removeClass('pushed');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
-    resizeAllGridsToContent();
+    $('#content').one('transitionend', function () {
+        resizeAllGridsToContent();
+    });
 }
 
 
