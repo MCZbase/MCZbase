@@ -192,7 +192,7 @@ limitations under the License.
                                                  });
                                             </script>
                                         <!-- Specific agent -->
-                                        <div class="col-12 col-md-6 col-lg-8 col-xl-4 px-0 mt-0">
+                                        <div class="col-12 col-md-6 col-lg-8 col-xl-5 px-0 mt-0">
                                             <div class="form-row">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
                                                 <div class="col-12 col-md-7 pr-md-2 form-group">
