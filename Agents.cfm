@@ -310,6 +310,29 @@ limitations under the License.
                                         </div>
                                     </div>
                                 </fieldset>
+                                <script>
+                                        $(document).on('click', '.operator-btn', function () {
+                                            var $btn = $(this);
+                                            var targetSelector = $btn.data('target');   // e.g. "#firstName"
+                                            var op = $btn.data('operator');             // e.g. "=", "NULL"
+
+                                            var $input = $(targetSelector);
+                                            if (!$input.length) return;
+
+                                            // If operator is NULL / NOT NULL, replace; otherwise prefix
+                                            if (op === 'NULL' || op === 'NOT NULL') {
+                                                $input.val(op);
+                                            } else {
+                                                var current = $input.val() || '';
+                                                // Only prefix if not already present
+                                                if (!current.startsWith(op)) {
+                                                    $input.val(op + current);
+                                                }
+                                            }
+
+                                            $input.focus();
+                                        });
+                                </script>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-1">
 										<div class="col-12 col-md-6 col-lg-6 px-0 pl-lg-0 pr-lg-0 pr-xl-2 col-xl-4 mt-2">
