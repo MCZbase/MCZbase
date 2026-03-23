@@ -287,17 +287,17 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>	
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                            <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
-                                            <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-                                            <span class="small">
+                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
+                                                <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
+                                                <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+                                                <span class="small">
                                                     (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                     NULL, NOT NULL)
                                                 </span>
-                                        </div>
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
+                                            </div>
+                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
                                                 <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                                 <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                                 <span class="small">
@@ -306,38 +306,36 @@ limitations under the License.
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                     NULL, NOT NULL)
                                                 </span>
-                                        </div>                
-                                       
-                                    </div><!---form row--->
-                                </fieldset>
+                                            </div>                
+                                        </div><!---form row--->
+                                    </fieldset>
 								    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="d-flex flex-wrap mb-1">
-										<div class="col-12 col-md-6 col-lg-6 px-0 pl-lg-0 pr-lg-0 pr-xl-2 col-xl-4 mt-2">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pl-lg-2 pr-lg-2 pr-xl-2 mt-2">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 px-md-0 px-lg-0 mt-2">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
 											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pr-lg-0 pl-lg-2 mt-2 mt-md-2 mt-xl-2 pl-xl-0 pr-xl-2">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 											<label for="address" class="data-entry-label" id="address_label">Address (Corresp./Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-3 px-0 px-lg-0 px-md-0 px-lg-0  mt-2 mt-md-2 mt-xl-2">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 											<label for="email" class="data-entry-label" id="email_label">Email</label>
 											<input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-3 mt-2 px-0 pl-md-2 pl-lg-2 pr-lg-0 mt-md-2 mt-xl-2">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
 										</div>
 								        <cfif listcontainsnocase(session.roles,"manage_transactions")>
-											<div class="col-12 col-md-3 col-lg-3 px-0 px-lg-0 mt-2 mt-xl-2">
+											<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 												<label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
 												<select id="ranking" name="ranking" class="data-entry-select">
 													<option></option>
@@ -348,7 +346,7 @@ limitations under the License.
 												</select>
 											</div>
 										</cfif>
-										<div class="col-12 col-md-3 col-lg-3 px-0 pl-md-2 pr-md-0 pl-lg-2 pr-lg-0 mt-2 mt-xl-2">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
