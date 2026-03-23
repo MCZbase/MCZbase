@@ -313,7 +313,7 @@ limitations under the License.
                                 <script>
                                         $(document).on('click', '.operator-btn', function () {
                                             var $btn = $(this);
-                                            var targetSelector = $btn.data('target');   // e.g. "#firstName"
+                                            var targetSelector = $btn.data('target');   // e.g. "##firstName"
                                             var op = $btn.data('operator');             // e.g. "=", "NULL"
 
                                             var $input = $(targetSelector);
