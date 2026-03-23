@@ -1862,7 +1862,7 @@ limitations under the License.
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
+													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pl-2">
 														<label class="data-entry-label" for="debug2">Debug</label>
 														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
 															<option value=""></option>
