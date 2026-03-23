@@ -180,6 +180,12 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
 		<main id="content">
+            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                <cftry>
+                      <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSearchWiki border-0")#</cfoutput>
+                      <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+                </cftry>
+            </cfif>
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
 					<div class="search-box">
@@ -192,10 +198,8 @@ limitations under the License.
 								<input type="hidden" name="action" value="search">
 								<div class="col-12 col-xl-3">
 									<div id="searchHelpTextBlock" class="smaller-text mt-2" tabindex="0">
-										Search taxonomies used in MCZbase. 
-										<a class="" href="javascript:void(0)" onClick="getMCZDocs('Search Taxonomy')">
-											<i class="fa fa-info-circle" aria-label="link to more info icon"></i> 
-										</a>  
+                                        <p>Search taxonomies used in MCZbase. </p>
+								 
 										<div class="readMore"><input type="checkbox" id="readMore_check_id"><label class="read" for="readMore_check_id"></label><span class="ilt bg-transparent">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
 											<span class="sr-only" tabindex="0">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
 										</div>
@@ -1283,4 +1287,9 @@ limitations under the License.
 		</div>	
 	</div>
 </cfoutput>
+                                        
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Search_Taxonomy">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template = "shared/_footer.cfm">
