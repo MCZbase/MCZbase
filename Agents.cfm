@@ -164,16 +164,17 @@ limitations under the License.
 						<div class="col-12 px-3 pt-3 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
-								<div class="d-flex flex-wrap mb-0">
-									<div class="col-12 col-md-12 col-lg-12 col-xl-8 mb-2 mt-0 px-0">
-										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name
-											<span class="small90">
+								<div class="form-row">
+									<div class="col-md-6">
+                                        <div class="form-group">
+										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
+                                        <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+											<small>
 												(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
 												NULL, NOT NULL, or a comma separated list of names)
-											</span>
-										</label>
-										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+											</small>
+                                        </div>
 									</div>
 									<!--- onblur, if field is emptied, clear the agent_id. --->
 									<script>
@@ -183,22 +184,24 @@ limitations under the License.
 											}
 										}
 									</script>
-									<div class="col-12 col-md-5 col-lg-5 col-xl-5 pl-xl-0 pr-xl-0 px-0 pr-md-2 mt-0 mb-1">
-										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
-											onblur=" specificagentBlurHandler();"
-											>
-										<script>
-											$(document).ready(function() {
-												makeAgentPicker("specificagent", "agent_id");
-											});
-										</script>
+									<div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
+                                            <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
+                                                onblur=" specificagentBlurHandler();"
+                                                >
+                                            <script>
+                                                $(document).ready(function() {
+                                                    makeAgentPicker("specificagent", "agent_id");
+                                                });
+                                            </script>
+                                        </div>
 									</div>
-									<div class="col-12 col-md-2 col-lg-2 col-xl-1 px-0 px-md-0 mb-1">
+									<div class="form-group">
 										<label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">Agent ID</label>
 										<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
 									</div>
-									<div class="col-12 col-md-5 col-lg-5 col-xl-2 px-0 pl-md-2 mb-1">
+									<div class="form-group">
 										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
 										<select id="agent_type" name="agent_type" class="data-entry-select">
 											<option></option>
@@ -213,79 +216,87 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="d-flex flex-wrap border rounded px-1 pb-1 mb-1 mt-2">
-                                    <span class="small w-100">NAME</span>
-									<div class="col-12 col-md-4 col-lg-4 col-xl-2 px-1 pl-xl-1 pr-xl-2 pl-xl-0 mt-1">
-										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
-										<select id="prefix" name="prefix" class="data-entry-select">
-											<option></option>
-											<cfloop query="dist_prefix">
-												<cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
-											</cfloop>
-											<cfloop query="dist_prefix">
-												<cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
-											</cfloop>
-											<cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NULL" #sel# >NULL</option>
-											<cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NOT NULL" #sel#>NOT NULL</option>
-										</select>
-									</div>
-                                
-									<div class="col-12 col-md-9 col-lg-9 col-xl-3 px-1 pl-md-0 pl-lg-0 mt-1">
-										<label for="first_name" class="data-entry-label" id="first_name_label">First
-											<span class="small">
-												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-									</div>
-									<div class="col-12 col-md-9 col-lg-9 col-xl-3 px-1 px-xl-2 mt-1">
-										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle 
-											<span class="small">
-												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-									</div>
-									<div class="col-12 col-md-9 col-lg-9 px-1 col-xl-3 px-1 pr-xl-2 pl-xl-0 mt-1">
-										<label for="last_name" class="data-entry-label" id="last_name_label">Last 
-											<span class="small">
-												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
-									</div>
-									<div class="col-12 col-md-4 col-lg-4 col-xl-1 px-1 mt-1 mt-md-2 mt-lg-2">
-										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
-										<select id="suffix" name="suffix" class="data-entry-select">
-											<option></option>
-											<cfloop query="dist_suffix">
-												<cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
-											</cfloop>
-											<cfloop query="dist_suffix">
-												<cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
-											</cfloop>
-											<cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NULL" #sel#>NULL</option>
-											<cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NOT NULL" #sel#>NOT NULL</option>
-										</select>
-									</div>
-								</div>
+								<fieldset class="mt-3">
+                                    <legend>Name Components</legend>
+                                    <div class="form-row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="namePrefix">Prefix</label>
+                                                <select id="prefix" name="prefix" class="data-entry-select">
+                                                    <option></option>
+                                                    <cfloop query="dist_prefix">
+                                                        <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
+                                                    </cfloop>
+                                                    <cfloop query="dist_prefix">
+                                                        <cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
+                                                    </cfloop>
+                                                    <cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                    <option value="NULL" #sel# >NULL</option>
+                                                    <cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                    <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
+                                                <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
+                                                <span class="small">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </div>	
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                            <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle </label>
+                                            <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+                                                <span class="small">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
+                                                <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
+                                                <span class="small">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-3">
+                                            <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
+                                            <select id="suffix" name="suffix" class="data-entry-select">
+                                                <option></option>
+                                                <cfloop query="dist_suffix">
+                                                    <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                    <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
+                                                </cfloop>
+                                                <cfloop query="dist_suffix">
+                                                    <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                    <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
+                                                </cfloop>
+                                                <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                <option value="NULL" #sel#>NULL</option>
+                                                <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                <option value="NOT NULL" #sel#>NOT NULL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-1">
 										<div class="col-12 col-md-6 col-lg-6 px-0 pl-lg-0 pr-lg-0 pr-xl-2 col-xl-4 mt-2">
