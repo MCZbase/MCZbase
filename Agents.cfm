@@ -166,7 +166,7 @@ limitations under the License.
 								<input type="hidden" name="method" value="getAgents">
 								<div class="form-row">
                                     <div class="col-md-6 col-xl-4">
-                                        <fieldset>
+                                        <fieldset class="border">
                                             <legend class="h6">Agent / Identifier</legend>
                                  
                                             <div class="form-group">
@@ -218,8 +218,8 @@ limitations under the License.
                                             </div>
                                         </fieldset>
 								    </div>
-								<fieldset class="mt-3">
-                                    <legend>Name Components</legend>
+								<fieldset class="mt-3 border">
+                                       <legend class="h6">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-md-2">
                                             <div class="form-group">
