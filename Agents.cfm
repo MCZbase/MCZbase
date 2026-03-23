@@ -237,9 +237,9 @@ limitations under the License.
 							
                                     <!-- ========== SECTION 2: Name components ========== -->
 								    <fieldset class="mt-3">
-                                        <legend class="h6">Name Components</legend>
-                                        <div class="form-row mt-1">
-                                            <div class="col-12 col-md-4 col-lg-3 col-xl-2 px-1 mt-1">
+                                        <legend class="h6 mt-1">Name Components</legend>
+                                        <div class="form-row">
+                                            <div class="col-12 col-md-4 col-lg-3 col-xl-2 px-1 mt-0">
                                                 <div class="form-group mb-2">
                                                    <label for="prefix" class="data-entry-label">Prefix</label>
                                                     <select id="prefix" name="prefix" class="data-entry-select">
@@ -371,10 +371,10 @@ limitations under the License.
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
                                 <fieldset class="mb-3">
-                                    <legend class="h6 mt-2">Dates</legend>
+                                    <legend class="h6 mt-1">Dates</legend>
                                     <div class="form-row">
                                          <!-- LEFT COLUMN: Birth (internal only) + Death (always) -->
-                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-2">
+                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
