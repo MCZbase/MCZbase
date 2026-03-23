@@ -274,7 +274,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mb-1 form-group">
+                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mb-2 form-group">
                                             <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                             <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                             <span class="small">
@@ -284,7 +284,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-2 px-1 mb-1">
+                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-2 px-1 mb-2">
                                             <div class="form-group mb-0">
                                                 <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                                 <select id="suffix" name="suffix" class="data-entry-select">
@@ -307,8 +307,6 @@ limitations under the License.
                                     </div><!---form row--->
                                 </fieldset>
                                                         
-                                                        
-                
                                 
                                 <!-- ========== SECTION 3: Dates ========== -->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
