@@ -322,7 +322,7 @@ limitations under the License.
                                     <legend class="h6 mt-1">Dates</legend>
                                     <div class="form-row">
                                          <!-- LEFT COLUMN: Birth (internal only) + Death (always) -->
-                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-0">
+                                        <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
@@ -337,7 +337,8 @@ limitations under the License.
                                                     </div>
                                                 </div>
                                             </cfif>
-                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-0">
+                                        </div>
+                                        <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
 				                            <!-- Death range, always shown -->
                                             <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
@@ -350,7 +351,7 @@ limitations under the License.
 									        </div>
                                         </div>
                                               <!-- Dates collected (always) -->
-                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-0">
+                                        <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
                                               <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
