@@ -318,7 +318,7 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="mb-3 border px-3" style="background-color:##deebec;">
+                                <fieldset class="mb-3 border px-3" style="background-color:##deebec">
                                     <legend class="h6 mt-1 border px-3 bg-white">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
