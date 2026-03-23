@@ -253,15 +253,15 @@ limitations under the License.
                                             <div class="mt-1 small">
                                                 Operators:
                                                 <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="#firstName" data-operator="=">= exact</button>
+                                                        data-target="##firstName" data-operator="=">= exact</button>
                                                 <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="#firstName" data-operator="!">! not</button>
+                                                        data-target="##firstName" data-operator="!">! not</button>
                                                 <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="#firstName" data-operator="$">$ sounds like</button>
+                                                        data-target="##firstName" data-operator="$">$ sounds like</button>
                                                 <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="#firstName" data-operator="NULL">NULL</button>
+                                                        data-target="##firstName" data-operator="NULL">NULL</button>
                                                 <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="#firstName" data-operator="NOT NULL">NOT NULL</button>
+                                                        data-target="##firstName" data-operator="NOT NULL">NOT NULL</button>
                                               </div>
                                         </div>
                                         <div class="col-md-3">
