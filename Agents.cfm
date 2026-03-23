@@ -401,7 +401,7 @@ limitations under the License.
 									        </div>
                                         </div>
                                               <!-- RIGHT COLUMN: Dates collected (always) -->
-                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-1">
+                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-0">
                                               <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
