@@ -160,19 +160,18 @@ $(function () {
     };
 
     // When a tab is shown
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        // e.target is the newly activated tab link
-        var href = $(e.target).attr('href'); // e.g. "#fixedSearchPanel"
-        if (!href || href.charAt(0) !== '#') return;
-
-        var panelId = href.substring(1); // "fixedSearchPanel"
-        var helpId  = tabHelpMap[panelId];
-
+    // When a tab button is clicked
+    $('#basicSearchTabButton, #keywordSearchTabButton, #builderSearchTabButton').on('click', function () {
         // If the drawer isn't open, do nothing
-        if (!$('#wikiDrawer').hasClass('open')) return;
+        if (!$('#wikiDrawer').hasClass('open')) {
+            return;
+        }
 
-        // If we have a mapped help aside for this tab, show it in the drawer
+        var btnId   = this.id;
+        var helpId  = tabHelpMap[btnId];
+
         if (helpId) {
+            // Replace drawer content with this tab's help aside
             showDivInWikiDrawer(helpId, 'Search Help');
         }
     });
