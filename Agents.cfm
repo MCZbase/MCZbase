@@ -326,7 +326,7 @@ limitations under the License.
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
-                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-2 mb-md-0 mr-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                         <label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">
                                                           #dateWord# Of Birth
                                                         </label>
@@ -337,6 +337,7 @@ limitations under the License.
                                                     </div>
                                                 </div>
                                             </cfif>
+                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-0">
 				                            <!-- Death range, always shown -->
                                             <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
@@ -348,7 +349,7 @@ limitations under the License.
                                                 </div>
 									        </div>
                                         </div>
-                                              <!-- RIGHT COLUMN: Dates collected (always) -->
+                                              <!-- Dates collected (always) -->
                                         <div class="col-12 col-md-6 col-xl-2 px-0 mt-0">
                                               <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
