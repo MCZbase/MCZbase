@@ -232,7 +232,7 @@ limitations under the License.
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
                                  <fieldset class="my-3 border px-3">
-                                    <legend class="h6 mt-1 border px-3 bg-white">Name Components</legend>
+                                    <legend class="h6 mt-1 border px-3 bg-dark text-white">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-1">
                                             <div class="form-group mb-2">
@@ -318,8 +318,8 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="my-3 border px-3" style="background-color:##deebec">
-                                    <legend class="h6 mt-1 border px-3 bg-white">Dates</legend>
+                                <fieldset class="my-3 border px-3 pb-2" style="background-color:##deebec">
+                                    <legend class="h6 mt-1 border px-3 bg-dark text-white">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
