@@ -165,57 +165,59 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
 								<div class="form-row">
-									<div class="col-md-6">
-                                        <div class="form-group">
-										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
-                                        <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
-											<small>
-												(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
-												NULL, NOT NULL, or a comma separated list of names)
-											</small>
-                                        </div>
-									</div>
-									<!--- onblur, if field is emptied, clear the agent_id. --->
-									<script>
-										function specificagentBlurHandler() { 
-											if($('##specificagent').val()=='') { 
-												$('##agent_id').val('');
-											}
-										}
-									</script>
-									<div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-                                            <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
-                                                onblur=" specificagentBlurHandler();"
-                                                >
+                                    <div class="col-md-6 col-xl-4">
+                                        <fieldset>
+                                            <legend class="h6">Agent / Identifier</legend>
+                                 
+                                            <div class="form-group">
+                                            <label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
+                                            <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+                                                <small>
+                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
+                                                    NULL, NOT NULL, or a comma separated list of names)
+                                                </small>
+                                            </div>
+                                 
+                                            <!--- onblur, if field is emptied, clear the agent_id. --->
                                             <script>
-                                                $(document).ready(function() {
-                                                    makeAgentPicker("specificagent", "agent_id");
-                                                });
+                                                function specificagentBlurHandler() { 
+                                                    if($('##specificagent').val()=='') { 
+                                                        $('##agent_id').val('');
+                                                    }
+                                                }
                                             </script>
-                                        </div>
-									</div>
-									<div class="form-group">
-										<label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">Agent ID</label>
-										<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
-									</div>
-									<div class="form-group">
-										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
-										<select id="agent_type" name="agent_type" class="data-entry-select">
-											<option></option>
-											<cfloop query="ctagent_type">
-												<cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
-											</cfloop>
-											<cfloop query="ctagent_type">
-												<cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
-											</cfloop>
-										</select>
-									</div>
-								</div>
+                                            <div class="form-group">
+                                                <label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
+                                                <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
+                                                    onblur=" specificagentBlurHandler();"
+                                                    >
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        makeAgentPicker("specificagent", "agent_id");
+                                                    });
+                                                </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">Agent ID</label>
+                                                <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
+                                                <select id="agent_type" name="agent_type" class="data-entry-select">
+                                                    <option></option>
+                                                    <cfloop query="ctagent_type">
+                                                        <cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
+                                                    </cfloop>
+                                                    <cfloop query="ctagent_type">
+                                                        <cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
+                                                    </cfloop>
+                                                </select>
+                                            </div>
+                                        </fieldset>
+								    </div>
 								<fieldset class="mt-3">
                                     <legend>Name Components</legend>
                                     <div class="form-row">
