@@ -250,6 +250,19 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>	
+                                            <div class="mt-1 small">
+                                                Operators:
+                                                <button type="button" class="btn btn-sm btn-light operator-btn"
+                                                        data-target="#firstName" data-operator="=">= exact</button>
+                                                <button type="button" class="btn btn-sm btn-light operator-btn"
+                                                        data-target="#firstName" data-operator="!">! not</button>
+                                                <button type="button" class="btn btn-sm btn-light operator-btn"
+                                                        data-target="#firstName" data-operator="$">$ sounds like</button>
+                                                <button type="button" class="btn btn-sm btn-light operator-btn"
+                                                        data-target="#firstName" data-operator="NULL">NULL</button>
+                                                <button type="button" class="btn btn-sm btn-light operator-btn"
+                                                        data-target="#firstName" data-operator="NOT NULL">NOT NULL</button>
+                                              </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
