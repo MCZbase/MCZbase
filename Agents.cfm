@@ -175,8 +175,8 @@ limitations under the License.
                                             </label>
                                             <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
                                             <small>
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
+                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
                                                     NULL, NOT NULL, or a comma separated list of names)
                                                 </small>
                                         </div>
@@ -264,7 +264,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>	
-                                        <div class="col-12 col-md-4 col-lg-1 col-xl-3 px-1 mb-1 form-group">
+                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-1 form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
                                             <span class="small">
@@ -278,9 +278,9 @@ limitations under the License.
                                             <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                             <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                             <span class="small">
-                                                (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
