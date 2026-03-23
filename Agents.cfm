@@ -257,7 +257,7 @@ limitations under the License.
                                         <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-1 form-group">
                                             <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
                                             <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-                                            <span class="small">
+                                            <span class="small text-success">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
@@ -267,7 +267,7 @@ limitations under the License.
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-1 form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-                                            <span class="small">
+                                            <span class="small text-success">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
@@ -277,7 +277,7 @@ limitations under the License.
                                         <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mb-2 form-group">
                                             <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                             <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
-                                            <span class="small">
+                                            <span class="small text-success">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-med-teal" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
@@ -319,7 +319,7 @@ limitations under the License.
                                 <fieldset class="my-3 border px-3 bg-med-teal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Dates</legend>
                                     <div class="form-row">
-                                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 px-0 mt-0">
+                                        <div class="col-12 col-md-4 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
@@ -335,7 +335,7 @@ limitations under the License.
                                                 </div>
                                             </cfif>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 px-0 mt-0">
+                                        <div class="col-12 col-md-4 px-0 mt-0">
 				                            <!-- Death range, always shown -->
                                             <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 mx-0 rounded justify-content-center">
@@ -348,7 +348,7 @@ limitations under the License.
 									        </div>
                                         </div>
                                               <!-- Dates collected (always) -->
-                                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 px-0 mt-0">
+                                        <div class="col-12 col-md-4 px-0 mt-0">
                                               <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 ml-md-1 pt-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
