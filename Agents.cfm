@@ -231,10 +231,10 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                <fieldset class="mt-1">
-                                    <legend class="h6 mt-1">Name Components</legend>
+                                 <fieldset class="my-3 border px-3" style="background-color:##deebec">
+                                    <legend class="h6 mt-1 border px-3 bg-white">Name Components</legend>
                                     <div class="form-row">
-                                        <div class="col-12 col-md-3 col-lg-3 col-xl-2 px-1 mt-0">
+                                        <div class="col-12 col-md-3 col-lg-3 col-xl-2 px-1 my-1">
                                             <div class="form-group mb-2">
                                                <label for="prefix" class="data-entry-label">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select">
@@ -254,7 +254,7 @@ limitations under the License.
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mt-0 form-group">
+                                        <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 my-1 form-group">
                                             <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
                                             <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
                                             <span class="small">
@@ -264,7 +264,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>	
-                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mt-0 form-group">
+                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 my-1 form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
                                             <span class="small">
@@ -274,7 +274,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-0 form-group">
+                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 my-1 form-group">
                                             <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                             <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                             <span class="small">
@@ -285,7 +285,7 @@ limitations under the License.
                                             </span>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-1 px-1 mt-0">
-                                            <div class="form-group mb-2">
+                                            <div class="form-group mb-0">
                                                 <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                                 <select id="suffix" name="suffix" class="data-entry-select">
                                                     <option></option>
@@ -318,7 +318,7 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="mb-3 border px-3" style="background-color:##deebec">
+                                <fieldset class="my-3 border px-3" style="background-color:##deebec">
                                     <legend class="h6 mt-1 border px-3 bg-white">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
