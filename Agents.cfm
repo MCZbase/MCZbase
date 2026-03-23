@@ -324,7 +324,7 @@ limitations under the License.
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
                                                     <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-2 pt-1 mx-0 rounded justify-content-center">
-                                                        <label class="data-entry-label px-2 mx-1 mb-0" for="birth_date">
+                                                        <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="birth_date">
                                                           #dateWord# Of Birth
                                                         </label>
                                                         <input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
@@ -339,7 +339,7 @@ limitations under the License.
 				                            <!-- Death range, always shown -->
                                             <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 mx-0 rounded justify-content-center">
-                                                    <label class="data-entry-label px-2 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
+                                                    <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
                                                     <input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
                                                     <label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>	
@@ -351,7 +351,7 @@ limitations under the License.
                                         <div class="col-12 col-md-4 col-lg-4 col-xl-4 px-0 mt-0">
                                               <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 ml-md-1 pt-1 mx-0 rounded justify-content-center">
-                                                    <label class="data-entry-label px-2 mx-1 mb-0" for="collected_date">Dates Collected</label>
+                                                    <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
                                                     <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
                                                     <label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
