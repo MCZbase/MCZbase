@@ -161,48 +161,64 @@ limitations under the License.
 								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
 							});
 						</script>
+                        
+                        
+                        
+                        
 						<div class="col-12 px-3 pt-3 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
+                                
+                                
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
                                 <fieldset>
                                     <legend class="h6">Agent / Identifier</legend>
 								    <div class="form-row">
                                         <div class="col-md-6 col-lg-12 col-xl-8 mb-2 mt-0 px-0 form-group">
-                                            <label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
+                                            <label for="anyName" class="data-entry-label" id="anyName_label">
+                                                Any part of any name
+                                            </label>
                                             <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
-                                                <small>
+                                            <small>
                                                     (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
                                                     NULL, NOT NULL, or a comma separated list of names)
                                                 </small>
-                                            </div>
-                                            <!--- onblur, if field is emptied, clear the agent_id. --->
-                                            <script>
+                                        </div>
+                                        <!--- onblur, if field is emptied, clear the agent_id. --->
+                                        <script>
                                                 function specificagentBlurHandler() { 
                                                     if($('##specificagent').val()=='') { 
                                                         $('##agent_id').val('');
                                                     }
                                                 }
-                                            </script>
-                                            <div class="form-group">
-                                                <label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-                                                <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
-                                                    onblur=" specificagentBlurHandler();"
-                                                    >
-                                                <script>
-                                                    $(document).ready(function() {
+                                                 $(document).ready(function() {
                                                         makeAgentPicker("specificagent", "agent_id");
-                                                    });
-                                                </script>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">Agent ID</label>
-                                                <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
-                                                <select id="agent_type" name="agent_type" class="data-entry-select">
+                                                 });
+                                            </script>
+                                        <!-- Specific agent -->
+                                        <div class="col-12 col-md-6 col-xl-4 px-0 mt-0 mb-1">
+                                        <div class="form-row">
+                                        <!-- Specific Agent + ID + Type grouped on the right -->
+                                        <div class="col-12 col-md-7 pr-md-2 mb-1 form-group">
+                                            <label for="specificagent" class="data-entry-label" id="specificagent_label">
+                                                Specific Agent</label>
+                                            <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
+                                                    onblur=" specificagentBlurHandler();">
+                                        </div>
+                                        <!-- Agent ID -->
+                                        <div class="col-6 col-md-2 mb-1 px-md-0 form-group">
+                                            <label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">
+                                                Agent ID
+                                            </label>
+                                            <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
+                                        </div>
+                                        <!-- Agent Type -->
+                                        <div class="col-6 col-md-3 mb-1 pl-md-2 form-group">
+                                            <label for="agent_type" class="data-entry-label" id="agent_type_label">
+                                                Agent Type
+                                            </label>
+                                            <select id="agent_type" name="agent_type" class="data-entry-select">
                                                     <option></option>
                                                     <cfloop query="ctagent_type">
                                                         <cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -213,9 +229,12 @@ limitations under the License.
                                                         <option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
                                                     </cfloop>
                                                 </select>
-                                            </div>
-                                        </fieldset>
-								    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+							
                                     <!-- ========== SECTION 2: Name components ========== -->
 								    <fieldset class="mt-3">
                                         <legend class="h6">Name Components</legend>
