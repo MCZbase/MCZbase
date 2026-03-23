@@ -250,7 +250,7 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>	
-                                           
+                                        </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle </label>
@@ -297,7 +297,6 @@ limitations under the License.
                                         </div>
                                     </div>
                                 </fieldset>
-                              
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-1">
 										<div class="col-12 col-md-6 col-lg-6 px-0 pl-lg-0 pr-lg-0 pr-xl-2 col-xl-4 mt-2">
