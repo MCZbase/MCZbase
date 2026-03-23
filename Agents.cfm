@@ -285,7 +285,7 @@ limitations under the License.
                                             </span>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-1 px-1 mt-0">
-                                              <div class="form-group mb-0">
+                                            <div class="form-group mb-2">
                                                 <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                                 <select id="suffix" name="suffix" class="data-entry-select">
                                                     <option></option>
@@ -306,56 +306,9 @@ limitations under the License.
                                         </div>
                                     </div><!---form row--->
                                 </fieldset>
-                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                    <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                        <label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
-                                        <input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
-                                    </div>
-                                    <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                        <label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
-                                        <input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
-                                    </div>
-                                    <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                        <label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
-                                        <input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
-                                    </div>
-                                    <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                        <label for="address" class="data-entry-label" id="address_label">Address (Corresp./Shipping)</label>
-                                        <input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
-                                    </div>
-                                    <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                        <label for="email" class="data-entry-label" id="email_label">Email</label>
-                                        <input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
-                                    </div>
-                                    <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                        <label for="phone" class="data-entry-label" id="phone_label">Phone</label>
-                                        <input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
-                                    </div>
-                                    <cfif listcontainsnocase(session.roles,"manage_transactions")>
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                            <label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
-                                            <select id="ranking" name="ranking" class="data-entry-select">
-                                                <option></option>
-                                                <cfif ranking EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                <option value="none" #sel# >None (A)</option>
-                                                <cfif ranking EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                <option value="any" #sel#>Any (B-F)</option>
-                                            </select>
-                                        </div>
-                                    </cfif>
-                                    <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
-                                        <label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
-                                        <select id="edited" name="edited" class="data-entry-select">
-                                            <option></option>
-                                            <cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                            <option value="1" #sel# >Yes *</option>
-                                            <cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                            <option value="0" #sel#>No</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </cfif>
+                                                        
+                                                        
+                
                                 
                                 <!-- ========== SECTION 3: Dates ========== -->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -373,7 +326,7 @@ limitations under the License.
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
-                                                      <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-2 mb-md-0 mr-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-2 mb-md-0 mr-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                         <label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">
                                                           #dateWord# Of Birth
                                                         </label>
@@ -465,7 +418,7 @@ limitations under the License.
                                     </fieldset>
                                 </cfif>
                                 
-                                <!-- ========== SECTION 4: Actions ========== -->
+                                <!-- ========== SECTION 5: Actions ========== -->
                                 <fieldset>
                                     <legend class="sr-only h6">Search Actions</legend>
                                     <div class="form-row my-1 mx-0">
