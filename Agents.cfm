@@ -318,14 +318,14 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="mb-3 border bg-danger">
-                                    <legend class="h6 mt-1">Dates</legend>
+                                <fieldset class="mb-3 border px-3" style="background-color:#deebec;">
+                                    <legend class="h6 mt-1 border px-3 bg-white">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
-                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-2 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                         <label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">
                                                           #dateWord# Of Birth
                                                         </label>
