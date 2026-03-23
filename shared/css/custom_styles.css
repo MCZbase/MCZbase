@@ -261,6 +261,7 @@ h1.h4 {
 }
 .text-dark-gray {
 	color: #524e4e;
+    color: #4f4b4b;
 }
 .btn-link, .helpText, .fas-info {
 	color: #0460c1 !important;
