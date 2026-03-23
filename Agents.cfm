@@ -169,7 +169,7 @@ limitations under the License.
                                 <fieldset class="my-3 border px-3 bg-med-teal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Agent / Identifier</legend>
 								    <div class="form-row">
-                                        <div class="col-md-6 col-lg-12 col-xl-8 mb-2 mt-0 px-0 pr-md-2 form-group">
+                                        <div class="col-md-6 col-lg-12 col-xl-7 mb-2 mt-0 px-0 pr-md-2 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
                                             </label>
@@ -202,14 +202,14 @@ limitations under the License.
                                                             onblur=" specificagentBlurHandler();">
                                                 </div>
                                                 <!-- Agent ID -->
-                                                <div class="col-6 col-md-2 mb-1 px-md-0 form-group">
+                                                <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group">
                                                     <label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">
                                                         Agent ID
                                                     </label>
                                                     <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
                                                 </div>
                                                 <!-- Agent Type -->
-                                                <div class="col-6 col-md-3 pl-md-2 form-group">
+                                                <div class="col-6 col-md-3 col-xl-3 pl-md-2 form-group">
                                                 <label for="agent_type" class="data-entry-label" id="agent_type_label">
                                                     Agent Type
                                                 </label>
@@ -369,7 +369,7 @@ limitations under the License.
                                    <fieldset class="my-3 border px-3 bg-med-teal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
-                                            <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-2 mb-0 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-2 mb-md-0 mb-xl-2 form-group">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
                                                 <select id="collector_collection" name="collector_collection" class="data-entry-select">
                                                     <option></option>
@@ -379,7 +379,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 mb-0 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 mb-md-0 mb-xl-2 form-group">
                                                 <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
                                                 <select id="author_collection" name="author_collection" class="data-entry-select">
                                                     <option></option>
