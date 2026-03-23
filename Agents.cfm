@@ -250,20 +250,7 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>	
-                                            <div class="mt-1 small">
-                                                Operators:
-                                                <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="##firstName" data-operator="=">= exact</button>
-                                                <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="##firstName" data-operator="!">! not</button>
-                                                <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="##firstName" data-operator="$">$ sounds like</button>
-                                                <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="##firstName" data-operator="NULL">NULL</button>
-                                                <button type="button" class="btn btn-sm btn-light operator-btn"
-                                                        data-target="##firstName" data-operator="NOT NULL">NOT NULL</button>
-                                              </div>
-                                        </div>
+                                           
                                         <div class="col-md-3">
                                             <div class="form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle </label>
@@ -310,29 +297,7 @@ limitations under the License.
                                         </div>
                                     </div>
                                 </fieldset>
-                                <script>
-                                        $(document).on('click', '.operator-btn', function () {
-                                            var $btn = $(this);
-                                            var targetSelector = $btn.data('target');   // e.g. "##firstName"
-                                            var op = $btn.data('operator');             // e.g. "=", "NULL"
-
-                                            var $input = $(targetSelector);
-                                            if (!$input.length) return;
-
-                                            // If operator is NULL / NOT NULL, replace; otherwise prefix
-                                            if (op === 'NULL' || op === 'NOT NULL') {
-                                                $input.val(op);
-                                            } else {
-                                                var current = $input.val() || '';
-                                                // Only prefix if not already present
-                                                if (!current.startsWith(op)) {
-                                                    $input.val(op + current);
-                                                }
-                                            }
-
-                                            $input.focus();
-                                        });
-                                </script>
+                              
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-1">
 										<div class="col-12 col-md-6 col-lg-6 px-0 pl-lg-0 pr-lg-0 pr-xl-2 col-xl-4 mt-2">
