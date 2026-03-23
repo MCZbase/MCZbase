@@ -1978,7 +1978,7 @@ Target JSON:
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
 									<div class="d-flex justify-content-end px-0"> 
-									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSpSearchWiki js-search-help border-0" type="button" data-help-target="collapseBuilderHelp">
+									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help border-0" type="button" data-help-target="collapseBuilderHelp">
 										Search Help
 									</button>
 									<aside id="collapseBuilderHelp" style="display:none;">
