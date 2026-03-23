@@ -239,23 +239,43 @@ limitations under the License.
 								    <fieldset class="mt-3">
                                         <legend class="h6">Name Components</legend>
                                         <div class="form-row mt-1">
-                                            <div class="col-12 col-md-4 col-lg-3 col-xl-2 px-1 mt-1 form-group">
-                                               <label for="prefix" class="data-entry-label">Prefix</label>
-                                                <select id="prefix" name="prefix" class="data-entry-select">
-                                                    <option></option>
-                                                    <cfloop query="dist_prefix">
-                                                        <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
-                                                    </cfloop>
-                                                    <cfloop query="dist_prefix">
-                                                        <cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
-                                                    </cfloop>
-                                                    <cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="NULL" #sel# >NULL</option>
-                                                    <cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="NOT NULL" #sel#>NOT NULL</option>
-                                                </select>
+                                            <div class="col-12 col-md-4 col-lg-3 col-xl-2 px-1 mt-1">
+                                                <div class="form-group mb-2">
+                                                   <label for="prefix" class="data-entry-label">Prefix</label>
+                                                    <select id="prefix" name="prefix" class="data-entry-select">
+                                                        <option></option>
+                                                        <cfloop query="dist_prefix">
+                                                            <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
+                                                        </cfloop>
+                                                        <cfloop query="dist_prefix">
+                                                            <cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
+                                                        </cfloop>
+                                                        <cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NULL" #sel# >NULL</option>
+                                                        <cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-0">
+                                                    <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
+                                                    <select id="suffix" name="suffix" class="data-entry-select">
+                                                        <option></option>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NULL" #sel#>NULL</option>
+                                                        <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
                                                 <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
@@ -287,24 +307,7 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                         </div>                
-                                        <div class="col-12 col-md-4 col-lg-3 col-xl-1 px-1 mt-1 mt-md-2 mt-lg-2 form-group">
-                                            <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
-                                            <select id="suffix" name="suffix" class="data-entry-select">
-                                                <option></option>
-                                                <cfloop query="dist_suffix">
-                                                    <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                    <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
-                                                </cfloop>
-                                                <cfloop query="dist_suffix">
-                                                    <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                    <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
-                                                </cfloop>
-                                                <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                <option value="NULL" #sel#>NULL</option>
-                                                <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                <option value="NOT NULL" #sel#>NOT NULL</option>
-                                            </select>
-                                        </div>
+                                       
                                     </div><!---form row--->
                                 </fieldset>
 								    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
