@@ -192,10 +192,10 @@ limitations under the License.
                                                  });
                                             </script>
                                         <!-- Specific agent -->
-                                        <div class="col-12 col-md-6 col-xl-4 px-0 mt-0 mb-1">
+                                        <div class="col-12 col-md-6 col-lg-8 col-xl-4 px-0 mt-0">
                                             <div class="form-row">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
-                                                <div class="col-12 col-md-7 pr-md-2 mb-1 form-group">
+                                                <div class="col-12 col-md-7 pr-md-2 form-group">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent</label>
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
@@ -209,7 +209,7 @@ limitations under the License.
                                                     <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
                                                 </div>
                                                 <!-- Agent Type -->
-                                                <div class="col-6 col-md-3 mb-1 pl-md-2 form-group">
+                                                <div class="col-6 col-md-3 pl-md-2 form-group">
                                                 <label for="agent_type" class="data-entry-label" id="agent_type_label">
                                                     Agent Type
                                                 </label>
@@ -369,7 +369,7 @@ limitations under the License.
                                    <fieldset class="my-3 border px-3 bg-med-teal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
-                                            <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-2 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-2 mb-0 form-group">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
                                                 <select id="collector_collection" name="collector_collection" class="data-entry-select">
                                                     <option></option>
@@ -379,7 +379,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 mb-0 form-group">
                                                 <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
                                                 <select id="author_collection" name="author_collection" class="data-entry-select">
                                                     <option></option>
