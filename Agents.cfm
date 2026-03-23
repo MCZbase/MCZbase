@@ -369,7 +369,7 @@ limitations under the License.
                                    <fieldset class="my-3 border px-3 bg-med-teal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
-                                            <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-2 mb-md-0 mb-xl-2 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-0 form-group">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
                                                 <select id="collector_collection" name="collector_collection" class="data-entry-select">
                                                     <option></option>
@@ -379,7 +379,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 mb-md-0 mb-xl-2 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 mb-md-0 form-group">
                                                 <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
                                                 <select id="author_collection" name="author_collection" class="data-entry-select">
                                                     <option></option>
@@ -390,7 +390,7 @@ limitations under the License.
                                                 </select>
                                             </div>
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-                                                <div class="col-12 col-md-6 col-xl-3 px-0 pr-md-2 mt-0 form-group">
+                                                <div class="col-12 col-md-6 col-xl-3 px-0 pr-md-2 px-xl-2 mt-0 form-group">
                                                     <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
                                                     <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
                                                         <option></option>
