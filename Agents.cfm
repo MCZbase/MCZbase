@@ -411,9 +411,11 @@ limitations under the License.
                                         </div>
                                     </div><!---/form-row--->
                                 </fieldset>
-                                    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                        <div class="d-flex flex-wrap mb-1">
-                                            <div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 px-md-0 px-lg-0 mt-2">
+                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                    <fieldset class="mb-3">
+                                        <legend class="h6 mb-2">Internal Collections &amp; Permissions</legend>
+                                        <div class="form-row">
+                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 form-group">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
                                                 <select id="collector_collection" name="collector_collection" class="data-entry-select">
                                                     <option></option>
@@ -423,7 +425,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 px-md-2 pl-lg-2 pr-lg-0 mt-2">
+                                            <div class="col-12 col-md-6 col-xl-3 px-0 px-md-2 mt-2 form-group">
                                                 <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
                                                 <select id="author_collection" name="author_collection" class="data-entry-select">
                                                     <option></option>
@@ -434,7 +436,7 @@ limitations under the License.
                                                 </select>
                                             </div>
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-                                                <div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 pr-md-2 px-lg-0 pl-xl-2 mt-2">
+                                                <div class="col-12 col-md-6 col-xl-3 px-0 pr-md-2 mt-2 form-group">
                                                     <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
                                                     <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
                                                         <option></option>
@@ -444,7 +446,7 @@ limitations under the License.
                                                         </cfloop>
                                                     </select>
                                                 </div>
-                                                <div class="col-12 col-md-3 col-lg-6 col-xl-3 pl-lg-2 px-0 px-md-0 pr-lg-0 mt-2">
+                                                <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 form-group">
                                                     <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
                                                     <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
                                                         <option></option>
@@ -460,7 +462,8 @@ limitations under the License.
                                                 </div>
                                             </cfif>
                                         </div>
-                                    </cfif>
+                                    </fieldset>
+                                </cfif>
                                 <!-- ========== SECTION 4: Actions ========== -->
                                 <fieldset>
                                     <legend class="sr-only h6">Search Actions</legend>
