@@ -368,7 +368,7 @@ limitations under the License.
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
                                 <fieldset class="mb-3">
-                                    <legend class="h6 mb-2">Dates</legend>
+                                    <legend class="h6 mt-2">Dates</legend>
                                     <div class="form-row">
                                          <!-- LEFT COLUMN: Birth (internal only) + Death (always) -->
                                         <div class="col-12 col-md-6 col-xl-4 px-0 mt-2">
