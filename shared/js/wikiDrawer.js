@@ -22,8 +22,10 @@ function resizeAllGridsToContent() {
     if (!$content.length) return;
 
     var newWidth = $content.width();
+     console.log('resizeAllGridsToContent, newWidth:', newWidth);
 
     $('.jqxGrid').each(function () {
+        console.log('resizing grid', this.id, 'to', newWidth);
         $(this).jqxGrid('width', newWidth);
     });
 }
@@ -39,9 +41,7 @@ function closeWikiDrawer() {
 	$('#content').removeClass('pushed');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
-    $('#content').one('transitionend', function () {
-        resizeAllGridsToContent();
-    });
+    resizeAllGridsToContent();
 }
 
 
