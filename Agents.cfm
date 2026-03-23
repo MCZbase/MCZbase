@@ -223,7 +223,7 @@ limitations under the License.
                                     <div class="form-row">
                                         <div class="col-sm-4 col-md-2">
                                             <div class="form-group">
-                                                <label for="namePrefix">Prefix</label>
+                                                <label for="prefix" class="data-entry-label">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select">
                                                     <option></option>
                                                     <cfloop query="dist_prefix">
