@@ -268,7 +268,7 @@ limitations under the License.
 										<p class="smaller-text" tabindex="0">Add an = <span class="sr-only">(equals sign)</span> to the beginning of names for exact match, $<span class="sr-only">dolar sign</span> for sounds like match. Add ! <span class="sr-only">(an exclamation point)</span> to the beginning of names for a NOT search. Name fields accept comma separated lists. NULL finds blanks.</p>
 									</div>
                                     <fieldset class="bg-light border rounded p-2 mx-0">
-                                        <legend class="h6 mb-2">Name &amp; Classification</legend>
+                                        <legend class="h6 mb-2 col-2">Name &amp; Classification</legend>
 									<div class="form-row">
 										<div class="form-group col-12 col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">
