@@ -267,9 +267,12 @@ limitations under the License.
 									<div class="col-12">
 										<p class="smaller-text" tabindex="0">Add an = <span class="sr-only">(equals sign)</span> to the beginning of names for exact match, $<span class="sr-only">dolar sign</span> for sounds like match. Add ! <span class="sr-only">(an exclamation point)</span> to the beginning of names for a NOT search. Name fields accept comma separated lists. NULL finds blanks.</p>
 									</div>
-									<div class="form-row bg-light border rounded p-2 mx-0">
-										<div class="col-md-4">
-											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name 
+                                    <fieldset class="bg-light border rounded p-2 mx-0">
+                                        <legend class="h6 mb-2">Name &amp; Classification</legend>
+									<div class="form-row">
+										<div class="form-group col-12 col-md-4">
+											<label for="scientific_name" class="data-entry-label align-left-center">
+                                                Scientific Name 
 												<span class="small90">
 													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
@@ -285,8 +288,9 @@ limitations under the License.
 											</label>
 											<input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
 										</div>
-										<div class="col-md-4">
-											<label for="common_name" class="data-entry-label align-left-center">Common Name 
+                                    <div class="form-group col-12 col-md-4">
+											<label for="common_name" class="data-entry-label align-left-center">
+                                                Common Name 
 												<span class="small90">
 													(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
 												</span>
@@ -295,7 +299,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row mt-1">
-										<div class="form-group col-md-2">
+										<div class="form-group col-12 col-md-2">
 											<label for="genus" class="data-entry-label align-left-center">Genus 
 												<span class="small">
 													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
