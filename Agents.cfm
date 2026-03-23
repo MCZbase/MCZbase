@@ -166,8 +166,8 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">         
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
-                                <fieldset>
-                                    <legend class="h6">Agent / Identifier</legend>
+                                <fieldset class="my-3 border px-3 bg-med-teal">
+                                    <legend class="h6 mt-1 border px-3 bg-dark text-white">Agent / Identifier</legend>
 								    <div class="form-row">
                                         <div class="col-md-6 col-lg-12 col-xl-8 mb-2 mt-0 px-0 pr-md-2 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
@@ -325,7 +325,7 @@ limitations under the License.
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group">
-                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-2 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-2 pt-1 px-2 px-md-2 px-xl-2 mx-0 rounded justify-content-center">
                                                         <label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">
                                                           #dateWord# Of Birth
                                                         </label>
@@ -340,7 +340,7 @@ limitations under the License.
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
 				                            <!-- Death range, always shown -->
                                             <div class="form-group">
-                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 px-2 px-md-2 px-xl-2 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
                                                     <input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
@@ -352,7 +352,7 @@ limitations under the License.
                                               <!-- Dates collected (always) -->
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
                                               <div class="form-group">
-                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-0 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 ml-md-1 pt-1 px-2 px-md-2 px-xl-2 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
                                                     <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
