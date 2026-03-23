@@ -174,7 +174,7 @@ limitations under the License.
                                 <fieldset>
                                     <legend class="h6">Agent / Identifier</legend>
 								    <div class="form-row">
-                                        <div class="col-md-6 col-lg-12 col-xl-8 mb-2 mt-0 px-0 pr-xl-2 form-group">
+                                        <div class="col-md-6 col-lg-12 col-xl-8 mb-2 mt-0 px-0 pr-md-2 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
                                             </label>
