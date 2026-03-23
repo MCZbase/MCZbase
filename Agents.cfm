@@ -260,7 +260,7 @@ limitations under the License.
                                                 </div>
                                           
                                             </div>
-                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
+                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-0 form-group">
                                                 <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
                                                 <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
                                                 <span class="small">
@@ -270,7 +270,7 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>	
-                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
+                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-0 form-group">
                                                 <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
                                                 <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
                                                 <span class="small">
@@ -280,7 +280,7 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>
-                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
+                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-0 form-group">
                                                 <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                                 <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                                 <span class="small">
@@ -290,7 +290,7 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>
-                                            <div class="col-12 col-md-4 col-lg-3 col-xl-1 px-1 mt-1">
+                                            <div class="col-12 col-md-4 col-lg-3 col-xl-1 px-1 mt-0">
                                                   <div class="form-group mb-0">
                                                     <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                                     <select id="suffix" name="suffix" class="data-entry-select">
@@ -401,7 +401,7 @@ limitations under the License.
 									        </div>
                                         </div>
                                               <!-- RIGHT COLUMN: Dates collected (always) -->
-                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-2">
+                                        <div class="col-12 col-md-6 col-xl-2 px-0 mt-1">
                                               <div class="form-group">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
