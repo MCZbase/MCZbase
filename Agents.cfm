@@ -318,10 +318,9 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="mb-3">
+                                <fieldset class="mb-3 border bg-danger">
                                     <legend class="h6 mt-1">Dates</legend>
                                     <div class="form-row">
-                                         <!-- LEFT COLUMN: Birth (internal only) + Death (always) -->
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -353,7 +352,7 @@ limitations under the License.
                                               <!-- Dates collected (always) -->
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
                                               <div class="form-group">
-                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-0 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
                                                     <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
