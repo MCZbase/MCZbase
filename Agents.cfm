@@ -231,7 +231,7 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="my-3 border px-3 bg-verylightteal">
+                                 <fieldset class="my-3 border px-3 bg-med-teal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1">
@@ -318,7 +318,7 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="my-3 border px-3" style="background-color:##deebec">
+                                <fieldset class="my-3 border px-3 bg-med-teal">
                                     <legend class="h6 mt-1 border px-3 bg-dark text-white">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 col-xl-2 px-0 mt-0">
@@ -366,10 +366,10 @@ limitations under the License.
                                 
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                    <fieldset class="mb-3">
-                                        <legend class="h6 mb-2">Internal Collections &amp; Permissions</legend>
+                                   <fieldset class="my-3 border px-3 bg-med-teal">
+                                    <legend class="h6 mt-1 border px-3 bg-dark text-white">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
-                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-2 form-group">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
                                                 <select id="collector_collection" name="collector_collection" class="data-entry-select">
                                                     <option></option>
@@ -379,7 +379,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="col-12 col-md-6 col-xl-3 px-0 px-md-2 mt-2 form-group">
+                                            <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 form-group">
                                                 <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
                                                 <select id="author_collection" name="author_collection" class="data-entry-select">
                                                     <option></option>
@@ -390,7 +390,7 @@ limitations under the License.
                                                 </select>
                                             </div>
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-                                                <div class="col-12 col-md-6 col-xl-3 px-0 pr-md-2 mt-2 form-group">
+                                                <div class="col-12 col-md-6 col-xl-3 px-0 pr-md-2 mt-0 form-group">
                                                     <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
                                                     <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
                                                         <option></option>
@@ -400,7 +400,7 @@ limitations under the License.
                                                         </cfloop>
                                                     </select>
                                                 </div>
-                                                <div class="col-12 col-md-6 col-xl-3 px-0 mt-2 form-group">
+                                                <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 form-group">
                                                     <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
                                                     <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
                                                         <option></option>

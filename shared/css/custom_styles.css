@@ -173,6 +173,9 @@ table td .small {
 .bg-verylightteal {
 	background-color: #f2f9ff;
 }
+.bg-med-teal {
+    background-color: #deebec;
+}
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
 .part-occurrence-head {
