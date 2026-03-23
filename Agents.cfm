@@ -292,7 +292,7 @@ limitations under the License.
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-0 pl-lg-0 pr-lg-0 pr-xl-2 mt-2">
+										<div class="col-12 col-md-6 col-lg-6 col-xl-4 px-0 pl-md-2 pl-lg-2 pr-lg-2 pr-xl-2 mt-2">
 											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
 										</div>
@@ -425,7 +425,7 @@ limitations under the License.
 										</cfif>
 									</div>
 								</cfif>
-								<div class="d-flex flex-wrap my-2 mx-0">
+								<div class="d-flex flex-wrap my-1 mx-0">
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
