@@ -215,7 +215,7 @@ limitations under the License.
 								</div>
 								<div class="d-flex flex-wrap border rounded px-1 pb-2 mb-1 mt-2">
                                     <span class="small w-100">NAME</span>
-									<div class="col-12 col-md-4 col-lg-4 col-xl-2 pr-xl-2 pl-xl-0 px-1 mt-1">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-2 px-1 pr-xl-2 pl-xl-0 mt-1">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
@@ -256,7 +256,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 									</div>
-									<div class="col-12 col-md-9 col-lg-9 px-0 col-xl-3 pr-xl-2 pl-xl-0 mt-1">
+									<div class="col-12 col-md-9 col-lg-9 px-1 col-xl-3 px-1 pr-xl-2 pl-xl-0 mt-1">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -267,7 +267,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-12 col-md-4 col-lg-4 col-xl-1 px-1 pl-md-0 mt-1 mt-md-2 mt-lg-2 mt-xl-2">
+									<div class="col-12 col-md-4 col-lg-4 col-xl-1 px-1 mt-1 mt-md-2 mt-lg-2 mt-xl-2">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
