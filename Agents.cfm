@@ -258,24 +258,7 @@ limitations under the License.
                                                         <option value="NOT NULL" #sel#>NOT NULL</option>
                                                     </select>
                                                 </div>
-                                                <div class="form-group mb-0">
-                                                    <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
-                                                    <select id="suffix" name="suffix" class="data-entry-select">
-                                                        <option></option>
-                                                        <cfloop query="dist_suffix">
-                                                            <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
-                                                        </cfloop>
-                                                        <cfloop query="dist_suffix">
-                                                            <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
-                                                        </cfloop>
-                                                        <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                        <option value="NULL" #sel#>NULL</option>
-                                                        <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
-                                                    </select>
-                                                </div>
+                                          
                                             </div>
                                             <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
                                                 <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
@@ -306,7 +289,27 @@ limitations under the License.
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                     NULL, NOT NULL)
                                                 </span>
-                                            </div>                
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-3 col-xl-1 px-1 mt-1">
+                                                  <div class="form-group mb-0">
+                                                    <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
+                                                    <select id="suffix" name="suffix" class="data-entry-select">
+                                                        <option></option>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NULL" #sel#>NULL</option>
+                                                        <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div><!---form row--->
                                     </fieldset>
 								    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -400,7 +403,7 @@ limitations under the License.
                                               <!-- RIGHT COLUMN: Dates collected (always) -->
                                         <div class="col-12 col-md-6 px-0 mt-2">
                                               <div class="form-group">
-                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 mt-xl-0 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
                                                     <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
