@@ -154,9 +154,9 @@ function initWikiDrawer(options) {
 $(function () {
     // Map panel IDs to their help aside IDs
     var tabHelpMap = {
-        'fixedSearchPanel':   'collapseFixedBasic',
-        'keywordSearchPanel': 'collapseKeywordHelp',
-        'builderSearchPanel': 'collapseBuilderHelp'
+        basicSearchTabButton:   'collapseFixedBasic',
+        keywordSearchTabButton: 'collapseKeywordHelp',
+        builderSearchTabButton: 'collapseBuilderHelp'
     };
 
     // When a tab is shown
