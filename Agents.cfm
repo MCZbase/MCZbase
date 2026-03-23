@@ -221,7 +221,7 @@ limitations under the License.
 								<fieldset class="mt-3 border">
                                        <legend class="h6">Name Components</legend>
                                     <div class="form-row">
-                                        <div class="col-md-2">
+                                        <div class="col-sm-4 col-md-2">
                                             <div class="form-group">
                                                 <label for="namePrefix">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select">
@@ -241,7 +241,7 @@ limitations under the License.
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-sm-8 col-md-4">
                                               <div class="form-group">
                                                 <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
                                                 <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
@@ -253,7 +253,9 @@ limitations under the License.
                                                 </span>
                                             </div>	
                                         </div>
-                                        <div class="col-md-3">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-sm-4 col-md-3">
                                             <div class="form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle </label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
@@ -265,7 +267,7 @@ limitations under the License.
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-sm-8 col-md-3">
                                             <div class="form-group">
                                                 <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                                 <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
@@ -276,10 +278,8 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-md-3">
+                                        </div>                
+                                        <div class="form-group">
                                             <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                             <select id="suffix" name="suffix" class="data-entry-select">
                                                 <option></option>
