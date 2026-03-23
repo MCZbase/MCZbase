@@ -61,25 +61,28 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 			returnFormat: 'json'
 		},
 		dataType: 'json',
-		success: function(response) {
-			var html = response.result || response.RESULT || "<div>Section not found.</div>";
-			if (typeof openFunction === 'function') {
-				openFunction();
-			}
-			if (typeof onSuccess === 'function') {
-				options.onSuccess(html);
-			} else {
-				$('#'+targetDiv).html(html);
-				processWikiContent($('#'+targetDiv));
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			if (typeof closeFunction === 'function') {
-				closeFunction();
-			}
-			handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
-		}
-	});
+        success: function (response) {
+            var html = response.result || response.RESULT || "<div>Section not found.</div>";
+
+            if (typeof openFunction === 'function') {
+                openFunction();
+            }
+
+            if (typeof onSuccess === 'function') {
+                options.onSuccess(html);
+            } else {
+                $('#' + targetDiv).html(html);
+                // Now safe: processWikiContent always exists (no-op if not overridden)
+                processWikiContent($('#' + targetDiv));
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (typeof closeFunction === 'function') {
+                closeFunction();
+            }
+            handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
+        }
+    });
 }
 
 function showDivInWikiDrawer(divId, titleText) {
