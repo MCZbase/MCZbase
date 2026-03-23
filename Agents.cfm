@@ -164,12 +164,11 @@ limitations under the License.
 						<div class="col-12 px-3 pt-3 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
-								<div class="form-row">
-                                    <div class="col-md-6 col-xl-4">
-                                        <fieldset class="border">
-                                            <legend class="h6">Agent / Identifier</legend>
-                                 
-                                            <div class="form-group">
+                                <!-- ========== SECTION 1: Agent / Identifier ========== -->
+                                <fieldset class="border">
+                                    <legend class="h6">Agent / Identifier</legend>
+								    <div class="form-row">
+                                        <div class="col-md-6 col-lg-12 col-xl-8 mb-2 mt-0 px-0 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
                                             <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
                                                 <small>
@@ -178,7 +177,6 @@ limitations under the License.
                                                     NULL, NOT NULL, or a comma separated list of names)
                                                 </small>
                                             </div>
-                                 
                                             <!--- onblur, if field is emptied, clear the agent_id. --->
                                             <script>
                                                 function specificagentBlurHandler() { 
@@ -218,12 +216,12 @@ limitations under the License.
                                             </div>
                                         </fieldset>
 								    </div>
-								<fieldset class="mt-3 border">
-                                       <legend class="h6">Name Components</legend>
-                                    <div class="form-row">
-                                        <div class="col-sm-4 col-md-2">
-                                            <div class="form-group">
-                                                <label for="prefix" class="data-entry-label">Prefix</label>
+                                    <!-- ========== SECTION 2: Name components ========== -->
+								    <fieldset class="mt-3 border">
+                                        <legend class="h6">Name Components</legend>
+                                        <div class="form-row mt-1">
+                                            <div class="col-12 col-md-4 col-lg-3 col-xl-2 px-1 mt-1 form-group">
+                                               <label for="prefix" class="data-entry-label">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select">
                                                     <option></option>
                                                     <cfloop query="dist_prefix">
@@ -240,9 +238,7 @@ limitations under the License.
                                                     <option value="NOT NULL" #sel#>NOT NULL</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-8 col-md-4">
-                                              <div class="form-group">
+                                            <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
                                                 <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
                                                 <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
                                                 <span class="small">
@@ -252,23 +248,17 @@ limitations under the License.
                                                     NULL, NOT NULL)
                                                 </span>
                                             </div>	
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-sm-4 col-md-3">
-                                            <div class="form-group">
-                                            <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle </label>
+                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
+                                            <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-                                                <span class="small">
+                                            <span class="small">
                                                     (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                     NULL, NOT NULL)
                                                 </span>
-                                            </div>
                                         </div>
-                                        <div class="col-sm-8 col-md-3">
-                                            <div class="form-group">
+                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mt-1 form-group">
                                                 <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                                 <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                                 <span class="small">
@@ -277,9 +267,8 @@ limitations under the License.
                                                     <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                     NULL, NOT NULL)
                                                 </span>
-                                            </div>
                                         </div>                
-                                        <div class="form-group">
+                                        <div class="col-12 col-md-4 col-lg-3 col-xl-1 px-1 mt-1 mt-md-2 mt-lg-2 form-group">
                                             <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                             <select id="suffix" name="suffix" class="data-entry-select">
                                                 <option></option>
@@ -297,7 +286,7 @@ limitations under the License.
                                                 <option value="NOT NULL" #sel#>NOT NULL</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div><!---form row--->
                                 </fieldset>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="d-flex flex-wrap mb-1">
@@ -350,6 +339,7 @@ limitations under the License.
 							
 									</div>
 								</cfif>
+                                <!-- ========== SECTION 3: Dates ========== -->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset dateWord = "Date">
 									<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
@@ -357,101 +347,108 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-								<div class="d-flex flex-wrap mb-1">
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="col-12 col-md-4 px-0 mt-2">
-											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-2 mb-md-0 mr-md-1 pt-1 px-2 pr-md-1 pr-lg-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
-												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
-												<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput w-100 mx-xl-2 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
-											</div>
-										</div>
-									</cfif>
-									<div class="col-12 col-md-4 px-0 mt-2">
-										<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-2 mb-md-0 pt-1 mr-md-1 mr-lg-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
-											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
-											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-											<label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>		
-											<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput w-100 mx-xl-2 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
-										</div>
-									</div>
-									<div class="col-12 col-md-4 px-0 mt-2">
-										<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
-											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
-											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-											<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
-											<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput w-100 mx-xl-2 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-										</div>
-									</div>
-								</div>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="d-flex flex-wrap mb-1">
-										<div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 px-md-0 px-lg-0 mt-2">
-											<label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
-											<select id="collector_collection" name="collector_collection" class="data-entry-select">
-												<option></option>
-												<cfloop query="collections">
-													<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 px-md-2 pl-lg-2 pr-lg-0 mt-2">
-											<label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
-											<select id="author_collection" name="author_collection" class="data-entry-select">
-												<option></option>
-												<cfloop query="collections">
-													<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-												</cfloop>
-											</select>
-										</div>
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-											<div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 pr-md-2 px-lg-0 pl-xl-2 mt-2">
-												<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
-												<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
-													<option></option>
-													<cfloop query="collections">
-														<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-														<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-3 col-lg-6 col-xl-3 pl-lg-2 px-0 px-md-0 pr-lg-0 mt-2">
-												<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
-												<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
-													<option></option>
-													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="issued by" #sel# >Issued By</option>
-													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="issued to" #sel# >Issued To</option>
-													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="contact" #sel# >Contact Agent</option>
-													<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="any" #sel#>Any</option>
-												</select>
-											</div>
-										</cfif>
-									</div>
-								</cfif>
-								<div class="d-flex flex-wrap my-1 mx-0">
-									<div class="col-12 px-0 pt-2">
-										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
-										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
+                                <fieldset class="mb-3">
+                                    <legend class="h6 mb-2">Dates</legend>
+                                    <div class="form-row">
+								        <div class="col-12 col-md-6 px-0 mt-2 form-group">
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                                <div class="col-12 col-md-4 px-0 mt-2">
+                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-2 mb-md-0 mr-md-1 pt-1 px-2 pr-md-1 pr-lg-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                        <label class="data-entry-label px-2 px-md-2 px-lg-2 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
+                                                        <input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+                                                        <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+                                                        <label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
+                                                        <input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput w-100 mx-xl-2 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+                                                    </div>
+                                                </div>
+                                            </cfif>
+				
+                                            <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
+                                                <input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
+                                                <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+                                                <label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>		
+                                                <input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput w-100 mx-xl-2 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+                                            </div>
+									    </div>
+								        <div class="col-12 col-md-6 px-0 mt-2 form-group">
+                                            <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-2 ml-md-1 pt-1 px-2 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+                                                <label class="data-entry-label px-2 px-md-0 px-lg-2 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
+                                                <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 mx-xl-2" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
+                                                <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+                                                <label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
+                                                <input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput w-100 mx-xl-2 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                        <div class="d-flex flex-wrap mb-1">
+                                            <div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 px-md-0 px-lg-0 mt-2">
+                                                <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
+                                                <select id="collector_collection" name="collector_collection" class="data-entry-select">
+                                                    <option></option>
+                                                    <cfloop query="collections">
+                                                        <cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                    </cfloop>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 px-md-2 pl-lg-2 pr-lg-0 mt-2">
+                                                <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
+                                                <select id="author_collection" name="author_collection" class="data-entry-select">
+                                                    <option></option>
+                                                    <cfloop query="collections">
+                                                        <cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                    </cfloop>
+                                                </select>
+                                            </div>
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+                                                <div class="col-12 col-md-3 col-lg-6 col-xl-3 px-0 pr-md-2 px-lg-0 pl-xl-2 mt-2">
+                                                    <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
+                                                    <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
+                                                        <option></option>
+                                                        <cfloop query="collections">
+                                                            <cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                        </cfloop>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-3 col-lg-6 col-xl-3 pl-lg-2 px-0 px-md-0 pr-lg-0 mt-2">
+                                                    <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
+                                                    <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
+                                                        <option></option>
+                                                        <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="issued by" #sel# >Issued By</option>
+                                                        <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="issued to" #sel# >Issued To</option>
+                                                        <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="contact" #sel# >Contact Agent</option>
+                                                        <cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="any" #sel#>Any</option>
+                                                    </select>
+                                                </div>
+                                            </cfif>
+                                        </div>
+                                    </cfif>
+                                <!-- ========== SECTION 4: Actions ========== -->
+                                <fieldset>
+                                    <legend class="sr-only h6">Search Actions</legend>
+                                    <div class="form-row my-1 mx-0">
+                                        <div class="col-12 px-0 pt-2">
+                                            <button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
+                                            <button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+                                            <button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
 
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
-										</cfif>
-										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-											<a class="btn btn-xs btn-secondary my-2 text-decoration-none" aria-label="Review pending merges of agent records" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
-										</cfif>
-									</div>
-								</div>
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+                                                <a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
+                                            </cfif>
+                                            <cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+                                                <a class="btn btn-xs btn-secondary my-2 text-decoration-none" aria-label="Review pending merges of agent records" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
+                                            </cfif>
+                                        </div>
+                                    </div>
+                                </fieldset>
 							</form>
 						</div><!--- col --->
 					</div><!--- search box --->
