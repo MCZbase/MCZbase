@@ -194,6 +194,8 @@ table td .small {
     background-color: #f8f9fa !important;
     color: #041132 !important;
     font-weight: bold !important;
+    width: 150px;
+    text-align: center;
 }
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
