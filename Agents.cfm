@@ -364,8 +364,8 @@ limitations under the License.
                                 
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                   <fieldset class="my-2 px-3 field-set">
-                                    <legend class="h6 mt-1 px-3 field-set-legend">Internal Collections &amp; Permissions</legend>
+                                   <fieldset class="my-2 px-3 field-set border">
+                                    <legend class="h6 mt-1 px-3 field-set-legend border">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0 form-group mb-0 pb-1">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
@@ -400,7 +400,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 form-group">
                                                     <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
-                                                    <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
+                                                    <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
                                                         <option></option>
                                                         <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
                                                         <option value="issued by" #sel# >Issued By</option>
