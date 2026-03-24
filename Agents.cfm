@@ -236,7 +236,7 @@ limitations under the License.
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1 mt-0">
                                             <div class="form-group mb-1 pb-0 mt-0">
-                                               <label for="prefix" class="data-entry-label">Prefix</label>
+                                               <label for="prefix" class="data-entry-label mb-0">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select py-0">
                                                     <option></option>
                                                     <cfloop query="dist_prefix">
@@ -255,9 +255,9 @@ limitations under the License.
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-1 pb-0 form-group">
-                                            <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
+                                            <label for="first_name" class="data-entry-label mb-0" id="first_name_label">First</label>
                                             <input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-                                            <small class="smaller text-dark-gray">
+                                            <small class="smaller text-dark">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
@@ -265,7 +265,7 @@ limitations under the License.
                                             </small>
                                         </div>	
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-1 form-group pb-0">
-                                            <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
+                                            <label for="middle_name" class="data-entry-label mb-0" id="middle_name_label">Middle</label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
                                             <span class="smaller text-dark-gray">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
