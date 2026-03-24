@@ -169,7 +169,7 @@ limitations under the License.
                                 <fieldset class="mb-3 mt-0 px-3 border field-set">
                                     <legend class="h6 my-1 px-3 border field-set-legend">Agent / Identifier</legend>
 								    <div class="form-row">
-                                        <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-0 px-0 pr-md-2 form-group">
+                                        <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-0 px-0 pr-md-2 form-group mb-0">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
                                             </label>
@@ -195,7 +195,7 @@ limitations under the License.
                                         <div class="col-12 col-md-6 col-lg-8 col-xl-5 px-0 mt-0">
                                             <div class="form-row">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
-                                                <div class="col-12 col-md-7 pr-md-2 form-group">
+                                                <div class="col-12 col-md-7 pr-md-2 form-group mb-0">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent</label>
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
