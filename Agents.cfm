@@ -166,7 +166,7 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">         
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
-                                <fieldset class="mb-3 mt-0 px-3 border field-set">
+                                <fieldset class="mb-2 mt-0 px-3 border field-set">
                                     <legend class="h6 my-1 px-3 border field-set-legend">Agent / Identifier</legend>
 								    <div class="form-row">
                                         <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-1 px-0 pr-md-2 form-group mb-0">
@@ -237,7 +237,7 @@ limitations under the License.
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1 mt-0">
                                             <div class="form-group mb-1 mt-0">
                                                <label for="prefix" class="data-entry-label">Prefix</label>
-                                                <select id="prefix" name="prefix" class="data-entry-select">
+                                                <select id="prefix" name="prefix" class="data-entry-select py-1">
                                                     <option></option>
                                                     <cfloop query="dist_prefix">
                                                         <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -256,7 +256,7 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-1 form-group">
                                             <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
-                                            <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
+                                            <input type="text" id="first_name" name="first_name" class="data-entry-input py-1" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
                                             <small class="smaller text-dark-gray">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
@@ -264,17 +264,17 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </small>
                                         </div>	
-                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-1 form-group">
+                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-0 form-group pb-1">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
-                                            <input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-                                            <span class="small text-dark-gray">
+                                            <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+                                            <span class="smaller text-dark-gray">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mb-2 form-group">
+                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 mb-2 form-group mb-0 pb-1">
                                             <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                             <input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                             <span class="small text-dark-gray">
@@ -285,9 +285,9 @@ limitations under the License.
                                             </span>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-2 px-1 mb-2">
-                                            <div class="form-group mb-0">
+                                            <div class="form-group mb-0 pb-1">
                                                 <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
-                                                <select id="suffix" name="suffix" class="data-entry-select">
+                                                <select id="suffix" name="suffix" class="data-entry-select py-0">
                                                     <option></option>
                                                     <cfloop query="dist_suffix">
                                                         <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -364,7 +364,7 @@ limitations under the License.
                                 
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                   <fieldset class="my-3 px-3 field-set">
+                                   <fieldset class="my-2 px-3 field-set">
                                     <legend class="h6 mt-1 px-3 field-set-legend">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0 form-group mb-0 pb-1">
