@@ -235,7 +235,7 @@ limitations under the License.
                                     <legend class="h6 mt-0 mb-1 px-3 border field-set-legend">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1 mt-0">
-                                            <div class="form-group mb-1 mt-0">
+                                            <div class="form-group mb-0 pb-1 mt-0">
                                                <label for="prefix" class="data-entry-label">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select py-1">
                                                     <option></option>
