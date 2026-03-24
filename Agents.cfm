@@ -198,15 +198,15 @@ limitations under the License.
                                                 <div class="col-12 col-md-7 pr-md-2 form-group mb-0">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent</label>
-                                                    <input type="text" id="specificagent" name="specificagent" class="data-entry-input p-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
+                                                    <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
                                                             onblur=" specificagentBlurHandler();">
                                                 </div>
                                                 <!-- Agent ID -->
                                                 <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group pb-0">
-                                                    <label for="specificagent" class="data-entry-label py-0" id="specificagent_label">
+                                                    <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Agent ID
                                                     </label>
-                                                    <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
+                                                    <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
                                                 </div>
                                                 <!-- Agent Type -->
                                                 <div class="col-6 col-md-3 col-xl-3 pl-md-2 form-group">
