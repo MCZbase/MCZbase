@@ -231,8 +231,8 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="my-3 border px-3">
-                                    <legend class="h6 mt-1 border px-3">Name Components</legend>
+                                 <fieldset class="my-3 border px-3" style="background-color: ##f4f2f0;">
+                                    <legend class="h6 mt-1 border px-3" style="background-color:##27545F;color: white;">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1">
                                             <div class="form-group mb-2">
