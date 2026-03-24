@@ -195,21 +195,21 @@ limitations under the License.
                                         <div class="col-12 col-md-6 col-lg-8 col-xl-5 pb-0 mb-0 px-0 mt-0">
                                             <div class="form-row mb-0">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
-                                                <div class="col-12 col-md-7 pr-md-2 form-group pb-1">
+                                                <div class="col-12 col-md-7 pr-md-2 form-group mb-0 pb-1">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent</label>
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
                                                             onblur=" specificagentBlurHandler();">
                                                 </div>
                                                 <!-- Agent ID -->
-                                                <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group pb-1">
+                                                <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group mb-0 pb-1">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Agent ID
                                                     </label>
                                                     <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
                                                 </div>
                                                 <!-- Agent Type -->
-                                                <div class="col-6 col-md-3 col-xl-3 pl-md-2 form-group pb-1">
+                                                <div class="col-6 col-md-3 col-xl-3 pl-md-2 form-group mb-0 pb-1">
                                                 <label for="agent_type" class="data-entry-label" id="agent_type_label">
                                                     Agent Type
                                                 </label>
