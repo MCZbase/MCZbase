@@ -175,8 +175,8 @@ limitations under the License.
                                             </label>
                                             <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
                                             <small class="text-dark-gray">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 bg-med-teal p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
+                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
                                                     NULL, NOT NULL, or a comma separated list of names)
                                                 </small>
                                         </div>
@@ -365,8 +365,8 @@ limitations under the License.
                                 
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                   <fieldset class="my-3 px-3">
-                                    <legend class="h6 mt-1 px-3">Internal Collections &amp; Permissions</legend>
+                                   <fieldset class="my-3 px-3 field-set">
+                                    <legend class="h6 mt-1 px-3 field-set-legend">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0 form-group">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
