@@ -162,7 +162,7 @@ limitations under the License.
 							});
 						</script>
                                      
-						<div class="col-12 px-3 pt-3 pb-2" id="searchFormDiv">
+						<div class="col-12 px-3 pt-2 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">         
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
