@@ -192,10 +192,10 @@ limitations under the License.
                                                  });
                                             </script>
                                         <!-- Specific agent -->
-                                        <div class="col-12 col-md-6 col-lg-8 col-xl-5 px-0 mt-0">
-                                            <div class="form-row">
+                                        <div class="col-12 col-md-6 col-lg-8 col-xl-5 mb-0 px-0 mt-0">
+                                            <div class="form-row mb-0">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
-                                                <div class="col-12 col-md-7 pr-md-2 form-group mb-0">
+                                                <div class="col-12 col-md-7 pr-md-2 form-group pb-0 mb-0">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent</label>
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
