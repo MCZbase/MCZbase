@@ -176,6 +176,7 @@ table td .small {
 .bg-med-teal {
     background-color: #deebec;
 }
+
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
 .part-occurrence-head {
@@ -185,7 +186,14 @@ table td .small {
 .part-occurrence {
 	background-color: #d4f6f685;
 }
-
+fieldset {
+  background-color: #F4F2F0;
+  border: 1px solid #E3E3E3;
+}
+fieldset legend {
+  color: #27545F;
+  font-weight: bold;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
