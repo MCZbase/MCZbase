@@ -321,7 +321,7 @@ limitations under the License.
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 px-0 mt-0">
 				                            <!-- Death range, always shown -->
-                                            <div class="form-group">
+                                            <div class="form-group pb-1 mb-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
                                                     <input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
@@ -333,7 +333,7 @@ limitations under the License.
                                         </div>
                                         <!-- Dates collected (always) -->
                                         <div class="col-12 col-md-4 px-0 mt-0">
-                                              <div class="form-group mb-1 mt-0">
+                                              <div class="form-group mb-1 mt-0 pb-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
                                                     <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
@@ -346,7 +346,7 @@ limitations under the License.
                                         <div class="col-12 col-md-4 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                                <div class="form-group">
+                                                <div class="form-group pb-1 mb-0">
                                                     <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 ml-md-1 pt-1 mx-0 rounded justify-content-center">
                                                         <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="birth_date">
                                                           #dateWord# Of Birth
