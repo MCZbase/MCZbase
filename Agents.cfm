@@ -231,11 +231,11 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="my-3 px-3 border field-set">
-                                    <legend class="h6 mt-1 px-3 border field-set-legend">Name Components</legend>
+                                 <fieldset class="my-2 px-3 border field-set">
+                                    <legend class="h6 mt-0 mb-1 px-3 border field-set-legend">Name Components</legend>
                                     <div class="form-row">
-                                        <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1">
-                                            <div class="form-group mb-2">
+                                        <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1 mt-0">
+                                            <div class="form-group mb-1 mt-0">
                                                <label for="prefix" class="data-entry-label">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select">
                                                     <option></option>
@@ -257,12 +257,12 @@ limitations under the License.
                                         <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-1 form-group">
                                             <label for="first_name" class="data-entry-label" id="first_name_label">First</label>
                                             <input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-                                            <span class="small text-dark-gray">
+                                            <small class="smaller text-dark-gray">
                                                 (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
                                                 NULL, NOT NULL)
-                                            </span>
+                                            </small>
                                         </div>	
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-1 form-group">
                                             <label for="middle_name" class="data-entry-label" id="middle_name_label">Middle</label>
@@ -316,10 +316,9 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="my-3 px-3 border field-set">
-                                    <legend class="h6 mt-1 px-3 border field-set-legend">Dates</legend>
+                                <fieldset class="my-2 px-3 border field-set">
+                                    <legend class="h6 mt-0 mb-1 px-3 border field-set-legend">Dates</legend>
                                     <div class="form-row">
-                                      
                                         <div class="col-12 col-md-4 px-0 mt-0">
 				                            <!-- Death range, always shown -->
                                             <div class="form-group">
@@ -332,9 +331,9 @@ limitations under the License.
                                                 </div>
 									        </div>
                                         </div>
-                                              <!-- Dates collected (always) -->
+                                        <!-- Dates collected (always) -->
                                         <div class="col-12 col-md-4 px-0 mt-0">
-                                              <div class="form-group mb-0">
+                                              <div class="form-group mb-1 mt-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
                                                     <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
