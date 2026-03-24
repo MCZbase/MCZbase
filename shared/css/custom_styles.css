@@ -186,13 +186,14 @@ table td .small {
 .part-occurrence {
 	background-color: #d4f6f685;
 }
-fieldset {
-  background-color: #F4F2F0;
+field-set {
+  background-color: #f4f2f0;
   border: 1px solid #E3E3E3;
 }
-fieldset legend {
-  color: #27545F;
-  font-weight: bold;
+field-set-legend {
+    background-color:#27545F;
+    color: white;
+    font-weight: bold;
 }
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */

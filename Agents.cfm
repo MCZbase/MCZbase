@@ -166,8 +166,8 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">         
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
-                                <fieldset class="mb-3 mt-1 border px-3">
-                                    <legend class="h6 mt-1 border px-3">Agent / Identifier</legend>
+                                <fieldset class="mb-3 mt-1 px-3 field-set">
+                                    <legend class="h6 mt-1 px-3 field-set-legend">Agent / Identifier</legend>
 								    <div class="form-row">
                                         <div class="col-md-6 col-lg-12 col-xl-7 mb-2 mt-0 px-0 pr-md-2 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
@@ -231,8 +231,8 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="my-3 border px-3" style="background-color: ##f4f2f0;">
-                                    <legend class="h6 mt-1 border px-3" style="background-color:##27545F;color: white;">Name Components</legend>
+                                 <fieldset class="my-3 px-3 field-set">
+                                    <legend class="h6 mt-1 px-3 field-set-legend">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1">
                                             <div class="form-group mb-2">
@@ -316,8 +316,8 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="my-3 border px-3 bg-med-teal">
-                                    <legend class="h6 mt-1 border px-3 bg-dark text-white">Dates</legend>
+                                <fieldset class="my-3 px-3 field-set">
+                                    <legend class="h6 mt-1 px-3 field-set-legend">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 px-0 mt-0">
 								        <!-- Birth range, internal users only -->
@@ -364,8 +364,8 @@ limitations under the License.
                                 
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                   <fieldset class="my-3 border px-3 bg-med-teal">
-                                    <legend class="h6 mt-1 border px-3 bg-dark text-white">Internal Collections &amp; Permissions</legend>
+                                   <fieldset class="my-3 px-3">
+                                    <legend class="h6 mt-1 px-3">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0 form-group">
                                                 <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
