@@ -169,11 +169,11 @@ limitations under the License.
                                 <fieldset class="mb-3 mt-0 px-3 border field-set">
                                     <legend class="h6 my-1 px-3 border field-set-legend">Agent / Identifier</legend>
 								    <div class="form-row">
-                                        <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-0 px-0 pr-md-2 form-group mb-0">
+                                        <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-1 px-0 pr-md-2 form-group mb-0">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
                                             </label>
-                                            <input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+                                            <input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
                                             <small class="text-dark-gray smaller">
                                                 (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
@@ -198,12 +198,12 @@ limitations under the License.
                                                 <div class="col-12 col-md-7 pr-md-2 form-group mb-0">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent</label>
-                                                    <input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
+                                                    <input type="text" id="specificagent" name="specificagent" class="data-entry-input p-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
                                                             onblur=" specificagentBlurHandler();">
                                                 </div>
                                                 <!-- Agent ID -->
-                                                <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group">
-                                                    <label for="specificagent" class="data-entry-label pr-0" id="specificagent_label">
+                                                <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group pb-0">
+                                                    <label for="specificagent" class="data-entry-label py-0" id="specificagent_label">
                                                         Agent ID
                                                     </label>
                                                     <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
@@ -213,7 +213,7 @@ limitations under the License.
                                                 <label for="agent_type" class="data-entry-label" id="agent_type_label">
                                                     Agent Type
                                                 </label>
-                                                <select id="agent_type" name="agent_type" class="data-entry-select">
+                                                <select id="agent_type" name="agent_type" class="data-entry-select py-0">
                                                     <option></option>
                                                     <cfloop query="ctagent_type">
                                                         <cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
