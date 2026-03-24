@@ -351,7 +351,7 @@ limitations under the License.
                                                         <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="birth_date">
                                                           #dateWord# Of Birth
                                                         </label>
-                                                        <input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+                                                        <input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
                                                         <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
                                                         <label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>
                                                         <input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
