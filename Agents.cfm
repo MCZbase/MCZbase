@@ -334,7 +334,7 @@ limitations under the License.
                                         <!-- Dates collected (always) -->
                                         <div class="col-12 col-md-4 px-0 mt-0">
                                               <div class="form-group mb-1 mt-0 pb-0">
-                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
+                                                <div class="date d-flex flex-wrap bg-light border pb-1 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
                                                     <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input py-0 w-100 col-5 px-1" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
