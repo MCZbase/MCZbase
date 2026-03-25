@@ -196,6 +196,9 @@ table td .small {
     font-weight: 520 !important;
     text-align: left;
 }
+.border2 {
+    border: 1px solid #5f9da3;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
