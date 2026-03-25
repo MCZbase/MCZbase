@@ -234,7 +234,7 @@ limitations under the License.
                                  <fieldset class="my-2 px-3 border field-set">
                                     <legend class="h6 mt-0 mb-1 px-3 border field-set-legend w-auto">Name Components</legend>
                                     <div class="form-row">
-                                        <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-1 mt-0">
+                                        <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-0 mb-md-1 mt-0">
                                             <div class="form-group mb-1 pb-0 mt-0">
                                                <label for="prefix" class="data-entry-label mb-0">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select py-0">
@@ -254,7 +254,7 @@ limitations under the License.
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-1 pb-0 form-group">
+                                        <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-0 mb-md-1 pb-0 form-group">
                                             <label for="first_name" class="data-entry-label mb-0" id="first_name_label">First</label>
                                             <input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
                                             <small class="smaller text-dark">
@@ -264,7 +264,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </small>
                                         </div>	
-                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-1 form-group pb-0">
+                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-0 mb-md-1 form-group pb-0">
                                             <label for="middle_name" class="data-entry-label mb-0" id="middle_name_label">Middle</label>
                                             <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
                                             <span class="smaller text-dark-gray">
@@ -274,7 +274,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 form-group mb-1 pb-0">
+                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 form-group mb-0 mb-md-1 pb-0">
                                             <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
                                             <input type="text" id="last_name" name="last_name" class="data-entry-input py-0" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                             <span class="smaller text-dark-gray">
@@ -284,7 +284,7 @@ limitations under the License.
                                                 NULL, NOT NULL)
                                             </span>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 px-1 mb-1">
+                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-1 px-1 mb-1 mb-md-0">
                                             <div class="form-group mb-0 pb-1">
                                                 <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                                 <select id="suffix" name="suffix" class="data-entry-select py-0">
