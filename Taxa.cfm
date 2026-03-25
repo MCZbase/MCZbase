@@ -192,12 +192,12 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
-                        <div class="row px-3 mx-2 pt-2 pb-3" id="searchFormDiv">
-                                <form name="searchForm" id="searchForm" class="row">
+                        <div id="searchFormDiv">
+                                <form name="searchForm" id="searchForm">
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
-                                    <fieldset class="bg-light border rounded p-2 mx-0">
-                                        <legend class="h6 mb-2 mx-auto">Name &amp; Classification</legend>
+                                    <fieldset class="bg-light border rounded p-2 m-2">
+                                        <legend class="h6 mb-2 w-auto px-3">Name &amp; Classification</legend>
                                         <div class="form-row">
                                             <div class="form-group col-12 col-md-4">
                                                 <label for="scientific_name" class="data-entry-label align-left-center">
