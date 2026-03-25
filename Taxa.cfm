@@ -445,7 +445,7 @@ limitations under the License.
                                     <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Taxonomy Related Selections</legend>     
                                         <div class="form-row mt-0">             
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                            <div class="form-group col-12 col-md-4 mb-0 pb-0">
                                                 <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
                                                 <select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
                                                     <option></option>
@@ -455,7 +455,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                            <div class="form-group col-12 col-md-4 mb-0 pb-0">
                                                 <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
                                                 <select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
                                                     <option></option>
@@ -479,7 +479,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                            <div class="form-group col-12 col-md-4 mb-0 pb-0">
                                                 <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
                                                 <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
                                                     <option></option>
@@ -489,7 +489,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                            <div class="form-group col-12 col-md-4 mb-0 pb-0">
                                                 <label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
                                                 <select name="relationship" id="relationship" class="data-entry-select" size="1">
                                                     <option></option>
@@ -502,7 +502,7 @@ limitations under the License.
                                                 </select>
                                             </div>
                                             <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                                                <cfset remark_col = "col-md-2">
+                                                <cfset remark_col = "col-md-4">
                                             <cfelse>
                                                 <cfset remark_col = "col-md-4">
                                             </cfif>
