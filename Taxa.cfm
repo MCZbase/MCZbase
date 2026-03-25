@@ -197,421 +197,416 @@ limitations under the License.
                                 <form name="searchForm" id="searchForm">
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
-                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">General Taxonomy Search</legend>
-                                        <div class="form-row mb-0">
-                                            <div class="form-group mb-0 col-12 col-md-4">
-                                                <label for="scientific_name" class="data-entry-label align-left-center">
-                                                    Scientific Name 
-                                                    <span class="small90">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+                                    <div class="col-12">
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">General Taxonomy Search</legend>
+                                            <div class="form-row mb-0">
+                                                <div class="form-group mb-0 col-12 col-md-4">
+                                                    <label for="scientific_name" class="data-entry-label align-left-center">
+                                                        Scientific Name 
+                                                        <span class="small90">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+                                                </div>
+                                                <div class="form-group mb-0 col-12 col-md-4">
+                                                    <label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
+                                                        <span class="small90">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
+                                                </div>
+                                                <div class="form-group mb-0 col-12 col-md-4">
+                                                    <label for="common_name" class="data-entry-label align-left-center">
+                                                        Common Name 
+                                                        <span class="small90">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" id="common_name" name="common_name" value="#encodeForHtml(common_name)#" placeholder="common name">
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-0 col-12 col-md-4">
-                                                <label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
-                                                    <span class="small90">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
+                                        </fieldset>
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Name Search</legend>
+                                            <div class="form-row mt-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="genus" class="data-entry-label align-left-center">Genus 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('genus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="genus" name="genus" value="#encodeForHtml(genus)#" placeholder="generic name">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="subgenus" class="data-entry-label align-left-center">Subgenus 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" id="subgenus" name="subgenus" value="#encodeForHtml(subgenus)#" placeholder="subgenus">
+                                                </div>
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="species" class="data-entry-label align-left-center">Species 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('species');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('species');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" id="species" name="species" value="#encodeForHtml(species)#" placeholder="specific name">
+                                                </div>
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="subspecies" class="data-entry-label align-left-center">Subspecies 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" id="subspecies" name="subspecies" value="#encodeForHtml(subspecies)#" placeholder="subspecific name">
+                                                </div>
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="author_text" class="data-entry-label align-left-center">Authorship 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" id="author_text" name="author_text" value="#encodeForHtml(author_text)#" placeholder="author text">
+                                                </div>
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="infraspecific_author" class="data-entry-label align-left-center">Infrasp. Author
+                                                        <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 field-set" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input mb-0 pb-1" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
+                                                </div>
+                                             </div>
+                                        </fieldset>
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
+                                            <div class="form-row mt-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
+                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                        <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="phylum" class="data-entry-label align-left-center">Phylum 
+                                                        <span class="small">
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="subphylum" class="data-entry-label align-left-center">Subphylum 
+                                                        <span class="small">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
+                                                </div>
+
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="superclass" class="data-entry-label align-left-center">Superclass 
+                                                        <span class="small">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="small" class="data-entry-input" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
+                                                </div>
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="phylclass" class="data-entry-label align-left-center">Class 
+                                                        <span class="small">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" placeholder="class">
+                                                </div>
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="subclass" class="data-entry-label align-left-center">Subclass 
+                                                        <span class="small">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
+                                                </div>
+                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                    <label for="infraclass" class="data-entry-label align-left-center">Infraclass 
+                                                        <span class="small">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="superorder" class="data-entry-label align-left-center">Superorder 
+                                                        <span class="small">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="phylorder" class="data-entry-label align-left-center">Order 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="suborder" class="data-entry-label align-left-center">Suborder
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="infraorder" class="data-entry-label align-left-center">Infraorder 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="superfamily" class="data-entry-label align-left-center">Superfamily 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
+                                                </div> 
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="family" class="data-entry-label align-left-center">Family 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="subfamily" class="data-entry-label align-left-center">Subfamily 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="tribe" class="data-entry-label align-left-center">Tribe 
+                                                        <span class="small">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="data-entry-input" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-0 col-12 col-md-4">
-                                                <label for="common_name" class="data-entry-label align-left-center">
-                                                    Common Name 
-                                                    <span class="small90">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" id="common_name" name="common_name" value="#encodeForHtml(common_name)#" placeholder="common name">
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                     <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Name Search</legend>
-                                        <div class="form-row mt-0">
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="genus" class="data-entry-label align-left-center">Genus 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('genus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="genus" name="genus" value="#encodeForHtml(genus)#" placeholder="generic name">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="subgenus" class="data-entry-label align-left-center">Subgenus 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" id="subgenus" name="subgenus" value="#encodeForHtml(subgenus)#" placeholder="subgenus">
-                                            </div>
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="species" class="data-entry-label align-left-center">Species 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('species');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('species');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" id="species" name="species" value="#encodeForHtml(species)#" placeholder="specific name">
-                                            </div>
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="subspecies" class="data-entry-label align-left-center">Subspecies 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" id="subspecies" name="subspecies" value="#encodeForHtml(subspecies)#" placeholder="subspecific name">
-                                            </div>
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="author_text" class="data-entry-label align-left-center">Authorship 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" id="author_text" name="author_text" value="#encodeForHtml(author_text)#" placeholder="author text">
-                                            </div>
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="infraspecific_author" class="data-entry-label align-left-center">Infrasp. Author
-                                                    <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 field-set" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
-                                                </label>
-                                                <input type="text" class="data-entry-input mb-0 pb-1" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
-                                            </div>
-                                         </div>
-                                    </fieldset>
-                                    
-                                    
-                                    
-                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
-                                        <div class="form-row mt-0">
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
-                                                    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                    <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="phylum" class="data-entry-label align-left-center">Phylum 
-                                                    <span class="small">
-                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="subphylum" class="data-entry-label align-left-center">Subphylum 
-                                                    <span class="small">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
-                                            </div>
-                                           
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="superclass" class="data-entry-label align-left-center">Superclass 
-                                                    <span class="small">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="small" class="data-entry-input" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
-                                            </div>
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="phylclass" class="data-entry-label align-left-center">Class 
-                                                    <span class="small">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" placeholder="class">
-                                            </div>
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="subclass" class="data-entry-label align-left-center">Subclass 
-                                                    <span class="small">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
-                                            </div>
-                                            <div class="form-group col-md-2 mb-0 pb-0">
-                                                <label for="infraclass" class="data-entry-label align-left-center">Infraclass 
-                                                    <span class="small">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="superorder" class="data-entry-label align-left-center">Superorder 
-                                                    <span class="small">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="phylorder" class="data-entry-label align-left-center">Order 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="suborder" class="data-entry-label align-left-center">Suborder
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="infraorder" class="data-entry-label align-left-center">Infraorder 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="superfamily" class="data-entry-label align-left-center">Superfamily 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
-                                            </div> 
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="family" class="data-entry-label align-left-center">Family 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="subfamily" class="data-entry-label align-left-center">Subfamily 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="tribe" class="data-entry-label align-left-center">Tribe 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                    </span>
-                                                </label>
-                                                <input type="text" class="data-entry-input" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                                
-                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
-                                        <div class="form-row mt-0">             
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
-                                                <select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
-                                                    <option></option>
-                                                    <cfloop query="ctnomenclatural_code">
-                                                        <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
-                                                    </cfloop>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
-                                                <select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
-                                                    <option></option>
-                                                    <cfloop query="cttaxon_habitat_null">
-                                                        <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
-                                                    </cfloop>
-                                                    <cfloop query="cttaxon_habitat">
-                                                        <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
-                                                    </cfloop>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="taxon_category" class="data-entry-label align-left-center">Category</label>
-                                                <select name="taxon_category" class="data-entry-select" id="taxon_category">
-                                                    <option></option>
-                                                    <cfloop query="cttaxon_category">
-                                                        <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#taxon_category#" #selected#>#taxon_category#</option>
-                                                    </cfloop>
-                                                    <cfif oneOfUs>
-                                                        <option value="NOT NULL" >Any Category</option>
-                                                        <option value="NULL" >No Category</option>
-                                                    </cfif>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-6 mb-0 pb-0">
-                                                <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-                                                <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
-                                                    <option></option>
-                                                    <cfloop query="CTTAXONOMIC_AUTHORITY">
-                                                        <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#source_authority#" #selected#>#source_authority#</option>
-                                                    </cfloop>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-12 col-md-4 mb-0 pb-0">
-                                                <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
-                                                <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
-                                                    <option></option>
-                                                    <cfloop query="cttaxon_status">
-                                                        <cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#taxon_status#" #selected#>#taxon_status#</option>
-                                                    </cfloop>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-12 col-md-4 mb-0 pb-0">
-                                                <label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
-                                                <select name="relationship" id="relationship" class="data-entry-select" size="1">
-                                                    <option></option>
-                                                    <cfloop query="cttaxon_relation">
-                                                        <cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#cttaxon_relation.taxon_relationship#" #selected#>#cttaxon_relation.taxon_relationship# (#cttaxon_relation.ct#)</option>
-                                                    </cfloop>
-                                                    <cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                    <option value="NOT NULL" #selected# >Any Relationship</option>
-                                                </select>
-                                            </div>
-                                              
-                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                                                <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                                                    select collection, collection_cde, collection_id from collection order by collection
-                                                </cfquery>
-                                                <cfset selectedCollection = ''>
-                                                <cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-                                                    <cfquery name="lookupCollection" dbtype="query">
-                                                        select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
-                                                    </cfquery>
-                                                    <cfset selectedCollection = lookupCollection.collection >
-                                                </cfif>
-                                                <div class="col-12 col-md-4">
-                                                    <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.</label>
-                                                    <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
-                                                        <option value="">any collection</option>
-                                                        <cfloop query="ctcollection">
-                                                            <cfif ctcollection.collection eq selectedCollection>
-                                                                <cfset selected="selected">
-                                                            <cfelse>
-                                                                <cfset selected="">
-                                                            </cfif>
-                                                            <option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-12">            
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
+                                            <div class="form-row mt-0">             
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
+                                                    <select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+                                                        <option></option>
+                                                        <cfloop query="ctnomenclatural_code">
+                                                            <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
                                                         </cfloop>
                                                     </select>
                                                 </div>
-                                            </cfif>
-                                            <div class="col-12">
-                                                <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
-                                                <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
-                                            </div>
-                                        </div>	
-                                    </fieldset>
-                                    <div class="form-row">
-                                    <fieldset class="bg-light border col-12 col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
-                                        
-                                            <div class="form-group mb-0 pb-0">
-                                                <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
-                                                <cfif valid_catalog_term_fg EQ 1>
-                                                    <cfset validFlagAllSelected = ''>
-                                                    <cfset validFlagOnlySelected = 'checked="checked"'>
-                                                    <cfset validFlagNotSelected = ''>
-                                                <cfelseif valid_catalog_term_fg EQ 0>
-                                                    <cfset validFlagAllSelected = ''>
-                                                    <cfset validFlagOnlySelected = ''>
-                                                    <cfset validFlagNotSelected = 'checked="checked"'>
-                                                <cfelse>
-                                                    <cfset validFlagAllSelected = 'checked="checked"'>
-                                                    <cfset validFlagOnlySelected = ''>
-                                                    <cfset validFlagNotSelected = ''>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
+                                                    <select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
+                                                        <option></option>
+                                                        <cfloop query="cttaxon_habitat_null">
+                                                            <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
+                                                        </cfloop>
+                                                        <cfloop query="cttaxon_habitat">
+                                                            <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
+                                                        </cfloop>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                    <label for="taxon_category" class="data-entry-label align-left-center">Category</label>
+                                                    <select name="taxon_category" class="data-entry-select" id="taxon_category">
+                                                        <option></option>
+                                                        <cfloop query="cttaxon_category">
+                                                            <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#taxon_category#" #selected#>#taxon_category#</option>
+                                                        </cfloop>
+                                                        <cfif oneOfUs>
+                                                            <option value="NOT NULL" >Any Category</option>
+                                                            <option value="NULL" >No Category</option>
+                                                        </cfif>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6 mb-0 pb-0">
+                                                    <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+                                                    <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+                                                        <option></option>
+                                                        <cfloop query="CTTAXONOMIC_AUTHORITY">
+                                                            <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#source_authority#" #selected#>#source_authority#</option>
+                                                        </cfloop>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-12 col-md-4 mb-0 pb-0">
+                                                    <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
+                                                    <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
+                                                        <option></option>
+                                                        <cfloop query="cttaxon_status">
+                                                            <cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#taxon_status#" #selected#>#taxon_status#</option>
+                                                        </cfloop>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-12 col-md-4 mb-0 pb-0">
+                                                    <label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
+                                                    <select name="relationship" id="relationship" class="data-entry-select" size="1">
+                                                        <option></option>
+                                                        <cfloop query="cttaxon_relation">
+                                                            <cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#cttaxon_relation.taxon_relationship#" #selected#>#cttaxon_relation.taxon_relationship# (#cttaxon_relation.ct#)</option>
+                                                        </cfloop>
+                                                        <cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="NOT NULL" #selected# >Any Relationship</option>
+                                                    </select>
+                                                </div>
+
+                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+                                                    <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+                                                        select collection, collection_cde, collection_id from collection order by collection
+                                                    </cfquery>
+                                                    <cfset selectedCollection = ''>
+                                                    <cfif isdefined("collection_cde") and len(collection_cde) gt 0>
+                                                        <cfquery name="lookupCollection" dbtype="query">
+                                                            select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+                                                        </cfquery>
+                                                        <cfset selectedCollection = lookupCollection.collection >
+                                                    </cfif>
+                                                    <div class="col-12 col-md-4">
+                                                        <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.</label>
+                                                        <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
+                                                            <option value="">any collection</option>
+                                                            <cfloop query="ctcollection">
+                                                                <cfif ctcollection.collection eq selectedCollection>
+                                                                    <cfset selected="selected">
+                                                                <cfelse>
+                                                                    <cfset selected="">
+                                                                </cfif>
+                                                                <option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </div>
                                                 </cfif>
-                                                <li class="list-group-item px-0 pb-0 pt-1">
-                                                    <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-                                                    <label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
-                                                </li>
-                                                <li class="list-group-item px-0 pb-0 pt-1">
-                                                    <input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-                                                    <label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
-                                                </li>
-                                                <li class="list-group-item px-0 py-1">
-                                                    <input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-                                                    <label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
-                                                </li>
-                                            </ul>
-                                            </div>
-                                       
-                                    </fieldset>
-                                    <fieldset class="bg-light border col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
-                                    
+                                                <div class="col-12">
+                                                    <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
+                                                    <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
+                                                </div>
+                                            </div>	
+                                        </fieldset>
+                                        <fieldset class="bg-light border col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
                                             <div class="form-group mb-0 pb-0">
-                                                <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
-                                                    <cfif we_have_some EQ 1>
-                                                        <cfset usedInIdAllSelected = ''>
-                                                        <cfset usedInIdOnlySelected = 'checked="checked"'>
-                                                        <cfset usedInIdNotSelected = ''>
-                                                    <cfelseif we_have_some EQ 0>
-                                                        <cfset usedInIdAllSelected = ''>
-                                                        <cfset usedInIdOnlySelected = ''>
-                                                        <cfset usedInIdNotSelected = 'checked="checked"'>
+                                                    <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
+                                                    <cfif valid_catalog_term_fg EQ 1>
+                                                        <cfset validFlagAllSelected = ''>
+                                                        <cfset validFlagOnlySelected = 'checked="checked"'>
+                                                        <cfset validFlagNotSelected = ''>
+                                                    <cfelseif valid_catalog_term_fg EQ 0>
+                                                        <cfset validFlagAllSelected = ''>
+                                                        <cfset validFlagOnlySelected = ''>
+                                                        <cfset validFlagNotSelected = 'checked="checked"'>
                                                     <cfelse>
-                                                        <cfset usedInIdAllSelected = 'checked="checked"'>
-                                                        <cfset usedInIdOnlySelected = ''>
-                                                        <cfset usedInIdNotSelected = ''>
+                                                        <cfset validFlagAllSelected = 'checked="checked"'>
+                                                        <cfset validFlagOnlySelected = ''>
+                                                        <cfset validFlagNotSelected = ''>
                                                     </cfif>
                                                     <li class="list-group-item px-0 pb-0 pt-1">
-                                                        <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-                                                        <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
+                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+                                                        <label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
                                                     </li>
                                                     <li class="list-group-item px-0 pb-0 pt-1">
-                                                        <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-                                                        <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
+                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+                                                        <label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
                                                     </li>
                                                     <li class="list-group-item px-0 py-1">
-                                                        <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-                                                        <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
+                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+                                                        <label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
                                                     </li>
                                                 </ul>
-                                            </div>
-                                     
-                                    </fieldset>
-                              
+                                                </div>
+                                        </fieldset>
+                                        <fieldset class="bg-light border col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
+                                                <div class="form-group mb-0 pb-0">
+                                                    <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
+                                                        <cfif we_have_some EQ 1>
+                                                            <cfset usedInIdAllSelected = ''>
+                                                            <cfset usedInIdOnlySelected = 'checked="checked"'>
+                                                            <cfset usedInIdNotSelected = ''>
+                                                        <cfelseif we_have_some EQ 0>
+                                                            <cfset usedInIdAllSelected = ''>
+                                                            <cfset usedInIdOnlySelected = ''>
+                                                            <cfset usedInIdNotSelected = 'checked="checked"'>
+                                                        <cfelse>
+                                                            <cfset usedInIdAllSelected = 'checked="checked"'>
+                                                            <cfset usedInIdOnlySelected = ''>
+                                                            <cfset usedInIdNotSelected = ''>
+                                                        </cfif>
+                                                        <li class="list-group-item px-0 pb-0 pt-1">
+                                                            <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+                                                            <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
+                                                        </li>
+                                                        <li class="list-group-item px-0 pb-0 pt-1">
+                                                            <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+                                                            <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
+                                                        </li>
+                                                        <li class="list-group-item px-0 py-1">
+                                                            <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+                                                            <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                        </fieldset>
                                    </div>
-                                    <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
-                                    <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
-                                    <button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
-                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                                        <button type="button" class="btn btn-xs btn-warning my-1" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
-                                    </cfif>
+                                    <div class="col-12"> 
+                                        <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
+                                        <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
+                                        <button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
+                                        <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+                                            <button type="button" class="btn btn-xs btn-warning my-1" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
+                                        </cfif>
+                                    </div>
                                 </form>
                             </div>
                         </div>
