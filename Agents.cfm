@@ -134,7 +134,9 @@ limitations under the License.
 		<cfset permit_agent_role = "">
 	</cfif>
             <style>
-                .data-entry-input {padding-top: 0.035rem; padding-bottom: 0.035rem;}
+                .data-entry-input {
+                    padding-top: 0.035rem !important;
+                    padding-bottom: 0.035rem !important;}
             </style>
 	<!--- Search Form ---> 
 	<cfoutput>
