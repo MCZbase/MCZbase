@@ -188,7 +188,7 @@ limitations under the License.
            <!--- </cfif>--->
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
-					<div class="search-box">
+					<div class="search-box mt-4">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
@@ -197,7 +197,7 @@ limitations under the License.
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
                                     <fieldset class="bg-light border rounded p-2 m-2">
-                                        <legend class="h6 mb-2 w-auto px-3">Name &amp; Classification</legend>
+                                        <legend class="h6 mb-1 px-3 border field-set-legend w-auto">Name &amp; Classification</legend>
                                         <div class="form-row">
                                             <div class="form-group mb-0 col-12 col-md-4">
                                                 <label for="scientific_name" class="data-entry-label align-left-center">
