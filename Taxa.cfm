@@ -290,7 +290,7 @@ limitations under the License.
                                     
                                     <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">     
-                                        <div class="form-row mt-0">
+                                        <div class="d-flex flex-wrap col-12 col-xl-8 mt-0">
                                             <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                 <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
                                                     <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -367,78 +367,78 @@ limitations under the License.
                                                 </label>
                                                 <input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
                                             </div>
-                                        </div>
-                                         <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="superorder" class="data-entry-label align-left-center">Superorder 
-                                                <span class="small">
-                                                    (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
-                                        </div>
-                                        <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="phylorder" class="data-entry-label align-left-center">Order 
-                                                <span class="small">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
-                                        </div>
-                                        <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="suborder" class="data-entry-label align-left-center">Suborder
-                                                <span class="small">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
-                                        </div>
-                                        <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="infraorder" class="data-entry-label align-left-center">Infraorder 
-                                                <span class="small">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
-                                        </div>
-                                        <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="superfamily" class="data-entry-label align-left-center">Superfamily 
-                                                <span class="small">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
-                                        </div> 
-                                        <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="family" class="data-entry-label align-left-center">Family 
-                                                <span class="small">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
-                                        </div>
-                                        <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="subfamily" class="data-entry-label align-left-center">Subfamily 
-                                                <span class="small">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
-                                        </div>
-                                        <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                            <label for="tribe" class="data-entry-label align-left-center">Tribe 
-                                                <span class="small">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-                                                </span>
-                                            </label>
-                                            <input type="text" class="data-entry-input" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="superorder" class="data-entry-label align-left-center">Superorder 
+                                                    <span class="small">
+                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
+                                            </div>
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="phylorder" class="data-entry-label align-left-center">Order 
+                                                    <span class="small">
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
+                                            </div>
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="suborder" class="data-entry-label align-left-center">Suborder
+                                                    <span class="small">
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
+                                            </div>
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="infraorder" class="data-entry-label align-left-center">Infraorder 
+                                                    <span class="small">
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
+                                            </div>
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="superfamily" class="data-entry-label align-left-center">Superfamily 
+                                                    <span class="small">
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
+                                            </div> 
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="family" class="data-entry-label align-left-center">Family 
+                                                    <span class="small">
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
+                                            </div>
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="subfamily" class="data-entry-label align-left-center">Subfamily 
+                                                    <span class="small">
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
+                                            </div>
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="tribe" class="data-entry-label align-left-center">Tribe 
+                                                    <span class="small">
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="data-entry-input" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
+                                            </div>
                                         </div>
                                     </fieldset>
                                                 
