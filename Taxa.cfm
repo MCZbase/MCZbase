@@ -535,10 +535,10 @@ limitations under the License.
                                             </div>
                                         </div>	
                                     </fieldset>
-                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                    <fieldset class="bg-light border col-12 col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
                                         <div class="form-row">
-                                            <div class="form-group col-md-6 mb-0 pb-0">
+                                            <div class="form-group mb-0 pb-0">
                                                 <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
                                                 <cfif valid_catalog_term_fg EQ 1>
                                                     <cfset validFlagAllSelected = ''>
@@ -569,10 +569,10 @@ limitations under the License.
                                             </div>
                                         </div>
                                     </fieldset>
-                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                    <fieldset class="bg-light border col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6 mb-0 pb-0">
+                                            <div class="form-group mb-0 pb-0">
                                                 <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
                                                     <cfif we_have_some EQ 1>
                                                         <cfset usedInIdAllSelected = ''>
