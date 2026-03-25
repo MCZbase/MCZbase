@@ -502,15 +502,7 @@ limitations under the License.
                                                     <option value="NOT NULL" #selected# >Any Relationship</option>
                                                 </select>
                                             </div>
-                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                                                <cfset remark_col = "col-md-4">
-                                            <cfelse>
-                                                <cfset remark_col = "col-md-4">
-                                            </cfif>
-                                            <div class="#remark_col#">
-                                                <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
-                                                <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
-                                            </div>
+                                              
                                             <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
                                                 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                                                     select collection, collection_cde, collection_id from collection order by collection
@@ -537,6 +529,15 @@ limitations under the License.
                                                     </select>
                                                 </div>
                                             </cfif>
+                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+                                                <cfset remark_col = "col-md-12">
+                                            <cfelse>
+                                                <cfset remark_col = "col-md-4">
+                                            </cfif>
+                                            <div class="#remark_col#">
+                                                <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
+                                                <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
+                                            </div>
                                         </div>	
                                     </fieldset>
                                     
