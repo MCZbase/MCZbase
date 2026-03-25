@@ -193,7 +193,7 @@ table td .small {
 .field-set-legend {
     background-color: #f8f9fa !important;
     color: #041132 !important;
-    font-weight: lighter !important;
+    font-weight: 400 !important;
     text-align: left;
 }
 /*********************************************/
