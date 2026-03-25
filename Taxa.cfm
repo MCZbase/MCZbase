@@ -230,8 +230,8 @@ limitations under the License.
                                         </div>
                                     </fieldset>
                                      <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Name Search</legend>
-                                        <div class="form-row mt-1">
+                                        <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Name Search</legend>
+                                        <div class="form-row mt-0">
                                             <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                 <label for="genus" class="data-entry-label align-left-center">Genus 
                                                     <span class="small">
