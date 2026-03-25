@@ -248,7 +248,7 @@ limitations under the License.
                                                         <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                     </span>
                                                 </label>
-                                                <input type="text" class="data-entry-input" id="subgenus" name="subgenus" value="#encodeForHtml(subgenus)#" placeholder="subgenus">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" id="subgenus" name="subgenus" value="#encodeForHtml(subgenus)#" placeholder="subgenus">
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="species" class="data-entry-label align-left-center">Species 
@@ -257,7 +257,7 @@ limitations under the License.
                                                         <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('species');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                     </span>
                                                 </label>
-                                                <input type="text" class="data-entry-input" id="species" name="species" value="#encodeForHtml(species)#" placeholder="specific name">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" id="species" name="species" value="#encodeForHtml(species)#" placeholder="specific name">
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="subspecies" class="data-entry-label align-left-center">Subspecies 
@@ -266,7 +266,7 @@ limitations under the License.
                                                         <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                     </span>
                                                 </label>
-                                                <input type="text" class="data-entry-input" id="subspecies" name="subspecies" value="#encodeForHtml(subspecies)#" placeholder="subspecific name">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" id="subspecies" name="subspecies" value="#encodeForHtml(subspecies)#" placeholder="subspecific name">
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="author_text" class="data-entry-label align-left-center">Authorship 
@@ -275,13 +275,13 @@ limitations under the License.
                                                         <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                     </span>
                                                 </label>
-                                                <input type="text" class="data-entry-input" id="author_text" name="author_text" value="#encodeForHtml(author_text)#" placeholder="author text">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" id="author_text" name="author_text" value="#encodeForHtml(author_text)#" placeholder="author text">
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="infraspecific_author" class="data-entry-label align-left-center">Infrasp. Author
                                                     <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
                                                 </label>
-                                                <input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
                                             </div>
                                          </div>
                                     </fieldset>
