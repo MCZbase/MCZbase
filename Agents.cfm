@@ -133,6 +133,9 @@ limitations under the License.
 		<cfset trans_agent_collection = "">
 		<cfset permit_agent_role = "">
 	</cfif>
+            <style>
+                .data-entry-input {padding-top: 0.01rem; padding-bottom: 0.01rem;}
+            </style>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
