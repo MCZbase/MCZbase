@@ -398,7 +398,7 @@ limitations under the License.
                                                         </cfloop>
                                                     </select>
                                                 </div>
-                                                <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 form-group pb-0 mb-1">
+                                                <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 form-group pb-1 pb-md-1 mb-1 mb-md-0">
                                                     <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
                                                     <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
                                                         <option></option>
