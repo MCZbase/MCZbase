@@ -139,6 +139,9 @@ limitations under the License.
             padding-bottom: 0.035rem !important;
             border: 1px solid #5f9da3;
         }
+        .data-entry-select {
+            border: 1px solid #5f9da3;
+        }
         
     </style>
 	<!--- Search Form ---> 
