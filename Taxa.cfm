@@ -180,12 +180,12 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
 		<main id="content">
-            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+        <!---    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>--->
                 <cftry>
                       <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSearchWiki border-0")#</cfoutput>
                       <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
                 </cftry>
-            </cfif>
+           <!--- </cfif>--->
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
 					<div class="search-box">
@@ -196,76 +196,6 @@ limitations under the License.
 							<form name="searchForm" id="searchForm" class="row">
 								<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 								<input type="hidden" name="action" value="search">
-								<div class="col-12 col-xl-3">
-									<div id="searchHelpTextBlock" class="smaller-text mt-2" tabindex="0">
-										<div class="readMore"><input type="checkbox" id="readMore_check_id"><label class="read" for="readMore_check_id"></label><span class="ilt bg-transparent">Search taxonomies used in MCZbase. Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
-											<span class="sr-only" tabindex="0">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
-										</div>
-									</div>
-									<div class="form-row">
-										<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-											<legend class="text-dark mb-2">Search accepted names:</legend>
-											<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
-												<cfif valid_catalog_term_fg EQ 1>
-													<cfset validFlagAllSelected = ''>
-													<cfset validFlagOnlySelected = 'checked="checked"'>
-													<cfset validFlagNotSelected = ''>
-												<cfelseif valid_catalog_term_fg EQ 0>
-													<cfset validFlagAllSelected = ''>
-													<cfset validFlagOnlySelected = ''>
-													<cfset validFlagNotSelected = 'checked="checked"'>
-												<cfelse>
-													<cfset validFlagAllSelected = 'checked="checked"'>
-													<cfset validFlagOnlySelected = ''>
-													<cfset validFlagNotSelected = ''>
-												</cfif>
-												<li class="list-group-item px-0 pb-0 pt-1">
-													<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-													<label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
-												</li>
-												<li class="list-group-item px-0 pb-0 pt-1">
-													<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-													<label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
-												</li>
-												<li class="list-group-item px-0 py-1">
-													<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-													<label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
-												</li>
-											</ul>
-										</fieldset>
-										<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-											<legend class="text-dark mb-2" >Search taxa used on specimen records:</legend>
-											<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
-												<cfif we_have_some EQ 1>
-													<cfset usedInIdAllSelected = ''>
-													<cfset usedInIdOnlySelected = 'checked="checked"'>
-													<cfset usedInIdNotSelected = ''>
-												<cfelseif we_have_some EQ 0>
-													<cfset usedInIdAllSelected = ''>
-													<cfset usedInIdOnlySelected = ''>
-													<cfset usedInIdNotSelected = 'checked="checked"'>
-												<cfelse>
-													<cfset usedInIdAllSelected = 'checked="checked"'>
-													<cfset usedInIdOnlySelected = ''>
-													<cfset usedInIdNotSelected = ''>
-												</cfif>
-												<li class="list-group-item px-0 pb-0 pt-1">
-													<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-													<label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
-												</li>
-												<li class="list-group-item px-0 pb-0 pt-1">
-													<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-													<label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
-												</li>
-												<li class="list-group-item px-0 py-1">
-													<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-													<label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
-												</li>
-											</ul>
-										</fieldset>
-									</div>
-								</div>
-								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
 										<p class="smaller-text" tabindex="0">Add an = <span class="sr-only">(equals sign)</span> to the beginning of names for exact match, $<span class="sr-only">dolar sign</span> for sounds like match. Add ! <span class="sr-only">(an exclamation point)</span> to the beginning of names for a NOT search. Name fields accept comma separated lists. NULL finds blanks.</p>
 									</div>
@@ -300,6 +230,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#encodeForHtml(common_name)#" placeholder="common name">
 										</div>
 									</div>
+                                </fieldset>
 									<div class="form-row mt-1">
 										<div class="form-group col-12 col-md-2">
 											<label for="genus" class="data-entry-label align-left-center">Genus 
@@ -599,7 +530,70 @@ limitations under the License.
 												</select>
 											</div>
 										</cfif>
+									</div>									
+									<div class="form-row">
+										<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
+											<legend class="text-dark mb-2">Search accepted names:</legend>
+											<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
+												<cfif valid_catalog_term_fg EQ 1>
+													<cfset validFlagAllSelected = ''>
+													<cfset validFlagOnlySelected = 'checked="checked"'>
+													<cfset validFlagNotSelected = ''>
+												<cfelseif valid_catalog_term_fg EQ 0>
+													<cfset validFlagAllSelected = ''>
+													<cfset validFlagOnlySelected = ''>
+													<cfset validFlagNotSelected = 'checked="checked"'>
+												<cfelse>
+													<cfset validFlagAllSelected = 'checked="checked"'>
+													<cfset validFlagOnlySelected = ''>
+													<cfset validFlagNotSelected = ''>
+												</cfif>
+												<li class="list-group-item px-0 pb-0 pt-1">
+													<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+													<label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
+												</li>
+												<li class="list-group-item px-0 pb-0 pt-1">
+													<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+													<label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
+												</li>
+												<li class="list-group-item px-0 py-1">
+													<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+													<label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
+												</li>
+											</ul>
+										</fieldset>
+										<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
+											<legend class="text-dark mb-2" >Search taxa used on specimen records:</legend>
+											<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
+												<cfif we_have_some EQ 1>
+													<cfset usedInIdAllSelected = ''>
+													<cfset usedInIdOnlySelected = 'checked="checked"'>
+													<cfset usedInIdNotSelected = ''>
+												<cfelseif we_have_some EQ 0>
+													<cfset usedInIdAllSelected = ''>
+													<cfset usedInIdOnlySelected = ''>
+													<cfset usedInIdNotSelected = 'checked="checked"'>
+												<cfelse>
+													<cfset usedInIdAllSelected = 'checked="checked"'>
+													<cfset usedInIdOnlySelected = ''>
+													<cfset usedInIdNotSelected = ''>
+												</cfif>
+												<li class="list-group-item px-0 pb-0 pt-1">
+													<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+													<label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
+												</li>
+												<li class="list-group-item px-0 pb-0 pt-1">
+													<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+													<label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
+												</li>
+												<li class="list-group-item px-0 py-1">
+													<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+													<label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
+												</li>
+											</ul>
+										</fieldset>
 									</div>
+								
 									<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
 									<button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
 									<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
