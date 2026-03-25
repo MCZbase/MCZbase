@@ -317,20 +317,7 @@ limitations under the License.
                                                 </label>
                                                 <input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
-                                                <label for="taxon_category" class="data-entry-label align-left-center">Category</label>
-                                                <select name="taxon_category" class="data-entry-select" id="taxon_category">
-                                                    <option></option>
-                                                    <cfloop query="cttaxon_category">
-                                                        <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#taxon_category#" #selected#>#taxon_category#</option>
-                                                    </cfloop>
-                                                    <cfif oneOfUs>
-                                                        <option value="NOT NULL" >Any Category</option>
-                                                        <option value="NULL" >No Category</option>
-                                                    </cfif>
-                                                </select>
-                                            </div>
+                                           
                                             <div class="form-group col-md-2 mb-0 pb-0">
                                                 <label for="superclass" class="data-entry-label align-left-center">Superclass 
                                                     <span class="small">
@@ -467,6 +454,20 @@ limitations under the License.
                                                         <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
                                                         <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
                                                     </cfloop>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <label for="taxon_category" class="data-entry-label align-left-center">Category</label>
+                                                <select name="taxon_category" class="data-entry-select" id="taxon_category">
+                                                    <option></option>
+                                                    <cfloop query="cttaxon_category">
+                                                        <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="#taxon_category#" #selected#>#taxon_category#</option>
+                                                    </cfloop>
+                                                    <cfif oneOfUs>
+                                                        <option value="NOT NULL" >Any Category</option>
+                                                        <option value="NULL" >No Category</option>
+                                                    </cfif>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6 mb-0 pb-0">
