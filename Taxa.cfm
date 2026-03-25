@@ -535,9 +535,10 @@ limitations under the License.
                                             </div>
                                         </div>	
                                     </fieldset>
+                                    <div class="form-row">
                                     <fieldset class="bg-light border col-12 col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
-                                        <div class="form-row">
+                                        
                                             <div class="form-group mb-0 pb-0">
                                                 <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
                                                 <cfif valid_catalog_term_fg EQ 1>
@@ -567,11 +568,11 @@ limitations under the License.
                                                 </li>
                                             </ul>
                                             </div>
-                                        </div>
+                                       
                                     </fieldset>
                                     <fieldset class="bg-light border col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
-                                        <div class="form-row">
+                                    
                                             <div class="form-group mb-0 pb-0">
                                                 <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
                                                     <cfif we_have_some EQ 1>
@@ -601,10 +602,10 @@ limitations under the License.
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </div>
+                                     
                                     </fieldset>
                               
-                                   
+                                   </div>
                                     <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
                                     <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
                                     <button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
