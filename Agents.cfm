@@ -149,7 +149,7 @@ limitations under the License.
             </cfif>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-4 mr-xl-5">
-					<div class="search-box">
+					<div class="search-box mt-4">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
 						</div>
@@ -369,7 +369,7 @@ limitations under the License.
                                 
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                   <fieldset class="my-2 px-3 field-set border">
+                                   <fieldset class="mt-2 mb-3 px-3 field-set border">
                                     <legend class="h6 mt-1 mb-1 px-3 field-set-legend border w-auto">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0 form-group mb-1 pb-0">
