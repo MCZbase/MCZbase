@@ -166,8 +166,8 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">         
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
-                                <fieldset class="mb-2 mt-0 px-3 border field-set">
-                                    <legend class="h6 my-1 px-3 border field-set-legend w-auto">Agent / Identifier</legend>
+                                <fieldset class="my-2 mt-0 px-3 border field-set">
+                                    <legend class="h6 mb-1 px-3 border field-set-legend w-auto">Agent / Identifier</legend>
 								    <div class="form-row">
                                         <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-1 px-0 pr-md-2 form-group mb-0">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
