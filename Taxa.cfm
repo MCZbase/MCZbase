@@ -197,35 +197,35 @@ limitations under the License.
                                 <form name="searchForm" id="searchForm">
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
-                                    <fieldset class="bg-light border field-set rounded p-2 m-2">
+                                    <fieldset class="bg-light border field-set rounded px-1 m-2">
                                         <legend class="h6 mb-1 px-3 border field-set-legend w-auto">Name &amp; Classification</legend>
                                         <div class="form-row mb-0">
                                             <div class="form-group mb-0 col-12 col-md-4">
                                                 <label for="scientific_name" class="data-entry-label align-left-center">
                                                     Scientific Name 
                                                     <span class="small90">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
-                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
                                                     </span>
                                                 </label>
-                                                <input type="text" class="data-entry-input mb-2" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
                                             </div>
                                             <div class="form-group mb-0 col-12 col-md-4">
                                                 <label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
                                                     <span class="small90">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
+                                                        (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
                                                     </span>
                                                 </label>
-                                                <input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
                                             </div>
                                             <div class="form-group mb-0 col-12 col-md-4">
                                                 <label for="common_name" class="data-entry-label align-left-center">
                                                     Common Name 
                                                     <span class="small90">
-                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
+                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
                                                     </span>
                                                 </label>
-                                                <input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#encodeForHtml(common_name)#" placeholder="common name">
+                                                <input type="text" class="data-entry-input mb-0 pb-1" id="common_name" name="common_name" value="#encodeForHtml(common_name)#" placeholder="common name">
                                             </div>
                                         </div>
                                     </fieldset>
