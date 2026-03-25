@@ -430,7 +430,7 @@ limitations under the License.
                                     </fieldset>
                                                 
                                     <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Taxonomy Related Selections</legend>     
+                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
                                         <div class="form-row mt-0">             
                                             <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                 <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
@@ -514,7 +514,7 @@ limitations under the License.
                                                     </cfquery>
                                                     <cfset selectedCollection = lookupCollection.collection >
                                                 </cfif>
-                                                <div class="col-md-2">
+                                                <div class="col-12 col-md-4">
                                                     <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.</label>
                                                     <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
                                                         <option value="">any collection</option>
@@ -529,52 +529,50 @@ limitations under the License.
                                                     </select>
                                                 </div>
                                             </cfif>
-                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                                                <cfset remark_col = "col-md-12">
-                                            <cfelse>
-                                                <cfset remark_col = "col-md-4">
-                                            </cfif>
-                                            <div class="#remark_col#">
+                                            <div class="col-12">
                                                 <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
                                                 <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
                                             </div>
                                         </div>	
                                     </fieldset>
-                                    
-                                    
+                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
                                         <div class="form-row">
-                                            <fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-                                                <legend class="text-dark mb-2">Search accepted names:</legend>
+                                            <div class="form-group col-md-6 mb-0 pb-0">
                                                 <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
-                                                    <cfif valid_catalog_term_fg EQ 1>
-                                                        <cfset validFlagAllSelected = ''>
-                                                        <cfset validFlagOnlySelected = 'checked="checked"'>
-                                                        <cfset validFlagNotSelected = ''>
-                                                    <cfelseif valid_catalog_term_fg EQ 0>
-                                                        <cfset validFlagAllSelected = ''>
-                                                        <cfset validFlagOnlySelected = ''>
-                                                        <cfset validFlagNotSelected = 'checked="checked"'>
-                                                    <cfelse>
-                                                        <cfset validFlagAllSelected = 'checked="checked"'>
-                                                        <cfset validFlagOnlySelected = ''>
-                                                        <cfset validFlagNotSelected = ''>
-                                                    </cfif>
-                                                    <li class="list-group-item px-0 pb-0 pt-1">
-                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-                                                        <label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
-                                                    </li>
-                                                    <li class="list-group-item px-0 pb-0 pt-1">
-                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-                                                        <label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
-                                                    </li>
-                                                    <li class="list-group-item px-0 py-1">
-                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-                                                        <label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
-                                                    </li>
-                                                </ul>
-                                            </fieldset>
-                                            <fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-                                                <legend class="text-dark mb-2" >Search taxa used on specimen records:</legend>
+                                                <cfif valid_catalog_term_fg EQ 1>
+                                                    <cfset validFlagAllSelected = ''>
+                                                    <cfset validFlagOnlySelected = 'checked="checked"'>
+                                                    <cfset validFlagNotSelected = ''>
+                                                <cfelseif valid_catalog_term_fg EQ 0>
+                                                    <cfset validFlagAllSelected = ''>
+                                                    <cfset validFlagOnlySelected = ''>
+                                                    <cfset validFlagNotSelected = 'checked="checked"'>
+                                                <cfelse>
+                                                    <cfset validFlagAllSelected = 'checked="checked"'>
+                                                    <cfset validFlagOnlySelected = ''>
+                                                    <cfset validFlagNotSelected = ''>
+                                                </cfif>
+                                                <li class="list-group-item px-0 pb-0 pt-1">
+                                                    <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+                                                    <label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
+                                                </li>
+                                                <li class="list-group-item px-0 pb-0 pt-1">
+                                                    <input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+                                                    <label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
+                                                </li>
+                                                <li class="list-group-item px-0 py-1">
+                                                    <input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+                                                    <label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
+                                                </li>
+                                            </ul>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 mb-0 pb-0">
                                                 <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
                                                     <cfif we_have_some EQ 1>
                                                         <cfset usedInIdAllSelected = ''>
@@ -602,8 +600,10 @@ limitations under the License.
                                                         <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
                                                     </li>
                                                 </ul>
-                                            </fieldset>
+                                            </div>
                                         </div>
+                                    </fieldset>
+                              
                                    
                                     <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
                                     <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
