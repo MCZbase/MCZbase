@@ -427,9 +427,9 @@ limitations under the License.
                                     <legend class="sr-only h6">Search Actions</legend>
                                     <div class="form-row my-0 mx-0">
                                         <div class="col-12 px-0 pt-0">
-                                            <button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
-                                            <button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-                                            <button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
+                                            <button class="btn-xs btn-primary px-2 my-1 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
+                                            <button type="reset" class="btn-xs btn-warning my-1 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+                                            <button type="button" class="btn-xs btn-warning my-1 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
 
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
                                                 <a class="btn-xs btn-secondary my-2 mr-1 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
