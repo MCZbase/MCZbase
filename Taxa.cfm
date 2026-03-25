@@ -193,15 +193,14 @@ limitations under the License.
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
                         <div class="row px-3 mx-2 pt-2 pb-3" id="searchFormDiv">
-                           
                                 <form name="searchForm" id="searchForm" class="row">
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
-                                    <div class="col-12">
-                                          <fieldset class="bg-light border rounded p-2 mx-0">
+                                    <fieldset class="bg-light border rounded p-2 mx-0">
                                         <legend class="h6 mb-2 mx-auto">Name &amp; Classification</legend>
                                         <div class="form-row">
-                                            <div class="form-group col-12 col-md-4">
+                                            <div class="col-12">
+                                                <div class="form-group col-12 col-md-4">
                                                 <label for="scientific_name" class="data-entry-label align-left-center">
                                                     Scientific Name 
                                                     <span class="small90">
@@ -211,7 +210,7 @@ limitations under the License.
                                                 </label>
                                                 <input type="text" class="data-entry-input mb-2" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
                                             </div>
-                                            <div class="form-group col-12 col-md-4">
+                                                <div class="form-group col-12 col-md-4">
                                                 <label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
                                                     <span class="small90">
                                                         (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
@@ -219,7 +218,7 @@ limitations under the License.
                                                 </label>
                                                 <input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
                                             </div>
-                                            <div class="form-group col-12 col-md-4">
+                                                <div class="form-group col-12 col-md-4">
                                                 <label for="common_name" class="data-entry-label align-left-center">
                                                     Common Name 
                                                     <span class="small90">
@@ -228,11 +227,13 @@ limitations under the License.
                                                 </label>
                                                 <input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#encodeForHtml(common_name)#" placeholder="common name">
                                             </div>
+                                            </div>
                                         </div>
                                     </fieldset>
-                                    </div>
-                                    <div class="col-12">
+                                   
+                                
                                         <div class="form-row mt-1">
+                                            <div class="col-12">
                                             <div class="form-group col-12 col-md-2">
                                                 <label for="genus" class="data-entry-label align-left-center">Genus 
                                                     <span class="small">
