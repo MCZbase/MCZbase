@@ -290,7 +290,7 @@ limitations under the License.
                                     
                                     <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
-                                        <div class="form-row col-12 col-xl-8 mt-0">
+                                        <div class="form-row mt-0">
                                             <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                 <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
                                                     <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -442,10 +442,9 @@ limitations under the License.
                                         </div>
                                     </fieldset>
                                                 
-                                                
-                                                
-                                                
-                                                
+                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Taxonomy Related Selections</legend>     
+                                        <div class="form-row mt-0">             
                                             <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                 <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
                                                 <select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
@@ -470,11 +469,6 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                        </div>
-                               
-                                    <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                        <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">     
-                                        <div class="form-row col-12 col-xl-8 mt-0">
                                             <div class="form-group col-md-4 mb-0 pb-0">
                                                 <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
                                                 <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
@@ -485,10 +479,6 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                           
-                                            
-                                          
-                                            
                                             <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                 <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
                                                 <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
@@ -511,10 +501,6 @@ limitations under the License.
                                                     <option value="NOT NULL" #selected# >Any Relationship</option>
                                                 </select>
                                             </div>
-                                            
-                                            
-                                            
-                                            
                                             <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
                                                 <cfset remark_col = "col-md-2">
                                             <cfelse>
@@ -550,7 +536,10 @@ limitations under the License.
                                                     </select>
                                                 </div>
                                             </cfif>
-                                        </div>									
+                                        </div>	
+                                    </fieldset>
+                                    
+                                    
                                         <div class="form-row">
                                             <fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
                                                 <legend class="text-dark mb-2">Search accepted names:</legend>
@@ -613,7 +602,7 @@ limitations under the License.
                                                 </ul>
                                             </fieldset>
                                         </div>
-                                    </div>
+                                   
                                     <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
                                     <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
                                     <button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
