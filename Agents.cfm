@@ -169,7 +169,7 @@ limitations under the License.
                                 <fieldset class="my-2 mt-0 px-3 border field-set">
                                     <legend class="h6 mb-1 px-3 border field-set-legend w-auto">Agent / Identifier</legend>
 								    <div class="form-row">
-                                        <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-1 px-0 pr-md-2 form-group mb-0">
+                                        <div class="col-md-6 col-lg-12 col-xl-7 mb-1 mt-0 px-0 pr-md-2 form-group mb-0">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
                                             </label>
