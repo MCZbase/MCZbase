@@ -286,6 +286,8 @@ limitations under the License.
                                                 </div>
                                              </div>
                                         </fieldset>
+                                    </div>
+                                    <div class="col-12">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
@@ -315,7 +317,6 @@ limitations under the License.
                                                     </label>
                                                     <input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
                                                 </div>
-
                                                 <div class="form-group col-md-2 mb-0 pb-0">
                                                     <label for="superclass" class="data-entry-label align-left-center">Superclass 
                                                         <span class="small">
@@ -427,7 +428,7 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12">            
+                                    <div class="col-6">            
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
                                             <div class="form-row mt-0">             
@@ -534,6 +535,8 @@ limitations under the License.
                                                 </div>
                                             </div>	
                                         </fieldset>
+                                    </div>
+                                    <div class="col-6">
                                         <fieldset class="bg-light border col-md-6 field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
                                             <div class="form-group mb-0 pb-0">
