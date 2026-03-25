@@ -189,10 +189,11 @@ limitations under the License.
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
 					<div class="search-box mt-4">
-						<div class="search-box-header">
+                        <div class="d-flex flex-wrap mx-0 mb-0 mr-md-4 mr-xl-5">
+						    <div class="search-box-header">
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
-                        <div id="searchFormDiv">
+                            <div id="searchFormDiv">
                                 <form name="searchForm" id="searchForm">
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
@@ -600,7 +601,7 @@ limitations under the License.
                                         <button type="button" class="btn btn-xs btn-warning my-1" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
                                     </cfif>
                                 </form>
-                           </div>
+                            </div>
                         </div>
 					</div>
 				</div>
