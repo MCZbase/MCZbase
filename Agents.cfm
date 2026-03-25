@@ -143,12 +143,12 @@ limitations under the License.
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
-            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+         <!---   <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>--->
                 <cftry>
                       <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSearchWiki border-0")#</cfoutput>
                       <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
                 </cftry>
-            </cfif>
+     <!---       </cfif>--->
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-4 mr-xl-5">
 					<div class="search-box mt-4">
