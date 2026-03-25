@@ -290,7 +290,7 @@ limitations under the License.
                                     
                                     <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                         <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
-                                        <div class="d-flex flex-wrap col-12 col-xl-8 mt-0">
+                                        <div class="form-row col-12 col-xl-8 mt-0">
                                             <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                 <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
                                                     <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
