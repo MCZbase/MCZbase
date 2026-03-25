@@ -236,7 +236,7 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="my-2 px-3 border field-set">
+                                 <fieldset class="my-2 px-3 pb-2 border field-set">
                                     <legend class="h6 mt-0 mb-1 px-3 border field-set-legend w-auto">Name Components</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-0 mb-md-1 mt-0">
@@ -321,7 +321,7 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-                                <fieldset class="my-2 px-3 border pb-0 field-set">
+                                <fieldset class="my-2 px-3 border pb-2 field-set">
                                     <legend class="h6 mt-0 mb-1 px-3 border field-set-legend w-auto">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 px-0 mt-0">
@@ -369,7 +369,7 @@ limitations under the License.
                                 
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                   <fieldset class="my-2 px-3 pb-3 field-set border">
+                                   <fieldset class="my-2 px-3 pb-2 field-set border">
                                     <legend class="h6 mt-1 mb-1 px-3 field-set-legend border w-auto">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0 form-group mb-1 pb-0">
