@@ -287,7 +287,7 @@ limitations under the License.
                                              </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 float-left">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
@@ -428,7 +428,7 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-6">            
+                                    <div class="col-12 float-left">            
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
                                             <div class="form-row mt-0">             
