@@ -199,7 +199,7 @@ limitations under the License.
                                     <fieldset class="bg-light border rounded p-2 m-2">
                                         <legend class="h6 mb-2 w-auto px-3">Name &amp; Classification</legend>
                                         <div class="form-row">
-                                            <div class="form-group col-12 col-md-4">
+                                            <div class="form-group mb-0 col-12 col-md-4">
                                                 <label for="scientific_name" class="data-entry-label align-left-center">
                                                     Scientific Name 
                                                     <span class="small90">
