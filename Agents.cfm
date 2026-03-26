@@ -378,16 +378,17 @@ limitations under the License.
                                    <fieldset class="my-2 px-3 pb-1 field-set border">
                                     <legend class="h6 mt-1 mb-1 px-3 field-set-legend border w-auto">Internal Collections &amp; Permissions</legend>
                                         <div class="form-row">
-                                            <div class="col-12 col-md-3 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0">
+                                            <div class="col-12 col-md-3 col-xl-3 pr-md-0 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
-                                                    <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
-                                                    <select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
-                                                        <option></option>
-                                                        <cfloop query="collections">
-                                                            <cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-                                                        </cfloop>
-                                                    </select>
+                                                    <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection
+                                                        <select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfloop query="collections">
+                                                                <cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </label>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 mb-md-1 mb-xl-0">
@@ -404,7 +405,7 @@ limitations under the License.
                                                 </div>
                                             </div>
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-                                                <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pr-md-2 px-xl-0">
+                                                <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pr-md-0 px-xl-0">
                                                     <div class="form-group mb-1 pb-0">
                                                         <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions
                                                             <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
