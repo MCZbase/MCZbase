@@ -210,14 +210,14 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <!-- Agent ID -->
-                                                <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group mb-0 pb-1 pb-md-1">
+                                                <div class="col-6 col-md-2 col-xl-2 mb-1 px-0 px-md-0 form-group mb-0 pb-1 pb-md-1">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Agent ID
                                                     <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
                                                     </label>
                                                 </div>
                                                 <!-- Agent Type -->
-                                                <div class="col-6 col-md-3 col-xl-2 pl-md-0 form-group mb-0 pb-1 pb-md-1">
+                                                <div class="col-6 col-md-3 col-xl-2 px-0 pl-md-0 form-group mb-0 pb-1 pb-md-1">
                                                     <label for="agent_type" class="data-entry-label" id="agent_type_label">
                                                         Agent Type
                                                         <select id="agent_type" name="agent_type" class="data-entry-select py-0">
