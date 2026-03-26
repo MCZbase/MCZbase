@@ -204,33 +204,34 @@ limitations under the License.
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
                                                 <div class="col-12 col-md-7 pr-md-2 form-group mb-0 pb-0">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
-                                                        Specific Agent</label>
+                                                        Specific Agent
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
                                                             onblur=" specificagentBlurHandler();">
+                                                    </label>
                                                 </div>
                                                 <!-- Agent ID -->
                                                 <div class="col-6 col-md-2 col-xl-2 mb-1 px-md-0 form-group mb-0 pb-1 pb-md-1">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Agent ID
-                                                    </label>
                                                     <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
+                                                    </label>
                                                 </div>
                                                 <!-- Agent Type -->
                                                 <div class="col-6 col-md-3 col-xl-3 pl-md-2 form-group mb-0 pb-1 pb-md-1">
                                                     <label for="agent_type" class="data-entry-label" id="agent_type_label">
                                                         Agent Type
+                                                        <select id="agent_type" name="agent_type" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfloop query="ctagent_type">
+                                                                <cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
+                                                            </cfloop>
+                                                            <cfloop query="ctagent_type">
+                                                                <cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
+                                                            </cfloop>
+                                                        </select>
                                                     </label>
-                                                    <select id="agent_type" name="agent_type" class="data-entry-select py-0">
-                                                    <option></option>
-                                                    <cfloop query="ctagent_type">
-                                                        <cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
-                                                    </cfloop>
-                                                    <cfloop query="ctagent_type">
-                                                        <cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
-                                                    </cfloop>
-                                                </select>
                                                 </div>
                                             </div>
                                         </div>
