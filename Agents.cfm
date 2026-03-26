@@ -244,7 +244,7 @@ limitations under the License.
                                     <div class="form-row mb-0">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-0 mb-md-1 mt-0">
                                             <div class="form-group mb-1 pb-0 mt-0">
-                                               <label for="prefix" class="data-entry-label px-2">Prefix</label>
+                                               <label for="prefix" class="data-entry-label mb-0">Prefix</label>
                                                 <select id="prefix" name="prefix" class="data-entry-select py-0">
                                                     <option></option>
                                                     <cfloop query="dist_prefix">
@@ -263,7 +263,7 @@ limitations under the License.
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-0 mb-md-1 pb-0 form-group">
-                                            <label for="first_name" class="data-entry-label px-2" id="first_name_label">First
+                                            <label for="first_name" class="data-entry-label mb-0" id="first_name_label">First
                                                 <input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
                                                 <small class="smaller text-dark">
                                                     (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -274,7 +274,7 @@ limitations under the License.
                                             </label>
                                         </div>	
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-0 mb-md-1 form-group pb-0">
-                                            <label for="middle_name" class="data-entry-label px-2" id="middle_name_label">Middle
+                                            <label for="middle_name" class="data-entry-label mb-0" id="middle_name_label">Middle
                                                 <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
                                                 <span class="smaller text-dark-gray">
                                                     (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -285,7 +285,7 @@ limitations under the License.
                                             </label>
                                         </div>
                                         <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 form-group mb-0 mb-md-1 pb-0">
-                                            <label for="last_name" class="data-entry-label px-2" id="last_name_label">Last 
+                                            <label for="last_name" class="data-entry-label" id="last_name_label">Last 
                                                 <input type="text" id="last_name" name="last_name" class="data-entry-input py-0" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
                                                 <span class="smaller text-dark-gray">
                                                     (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -297,7 +297,7 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 px-1 mb-1 mb-md-0">
                                             <div class="form-group mb-0 pb-1">
-                                                <label for="suffix" class="data-entry-label px-0" id="suffix_label">Suffix</label>
+                                                <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
                                                 <select id="suffix" name="suffix" class="data-entry-select py-0">
                                                     <option></option>
                                                     <cfloop query="dist_suffix">
@@ -380,7 +380,7 @@ limitations under the License.
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 col-xl-3 pr-md-2 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
-                                                    <label for="collector_collection" class="data-entry-label px-0" id="edited_label">Collector in Collection</label>
+                                                    <label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
                                                     <select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
                                                         <option></option>
                                                         <cfloop query="collections">
@@ -392,7 +392,7 @@ limitations under the License.
                                             </div>
                                             <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
-                                                    <label for="author_collection" class="data-entry-label px-2" id="edited_label">Author in Collection
+                                                    <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection
                                                         <select id="author_collection" name="author_collection" class="data-entry-select py-0">
                                                             <option></option>
                                                             <cfloop query="collections">
@@ -404,9 +404,9 @@ limitations under the License.
                                                 </div>
                                             </div>
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-                                                <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 pr-md-2 px-xl-2">
+                                                <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 pr-md-2 px-xl-0">
                                                     <div class="form-group mb-1 pb-0">
-                                                        <label for="trans_agent_collection" class="data-entry-label px-2" id="edited_label">Collection Transactions
+                                                        <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions
                                                             <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
                                                                 <option></option>
                                                                 <cfloop query="collections">
@@ -419,18 +419,18 @@ limitations under the License.
                                                 </div>
                                                 <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 pb-md-1 mb-md-0">
                                                     <div class="form-group mb-1 pb-0">
-                                                        <label for="permit_agent_role" class="data-entry-label px-2" id="edited_label">Permissions &amp; Rights
-                                                            <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
-                                                                <option></option>
-                                                                <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                                <option value="issued by" #sel# >Issued By</option>
-                                                                <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                                <option value="issued to" #sel# >Issued To</option>
-                                                                <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                                <option value="contact" #sel# >Contact Agent</option>
-                                                                <cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                                <option value="any" #sel#>Any</option>
-                                                            </select>
+                                                        <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights
+                                                        <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="issued by" #sel# >Issued By</option>
+                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="issued to" #sel# >Issued To</option>
+                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="contact" #sel# >Contact Agent</option>
+                                                            <cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="any" #sel#>Any</option>
+                                                        </select>
                                                         </label>
                                                     </div>
                                                 </div>
