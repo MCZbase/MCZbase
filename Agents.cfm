@@ -179,12 +179,12 @@ limitations under the License.
                                         <div class="col-12 col-md-4 mb-0 mt-0 px-0 pr-md-0 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
-                                            <input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
-                                            <small class="text-dark-gray smaller">
-                                                (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
-                                                NULL, NOT NULL, or a comma separated list of names)
-                                            </small>
+                                                <input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+                                                <small class="text-dark-gray smaller">
+                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
+                                                    NULL, NOT NULL, or a comma separated list of names)
+                                                </small>
                                              </label>
                                         </div>
                                         <!--- onblur, if field is emptied, clear the agent_id. --->
