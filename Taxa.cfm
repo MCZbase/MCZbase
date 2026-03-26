@@ -555,7 +555,7 @@ limitations under the License.
                                             <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
                                                 <div class="form-group mb-0 pb-0">
-                                                        <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
+                                                        <ul class="list-group list-group-horizontal btn-link list-group-flush mt-1 p-2 border bg-light rounded">
                                                         <cfif valid_catalog_term_fg EQ 1>
                                                             <cfset validFlagAllSelected = ''>
                                                             <cfset validFlagOnlySelected = 'checked="checked"'>
@@ -569,15 +569,15 @@ limitations under the License.
                                                             <cfset validFlagOnlySelected = ''>
                                                             <cfset validFlagNotSelected = ''>
                                                         </cfif>
-                                                        <li class="list-group-item px-0 pb-0 pt-1">
+                                                        <li class="list-group-item px-2 pb-0 pt-1">
                                                             <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
                                                             <label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
                                                         </li>
-                                                        <li class="list-group-item px-0 pb-0 pt-1">
+                                                        <li class="list-group-item px-2 pb-0 pt-1">
                                                             <input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
                                                             <label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
                                                         </li>
-                                                        <li class="list-group-item px-0 py-1">
+                                                        <li class="list-group-item px-2 py-1">
                                                             <input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
                                                             <label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
                                                         </li>
@@ -587,7 +587,7 @@ limitations under the License.
                                             <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
                                                     <div class="form-group mb-0 pb-0">
-                                                        <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
+                                                        <ul class="list-group list-group-horizontal list-group-flush mt-1 p-2 bg-light border rounded">
                                                             <cfif we_have_some EQ 1>
                                                                 <cfset usedInIdAllSelected = ''>
                                                                 <cfset usedInIdOnlySelected = 'checked="checked"'>
@@ -601,15 +601,15 @@ limitations under the License.
                                                                 <cfset usedInIdOnlySelected = ''>
                                                                 <cfset usedInIdNotSelected = ''>
                                                             </cfif>
-                                                            <li class="list-group-item px-0 pb-0 pt-1">
+                                                            <li class="list-group-item px-2 pb-0 pt-1">
                                                                 <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
                                                                 <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
                                                             </li>
-                                                            <li class="list-group-item px-0 pb-0 pt-1">
+                                                            <li class="list-group-item px-2 pb-0 pt-1">
                                                                 <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
                                                                 <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
                                                             </li>
-                                                            <li class="list-group-item px-0 py-1">
+                                                            <li class="list-group-item px-2 py-1">
                                                                 <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
                                                                 <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
                                                             </li>
