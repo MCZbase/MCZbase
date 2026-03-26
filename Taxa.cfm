@@ -481,7 +481,7 @@ limitations under the License.
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-12 col-md-6 col-xl-3 mb-0 pb-0">
-                                                        <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status
+                                                        <label for="taxon_status" class="data-entry-label py-0 align-left-center">Nomenclatural Status
                                                             <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_status">
