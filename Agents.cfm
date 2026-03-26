@@ -392,43 +392,46 @@ limitations under the License.
                                             </div>
                                             <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
-                                                    <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
-                                                    <select id="author_collection" name="author_collection" class="data-entry-select py-0">
-                                                        <option></option>
-                                                        <cfloop query="collections">
-                                                            <cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-                                                        </cfloop>
-                                                    </select>
+                                                    <label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection
+                                                        <select id="author_collection" name="author_collection" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfloop query="collections">
+                                                                <cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </label>
                                                 </div>
                                             </div>
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
                                                 <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 pr-md-2 px-xl-2">
                                                     <div class="form-group mb-1 pb-0">
-                                                        <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions</label>
-                                                        <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
-                                                            <option></option>
-                                                            <cfloop query="collections">
-                                                                <cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                                <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-                                                            </cfloop>
-                                                        </select>
+                                                        <label for="trans_agent_collection" class="data-entry-label" id="edited_label">Collection Transactions
+                                                            <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
+                                                                <option></option>
+                                                                <cfloop query="collections">
+                                                                    <cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                    <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                                </cfloop>
+                                                            </select>
+                                                        </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6 col-xl-3 px-0 mt-0 pb-md-1 mb-md-0">
                                                     <div class="form-group mb-1 pb-0">
-                                                        <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights</label>
-                                                        <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
-                                                            <option></option>
-                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="issued by" #sel# >Issued By</option>
-                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="issued to" #sel# >Issued To</option>
-                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="contact" #sel# >Contact Agent</option>
-                                                            <cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="any" #sel#>Any</option>
-                                                        </select>
+                                                        <label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights
+                                                            <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
+                                                                <option></option>
+                                                                <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="issued by" #sel# >Issued By</option>
+                                                                <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="issued to" #sel# >Issued To</option>
+                                                                <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="contact" #sel# >Contact Agent</option>
+                                                                <cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="any" #sel#>Any</option>
+                                                            </select>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </cfif>
