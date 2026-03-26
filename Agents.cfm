@@ -263,34 +263,37 @@ limitations under the License.
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-0 mb-md-1 pb-0 form-group">
-                                            <label for="first_name" class="data-entry-label mb-0" id="first_name_label">First</label>
-                                            <input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-                                            <small class="smaller text-dark">
-                                                (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-                                                NULL, NOT NULL)
-                                            </small>
+                                            <label for="first_name" class="data-entry-label mb-0" id="first_name_label">First
+                                                <input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
+                                                <small class="smaller text-dark">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </small>
+                                            </label>
                                         </div>	
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 mb-0 mb-md-1 form-group pb-0">
-                                            <label for="middle_name" class="data-entry-label mb-0" id="middle_name_label">Middle</label>
-                                            <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-                                            <span class="smaller text-dark-gray">
-                                                (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-                                                NULL, NOT NULL)
-                                            </span>
+                                            <label for="middle_name" class="data-entry-label mb-0" id="middle_name_label">Middle
+                                                <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+                                                <span class="smaller text-dark-gray">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </label>
                                         </div>
                                         <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 form-group mb-0 mb-md-1 pb-0">
-                                            <label for="last_name" class="data-entry-label" id="last_name_label">Last </label>
-                                            <input type="text" id="last_name" name="last_name" class="data-entry-input py-0" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
-                                            <span class="smaller text-dark-gray">
-                                                (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-                                                <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-                                                NULL, NOT NULL)
-                                            </span>
+                                            <label for="last_name" class="data-entry-label" id="last_name_label">Last 
+                                                <input type="text" id="last_name" name="last_name" class="data-entry-input py-0" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
+                                                <span class="smaller text-dark-gray">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </label>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-1 px-1 mb-1 mb-md-0">
                                             <div class="form-group mb-0 pb-1">
