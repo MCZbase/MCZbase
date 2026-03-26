@@ -176,7 +176,13 @@ limitations under the License.
 			makeTaxonSearchAutocomplete('infraspecific_author','infraspecific_author');
 		});
 	</script>
-	
+	    <style>
+        .data-entry-input {
+            padding-top: 0.035rem !important;
+            padding-bottom: 0.035rem !important;
+        }
+        
+    </style>
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
 		<main id="content">
