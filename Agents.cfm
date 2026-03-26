@@ -176,7 +176,7 @@ limitations under the License.
                                 <fieldset class="my-2 mt-0 px-3 pb-1 border field-set">
                                     <legend class="h6 mb-1 px-3 border field-set-legend w-auto">Agent / Identifier</legend>
 								    <div class="form-row">
-                                        <div class="col-12 col-md-4 mb-0 mt-0 px-0 pr-md-2 form-group">
+                                        <div class="col-12 col-md-4 mb-0 mt-0 px-0 pr-md-0 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
                                             <input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
@@ -202,7 +202,7 @@ limitations under the License.
                                         <div class="col-12 col-md-6 col-lg-8 col-xl-5 pb-0 mb-0 px-0 mt-0">
                                             <div class="form-row mb-0">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
-                                                <div class="col-12 col-md-7 pr-md-2 form-group mb-0 pb-0">
+                                                <div class="col-12 col-md-7 pr-md-0 form-group mb-0 pb-0">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
@@ -217,7 +217,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <!-- Agent Type -->
-                                                <div class="col-6 col-md-3 col-xl-3 pl-md-2 form-group mb-0 pb-1 pb-md-1">
+                                                <div class="col-6 col-md-3 col-xl-3 pl-md-0 form-group mb-0 pb-1 pb-md-1">
                                                     <label for="agent_type" class="data-entry-label" id="agent_type_label">
                                                         Agent Type
                                                         <select id="agent_type" name="agent_type" class="data-entry-select py-0">
