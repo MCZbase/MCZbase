@@ -439,7 +439,7 @@ limitations under the License.
                                             <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
                                                 <div class="form-row mt-0">             
-                                                    <div class="form-group col-12 col-md-6 col-xl-3 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-6 col-xl-2 mb-0 pb-0">
                                                         <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code
                                                             <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
                                                                 <option></option>
@@ -450,7 +450,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-6 col-xl-3 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-6 col-xl-2 mb-0 pb-0">
                                                         <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
                                                                 <option></option>
@@ -465,7 +465,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-6 col-xl-3 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-6 col-xl-2 mb-0 pb-0">
                                                         <label for="taxon_category" class="data-entry-label align-left-center">Category
                                                             <select name="taxon_category" class="data-entry-select py-0" id="taxon_category">
                                                                 <option></option>
