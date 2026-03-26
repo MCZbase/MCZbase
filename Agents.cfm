@@ -202,7 +202,7 @@ limitations under the License.
                                         <div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 px-0 mt-0">
                                             <div class="form-row mb-0">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
-                                                <div class="col-12 col-md-7 col-xl-8 pr-md-0 form-group mb-0 pb-0">
+                                                <div class="col-12 col-md-7 col-xl-8 px-0 pr-md-0 form-group mb-0 pb-0">
                                                     <label for="specificagent" class="data-entry-label" id="specificagent_label">
                                                         Specific Agent
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
