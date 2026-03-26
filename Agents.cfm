@@ -244,22 +244,23 @@ limitations under the License.
                                     <div class="form-row mb-0">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 mb-0 mb-md-1 mt-0">
                                             <div class="form-group mb-1 pb-0 mt-0">
-                                               <label for="prefix" class="data-entry-label mb-0">Prefix</label>
-                                                <select id="prefix" name="prefix" class="data-entry-select py-0">
-                                                    <option></option>
-                                                    <cfloop query="dist_prefix">
-                                                        <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
-                                                    </cfloop>
-                                                    <cfloop query="dist_prefix">
-                                                        <cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
-                                                    </cfloop>
-                                                    <cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="NULL" #sel# >NULL</option>
-                                                    <cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="NOT NULL" #sel#>NOT NULL</option>
-                                                </select>
+                                               <label for="prefix" class="data-entry-label mb-0">Prefix
+                                                    <select id="prefix" name="prefix" class="data-entry-select py-0">
+                                                        <option></option>
+                                                        <cfloop query="dist_prefix">
+                                                            <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
+                                                        </cfloop>
+                                                        <cfloop query="dist_prefix">
+                                                            <cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
+                                                        </cfloop>
+                                                        <cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NULL" #sel# >NULL</option>
+                                                        <cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                    </select>
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 mb-0 mb-md-1 pb-0 form-group">
@@ -297,22 +298,23 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 px-1 mb-1 mb-md-0">
                                             <div class="form-group mb-0 pb-1">
-                                                <label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
-                                                <select id="suffix" name="suffix" class="data-entry-select py-0">
-                                                    <option></option>
-                                                    <cfloop query="dist_suffix">
-                                                        <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
-                                                    </cfloop>
-                                                    <cfloop query="dist_suffix">
-                                                        <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
-                                                    </cfloop>
-                                                    <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="NULL" #sel#>NULL</option>
-                                                    <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="NOT NULL" #sel#>NOT NULL</option>
-                                                </select>
+                                                <label for="suffix" class="data-entry-label" id="suffix_label">Suffix
+                                                    <select id="suffix" name="suffix" class="data-entry-select py-0">
+                                                        <option></option>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NULL" #sel#>NULL</option>
+                                                        <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                    </select>
+                                                </label>
                                             </div>
                                         </div>
                                     </div><!---form row--->
