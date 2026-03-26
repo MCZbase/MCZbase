@@ -296,7 +296,7 @@ limitations under the License.
                                                 </span>
                                             </label>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 px-1 mb-1 mb-md-0">
+                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 pl-md-0 px-1 mb-1 mb-md-0">
                                             <div class="form-group mb-0 pb-1">
                                                 <label for="suffix" class="data-entry-label" id="suffix_label">Suffix
                                                     <select id="suffix" name="suffix" class="data-entry-select py-0">
