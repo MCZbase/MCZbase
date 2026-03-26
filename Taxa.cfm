@@ -441,7 +441,7 @@ limitations under the License.
                                                 <div class="form-row mt-0">             
                                                     <div class="form-group col-12 col-md-6 mb-0 pb-0">
                                                         <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
-                                                        <select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+                                                        <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
                                                             <option></option>
                                                             <cfloop query="ctnomenclatural_code">
                                                                 <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -451,7 +451,7 @@ limitations under the License.
                                                     </div>
                                                     <div class="form-group col-12 col-md-6 mb-0 pb-0">
                                                         <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
-                                                        <select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
+                                                        <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
                                                             <option></option>
                                                             <cfloop query="cttaxon_habitat_null">
                                                                 <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -465,7 +465,7 @@ limitations under the License.
                                                     </div>
                                                     <div class="form-group col-12 col-md-6 mb-0 pb-0">
                                                         <label for="taxon_category" class="data-entry-label align-left-center">Category</label>
-                                                        <select name="taxon_category" class="data-entry-select" id="taxon_category">
+                                                        <select name="taxon_category" class="data-entry-select py-0" id="taxon_category">
                                                             <option></option>
                                                             <cfloop query="cttaxon_category">
                                                                 <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -489,7 +489,7 @@ limitations under the License.
                                                     </div>
                                                     <div class="form-group col-12 col-md-6 mb-0 pb-0">
                                                         <label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
-                                                        <select name="relationship" id="relationship" class="data-entry-select" size="1">
+                                                        <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
                                                             <option></option>
                                                             <cfloop query="cttaxon_relation">
                                                                 <cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -513,7 +513,7 @@ limitations under the License.
                                                         </cfif>
                                                         <div class="col-12 col-md-6">
                                                             <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.</label>
-                                                            <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
+                                                            <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0 py-0" aria-label="collection">
                                                                 <option value="">any collection</option>
                                                                 <cfloop query="ctcollection">
                                                                     <cfif ctcollection.collection eq selectedCollection>
@@ -528,7 +528,7 @@ limitations under the License.
                                                     </cfif>
                                                     <div class="form-group col-12 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-                                                        <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+                                                        <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                             <option></option>
                                                             <cfloop query="CTTAXONOMIC_AUTHORITY">
                                                                 <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
