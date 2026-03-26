@@ -176,7 +176,7 @@ limitations under the License.
                                 <fieldset class="my-2 mt-0 px-3 pb-1 border field-set">
                                     <legend class="h6 mb-1 px-3 border field-set-legend w-auto">Agent / Identifier</legend>
 								    <div class="form-row">
-                                        <div class="col-12 col-md-6 col-lg-4 mb-0 mt-0 px-0 pr-md-0 form-group">
+                                        <div class="col-12 col-md-12 col-lg-4 col-xl-6 mb-0 mt-0 px-0 pr-md-0 form-group">
                                             <label for="anyName" class="data-entry-label" id="anyName_label">
                                                 Any part of any name
                                                 <input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
