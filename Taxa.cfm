@@ -437,7 +437,7 @@ limitations under the License.
                                     <div class="col-12 px-0 row mx-0">
                                         <div class="col-12">            
                                             <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                                <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
+                                                <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Other Search Options</legend>     
                                                 <div class="form-row mt-0">             
                                                     <div class="form-group col-12 col-md-6 col-xl-2 mb-0 pb-0">
                                                         <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code
