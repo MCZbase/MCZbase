@@ -428,182 +428,181 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 px-0">
-                                    <div class="col-12 col-md-8 px-3 pl-md-3 pr-md-1">            
-                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
-                                            <div class="form-row mt-0">             
-                                                <div class="form-group col-12 col-md-6 mb-0 pb-0">
-                                                    <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
-                                                    <select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
-                                                        <option></option>
-                                                        <cfloop query="ctnomenclatural_code">
-                                                            <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
-                                                        </cfloop>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-12 col-md-6 mb-0 pb-0">
-                                                    <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
-                                                    <select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
-                                                        <option></option>
-                                                        <cfloop query="cttaxon_habitat_null">
-                                                            <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
-                                                        </cfloop>
-                                                        <cfloop query="cttaxon_habitat">
-                                                            <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
-                                                        </cfloop>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-12 col-md-6 mb-0 pb-0">
-                                                    <label for="taxon_category" class="data-entry-label align-left-center">Category</label>
-                                                    <select name="taxon_category" class="data-entry-select" id="taxon_category">
-                                                        <option></option>
-                                                        <cfloop query="cttaxon_category">
-                                                            <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#taxon_category#" #selected#>#taxon_category#</option>
-                                                        </cfloop>
-                                                        <cfif oneOfUs>
-                                                            <option value="NOT NULL" >Any Category</option>
-                                                            <option value="NULL" >No Category</option>
-                                                        </cfif>
-                                                    </select>
-                                                </div>
-                
-                                                <div class="form-group col-12 col-md-6 mb-0 pb-0">
-                                                    <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
-                                                    <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
-                                                        <option></option>
-                                                        <cfloop query="cttaxon_status">
-                                                            <cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#taxon_status#" #selected#>#taxon_status#</option>
-                                                        </cfloop>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-12 col-md-6 mb-0 pb-0">
-                                                    <label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
-                                                    <select name="relationship" id="relationship" class="data-entry-select" size="1">
-                                                        <option></option>
-                                                        <cfloop query="cttaxon_relation">
-                                                            <cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#cttaxon_relation.taxon_relationship#" #selected#>#cttaxon_relation.taxon_relationship# (#cttaxon_relation.ct#)</option>
-                                                        </cfloop>
-                                                        <cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="NOT NULL" #selected# >Any Relationship</option>
-                                                    </select>
-                                                </div>
-
-                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                                                    <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                                                        select collection, collection_cde, collection_id from collection order by collection
-                                                    </cfquery>
-                                                    <cfset selectedCollection = ''>
-                                                    <cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-                                                        <cfquery name="lookupCollection" dbtype="query">
-                                                            select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
-                                                        </cfquery>
-                                                        <cfset selectedCollection = lookupCollection.collection >
-                                                    </cfif>
-                                                    <div class="col-12 col-md-6">
-                                                        <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.</label>
-                                                        <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
-                                                            <option value="">any collection</option>
-                                                            <cfloop query="ctcollection">
-                                                                <cfif ctcollection.collection eq selectedCollection>
-                                                                    <cfset selected="selected">
-                                                                <cfelse>
-                                                                    <cfset selected="">
-                                                                </cfif>
-                                                                <option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+                                    <div class="col-12 px-0 row mx-0">
+                                        <div class="col-12 col-md-8 px-3 pl-md-3 pr-md-1">            
+                                            <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                                <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
+                                                <div class="form-row mt-0">             
+                                                    <div class="form-group col-12 col-md-6 mb-0 pb-0">
+                                                        <label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
+                                                        <select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+                                                            <option></option>
+                                                            <cfloop query="ctnomenclatural_code">
+                                                                <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
                                                             </cfloop>
                                                         </select>
                                                     </div>
-                                                </cfif>
-                                                <div class="form-group col-12 mb-0 pb-0">
-                                                    <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-                                                    <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
-                                                        <option></option>
-                                                        <cfloop query="CTTAXONOMIC_AUTHORITY">
-                                                            <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#source_authority#" #selected#>#source_authority#</option>
-                                                        </cfloop>
-                                                    </select>
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
-                                                    <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
-                                                </div>
-                                            </div>	
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-12 col-md-4 pl-md-0 pl-0 pr-3 mb-2">
-                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
-                                            <div class="form-group mb-0 pb-0">
-                                                    <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
-                                                    <cfif valid_catalog_term_fg EQ 1>
-                                                        <cfset validFlagAllSelected = ''>
-                                                        <cfset validFlagOnlySelected = 'checked="checked"'>
-                                                        <cfset validFlagNotSelected = ''>
-                                                    <cfelseif valid_catalog_term_fg EQ 0>
-                                                        <cfset validFlagAllSelected = ''>
-                                                        <cfset validFlagOnlySelected = ''>
-                                                        <cfset validFlagNotSelected = 'checked="checked"'>
-                                                    <cfelse>
-                                                        <cfset validFlagAllSelected = 'checked="checked"'>
-                                                        <cfset validFlagOnlySelected = ''>
-                                                        <cfset validFlagNotSelected = ''>
+                                                    <div class="form-group col-12 col-md-6 mb-0 pb-0">
+                                                        <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
+                                                        <select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
+                                                            <option></option>
+                                                            <cfloop query="cttaxon_habitat_null">
+                                                                <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
+                                                            </cfloop>
+                                                            <cfloop query="cttaxon_habitat">
+                                                                <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-12 col-md-6 mb-0 pb-0">
+                                                        <label for="taxon_category" class="data-entry-label align-left-center">Category</label>
+                                                        <select name="taxon_category" class="data-entry-select" id="taxon_category">
+                                                            <option></option>
+                                                            <cfloop query="cttaxon_category">
+                                                                <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#taxon_category#" #selected#>#taxon_category#</option>
+                                                            </cfloop>
+                                                            <cfif oneOfUs>
+                                                                <option value="NOT NULL" >Any Category</option>
+                                                                <option value="NULL" >No Category</option>
+                                                            </cfif>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-12 col-md-6 mb-0 pb-0">
+                                                        <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
+                                                        <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
+                                                            <option></option>
+                                                            <cfloop query="cttaxon_status">
+                                                                <cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#taxon_status#" #selected#>#taxon_status#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-12 col-md-6 mb-0 pb-0">
+                                                        <label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
+                                                        <select name="relationship" id="relationship" class="data-entry-select" size="1">
+                                                            <option></option>
+                                                            <cfloop query="cttaxon_relation">
+                                                                <cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#cttaxon_relation.taxon_relationship#" #selected#>#cttaxon_relation.taxon_relationship# (#cttaxon_relation.ct#)</option>
+                                                            </cfloop>
+                                                            <cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="NOT NULL" #selected# >Any Relationship</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+                                                        <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+                                                            select collection, collection_cde, collection_id from collection order by collection
+                                                        </cfquery>
+                                                        <cfset selectedCollection = ''>
+                                                        <cfif isdefined("collection_cde") and len(collection_cde) gt 0>
+                                                            <cfquery name="lookupCollection" dbtype="query">
+                                                                select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+                                                            </cfquery>
+                                                            <cfset selectedCollection = lookupCollection.collection >
+                                                        </cfif>
+                                                        <div class="col-12 col-md-6">
+                                                            <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.</label>
+                                                            <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
+                                                                <option value="">any collection</option>
+                                                                <cfloop query="ctcollection">
+                                                                    <cfif ctcollection.collection eq selectedCollection>
+                                                                        <cfset selected="selected">
+                                                                    <cfelse>
+                                                                        <cfset selected="">
+                                                                    </cfif>
+                                                                    <option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+                                                                </cfloop>
+                                                            </select>
+                                                        </div>
                                                     </cfif>
-                                                    <li class="list-group-item px-0 pb-0 pt-1">
-                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-                                                        <label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
-                                                    </li>
-                                                    <li class="list-group-item px-0 pb-0 pt-1">
-                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-                                                        <label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
-                                                    </li>
-                                                    <li class="list-group-item px-0 py-1">
-                                                        <input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-                                                        <label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
-                                                    </li>
-                                                </ul>
-                                                </div>
-                                        </fieldset>
-                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
+                                                    <div class="form-group col-12 mb-0 pb-0">
+                                                        <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+                                                        <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+                                                            <option></option>
+                                                            <cfloop query="CTTAXONOMIC_AUTHORITY">
+                                                                <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#source_authority#" #selected#>#source_authority#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
+                                                        <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
+                                                    </div>
+                                                </div>	
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-12 col-md-4 pl-md-0 pl-0 pr-3 mb-2">
+                                            <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                                <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
                                                 <div class="form-group mb-0 pb-0">
-                                                    <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
-                                                        <cfif we_have_some EQ 1>
-                                                            <cfset usedInIdAllSelected = ''>
-                                                            <cfset usedInIdOnlySelected = 'checked="checked"'>
-                                                            <cfset usedInIdNotSelected = ''>
-                                                        <cfelseif we_have_some EQ 0>
-                                                            <cfset usedInIdAllSelected = ''>
-                                                            <cfset usedInIdOnlySelected = ''>
-                                                            <cfset usedInIdNotSelected = 'checked="checked"'>
+                                                        <ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
+                                                        <cfif valid_catalog_term_fg EQ 1>
+                                                            <cfset validFlagAllSelected = ''>
+                                                            <cfset validFlagOnlySelected = 'checked="checked"'>
+                                                            <cfset validFlagNotSelected = ''>
+                                                        <cfelseif valid_catalog_term_fg EQ 0>
+                                                            <cfset validFlagAllSelected = ''>
+                                                            <cfset validFlagOnlySelected = ''>
+                                                            <cfset validFlagNotSelected = 'checked="checked"'>
                                                         <cfelse>
-                                                            <cfset usedInIdAllSelected = 'checked="checked"'>
-                                                            <cfset usedInIdOnlySelected = ''>
-                                                            <cfset usedInIdNotSelected = ''>
+                                                            <cfset validFlagAllSelected = 'checked="checked"'>
+                                                            <cfset validFlagOnlySelected = ''>
+                                                            <cfset validFlagNotSelected = ''>
                                                         </cfif>
                                                         <li class="list-group-item px-0 pb-0 pt-1">
-                                                            <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-                                                            <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
+                                                            <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+                                                            <label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
                                                         </li>
                                                         <li class="list-group-item px-0 pb-0 pt-1">
-                                                            <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-                                                            <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
+                                                            <input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+                                                            <label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
                                                         </li>
                                                         <li class="list-group-item px-0 py-1">
-                                                            <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-                                                            <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
+                                                            <input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+                                                            <label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
                                                         </li>
                                                     </ul>
-                                                </div>
-                                        </fieldset>
-                                   </div>
+                                                    </div>
+                                            </fieldset>
+                                            <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                                <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
+                                                    <div class="form-group mb-0 pb-0">
+                                                        <ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
+                                                            <cfif we_have_some EQ 1>
+                                                                <cfset usedInIdAllSelected = ''>
+                                                                <cfset usedInIdOnlySelected = 'checked="checked"'>
+                                                                <cfset usedInIdNotSelected = ''>
+                                                            <cfelseif we_have_some EQ 0>
+                                                                <cfset usedInIdAllSelected = ''>
+                                                                <cfset usedInIdOnlySelected = ''>
+                                                                <cfset usedInIdNotSelected = 'checked="checked"'>
+                                                            <cfelse>
+                                                                <cfset usedInIdAllSelected = 'checked="checked"'>
+                                                                <cfset usedInIdOnlySelected = ''>
+                                                                <cfset usedInIdNotSelected = ''>
+                                                            </cfif>
+                                                            <li class="list-group-item px-0 pb-0 pt-1">
+                                                                <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+                                                                <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
+                                                            </li>
+                                                            <li class="list-group-item px-0 pb-0 pt-1">
+                                                                <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+                                                                <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
+                                                            </li>
+                                                            <li class="list-group-item px-0 py-1">
+                                                                <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+                                                                <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                            </fieldset>
+                                       </div>
                                    </div>
                                     <div class="col-12"> 
                                         <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
