@@ -287,7 +287,7 @@ limitations under the License.
                                              </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 float-left">
+                                    <div class="col-12">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
@@ -428,8 +428,8 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 px-0 float-left">
-                                    <div class="col-12 col-md-8 px-3 pl-md-3 pr-md-1 float-left">            
+                                    <div class="col-12 px-0">
+                                    <div class="col-12 col-md-8 px-3 pl-md-3 pr-md-1">            
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Other Search Options</legend>     
                                             <div class="form-row mt-0">             
@@ -471,16 +471,7 @@ limitations under the License.
                                                         </cfif>
                                                     </select>
                                                 </div>
-                                                <div class="form-group col-12 col-md-6 mb-0 pb-0">
-                                                    <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-                                                    <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
-                                                        <option></option>
-                                                        <cfloop query="CTTAXONOMIC_AUTHORITY">
-                                                            <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#source_authority#" #selected#>#source_authority#</option>
-                                                        </cfloop>
-                                                    </select>
-                                                </div>
+                
                                                 <div class="form-group col-12 col-md-6 mb-0 pb-0">
                                                     <label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
                                                     <select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
@@ -530,6 +521,16 @@ limitations under the License.
                                                         </select>
                                                     </div>
                                                 </cfif>
+                                                <div class="form-group col-12 col-md-6 mb-0 pb-0">
+                                                    <label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+                                                    <select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+                                                        <option></option>
+                                                        <cfloop query="CTTAXONOMIC_AUTHORITY">
+                                                            <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#source_authority#" #selected#>#source_authority#</option>
+                                                        </cfloop>
+                                                    </select>
+                                                </div>
                                                 <div class="col-12">
                                                     <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
                                                     <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
@@ -537,7 +538,7 @@ limitations under the License.
                                             </div>	
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 col-md-4 pl-md-0 pl-0 pr-3  float-left">
+                                    <div class="col-12 col-md-4 pl-md-0 pl-0 pr-3">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Search accepted names:</legend> 
                                             <div class="form-group mb-0 pb-0">
@@ -603,7 +604,7 @@ limitations under the License.
                                                 </div>
                                         </fieldset>
                                    </div>
-                                                                </div>
+                                   </div>
                                     <div class="col-12"> 
                                         <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
                                         <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
