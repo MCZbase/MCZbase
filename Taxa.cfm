@@ -589,7 +589,7 @@ limitations under the License.
                                                 </div>
                                             </fieldset>
                                         </div>
-                                    </div>
+                                  
                                     <div class="col-12 col-xl-6 px-2">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2 float-left">
                                             <legend class="h6 px-3 mb-0 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
@@ -623,7 +623,7 @@ limitations under the License.
                                                 </ul>
                                             </div>
                                         </fieldset>
-                                    </div>
+                                    </div>  </div>
                                     <div class="col-12 px-3 py-2 float-left"> 
                                         <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span></button>
                                         <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
