@@ -554,8 +554,9 @@ limitations under the License.
                                                
                                             </fieldset>
                                     </div>
-                                    <div class="col-12 col-xl-6 px-2">
-                                        <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2 float-left">
+                                    <div class="form-row">
+                                        <div class="col-12 col-xl-6 px-2">
+                                            <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2 float-left">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Search accepted names:</legend> 
                                                 <div class="form-group mb-0 pb-0">
                                                     <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
@@ -587,6 +588,7 @@ limitations under the License.
                                                     </ul>
                                                 </div>
                                             </fieldset>
+                                        </div>
                                     </div>
                                     <div class="col-12 col-xl-6 px-2">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2 float-left">
