@@ -203,7 +203,7 @@ limitations under the License.
                                 <form name="searchForm" id="searchForm">
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
-                                    <div class="col-12">
+                                    <div class="col-12 px-2">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-3 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">General Taxonomy Search</legend>
                                             <div class="form-row mb-0">
@@ -293,7 +293,7 @@ limitations under the License.
                                              </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 px-2">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
@@ -435,7 +435,7 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 px-0 row mx-0">
+                                    <div class="col-12 px-2">
                                         <div class="col-12">            
                                             <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Other Search Options</legend>     
