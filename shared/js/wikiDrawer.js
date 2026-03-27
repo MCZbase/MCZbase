@@ -72,8 +72,9 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
                 options.onSuccess(html);
             } else {
                 $('#' + targetDiv).html(html);
-                // Now safe: processWikiContent always exists (no-op if not overridden)
-                processWikiContent($('#' + targetDiv));
+                if (typeof processWikiContent === 'function') {
+                    processWikiContent($('#' + targetDiv));
+                }
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
