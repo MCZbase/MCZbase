@@ -557,7 +557,7 @@ limitations under the License.
                                             <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Search accepted names:</legend> 
                                                 <div class="form-group mb-0 pb-0">
-                                                    <ul class="list-group list-group-horizontal btn-link list-group-flush mt-0 p-1 border bg-light rounded">
+                                                    <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border rounded">
                                                         <cfif valid_catalog_term_fg EQ 1>
                                                             <cfset validFlagAllSelected = ''>
                                                             <cfset validFlagOnlySelected = 'checked="checked"'>
@@ -591,7 +591,7 @@ limitations under the License.
                                             <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 px-3 mb-0 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
                                                     <div class="form-group mb-0 pb-0">
-                                                        <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 bg-light border rounded">
+                                                        <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border rounded">
                                                             <cfif we_have_some EQ 1>
                                                                 <cfset usedInIdAllSelected = ''>
                                                                 <cfset usedInIdOnlySelected = 'checked="checked"'>
