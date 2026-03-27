@@ -347,7 +347,7 @@ limitations under the License.
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
+                                                        <input type="text" class="data-entry-input py-0" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-md-2 mb-0 pb-0">
@@ -356,7 +356,7 @@ limitations under the License.
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
+                                                        <input type="text" class="data-entry-input py-0" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
@@ -365,7 +365,7 @@ limitations under the License.
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
+                                                        <input type="text" class="data-entry-input py-0" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
@@ -374,7 +374,7 @@ limitations under the License.
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
+                                                        <input type="text" class="data-entry-input py-0" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
@@ -383,7 +383,7 @@ limitations under the License.
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
+                                                        <input type="text" class="data-entry-input py-0" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
@@ -393,7 +393,7 @@ limitations under the License.
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
                                                     </label>
-                                                    <input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
+                                                    <input type="text" class="data-entry-input py-0" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="superfamily" class="data-entry-label align-left-center">Superfamily 
@@ -410,7 +410,7 @@ limitations under the License.
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
+                                                        <input type="text" class="data-entry-input py-0" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
@@ -419,7 +419,7 @@ limitations under the License.
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
+                                                        <input type="text" class="data-entry-input py-0" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
@@ -428,7 +428,7 @@ limitations under the License.
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
+                                                        <input type="text" class="data-entry-input py-0" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
                                                     </label>
                                                 </div>
                                             </div>
