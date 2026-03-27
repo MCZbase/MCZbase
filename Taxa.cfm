@@ -508,7 +508,7 @@ limitations under the License.
                                                     </div>
 
 
-                                                    <div class="form-group col-12 col-md-4 col-xl-4 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-4 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -530,7 +530,7 @@ limitations under the License.
                                                             </cfquery>
                                                             <cfset selectedCollection = lookupCollection.collection >
                                                         </cfif>
-                                                        <div class="d-flex flex-wrap col-12 col-md-2 px-0 mb-0 pb-0">
+                                                        <div class="d-flex flex-wrap col-12 col-md-2 col-xl-2 px-0 mb-0 pb-0">
                                                             <label for="collection_cde" class="data-entry-label align-left">Used by Coll.
                                                                 <select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
                                                                     <option value="" class="text-dark">any collection</option>
@@ -546,7 +546,7 @@ limitations under the License.
                                                             </label>
                                                         </div>
                                                     </cfif>
-                                                    <div class="form-group col-12 col-md-5 col-xl-6 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-5 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="taxon_remarks" class="data-entry-label align-left">Remarks
                                                             <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
                                                         </label>
