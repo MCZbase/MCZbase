@@ -368,7 +368,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
                                                     <label for="phylorder" class="data-entry-label align-left-center">Order 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -377,7 +377,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
                                                     <label for="suborder" class="data-entry-label align-left-center">Suborder
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
