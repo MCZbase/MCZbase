@@ -286,7 +286,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
                                                     <label for="infraspecific_author" class="data-entry-label align-left">Infrasp. Author
-                                                        <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 field-set" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
+                                                        <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
                                                         <input type="text" class="data-entry-input mb-0 py-0" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
                                                     </label>
                                                 </div>
@@ -300,7 +300,7 @@ limitations under the License.
                                                 <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
                                                     <label for="kingdom" class="data-entry-label align-left">Kingdom 
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                        <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
+                                                        <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
                                                         <input type="text" class="data-entry-input py-0" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
                                                     </label>
                                                 </div>
