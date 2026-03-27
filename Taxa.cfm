@@ -236,7 +236,7 @@ limitations under the License.
                                                 </div>
                                             </div>
                                         </fieldset>
-                                        <fieldset class="bg-light border-right border-left border-top border-bottom field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
+                                        <fieldset class="bg-light border-right border-left border-top border-bottom field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Name Search</legend>
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
@@ -459,7 +459,7 @@ limitations under the License.
                                     </div>
                                     <div class="col-12 px-2">     
                                         <fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-1 pb-1 mt-0 mx-2">         
-                                                <div class="form-row mt-0">             
+                                            <div class="form-row mt-0">             
                                                     <div class="form-group col-12 col-md-2 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="taxon_habitat" class="data-entry-label align-left">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
@@ -550,8 +550,7 @@ limitations under the License.
                                                         </label>
                                                     </div>
                                                 </div>	
-                                               
-                                            </fieldset>
+                                        </fieldset>
                                     </div>
                                     <div class="form-row mx-0 mt-2">
                                         <div class="col-12 col-xl-6 pl-2 pr-0">
