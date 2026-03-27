@@ -439,7 +439,7 @@ limitations under the License.
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Other Search Options</legend>     
                                                 <div class="form-row mt-0">             
-                                                    <div class="form-group col-12 col-md-3 col-xl-2 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-2 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="nomenclatural_code" class="data-entry-label align-left">Nomenclatural Code
                                                             <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
                                                                 <option></option>
@@ -450,7 +450,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-3 col-xl-2 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-2 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="taxon_habitat" class="data-entry-label align-left">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
                                                                 <option></option>
@@ -465,7 +465,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-3 col-xl-2 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-2 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="taxon_category" class="data-entry-label align-left">Category
                                                             <select name="taxon_category" class="data-entry-select py-0" id="taxon_category">
                                                                 <option></option>
@@ -480,7 +480,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-2 col-xl-3 px-0 mb-0 pb-0">
                                                         <label for="taxon_status" class="data-entry-label py-0 align-left">Nomenclatural Status
                                                             <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -491,7 +491,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-2 col-xl-3 px-0 mb-0 pb-0">
                                                         <label for="relationship" class="data-entry-label align-left">Has Relationship
                                                             <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -506,7 +506,7 @@ limitations under the License.
                                                     </div>
 
 
-                                                    <div class="form-group col-12 col-md-4 col-xl-6 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-2 col-xl-6 px-0 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -528,7 +528,7 @@ limitations under the License.
                                                             </cfquery>
                                                             <cfset selectedCollection = lookupCollection.collection >
                                                         </cfif>
-                                                        <div class="col-12 col-md-4 col-xl-3 px-0 mb-0 pb-0">
+                                                        <div class="form-group col-12 col-md-2 col-xl-3 px-0 mb-0 pb-0">
                                                             <label for="collection_cde" class="data-entry-label align-left">Used by Coll.
                                                                 <select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
                                                                     <option value="" class="text-dark">any collection</option>
