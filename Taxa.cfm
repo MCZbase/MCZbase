@@ -293,8 +293,8 @@ limitations under the License.
                                              </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 px-2 ">
-                                        <fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+                                    <div class="col-12 px-2">
+                                        <fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
