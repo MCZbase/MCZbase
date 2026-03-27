@@ -432,6 +432,17 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
                                                     </label>
                                                 </div>
+                                                <div class="form-group col-12 col-md-4 col-xl-2 px-0 mb-0 pb-0">
+                                                    <label for="nomenclatural_code" class="data-entry-label align-left">Nomenclatural Code
+                                                        <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
+                                                            <option></option>
+                                                            <cfloop query="ctnomenclatural_code">
+                                                                <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -439,17 +450,7 @@ limitations under the License.
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Other Search Options</legend>     
                                                 <div class="form-row mt-0">             
-                                                    <div class="form-group col-12 col-md-2 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="nomenclatural_code" class="data-entry-label align-left">Nomenclatural Code
-                                                            <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
-                                                                <option></option>
-                                                                <cfloop query="ctnomenclatural_code">
-                                                                    <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                                    <option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
-                                                                </cfloop>
-                                                            </select>
-                                                        </label>
-                                                    </div>
+                             
                                                     <div class="form-group col-12 col-md-2 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="taxon_habitat" class="data-entry-label align-left">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
