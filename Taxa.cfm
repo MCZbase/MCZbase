@@ -622,7 +622,7 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 px-3 py-2"> 
+                                    <div class="col-12 px-3 py-2 float-left"> 
                                         <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span></button>
                                         <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
                                         <button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
