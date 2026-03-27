@@ -491,7 +491,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-4 col-xl-3 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
                                                         <label for="relationship" class="data-entry-label align-left">Has Relationship
                                                             <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -506,7 +506,7 @@ limitations under the License.
                                                     </div>
 
 
-                                                    <div class="form-group col-12 col-md-8 col-xl-6 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-4 col-xl-6 px-0 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -544,7 +544,7 @@ limitations under the License.
                                                             </label>
                                                         </div>
                                                     </cfif>
-                                                    <div class="form-group col-12 col-md-8 col-xl-6 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-4 col-xl-6 px-0 mb-0 pb-0">
                                                         <label for="taxon_remarks" class="data-entry-label align-left">Remarks
                                                             <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
                                                         </label>
