@@ -297,33 +297,34 @@ limitations under the License.
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
-                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                         <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
                                                     </label>
                                                     <input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="phylum" class="data-entry-label align-left-center">Phylum 
                                                         <span class="small">
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
+                                                        <input type="text" class="data-entry-input" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
                                                     </label>
-                                                    <input type="text" class="data-entry-input" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
+                                                    
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="subphylum" class="data-entry-label align-left-center">Subphylum 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
+                                                        <input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
                                                     </label>
-                                                    <input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px=0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="superclass" class="data-entry-label align-left-center">Superclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
@@ -332,7 +333,7 @@ limitations under the License.
                                                         <input type="small" class="data-entry-input" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="phylclass" class="data-entry-label align-left-center">Class 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
@@ -341,7 +342,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" placeholder="class">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="subclass" class="data-entry-label align-left-center">Subclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
@@ -350,7 +351,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="infraclass" class="data-entry-label align-left-center">Infraclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
@@ -359,7 +360,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="superorder" class="data-entry-label align-left-center">Superorder 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
@@ -368,7 +369,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="phylorder" class="data-entry-label align-left-center">Order 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -377,7 +378,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="suborder" class="data-entry-label align-left-center">Suborder
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -386,7 +387,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="infraorder" class="data-entry-label align-left-center">Infraorder 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -401,10 +402,10 @@ limitations under the License.
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                        <input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
+                                                        <input type="text" class="data-entry-input py-0" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
                                                     </label>
                                                 </div> 
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="family" class="data-entry-label align-left-center">Family 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -413,7 +414,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="subfamily" class="data-entry-label align-left-center">Subfamily 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -422,7 +423,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="tribe" class="data-entry-label align-left-center">Tribe 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -436,7 +437,7 @@ limitations under the License.
                                     </div>
                                     <div class="col-12 px-0 row mx-0">
                                         <div class="col-12">            
-                                            <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <fieldset class="bg-light border field-set rounded pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Other Search Options</legend>     
                                                 <div class="form-row mt-0">             
                                                     <div class="form-group col-12 col-md-6 col-xl-2 mb-0 pb-0">
@@ -450,7 +451,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-6 px-0 col-xl-2 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-6 col-xl-2 mb-0 pb-0">
                                                         <label for="taxon_habitat" class="data-entry-label align-left-center">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
                                                                 <option></option>
