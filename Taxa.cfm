@@ -207,7 +207,7 @@ limitations under the License.
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-3 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">General Taxonomy Search</legend>
                                             <div class="form-row mb-0">
-                                                <div class="form-group mb-0 col-12 col-md-4">
+                                                <div class="form-group mb-0 col-12 col-md-4 px-0">
                                                     <label for="scientific_name" class="data-entry-label align-left-center">
                                                         Scientific Name 
                                                         <span class="small90">
@@ -217,7 +217,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input mb-0 pb-1" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
                                                     </label>
                                                 </div>
-                                                <div class="form-group mb-0 col-12 col-md-4">
+                                                <div class="form-group mb-0 col-12 col-md-4 px-0">
                                                     <label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
                                                         <span class="small90">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
@@ -225,7 +225,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input mb-0 pb-1" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
                                                     </label>
                                                 </div>
-                                                <div class="form-group mb-0 col-12 col-md-4">
+                                                <div class="form-group mb-0 col-12 col-md-4 px-0">
                                                     <label for="common_name" class="data-entry-label align-left-center">
                                                         Common Name 
                                                         <span class="small90">
@@ -275,7 +275,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input mb-0 pb-1" id="subspecies" name="subspecies" value="#encodeForHtml(subspecies)#" placeholder="subspecific name">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
                                                     <label for="author_text" class="data-entry-label align-left-center">Authorship 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
