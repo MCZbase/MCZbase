@@ -506,6 +506,18 @@ limitations under the License.
                                                         </label>
                                                     </div>
 
+                                                    
+                                                    <div class="form-group col-12 col-md-6 col-xl-6 px-0 mb-0 pb-0">
+                                                        <label for="source_authority" class="data-entry-label align-left-center">Source Authority
+                                                            <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
+                                                                <option></option>
+                                                                <cfloop query="CTTAXONOMIC_AUTHORITY">
+                                                                    <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                    <option value="#source_authority#" #selected#>#source_authority#</option>
+                                                                </cfloop>
+                                                            </select>
+                                                        </label>
+                                                    </div>
                                                     <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
                                                         <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                                                             select collection, collection_cde, collection_id from collection order by collection
@@ -533,17 +545,6 @@ limitations under the License.
                                                             </label>
                                                         </div>
                                                     </cfif>
-                                                    <div class="form-group col-12 col-md-6 col-xl-6 px-0 mb-0 pb-0">
-                                                        <label for="source_authority" class="data-entry-label align-left-center">Source Authority
-                                                            <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
-                                                                <option></option>
-                                                                <cfloop query="CTTAXONOMIC_AUTHORITY">
-                                                                    <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                                    <option value="#source_authority#" #selected#>#source_authority#</option>
-                                                                </cfloop>
-                                                            </select>
-                                                        </label>
-                                                    </div>
                                                     <div class="form-group col-12 col-md-8 col-xl-6 px-0 mb-0 pb-0">
                                                         <label for="taxon_remarks" class="data-entry-label align-left-center">Remarks
                                                             <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
