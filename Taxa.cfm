@@ -194,11 +194,11 @@ limitations under the License.
             </cfif>
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
-                     <div class="d-flex flex-wrap mx-0 mb-0 mr-md-4 mr-xl-5">
-					<div class="search-box mt-4">
-				        <div class="search-box-header">
-							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-						</div>
+                    <div class="d-flex flex-wrap mx-0 mb-0 mr-md-4 mr-xl-5">
+                        <div class="search-box mt-4">
+                            <div class="search-box-header">
+                                <h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+                            </div>
                             <div id="searchFormDiv">
                                 <form name="searchForm" id="searchForm">
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
@@ -313,7 +313,7 @@ limitations under the License.
                                                         </span>
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
                                                     </label>
-                                                    
+
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
                                                     <label for="subphylum" class="data-entry-label align-left">Subphylum 
@@ -435,9 +435,8 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-12 px-2">
-                                        <div class="col-12">            
-                                            <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                    <div class="col-12 px-2">     
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Other Search Options</legend>     
                                                 <div class="form-row mt-0">             
                                                     <div class="form-group col-12 col-md-3 col-xl-2 px-0 mb-0 pb-0">
@@ -506,7 +505,7 @@ limitations under the License.
                                                         </label>
                                                     </div>
 
-                                                    
+
                                                     <div class="form-group col-12 col-md-8 col-xl-6 px-0 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
@@ -552,9 +551,9 @@ limitations under the License.
                                                     </div>
                                                 </div>	
                                             </fieldset>
-                                        </div>
-                                        <div class="col-12 col-xl-6 pr-xl-0 mb-2">
-                                            <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                    </div>
+                                    <div class="col-12 px-2">
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Search accepted names:</legend> 
                                                 <div class="form-group mb-0 pb-0">
                                                     <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border rounded">
@@ -586,43 +585,42 @@ limitations under the License.
                                                     </ul>
                                                 </div>
                                             </fieldset>
+                                    </div>
+                                    <div class="col-12 px-2">
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
+                                            <legend class="h6 px-3 mb-0 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
+                                            <div class="form-group mb-0 pb-0">
+                                                <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border rounded">
+                                                    <cfif we_have_some EQ 1>
+                                                        <cfset usedInIdAllSelected = ''>
+                                                        <cfset usedInIdOnlySelected = 'checked="checked"'>
+                                                        <cfset usedInIdNotSelected = ''>
+                                                    <cfelseif we_have_some EQ 0>
+                                                        <cfset usedInIdAllSelected = ''>
+                                                        <cfset usedInIdOnlySelected = ''>
+                                                        <cfset usedInIdNotSelected = 'checked="checked"'>
+                                                    <cfelse>
+                                                        <cfset usedInIdAllSelected = 'checked="checked"'>
+                                                        <cfset usedInIdOnlySelected = ''>
+                                                        <cfset usedInIdNotSelected = ''>
+                                                    </cfif>
+                                                    <li class="list-group-item px-1 px-md-2 pb-0 pt-1">
+                                                        <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+                                                        <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
+                                                    </li>
+                                                    <li class="list-group-item px-1 px-md-2 pb-0 pt-1">
+                                                        <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+                                                        <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
+                                                    </li>
+                                                    <li class="list-group-item px-1 px-md-2 py-1">
+                                                        <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+                                                        <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <div class="col-12 col-xl-6 pl-xl-0 mb-2">
-                                            <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                                <legend class="h6 px-3 mb-0 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
-                                                    <div class="form-group mb-0 pb-0">
-                                                        <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border rounded">
-                                                            <cfif we_have_some EQ 1>
-                                                                <cfset usedInIdAllSelected = ''>
-                                                                <cfset usedInIdOnlySelected = 'checked="checked"'>
-                                                                <cfset usedInIdNotSelected = ''>
-                                                            <cfelseif we_have_some EQ 0>
-                                                                <cfset usedInIdAllSelected = ''>
-                                                                <cfset usedInIdOnlySelected = ''>
-                                                                <cfset usedInIdNotSelected = 'checked="checked"'>
-                                                            <cfelse>
-                                                                <cfset usedInIdAllSelected = 'checked="checked"'>
-                                                                <cfset usedInIdOnlySelected = ''>
-                                                                <cfset usedInIdNotSelected = ''>
-                                                            </cfif>
-                                                            <li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-                                                                <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-                                                                <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
-                                                            </li>
-                                                            <li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-                                                                <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-                                                                <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
-                                                            </li>
-                                                            <li class="list-group-item px-1 px-md-2 py-1">
-                                                                <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-                                                                <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                            </fieldset>
-                                       </div>
-                                   </div>
-                                    <div class="col-12"> 
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-12 px-2"> 
                                         <button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
                                         <button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
                                         <button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
@@ -636,7 +634,6 @@ limitations under the License.
 					</div>
 				</div>
 			</section>
-
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row">
