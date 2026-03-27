@@ -204,7 +204,7 @@ limitations under the License.
                                     <input type="hidden" name="method" value="getTaxa" class="keeponclear">
                                     <input type="hidden" name="action" value="search">
                                     <div class="col-12 px-2">
-                                        <fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-1 mt-2 mx-2">
+                                        <fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-1 mt-3 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">General Taxonomy Search</legend>
                                             <div class="form-row mb-0">
                                                 <div class="form-group mb-0 col-12 col-md-4 px-0">
