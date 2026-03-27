@@ -482,7 +482,7 @@ limitations under the License.
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
-                                                        <label for="taxon_status" class="data-entry-label  align-left-center">Nomenclatural Status
+                                                        <label for="taxon_status" class="data-entry-label py-0 align-left-center">Nomenclatural Status
                                                             <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_status">
@@ -492,7 +492,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-4 col-xl-3 px-0 mb-0 pb-0">
                                                         <label for="relationship" class="data-entry-label align-left-center">Has Relationship
                                                             <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -507,7 +507,7 @@ limitations under the License.
                                                     </div>
 
                                                     
-                                                    <div class="form-group col-12 col-md-6 col-xl-6 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-8 col-xl-6 px-0 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left-center">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -529,7 +529,7 @@ limitations under the License.
                                                             </cfquery>
                                                             <cfset selectedCollection = lookupCollection.collection >
                                                         </cfif>
-                                                        <div class="col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
+                                                        <div class="col-12 col-md-4 col-xl-3 px-0 mb-0 pb-0">
                                                             <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.
                                                                 <select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
                                                                     <option value="">any collection</option>
