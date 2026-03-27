@@ -205,7 +205,7 @@ limitations under the License.
                                     <input type="hidden" name="action" value="search">
                                     <div class="col-12">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-3 mx-2">
-                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">General Taxonomy Search</legend>
+                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto">General Taxonomy Search</legend>
                                             <div class="form-row mb-0">
                                                 <div class="form-group mb-0 col-12 col-md-4">
                                                     <label for="scientific_name" class="data-entry-label align-left-center">
@@ -295,7 +295,7 @@ limitations under the License.
                                     </div>
                                     <div class="col-12">
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
-                                            <legend class="h6 mb-1 px-3 mb-1 border field-set-legend w-auto">Classification</legend>     
+                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
@@ -323,7 +323,7 @@ limitations under the License.
                                                     </label>
                                                     <input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
                                                 </div>
-                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="superclass" class="data-entry-label align-left-center">Superclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
@@ -332,7 +332,7 @@ limitations under the License.
                                                         <input type="small" class="data-entry-input" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="phylclass" class="data-entry-label align-left-center">Class 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
@@ -341,7 +341,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" placeholder="class">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="subclass" class="data-entry-label align-left-center">Subclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
@@ -350,7 +350,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-md-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="infraclass" class="data-entry-label align-left-center">Infraclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
