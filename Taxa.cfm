@@ -533,7 +533,7 @@ limitations under the License.
                                                             </label>
                                                         </div>
                                                     </cfif>
-                                                    <div class="form-group col-12 col-md-5 col-xl-6 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-md-6 col-xl-6 px-0 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left-center">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
