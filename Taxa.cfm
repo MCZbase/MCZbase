@@ -528,7 +528,7 @@ limitations under the License.
                                                             </cfquery>
                                                             <cfset selectedCollection = lookupCollection.collection >
                                                         </cfif>
-                                                        <div class="d-flex flex-wrap">
+                                                        <div class="d-flex flex-wrap col-12 col-md-2">
                                                             <label for="collection_cde" class="data-entry-label align-left">Used by Coll.
                                                                 <select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
                                                                     <option value="" class="text-dark">any collection</option>
