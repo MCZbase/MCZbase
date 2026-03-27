@@ -301,8 +301,8 @@ limitations under the License.
                                                     <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                         <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
+                                                        <input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
                                                     </label>
-                                                    <input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 px-1 mb-0 pb-0">
                                                     <label for="phylum" class="data-entry-label align-left-center">Phylum 
