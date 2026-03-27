@@ -447,7 +447,7 @@ limitations under the License.
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div id="wiki-content" class="p-3"></div>
+                    <div id="wiki-content" class="p-3 overflow-hidden"></div>
                 </div>
 
                 <!-- Initialize the drawer behavior using the shared JS function -->
