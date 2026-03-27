@@ -531,7 +531,7 @@ limitations under the License.
                                                         </cfif>
                                                         <div class="col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
                                                             <label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.
-                                                                <select name="collection_cde" size="1" class="data-entry-prepend-select pr-0 py-0" aria-label="collection">
+                                                                <select name="collection_cde" size="1" class="data-entry-prepend-select py-0" aria-label="collection">
                                                                     <option value="">any collection</option>
                                                                     <cfloop query="ctcollection">
                                                                         <cfif ctcollection.collection eq selectedCollection>
