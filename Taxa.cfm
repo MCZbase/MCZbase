@@ -443,6 +443,17 @@ limitations under the License.
                                                         </select>
                                                     </label>
                                                 </div>
+                                                <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
+                                                    <label for="taxon_status" class="data-entry-label py-0 align-left">Nomenclatural Status
+                                                        <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
+                                                            <option></option>
+                                                            <cfloop query="cttaxon_status">
+                                                                <cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#taxon_status#" #selected#>#taxon_status#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -481,17 +492,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
-                                                        <label for="taxon_status" class="data-entry-label py-0 align-left">Nomenclatural Status
-                                                            <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
-                                                                <option></option>
-                                                                <cfloop query="cttaxon_status">
-                                                                    <cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                                    <option value="#taxon_status#" #selected#>#taxon_status#</option>
-                                                                </cfloop>
-                                                            </select>
-                                                        </label>
-                                                    </div>
+                                                  
                                                     <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
                                                         <label for="relationship" class="data-entry-label align-left">Has Relationship
                                                             <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
