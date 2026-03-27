@@ -554,9 +554,9 @@ limitations under the License.
                                                
                                             </fieldset>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row mx-0">
                                         <div class="col-12 col-xl-6 px-2">
-                                            <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2 float-left">
+                                            <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2">
                                                 <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Search accepted names:</legend> 
                                                 <div class="form-group mb-0 pb-0">
                                                     <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
@@ -591,7 +591,7 @@ limitations under the License.
                                         </div>
                                   
                                     <div class="col-12 col-xl-6 px-2">
-                                        <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2 float-left">
+                                        <fieldset class="bg-light border field-set rounded px-2 pt-1 pb-1 mt-1 mx-2">
                                             <legend class="h6 px-3 mb-0 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
                                             <div class="form-group mb-0 pb-0">
                                                 <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
