@@ -297,14 +297,14 @@ limitations under the License.
                                         <fieldset class="bg-light border field-set rounded px-2 pt-2 pb-2 mt-2 mx-2">
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Classification</legend>     
                                             <div class="form-row mt-0">
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
                                                     <label for="kingdom" class="data-entry-label align-left-center">Kingdom 
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                         <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
                                                     </label>
                                                     <input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
                                                     <label for="phylum" class="data-entry-label align-left-center">Phylum 
                                                         <span class="small">
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -314,7 +314,7 @@ limitations under the License.
                                                     </label>
                                                     <input type="text" class="data-entry-input" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 px-2 mb-0 pb-0">
                                                     <label for="subphylum" class="data-entry-label align-left-center">Subphylum 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
