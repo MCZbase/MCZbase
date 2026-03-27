@@ -354,8 +354,8 @@ limitations under the License.
                                                 <div class="form-group col-12 col-md-2 px-1 mb-0 pb-0">
                                                     <label for="infraclass" class="data-entry-label align-left-center">Infraclass 
                                                         <span class="small">
-                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
-                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
+                                                            <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
                                                         <input type="text" class="data-entry-input py-0" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
                                                     </label>
@@ -387,14 +387,14 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-2 mb-0 pb-0">
+                                                <div class="form-group col-12 col-md-2 px-1 mb-0 pb-0">
                                                     <label for="infraorder" class="data-entry-label align-left-center">Infraorder 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
-                                                    </label>
-                                                    <input type="text" class="data-entry-input py-0" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
+                                                        <input type="text" class="data-entry-input py-0" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
+                                                    </label>  
                                                 </div>
                                                 <div class="form-group col-12 col-md-2 mb-0 pb-0">
                                                     <label for="superfamily" class="data-entry-label align-left-center">Superfamily 
