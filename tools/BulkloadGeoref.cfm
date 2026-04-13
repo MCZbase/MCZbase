@@ -333,11 +333,7 @@ limitations under the License.
 							<cfif loadedRows EQ 0>
 								Loaded no rows from the CSV file. The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>
 							<cfelse>
-								<cfif variables.size eq 1>
-									Size = 1
-								<cfelse>
-									Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
-								</cfif>
+								Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
 							</cfif>
 						</h3>
 
@@ -384,12 +380,12 @@ limitations under the License.
 						</h4>
 					<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
 						<h4 class='mb-3'>
-							Unable to read headers in line 1.  Is your file actually have the format #fmt#?
+							Unable to read headers in line 1.  Does your file actually have the format #fmt#?
 						</h4>
 						<h4 class='mb-3'>#cfcatch.message#</h4>
 					<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 						<h4 class='mb-3'>
-							Does your file have an inconsitent format?  Are some lines tab delimited but others comma delimited?
+							Does your file have an inconsistent format?  Are some lines tab delimited but others comma delimited?
 						</h4>
 					<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
 						<h4 class='mb-3'>
