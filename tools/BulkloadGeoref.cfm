@@ -214,8 +214,8 @@ limitations under the License.
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
 		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
 		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<cfoutput>
-			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
 			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
@@ -309,18 +309,6 @@ limitations under the License.
 								</cfquery>
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
-									<style>
-										red {color: red;}
-										p.wrapped-text {
-											max-width: 100%;  /* Adjust as needed for your layout */
-											white-space: normal;  /* Allow wrapping */
-											word-wrap: break-word;  /* Break long words if necessary */
-											border: 1px solid ##ccc;  /* Optional styling */
-											padding: 5px 10px;
-											margin-bottom: 2px;
-										}
-										p.top {margin-top: 1rem;}
-									</style>
 							
 									<!--- identify the problematic row, and problem as much as possible --->
 									<cfset err_help = "">
@@ -339,61 +327,90 @@ limitations under the License.
 								</cftry>
 						</cfloop>
 						<cfif foundHighCount GT 0>
-							<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
-							<div>
-								<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-								you probably want to <a href="/tools/BulkloadGeoref.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-							</div>
-							<ul class="pb-1 h4 list-unstyled">#foundHighAscii# #foundMultiByte#</ul>
-
+							<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadGeoref.cfm')>
 						</cfif>
-					</div>
-					<h3 class="h4">
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
-					</h3>
+						<h3 class="mt-3">
+							<cfif loadedRows EQ 0>
+								Loaded no rows from the CSV file. The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>
+							<cfelse>
+								<cfif variables.size eq 1>
+									Size = 1
+								<cfelse>
+									Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
+								</cfif>
+							</cfif>
+						</h3>
 
 				<cfcatch>
-					<h3 class="h4">
-						Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadGeoref.cfm">reload</a>.
+					<h3 class="mt-3">
+						<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 					</h3>
-					<cfif isDefined("arrResult")>
+					<cfif isDefined("variables.foundHeaders")>
 						<cfset foundHighCount = 0>
 						<cfset foundHighAscii = "">
 						<cfset foundMultiByte = "">
-						<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-							<cfset thisBit=arrResult[1][col]>
+						<cfloop list="#variables.foundHeaders#" index="thisBit">
 							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 								<!--- high ASCII --->
 								<cfif foundHighCount LT 6>
-									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 								<!--- multibyte --->
 								<cfif foundHighCount LT 6>
-									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							</cfif>
 						</cfloop>
 						<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-							<h3 class="h4">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
-							<div>
-								<p>Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?</p>
-							</div>
-							<ul class="py-1 h4">
-								#foundHighAscii# #foundMultiByte#
-							</ul>
+							<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadGeoref.cfm',inHeader='yes')>
 						</cfif>
 					</cfif>
+					<!--- identify and provide guidance for some standard failure conditions --->
+					<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 					<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-							#cfcatch.message# 
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
 					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-							#cfcatch.message#
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read headers in line 1.  Does your file actually have the format #fmt#?  Did you select CSV format for a tab delimited file?
+						</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read headers in line 1.  Is your file actually have the format #fmt#?
+						</h4>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Does your file have an inconsitent format?  Are some lines tab delimited but others comma delimited?
+						</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read a record from the file.  One or more lines may not be consistent with the specified format #fmt#
+						</h4>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
 					<cfelse>
 						<cfdump var="#cfcatch#">
 					</cfif>
 				</cfcatch>
+
+				<cffinally>
+					<cftry>
+						<!--- Close the CSV parser and the reader --->
+						<cfset csvParser.close()>
+						<cfset fileReader.close()>
+					<cfcatch>
+						<!--- consume exception and proceed --->
+					</cfcatch>
+					</cftry>
+				</cffinally>
 				</cftry>
 			</cfoutput>
 		</cfif>
