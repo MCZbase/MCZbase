@@ -332,6 +332,7 @@ limitations under the License.
 						<cfset separator = ",">
 					</cfloop>
 					<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+                    <cfdump var="#foundHeaders#">
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 					<div class="col-12 my-3 px-0">
