@@ -459,28 +459,28 @@ limitations under the License.
 					accepted_id_fg=1 
 					<cfif len(exist_part_name) gt 0>
 						<cfif left(exist_part_name,1) EQ "!">
-							and part_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mid(exist_part_name,2)#">
+							and part_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(exist_part_name,len(exist_part_name)-1)#">
 						<cfelse>
 						and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
 						</cfif>
 					</cfif>
 					<cfif len(exist_preserve_method) gt 0>
 						<cfif left(exist_preserve_method,1) EQ "!">
-							and preserve_method != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mid(exist_preserve_method,2)#">
+							and preserve_method != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(exist_preserve_method,len(exist_preserve_method)-1)#">
 						<cfelse>
 							and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
 						</cfif>
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						<cfif left(existing_lot_count,1) EQ "!">
-							and lot_count != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mid(existing_lot_count,2)#">
+							and lot_count != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(existing_lot_count,len(existing_lot_count)-1)#">
 						<cfelse>
 							and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
 						</cfif>
 					</cfif>
 					<cfif len(existing_coll_obj_disposition) gt 0>
 						<cfif left(existing_coll_obj_disposition,1) EQ "!">
-							and coll_obj_disposition != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mid(existing_coll_obj_disposition,2)#">
+							and coll_obj_disposition != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(existing_coll_obj_disposition,len(existing_coll_obj_disposition)-1)#">
 						<cfelse>
 							and coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
 						</cfif>
