@@ -85,7 +85,7 @@ limitations under the License.
 		}
 	</style>
 	<!--- End proof of concept style block --->
-	<h1 class="h2 mt-2">Bulkload Geography</h1>
+	<h1 class="h2 mt-2">Bulkload Georeferences</h1>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Load a new accepted georeference to a locality record. HigherGeography and SpecLocality, if provided, can be used to look up a locality_id in MCZbase data or the locality_id can be provided alone. The locality_id will be used to cross reference the HigherGeography and SpecLocality data (to either verify provided data or add where missing). Check each step to be sure what is expected is being loaded. If in doubt, give your filled-out template to Collections Operations to load.</p>
