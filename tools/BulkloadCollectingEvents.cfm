@@ -313,30 +313,10 @@ limitations under the License.
 								</cfquery>
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
-									<style>
-										red {color: red;}
-										p.wrapped-text {
-											max-width: 100%;  /* Adjust as needed for your layout */
-											white-space: normal;  /* Allow wrapping */
-											word-wrap: break-word;  /* Break long words if necessary */
-											border: 1px solid ##ccc;  /* Optional styling */
-											padding: 5px 10px;
-											margin-bottom: 2px;
-										}
-										p.top {margin-top: 1rem;}
-									</style>
-							
-									<!--- identify the problematic row, and problem as much as possible --->
-									<cfset err_help = "">
-									<cfif isDefined("cfcatch.queryError") AND Find("cannot insert NULL into",cfcatch.queryError) GT 0>
-										<cfset err_help = "<strong>A value is missing from a required field</strong>.  ">
-									</cfif>
-									<cfset error_message="<p class='top'>#COLUMN_ERR# from Row #row# in input file. </p>  <p class='wrapped-text'>Header Row: <br>[#colNames#]</p><p class='wrapped-text'>First error is in Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p class='wrapped-text'>Error Message:<br> <red>#err_help##cfcatch.message#</red>">
-										<!--- " --->
+									<!--- identify the problematic row --->
+									<cfset error_message="<h4>Check character set and format selected if your headers match required headers in red above.</h4> #COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
-										<cfset error_message = "#error_message# #cfcatch.queryError#</p>">
-									<cfelse>
-										<cfset error_message = "#error_message#</p>">
+										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
 									<cfthrow message = "#error_message#">
 								</cfcatch>
