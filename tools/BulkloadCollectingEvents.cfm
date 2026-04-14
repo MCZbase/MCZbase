@@ -90,7 +90,7 @@ limitations under the License.
 		}
 	</style>
 	<!--- End proof of concept style block --->
-	<h1 class="h2 mt-2">Bulkload Geography</h1>
+	<h1 class="h2 mt-2">Bulkload Collecting Events</h1>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Load new collecting event records associated with existing locality records.</p>
