@@ -616,7 +616,7 @@ STATE TRANSITION BEHAVIOR:
 				</cfquery>
 				<cfif checkLoanStatus_result.recordcount EQ 0>
 					<cfthrow message="could not find loan for loan item">
-				<cfelseif checkLoanStatus_result.loan_status EQ "open">
+				<cfelseif checkLoanStatus.loan_status EQ "open">
 					<cfquery name="updateLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoanStatus_result">
 						UPDATE loan 
 						SET loan_status = 'open partially returned'
