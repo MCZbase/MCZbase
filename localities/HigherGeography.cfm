@@ -279,8 +279,16 @@ limitations under the License.
 					<cfelse>
 						NULL,
 					</cfif>
-					NULL,
-					NULL,
+					<cfif len(#highergeographyid_guid_type#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#highergeographyid#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">,
+					<cfelse>
+						NULL,
+					</cfif>
 					<cfif len(#wkt_polygon#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">,
 					<cfelse>
