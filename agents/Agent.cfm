@@ -76,7 +76,7 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
+	SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 		left join collector on collector.collection_object_id = flat.collection_object_id
 		left join agent on agent.agent_id = collector.agent_id
@@ -85,8 +85,11 @@ limitations under the License.
 		and collector.collector_role = 'c'
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
-		and collector.collector_role = 'c'
 		and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+    GROUP BY 
+        flat.locality_id,
+        flat.dec_lat,
+        flat.dec_long
 </cfquery>
 
 <cfoutput>
@@ -839,7 +842,7 @@ limitations under the License.
                                 line-height: 1.5;
                               }
                             </style>
-							<cfif points.recordcount gt 0>
+				            <cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
 									<div class="heatmap">
@@ -856,7 +859,7 @@ limitations under the License.
                                               {
                                                 latitude: #points.Latitude#,
                                                 longitude: #points.Longitude#,
-                                                weight: 1
+                                                weight: #points.record_count#
                                               }<cfif currentrow LT recordcount>,</cfif>
                                             </cfloop>
                                           ];
@@ -871,8 +874,8 @@ limitations under the License.
                                         </script>
 								
                                      	<div class="p-0 mx-1">
-                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Collecting Event Map</h4>
-                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
+                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
+                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Georeferenced Localities"></div>
                                           	<div id="floating-panel" class="w-100 mx-auto">
                                                  <div class="float-left">
                                                     <select id="view-mode"
@@ -886,6 +889,9 @@ limitations under the License.
                                                       Color
                                                     </button>  
                                                 </div>
+                                                  <span id="view-description" class="ml-2 small text-muted">
+                                                    Specimen record density per locality
+                                                  </span>
                                           	</div>
                                      	</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->

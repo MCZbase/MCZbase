@@ -149,7 +149,7 @@
 		</ul>
 	</p>
 	<p>
-		The default all-access portal is #Application.serverRootUrl#/all_all
+		The default all-access portal is #Application.serverRootUrl#/
 	</p>
 </cfif>
 

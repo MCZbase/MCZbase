@@ -175,6 +175,11 @@ limitations under the License.
 	GROUP BY nature_of_id
  	ORDER BY nature_of_id
 </cfquery>
+<cfquery name="ctcontainer_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
+	SELECT container_type
+	FROM CTCONTAINER_TYPE
+ 	ORDER BY container_type
+</cfquery>
 
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
@@ -1344,6 +1349,30 @@ limitations under the License.
 																	<label for="condition_remarks" class="data-entry-label small">Condition Remarks</label>
 																	<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
 																	<input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
+																</div>
+															</cfif>
+															<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+																<div class="col-12 mb-1 col-md-3">
+																	<label for="root_container_label" class="data-entry-label small">In Container Labeled</label>
+																	<cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
+																	<input type="text" class="data-entry-input inputHeight" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
+																</div>
+																<div class="col-12 mb-1 col-md-3">
+																	<label for="root_container_barcode" class="data-entry-label small">In Container Barcoded</label>
+																	<cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
+																	<input type="text" class="data-entry-input inputHeight" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
+																</div>
+																<div class="col-12 mb-1 col-md-3">
+																	<label for="root_container_type" class="data-entry-label small">In Container of Type</label>
+																	<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
+																	<select title="root_container_type" name="root_container_type" id="root_container_type" class="data-entry-select inputHeight col-sm-12 pl-2">
+																		<option value=""></option>
+																		<cfset nid = root_container_type>
+																		<cfloop query="ctcontainer_type">
+																			<cfif nid EQ "=#ctcontainer_type.container_type#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+																			<option value="=#ctcontainer_type.container_type#" #selected#>#ctcontainer_type.container_type#</option>
+																		</cfloop>
+																	</select>
 																</div>
 															</cfif>
 														</div>

@@ -267,14 +267,20 @@ limitations under the License.
 			var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentCollectingImage = 1;
 		</script>
-		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-			SELECT distinct flat.locality_id,flat.dec_lat as Latitude, flat.DEC_LONG as Longitude 
-			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
-				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-			WHERE 
-				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">          
+            SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
+            FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+                join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
+                join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+            WHERE 
+                underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+                and flat.guid IS NOT NULL
+                and flat.dec_lat is not null
+                and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+            GROUP BY 
+                flat.locality_id,
+                flat.dec_lat,
+                flat.dec_long
 		</cfquery>
 
 		<main class="py-3" id="content">
@@ -529,7 +535,7 @@ limitations under the License.
                                           {
                                             latitude: #points.Latitude#,
                                             longitude: #points.Longitude#,
-                                            weight: 1
+                                            weight: #points.record_count#
                                           }<cfif currentrow LT recordcount>,</cfif>
                                         </cfloop>
                                       ];
@@ -546,7 +552,7 @@ limitations under the License.
                                     <div class="col-12 px-0">
                                       <div class="border float-left col-12 rounded px-2 pb-1">
                                         <h2 class="px-3 text-center pt-2">
-                                          Heat Map of Georeferenced Specimen Locations
+                                          Map of Georeferenced Localities
                                         </h2>
 
                                         <!-- Map container -->
@@ -569,6 +575,7 @@ limitations under the License.
                                                     aria-label="Toggle heatmap color scheme">
                                               Color
                                             </button>
+                                            <span id="view-description" class="ml-2 small text-muted">Specimen record density per locality</span>
                                         </div>
                                       </div>
                                     </div>

@@ -186,6 +186,9 @@ limitations under the License.
 										<cfloop query="existParts">
 											<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
 										</cfloop>
+										<cfloop query="existParts">
+											<option value="!#Part_Name#">NOT #Part_Name#</option>
+										</cfloop>
 									</select>
 								</div>
 								<div class="col-12 col-md-3 pt-1">
@@ -195,6 +198,9 @@ limitations under the License.
 										<cfloop query="existPreserve">
 											<option value="#preserve_method#">#preserve_method# (#existPreserve.partCount# parts)</option>
 										</cfloop>
+										<cfloop query="existPreserve">
+											<option value="!#preserve_method#">NOT #preserve_method#</option>
+										</cfloop>
 									</select>
 								</div>
 								<div class="col-12 col-md-3 pt-1">
@@ -202,7 +208,10 @@ limitations under the License.
 									<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select one_must_be_filled_in">
 										<option selected="selected" value=""></option>
 										<cfloop query="existLotCount">
-										<option value="#lot_count#">#lot_count#</option>
+											<option value="#lot_count#">#lot_count#</option>
+										</cfloop>
+										<cfloop query="existLotCount">
+											<option value="!#lot_count#">NOT #lot_count#</option>
 										</cfloop>
 									</select>
 								</div>
@@ -212,6 +221,9 @@ limitations under the License.
 										<option selected="selected" value=""></option>
 										<cfloop query="existDisp">
 											<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+										</cfloop>
+										<cfloop query="existDisp">
+											<option value="!#coll_obj_disposition#">NOT #coll_obj_disposition#</option>
 										</cfloop>
 									</select>
 								</div>
@@ -446,16 +458,32 @@ limitations under the License.
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
 					accepted_id_fg=1 
 					<cfif len(exist_part_name) gt 0>
+						<cfif left(exist_part_name,1) EQ "!">
+							and part_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(exist_part_name,len(exist_part_name)-1)#">
+						<cfelse>
 						and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
+						</cfif>
 					</cfif>
 					<cfif len(exist_preserve_method) gt 0>
-						and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
+						<cfif left(exist_preserve_method,1) EQ "!">
+							and preserve_method != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(exist_preserve_method,len(exist_preserve_method)-1)#">
+						<cfelse>
+							and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
+						</cfif>
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
-						and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
+						<cfif left(existing_lot_count,1) EQ "!">
+							and lot_count != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(existing_lot_count,len(existing_lot_count)-1)#">
+						<cfelse>
+							and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
+						</cfif>
 					</cfif>
 					<cfif len(existing_coll_obj_disposition) gt 0>
-						and coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
+						<cfif left(existing_coll_obj_disposition,1) EQ "!">
+							and coll_obj_disposition != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(existing_coll_obj_disposition,len(existing_coll_obj_disposition)-1)#">
+						<cfelse>
+							and coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
+						</cfif>
 					</cfif>
 					<cfif len(exist_part_name) EQ 0 AND len(exist_preserve_method) EQ 0 AND len(existing_lot_count) EQ 0 AND len(existing_coll_obj_disposition) EQ 0>
 						and 0=1

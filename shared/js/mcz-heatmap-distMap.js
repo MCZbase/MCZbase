@@ -115,7 +115,27 @@ function toggleView() {
   if (btnGradient) {
     btnGradient.style.display = (currentView === 'heatmap') ? '' : 'none';
   }
+    
+ //  update description text next to controls
+  var descEl = document.getElementById("view-description");
+  if (descEl) {
+    if (currentView === 'heatmap') {
+      descEl.textContent = "Specimen record density per locality";
+    } else {
+      descEl.textContent = "Locality distribution (one point per locality)";
+    }
+  }
 
+  //  update description text next to controls
+  var descEl = document.getElementById("view-description");
+  if (descEl) {
+    if (currentView === 'heatmap') {
+      descEl.textContent = "Specimen record density per locality";
+    } else {
+      descEl.textContent = "Locality distribution (one point per locality)";
+    }
+  }
+    
   if (currentView === 'points') {
     // Points view
     pointLayer = new deck.ScatterplotLayer({
@@ -125,7 +145,7 @@ function toggleView() {
       getRadius: function () { return 1000; }, // meters
       radiusMinPixels: 2,
       radiusMaxPixels: 10,
-      getFillColor: function () { return [0, 255, 0, 180]; },
+      getFillColor: function () { return [222, 138, 23, 255]; },//orange-gold color
       pickable: false
     });
 
@@ -134,7 +154,7 @@ function toggleView() {
   } else {
     // Heatmap view
     var defaultGradient = [
-      [0, 255, 255, 60],
+      [0, 255, 255, 150],// color density 150
       [0, 255, 255, 255],
       [0, 191, 255, 255],
       [0, 127, 255, 255],
@@ -179,7 +199,7 @@ function changeGradient() {
   var data = MCZ_CLEAN_DATA;
 
   var defaultGradient = [
-    [0, 255, 255, 60],
+    [0, 255, 255, 150],
     [0, 255, 255, 255],
     [0, 191, 255, 255],
     [0, 127, 255, 255],
@@ -197,7 +217,7 @@ function changeGradient() {
 
   // Your alternate palette for color-blind users
   var altGradient = [
-    [229, 255,  25,  60], // light green-yellow (faint)
+    [229, 255,  25, 150], // light green-yellow (faint)
     [229, 255,  25, 255], // light green-yellow
     [255, 170,  73, 255], // orange
     [255, 165,  61, 255], // orange
