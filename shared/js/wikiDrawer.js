@@ -17,17 +17,31 @@
 
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
+function resizeAllGridsToContent() {
+    var $content = $("#content");
+    if (!$content.length) return;
+
+    var newWidth = $content.width();
+     console.log('resizeAllGridsToContent, newWidth:', newWidth);
+
+    $('.jqxGrid').each(function () {
+        console.log('resizing grid', this.id, 'to', newWidth);
+        $(this).jqxGrid('width', newWidth);
+    });
+}
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open');
 	$('#content').addClass('pushed');
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
+    resizeAllGridsToContent();
 }
 function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
+    resizeAllGridsToContent();
 }
 
 
@@ -47,52 +61,119 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 			returnFormat: 'json'
 		},
 		dataType: 'json',
-		success: function(response) {
-			var html = response.result || response.RESULT || "<div>Section not found.</div>";
-			if (typeof openFunction === 'function') {
-				openFunction();
-			}
-			if (typeof onSuccess === 'function') {
-				options.onSuccess(html);
-			} else {
-				$('#'+targetDiv).html(html);
-				processWikiContent($('#'+targetDiv));
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			if (typeof closeFunction === 'function') {
-				closeFunction();
-			}
-			handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
-		}
-	});
+        success: function (response) {
+            var html = response.result || response.RESULT || "<div>Section not found.</div>";
+
+            if (typeof openFunction === 'function') {
+                openFunction();
+            }
+
+            if (typeof onSuccess === 'function') {
+                options.onSuccess(html);
+            } else {
+                $('#' + targetDiv).html(html);
+                if (typeof processWikiContent === 'function') {
+                    processWikiContent($('#' + targetDiv));
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (typeof closeFunction === 'function') {
+                closeFunction();
+            }
+            handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
+        }
+    });
 }
+
+function showDivInWikiDrawer(divId, titleText) {
+    var $src = $('#' + divId);
+    if (!$src.length) {
+        console.warn('showDivInWikiDrawer: source div not found:', divId);
+        return;
+    }
+
+    if (titleText) {
+        $('#wiki-content-title').text(titleText);
+    }
+
+    $('#wiki-content').html($src.html());
+    openWikiDrawer();
+}
+
 
 function initWikiDrawer(options) {
     $(function () {
         $('#show-wiki').on('click', function (e) {
             e.preventDefault();
 
-            showWiki(
-                options.targetWikiPage,
-                false,
-                'wiki-content',
-                'wiki-content-title',
-                openWikiDrawer,
-                closeWikiDrawer,
-                true,
-                0
-            );
+                showWiki(
+                    options.targetWikiPage,
+                    false,
+                    'wiki-content',
+                    'wiki-content-title',
+                    openWikiDrawer,
+                    closeWikiDrawer,
+                    true,
+                    0
+                );
 
-            $('#show-wiki').hide();
-            $('#hide-wiki').show();
-        });
+                $('#show-wiki').hide();
+                $('#hide-wiki').show();
+            });
 
-        $('#hide-wiki').on('click', function (e) {
+            $('#hide-wiki').on('click', function (e) {
+                e.preventDefault();
+                closeWikiDrawer();
+            });
+
+            $('#hide-wiki').hide();
+
+        // Keep your existing #show-wiki and #hide-wiki handlers as-is.
+
+        // ONE generic handler for all help buttons
+        $(document).on('click', '.js-search-help', function (e) {
             e.preventDefault();
-            closeWikiDrawer();
-        });
 
-        $('#hide-wiki').hide();
+            var targetId = $(this).data('helpTarget'); // e.g. "collapseKeywordHelp"
+            if (!targetId) {
+                console.warn('js-search-help clicked without data-help-target');
+                return;
+            }
+
+            // Toggle behavior: if the drawer is open, close it; otherwise show this aside
+            if ($('#wikiDrawer').hasClass('open')) {
+                closeWikiDrawer();
+            } else {
+                showDivInWikiDrawer(targetId, 'Search Help');
+            }
+        });
     });
 }
+
+
+$(function () {
+    // Map panel IDs to their help aside IDs
+    var tabHelpMap = {
+        basicSearchTabButton:   'collapseFixedBasic',
+        keywordSearchTabButton: 'collapseKeywordHelp',
+        builderSearchTabButton: 'collapseBuilderHelp'
+    };
+
+    // When a tab is shown
+    // When a tab button is clicked
+    $('#basicSearchTabButton, #keywordSearchTabButton, #builderSearchTabButton').on('click', function () {
+        // If the drawer isn't open, do nothing
+        if (!$('#wikiDrawer').hasClass('open')) {
+            return;
+        }
+
+        var btnId   = this.id;
+        var helpId  = tabHelpMap[btnId];
+
+        if (helpId) {
+            // Replace drawer content with this tab's help aside
+            showDivInWikiDrawer(helpId, 'Search Help');
+        }
+    });
+});

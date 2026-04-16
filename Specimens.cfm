@@ -341,11 +341,11 @@ limitations under the License.
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
-								<div class="col-9 float-right px-0"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+								<div class="d-flex justify-content-end px-0"> 
+									<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseFixed">
+									<aside id="collapseFixedBasic" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3 border-dark">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
@@ -1803,11 +1803,11 @@ limitations under the License.
 						</script>
 							<!---Keyword Search/results tab panel--->
 							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
-								<div class="col-9 float-right px-0"> 
-									<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
-													Search Help
+								<div class="d-flex justify-content-end px-0"> 
+									<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help" type="button" data-help-target="collapseKeywordHelp">
+				                        Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseKeyword">
+									<aside id="collapseKeywordHelp" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Keyword Search Help</h2>
 											<p>
@@ -1891,7 +1891,7 @@ limitations under the License.
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
+													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pl-2">
 														<label class="data-entry-label" for="debug2">Debug</label>
 														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
 															<option value=""></option>
@@ -1981,7 +1981,7 @@ limitations under the License.
 
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
-												<div class="row mx-0 mt-0""> 
+												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
@@ -2006,14 +2006,14 @@ Target JSON:
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
-									<div class="col-9 float-right px-3"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseBuilder" aria-expanded="false" aria-controls="collapseBuilder">
+									<div class="d-flex justify-content-end px-0"> 
+									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help border-0" type="button" data-help-target="collapseBuilderHelp">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseBuilder">
+									<aside id="collapseBuilderHelp" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
-											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>.
+											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>
 											<p>Search terms can be connected with <i>and</i> or <i>or</i>.  Searches using <i>and</i> find records where the criteria on both side of the <i>and</i> are met in each record.  Searches using <i>or</i> find records where at least one of the criteria on each side of the <i>or</i> are met.  Searching for Genus=Babelomurex <i>or</i> Genus=Chicoreus will find specimens with an identification in either of these genera. </p> 
 											<p>Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont). See an example: <a href='/Specimens.cfm?execute=true&builderMaxRows=6&action=builderSearch&openParens1=1&field1=GEOG_AUTH_REC%3ASTATE_PROV&searchText1=%3DMassachusetts&closeParens1=0&JoinOperator2=or&openParens2=0&field2=GEOG_AUTH_REC%3ASTATE_PROV&searchText2=%3DVermont&closeParens2=0&JoinOperator3=or&openParens3=0&field3=GEOG_AUTH_REC%3ASTATE_PROV&searchText3=%3DNew%20Hampshire&closeParens3=1&JoinOperator4=and&openParens4=1&field4=TAXONOMY%3AGENUS&searchText4=%3DUrocyon&closeParens4=0&JoinOperator6=or&openParens6=0&field6=TAXONOMY%3AGENUS&searchText6=%3DVulpes&closeParens6=1' target="_blank">Red or Gray foxes from MA, NH, or VT</a></p>
 											<p>The number of parenthesies you open must equal the number of parenthesies you close in order to run a search.  If there is a mismatch in the count, then the search button will be disabled, and an error message will be show.  For example, <i>open 2 ( but close 1 )</i> means that you need to add another close parenthesis.  Similarly, if your parenthesies incorrectly ordered so as to produce a syntax error an error message will be shown and the search button will be disabled.  Problems with nesting of <i>and</i> and <i>or</i> clauses will produce unexpected results if the logic you specified does not match your expectations.</p>
@@ -4630,4 +4630,9 @@ Target JSON:
 </script>
 
 </cfoutput>
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Search_Operators">
+
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">

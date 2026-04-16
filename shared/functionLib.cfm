@@ -399,25 +399,27 @@ limitations under the License.
 </cffunction>
 
 <!----------------------------------------------------->               
+
 <cffunction name="renderWikiButtons"
            access="public"
            returntype="string"
            output="false">
+    <cfargument name="buttonClass" type="string" required="false" default="btn btn-xs btn-info">
 
     <cfset var html = "">
 
-    <!-- Only show on redesign branches, same condition you used before -->
-<!---    <cfif structKeyExists(Session, "gitBranch") AND findNoCase("redesign", Session.gitBranch) GT 0>--->
-        <cfsavecontent variable="html">
-            <cfoutput>
-                <button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-                <button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
-            </cfoutput>
-        </cfsavecontent>
-  <!---  </cfif>--->
+    <cfsavecontent variable="html">
+        <cfoutput>
+            <button id="show-wiki" class="#arguments.buttonClass#">Show Wiki Article</button>
+            <button id="hide-wiki" class="#arguments.buttonClass#">Hide Wiki Article</button>
+      
+        </cfoutput>
+    </cfsavecontent>
 
     <cfreturn html>
 </cffunction>
+
+
         
 <cffunction name="renderWikiDrawer"
            access="public"
@@ -427,15 +429,15 @@ limitations under the License.
     <cfargument name="targetWikiPage" type="string" required="true">
 
     <cfset var html   = "">
-    <cfset var canEdit = false>
+    <cfset var canEdit = false>-
 
-    <!-- Determine if user can edit -->
+    <!--- Determine if user can edit --->
     <cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
         <cfset canEdit = true>
     </cfif>
 
     <!-- Only show drawer for new/edit actions, like your original code -->
-    <cfif arguments.action EQ "new" OR arguments.action EQ "edit">
+   <cfif arguments.action EQ "new" OR arguments.action EQ "edit" OR arguments.action EQ "search">
         <cfsavecontent variable="html">
             <cfoutput>
                 <div id="wikiDrawer" class="wiki-drawer border">
@@ -445,7 +447,7 @@ limitations under the License.
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div id="wiki-content" class="p-3"></div>
+                    <div id="wiki-content" class="p-3 overflow-hidden"></div>
                 </div>
 
                 <!-- Initialize the drawer behavior using the shared JS function -->
