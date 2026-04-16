@@ -90,7 +90,7 @@ limitations under the License.
 		}
 	</style>
 	<!--- End proof of concept style block --->
-	<h1 class="h2 mt-2">Bulkload Geography</h1>
+	<h1 class="h2 mt-2">Bulkload Collecting Events</h1>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Load new collecting event records associated with existing locality records.</p>
@@ -232,110 +232,16 @@ limitations under the License.
 					DELETE FROM CF_TEMP_COLLECTING_EVENT
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<!---Parse the CSV file using Apache Commons CSV library. Include with ColdFusion so columns with comma delimiters will be separated properly.--->
-					<cfset fileProxy = CreateObject("java","java.io.File") >
-					<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
-					<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser">
-					<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord">
-					<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-					<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset">
-					<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets">
-					<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-					<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#)>
-					<!--- Create a FileReader object to provide a reader for the CSV file --->
-					<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#)>
-					<!---We cannot use the withHeader() method from coldfusion, as it is overloaded. With no parameters ColdFusion has no means to pick the correct method.--->
-					<!---Select format of csv file based on format variable from user.--->
-					<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
-					<cfswitch expression="#format#">
-						<cfcase value="DEFAULT">
-							<cfset csvFormat = CSVFormat.DEFAULT>
-						</cfcase>
-						<cfcase value="TDF">
-							<cfset csvFormat = CSVFormat.TDF>
-						</cfcase>
-						<cfcase value="RFC4180">
-							<cfset csvFormat = CSVFormat.RFC4180>
-						</cfcase>
-						<cfcase value="EXCEL">
-							<cfset csvFormat = CSVFormat.EXCEL>
-						</cfcase>
-						<cfcase value="ORACLE">
-							<cfset csvFormat = CSVFormat.ORACLE>
-						</cfcase>
-						<cfcase value="MYSQL">
-							<cfset csvFormat = CSVFormat.MYSQL>
-						</cfcase>
-						<cfdefaultcase>
-							<cfset csvFormat = CSVFormat.DEFAULT>
-						</cfdefaultcase>
-					</cfswitch>
-					<!--- Create a CSVParser using the FileReader and CSVFormat--->
-					<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-					<!--- Select charset based on characterSet variable from user --->
-					<cfswitch expression="#characterSet#">
-						<cfcase value="utf-8">
-							<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-						</cfcase>
-						<cfcase value="iso-8859-1">
-							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-						</cfcase>
-						<cfcase value="windows-1250">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
-						</cfcase>
-						<cfcase value="windows-1251">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
-						</cfcase>
-						<cfcase value="windows-1252">
-							<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
-								<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
-							<cfelse>
-							<!--- If not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
-							<!--- These characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
-								<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-							</cfif>
-						</cfcase>
-						<cfcase value="x-MacCentralEurope">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
-						</cfcase>
-						<cfcase value="MacRoman">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
-						</cfcase>
-						<cfcase value="utf-16">
-							<cfset javaSelectedCharset = standardCharsets.UTF_16 >
-						</cfcase>
-						<cfcase value="utf-32">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
-						</cfcase>
-						<cfdefaultcase>
-							<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-						</cfdefaultcase>
-					</cfswitch>
-					<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-					<!--- obtain an iterator to loops through the rows/records in the csv --->
-					<cfset iterator = records.iterator()>
-					<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
-					<cfif iterator.hasNext()>
-						<cfset headers = iterator.next()>
-					<cfelse>
-						<cfthrow message="#NO_HEADER_ERR# No first line found.">
-					</cfif>
-					<!---Get the number of column headers--->
-					<cfset size = headers.size()>
-					<cfif size EQ 0>
-						<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
-					</cfif>
-					<cfset separator = "">
-					<cfset foundHeaders = "">
-					<cfloop index="i" from="0" to="#headers.size() - 1#">
-						<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
-						<cfset separator = ",">
-					</cfloop>
-					<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+				<!--- Delegate CSV parsing to csv.cfc loadCsvFile() for consistent BOM stripping and header normalization (BugID: 7276) --->
+					<cfset variables.foundHeaders=""><!--- populated by loadCsvFile --->
+					<cfset variables.size=""><!--- populated by loadCsvFile --->
+					<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>
+
+					<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 					<div class="col-12 my-3 px-0">
-						<h3>Found #size# columns in header of csv file.</h3> 
+						<h3>Found #variables.size# columns in header of csv file.</h3>
 						There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).
 					</div>
 					<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
@@ -346,8 +252,8 @@ limitations under the License.
 
 					<!--- Identify duplicate columns and fail if found --->
 					<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=variables.foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
-						
-					<cfset colNames="#foundHeaders#">
+
+					<cfset colNames="#variables.foundHeaders#">
 					<cfset loadedRows = 0>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
@@ -407,91 +313,100 @@ limitations under the License.
 								</cfquery>
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
-									<style>
-										red {color: red;}
-										p.wrapped-text {
-											max-width: 100%;  /* Adjust as needed for your layout */
-											white-space: normal;  /* Allow wrapping */
-											word-wrap: break-word;  /* Break long words if necessary */
-											border: 1px solid ##ccc;  /* Optional styling */
-											padding: 5px 10px;
-											margin-bottom: 2px;
-										}
-										p.top {margin-top: 1rem;}
-									</style>
-							
-									<!--- identify the problematic row, and problem as much as possible --->
-									<cfset err_help = "">
-									<cfif isDefined("cfcatch.queryError") AND Find("cannot insert NULL into",cfcatch.queryError) GT 0>
-										<cfset err_help = "<strong>A value is missing from a required field</strong>.  ">
-									</cfif>
-									<cfset error_message="<p class='top'>#COLUMN_ERR# from Row #row# in input file. </p>  <p class='wrapped-text'>Header Row: <br>[#colNames#]</p><p class='wrapped-text'>First error is in Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p class='wrapped-text'>Error Message:<br> <red>#err_help##cfcatch.message#</red>">
-										<!--- " --->
+									<!--- identify the problematic row --->
+									<cfset error_message="<h4>Check character set and format selected if your headers match required headers in red above.</h4> #COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
-										<cfset error_message = "#error_message# #cfcatch.queryError#</p>">
-									<cfelse>
-										<cfset error_message = "#error_message#</p>">
+										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
 									<cfthrow message = "#error_message#">
 								</cfcatch>
 								</cftry>
 						</cfloop>
-						<cfif foundHighCount GT 0>
-							<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
-							<div>
-								<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-								you probably want to <a href="/tools/BulkloadCollectingEvents.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-							</div>
-							<ul class="pb-1 h4 list-unstyled">#foundHighAscii# #foundMultiByte#</ul>
-
+				
+					<cfif foundHighCount GT 0>
+						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadCollectingEvents.cfm')>
+					</cfif>
+					<h3 class="mt-3">
+						<cfif loadedRows EQ 0>
+							Loaded no rows from the CSV file. The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadCollectingEvents.cfm" class="text-danger">start again</a>
+						<cfelse>
+							<cfif variables.size eq 1>
+								Size = 1
+							<cfelse>
+							Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCollectingEvents.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.</cfif>
 						</cfif>
-					</div>
-					<h3 class="h4">
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCollectingEvents.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
 					</h3>
 
 				<cfcatch>
-					<h3 class="h4">
-						Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCollectingEvents.cfm">reload</a>.
+					<h3 class="mt-3">
+						<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadCollectingEvents.cfm" class="text-danger">start again</a>.
 					</h3>
-					<cfif isDefined("arrResult")>
+					<cfif isDefined("variables.foundHeaders")>
 						<cfset foundHighCount = 0>
 						<cfset foundHighAscii = "">
 						<cfset foundMultiByte = "">
-						<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-							<cfset thisBit=arrResult[1][col]>
+						<cfloop list="#variables.foundHeaders#" index="thisBit">
 							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 								<!--- high ASCII --->
 								<cfif foundHighCount LT 6>
-									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 								<!--- multibyte --->
 								<cfif foundHighCount LT 6>
-									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							</cfif>
 						</cfloop>
 						<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-							<h3 class="h4">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
-							<div>
-								<p>Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?</p>
-							</div>
-							<ul class="py-1 h4">
-								#foundHighAscii# #foundMultiByte#
-							</ul>
+							<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadCollectingEvents.cfm',inHeader='yes')>
 						</cfif>
 					</cfif>
+					<!--- identify and provide guidance for some standard failure conditions --->
+					<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 					<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-							#cfcatch.message# 
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
 					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-							#cfcatch.message#
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read headers in line 1.  Does your file actually have the format #fmt#?  Did you select CSV format for a tab delimited file?
+						</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read headers in line 1.  Is your file actually have the format #fmt#?
+						</h4>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Does your file have an inconsitent format?  Are some lines tab delimited but others comma delimited?
+						</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read a record from the file.  One or more lines may not be consistent with the specified format #fmt#
+						</h4>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
 					<cfelse>
 						<cfdump var="#cfcatch#">
 					</cfif>
 				</cfcatch>
+
+				<cffinally>
+					<cftry>
+						<!--- Close the CSV parser and the reader (no-op if already closed by loadCsvFile, but included for safety) --->
+						<cfset csvParser.close()>
+						<cfset fileReader.close()>
+					<cfcatch>
+						<!--- consume exception and proceed --->
+					</cfcatch>
+					</cftry>
+				</cffinally>
 				</cftry>
 			</cfoutput>
 		</cfif>

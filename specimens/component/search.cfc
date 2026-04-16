@@ -1203,6 +1203,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		ORDER BY
 		search_category, table_name, label
 	</cfquery>
+	<cfset hasAnyEntry = false>
 	<cfloop index="i" from="1" to="#int(builderMaxRows)#">
 		<cfset hasEntry = true>
 		<cftry>
@@ -1219,6 +1220,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfcatch>
 		</cftry>
 		<cfif hasEntry>
+			<cfset hasAnyEntry = true>
 			<cfset searchId = Evaluate("searchId"&i)>
 			<cfset joinWith = Evaluate("joinOperator"&i)>
 			<cfset nestdepth = 0 >
@@ -1300,6 +1302,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 		</cfif>
    </cfloop>
+	<cfif NOT hasAnyEntry>
+		<cfthrow message="At least one search field and value must be provided.">
+	</cfif>
 
 	<cfset search_json = "#search_json#]">
 
