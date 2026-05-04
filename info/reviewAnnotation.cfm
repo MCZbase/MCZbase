@@ -78,31 +78,21 @@
 					 cf_user_data.email
 				FROM
 					annotations
+					INNER JOIN cataloged_item ON annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID
+					INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
+					INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+					INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+					INNER JOIN locality ON collecting_event.locality_id = locality.locality_id
+					INNER JOIN geog_auth_rec ON locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
 					LEFT OUTER JOIN (
 						SELECT annotation_id, body_value,
 						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 						FROM annotation_textualbody
-					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
-					cataloged_item,
-					collection,
-					collecting_event,
-					locality,
-					geog_auth_rec,
-					identification,
-					cf_user_data,
-					cf_users,
-					preferred_agent_name
-				WHERE
-					annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID AND
-					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-					cataloged_item.collection_id = collection.collection_id AND
-					cataloged_item.collection_object_id = identification.collection_object_id AND
-					accepted_id_fg=1 AND
-					cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-					collecting_event.locality_id = locality.locality_id AND
-					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-					annotations.CF_USERNAME=cf_users.username (+) and
-					cf_users.user_id = cf_user_data.user_id (+)
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE 1=1
 					<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
 						AND annotations.collection_object_id = #collection_object_id#
 					</cfif>
@@ -205,20 +195,16 @@
 					annotations.publication_id
 				FROM
 					annotations
+					INNER JOIN publication ON annotations.publication_id = publication.publication_id
+					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
 					LEFT OUTER JOIN (
 						SELECT annotation_id, body_value,
 						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 						FROM annotation_textualbody
-					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
-					publication,
-					cf_user_data,
-					cf_users,
-					preferred_agent_name
-				WHERE
-					annotations.publication_id = publication.publication_id AND
-					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-					annotations.CF_USERNAME=cf_users.username (+) and
-					cf_users.user_id = cf_user_data.user_id (+)
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE 1=1
 					<cfif isdefined("publication_id") and len(publication_id) gt 0>
 						AND annotations.publication_id = #publication_id#
 					</cfif>
@@ -319,20 +305,16 @@
 					annotations.taxon_name_id
 				FROM
 					annotations
+					INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
+					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
 					LEFT OUTER JOIN (
 						SELECT annotation_id, body_value,
 						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 						FROM annotation_textualbody
-					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
-					taxonomy,
-					cf_user_data,
-					cf_users,
-					preferred_agent_name
-				WHERE
-					annotations.taxon_name_id = taxonomy.taxon_name_id AND
-					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-					annotations.CF_USERNAME=cf_users.username (+) and
-					cf_users.user_id = cf_user_data.user_id (+)
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE 1=1
 					<cfif isdefined("taxon_name_id") and len(taxon_name_id) gt 0>
 						AND annotations.taxon_name_id = #taxon_name_id#
 					</cfif>
@@ -424,20 +406,16 @@
 				annotations.project_id
 			FROM
 				annotations
+				INNER JOIN project ON annotations.project_id = project.project_id
+				LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+				LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+				LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
 				LEFT OUTER JOIN (
 					SELECT annotation_id, body_value,
 					       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 					FROM annotation_textualbody
-				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
-				project,
-				cf_user_data,
-				cf_users,
-				preferred_agent_name
-			WHERE
-				annotations.project_id = project.project_id AND
-				annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-				annotations.CF_USERNAME=cf_users.username (+) and
-				cf_users.user_id = cf_user_data.user_id (+)
+				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+				WHERE 1=1
 				<cfif isdefined("project_id") and len(project_id) gt 0>
 					AND annotations.project_id = #project_id#
 				</cfif>
