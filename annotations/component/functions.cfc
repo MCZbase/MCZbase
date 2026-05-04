@@ -654,6 +654,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						 annotations.reviewed_fg,
 						 annotations.reviewer_comment,
 						 annotations.motivation,
+						 annotations.mask_annotation_fg,
 						 collection.collection,
 						 collection.collection_cde,
 						 collection.institution_acronym,
@@ -738,6 +739,15 @@ Annotation to report problematic data concerning #annotated.annorecord#
 														<div class="pt-1 px-1 small90">Last review by: #reviewer#</div>
 													</cfif>
 												</div>
+												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+													<div class="col-12 col-md-2 py-2 px-1">
+														<label for="mask_annotation_fg_#annotation_id#" class="data-entry-label font-weight-bold">Visibility:</label>
+														<select name="mask_annotation_fg" id="mask_annotation_fg_#annotation_id#" class="data-entry-select">
+															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+														</select>
+													</div>
+												</cfif>
 												<div class="col-12 col-md-8 py-2 px-1">
 													<label for="reviewer_comment" class="data-entry-label font-weight-bold">Review Comments</label>
 													<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
@@ -806,12 +816,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
  @param reviewed_fg 1 if the annotation has been reviewed, 0 if not.
  @param reviewer_comment optional text comment about the review of the annotation.
+ @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 to show; only applied for manage_collection role.
  @return json with status=updated or an http 500 error if the update fails.
 --->
 <cffunction name="updateAnnotationReview" returntype="any" access="remote" returnformat="json">
 	<cfargument name="annotation_id" type="string" required="yes">
    <cfargument name="reviewed_fg" type="string" required="yes">
 	<cfargument name="reviewer_comment" type="string" required="no" default="">
+	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -822,6 +834,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					reviewer_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					reviewed_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewed_fg#">,
 					reviewer_comment=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reviewer_comment#">
+					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0>
+						,mask_annotation_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">
+					</cfif>
 				WHERE
 					annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 			</cfquery>
