@@ -533,7 +533,7 @@ limitations under the License.
 				from cf_users u left join cf_user_data ud on u.user_id = ud.user_id
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
+			<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
 			<cfquery name="insAnn" datasource="uam_god">
 				insert into annotations (
 					cf_username,
@@ -560,7 +560,7 @@ limitations under the License.
 					'New',
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
 					<cfif len(annotatorAgentId) GT 0>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#'></cfif>
-					<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#val(mask_annotation_fg)#'></cfif>
+					<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#mask_annotation_fg#'></cfif>
 				)
 			</cfquery>
 			<cfquery name="insTextualBody" datasource="uam_god">
