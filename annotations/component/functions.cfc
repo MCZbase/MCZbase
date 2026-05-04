@@ -339,9 +339,9 @@ limitations under the License.
 														</cfif>
 														<div><strong class="data-entry-label">Annotation:</strong>
 														<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-															<span>#annotation#</span>
+															<span>#encodeForHTML(annotation)#</span>
 														<cfelse>
-															<span>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</span>
+															<span>#encodeForHTML(rereplace(annotation,"^.* reported:","[Masked] reported:"))#</span>
 														</cfif>
 														</div>
 													</cfif>
@@ -565,7 +565,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#newAnnotationId#'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#urldecode(annotation)#'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='text/plain'>,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes" value=''>,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes">,
 					SYSDATE
 				)
 			</cfquery>
