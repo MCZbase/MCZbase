@@ -63,11 +63,13 @@
 					 annotations.CF_USERNAME,
 					 annotations.COLLECTION_OBJECT_ID,
 					 annotations.annotation,	 
+					 NVL(atb.body_value, annotations.annotation) annotation_display,
 					 annotations.reviewer_agent_id,
 					 preferred_agent_name.agent_name reviewer,
 					 annotations.reviewed_fg,
 					 annotations.reviewer_comment,
 					 annotations.motivation,
+					 annotations.mask_annotation_fg,
 					 collection.collection,
 					 cataloged_item.cat_num,
 					 identification.scientific_name idAs,
@@ -75,27 +77,22 @@
 					 locality.spec_locality,
 					 cf_user_data.email
 				FROM
-					annotations,
-					cataloged_item,
-					collection,
-					collecting_event,
-					locality,
-					geog_auth_rec,
-					identification,
-					cf_user_data,
-					cf_users,
-					preferred_agent_name
-				WHERE
-					annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID AND
-					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-					cataloged_item.collection_id = collection.collection_id AND
-					cataloged_item.collection_object_id = identification.collection_object_id AND
-					accepted_id_fg=1 AND
-					cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-					collecting_event.locality_id = locality.locality_id AND
-					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-					annotations.CF_USERNAME=cf_users.username (+) and
-					cf_users.user_id = cf_user_data.user_id (+)
+					annotations
+					INNER JOIN cataloged_item ON annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID
+					INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
+					INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+					INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+					INNER JOIN locality ON collecting_event.locality_id = locality.locality_id
+					INNER JOIN geog_auth_rec ON locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+						FROM annotation_textualbody
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE 1=1
 					<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
 						AND annotations.collection_object_id = #collection_object_id#
 					</cfif>
@@ -143,7 +140,7 @@
 								<label class="data-entry-label">Annotation by</label>
 								<span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
 							</td>
-							<td><span class="small">#annotation#</span></td>
+							<td><span class="small">#annotation_display#</span></td>
 							<td>
 								<label class="data-entry-label">Motivation</label>
 								<span class="small">#motivation#</span>
@@ -164,6 +161,14 @@
 									</cfif></td>
 								<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 									<textarea rows="3" class="" name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
+								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+									<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+										<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+											<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+											<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+										</select>
+									</td>
+								</cfif>
 								<td><input type="submit" value="save review" class="btn btn-xs btn-primary mt-3 mb-2"></td>
 							</form>
 						</tr>
@@ -179,24 +184,27 @@
 					annotations.ANNOTATE_DATE,
 					annotations.CF_USERNAME,
 					annotations.annotation,	 
+					NVL(atb.body_value, annotations.annotation) annotation_display,
 					annotations.reviewer_agent_id,
 					preferred_agent_name.agent_name reviewer,
 					annotations.reviewed_fg,
 					annotations.reviewer_comment,
 					annotations.motivation,
+					annotations.mask_annotation_fg,
 					cf_user_data.email,
 					annotations.publication_id
 				FROM
-					annotations,
-					publication,
-					cf_user_data,
-					cf_users,
-					preferred_agent_name
-				WHERE
-					annotations.publication_id = publication.publication_id AND
-					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-					annotations.CF_USERNAME=cf_users.username (+) and
-					cf_users.user_id = cf_user_data.user_id (+)
+					annotations
+					INNER JOIN publication ON annotations.publication_id = publication.publication_id
+					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+						FROM annotation_textualbody
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE 1=1
 					<cfif isdefined("publication_id") and len(publication_id) gt 0>
 						AND annotations.publication_id = #publication_id#
 					</cfif>
@@ -235,7 +243,7 @@
 												<label class="data-entry-label">Motivation</label>
 												<span class="small">#motivation#</span>
 											</td>
-											<td><span>#annotation#</span></td>
+											<td><span>#annotation_display#</span></td>
 											<form name="r" method="post" action="reviewAnnotation.cfm">
 												<input type="hidden" name="action" value="saveReview">
 												<input type="hidden" name="type" value="publication_id">
@@ -256,6 +264,14 @@
 													<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 													<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input">
 												</td>
+												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+													<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+														<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+														</select>
+													</td>
+												</cfif>
 												<td>
 													<input type="submit" value="save review" class="btn btn-xs mb-2 mt-3 btn-primary">
 												</td>
@@ -278,24 +294,27 @@
 					annotations.ANNOTATE_DATE,
 					annotations.CF_USERNAME,
 					annotations.annotation,	 
+					NVL(atb.body_value, annotations.annotation) annotation_display,
 					annotations.reviewer_agent_id,
 					preferred_agent_name.agent_name reviewer,
 					annotations.reviewed_fg,
 					annotations.reviewer_comment,
 					annotations.motivation,
+					annotations.mask_annotation_fg,
 					cf_user_data.email,
 					annotations.taxon_name_id
 				FROM
-					annotations,
-					taxonomy,
-					cf_user_data,
-					cf_users,
-					preferred_agent_name
-				WHERE
-					annotations.taxon_name_id = taxonomy.taxon_name_id AND
-					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-					annotations.CF_USERNAME=cf_users.username (+) and
-					cf_users.user_id = cf_user_data.user_id (+)
+					annotations
+					INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
+					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+						FROM annotation_textualbody
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE 1=1
 					<cfif isdefined("taxon_name_id") and len(taxon_name_id) gt 0>
 						AND annotations.taxon_name_id = #taxon_name_id#
 					</cfif>
@@ -332,7 +351,7 @@
 												<label class="data-entry-label">Motivation</label>
 												<span class="small">#motivation#</span>
 											</td>
-											<td><span>#annotation#</span></td>
+											<td><span>#annotation_display#</span></td>
 											<form name="r" method="post" action="reviewAnnotation.cfm">
 												<input type="hidden" name="action" value="saveReview">
 												<input type="hidden" name="type" value="taxon_name_id">
@@ -349,6 +368,14 @@
 													</cfif></td>
 												<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 													<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
+												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+													<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+														<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+														</select>
+													</td>
+												</cfif>
 												<td><input type="submit" value="save review" class="btn mt-3 mb-2 btn-xs btn-primary"></td>
 											</form>
 										</tr>
@@ -368,24 +395,27 @@
 				annotations.ANNOTATE_DATE,
 				annotations.CF_USERNAME,
 				annotations.annotation,	 
+				NVL(atb.body_value, annotations.annotation) annotation_display,
 				annotations.reviewer_agent_id,
 				preferred_agent_name.agent_name reviewer,
 				annotations.reviewed_fg,
 				annotations.reviewer_comment,
 				annotations.motivation,
+				annotations.mask_annotation_fg,
 				cf_user_data.email,
 				annotations.project_id
 			FROM
-				annotations,
-				project,
-				cf_user_data,
-				cf_users,
-				preferred_agent_name
-			WHERE
-				annotations.project_id = project.project_id AND
-				annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-				annotations.CF_USERNAME=cf_users.username (+) and
-				cf_users.user_id = cf_user_data.user_id (+)
+				annotations
+				INNER JOIN project ON annotations.project_id = project.project_id
+				LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+				LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+				LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+				LEFT OUTER JOIN (
+					SELECT annotation_id, body_value,
+					       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+					FROM annotation_textualbody
+				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+				WHERE 1=1
 				<cfif isdefined("project_id") and len(project_id) gt 0>
 					AND annotations.project_id = #project_id#
 				</cfif>
@@ -420,7 +450,7 @@
 											<label class="data-entry-label">Motivation</label>
 											<span class="small">#motivation#</span>
 										</td>
-										<td class="col-4"><span>#annotation#</span></td>
+										<td class="col-4"><span>#annotation_display#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="project_id">
@@ -437,6 +467,14 @@
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
+											<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+												<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+													<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+														<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+														<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+													</select>
+												</td>
+											</cfif>
 											<td><input type="submit" value="save review" class="btn mt-3 mb-2 btn-primary btn-xs"></td>
 										</form>
 									</tr>
@@ -455,11 +493,14 @@
 
 <cfif action is "saveReview">
 	<cfoutput>
-		<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="updateAnnotation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update annotations set
 				REVIEWER_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 				REVIEWED_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REVIEWED_FG#">,
 				REVIEWER_COMMENT=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(REVIEWER_COMMENT)#">
+				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND isdefined("mask_annotation_fg") AND listfindnocase("0,1", trim(mask_annotation_fg)) GT 0>
+					,MASK_ANNOTATION_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_annotation_fg#">
+				</cfif>
 			where
 				annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 		</cfquery>

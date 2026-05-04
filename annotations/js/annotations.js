@@ -3,26 +3,30 @@ function saveThisAnnotation() {
 	var idType = $("#idtype").val();
 	var idvalue = $("#idvalue").val();
 	var annotation = $("#annotation").val();
-   var motivation = "";
+	var motivation = "";
 	if ($("#motivation").length) { 
-		 $("#motivation").val();
+		motivation = $("#motivation").val();
 	}
 	if (annotation.length==0){
 		alert('You must enter an annotation to save.');
 		return false;
 	}
+	var postData = {
+		method : "addAnnotation",
+		target_type : idType,
+		target_id : idvalue,
+		annotation : annotation,
+		motivation : motivation,
+		returnformat : "json",
+		queryformat : 'column'
+	};
+	if ($("#mask_annotation_fg").length) {
+		postData.mask_annotation_fg = $("#mask_annotation_fg").val();
+	}
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
-		data: {
-			method : "addAnnotation",
-			target_type : idType,
-			target_id : idvalue,
-			annotation : annotation,
-			motivation : motivation,
-			returnformat : "json",
-			queryformat : 'column'
-		},
+		data: postData,
 		success: function(data) {
 			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
 		},
@@ -100,3 +104,38 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 	});
 }
 
+
+/**
+ * setAnnotationMask - Save the visibility (mask_annotation_fg) of an annotation via AJAX.
+ * Requires the manage_collection role (enforced server-side).
+ * @param annotation_id the numeric primary key of the annotation to update.
+ * @param mask_value 0 for Public, 1 for Hidden.
+ * @param resultElementId the id of a span element to show status feedback.
+ */
+function setAnnotationMask(annotation_id, mask_value, resultElementId) {
+	var resultEl = document.getElementById(resultElementId);
+	if (resultEl) { resultEl.textContent = "Saving..."; }
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "setAnnotationMask",
+			annotation_id: annotation_id,
+			mask_annotation_fg: mask_value,
+			returnformat: "json"
+		},
+		success: function(data) {
+			if (resultEl) {
+				if (data && data[0] && data[0].status === "updated") {
+					resultEl.textContent = "Saved";
+				} else {
+					resultEl.textContent = "Error";
+				}
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, "setting annotation visibility");
+			if (resultEl) { resultEl.textContent = "Error"; }
+		}
+	});
+}
