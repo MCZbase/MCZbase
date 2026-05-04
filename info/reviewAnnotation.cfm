@@ -68,6 +68,7 @@
 					 annotations.reviewed_fg,
 					 annotations.reviewer_comment,
 					 annotations.motivation,
+					 annotations.mask_annotation_fg,
 					 collection.collection,
 					 cataloged_item.cat_num,
 					 identification.scientific_name idAs,
@@ -164,6 +165,14 @@
 									</cfif></td>
 								<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 									<textarea rows="3" class="" name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
+								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+									<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+										<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+											<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+											<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+										</select>
+									</td>
+								</cfif>
 								<td><input type="submit" value="save review" class="btn btn-xs btn-primary mt-3 mb-2"></td>
 							</form>
 						</tr>
@@ -184,6 +193,7 @@
 					annotations.reviewed_fg,
 					annotations.reviewer_comment,
 					annotations.motivation,
+					annotations.mask_annotation_fg,
 					cf_user_data.email,
 					annotations.publication_id
 				FROM
@@ -256,6 +266,14 @@
 													<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 													<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input">
 												</td>
+												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+													<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+														<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+														</select>
+													</td>
+												</cfif>
 												<td>
 													<input type="submit" value="save review" class="btn btn-xs mb-2 mt-3 btn-primary">
 												</td>
@@ -283,6 +301,7 @@
 					annotations.reviewed_fg,
 					annotations.reviewer_comment,
 					annotations.motivation,
+					annotations.mask_annotation_fg,
 					cf_user_data.email,
 					annotations.taxon_name_id
 				FROM
@@ -349,6 +368,14 @@
 													</cfif></td>
 												<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 													<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
+												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+													<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+														<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+														</select>
+													</td>
+												</cfif>
 												<td><input type="submit" value="save review" class="btn mt-3 mb-2 btn-xs btn-primary"></td>
 											</form>
 										</tr>
@@ -373,6 +400,7 @@
 				annotations.reviewed_fg,
 				annotations.reviewer_comment,
 				annotations.motivation,
+				annotations.mask_annotation_fg,
 				cf_user_data.email,
 				annotations.project_id
 			FROM
@@ -437,6 +465,14 @@
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
+											<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+												<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
+													<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+														<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+														<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+													</select>
+												</td>
+											</cfif>
 											<td><input type="submit" value="save review" class="btn mt-3 mb-2 btn-primary btn-xs"></td>
 										</form>
 									</tr>
@@ -455,11 +491,14 @@
 
 <cfif action is "saveReview">
 	<cfoutput>
-		<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="updateAnnotation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update annotations set
 				REVIEWER_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 				REVIEWED_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REVIEWED_FG#">,
 				REVIEWER_COMMENT=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(REVIEWER_COMMENT)#">
+				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND isdefined("mask_annotation_fg") AND listfindnocase("0,1", trim(mask_annotation_fg)) GT 0>
+					,MASK_ANNOTATION_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_annotation_fg#">
+				</cfif>
 			where
 				annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 		</cfquery>
