@@ -63,6 +63,7 @@
 					 annotations.CF_USERNAME,
 					 annotations.COLLECTION_OBJECT_ID,
 					 annotations.annotation,	 
+					 NVL(atb.body_value, annotations.annotation) annotation_display,
 					 annotations.reviewer_agent_id,
 					 preferred_agent_name.agent_name reviewer,
 					 annotations.reviewed_fg,
@@ -76,7 +77,12 @@
 					 locality.spec_locality,
 					 cf_user_data.email
 				FROM
-					annotations,
+					annotations
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+						FROM annotation_textualbody
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
 					cataloged_item,
 					collection,
 					collecting_event,
@@ -144,7 +150,7 @@
 								<label class="data-entry-label">Annotation by</label>
 								<span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
 							</td>
-							<td><span class="small">#annotation#</span></td>
+							<td><span class="small">#annotation_display#</span></td>
 							<td>
 								<label class="data-entry-label">Motivation</label>
 								<span class="small">#motivation#</span>
@@ -188,6 +194,7 @@
 					annotations.ANNOTATE_DATE,
 					annotations.CF_USERNAME,
 					annotations.annotation,	 
+					NVL(atb.body_value, annotations.annotation) annotation_display,
 					annotations.reviewer_agent_id,
 					preferred_agent_name.agent_name reviewer,
 					annotations.reviewed_fg,
@@ -197,7 +204,12 @@
 					cf_user_data.email,
 					annotations.publication_id
 				FROM
-					annotations,
+					annotations
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+						FROM annotation_textualbody
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
 					publication,
 					cf_user_data,
 					cf_users,
@@ -245,7 +257,7 @@
 												<label class="data-entry-label">Motivation</label>
 												<span class="small">#motivation#</span>
 											</td>
-											<td><span>#annotation#</span></td>
+											<td><span>#annotation_display#</span></td>
 											<form name="r" method="post" action="reviewAnnotation.cfm">
 												<input type="hidden" name="action" value="saveReview">
 												<input type="hidden" name="type" value="publication_id">
@@ -296,6 +308,7 @@
 					annotations.ANNOTATE_DATE,
 					annotations.CF_USERNAME,
 					annotations.annotation,	 
+					NVL(atb.body_value, annotations.annotation) annotation_display,
 					annotations.reviewer_agent_id,
 					preferred_agent_name.agent_name reviewer,
 					annotations.reviewed_fg,
@@ -305,7 +318,12 @@
 					cf_user_data.email,
 					annotations.taxon_name_id
 				FROM
-					annotations,
+					annotations
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+						FROM annotation_textualbody
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
 					taxonomy,
 					cf_user_data,
 					cf_users,
@@ -351,7 +369,7 @@
 												<label class="data-entry-label">Motivation</label>
 												<span class="small">#motivation#</span>
 											</td>
-											<td><span>#annotation#</span></td>
+											<td><span>#annotation_display#</span></td>
 											<form name="r" method="post" action="reviewAnnotation.cfm">
 												<input type="hidden" name="action" value="saveReview">
 												<input type="hidden" name="type" value="taxon_name_id">
@@ -395,6 +413,7 @@
 				annotations.ANNOTATE_DATE,
 				annotations.CF_USERNAME,
 				annotations.annotation,	 
+				NVL(atb.body_value, annotations.annotation) annotation_display,
 				annotations.reviewer_agent_id,
 				preferred_agent_name.agent_name reviewer,
 				annotations.reviewed_fg,
@@ -404,7 +423,12 @@
 				cf_user_data.email,
 				annotations.project_id
 			FROM
-				annotations,
+				annotations
+				LEFT OUTER JOIN (
+					SELECT annotation_id, body_value,
+					       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+					FROM annotation_textualbody
+				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1,
 				project,
 				cf_user_data,
 				cf_users,
@@ -448,7 +472,7 @@
 											<label class="data-entry-label">Motivation</label>
 											<span class="small">#motivation#</span>
 										</td>
-										<td class="col-4"><span>#annotation#</span></td>
+										<td class="col-4"><span>#annotation_display#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="project_id">
