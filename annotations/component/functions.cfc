@@ -308,6 +308,15 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
+										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+											<div class="col-12 pb-2">
+												<label for="mask_annotation_fg" class="data-entry-label">Visibility:</label>
+												<select id="mask_annotation_fg" name="mask_annotation_fg" class="data-entry-select">
+													<option value="0" selected="selected">Public</option>
+													<option value="1">Hidden</option>
+												</select>
+											</div>
+										</cfif>
 										<div class="col-12">
 											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
 										</div>
@@ -420,12 +429,15 @@ limitations under the License.
   * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
   * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
   * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
+  * @param motivation the motivation for the annotation (optional, defaults to commenting).
+  * @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 for public; only applied for manage_collection role.
 --->
 <cffunction name="addAnnotation" access="remote">
 	<cfargument name="target_type" type="string" required="yes">
 	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
 	<cfargument name="motivation" type="string" required="no">
+	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
 
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
@@ -521,13 +533,9 @@ limitations under the License.
 				from cf_users u left join cf_user_data ud on u.user_id = ud.user_id
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getNewAnnotId" datasource="uam_god">
-				SELECT sq_annotation_id.nextval AS new_annotation_id FROM dual
-			</cfquery>
-			<cfset newAnnotationId = getNewAnnotId.new_annotation_id>
+			<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
 			<cfquery name="insAnn" datasource="uam_god">
 				insert into annotations (
-					annotation_id,
 					cf_username,
 					<cfif target_type EQ 'collection_object'>
 						collection_object_id,
@@ -542,8 +550,8 @@ limitations under the License.
 					state,
 					motivation
 					<cfif len(annotatorAgentId) GT 0>,annotator_agent_id</cfif>
+					<cfif setMaskFg>,mask_annotation_fg</cfif>
 				) values (
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#newAnnotationId#'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
 					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
@@ -552,6 +560,7 @@ limitations under the License.
 					'New',
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
 					<cfif len(annotatorAgentId) GT 0>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#'></cfif>
+					<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#val(mask_annotation_fg)#'></cfif>
 				)
 			</cfquery>
 			<cfquery name="insTextualBody" datasource="uam_god">
@@ -562,7 +571,7 @@ limitations under the License.
 					body_language,
 					created_date
 				) VALUES (
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#newAnnotationId#'>,
+					sq_annotation_id.currval,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#urldecode(annotation)#'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='text/plain'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes">,

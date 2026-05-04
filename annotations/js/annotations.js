@@ -3,26 +3,30 @@ function saveThisAnnotation() {
 	var idType = $("#idtype").val();
 	var idvalue = $("#idvalue").val();
 	var annotation = $("#annotation").val();
-   var motivation = "";
+	var motivation = "";
 	if ($("#motivation").length) { 
-		 $("#motivation").val();
+		motivation = $("#motivation").val();
 	}
 	if (annotation.length==0){
 		alert('You must enter an annotation to save.');
 		return false;
 	}
+	var postData = {
+		method : "addAnnotation",
+		target_type : idType,
+		target_id : idvalue,
+		annotation : annotation,
+		motivation : motivation,
+		returnformat : "json",
+		queryformat : 'column'
+	};
+	if ($("#mask_annotation_fg").length) {
+		postData.mask_annotation_fg = $("#mask_annotation_fg").val();
+	}
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
-		data: {
-			method : "addAnnotation",
-			target_type : idType,
-			target_id : idvalue,
-			annotation : annotation,
-			motivation : motivation,
-			returnformat : "json",
-			queryformat : 'column'
-		},
+		data: postData,
 		success: function(data) {
 			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
 		},
