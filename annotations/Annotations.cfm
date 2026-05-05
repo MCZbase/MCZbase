@@ -2,7 +2,7 @@
 Annotations.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2025 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
