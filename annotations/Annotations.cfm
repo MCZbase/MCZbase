@@ -401,7 +401,7 @@ and renders results with ajax-based review update controls.
 							<div class="col-12 px-0 my-2 card border-bottom-0">
 								<div class="card-header bg-box-header-gray">
 									<h3 class="h4 mb-0">
-										<a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#encodeForHTML(publication_title)#</a>
+										<a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#publication_title#</a>
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
