@@ -246,7 +246,11 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM ci WHERE collection_object_id = #val(collection_object_id)#
+									SELECT
+										ANNOTATION_ID, annotation_display, CF_USERNAME, email,
+										ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+										reviewer_comment, mask_annotation_fg
+									FROM ci WHERE collection_object_id = #val(collection_object_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
@@ -323,7 +327,11 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM tax WHERE taxon_name_id = #val(taxon_name_id)#
+									SELECT
+										ANNOTATION_ID, annotation_display, CF_USERNAME, email,
+										ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+										reviewer_comment, mask_annotation_fg
+									FROM tax WHERE taxon_name_id = #val(taxon_name_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
@@ -395,7 +403,11 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM tax WHERE publication_id = #val(publication_id)#
+									SELECT
+										ANNOTATION_ID, annotation_display, CF_USERNAME, email,
+										ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+										reviewer_comment, mask_annotation_fg
+									FROM tax WHERE publication_id = #val(publication_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
@@ -467,7 +479,11 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM tax WHERE project_id = #val(project_id)#
+									SELECT
+										ANNOTATION_ID, annotation_display, CF_USERNAME, email,
+										ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+										reviewer_comment, mask_annotation_fg
+									FROM tax WHERE project_id = #val(project_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
