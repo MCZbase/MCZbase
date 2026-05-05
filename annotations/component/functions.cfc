@@ -963,8 +963,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<div class="col-12 col-md-2 py-1 px-1">
 					<label for="reviewed_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Reviewed?</label>
 					<select id="reviewed_fg_#arguments.annotation_id#" class="data-entry-select col-12">
-						<option value="0" <cfif val(arguments.reviewed_fg) EQ 0>selected="selected"</cfif>>No</option>
-						<option value="1" <cfif val(arguments.reviewed_fg) EQ 1>selected="selected"</cfif>>Yes</option>
+						<cfif val(arguments.reviewed_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="0" #selected#>No</option>
+						<cfif val(arguments.reviewed_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="1" #selected#>Yes</option>
 					</select>
 					<cfif len(arguments.reviewer) GT 0>
 						<div class="pt-1 small">Last review by: #encodeForHTML(arguments.reviewer)#</div>
@@ -974,8 +976,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<div class="col-12 col-md-2 py-1 px-1">
 						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Visibility:</label>
 						<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
-							<option value="0" <cfif val(arguments.mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
-							<option value="1" <cfif val(arguments.mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+							<cfif val(arguments.mask_annotation_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>Public</option>
+							<cfif val(arguments.mask_annotation_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Hidden</option>
 						</select>
 					</div>
 				</cfif>
