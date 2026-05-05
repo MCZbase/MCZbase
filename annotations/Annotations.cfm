@@ -253,17 +253,18 @@ and renders results with ajax-based review update controls.
 									FROM ci WHERE collection_object_id = #val(collection_object_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
-									<cfset rr_annotation_id = annotation_id>
-									<cfset rr_annotation_display = annotation_display>
-									<cfset rr_cf_username = CF_USERNAME>
-									<cfset rr_email = email>
-									<cfset rr_annotate_date = ANNOTATE_DATE>
-									<cfset rr_motivation = motivation>
-									<cfset rr_reviewed_fg = reviewed_fg>
-									<cfset rr_reviewer = reviewer>
-									<cfset rr_reviewer_comment = reviewer_comment>
-									<cfset rr_mask_annotation_fg = mask_annotation_fg>
-									<cfinclude template="_annotationReviewRow.cfm">
+									<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
+										annotation_id="#annotation_id#"
+										annotation_display="#annotation_display#"
+										cf_username="#CF_USERNAME#"
+										email="#email#"
+										annotate_date="#ANNOTATE_DATE#"
+										motivation="#motivation#"
+										reviewed_fg="#reviewed_fg#"
+										reviewer="#reviewer#"
+										reviewer_comment="#reviewer_comment#"
+										mask_annotation_fg="#mask_annotation_fg#">
+									#annoRowHTML#
 								</cfloop>
 							</div>
 						</cfloop>
@@ -334,17 +335,18 @@ and renders results with ajax-based review update controls.
 									FROM tax WHERE taxon_name_id = #val(taxon_name_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
-									<cfset rr_annotation_id = annotation_id>
-									<cfset rr_annotation_display = annotation_display>
-									<cfset rr_cf_username = CF_USERNAME>
-									<cfset rr_email = email>
-									<cfset rr_annotate_date = ANNOTATE_DATE>
-									<cfset rr_motivation = motivation>
-									<cfset rr_reviewed_fg = reviewed_fg>
-									<cfset rr_reviewer = reviewer>
-									<cfset rr_reviewer_comment = reviewer_comment>
-									<cfset rr_mask_annotation_fg = mask_annotation_fg>
-									<cfinclude template="_annotationReviewRow.cfm">
+									<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
+										annotation_id="#annotation_id#"
+										annotation_display="#annotation_display#"
+										cf_username="#CF_USERNAME#"
+										email="#email#"
+										annotate_date="#ANNOTATE_DATE#"
+										motivation="#motivation#"
+										reviewed_fg="#reviewed_fg#"
+										reviewer="#reviewer#"
+										reviewer_comment="#reviewer_comment#"
+										mask_annotation_fg="#mask_annotation_fg#">
+									#annoRowHTML#
 								</cfloop>
 							</div>
 						</cfloop>
@@ -410,17 +412,18 @@ and renders results with ajax-based review update controls.
 									FROM tax WHERE publication_id = #val(publication_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
-									<cfset rr_annotation_id = annotation_id>
-									<cfset rr_annotation_display = annotation_display>
-									<cfset rr_cf_username = CF_USERNAME>
-									<cfset rr_email = email>
-									<cfset rr_annotate_date = ANNOTATE_DATE>
-									<cfset rr_motivation = motivation>
-									<cfset rr_reviewed_fg = reviewed_fg>
-									<cfset rr_reviewer = reviewer>
-									<cfset rr_reviewer_comment = reviewer_comment>
-									<cfset rr_mask_annotation_fg = mask_annotation_fg>
-									<cfinclude template="_annotationReviewRow.cfm">
+									<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
+										annotation_id="#annotation_id#"
+										annotation_display="#annotation_display#"
+										cf_username="#CF_USERNAME#"
+										email="#email#"
+										annotate_date="#ANNOTATE_DATE#"
+										motivation="#motivation#"
+										reviewed_fg="#reviewed_fg#"
+										reviewer="#reviewer#"
+										reviewer_comment="#reviewer_comment#"
+										mask_annotation_fg="#mask_annotation_fg#">
+									#annoRowHTML#
 								</cfloop>
 							</div>
 						</cfloop>
@@ -486,17 +489,18 @@ and renders results with ajax-based review update controls.
 									FROM tax WHERE project_id = #val(project_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
-									<cfset rr_annotation_id = annotation_id>
-									<cfset rr_annotation_display = annotation_display>
-									<cfset rr_cf_username = CF_USERNAME>
-									<cfset rr_email = email>
-									<cfset rr_annotate_date = ANNOTATE_DATE>
-									<cfset rr_motivation = motivation>
-									<cfset rr_reviewed_fg = reviewed_fg>
-									<cfset rr_reviewer = reviewer>
-									<cfset rr_reviewer_comment = reviewer_comment>
-									<cfset rr_mask_annotation_fg = mask_annotation_fg>
-									<cfinclude template="_annotationReviewRow.cfm">
+									<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
+										annotation_id="#annotation_id#"
+										annotation_display="#annotation_display#"
+										cf_username="#CF_USERNAME#"
+										email="#email#"
+										annotate_date="#ANNOTATE_DATE#"
+										motivation="#motivation#"
+										reviewed_fg="#reviewed_fg#"
+										reviewer="#reviewer#"
+										reviewer_comment="#reviewer_comment#"
+										mask_annotation_fg="#mask_annotation_fg#">
+									#annoRowHTML#
 								</cfloop>
 							</div>
 						</cfloop>
