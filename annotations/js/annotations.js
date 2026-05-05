@@ -139,3 +139,31 @@ function setAnnotationMask(annotation_id, mask_value, resultElementId) {
 		}
 	});
 }
+
+function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_annotation_fg,feedbackDiv,callback=null) { 
+	setFeedbackControlState(feedbackDiv,"saving")
+	jQuery.ajax({
+		dataType: "json",
+		url: "/annotations/component/functions.cfc",
+		data: { 
+			method : "updateAnnotationReview",
+			annotation_id : annotation_id,
+			reviewed_fg: reviewed_fg,
+			reviewer_comment: reviwer_comment,
+			mask_annotation_fg: mask_annotation_fg,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			handleFail(jqXHR,status,message,"updating annotation review");
+			setFeedbackControlState(feedbackDiv,"error")
+		},
+		success: function (result) {
+			if (callback instanceof Function) {
+				callback();
+			}
+			setFeedbackControlState(feedbackDiv,"saved")
+		}
+	});
+}
+

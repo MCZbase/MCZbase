@@ -145,13 +145,11 @@
 								<label class="data-entry-label">Motivation</label>
 								<span class="small">#motivation#</span>
 							</td>
-							<form name="r" method="post" action="reviewAnnotation.cfm">
-								<input type="hidden" name="action" value="saveReview">
-								<input type="hidden" name="type" value="collection_object_id">
-								<input type="hidden" name="id" value="#collection_object_id#">
+							<form name="r" id="review_form_#annotation_id#" onsubmit="return false;"> 
+								<input type="hidden" name="id" value="#collection_object_id#" id="colobjid_#annotation_id#">
 								<input type="hidden" name="annotation_id" value="#annotation_id#">
-								<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
-									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
+								<td><label for="reviewed_fg_#annotation_id#" class="data-entry-label">Reviewed?</label>
+									<select name="reviewed_fg" id="reviewed_fg_#annotation_id#" class="data-entry-select">
 										<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
 										<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 									</select>
@@ -159,20 +157,32 @@
 										<span class="d-block small">
 										Last review by #reviewer#</span>
 									</cfif></td>
-								<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-									<textarea rows="3" class="" name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
+								<td><label for="reviewer_comment_#annotation_id#" class="data-entry-label">Review Comments</label>
+									<textarea rows="3" class="" name="reviewer_comment" id="reviewer_comment_#annotation_id#">#reviewer_comment#</textarea></td>
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
-									<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
-										<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
+									<td><label for="mask_annotation_fg_#annotation_id#" class="data-entry-label">Visibility</label>
+										<select name="mask_annotation_fg" id="mask_annotation_fg_#annotation_id#" class="data-entry-select">
 											<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
 											<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
 										</select>
 									</td>
 								</cfif>
-								<td><input type="submit" value="save review" class="btn btn-xs btn-primary mt-3 mb-2"></td>
+								<td>
+									<input type="button" value="save review" class="btn btn-xs btn-primary mt-3 mb-2" onClick=" doUpdate(#annotation_id#); ">
+									<output id="feedbackDiv_#annotation_id#"></output>
+								</td>
 							</form>
 						</tr>
 					</cfloop>
+					<script>
+						function doUpdate(annotation_id) { 
+							reviewed_fg = $("reviewed_fg_"+annotation_id).val();
+							reviewer_comment = $("reviewer_comment_"+annotation_id).val();
+							mask_annotation_fg = $("mask_annoation_fg_"+annotation_id).val();
+							feedback_dif = "feedbackDiv_" + annotation_id;
+							updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_annotation_fg,feedbackDiv,callback=null);
+						}
+					</script>
 					<cfset i=i+1>
 				</cfloop>
 			</table>
