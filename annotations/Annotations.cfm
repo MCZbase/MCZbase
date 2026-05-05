@@ -1,524 +1,499 @@
+<!---
+Annotations.cfm
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2025 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Review annotations page.  Provides a filter form for browsing annotations
+by specimen (collection / GUID), taxonomy (family), project, or publication,
+and renders results with ajax-based review update controls.
+--->
 <cfset pageTitle = "Review Annotations">
 <cfinclude template="/shared/_header.cfm">
-<cfif not isdefined("action")>
-	<cfset action="">
-</cfif>
 
-<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select collection cln from collection order by collection
+<!--- Explicit URL scope declarations --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif NOT isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action = ""></cfif>
+
+<cfif isDefined("url.type")><cfset variables.type = url.type></cfif>
+<cfif NOT isDefined("variables.type") OR len(variables.type) EQ 0><cfset variables.type = ""></cfif>
+
+<cfif isDefined("url.collection")><cfset variables.collection = url.collection></cfif>
+<cfif NOT isDefined("variables.collection")><cfset variables.collection = ""></cfif>
+
+<cfif isDefined("url.specimen_guid")><cfset variables.specimen_guid = trim(url.specimen_guid)></cfif>
+<cfif NOT isDefined("variables.specimen_guid")><cfset variables.specimen_guid = ""></cfif>
+
+<cfif isDefined("url.taxon_family")><cfset variables.taxon_family = url.taxon_family></cfif>
+<cfif NOT isDefined("variables.taxon_family")><cfset variables.taxon_family = ""></cfif>
+
+<cfif isDefined("url.taxon_name_id")><cfset variables.taxon_name_id = url.taxon_name_id></cfif>
+<cfif NOT isDefined("variables.taxon_name_id")><cfset variables.taxon_name_id = ""></cfif>
+
+<cfif isDefined("url.publication_id")><cfset variables.publication_id = url.publication_id></cfif>
+<cfif NOT isDefined("variables.publication_id")><cfset variables.publication_id = ""></cfif>
+
+<cfif isDefined("url.project_id")><cfset variables.project_id = url.project_id></cfif>
+<cfif NOT isDefined("variables.project_id")><cfset variables.project_id = ""></cfif>
+
+<!--- id parameter is used when linking directly to a specific specimen's annotations --->
+<cfif isDefined("url.id")><cfset variables.id = url.id></cfif>
+<cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
+
+<!--- Data queries for filter picklists --->
+<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT collection cln FROM collection ORDER BY collection
 </cfquery>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-12">
-			<cfoutput>
-				<h1 class="h2 mt-3">Annotation Review</h1>
-				<div class="form-row">
-					<div class="col-2">
-						<h3 class="h4 text-right pr-3">Filter For: </h3>
-					</div>
-					<div class="col-12 col-md-3">
-						<h3 class="h4">Specimens</h3>
-						<form name="filter" method="get" action="/annotations/Annotations.cfm">
-							<input type="hidden" name="action" value="show">
-							<input type="hidden" name="type" value="collection_object_id">
-							<label for="collection">By Collection</label>
-							<select name="collection" size="1" class="data-entry-select col-9">
-								<option value=""></option>
-								<cfloop query="c">
-									<option value="#cln#">#cln#</option>
-								</cfloop>
-							</select>
-							<input type="submit" class="btn btn-xs btn-secondary"	value="Filter">
-							<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
-						</form>
-					</div>
-					<div class="col-3">
-						<h3 class="h4">The Rest</h3>
-						<form name="filter" method="get" action="/annotations/Annotations.cfm">
-							<input type="hidden" name="action" value="show">
-							<label for="type">By Type</label>
-							<select name="type" size="1" class="col-9 data-entry-select">
-								<option value=""></option>
-								<option value="project_id">Project</option>
-								<option value="publication_id">Publication</option>
-								<option value="taxon_name_id">Taxonomy</option>
-							</select>
-							<input type="submit"  class="btn btn-xs btn-secondary" value="Filter">
-							<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
-						</form>
+
+<cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT DISTINCT taxonomy.family
+	FROM annotations
+	INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
+	WHERE taxonomy.family IS NOT NULL
+	ORDER BY taxonomy.family
+</cfquery>
+
+<main class="container-fluid" id="content">
+	<section role="search">
+		<div class="row mx-0 mb-2">
+			<div class="search-box col-12">
+				<div class="search-box-header">
+					<h1 class="h3 text-white">Review Annotations</h1>
+				</div>
+				<cfoutput>
+				<div class="col-12 px-2 py-2">
+					<div class="form-row">
+
+						<!--- Specimens filter --->
+						<div class="col-12 col-md-4 px-2 mb-2 border-right">
+							<h2 class="h5 mb-2">Specimens</h2>
+							<form id="filterSpecimens" method="get" action="/annotations/Annotations.cfm">
+								<input type="hidden" name="action" value="show">
+								<input type="hidden" name="type" value="collection_object_id">
+								<div class="form-group mb-2">
+									<label for="collection" class="data-entry-label">By Collection</label>
+									<select name="collection" id="collection" class="data-entry-select col-12">
+										<option value="">All Collections</option>
+										<cfloop query="getCollections">
+											<option value="#encodeForHTML(cln)#" <cfif variables.collection EQ cln>selected="selected"</cfif>>#encodeForHTML(cln)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="form-group mb-2">
+									<label for="specimen_guid" class="data-entry-label">By Specimen GUID</label>
+									<input type="text" name="specimen_guid" id="specimen_guid"
+										value="#encodeForHTML(variables.specimen_guid)#"
+										placeholder="e.g. MCZ:Herp:12345"
+										class="data-entry-input col-12">
+								</div>
+								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
+								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
+							</form>
+						</div>
+
+						<!--- Taxonomy filter --->
+						<div class="col-12 col-md-4 px-2 mb-2 border-right">
+							<h2 class="h5 mb-2">Taxonomy</h2>
+							<form id="filterTaxonomy" method="get" action="/annotations/Annotations.cfm">
+								<input type="hidden" name="action" value="show">
+								<input type="hidden" name="type" value="taxon_name_id">
+								<div class="form-group mb-2">
+									<label for="taxon_family" class="data-entry-label">By Family</label>
+									<select name="taxon_family" id="taxon_family" class="data-entry-select col-12">
+										<option value="">All Annotated Families</option>
+										<cfloop query="getAnnotatedFamilies">
+											<option value="#encodeForHTML(family)#" <cfif variables.taxon_family EQ family>selected="selected"</cfif>>#encodeForHTML(family)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
+								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
+							</form>
+						</div>
+
+						<!--- Other types filter --->
+						<div class="col-12 col-md-4 px-2 mb-2">
+							<h2 class="h5 mb-2">Other Types</h2>
+							<form id="filterOther" method="get" action="/annotations/Annotations.cfm">
+								<input type="hidden" name="action" value="show">
+								<div class="form-group mb-2">
+									<label for="otherType" class="data-entry-label">By Type</label>
+									<select name="type" id="otherType" class="data-entry-select col-12">
+										<option value="">Select a type</option>
+										<option value="project_id" <cfif variables.type EQ "project_id">selected="selected"</cfif>>Project</option>
+										<option value="publication_id" <cfif variables.type EQ "publication_id">selected="selected"</cfif>>Publication</option>
+									</select>
+								</div>
+								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
+								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
+							</form>
+						</div>
+
 					</div>
 				</div>
-			</cfoutput>
-
-<cfif action is "show">
-	<cfoutput>
-		<cfif type is "collection_object_id">
-			<cfif isdefined("id") and len(id) gt 0>
-				<cfset collection_object_id=id>
-			</cfif>
-			<cfquery name="ci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
-					 annotations.ANNOTATION_ID,
-					 annotations.ANNOTATE_DATE,
-					 annotations.CF_USERNAME,
-					 annotations.COLLECTION_OBJECT_ID,
-					 annotations.annotation,	 
-					 NVL(atb.body_value, annotations.annotation) annotation_display,
-					 annotations.reviewer_agent_id,
-					 preferred_agent_name.agent_name reviewer,
-					 annotations.reviewed_fg,
-					 annotations.reviewer_comment,
-					 annotations.motivation,
-					 annotations.mask_annotation_fg,
-					 collection.collection,
-					 cataloged_item.cat_num,
-					 identification.scientific_name idAs,
-					 geog_auth_rec.higher_geog,
-					 locality.spec_locality,
-					 cf_user_data.email
-				FROM
-					annotations
-					INNER JOIN cataloged_item ON annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID
-					INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
-					INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-					INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-					INNER JOIN locality ON collecting_event.locality_id = locality.locality_id
-					INNER JOIN geog_auth_rec ON locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-					LEFT OUTER JOIN (
-						SELECT annotation_id, body_value,
-						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-						FROM annotation_textualbody
-					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
-					<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
-						AND annotations.collection_object_id = #collection_object_id#
-					</cfif>
-					<cfif isdefined("collection") and len(#collection#) gt 0>
-						AND collection.collection = '#collection#'
-					</cfif>
-			</cfquery>
-			<cfquery name="catitem" dbtype="query">
-				select
-					COLLECTION_OBJECT_ID,
-					collection,
-					cat_num,
-					idAs,
-					higher_geog,
-					spec_locality
-				from 
-					ci 
-				group by
-					COLLECTION_OBJECT_ID,
-					collection,
-					cat_num,
-					idAs,
-					higher_geog,
-					spec_locality
-			</cfquery>
-			<h2 class="h3 mt-3 pl-1">Annotations</h2>
-			<table class="table table-responsive">
-				<cfset i=1>
-				<cfloop query="catitem">
-					<cfquery name="itemAnno" dbtype="query">
-						select * from ci where collection_object_id = #collection_object_id#
-					</cfquery>
-					<tr>
-						<td colspan="5">
-							<h3 class="h5 mb-1 mt-2">
-								<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> 
-								<span class="mr-3">&nbsp; Specimen ID: <em>#idAs#</em></span> 
-								<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
-							</h3>
-						</td>
-					</tr>
-					<cfloop query="itemAnno">
-						<tr>
-							<td>
-								<label class="data-entry-label">Annotation by</label>
-								<span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
-							</td>
-							<td><span class="small">#annotation_display#</span></td>
-							<td>
-								<label class="data-entry-label">Motivation</label>
-								<span class="small">#motivation#</span>
-							</td>
-							<form name="r" id="review_form_#annotation_id#" onsubmit="return false;"> 
-								<input type="hidden" name="id" value="#collection_object_id#" id="colobjid_#annotation_id#">
-								<input type="hidden" name="annotation_id" value="#annotation_id#">
-								<td><label for="reviewed_fg_#annotation_id#" class="data-entry-label">Reviewed?</label>
-									<select name="reviewed_fg" id="reviewed_fg_#annotation_id#" class="data-entry-select">
-										<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-										<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-									</select>
-									<cfif len(reviewer) gt 0>
-										<span class="d-block small">
-										Last review by #reviewer#</span>
-									</cfif></td>
-								<td><label for="reviewer_comment_#annotation_id#" class="data-entry-label">Review Comments</label>
-									<textarea rows="3" class="" name="reviewer_comment" id="reviewer_comment_#annotation_id#">#reviewer_comment#</textarea></td>
-								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
-									<td><label for="mask_annotation_fg_#annotation_id#" class="data-entry-label">Visibility</label>
-										<select name="mask_annotation_fg" id="mask_annotation_fg_#annotation_id#" class="data-entry-select">
-											<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
-											<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
-										</select>
-									</td>
-								</cfif>
-								<td>
-									<input type="button" value="save review" class="btn btn-xs btn-primary mt-3 mb-2" onClick=" doUpdate(#annotation_id#); ">
-									<output id="feedbackDiv_#annotation_id#"></output>
-								</td>
-							</form>
-						</tr>
-					</cfloop>
-					<cfset i=i+1>
-				</cfloop>
-				<script>
-					function doUpdate(annotation_id) { 
-						reviewed_fg = $("##reviewed_fg_"+annotation_id).val();
-						reviewer_comment = $("##reviewer_comment_"+annotation_id).val();
-						mask_annotation_fg = $("##mask_annoation_fg_"+annotation_id).val();
-						feedbackDiv = "feedbackDiv_" + annotation_id;
-						updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_annotation_fg,feedbackDiv,callback=null);
-					}
-				</script>
-			</table>
-			<cfelseif type is "publication_id">
-			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select 
-					publication.publication_title,
-					annotations.ANNOTATION_ID,
-					annotations.ANNOTATE_DATE,
-					annotations.CF_USERNAME,
-					annotations.annotation,	 
-					NVL(atb.body_value, annotations.annotation) annotation_display,
-					annotations.reviewer_agent_id,
-					preferred_agent_name.agent_name reviewer,
-					annotations.reviewed_fg,
-					annotations.reviewer_comment,
-					annotations.motivation,
-					annotations.mask_annotation_fg,
-					cf_user_data.email,
-					annotations.publication_id
-				FROM
-					annotations
-					INNER JOIN publication ON annotations.publication_id = publication.publication_id
-					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-					LEFT OUTER JOIN (
-						SELECT annotation_id, body_value,
-						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-						FROM annotation_textualbody
-					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
-					<cfif isdefined("publication_id") and len(publication_id) gt 0>
-						AND annotations.publication_id = #publication_id#
-					</cfif>
-			</cfquery>
-			<cfquery name="t" dbtype="query">
-				select
-					publication_title,
-					publication_id
-				from 
-					tax 
-				group by
-					publication_title,
-					publication_id
-			</cfquery>
-			<h2 class="h3">Publication Annotations</h2>
-			<table class="table table-responsive">
-				<cfset i=1>
-				<cfloop query="t">
-					<tr>
-						<td>
-							<h5 class="my-1">
-								<a href="/publications/showPublication.cfm?publication_id=#publication_id#">#publication_title#</a>
-							</h5>
-							<cfquery name="itemAnno" dbtype="query">
-								select * from tax where publication_id = #publication_id#
-							</cfquery>
-							<table class="table table-responsive">
-								<tbody class="bg-light">
-									<cfloop query="itemAnno">
-										<tr>
-											<td>
-												<label class="data-entry-label">Annotation by</label>
-												<span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
-											</td>
-											<td>
-												<label class="data-entry-label">Motivation</label>
-												<span class="small">#motivation#</span>
-											</td>
-											<td><span>#annotation_display#</span></td>
-											<form name="r" method="post" action="/annotations/Annotations.cfm">
-												<input type="hidden" name="action" value="saveReview">
-												<input type="hidden" name="type" value="publication_id">
-												<input type="hidden" name="id" value="#publication_id#">
-												<input type="hidden" name="annotation_id" value="#annotation_id#" class="data-entry-input">
-												<td>
-													<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
-													<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
-														<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-														<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-													</select>
-													<cfif len(reviewer) gt 0>
-														<span class="d-block">
-														Last review by #reviewer#</span>
-													</cfif>
-												</td>
-												<td>
-													<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-													<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input">
-												</td>
-												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
-													<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
-														<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
-															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
-															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
-														</select>
-													</td>
-												</cfif>
-												<td>
-													<input type="submit" value="save review" class="btn btn-xs mb-2 mt-3 btn-primary">
-												</td>
-											</form>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-					<cfset i=#i#+1>
-				</cfloop>
-			</table>
-			<cfelseif type is "taxon_name_id">
-			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select 
-					taxonomy.scientific_name, 
-					taxonomy.display_name,
-					annotations.ANNOTATION_ID,
-					annotations.ANNOTATE_DATE,
-					annotations.CF_USERNAME,
-					annotations.annotation,	 
-					NVL(atb.body_value, annotations.annotation) annotation_display,
-					annotations.reviewer_agent_id,
-					preferred_agent_name.agent_name reviewer,
-					annotations.reviewed_fg,
-					annotations.reviewer_comment,
-					annotations.motivation,
-					annotations.mask_annotation_fg,
-					cf_user_data.email,
-					annotations.taxon_name_id
-				FROM
-					annotations
-					INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
-					LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-					LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-					LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-					LEFT OUTER JOIN (
-						SELECT annotation_id, body_value,
-						       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-						FROM annotation_textualbody
-					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
-					<cfif isdefined("taxon_name_id") and len(taxon_name_id) gt 0>
-						AND annotations.taxon_name_id = #taxon_name_id#
-					</cfif>
-			</cfquery>
-			<cfquery name="t" dbtype="query">
-				select
-					scientific_name,
-					display_name
-				from 
-					tax 
-				group by
-					scientific_name,
-					display_name
-			</cfquery>
-			<h2 class="h3">Taxonomic Annotations</h2>
-			<table class="table table-responsive">
-				<cfset i=1>
-				<cfloop query="t">
-					<tr>
-						<td>
-							<h4 class="mt-1"><a href="/name/#scientific_name#">#display_name#</a></h4>
-							<cfquery name="itemAnno" dbtype="query">
-							select * from tax where scientific_name = '#scientific_name#'
-							</cfquery>
-							<table class="table table-responsive">
-								<tbody class="bg-light">
-									<cfloop query="itemAnno">
-										<tr>
-											<td>
-												<label class="data-entry-label px-0">Annotation by</label> 
-												<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
-											</td>
-											<td>
-												<label class="data-entry-label">Motivation</label>
-												<span class="small">#motivation#</span>
-											</td>
-											<td><span>#annotation_display#</span></td>
-											<form name="r" method="post" action="/annotations/Annotations.cfm">
-												<input type="hidden" name="action" value="saveReview">
-												<input type="hidden" name="type" value="taxon_name_id">
-												<input type="hidden" name="id" value="#taxon_name_id#">
-												<input type="hidden" name="annotation_id" value="#annotation_id#">
-												<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
-													<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
-														<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-														<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-													</select>
-													<cfif len(reviewer) gt 0>
-														<span class="d-block">
-														Last review by #reviewer#</span>
-													</cfif></td>
-												<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-													<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
-												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
-													<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
-														<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
-															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
-															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
-														</select>
-													</td>
-												</cfif>
-												<td><input type="submit" value="save review" class="btn mt-3 mb-2 btn-xs btn-primary"></td>
-											</form>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-					<cfset i=#i#+1>
-				</cfloop>
-			</table>
-			<cfelseif type is "project_id">
-			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select 
-				project.project_name,
-				annotations.ANNOTATION_ID,
-				annotations.ANNOTATE_DATE,
-				annotations.CF_USERNAME,
-				annotations.annotation,	 
-				NVL(atb.body_value, annotations.annotation) annotation_display,
-				annotations.reviewer_agent_id,
-				preferred_agent_name.agent_name reviewer,
-				annotations.reviewed_fg,
-				annotations.reviewer_comment,
-				annotations.motivation,
-				annotations.mask_annotation_fg,
-				cf_user_data.email,
-				annotations.project_id
-			FROM
-				annotations
-				INNER JOIN project ON annotations.project_id = project.project_id
-				LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-				LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-				LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-				LEFT OUTER JOIN (
-					SELECT annotation_id, body_value,
-					       ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-					FROM annotation_textualbody
-				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-				WHERE 1=1
-				<cfif isdefined("project_id") and len(project_id) gt 0>
-					AND annotations.project_id = #project_id#
-				</cfif>
-		</cfquery>
-			<cfquery name="t" dbtype="query">
-			select
-				project_name,
-				project_id
-			from 
-				tax 
-			group by
-				project_name,
-				project_id
-		</cfquery>
-			<h2 class="h4">Project Annotations</h2>
-			<table class="table border table-responsive table-striped">
-				<cfset i=1>
-				<cfloop query="t">
-					<tr>
-						<td><a href="/ProjectDetail?project_id=#project_id#">#project_name#</a>
-							<cfquery name="itemAnno" dbtype="query">
-							select * from tax where project_id = #project_id#
-						</cfquery>
-							<table class="table border table-responsive">
-								<cfloop query="itemAnno">
-									<tr>
-										<td>
-											<label class="data-entry-label">Annotation by</label>
-											<span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
-										</td>
-										<td>
-											<label class="data-entry-label">Motivation</label>
-											<span class="small">#motivation#</span>
-										</td>
-										<td class="col-4"><span>#annotation_display#</span></td>
-										<form name="r" method="post" action="/annotations/Annotations.cfm">
-											<input type="hidden" name="action" value="saveReview">
-											<input type="hidden" name="type" value="project_id">
-											<input type="hidden" name="id" value="#project_id#">
-											<input type="hidden" name="annotation_id" value="#annotation_id#">
-											<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
-												<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
-													<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-												</select>
-												<cfif len(reviewer) gt 0>
-													<span class="d-block">
-													Last review by #reviewer#</span>
-												</cfif></td>
-											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
-											<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
-												<td><label for="mask_annotation_fg" class="data-entry-label">Visibility</label>
-													<select name="mask_annotation_fg" id="mask_annotation_fg" class="data-entry-select">
-														<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
-														<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
-													</select>
-												</td>
-											</cfif>
-											<td><input type="submit" value="save review" class="btn mt-3 mb-2 btn-primary btn-xs"></td>
-										</form>
-									</tr>
-								</cfloop>
-							</table></td>
-					</tr>
-					<cfset i=#i#+1>
-				</cfloop>
-			</table>
-			<cfelse>
-			fail.
-		</cfif>
-		<!--- end collection_object_id ---> 
-	</cfoutput>
-</cfif>
-
-<cfif action is "saveReview">
-	<cfoutput>
-		<cfquery name="updateAnnotation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			update annotations set
-				REVIEWER_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-				REVIEWED_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REVIEWED_FG#">,
-				REVIEWER_COMMENT=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(REVIEWER_COMMENT)#">
-				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND isdefined("mask_annotation_fg") AND listfindnocase("0,1", trim(mask_annotation_fg)) GT 0>
-					,MASK_ANNOTATION_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_annotation_fg#">
-				</cfif>
-			where
-				annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
-		</cfquery>
-		<cflocation url="/annotations/Annotations.cfm?action=show&type=#type#&id=#id#" addtoken="false">
-	</cfoutput>
-</cfif>
-
+				</cfoutput>
+			</div>
 		</div>
-	</div>
-</div>
+	</section>
+
+	<cfif variables.action EQ "show">
+		<section class="row mx-0 mb-4">
+			<div class="col-12">
+				<cfoutput>
+
+				<!--- ============================================================
+				     Specimen annotations (type = collection_object_id)
+				     ============================================================ --->
+				<cfif variables.type EQ "collection_object_id">
+					<cfquery name="ci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							annotations.ANNOTATION_ID,
+							annotations.ANNOTATE_DATE,
+							annotations.CF_USERNAME,
+							annotations.COLLECTION_OBJECT_ID,
+							annotations.annotation,
+							NVL(atb.body_value, annotations.annotation) annotation_display,
+							annotations.reviewer_agent_id,
+							preferred_agent_name.agent_name reviewer,
+							annotations.reviewed_fg,
+							annotations.reviewer_comment,
+							annotations.motivation,
+							annotations.mask_annotation_fg,
+							collection.collection,
+							collection.collection_cde,
+							collection.institution_acronym,
+							cataloged_item.cat_num,
+							identification.scientific_name idAs,
+							geog_auth_rec.higher_geog,
+							locality.spec_locality,
+							cf_user_data.email
+						FROM
+							annotations
+							INNER JOIN cataloged_item ON annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID
+							INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
+							INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+							INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+							INNER JOIN locality ON collecting_event.locality_id = locality.locality_id
+							INNER JOIN geog_auth_rec ON locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+							LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+							LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+							LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+							LEFT OUTER JOIN (
+								SELECT annotation_id, body_value,
+									ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+								FROM annotation_textualbody
+							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+						WHERE 1=1
+						<cfif len(variables.id) GT 0 AND isNumeric(variables.id)>
+							AND annotations.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
+						</cfif>
+						<cfif len(variables.collection) GT 0>
+							AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection#">
+						</cfif>
+						<cfif len(variables.specimen_guid) GT 0>
+							AND annotations.COLLECTION_OBJECT_ID IN (
+								SELECT collection_object_id
+								FROM #session.flatTableName#
+								WHERE upper(guid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.specimen_guid)#">
+							)
+						</cfif>
+					</cfquery>
+					<cfquery name="catitem" dbtype="query">
+						SELECT
+							COLLECTION_OBJECT_ID,
+							collection,
+							collection_cde,
+							institution_acronym,
+							cat_num,
+							idAs,
+							higher_geog,
+							spec_locality
+						FROM ci
+						GROUP BY
+							COLLECTION_OBJECT_ID,
+							collection,
+							collection_cde,
+							institution_acronym,
+							cat_num,
+							idAs,
+							higher_geog,
+							spec_locality
+					</cfquery>
+					<h2 class="h3 mt-3 pl-1">Specimen Annotations</h2>
+					<cfif catitem.recordcount EQ 0>
+						<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
+					<cfelse>
+						<cfloop query="catitem">
+							<cfset specimenGuid = "#institution_acronym#:#collection_cde#:#cat_num#">
+							<div class="col-12 px-0 my-2 card border-bottom-0">
+								<div class="card-header bg-box-header-gray">
+									<h3 class="h4 mb-0">
+										<a href="/guid/#specimenGuid#" target="_blank">#encodeForHTML(specimenGuid)#</a>
+										<span class="mx-2 small">&nbsp;Current Identification: <em>#encodeForHTML(idAs)#</em></span>
+										<span class="ml-1 small">Locality: #encodeForHTML(higher_geog)#: #encodeForHTML(spec_locality)#</span>
+									</h3>
+								</div>
+								<cfquery name="itemAnno" dbtype="query">
+									SELECT * FROM ci WHERE collection_object_id = #collection_object_id#
+								</cfquery>
+								<cfloop query="itemAnno">
+									<cfset rr_annotation_id = annotation_id>
+									<cfset rr_annotation_display = annotation_display>
+									<cfset rr_cf_username = CF_USERNAME>
+									<cfset rr_email = email>
+									<cfset rr_annotate_date = ANNOTATE_DATE>
+									<cfset rr_motivation = motivation>
+									<cfset rr_reviewed_fg = reviewed_fg>
+									<cfset rr_reviewer = reviewer>
+									<cfset rr_reviewer_comment = reviewer_comment>
+									<cfset rr_mask_annotation_fg = mask_annotation_fg>
+									<cfinclude template="_annotationReviewRow.cfm">
+								</cfloop>
+							</div>
+						</cfloop>
+					</cfif>
+
+				<!--- ============================================================
+				     Taxonomy annotations (type = taxon_name_id)
+				     ============================================================ --->
+				<cfelseif variables.type EQ "taxon_name_id">
+					<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							taxonomy.scientific_name,
+							taxonomy.display_name,
+							taxonomy.family,
+							annotations.ANNOTATION_ID,
+							annotations.ANNOTATE_DATE,
+							annotations.CF_USERNAME,
+							annotations.annotation,
+							NVL(atb.body_value, annotations.annotation) annotation_display,
+							annotations.reviewer_agent_id,
+							preferred_agent_name.agent_name reviewer,
+							annotations.reviewed_fg,
+							annotations.reviewer_comment,
+							annotations.motivation,
+							annotations.mask_annotation_fg,
+							cf_user_data.email,
+							annotations.taxon_name_id
+						FROM
+							annotations
+							INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
+							LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+							LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+							LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+							LEFT OUTER JOIN (
+								SELECT annotation_id, body_value,
+									ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+								FROM annotation_textualbody
+							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+						WHERE 1=1
+						<cfif len(variables.taxon_name_id) GT 0 AND isNumeric(variables.taxon_name_id)>
+							AND annotations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
+						</cfif>
+						<cfif len(variables.taxon_family) GT 0>
+							AND upper(taxonomy.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.taxon_family)#">
+						</cfif>
+					</cfquery>
+					<cfquery name="t" dbtype="query">
+						SELECT scientific_name, display_name
+						FROM tax
+						GROUP BY scientific_name, display_name
+					</cfquery>
+					<h2 class="h3 mt-3 pl-1">Taxonomic Annotations</h2>
+					<cfif t.recordcount EQ 0>
+						<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
+					<cfelse>
+						<cfloop query="t">
+							<div class="col-12 px-0 my-2 card border-bottom-0">
+								<div class="card-header bg-box-header-gray">
+									<h3 class="h4 mb-0">
+										<a href="/name/#encodeForURL(scientific_name)#">#encodeForHTML(display_name)#</a>
+									</h3>
+								</div>
+								<cfquery name="itemAnno" dbtype="query">
+									SELECT * FROM tax WHERE scientific_name = '#scientific_name#'
+								</cfquery>
+								<cfloop query="itemAnno">
+									<cfset rr_annotation_id = annotation_id>
+									<cfset rr_annotation_display = annotation_display>
+									<cfset rr_cf_username = CF_USERNAME>
+									<cfset rr_email = email>
+									<cfset rr_annotate_date = ANNOTATE_DATE>
+									<cfset rr_motivation = motivation>
+									<cfset rr_reviewed_fg = reviewed_fg>
+									<cfset rr_reviewer = reviewer>
+									<cfset rr_reviewer_comment = reviewer_comment>
+									<cfset rr_mask_annotation_fg = mask_annotation_fg>
+									<cfinclude template="_annotationReviewRow.cfm">
+								</cfloop>
+							</div>
+						</cfloop>
+					</cfif>
+
+				<!--- ============================================================
+				     Publication annotations (type = publication_id)
+				     ============================================================ --->
+				<cfelseif variables.type EQ "publication_id">
+					<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							publication.publication_title,
+							annotations.ANNOTATION_ID,
+							annotations.ANNOTATE_DATE,
+							annotations.CF_USERNAME,
+							annotations.annotation,
+							NVL(atb.body_value, annotations.annotation) annotation_display,
+							annotations.reviewer_agent_id,
+							preferred_agent_name.agent_name reviewer,
+							annotations.reviewed_fg,
+							annotations.reviewer_comment,
+							annotations.motivation,
+							annotations.mask_annotation_fg,
+							cf_user_data.email,
+							annotations.publication_id
+						FROM
+							annotations
+							INNER JOIN publication ON annotations.publication_id = publication.publication_id
+							LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+							LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+							LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+							LEFT OUTER JOIN (
+								SELECT annotation_id, body_value,
+									ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+								FROM annotation_textualbody
+							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+						WHERE 1=1
+						<cfif len(variables.publication_id) GT 0 AND isNumeric(variables.publication_id)>
+							AND annotations.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
+						</cfif>
+					</cfquery>
+					<cfquery name="t" dbtype="query">
+						SELECT publication_title, publication_id
+						FROM tax
+						GROUP BY publication_title, publication_id
+					</cfquery>
+					<h2 class="h3 mt-3 pl-1">Publication Annotations</h2>
+					<cfif t.recordcount EQ 0>
+						<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
+					<cfelse>
+						<cfloop query="t">
+							<div class="col-12 px-0 my-2 card border-bottom-0">
+								<div class="card-header bg-box-header-gray">
+									<h3 class="h4 mb-0">
+										<a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#encodeForHTML(publication_title)#</a>
+									</h3>
+								</div>
+								<cfquery name="itemAnno" dbtype="query">
+									SELECT * FROM tax WHERE publication_id = #publication_id#
+								</cfquery>
+								<cfloop query="itemAnno">
+									<cfset rr_annotation_id = annotation_id>
+									<cfset rr_annotation_display = annotation_display>
+									<cfset rr_cf_username = CF_USERNAME>
+									<cfset rr_email = email>
+									<cfset rr_annotate_date = ANNOTATE_DATE>
+									<cfset rr_motivation = motivation>
+									<cfset rr_reviewed_fg = reviewed_fg>
+									<cfset rr_reviewer = reviewer>
+									<cfset rr_reviewer_comment = reviewer_comment>
+									<cfset rr_mask_annotation_fg = mask_annotation_fg>
+									<cfinclude template="_annotationReviewRow.cfm">
+								</cfloop>
+							</div>
+						</cfloop>
+					</cfif>
+
+				<!--- ============================================================
+				     Project annotations (type = project_id)
+				     ============================================================ --->
+				<cfelseif variables.type EQ "project_id">
+					<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							project.project_name,
+							annotations.ANNOTATION_ID,
+							annotations.ANNOTATE_DATE,
+							annotations.CF_USERNAME,
+							annotations.annotation,
+							NVL(atb.body_value, annotations.annotation) annotation_display,
+							annotations.reviewer_agent_id,
+							preferred_agent_name.agent_name reviewer,
+							annotations.reviewed_fg,
+							annotations.reviewer_comment,
+							annotations.motivation,
+							annotations.mask_annotation_fg,
+							cf_user_data.email,
+							annotations.project_id
+						FROM
+							annotations
+							INNER JOIN project ON annotations.project_id = project.project_id
+							LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
+							LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+							LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+							LEFT OUTER JOIN (
+								SELECT annotation_id, body_value,
+									ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+								FROM annotation_textualbody
+							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+						WHERE 1=1
+						<cfif len(variables.project_id) GT 0 AND isNumeric(variables.project_id)>
+							AND annotations.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+						</cfif>
+					</cfquery>
+					<cfquery name="t" dbtype="query">
+						SELECT project_name, project_id
+						FROM tax
+						GROUP BY project_name, project_id
+					</cfquery>
+					<h2 class="h3 mt-3 pl-1">Project Annotations</h2>
+					<cfif t.recordcount EQ 0>
+						<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
+					<cfelse>
+						<cfloop query="t">
+							<div class="col-12 px-0 my-2 card border-bottom-0">
+								<div class="card-header bg-box-header-gray">
+									<h3 class="h4 mb-0">
+										<a href="/ProjectDetail?project_id=#encodeForURL(project_id)#">#encodeForHTML(project_name)#</a>
+									</h3>
+								</div>
+								<cfquery name="itemAnno" dbtype="query">
+									SELECT * FROM tax WHERE project_id = #project_id#
+								</cfquery>
+								<cfloop query="itemAnno">
+									<cfset rr_annotation_id = annotation_id>
+									<cfset rr_annotation_display = annotation_display>
+									<cfset rr_cf_username = CF_USERNAME>
+									<cfset rr_email = email>
+									<cfset rr_annotate_date = ANNOTATE_DATE>
+									<cfset rr_motivation = motivation>
+									<cfset rr_reviewed_fg = reviewed_fg>
+									<cfset rr_reviewer = reviewer>
+									<cfset rr_reviewer_comment = reviewer_comment>
+									<cfset rr_mask_annotation_fg = mask_annotation_fg>
+									<cfinclude template="_annotationReviewRow.cfm">
+								</cfloop>
+							</div>
+						</cfloop>
+					</cfif>
+
+				<cfelse>
+					<p class="mt-3 text-muted pl-1">Please select a filter above and click Filter to view annotations.</p>
+				</cfif>
+
+				</cfoutput>
+			</div>
+		</section>
+	</cfif>
+
+</main>
 <cfinclude template="/shared/_footer.cfm">

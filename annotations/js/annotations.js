@@ -167,3 +167,18 @@ function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_
 	});
 }
 
+
+/** doAnnotationUpdate reads review form field values for a given annotation and
+ * calls updateAnnotationReview() to save the review via ajax.
+ *
+ * @param annotation_id the numeric primary key of the annotation to update.
+ */
+function doAnnotationUpdate(annotation_id) {
+	var reviewed_fg = $("#reviewed_fg_" + annotation_id).val();
+	var reviewer_comment = $("#reviewer_comment_" + annotation_id).val();
+	var mask_annotation_fg = "";
+	var maskEl = document.getElementById("mask_annotation_fg_" + annotation_id);
+	if (maskEl) { mask_annotation_fg = maskEl.value; }
+	var feedbackDivId = "feedbackDiv_" + annotation_id;
+	updateAnnotationReview(annotation_id, reviewed_fg, reviewer_comment, mask_annotation_fg, feedbackDivId, null);
+}
