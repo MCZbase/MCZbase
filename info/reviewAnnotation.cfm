@@ -174,17 +174,17 @@
 							</form>
 						</tr>
 					</cfloop>
-					<script>
-						function doUpdate(annotation_id) { 
-							reviewed_fg = $("reviewed_fg_"+annotation_id).val();
-							reviewer_comment = $("reviewer_comment_"+annotation_id).val();
-							mask_annotation_fg = $("mask_annoation_fg_"+annotation_id).val();
-							feedback_dif = "feedbackDiv_" + annotation_id;
-							updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_annotation_fg,feedbackDiv,callback=null);
-						}
-					</script>
 					<cfset i=i+1>
 				</cfloop>
+				<script>
+					function doUpdate(annotation_id) { 
+						reviewed_fg = $("reviewed_fg_"+annotation_id).val();
+						reviewer_comment = $("reviewer_comment_"+annotation_id).val();
+						mask_annotation_fg = $("mask_annoation_fg_"+annotation_id).val();
+						feedback_dif = "feedbackDiv_" + annotation_id;
+						updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_annotation_fg,feedbackDiv,callback=null);
+					}
+				</script>
 			</table>
 			<cfelseif type is "publication_id">
 			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
