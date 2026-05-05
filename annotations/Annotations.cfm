@@ -246,7 +246,7 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM ci WHERE collection_object_id = #collection_object_id#
+									SELECT * FROM ci WHERE collection_object_id = #val(collection_object_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
@@ -307,9 +307,9 @@ and renders results with ajax-based review update controls.
 						</cfif>
 					</cfquery>
 					<cfquery name="t" dbtype="query">
-						SELECT scientific_name, display_name
+						SELECT taxon_name_id, scientific_name, display_name
 						FROM tax
-						GROUP BY scientific_name, display_name
+						GROUP BY taxon_name_id, scientific_name, display_name
 					</cfquery>
 					<h2 class="h3 mt-3 pl-1">Taxonomic Annotations</h2>
 					<cfif t.recordcount EQ 0>
@@ -323,7 +323,7 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM tax WHERE scientific_name = '#scientific_name#'
+									SELECT * FROM tax WHERE taxon_name_id = #val(taxon_name_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
@@ -395,7 +395,7 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM tax WHERE publication_id = #publication_id#
+									SELECT * FROM tax WHERE publication_id = #val(publication_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
@@ -467,7 +467,7 @@ and renders results with ajax-based review update controls.
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
-									SELECT * FROM tax WHERE project_id = #project_id#
+									SELECT * FROM tax WHERE project_id = #val(project_id)#
 								</cfquery>
 								<cfloop query="itemAnno">
 									<cfset rr_annotation_id = annotation_id>
