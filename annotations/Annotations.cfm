@@ -53,15 +53,22 @@ and renders results with ajax-based review update controls.
 <cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
 
 <!--- Data queries for filter picklists --->
-<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT collection cln FROM collection ORDER BY collection
+<cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT 
+      count(annotation_id) as ct, collection.collection
+   FROM collection 
+      JOIN cataloged_item ON collection.collection_id = cataloged_item.collection_id
+      JOIN annotations ON cataloged_item.collection_object_id = annotations.collection_object_id
+   GROUP BY collection.collection
+   ORDER BY collection
 </cfquery>
 
 <cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT DISTINCT taxonomy.family
+	SELECT count(annotation_id) as ct, taxonomy.family
 	FROM annotations
 	INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
 	WHERE taxonomy.family IS NOT NULL
+   GROUP BY taxonomy.family
 	ORDER BY taxonomy.family
 </cfquery>
 
@@ -83,13 +90,21 @@ and renders results with ajax-based review update controls.
 								<input type="hidden" name="action" value="show">
 								<input type="hidden" name="type" value="collection_object_id">
 								<div class="form-group mb-2">
-									<label for="collection" class="data-entry-label">By Collection</label>
+									<label for="collection" class="data-entry-label">Annotations on Specimens</label>
 									<select name="collection" id="collection" class="data-entry-select col-12">
 										<option value="">All Collections</option>
-										<cfloop query="getCollections">
-											<option value="#encodeForHTML(cln)#" <cfif variables.collection EQ cln>selected="selected"</cfif>>#encodeForHTML(cln)#</option>
+										<cfloop query="getAnnotatedCollections">
+											<cfif variables.collection EQ getAnnotatedCollections.collection><cfset selected="selected='selected'"<cfelse><cfset selected=""></cfif>
+											<option value="#encodeForHTML(getAnnotatedCollections.collection)#" #selected#>#encodeForHTML(getAnnotatedCollections.collection)# (#getAnnotatedCollections.ct#)</option>
 										</cfloop>
 									</select>
+									<script>
+										$(document).ready(function() {
+											$("#collection").change(function() {
+												$("#specimen_guid").val("");
+											});
+										});
+									</script>
 								</div>
 								<div class="form-group mb-2">
 									<label for="specimen_guid" class="data-entry-label">By Specimen GUID</label>
@@ -105,7 +120,7 @@ and renders results with ajax-based review update controls.
 
 						<!--- Taxonomy filter --->
 						<div class="col-12 col-md-4 px-2 mb-2 border-right">
-							<h2 class="h5 mb-2">Taxonomy</h2>
+							<h2 class="h5 mb-2">Annotations on Taxon Records</h2>
 							<form id="filterTaxonomy" method="get" action="/annotations/Annotations.cfm">
 								<input type="hidden" name="action" value="show">
 								<input type="hidden" name="type" value="taxon_name_id">
@@ -114,7 +129,8 @@ and renders results with ajax-based review update controls.
 									<select name="taxon_family" id="taxon_family" class="data-entry-select col-12">
 										<option value="">All Annotated Families</option>
 										<cfloop query="getAnnotatedFamilies">
-											<option value="#encodeForHTML(family)#" <cfif variables.taxon_family EQ family>selected="selected"</cfif>>#encodeForHTML(family)#</option>
+											<cfif variables.taxon_family EQ getAnnotatedFamilies.family><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+											<option value="#encodeForHTML(family)#" #selected#>#encodeForHTML(family)# (#getAnnotatedFamilies.ct#)</option>
 										</cfloop>
 									</select>
 								</div>
@@ -124,16 +140,29 @@ and renders results with ajax-based review update controls.
 						</div>
 
 						<!--- Other types filter --->
+						<!--- count how many projects have annotations --->
+						<cfquery name="countProjectAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT COUNT(DISTINCT project_id) AS ct
+							FROM annotations
+							WHERE project_id IS NOT NULL
+						</cfquery>
+						<cfquery name="countPublicationAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT COUNT(DISTINCT publication_id) AS ct
+							FROM annotations
+							WHERE publication_id IS NOT NULL
+						</cfquery>
 						<div class="col-12 col-md-4 px-2 mb-2">
-							<h2 class="h5 mb-2">Other Types</h2>
+							<h2 class="h5 mb-2">Other Annotation Targets</h2>
 							<form id="filterOther" method="get" action="/annotations/Annotations.cfm">
 								<input type="hidden" name="action" value="show">
 								<div class="form-group mb-2">
 									<label for="otherType" class="data-entry-label">By Type</label>
 									<select name="type" id="otherType" class="data-entry-select col-12">
 										<option value="">Select a type</option>
-										<option value="project_id" <cfif variables.type EQ "project_id">selected="selected"</cfif>>Project</option>
-										<option value="publication_id" <cfif variables.type EQ "publication_id">selected="selected"</cfif>>Publication</option>
+										<cfif variables.type EQ "project_id"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+										<option value="project_id" #selected#>Project (#countProjectAnnotations.ct#)</option>
+										<cfif variables.type EQ "publication_id"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+										<option value="publication_id" #selected#>Publication (#countPublicationAnnotations.ct#)</option>
 									</select>
 								</div>
 								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
