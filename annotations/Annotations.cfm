@@ -100,8 +100,8 @@ and renders results with ajax-based review update controls.
 									</select>
 									<script>
 										$(document).ready(function() {
-											$("#collection").change(function() {
-												$("#specimen_guid").val("");
+											$("##collection").change(function() {
+												$("##specimen_guid").val("");
 											});
 										});
 									</script>
