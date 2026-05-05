@@ -18,7 +18,7 @@
 					</div>
 					<div class="col-12 col-md-3">
 						<h3 class="h4">Specimens</h3>
-						<form name="filter" method="get" action="reviewAnnotation.cfm">
+						<form name="filter" method="get" action="/annotations/Annotations.cfm">
 							<input type="hidden" name="action" value="show">
 							<input type="hidden" name="type" value="collection_object_id">
 							<label for="collection">By Collection</label>
@@ -34,7 +34,7 @@
 					</div>
 					<div class="col-3">
 						<h3 class="h4">The Rest</h3>
-						<form name="filter" method="get" action="reviewAnnotation.cfm">
+						<form name="filter" method="get" action="/annotations/Annotations.cfm">
 							<input type="hidden" name="action" value="show">
 							<label for="type">By Type</label>
 							<select name="type" size="1" class="col-9 data-entry-select">
@@ -254,7 +254,7 @@
 												<span class="small">#motivation#</span>
 											</td>
 											<td><span>#annotation_display#</span></td>
-											<form name="r" method="post" action="reviewAnnotation.cfm">
+											<form name="r" method="post" action="/annotations/Annotations.cfm">
 												<input type="hidden" name="action" value="saveReview">
 												<input type="hidden" name="type" value="publication_id">
 												<input type="hidden" name="id" value="#publication_id#">
@@ -362,7 +362,7 @@
 												<span class="small">#motivation#</span>
 											</td>
 											<td><span>#annotation_display#</span></td>
-											<form name="r" method="post" action="reviewAnnotation.cfm">
+											<form name="r" method="post" action="/annotations/Annotations.cfm">
 												<input type="hidden" name="action" value="saveReview">
 												<input type="hidden" name="type" value="taxon_name_id">
 												<input type="hidden" name="id" value="#taxon_name_id#">
@@ -461,7 +461,7 @@
 											<span class="small">#motivation#</span>
 										</td>
 										<td class="col-4"><span>#annotation_display#</span></td>
-										<form name="r" method="post" action="reviewAnnotation.cfm">
+										<form name="r" method="post" action="/annotations/Annotations.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="project_id">
 											<input type="hidden" name="id" value="#project_id#">
@@ -514,7 +514,7 @@
 			where
 				annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 		</cfquery>
-		<cflocation url="reviewAnnotation.cfm?action=show&type=#type#&id=#id#" addtoken="false">
+		<cflocation url="/annotations/Annotations.cfm?action=show&type=#type#&id=#id#" addtoken="false">
 	</cfoutput>
 </cfif>
 

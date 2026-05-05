@@ -63,7 +63,7 @@ limitations under the License.
 						<cfloop query="d">
 							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name#" >
 							<!--- TODO: Manage dialog for individual annotations --->
-							<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=collection_object_id&collection=#d.collection#&collection_object_id=#collection_object_id#">
+							<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=collection_object_id&collection=#d.collection#&collection_object_id=#collection_object_id#">
 						</cfloop>
 						<!--- TODO: Change from fixed foreign key fields to primarykey/targettable pair to generalize annotations to any object type --->
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -159,7 +159,7 @@ limitations under the License.
 							order by annotations.STATE, annotate_date
 						</cfquery>
 						<!--- TODO: Manage dialog for individual annotations --->
-						<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=taxon_name_id&taxon_name_id=#taxon_name_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=taxon_name_id&taxon_name_id=#taxon_name_id#">
 					</cfcase>
 					<cfcase value="project">
 						<cfset project_id = target_id>
@@ -214,7 +214,7 @@ limitations under the License.
 							order by annotations.STATE, annotate_date
 						</cfquery>
 						<!--- TODO: Manage dialog for individual annotations --->
-						<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=project_id&project_id=#project_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=project_id&project_id=#project_id#">
 					</cfcase>
 					<cfcase value="publication">
 						<cfset publication_id = target_id>
@@ -608,7 +608,7 @@ An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name
     			</blockquote>
     
     			View details at
-    			<a href="#Application.ServerRootUrl#/info/reviewAnnotation.cfm?action=show&type=#target_type#&id=#target_id#">
+    			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#target_type#&id=#target_id#">
     			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#target_type#&id=#target_id#
     			</a>
 			</cfmail>

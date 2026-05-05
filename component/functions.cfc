@@ -5007,7 +5007,7 @@
     			</blockquote>
 
     			View details at
-    			<a href="#Application.ServerRootUrl#/info/reviewAnnotation.cfm?action=show&type=#idType#&id=#idvalue#">
+    			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#idType#&id=#idvalue#">
     			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#idType#&id=#idvalue#
     			</a>
     		</cfmail>
