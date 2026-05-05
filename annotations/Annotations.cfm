@@ -94,7 +94,7 @@ and renders results with ajax-based review update controls.
 									<select name="collection" id="collection" class="data-entry-select col-12">
 										<option value="">All Collections</option>
 										<cfloop query="getAnnotatedCollections">
-											<cfif variables.collection EQ getAnnotatedCollections.collection><cfset selected="selected='selected'"<cfelse><cfset selected=""></cfif>
+											<cfif variables.collection EQ getAnnotatedCollections.collection><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
 											<option value="#encodeForHTML(getAnnotatedCollections.collection)#" #selected#>#encodeForHTML(getAnnotatedCollections.collection)# (#getAnnotatedCollections.ct#)</option>
 										</cfloop>
 									</select>
