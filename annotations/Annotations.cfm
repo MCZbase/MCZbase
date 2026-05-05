@@ -324,7 +324,7 @@ and renders results with ajax-based review update controls.
 							<div class="col-12 px-0 my-2 card border-bottom-0">
 								<div class="card-header bg-box-header-gray">
 									<h3 class="h4 mb-0">
-										<a href="/name/#encodeForURL(scientific_name)#">#encodeForHTML(display_name)#</a>
+										<a href="/name/#encodeForURL(scientific_name)#">#display_name#</a>
 									</h3>
 								</div>
 								<cfquery name="itemAnno" dbtype="query">
