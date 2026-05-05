@@ -68,7 +68,7 @@ and renders results with ajax-based review update controls.
 <main class="container-fluid" id="content">
 	<section role="search">
 		<div class="row mx-0 mb-2">
-			<div class="search-box col-12">
+			<div class="search-box col-12 px-0">
 				<div class="search-box-header">
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
