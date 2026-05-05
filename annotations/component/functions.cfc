@@ -908,4 +908,97 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
+
+<!--- Render HTML for a single annotation review row card.
+ Returns a card-body div with annotation details, review controls, and an ajax Save Review button.
+ @param annotation_id       numeric annotation primary key
+ @param annotation_display  annotation body text (may contain trusted HTML from annotation_textualbody)
+ @param cf_username         annotator login username
+ @param email               annotator e-mail address
+ @param annotate_date       date the annotation was created
+ @param motivation          annotation motivation string
+ @param reviewed_fg         0 or 1 indicating whether the annotation has been reviewed
+ @param reviewer            preferred name of the last reviewer, or empty string
+ @param reviewer_comment    reviewer comment text
+ @param mask_annotation_fg  0 or 1 annotation visibility flag
+ @return html string for one annotation review card row
+--->
+<cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
+	<cfargument name="annotation_id"      type="string" required="yes">
+	<cfargument name="annotation_display" type="string" required="yes">
+	<cfargument name="cf_username"        type="string" required="yes">
+	<cfargument name="email"              type="string" required="no" default="">
+	<cfargument name="annotate_date"      type="string" required="yes">
+	<cfargument name="motivation"         type="string" required="no" default="">
+	<cfargument name="reviewed_fg"        type="string" required="yes">
+	<cfargument name="reviewer"           type="string" required="no" default="">
+	<cfargument name="reviewer_comment"   type="string" required="no" default="">
+	<cfargument name="mask_annotation_fg" type="string" required="no" default="0">
+
+	<cfset showVisibility = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+
+	<cfsavecontent variable="rowHTML">
+		<cfoutput>
+		<div class="card-body bg-light border-bottom py-2">
+			<div class="form-row mx-0 col-12 px-0">
+				<div class="col-12 col-md-5 pt-2 px-1">
+					<span class="data-entry-label font-weight-bold">Annotation:</span>
+					<!--- annotation_display is the stored annotation body from annotation_textualbody.body_value or annotations.annotation; trusted database content, not user-provided input --->
+					<div class="px-1 small">#arguments.annotation_display#</div>
+				</div>
+				<div class="col-12 col-md-4 pt-2 px-1">
+					<span class="data-entry-label font-weight-bold">Annotator:</span>
+					<div class="px-1 small">
+						<strong>#encodeForHTML(arguments.cf_username)#</strong>
+						(#encodeForHTML(arguments.email)#)
+						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
+					</div>
+				</div>
+				<div class="col-12 col-md-3 pt-2 px-1">
+					<span class="data-entry-label font-weight-bold">Motivation:</span>
+					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
+				</div>
+			</div>
+			<div class="form-row mx-0 col-12 px-0 pt-1">
+				<div class="col-12 col-md-2 py-1 px-1">
+					<label for="reviewed_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Reviewed?</label>
+					<select id="reviewed_fg_#arguments.annotation_id#" class="data-entry-select col-12">
+						<cfif val(arguments.reviewed_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="0" #selected#>No</option>
+						<cfif val(arguments.reviewed_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="1" #selected#>Yes</option>
+					</select>
+					<cfif len(arguments.reviewer) GT 0>
+						<div class="pt-1 small">Last review by: #encodeForHTML(arguments.reviewer)#</div>
+					</cfif>
+				</div>
+				<cfif showVisibility>
+					<div class="col-12 col-md-2 py-1 px-1">
+						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Visibility:</label>
+						<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
+							<cfif val(arguments.mask_annotation_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>Public</option>
+							<cfif val(arguments.mask_annotation_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Hidden</option>
+						</select>
+					</div>
+				</cfif>
+				<div class="col-12 col-md-6 py-1 px-1">
+					<label for="reviewer_comment_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Review Comments</label>
+					<textarea id="reviewer_comment_#arguments.annotation_id#" class="data-entry-textarea col-12" rows="2" maxlength="4000">#encodeForHTML(arguments.reviewer_comment)#</textarea>
+				</div>
+				<div class="col-12 col-md-2 pt-3 px-1">
+					<div>
+						<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save Review</button>
+						<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite"></output>
+					</div>
+				</div>
+			</div>
+		</div>
+		</cfoutput>
+	</cfsavecontent>
+
+	<cfreturn trim(rowHTML)>
+</cffunction>
+
 </cfcomponent>
