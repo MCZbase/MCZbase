@@ -196,7 +196,7 @@ and renders results with ajax-based review update controls.
 								FROM annotation_textualbody
 							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 						WHERE 1=1
-						<cfif len(variables.id) GT 0 AND isNumeric(variables.id)>
+						<cfif isDefined("variables.id") AND len(variables.id) GT 0>
 							AND annotations.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
 						</cfif>
 						<cfif len(variables.collection) GT 0>
@@ -304,7 +304,7 @@ and renders results with ajax-based review update controls.
 								FROM annotation_textualbody
 							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 						WHERE 1=1
-						<cfif len(variables.taxon_name_id) GT 0 AND isNumeric(variables.taxon_name_id)>
+						<cfif isDefined("variables.taxon_name_id") AND len(variables.taxon_name_id) GT 0>
 							AND annotations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
 						</cfif>
 						<cfif len(variables.taxon_family) GT 0>
@@ -384,7 +384,7 @@ and renders results with ajax-based review update controls.
 								FROM annotation_textualbody
 							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 						WHERE 1=1
-						<cfif len(variables.publication_id) GT 0 AND isNumeric(variables.publication_id)>
+						<cfif isDefined("variables.publication_id") AND len(variables.publication_id) GT 0>
 							AND annotations.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 						</cfif>
 					</cfquery>
@@ -461,7 +461,7 @@ and renders results with ajax-based review update controls.
 								FROM annotation_textualbody
 							) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 						WHERE 1=1
-						<cfif len(variables.project_id) GT 0 AND isNumeric(variables.project_id)>
+						<cfif isDefined("variables.project_id") AND len(variables.project_id) GT 0>
 							AND annotations.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
 						</cfif>
 					</cfquery>
