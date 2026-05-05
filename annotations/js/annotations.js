@@ -149,7 +149,7 @@ function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_
 			method : "updateAnnotationReview",
 			annotation_id : annotation_id,
 			reviewed_fg: reviewed_fg,
-			reviewer_comment: reviwer_comment,
+			reviewer_comment: reviewer_comment,
 			mask_annotation_fg: mask_annotation_fg,
 			returnformat : "json",
 			queryformat : 'column'
