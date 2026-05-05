@@ -923,7 +923,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param mask_annotation_fg  0 or 1 annotation visibility flag
  @return html string for one annotation review card row
 --->
-<cffunction name="renderAnnotationReviewRow" returntype="string" access="public" output="false">
+<cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
 	<cfargument name="annotation_id"      type="string" required="yes">
 	<cfargument name="annotation_display" type="string" required="yes">
 	<cfargument name="cf_username"        type="string" required="yes">
@@ -943,6 +943,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="col-12 col-md-5 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold">Annotation:</span>
+					<!--- annotation_display is the stored annotation body from annotation_textualbody.body_value or annotations.annotation; trusted database content, not user-provided input --->
 					<div class="px-1 small">#arguments.annotation_display#</div>
 				</div>
 				<div class="col-12 col-md-4 pt-2 px-1">
