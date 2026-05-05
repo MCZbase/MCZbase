@@ -178,9 +178,9 @@
 				</cfloop>
 				<script>
 					function doUpdate(annotation_id) { 
-						reviewed_fg = $("reviewed_fg_"+annotation_id).val();
-						reviewer_comment = $("reviewer_comment_"+annotation_id).val();
-						mask_annotation_fg = $("mask_annoation_fg_"+annotation_id).val();
+						reviewed_fg = $("#reviewed_fg_"+annotation_id).val();
+						reviewer_comment = $("#reviewer_comment_"+annotation_id).val();
+						mask_annotation_fg = $("#mask_annoation_fg_"+annotation_id).val();
 						feedbackDiv = "feedbackDiv_" + annotation_id;
 						updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_annotation_fg,feedbackDiv,callback=null);
 					}
