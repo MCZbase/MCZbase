@@ -983,7 +983,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<label for="reviewer_comment_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Review Comments</label>
 					<textarea id="reviewer_comment_#arguments.annotation_id#" class="data-entry-textarea col-12" rows="2" maxlength="4000">#encodeForHTML(arguments.reviewer_comment)#</textarea>
 				</div>
-				<div class="col-12 col-md-2 py-1 px-1 d-flex align-items-end">
+				<div class="col-12 col-md-2 pt-3 px-1">
 					<div>
 						<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save Review</button>
 						<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite"></output>
