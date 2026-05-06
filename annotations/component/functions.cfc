@@ -608,7 +608,7 @@ An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name
     
     			View details at
     			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#target_type#&id=#target_id#">
-    			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#target_type#&id=#target_id#
+    			#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#target_type#&id=#target_id#
     			</a>
 			</cfmail>
 			<cfset newline= Chr(13) & Chr(10)>
