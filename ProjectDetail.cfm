@@ -1,3 +1,4 @@
+<!--- jquery11=true: added to load jQuery UI (required by annotation dialog); remove on page redesign to shared/_header.cfm --->
 <cfset jquery11 = true>
 <cfinclude template = "includes/_header.cfm">
  
@@ -157,6 +158,9 @@
 	</cfquery>
 	<span class="annotateSpace">
 		<cfif len(session.username) gt 0>
+			<!--- Dependencies for annotation dialog: added because this page uses includes/_header.cfm
+			      which loads jQuery 1.3.2 only. Remove these script tags when this page is redesigned
+			      to use shared/_header.cfm (which provides jQuery UI and shared-scripts automatically). --->
 			<script type="text/javascript" src="/annotations/js/annotations.js"></script>
 			<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
