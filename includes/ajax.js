@@ -134,53 +134,6 @@ function findPart_Atrribute(partFld2,attType,partName){
     attributepick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
 }
 
-function saveThisAnnotation() {
-	var idType = document.getElementById("idtype").value;
-	var idvalue = document.getElementById("idvalue").value;
-	var annotation = document.getElementById("annotation").value;
-	if (annotation.length==0){
-		alert('You must enter an annotation to save.');
-		return false;
-	}
-	$.getJSON("/component/functions.cfc",
-		{
-			method : "addAnnotation",
-			idType : idType,
-			idvalue : idvalue,
-			annotation : annotation,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function(r) {
-			if (r == 'success') {
-				closeAnnotation();
-				alert("Your annotations have been saved, and the appropriate curator will be alerted. \n Thank you for helping improve Arctos!");
-			} else {
-				alert('An error occured! \n ' + r);
-			}	
-		}
-	);
-}
-function openAnnotation(q) {
-	var bgDiv = document.createElement('div');
-	bgDiv.id = 'bgDiv';
-	bgDiv.className = 'bgDiv';
-	bgDiv.setAttribute('onclick','closeAnnotation()');
-	document.body.appendChild(bgDiv);
-	
-	var theDiv = document.createElement('div');
-	theDiv.id = 'annotateDiv';
-	theDiv.className = 'annotateBox';
-	theDiv.innerHTML='';
-	theDiv.src = "";
-	document.body.appendChild(theDiv);
-	var guts = "/info/annotate.cfm?q=" + q;
-	jQuery('#annotateDiv').load(guts,{},function(){
-		viewport.init("#annotateDiv");
-		viewport.init("#bgDiv");
-	});
-}
-
 function npPage(offset,rpp,tnid){
 	var stm = "/includes/taxonomy/specTaxMedia.cfm";
 	var v="?Result_Per_Page=" + rpp + "&offset=" + offset + "&taxon_name_id=" + tnid;
@@ -189,12 +142,6 @@ function npPage(offset,rpp,tnid){
 	jQuery.get(stm, function(data){
 		jQuery('#specTaxMedia').html(data);
 	})
-}
-function closeAnnotation() {
-	var theDiv = document.getElementById('bgDiv');
-	document.body.removeChild(theDiv);
-	var theDiv = document.getElementById('annotateDiv');
-	document.body.removeChild(theDiv);
 }
 function saveSearch(returnURL){
 	var sName=prompt("Name this search", "my search");

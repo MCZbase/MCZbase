@@ -70,6 +70,9 @@
 <!-------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
+	<cfif len(session.username) gt 0>
+		<script type="text/javascript" src="/annotations/js/annotations.js"></script>
+	</cfif>
 	<cfset title = "Usage Search Results">
 	<cfset emptyPubQueryMessage = "">
 	<cfset emptyProjQueryMessage = "">
@@ -374,7 +377,8 @@
 					#agent_name# (#project_agent_role#)<br>
 				</cfloop>
 				#dateformat(start_date,"yyyy-mm-dd")# - #dateformat(end_date,"yyyy-mm-dd")#
-				<br><a href="javascript: openAnnotation('project_id=#project_id#')">Annotate</a>
+				<br><button type="button" class="btn btn-xs btn-info" onClick="openAnnotationsDialog('annotationDialog_project_#project_id#','project',#project_id#,null);">Annotate</button>
+				<div id="annotationDialog_project_#project_id#"></div>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<br><a href="/Project.cfm?Action=editProject&project_id=#project_id#">Edit</a>
 				</cfif>
@@ -446,7 +450,8 @@
 				#replace(pubs.formatted_publication, pubs.doi, "<a target=""_blank"" href=""https://doi.org/" & pubs.doi & """>" & pubs.doi &"</a>")#
 			</p>
 			<ul>
-				<li><a href="javascript: openAnnotation('publication_id=#publication_id#')">Annotate</a></li>
+				<li><button type="button" class="btn btn-xs btn-info" onClick="openAnnotationsDialog('annotationDialog_pub_#publication_id#','publication',#publication_id#,null);">Annotate</button>
+				<div id="annotationDialog_pub_#publication_id#"></div></li>
 				<li>
 					<cfif numCits gt 0>
 						<a href="/SpecimenResults.cfm?publication_id=#publication_id#">#numCits# Cited Specimens</a>

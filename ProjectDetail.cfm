@@ -156,16 +156,24 @@
 	</cfquery>
 	<span class="annotateSpace">
 		<cfif len(session.username) gt 0>
+			<script type="text/javascript" src="/annotations/js/annotations.js"></script>
 			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) cnt from annotations
 				where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 			</cfquery>
-			<a href="javascript: openAnnotation('project_id=#project_id#')">
-				[Annotate]							
-			<cfif #existingAnnotations.cnt# gt 0>
+			<cfif existingAnnotations.cnt GT 0>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
+					onClick="openAnnotationsDialog('annotationDialog','project',#project_id#,null);">Annotate/View Annotations</button>
+			<cfelse>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="btn btn-xs btn-info" value="Annotate this record"
+					onClick="openAnnotationsDialog('annotationDialog','project',#project_id#,null);">Annotate</button>
+			</cfif>
+			<div id="annotationDialog"></div>
+			<cfif existingAnnotations.cnt gt 0>
 				<br>(#existingAnnotations.cnt# existing)
 			</cfif>
-			</a>
 		<cfelse>
 			<a href="/login.cfm">Login or Create Account</a>
 		</cfif>

@@ -282,7 +282,7 @@ limitations under the License.
 									<h2 class="h3 my-0 px-1 py-2" tabindex="0">Annotations for #summary#</h2>
 								</div>
 								<div class="row col-12 mx-0 mt-3 d-block">
-									<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
+									<form name="annotate" method="post" action="/annotations/component/functions.cfc" class="form-row">
 										<input type="hidden" name="action" value="insert">
 										<input type="hidden" name="idtype" id="idtype" value="#target_type#">
 										<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
@@ -550,6 +550,8 @@ limitations under the License.
 						taxon_name_id,
 					<cfelseif target_type EQ 'publication'>
 						publication_id,
+					<cfelseif target_type EQ 'project'>
+						project_id,
 					</cfif>
 					annotation,
 					target_table, 
