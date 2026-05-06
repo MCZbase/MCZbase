@@ -491,8 +491,16 @@ limitations under the License.
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
+			<cfcase value="project">
+				<cfset annotatable = true>
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select 'Project:' || project_name as annorecord
+					from project
+					where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
 			<cfdefaultcase>
-				<cfthrow message="Only annotation of collection objects, publications, and taxa are supported at this time">
+				<cfthrow message="Only annotation of collection objects, projects, publications, and taxa are supported at this time">
 			</cfdefaultcase>
 		</cfswitch>
 	<cfcatch>
