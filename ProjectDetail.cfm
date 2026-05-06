@@ -1,3 +1,4 @@
+<cfset jquery11 = true>
 <cfinclude template = "includes/_header.cfm">
  
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -157,6 +158,10 @@
 	<span class="annotateSpace">
 		<cfif len(session.username) gt 0>
 			<script type="text/javascript" src="/annotations/js/annotations.js"></script>
+			<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
+			</cfif>
 			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) cnt from annotations
 				where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">

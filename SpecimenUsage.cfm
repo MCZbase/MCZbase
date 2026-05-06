@@ -1,3 +1,4 @@
+<cfset jquery11 = true>
 <cfinclude template = "includes/_header.cfm">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -72,6 +73,10 @@
 <cfoutput>
 	<cfif len(session.username) gt 0>
 		<script type="text/javascript" src="/annotations/js/annotations.js"></script>
+		<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
+		</cfif>
 	</cfif>
 	<cfset title = "Usage Search Results">
 	<cfset emptyPubQueryMessage = "">
