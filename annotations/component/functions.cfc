@@ -536,13 +536,13 @@ limitations under the License.
 				<cfset annotatorAgentId = "">
 			</cfif>
 			<cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select username, first_name, last_name, affiliation, email 
-				from cf_users u left join cf_user_data ud on u.user_id = ud.user_id
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				SELECT username, first_name, last_name, affiliation, email 
+				FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
-			<cfquery name="insAnn" datasource="uam_god">
-				insert into annotations (
+			<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
+				INSERT INTO annotations (
 					cf_username,
 					<cfif target_type EQ 'collection_object'>
 						collection_object_id,
@@ -560,11 +560,11 @@ limitations under the License.
 					motivation
 					<cfif len(annotatorAgentId) GT 0>,annotator_agent_id</cfif>
 					<cfif setMaskFg>,mask_annotation_fg</cfif>
-				) values (
+				) VALUES (
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
 					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#target_type#' >,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
 					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 					'New',
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
@@ -572,6 +572,13 @@ limitations under the License.
 					<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#mask_annotation_fg#'></cfif>
 				)
 			</cfquery>
+			<!--- obtain the inserted annotation_id value from the generated key obtained from the result --->
+			<cffquery name="getAnnotationID" datasource="uam_god">
+				SELECT annotations.annotation_id 
+				FROM annotations
+				WHERE WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insAnn_result.GENERATEDKEY#">
+			</cfquery>
+			<!--- place the annotation text into a textual body --->
 			<cfquery name="insTextualBody" datasource="uam_god">
 				INSERT INTO annotation_textualbody (
 					annotation_id,
@@ -580,7 +587,7 @@ limitations under the License.
 					body_language,
 					created_date
 				) VALUES (
-					sq_annotation_id.currval,
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getAnnotationID.annotation_id#'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#urldecode(annotation)#'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='text/plain'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes">,
