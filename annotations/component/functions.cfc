@@ -318,6 +318,7 @@ limitations under the License.
 										</cfif>
 										<div class="col-12">
 											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
+											<output id="annotation_result" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
 								</div>
@@ -450,15 +451,15 @@ limitations under the License.
 			<cfcase value="collection_object">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select guid as annorecord
-					from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					SELECT guid as annorecord
+					FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 				<cfif annotated.recordcount EQ 0>
 					<cfthrow message="Catalged item to annotate not found.">
 				</cfif>
 				<cfquery name="whoTo" datasource="uam_god">
-					select distinct
+					SELECT DISTINCT
 						address
 					FROM
 						cataloged_item,
@@ -478,25 +479,25 @@ limitations under the License.
 			<cfcase value="taxon_name">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 'Taxon:' || scientific_name || ' ' || author_text as annorecord
-					from taxonomy
-					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					SELECT 'Taxon:' || scientific_name || ' ' || author_text as annorecord
+					FROM taxonomy
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfcase value="publication">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
-					from publication
-					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					SELECT 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
+					FROM publication
+					WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfcase value="project">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 'Project:' || project_name as annorecord
-					from project
-					where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					SELECT 'Project:' || project_name as annorecord
+					FROM project
+					WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
