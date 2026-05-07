@@ -3,8 +3,9 @@
 /** saveThisAnnotation - Save a new annotation via AJAX.
  * Requires user to have a login and have entered name and email.
  * @param feedbackDiv the id of a div element to show status feedback.
+ * @param callback optional function to execute on successful save of the annotation.
  */
-function saveThisAnnotation(feedbackDiv) {
+function saveThisAnnotation(feedbackDiv,callback=null) {
 	setFeedbackControlState(feedbackDiv,"saving");
 	var idType = $("#idtype").val();
 	var idvalue = $("#idvalue").val();
@@ -36,6 +37,9 @@ function saveThisAnnotation(feedbackDiv) {
 		success: function(data) {
 			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
 			setFeedbackControlState(feedbackDiv,"saved");
+			if (callback instanceof Function) {
+				callback();
+			}
 		},
 		error: function (jqXHR, textStatus, error) {
 			setFeedbackControlState(feedbackDiv,"error");
@@ -101,7 +105,8 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 			method: "getAnnotationDialogHtml",
 			returnformat: "plain",
 			target_type: target_type,
-			target_id: target_id
+			target_id: target_id,
+			dialogId: dialogid
 		},
 		success: function(data) {
 			$("#"+dialogid+"_div").html(data);

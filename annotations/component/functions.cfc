@@ -22,9 +22,16 @@ limitations under the License.
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
+  * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
+  * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
+  * @param dialogId the html id value for the dialog to contain the returned HTML; used to set the id attribute of the form within the dialog and for callback functions to close the dialog after saving an annotation.
+  * @return HTML string for a dialog to view existing annotations and add a new annotation for the specified record.
+--->
 <cffunction name="getAnnotationDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="target_type" type="string" required="yes">
 	<cfargument name="target_id" type="numeric" required="yes">
+	<cfargument name="dialogId" type="string" required="yes">
 	
 	<cfthread name="getAnnotationDialogHtmlThread">
 		<cftry>
@@ -317,10 +324,17 @@ limitations under the License.
 											</div>
 										</cfif>
 										<div class="col-12">
-											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation(`annotationResultDiv`)">
+											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation(`annotationResultDiv`,closeAnnotationDialog)">
 											<output id="annotationResultDiv" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
+									<!--- callback function to close this dialog --->
+									<script>
+										function closeAnnotationDialog() {
+											dialogId = "#arguments.dialogId#";
+											$("##"+dialogId).dialog("close");
+										}
+									</script>
 								</div>
 							</div>
 							<div class="col-12 form-row mx-0 px-0">
