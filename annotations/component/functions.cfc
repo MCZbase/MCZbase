@@ -468,7 +468,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
 					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#target_type#' >,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
 					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 					'New',
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
