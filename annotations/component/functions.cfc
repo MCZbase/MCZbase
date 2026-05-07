@@ -577,7 +577,7 @@ limitations under the License.
 				<cfquery name="getAnnotationID" datasource="uam_god">
 					SELECT annotations.annotation_id 
 					FROM annotations
-					WHERE WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insAnn_result.GENERATEDKEY#">
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insAnn_result.GENERATEDKEY#">
 				</cfquery>
 				<!--- place the annotation text into a textual body --->
 				<cfquery name="insTextualBody" datasource="uam_god">
