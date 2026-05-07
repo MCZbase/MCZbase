@@ -523,96 +523,100 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfif annotatable>
-		<cftry>
-			<cfquery name="agentLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT MIN(an.agent_id) AS annotator_agent_id
-				FROM agent_name an
-				WHERE an.agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">
-				AND an.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif agentLookup.recordcount GT 0 AND val(agentLookup.annotator_agent_id) GT 0>
-				<cfset annotatorAgentId = agentLookup.annotator_agent_id>
-			<cfelse>
-				<cfset annotatorAgentId = "">
-			</cfif>
-			<cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT username, first_name, last_name, affiliation, email 
-				FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
-			<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
-				INSERT INTO annotations (
-					cf_username,
-					<cfif target_type EQ 'collection_object'>
-						collection_object_id,
-					<cfelseif target_type EQ 'taxon_name'>
-						taxon_name_id,
-					<cfelseif target_type EQ 'publication'>
-						publication_id,
-					<cfelseif target_type EQ 'project'>
-						project_id,
-					</cfif>
-					annotation,
-					target_table, 
-					target_primary_key,
-					state,
-					motivation
-					<cfif len(annotatorAgentId) GT 0>,annotator_agent_id</cfif>
-					<cfif setMaskFg>,mask_annotation_fg</cfif>
-				) VALUES (
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
-					'New',
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
-					<cfif len(annotatorAgentId) GT 0>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#'></cfif>
-					<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#mask_annotation_fg#'></cfif>
-				)
-			</cfquery>
-			<!--- obtain the inserted annotation_id value from the generated key obtained from the result --->
-			<cffquery name="getAnnotationID" datasource="uam_god">
-				SELECT annotations.annotation_id 
-				FROM annotations
-				WHERE WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insAnn_result.GENERATEDKEY#">
-			</cfquery>
-			<!--- place the annotation text into a textual body --->
-			<cfquery name="insTextualBody" datasource="uam_god">
-				INSERT INTO annotation_textualbody (
-					annotation_id,
-					body_value,
-					body_format,
-					body_language,
-					created_date
-				) VALUES (
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getAnnotationID.annotation_id#'>,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#urldecode(annotation)#'>,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='text/plain'>,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes">,
-					SYSDATE
-				)
-			</cfquery>
-		<cfcatch>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-			<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+		<cftransaction>
+			<cftry>
+				<cfquery name="agentLookup" datasource="uam_god">
+					SELECT MIN(an.agent_id) AS annotator_agent_id
+					FROM agent_name an
+					WHERE an.agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">
+					AND an.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfif agentLookup.recordcount GT 0 AND val(agentLookup.annotator_agent_id) GT 0>
+					<cfset annotatorAgentId = agentLookup.annotator_agent_id>
+				<cfelse>
+					<cfset annotatorAgentId = "">
+				</cfif>
+				<cfquery name="annotator" datasource="uam_god">
+					SELECT username, first_name, last_name, affiliation, email 
+					FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
+				<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
+					INSERT INTO annotations (
+						cf_username,
+						<cfif target_type EQ 'collection_object'>
+							collection_object_id,
+						<cfelseif target_type EQ 'taxon_name'>
+							taxon_name_id,
+						<cfelseif target_type EQ 'publication'>
+							publication_id,
+						<cfelseif target_type EQ 'project'>
+							project_id,
+						</cfif>
+						annotation,
+						target_table, 
+						target_primary_key,
+						state,
+						motivation
+						<cfif len(annotatorAgentId) GT 0>,annotator_agent_id</cfif>
+						<cfif setMaskFg>,mask_annotation_fg</cfif>
+					) VALUES (
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
+						'New',
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
+						<cfif len(annotatorAgentId) GT 0>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#'></cfif>
+						<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#mask_annotation_fg#'></cfif>
+					)
+				</cfquery>
+				<!--- obtain the inserted annotation_id value from the generated key obtained from the result --->
+				<cffquery name="getAnnotationID" datasource="uam_god">
+					SELECT annotations.annotation_id 
+					FROM annotations
+					WHERE WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insAnn_result.GENERATEDKEY#">
+				</cfquery>
+				<!--- place the annotation text into a textual body --->
+				<cfquery name="insTextualBody" datasource="uam_god">
+					INSERT INTO annotation_textualbody (
+						annotation_id,
+						body_value,
+						body_format,
+						body_language,
+						created_date
+					) VALUES (
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getAnnotationID.annotation_id#'>,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#urldecode(annotation)#'>,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='text/plain'>,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes">,
+						SYSDATE
+					)
+				</cfquery>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+				<cfheader statusCode="500" statusText="#message#">
+				<cfoutput>
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfoutput>
-			<cfabort>
-		</cfcatch>
-		</cftry>
+				</cfoutput>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cftransaction>
 
 		<cftry>
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
