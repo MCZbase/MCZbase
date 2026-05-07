@@ -33,7 +33,7 @@ limitations under the License.
 	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="dialogId" type="string" required="yes">
 	
-	<cfthread name="getAnnotationDialogHtmlThread">
+	<cfthread name="getAnnotationDialogHtmlThread" target_type="#arguments.target_type#" target_id="#arguments.target_id#" dialogId="#arguments.dialogId#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -334,7 +334,7 @@ limitations under the License.
 									<!--- callback function to close this dialog --->
 									<script>
 										function closeAnnotationDialog() {
-											dialogId = "#arguments.dialogId#";
+											dialogId = "#dialogId#";
 											$("##"+dialogId).dialog("close");
 										}
 									</script>
