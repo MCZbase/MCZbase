@@ -324,7 +324,10 @@ limitations under the License.
 											</div>
 										</cfif>
 										<div class="col-12">
-											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation(`annotationResultDiv`,closeAnnotationDialog)">
+											<input type="button" 
+												class="btn btn-xs btn-primary mt-2" 
+												value="Save Annotation" 
+												onclick="saveThisAnnotation(`annotationResultDiv`,closeAnnotationDialog)">
 											<output id="annotationResultDiv" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
