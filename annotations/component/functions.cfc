@@ -574,7 +574,7 @@ limitations under the License.
 					)
 				</cfquery>
 				<!--- obtain the inserted annotation_id value from the generated key obtained from the result --->
-				<cffquery name="getAnnotationID" datasource="uam_god">
+				<cfquery name="getAnnotationID" datasource="uam_god">
 					SELECT annotations.annotation_id 
 					FROM annotations
 					WHERE WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insAnn_result.GENERATEDKEY#">
