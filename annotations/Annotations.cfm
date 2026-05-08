@@ -243,7 +243,7 @@ limitations under the License.
 								SELECT collection_object_id
 								FROM #session.flatTableName#
 								<cfif variables.specimen_guid contains ",">
-									WHERE guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.specimen_guid#" list="yes">
+									WHERE guid IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.specimen_guid#" list="yes">)
 								<cfelseif variables.specimen_guid contains "%" OR variables.specimen_guid contains "_">
 									WHERE guid LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.specimen_guid#">
 								<cfelse>
