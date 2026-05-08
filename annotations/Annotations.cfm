@@ -51,6 +51,9 @@ limitations under the License.
 <cfif isDefined("url.taxon_family")><cfset variables.taxon_family = url.taxon_family></cfif>
 <cfif NOT isDefined("variables.taxon_family")><cfset variables.taxon_family = ""></cfif>
 
+<cfif isDefined("url.scientific_name")><cfset variables.scientific_name = url.scientific_name></cfif>
+<cfif NOT isDefined("variables.scientific_name")><cfset variables.scientific_name = ""></cfif>
+
 <cfif isDefined("url.taxon_name_id")><cfset variables.taxon_name_id = url.taxon_name_id></cfif>
 <cfif NOT isDefined("variables.taxon_name_id")><cfset variables.taxon_name_id = ""></cfif>
 
@@ -143,6 +146,19 @@ limitations under the License.
 											<option value="#encodeForHTML(family)#" #selected#>#encodeForHTML(family)# (#getAnnotatedFamilies.ct#)</option>
 										</cfloop>
 									</select>
+									<script>
+										$(document).ready(function() {
+											$("##taxon_family").change(function() {
+												$("##scientific_name").val("");
+											});
+										});
+									</script>
+								</div>
+								<div class="form-group mb-2">
+									<label for="scientific_name" class="data-entry-label">By any part of Scientific Name</label>
+									<input type="text" name="scientific_name" id="scientific_name"
+										value="#encodeForHTML(variables.scientific_name)#"
+										class="data-entry-input col-12">
 								</div>
 								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
 								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
@@ -354,6 +370,9 @@ limitations under the License.
 						</cfif>
 						<cfif len(variables.taxon_family) GT 0>
 							AND upper(taxonomy.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.taxon_family)#">
+						</cfif>
+						<cfif len(variables.scientific_name) GT 0>
+							AND upper(taxonomy.scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.scientific_name)#%">
 						</cfif>
 				</cfquery>
 				<cfquery name="t" dbtype="query">
