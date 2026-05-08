@@ -33,6 +33,21 @@ limitations under the License.
 <cfif isDefined("url.specimen_guid")><cfset variables.specimen_guid = trim(url.specimen_guid)></cfif>
 <cfif NOT isDefined("variables.specimen_guid")><cfset variables.specimen_guid = ""></cfif>
 
+<cfif isDefined("url.collection_object_id")>
+	<cfset variables.collection_object_id = url.collection_object_id>
+	<cfif len(variables.specimen_guid) EQ 0 AND isNumeric(variables.collection_object_id)>
+		<!--- If a collection_object_id is provided but not a specimen_guid, attempt to look up the GUID --->
+		<cfquery name="getGuidForCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT guid
+			FROM #session.flatTableName#
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+		</cfquery>
+		<cfif getGuidForCollectionObject.recordcount EQ 1>
+			<cfset variables.specimen_guid = getGuidForCollectionObject.guid>
+		</cfif>
+	</cfif>
+</cfif>
+
 <cfif isDefined("url.taxon_family")><cfset variables.taxon_family = url.taxon_family></cfif>
 <cfif NOT isDefined("variables.taxon_family")><cfset variables.taxon_family = ""></cfif>
 
