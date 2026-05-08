@@ -378,7 +378,7 @@ limitations under the License.
 																<option value="0" <cfif val(MASK_ANNOTATION_FG) EQ 0>selected="selected"</cfif>>Public</option>
 																<option value="1" <cfif val(MASK_ANNOTATION_FG) EQ 1>selected="selected"</cfif>>Hidden</option>
 															</select>
-															<span id="mask_result_#annotation_id#" aria-live="polite" class="small ml-1"></span>
+															<output id="mask_result_#annotation_id#" aria-live="polite" class="small ml-1"></output>
 														</div>
 													</cfif>
 												</td>

@@ -123,32 +123,34 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
  * Requires the manage_collection role (enforced server-side).
  * @param annotation_id the numeric primary key of the annotation to update.
  * @param mask_value 0 for Public, 1 for Hidden.
- * @param resultElementId the id of a span element to show status feedback.
+ * @param resultElementId the id of an element to show status feedback, with no leading # selector.
  */
 function setAnnotationMask(annotation_id, mask_value, resultElementId) {
-	var resultEl = document.getElementById(resultElementId);
-	if (resultEl) { resultEl.textContent = "Saving..."; }
+	setFeedbackControlState(resultElementId,"saving");
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
+		dataType: "json",
 		data: {
 			method: "setAnnotationMask",
 			annotation_id: annotation_id,
 			mask_annotation_fg: mask_value,
 			returnformat: "json"
 		},
-		success: function(data) {
-			if (resultEl) {
-				if (data && data[0] && data[0].status === "updated") {
-					resultEl.textContent = "Saved";
-				} else {
-					resultEl.textContent = "Error";
-				}
+		success: function(result) {
+			var parsed = result;
+			if (typeof parsed === "string") {
+					parsed = JSON.parse(parsed);
+			}
+			if (parsed && parsed[0] && parsed[0].status === "updated") {
+				setFeedbackControlState(resultElementId,"saved");
+			} else {
+				setFeedbackControlState(resultElementId,"error");
 			}
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, "setting annotation visibility");
-			if (resultEl) { resultEl.textContent = "Error"; }
+			setFeedbackControlState(resultElementId,"error");
 		}
 	});
 }
