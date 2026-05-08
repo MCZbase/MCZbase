@@ -267,7 +267,7 @@ limitations under the License.
 						higher_geog,
 						spec_locality
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Specimen Annotations</h2>
+				<h2 class="h3 mt-3 pl-1">Specimen Annotations (#catitem.recordcount# specimens)</h2>
 				<cfif catitem.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
@@ -353,7 +353,7 @@ limitations under the License.
 					FROM getTaxonAnnotations
 					GROUP BY taxon_name_id, scientific_name, display_name
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Taxonomic Annotations</h2>
+				<h2 class="h3 mt-3 pl-1">Taxonomic Annotations (#t.recordcount# taxa)</h2>
 				<cfif t.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
@@ -426,16 +426,16 @@ limitations under the License.
 							AND annotations.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 						</cfif>
 				</cfquery>
-				<cfquery name="t" dbtype="query">
+				<cfquery name="getPublicationAnnotations" dbtype="query">
 					SELECT publication_title, publication_id
 					FROM getPubAnnotations
 					GROUP BY publication_title, publication_id
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Publication Annotations</h2>
-				<cfif t.recordcount EQ 0>
+				<h2 class="h3 mt-3 pl-1">Publication Annotations (#getPublicationAnnotations.recordcount# publications)</h2>
+				<cfif getPublicationAnnotations.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
-					<cfloop query="t">
+					<cfloop query="getPublicationAnnotations">
 						<div class="col-12 px-0 my-2 card border-bottom-0">
 							<div class="card-header bg-box-header-gray">
 								<h3 class="h4 mb-0">
@@ -509,7 +509,7 @@ limitations under the License.
 					FROM getProjectAnnotations
 					GROUP BY project_name, project_id
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Project Annotations</h2>
+				<h2 class="h3 mt-3 pl-1">Project Annotations (#t.recordcount# projects)</h2>
 				<cfif t.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
