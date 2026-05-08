@@ -242,7 +242,13 @@ limitations under the License.
 							AND annotations.COLLECTION_OBJECT_ID IN (
 								SELECT collection_object_id
 								FROM #session.flatTableName#
-								WHERE upper(guid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.specimen_guid)#">
+								<cfif variables.specimen_guid contains ",">
+									WHERE guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.specimen_guid#" list="yes">
+								<cfelseif variables.specimen_guid contains %"%" OR variables.specimen_guid contains "_">
+									WHERE guid LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.specimen_guid#">
+								<cfelse>
+									WHERE upper(guid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.specimen_guid)#">
+								</cfif>
 							)
 						</cfif>
 				</cfquery>
