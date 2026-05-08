@@ -3889,6 +3889,9 @@ limitations under the License.
 						<cfloop query="annotations">
 							<cfif len(#annotation#) gt 0>
 								<li class="list-group-item py-1">
+									<cfif mask_annotation_fg EQ "1">
+										<span class="small font-weight-bold">[Hidden]</span>
+									</cfif>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										#annotation#
 									<cfelse>
@@ -3899,9 +3902,6 @@ limitations under the License.
 										<cfif reviewed_fg EQ "1">
 											<span class="d-block small mb-0 pb-0">#resolution# #reviewer# #reviewer_comment#</span>
 										</cfif>
-									</cfif>
-									<cfif mask_annotation_fg EQ "1">
-										<span class="d-block small mb-0 pb-0 font-weight-bold">[Hidden]</span>
 									</cfif>
 								</li>
 							</cfif>
