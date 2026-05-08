@@ -275,6 +275,8 @@ limitations under the License.
 							where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
+						<!--- TODO: Manage dialog for individual annotations --->
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
 					</cfcase>
 					<cfdefaultcase>
 						<!--- TODO: Support annotations on at least agents, media (with ROI), and other annotations --->
