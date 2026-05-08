@@ -1017,6 +1017,9 @@ limitations under the License.
 									annotations
 								WHERE
 									collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+									<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
+										AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+									</cfif>
 								ORDER BY 
 									annotate_date
 							</cfquery>

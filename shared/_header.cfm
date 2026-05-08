@@ -373,11 +373,7 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Projects</a>
 								</cfif>	
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-									<cfif targetMenu EQ "production">
-										<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
-									<cfelse>
-										<a class="dropdown-item bg-warning" href="">Annotations</a>
-									</cfif>
+									<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 									<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> 
 								</cfif>
 							 </li>
@@ -515,11 +511,7 @@ limitations under the License.
 												<cfelse>
 													<a class="dropdown-item bg-warning" href="">Encumbrances</a>
 												</cfif>
-												<cfif targetMenu EQ "production">
-													<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a>
-												<cfelse>
-													<a class="dropdown-item bg-warning" href="">Annotations</a>
-												</cfif>
+												<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 											</cfif>
 											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 												<cfif targetMenu EQ "production">

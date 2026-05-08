@@ -1,8 +1,7 @@
-
 <!---
-/transactions/component/functions.cfc
+/annotations/component/functions.cfc
 
-Copyright 2020-2025 President and Fellows of Harvard College
+Copyright 2020-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,11 +22,18 @@ limitations under the License.
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
+  * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
+  * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
+  * @param dialogId the html id value for the dialog to contain the returned HTML; used to set the id attribute of the form within the dialog and for callback functions to close the dialog after saving an annotation.
+  * @return HTML string for a dialog to view existing annotations and add a new annotation for the specified record.
+--->
 <cffunction name="getAnnotationDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="target_type" type="string" required="yes">
 	<cfargument name="target_id" type="numeric" required="yes">
+	<cfargument name="dialogId" type="string" required="yes">
 	
-	<cfthread name="getAnnotationDialogHtmlThread">
+	<cfthread name="getAnnotationDialogHtmlThread" target_type="#arguments.target_type#" target_id="#arguments.target_id#" dialogId="#arguments.dialogId#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -63,7 +69,7 @@ limitations under the License.
 						<cfloop query="d">
 							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name#" >
 							<!--- TODO: Manage dialog for individual annotations --->
-							<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=collection_object_id&collection=#d.collection#&collection_object_id=#collection_object_id#">
+							<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=collection_object_id&collection=#d.collection#&collection_object_id=#collection_object_id#">
 						</cfloop>
 						<!--- TODO: Change from fixed foreign key fields to primarykey/targettable pair to generalize annotations to any object type --->
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -88,12 +94,20 @@ limitations under the License.
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
 								annotator.affiliation annotator_affiliation,
-								annotator.email annotator_email
+								annotator.email annotator_email,
+								annotations.ANNOTATOR_AGENT_ID ANNOTATOR_AGENT_ID,
+								annotations.MASK_ANNOTATION_FG MASK_ANNOTATION_FG,
+								atb.body_value BODY_VALUE
 							from annotations 
 								left outer join agent rev on annotations.reviewer_agent_id = rev.agent_id
 								left outer join agent_name revname on rev.PREFERRED_AGENT_NAME_ID = revname.agent_NAME_ID
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
+								left outer join (
+									select annotation_id, body_value,
+									       row_number() over (partition by annotation_id order by created_date) rn
+									from annotation_textualbody
+								) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
@@ -133,17 +147,25 @@ limitations under the License.
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
 								annotator.affiliation annotator_affiliation,
-								annotator.email annotator_email
+								annotator.email annotator_email,
+								annotations.ANNOTATOR_AGENT_ID ANNOTATOR_AGENT_ID,
+								annotations.MASK_ANNOTATION_FG MASK_ANNOTATION_FG,
+								atb.body_value BODY_VALUE
 							from annotations 
 								left outer join agent rev on annotations.reviewer_agent_id = rev.agent_id
 								left outer join agent_name revname on rev.PREFERRED_AGENT_NAME_ID = revname.agent_NAME_ID
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
+								left outer join (
+									select annotation_id, body_value,
+									       row_number() over (partition by annotation_id order by created_date) rn
+									from annotation_textualbody
+								) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
 						<!--- TODO: Manage dialog for individual annotations --->
-						<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=taxon_name_id&taxon_name_id=#taxon_name_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=taxon_name_id&taxon_name_id=#taxon_name_id#">
 					</cfcase>
 					<cfcase value="project">
 						<cfset project_id = target_id>
@@ -180,17 +202,25 @@ limitations under the License.
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
 								annotator.affiliation annotator_affiliation,
-								annotator.email annotator_email
+								annotator.email annotator_email,
+								annotations.ANNOTATOR_AGENT_ID ANNOTATOR_AGENT_ID,
+								annotations.MASK_ANNOTATION_FG MASK_ANNOTATION_FG,
+								atb.body_value BODY_VALUE
 							from annotations 
 								left outer join agent rev on annotations.reviewer_agent_id = rev.agent_id
 								left outer join agent_name revname on rev.PREFERRED_AGENT_NAME_ID = revname.agent_NAME_ID
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
+								left outer join (
+									select annotation_id, body_value,
+									       row_number() over (partition by annotation_id order by created_date) rn
+									from annotation_textualbody
+								) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
 							where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
 						<!--- TODO: Manage dialog for individual annotations --->
-						<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=project_id&project_id=#project_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=project_id&project_id=#project_id#">
 					</cfcase>
 					<cfcase value="publication">
 						<cfset publication_id = target_id>
@@ -228,15 +258,25 @@ limitations under the License.
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
 								annotator.affiliation annotator_affiliation,
-								annotator.email annotator_email
+								annotator.email annotator_email,
+								annotations.ANNOTATOR_AGENT_ID ANNOTATOR_AGENT_ID,
+								annotations.MASK_ANNOTATION_FG MASK_ANNOTATION_FG,
+								atb.body_value BODY_VALUE
 							from annotations 
 								left outer join agent rev on annotations.reviewer_agent_id = rev.agent_id
 								left outer join agent_name revname on rev.PREFERRED_AGENT_NAME_ID = revname.agent_NAME_ID
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
+								left outer join (
+									select annotation_id, body_value,
+									       row_number() over (partition by annotation_id order by created_date) rn
+									from annotation_textualbody
+								) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
 							where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
+						<!--- TODO: Manage dialog for individual annotations --->
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
 					</cfcase>
 					<cfdefaultcase>
 						<!--- TODO: Support annotations on at least agents, media (with ROI), and other annotations --->
@@ -251,7 +291,7 @@ limitations under the License.
 									<h2 class="h3 my-0 px-1 py-2" tabindex="0">Annotations for #summary#</h2>
 								</div>
 								<div class="row col-12 mx-0 mt-3 d-block">
-									<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
+									<form name="annotate" onSubmit="return false;" class="form-row">
 										<input type="hidden" name="action" value="insert">
 										<input type="hidden" name="idtype" id="idtype" value="#target_type#">
 										<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
@@ -276,10 +316,30 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
+										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+											<div class="col-12 pb-2">
+												<label for="mask_annotation_fg" class="data-entry-label">Visibility:</label>
+												<select id="mask_annotation_fg" name="mask_annotation_fg" class="data-entry-select">
+													<option value="0" selected="selected">Public</option>
+													<option value="1">Hidden</option>
+												</select>
+											</div>
+										</cfif>
 										<div class="col-12">
-											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
+											<input type="button" 
+												class="btn btn-xs btn-primary mt-2" 
+												value="Save Annotation" 
+												onclick="saveThisAnnotation(`annotationResultDiv`,closeAnnotationDialog)">
+											<output id="annotationResultDiv" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
+									<!--- callback function to close this dialog --->
+									<script>
+										function closeAnnotationDialog() {
+											dialogId = "#dialogId#";
+											$("##"+dialogId).dialog("close");
+										}
+									</script>
 								</div>
 							</div>
 							<div class="col-12 form-row mx-0 px-0">
@@ -296,25 +356,54 @@ limitations under the License.
 										</thead>
 										<tbody>
 											<cfloop query="prevAnn">
+											<cfset isMasked = (val(MASK_ANNOTATION_FG) EQ 1) AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
 											<tr>
-												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<td>#annotation#</td>
-												<cfelse>
-													<td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
-												</cfif>
-												<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
-												<td>#motivation#</td>
+												<td>
+													<cfif isMasked>
+														<span class="font-italic text-muted">[Masked]</span>
+													<cfelse>
+														<cfif len(BODY_VALUE) GT 0>
+															<div class="mb-1"><strong class="data-entry-label">TextualBody:</strong> <span>#encodeForHTML(BODY_VALUE)#</span></div>
+														</cfif>
+														<div><strong class="data-entry-label">Annotation:</strong>
+														<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+															<span>#encodeForHTML(annotation)#</span>
+														<cfelse>
+															<span>#encodeForHTML(rereplace(annotation,"^.* reported:","[Masked] reported:"))#</span>
+														</cfif>
+														</div>
+													</cfif>
+													<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+														<div class="mt-1">
+															<label for="mask_#annotation_id#" class="data-entry-label">Visibility:</label>
+															<select id="mask_#annotation_id#" class="data-entry-select" onchange="setAnnotationMask(#annotation_id#, this.value, 'mask_result_#annotation_id#')">
+																<option value="0" <cfif val(MASK_ANNOTATION_FG) EQ 0>selected="selected"</cfif>>Public</option>
+																<option value="1" <cfif val(MASK_ANNOTATION_FG) EQ 1>selected="selected"</cfif>>Hidden</option>
+															</select>
+															<output id="mask_result_#annotation_id#" aria-live="polite" class="small ml-1"></output>
+														</div>
+													</cfif>
+												</td>
+												<td>
+													#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#
+													<cfif val(ANNOTATOR_AGENT_ID) GT 0>
+														<br><a href="/agents/Agent.cfm?agent_id=#ANNOTATOR_AGENT_ID#" target="_blank">#encodeForHTML(CF_USERNAME)#</a>
+													<cfelse>
+														<br>#encodeForHTML(CF_USERNAME)#
+													</cfif>
+												</td>
+												<td>#encodeForHTML(motivation)#</td>
 												<td>
 													<cfif len(REVIEWER_COMMENT) gt 0>
-														#REVIEWER_COMMENT#
+														#encodeForHTML(REVIEWER_COMMENT)#
 													<cfelseif REVIEWED_FG is 0>
 														Not Reviewed
 													<cfelse>
 														Reviewed
 													</cfif>
 												</td>
-												<td>#state#</td>
-												<td>#resolution#</td>
+												<td>#encodeForHTML(state)#</td>
+												<td>#encodeForHTML(resolution)#</td>
 											</tr>
 										</cfloop>
 										</tbody>
@@ -359,12 +448,15 @@ limitations under the License.
   * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
   * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
   * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
+  * @param motivation the motivation for the annotation (optional, defaults to commenting).
+  * @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 for public; only applied for manage_collection role.
 --->
 <cffunction name="addAnnotation" access="remote">
 	<cfargument name="target_type" type="string" required="yes">
 	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
 	<cfargument name="motivation" type="string" required="no">
+	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
 
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
@@ -378,15 +470,15 @@ limitations under the License.
 			<cfcase value="collection_object">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select guid as annorecord
-					from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					SELECT guid as annorecord
+					FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 				<cfif annotated.recordcount EQ 0>
 					<cfthrow message="Catalged item to annotate not found.">
 				</cfif>
 				<cfquery name="whoTo" datasource="uam_god">
-					select distinct
+					SELECT DISTINCT
 						address
 					FROM
 						cataloged_item,
@@ -406,21 +498,29 @@ limitations under the License.
 			<cfcase value="taxon_name">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 'Taxon:' || scientific_name || ' ' || author_text as annorecord
-					from taxonomy
-					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					SELECT 'Taxon:' || scientific_name || ' ' || author_text as annorecord
+					FROM taxonomy
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfcase value="publication">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
-					from publication
-					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					SELECT 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
+					FROM publication
+					WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfcase value="project">
+				<cfset annotatable = true>
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 'Project:' || project_name as annorecord
+					FROM project
+					WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
-				<cfthrow message="Only annotation of collection objects, publications, and taxa are supported at this time">
+				<cfthrow message="Only annotation of collection objects, projects, publications, and taxa are supported at this time">
 			</cfdefaultcase>
 		</cfswitch>
 	<cfcatch>
@@ -443,56 +543,100 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfif annotatable>
-		<cftry>
-			<cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select username, first_name, last_name, affiliation, email 
-				from cf_users u left join cf_user_data ud on u.user_id = ud.user_id
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="insAnn" datasource="uam_god">
-				insert into annotations (
-					cf_username,
-					<cfif target_type EQ 'collection_object'>
-						collection_object_id,
-					<cfelseif target_type EQ 'taxon_name'>
-						taxon_name_id,
-					<cfelseif target_type EQ 'publication'>
-						publication_id,
-					</cfif>
-					annotation,
-					target_table, 
-					target_primary_key,
-					state,
-					motivation
-				) values (
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#target_type#' >,
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
-					'New',
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
-				)
-			</cfquery>
-		<cfcatch>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-			<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+		<cftransaction>
+			<cftry>
+				<cfquery name="agentLookup" datasource="uam_god">
+					SELECT MIN(an.agent_id) AS annotator_agent_id
+					FROM agent_name an
+					WHERE an.agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">
+					AND an.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfif agentLookup.recordcount GT 0 AND val(agentLookup.annotator_agent_id) GT 0>
+					<cfset annotatorAgentId = agentLookup.annotator_agent_id>
+				<cfelse>
+					<cfset annotatorAgentId = "">
+				</cfif>
+				<cfquery name="annotator" datasource="uam_god">
+					SELECT username, first_name, last_name, affiliation, email 
+					FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
+				<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
+					INSERT INTO annotations (
+						cf_username,
+						<cfif target_type EQ 'collection_object'>
+							collection_object_id,
+						<cfelseif target_type EQ 'taxon_name'>
+							taxon_name_id,
+						<cfelseif target_type EQ 'publication'>
+							publication_id,
+						<cfelseif target_type EQ 'project'>
+							project_id,
+						</cfif>
+						annotation,
+						target_table, 
+						target_primary_key,
+						state,
+						motivation
+						<cfif len(annotatorAgentId) GT 0>,annotator_agent_id</cfif>
+						<cfif setMaskFg>,mask_annotation_fg</cfif>
+					) VALUES (
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
+						'New',
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
+						<cfif len(annotatorAgentId) GT 0>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#'></cfif>
+						<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#mask_annotation_fg#'></cfif>
+					)
+				</cfquery>
+				<!--- obtain the inserted annotation_id value from the generated key obtained from the result --->
+				<cfquery name="getAnnotationID" datasource="uam_god">
+					SELECT annotations.annotation_id 
+					FROM annotations
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insAnn_result.GENERATEDKEY#">
+				</cfquery>
+				<!--- place the annotation text into a textual body --->
+				<cfquery name="insTextualBody" datasource="uam_god">
+					INSERT INTO annotation_textualbody (
+						annotation_id,
+						body_value,
+						body_format,
+						body_language,
+						created_date
+					) VALUES (
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getAnnotationID.annotation_id#'>,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#urldecode(annotation)#'>,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='text/plain'>,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes">,
+						SYSDATE
+					)
+				</cfquery>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+				<cfheader statusCode="500" statusText="#message#">
+				<cfoutput>
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfoutput>
-			<cfabort>
-		</cfcatch>
-		</cftry>
+				</cfoutput>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cftransaction>
 
 		<cftry>
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
@@ -504,8 +648,8 @@ An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name
     			</blockquote>
     
     			View details at
-    			<a href="#Application.ServerRootUrl#/info/reviewAnnotation.cfm?action=show&type=#target_type#&id=#target_id#">
-    			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#target_type#&id=#target_id#
+    			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#target_type#&id=#target_id#">
+    			#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#target_type#&id=#target_id#
     			</a>
 			</cfmail>
 			<cfset newline= Chr(13) & Chr(10)>
@@ -559,6 +703,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						 annotations.reviewed_fg,
 						 annotations.reviewer_comment,
 						 annotations.motivation,
+						 annotations.mask_annotation_fg,
 						 collection.collection,
 						 collection.collection_cde,
 						 collection.institution_acronym,
@@ -643,6 +788,15 @@ Annotation to report problematic data concerning #annotated.annorecord#
 														<div class="pt-1 px-1 small90">Last review by: #reviewer#</div>
 													</cfif>
 												</div>
+												<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+													<div class="col-12 col-md-2 py-2 px-1">
+														<label for="mask_annotation_fg_#annotation_id#" class="data-entry-label font-weight-bold">Visibility:</label>
+														<select name="mask_annotation_fg" id="mask_annotation_fg_#annotation_id#" class="data-entry-select">
+															<option value="0" <cfif val(mask_annotation_fg) EQ 0>selected="selected"</cfif>>Public</option>
+															<option value="1" <cfif val(mask_annotation_fg) EQ 1>selected="selected"</cfif>>Hidden</option>
+														</select>
+													</div>
+												</cfif>
 												<div class="col-12 col-md-8 py-2 px-1">
 													<label for="reviewer_comment" class="data-entry-label font-weight-bold">Review Comments</label>
 													<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
@@ -711,12 +865,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
  @param reviewed_fg 1 if the annotation has been reviewed, 0 if not.
  @param reviewer_comment optional text comment about the review of the annotation.
+ @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 to show; only applied for manage_collection role.
  @return json with status=updated or an http 500 error if the update fails.
 --->
 <cffunction name="updateAnnotationReview" returntype="any" access="remote" returnformat="json">
 	<cfargument name="annotation_id" type="string" required="yes">
    <cfargument name="reviewed_fg" type="string" required="yes">
 	<cfargument name="reviewer_comment" type="string" required="no" default="">
+	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -727,6 +883,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					reviewer_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					reviewed_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewed_fg#">,
 					reviewer_comment=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reviewer_comment#">
+					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0>
+						,mask_annotation_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">
+					</cfif>
 				WHERE
 					annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 			</cfquery>
@@ -747,6 +906,139 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		</cftry>
 	</cftransaction>
 	<cfreturn serializeJSON(data)>
+</cffunction>
+
+
+<!--- Update the mask_annotation_fg flag for an annotation.
+ @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
+ @param mask_annotation_fg 1 to hide the annotation from users without coldfusion_user role, 0 to show.
+ @return json with status=updated or an http 500 error if the update fails.
+--->    
+<cffunction name="setAnnotationMask" returntype="any" access="remote" returnformat="json">
+	<cfargument name="annotation_id" type="string" required="yes">
+	<cfargument name="mask_annotation_fg" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection"))>
+				<cfthrow message="The manage_collection role is required to set annotation visibility.">
+			</cfif>
+			<cfquery name="updateMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMask_result">
+				UPDATE annotations
+				SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">
+				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+			</cfquery>
+			<cfif updateMask_result.recordcount NEQ 1>
+				<cfthrow message="Annotation to update not found.">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+
+<!--- Render HTML for a single annotation review row card.
+ Returns a card-body div with annotation details, review controls, and an ajax Save Review button.
+ @param annotation_id       numeric annotation primary key
+ @param annotation_display  annotation body text (may contain trusted HTML from annotation_textualbody)
+ @param cf_username         annotator login username
+ @param email               annotator e-mail address
+ @param annotate_date       date the annotation was created
+ @param motivation          annotation motivation string
+ @param reviewed_fg         0 or 1 indicating whether the annotation has been reviewed
+ @param reviewer            preferred name of the last reviewer, or empty string
+ @param reviewer_comment    reviewer comment text
+ @param mask_annotation_fg  0 or 1 annotation visibility flag
+ @return html string for one annotation review card row
+--->
+<cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
+	<cfargument name="annotation_id"      type="string" required="yes">
+	<cfargument name="annotation_display" type="string" required="yes">
+	<cfargument name="cf_username"        type="string" required="yes">
+	<cfargument name="email"              type="string" required="no" default="">
+	<cfargument name="annotate_date"      type="string" required="yes">
+	<cfargument name="motivation"         type="string" required="no" default="">
+	<cfargument name="reviewed_fg"        type="string" required="yes">
+	<cfargument name="reviewer"           type="string" required="no" default="">
+	<cfargument name="reviewer_comment"   type="string" required="no" default="">
+	<cfargument name="mask_annotation_fg" type="string" required="no" default="0">
+
+	<cfset showVisibility = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+
+	<cfsavecontent variable="rowHTML">
+		<cfoutput>
+		<div class="card-body bg-light border-bottom py-2">
+			<div class="form-row mx-0 col-12 px-0">
+				<div class="col-12 col-md-5 pt-2 px-1">
+					<span class="data-entry-label font-weight-bold">Annotation:</span>
+					<!--- annotation_display is the stored annotation body from annotation_textualbody.body_value or annotations.annotation; trusted database content, not user-provided input --->
+					<div class="px-1 small">#arguments.annotation_display#</div>
+				</div>
+				<div class="col-12 col-md-4 pt-2 px-1">
+					<span class="data-entry-label font-weight-bold">Annotator:</span>
+					<div class="px-1 small">
+						<strong>#encodeForHTML(arguments.cf_username)#</strong>
+						(#encodeForHTML(arguments.email)#)
+						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
+					</div>
+				</div>
+				<div class="col-12 col-md-3 pt-2 px-1">
+					<span class="data-entry-label font-weight-bold">Motivation:</span>
+					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
+				</div>
+			</div>
+			<div class="form-row mx-0 col-12 px-0 pt-1">
+				<div class="col-12 col-md-2 py-1 px-1">
+					<label for="reviewed_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Reviewed?</label>
+					<select id="reviewed_fg_#arguments.annotation_id#" class="data-entry-select col-12">
+						<cfif val(arguments.reviewed_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="0" #selected#>No</option>
+						<cfif val(arguments.reviewed_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="1" #selected#>Yes</option>
+					</select>
+					<cfif len(arguments.reviewer) GT 0>
+						<div class="pt-1 small">Last review by: #encodeForHTML(arguments.reviewer)#</div>
+					</cfif>
+				</div>
+				<cfif showVisibility>
+					<div class="col-12 col-md-2 py-1 px-1">
+						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Visibility:</label>
+						<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
+							<cfif val(arguments.mask_annotation_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>Public</option>
+							<cfif val(arguments.mask_annotation_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Hidden</option>
+						</select>
+					</div>
+				</cfif>
+				<div class="col-12 col-md-6 py-1 px-1">
+					<label for="reviewer_comment_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Review Comments</label>
+					<textarea id="reviewer_comment_#arguments.annotation_id#" class="data-entry-textarea col-12" rows="2" maxlength="4000">#encodeForHTML(arguments.reviewer_comment)#</textarea>
+				</div>
+				<div class="col-12 col-md-2 pt-3 px-1">
+					<div>
+						<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save Review</button>
+						<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite"></output>
+					</div>
+				</div>
+			</div>
+		</div>
+		</cfoutput>
+	</cfsavecontent>
+
+	<cfreturn trim(rowHTML)>
 </cffunction>
 
 </cfcomponent>

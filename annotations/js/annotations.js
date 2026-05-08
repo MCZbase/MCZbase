@@ -1,32 +1,48 @@
-// TODO: Rework 
-function saveThisAnnotation() {
+/** JavaScript functions for handling annotations in MCZbase. **/
+
+/** saveThisAnnotation - Save a new annotation via AJAX.
+ * Requires user to have a login and have entered name and email.
+ * @param feedbackDiv the id of a div element to show status feedback.
+ * @param callback optional function to execute on successful save of the annotation.
+ */
+function saveThisAnnotation(feedbackDiv,callback=null) {
+	setFeedbackControlState(feedbackDiv,"saving");
 	var idType = $("#idtype").val();
 	var idvalue = $("#idvalue").val();
 	var annotation = $("#annotation").val();
-   var motivation = "";
+	var motivation = "";
 	if ($("#motivation").length) { 
-		 $("#motivation").val();
+		motivation = $("#motivation").val();
 	}
 	if (annotation.length==0){
 		alert('You must enter an annotation to save.');
 		return false;
 	}
+	var postData = {
+		method : "addAnnotation",
+		target_type : idType,
+		target_id : idvalue,
+		annotation : annotation,
+		motivation : motivation,
+		returnformat : "json",
+		queryformat : 'column'
+	};
+	if ($("#mask_annotation_fg").length) {
+		postData.mask_annotation_fg = $("#mask_annotation_fg").val();
+	}
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
-		data: {
-			method : "addAnnotation",
-			target_type : idType,
-			target_id : idvalue,
-			annotation : annotation,
-			motivation : motivation,
-			returnformat : "json",
-			queryformat : 'column'
-		},
+		data: postData,
 		success: function(data) {
 			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
+			setFeedbackControlState(feedbackDiv,"saved");
+			if (callback instanceof Function) {
+				callback();
+			}
 		},
 		error: function (jqXHR, textStatus, error) {
+			setFeedbackControlState(feedbackDiv,"error");
 			handleFail(jqXHR,textStatus,error,"saving annotation");
 		}
 	});
@@ -89,7 +105,8 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 			method: "getAnnotationDialogHtml",
 			returnformat: "plain",
 			target_type: target_type,
-			target_id: target_id
+			target_id: target_id,
+			dialogId: dialogid
 		},
 		success: function(data) {
 			$("#"+dialogid+"_div").html(data);
@@ -100,3 +117,83 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 	});
 }
 
+
+/**
+ * setAnnotationMask - Save the visibility (mask_annotation_fg) of an annotation via AJAX.
+ * Requires the manage_collection role (enforced server-side).
+ * @param annotation_id the numeric primary key of the annotation to update.
+ * @param mask_value 0 for Public, 1 for Hidden.
+ * @param resultElementId the id of an element to show status feedback, with no leading # selector.
+ */
+function setAnnotationMask(annotation_id, mask_value, resultElementId) {
+	setFeedbackControlState(resultElementId,"saving");
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "post",
+		dataType: "json",
+		data: {
+			method: "setAnnotationMask",
+			annotation_id: annotation_id,
+			mask_annotation_fg: mask_value,
+			returnformat: "json"
+		},
+		success: function(result) {
+			var parsed = result;
+			if (typeof parsed === "string") {
+					parsed = JSON.parse(parsed);
+			}
+			if (parsed && parsed[0] && parsed[0].status === "updated") {
+				setFeedbackControlState(resultElementId,"saved");
+			} else {
+				setFeedbackControlState(resultElementId,"error");
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, "setting annotation visibility");
+			setFeedbackControlState(resultElementId,"error");
+		}
+	});
+}
+
+function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_annotation_fg,feedbackDiv,callback=null) { 
+	setFeedbackControlState(feedbackDiv,"saving")
+	jQuery.ajax({
+		dataType: "json",
+		url: "/annotations/component/functions.cfc",
+		data: { 
+			method : "updateAnnotationReview",
+			annotation_id : annotation_id,
+			reviewed_fg: reviewed_fg,
+			reviewer_comment: reviewer_comment,
+			mask_annotation_fg: mask_annotation_fg,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			handleFail(jqXHR,status,message,"updating annotation review");
+			setFeedbackControlState(feedbackDiv,"error")
+		},
+		success: function (result) {
+			if (callback instanceof Function) {
+				callback();
+			}
+			setFeedbackControlState(feedbackDiv,"saved")
+		}
+	});
+}
+
+
+/** doAnnotationUpdate reads review form field values for a given annotation and
+ * calls updateAnnotationReview() to save the review via ajax.
+ *
+ * @param annotation_id the numeric primary key of the annotation to update.
+ */
+function doAnnotationUpdate(annotation_id) {
+	var reviewed_fg = $("#reviewed_fg_" + annotation_id).val();
+	var reviewer_comment = $("#reviewer_comment_" + annotation_id).val();
+	var mask_annotation_fg = "";
+	var maskEl = document.getElementById("mask_annotation_fg_" + annotation_id);
+	if (maskEl) { mask_annotation_fg = maskEl.value; }
+	var feedbackDivId = "feedbackDiv_" + annotation_id;
+	updateAnnotationReview(annotation_id, reviewed_fg, reviewer_comment, mask_annotation_fg, feedbackDivId, null);
+}
