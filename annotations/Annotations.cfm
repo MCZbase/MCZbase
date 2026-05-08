@@ -97,11 +97,11 @@ limitations under the License.
 
 						<!--- Specimens filter --->
 						<div class="col-12 col-md-4 px-2 mb-2 border-right">
-							<h2 class="h5 mb-2">Specimens</h2>
+							<h2 class="h5 mb-2">Annotations on Specimens</h2>
 							<form id="filterSpecimens" method="get" action="/annotations/Annotations.cfm">
 								<input type="hidden" name="type" value="collection_object_id">
 								<div class="form-group mb-2">
-									<label for="collection" class="data-entry-label">Annotations on Specimens</label>
+									<label for="collection" class="data-entry-label">By Collection</label>
 									<select name="collection" id="collection" class="data-entry-select col-12">
 										<option value="">All Collections</option>
 										<cfloop query="getAnnotatedCollections">
@@ -273,7 +273,9 @@ limitations under the License.
 						higher_geog,
 						spec_locality
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Specimen Annotations (#catitem.recordcount# specimens)</h2>
+				<cfset plural = "s">
+				<cfif catitem.recordcount EQ 1><cfset plural = ""></cfif>
+				<h2 class="h3 mt-3 pl-1">Specimen Annotations (#catitem.recordcount# specimen#plural#)</h2>
 				<cfif catitem.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
@@ -359,7 +361,9 @@ limitations under the License.
 					FROM getTaxonAnnotations
 					GROUP BY taxon_name_id, scientific_name, display_name
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Taxonomic Annotations (#t.recordcount# taxa)</h2>
+				<cfset taxaword = "taxa">
+				<cfif t.recordcount EQ 1><cfset taxaword = "taxon"></cfif>
+				<h2 class="h3 mt-3 pl-1">Taxonomic Annotations (#t.recordcount# #taxaword#)</h2>
 				<cfif t.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
@@ -437,7 +441,9 @@ limitations under the License.
 					FROM getPubAnnotations
 					GROUP BY publication_title, publication_id
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Publication Annotations (#getPublicationAnnotations.recordcount# publications)</h2>
+				<cfset plural = "s">
+				<cfif getPublicationAnnotations.recordcount EQ 1><cfset plural = ""></cfif>
+				<h2 class="h3 mt-3 pl-1">Publication Annotations (#getPublicationAnnotations.recordcount# publication#plural#)</h2>
 				<cfif getPublicationAnnotations.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
@@ -515,7 +521,9 @@ limitations under the License.
 					FROM getProjectAnnotations
 					GROUP BY project_name, project_id
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Project Annotations (#t.recordcount# projects)</h2>
+				<cfset plural = "s">
+				<cfif t.recordcount EQ 1><cfset plural = ""></cfif>
+				<h2 class="h3 mt-3 pl-1">Project Annotations (#t.recordcount# project#plural#)</h2>
 				<cfif t.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
