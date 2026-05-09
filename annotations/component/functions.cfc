@@ -446,10 +446,12 @@ limitations under the License.
 
 <!--- Given an entity and id to annotate and the text of an annotation, save the annotation of the data record.
   * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
-  * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
-  * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
-  * @param motivation the motivation for the annotation (optional, defaults to commenting).
-  * @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 for public; only applied for manage_collection role.
+ * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
+ * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
+ * @param motivation the motivation for the annotation (optional, defaults to commenting).
+ * @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 for public; only applied for manage_collection role.
+ * @param state optional state to set on the root annotation when target_type is annotation.
+ * @param resolution optional resolution to set on the root annotation when target_type is annotation.
 --->
 <cffunction name="addAnnotation" access="remote">
 	<cfargument name="target_type" type="string" required="yes">
@@ -457,6 +459,8 @@ limitations under the License.
 	<cfargument name="annotation" type="string" required="yes">
 	<cfargument name="motivation" type="string" required="no">
 	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
+	<cfargument name="state" type="string" required="no" default="">
+	<cfargument name="resolution" type="string" required="no" default="">
 
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
@@ -623,6 +627,20 @@ limitations under the License.
 						SYSDATE
 					)
 				</cfquery>
+				<cfif target_type EQ "annotation" AND (len(trim(state)) GT 0 OR len(trim(resolution)) GT 0)>
+					<cfquery name="updRootAnnStateResolution" datasource="uam_god">
+						UPDATE annotations
+						SET
+							<cfif len(trim(state)) GT 0>
+								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(state)#'>
+							</cfif>
+							<cfif len(trim(state)) GT 0 AND len(trim(resolution)) GT 0>,</cfif>
+							<cfif len(trim(resolution)) GT 0>
+								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(resolution)#'>
+							</cfif>
+						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#'>
+					</cfquery>
+				</cfif>
 				<cftransaction action="commit">
 			<cfcatch>
 				<cftransaction action="rollback">

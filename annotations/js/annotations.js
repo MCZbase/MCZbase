@@ -121,8 +121,10 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
  * @param parentAnnotationId annotation_id of the root annotation receiving a reply.
  * @param feedbackDiv id of element to update with saving/saved/error state.
  * @param callback optional callback after successful save.
+ * @param state optional state value to apply to the root annotation.
+ * @param resolution optional resolution value to apply to the root annotation.
  */
-function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null) {
+function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null, state="", resolution="") {
 	var annotationFieldId = "reply_annotation_" + parentAnnotationId;
 	var motivationFieldId = "reply_motivation_" + parentAnnotationId;
 	var annotation = $("#" + annotationFieldId).val();
@@ -135,19 +137,32 @@ function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null) {
 	if (!motivation || motivation.length === 0) {
 		motivation = "commenting";
 	}
+	if (typeof state !== "string") {
+		state = "";
+	}
+	if (typeof resolution !== "string") {
+		resolution = "";
+	}
+	var postData = {
+		method: "addAnnotation",
+		target_type: "annotation",
+		target_id: parentAnnotationId,
+		annotation: annotation,
+		motivation: motivation,
+		returnformat: "json",
+		queryformat: "column"
+	};
+	if (state.length > 0) {
+		postData.state = state;
+	}
+	if (resolution.length > 0) {
+		postData.resolution = resolution;
+	}
 	setFeedbackControlState(feedbackDiv,"saving");
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
-		data: {
-			method: "addAnnotation",
-			target_type: "annotation",
-			target_id: parentAnnotationId,
-			annotation: annotation,
-			motivation: motivation,
-			returnformat: "json",
-			queryformat: "column"
-		},
+		data: postData,
 		success: function() {
 			setFeedbackControlState(feedbackDiv,"saved");
 			$("#" + annotationFieldId).val("");
