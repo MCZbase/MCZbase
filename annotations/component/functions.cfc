@@ -555,7 +555,6 @@ limitations under the License.
 		<cftransaction>
 			<cftry>
 				<cfset var storedTargetTable = "">
-				<cfset var requiresLegacyTargetColumn = listFindNoCase("collection_object,taxon_name,publication,project", target_type) GT 0>
 				<cfswitch expression="#target_type#">
 					<cfcase value="annotation">
 						<cfset storedTargetTable = "ANNOTATIONS">
@@ -584,15 +583,6 @@ limitations under the License.
 				<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
 					INSERT INTO annotations (
 						cf_username,
-						<cfif requiresLegacyTargetColumn AND target_type EQ 'collection_object'>
-							collection_object_id,
-						<cfelseif requiresLegacyTargetColumn AND target_type EQ 'taxon_name'>
-							taxon_name_id,
-						<cfelseif requiresLegacyTargetColumn AND target_type EQ 'publication'>
-							publication_id,
-						<cfelseif requiresLegacyTargetColumn AND target_type EQ 'project'>
-							project_id,
-						</cfif>
 						annotation,
 						target_table, 
 						target_primary_key,
@@ -602,9 +592,6 @@ limitations under the License.
 						<cfif setMaskFg>,mask_annotation_fg</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-						<cfif requiresLegacyTargetColumn>
-							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
-						</cfif>
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#storedTargetTable#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
