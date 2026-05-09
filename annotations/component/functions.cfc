@@ -555,7 +555,15 @@ limitations under the License.
 		<cftransaction>
 			<cftry>
 				<cfset var storedTargetTable = "">
-				<cfif target_type EQ "annotation"><cfset storedTargetTable = "ANNOTATIONS"><cfelse><cfset storedTargetTable = UCase(target_type)></cfif>
+				<cfset var requiresLegacyTargetColumn = listFindNoCase("collection_object,taxon_name,publication,project", target_type) GT 0>
+				<cfswitch expression="#target_type#">
+					<cfcase value="annotation">
+						<cfset storedTargetTable = "ANNOTATIONS">
+					</cfcase>
+					<cfdefaultcase>
+						<cfset storedTargetTable = UCase(target_type)>
+					</cfdefaultcase>
+				</cfswitch>
 				<cfquery name="agentLookup" datasource="uam_god">
 					SELECT MIN(an.agent_id) AS annotator_agent_id
 					FROM agent_name an
@@ -576,13 +584,13 @@ limitations under the License.
 				<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
 					INSERT INTO annotations (
 						cf_username,
-						<cfif target_type EQ 'collection_object'>
+						<cfif requiresLegacyTargetColumn AND target_type EQ 'collection_object'>
 							collection_object_id,
-						<cfelseif target_type EQ 'taxon_name'>
+						<cfelseif requiresLegacyTargetColumn AND target_type EQ 'taxon_name'>
 							taxon_name_id,
-						<cfelseif target_type EQ 'publication'>
+						<cfelseif requiresLegacyTargetColumn AND target_type EQ 'publication'>
 							publication_id,
-						<cfelseif target_type EQ 'project'>
+						<cfelseif requiresLegacyTargetColumn AND target_type EQ 'project'>
 							project_id,
 						</cfif>
 						annotation,
@@ -594,7 +602,7 @@ limitations under the License.
 						<cfif setMaskFg>,mask_annotation_fg</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-						<cfif target_type EQ 'collection_object' OR target_type EQ 'taxon_name' OR target_type EQ 'publication' OR target_type EQ 'project'>
+						<cfif requiresLegacyTargetColumn>
 							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 						</cfif>
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,

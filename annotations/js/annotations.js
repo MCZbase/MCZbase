@@ -37,7 +37,7 @@ function saveThisAnnotation(feedbackDiv,callback=null) {
 		success: function(data) {
 			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
 			setFeedbackControlState(feedbackDiv,"saved");
-			if (callback instanceof Function) {
+			if (typeof callback === "function") {
 				callback();
 			}
 		},
@@ -128,7 +128,8 @@ function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null) {
 	var annotation = $("#" + annotationFieldId).val();
 	var motivation = $("#" + motivationFieldId).val();
 	if (!annotation || annotation.length === 0) {
-		alert("You must enter an annotation reply to save.");
+		setFeedbackControlState(feedbackDiv,"error");
+		messageDialog("You must enter an annotation reply to save.","Reply Required");
 		return false;
 	}
 	if (!motivation || motivation.length === 0) {
@@ -150,7 +151,7 @@ function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null) {
 		success: function() {
 			setFeedbackControlState(feedbackDiv,"saved");
 			$("#" + annotationFieldId).val("");
-			if (callback instanceof Function) {
+			if (typeof callback === "function") {
 				callback();
 			}
 		},
@@ -219,7 +220,7 @@ function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_
 			setFeedbackControlState(feedbackDiv,"error")
 		},
 		success: function (result) {
-			if (callback instanceof Function) {
+			if (typeof callback === "function") {
 				callback();
 			}
 			setFeedbackControlState(feedbackDiv,"saved")
