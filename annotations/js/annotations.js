@@ -117,6 +117,51 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 	});
 }
 
+/** Save a reply annotation for a root annotation via AJAX.
+ * @param parentAnnotationId annotation_id of the root annotation receiving a reply.
+ * @param feedbackDiv id of element to update with saving/saved/error state.
+ * @param callback optional callback after successful save.
+ */
+function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null) {
+	var annotationFieldId = "reply_annotation_" + parentAnnotationId;
+	var motivationFieldId = "reply_motivation_" + parentAnnotationId;
+	var annotation = $("#" + annotationFieldId).val();
+	var motivation = $("#" + motivationFieldId).val();
+	if (!annotation || annotation.length === 0) {
+		alert("You must enter an annotation reply to save.");
+		return false;
+	}
+	if (!motivation || motivation.length === 0) {
+		motivation = "commenting";
+	}
+	setFeedbackControlState(feedbackDiv,"saving");
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "addAnnotation",
+			target_type: "annotation",
+			target_id: parentAnnotationId,
+			annotation: annotation,
+			motivation: motivation,
+			returnformat: "json",
+			queryformat: "column"
+		},
+		success: function() {
+			setFeedbackControlState(feedbackDiv,"saved");
+			$("#" + annotationFieldId).val("");
+			if (callback instanceof Function) {
+				callback();
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			setFeedbackControlState(feedbackDiv,"error");
+			handleFail(jqXHR,textStatus,error,"saving annotation reply");
+		}
+	});
+	return false;
+}
+
 
 /**
  * setAnnotationMask - Save the visibility (mask_annotation_fg) of an annotation via AJAX.

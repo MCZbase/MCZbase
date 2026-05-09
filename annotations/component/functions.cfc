@@ -519,8 +519,17 @@ limitations under the License.
 					WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
+			<cfcase value="annotation">
+				<cfset annotatable = true>
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						'Annotation:' || annotation_id as annorecord
+					FROM annotations
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
 			<cfdefaultcase>
-				<cfthrow message="Only annotation of collection objects, projects, publications, and taxa are supported at this time">
+				<cfthrow message="Only annotation of collection objects, projects, publications, taxa, and annotations are supported at this time">
 			</cfdefaultcase>
 		</cfswitch>
 	<cfcatch>
@@ -545,6 +554,8 @@ limitations under the License.
 	<cfif annotatable>
 		<cftransaction>
 			<cftry>
+				<cfset var storedTargetTable = "">
+				<cfif target_type EQ "annotation"><cfset storedTargetTable = "ANNOTATIONS"><cfelse><cfset storedTargetTable = UCase(target_type)></cfif>
 				<cfquery name="agentLookup" datasource="uam_god">
 					SELECT MIN(an.agent_id) AS annotator_agent_id
 					FROM agent_name an
@@ -583,9 +594,11 @@ limitations under the License.
 						<cfif setMaskFg>,mask_annotation_fg</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
+						<cfif target_type EQ 'collection_object' OR target_type EQ 'taxon_name' OR target_type EQ 'publication' OR target_type EQ 'project'>
+							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
+						</cfif>
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#storedTargetTable#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 						'New',
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
