@@ -1068,18 +1068,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<h4 class="h5 mb-2">Conversation</h4>
 			<cfif rootChildren.recordcount GT 0>
 				<cfloop query="rootChildren">
-					<cfset childRowHTML = renderAnnotationReviewRow(
-						annotation_id=rootChildren.annotation_id,
-						annotation_display=rootChildren.annotation_display,
-						cf_username=rootChildren.cf_username,
-						email=rootChildren.email,
-						annotate_date=rootChildren.annotate_date,
-						motivation=rootChildren.motivation,
-						reviewed_fg=rootChildren.reviewed_fg,
-						reviewer=rootChildren.reviewer,
-						reviewer_comment=rootChildren.reviewer_comment,
-						mask_annotation_fg=rootChildren.mask_annotation_fg
-					)>
+					<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="childRowHTML"
+						annotation_id="#rootChildren.annotation_id#"
+						annotation_display="#rootChildren.annotation_display#"
+						cf_username="#rootChildren.cf_username#"
+						email="#rootChildren.email#"
+						annotate_date="#rootChildren.annotate_date#"
+						motivation="#rootChildren.motivation#"
+						reviewed_fg="#rootChildren.reviewed_fg#"
+						reviewer="#rootChildren.reviewer#"
+						reviewer_comment="#rootChildren.reviewer_comment#"
+						mask_annotation_fg="#rootChildren.mask_annotation_fg#">
 					<div class="ml-2 border-left pl-2">#childRowHTML#</div>
 				</cfloop>
 			</cfif>
@@ -1088,9 +1087,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<textarea id="reply_annotation_#arguments.rootAnnotationId#" class="data-entry-textarea col-12 mb-1" rows="2" maxlength="4000"></textarea>
 				<label for="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-label">Reply motivation</label>
 				<select id="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-select col-12 col-md-4 mb-1">
-					<cfloop query="arguments.motivationOptions">
-						<cfif arguments.motivationOptions.motivation EQ "commenting"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="#encodeForHTML(arguments.motivationOptions.motivation)#" #selected#>#encodeForHTML(arguments.motivationOptions.motivation)# (#encodeForHTML(arguments.motivationOptions.description)#)</option>
+					<cfloop query="motivationOptions">
+						<cfif motivationOptions.motivation EQ "commenting"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="#encodeForHTML(motivationOptions.motivation)#" #selected#>#encodeForHTML(motivationOptions.motivation)# (#encodeForHTML(motivationOptions.description)#)</option>
 					</cfloop>
 				</select>
 				<button type="button" class="btn btn-xs btn-primary" onclick="saveReplyAnnotation(#arguments.rootAnnotationId#, 'reply_result_#arguments.rootAnnotationId#')">Save Reply</button>
