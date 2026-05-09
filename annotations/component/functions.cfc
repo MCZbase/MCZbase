@@ -450,8 +450,8 @@ limitations under the License.
  * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
  * @param motivation the motivation for the annotation (optional, defaults to commenting).
  * @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 for public; only applied for manage_collection role.
- * @param state optional state to set on the root annotation when target_type is annotation.
- * @param resolution optional resolution to set on the root annotation when target_type is annotation.
+ * @param root_state optional state to set on the root annotation when target_type is annotation.
+ * @param root_resolution optional resolution to set on the root annotation when target_type is annotation.
 --->
 <cffunction name="addAnnotation" access="remote">
 	<cfargument name="target_type" type="string" required="yes">
@@ -459,8 +459,8 @@ limitations under the License.
 	<cfargument name="annotation" type="string" required="yes">
 	<cfargument name="motivation" type="string" required="no">
 	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
-	<cfargument name="state" type="string" required="no" default="">
-	<cfargument name="resolution" type="string" required="no" default="">
+	<cfargument name="root_state" type="string" required="no" default="">
+	<cfargument name="root_resolution" type="string" required="no" default="">
 
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
@@ -645,17 +645,17 @@ limitations under the License.
 						SYSDATE
 					)
 				</cfquery>
-				<cfif target_type EQ "annotation" AND (len(trim(state)) GT 0 OR len(trim(resolution)) GT 0)>
+				<cfif target_type EQ "annotation" AND (len(trim(root_state)) GT 0 OR len(trim(root_resolution)) GT 0)>
 					<cfquery name="updRootAnnStateResolution" datasource="uam_god">
 						UPDATE annotations
 						SET
-							<cfif len(trim(state)) GT 0 AND len(trim(resolution)) GT 0>
-								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(state)#'>,
-								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(resolution)#'>
-							<cfelseif len(trim(state)) GT 0>
-								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(state)#'>
+							<cfif len(trim(root_state)) GT 0 AND len(trim(root_resolution)) GT 0>
+								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_state)#'>,
+								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_resolution)#'>
+							<cfelseif len(trim(root_state)) GT 0>
+								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_state)#'>
 							<cfelse>
-								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(resolution)#'>
+								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_resolution)#'>
 							</cfif>
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
@@ -1084,17 +1084,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfloop>
 			</cfif>
 			<div class="mt-1">
-				<label for="reply_annotation_#arguments.rootAnnotationId#" class="data-entry-label">Reply to this annotation</label>
-				<textarea id="reply_annotation_#arguments.rootAnnotationId#" class="data-entry-textarea col-12 mb-1" rows="2" maxlength="4000"></textarea>
-				<label for="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-label">Reply motivation</label>
-				<select id="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-select col-12 col-md-4 mb-1">
+				<label for="root_reply_annotation_#arguments.rootAnnotationId#" class="data-entry-label">Reply to this annotation</label>
+				<textarea id="root_reply_annotation_#arguments.rootAnnotationId#" class="data-entry-textarea col-12 mb-1" rows="2" maxlength="4000"></textarea>
+				<label for="root_reply_motivation_#arguments.rootAnnotationId#" class="data-entry-label">Reply motivation</label>
+				<select id="root_reply_motivation_#arguments.rootAnnotationId#" class="data-entry-select col-12 col-md-4 mb-1">
 					<cfloop query="motivationOptions">
 						<cfif motivationOptions.motivation EQ "commenting"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="#encodeForHTML(motivationOptions.motivation)#" #selected#>#encodeForHTML(motivationOptions.motivation)# (#encodeForHTML(motivationOptions.description)#)</option>
 					</cfloop>
 				</select>
-				<button type="button" class="btn btn-xs btn-primary" onclick="saveReplyAnnotation(#arguments.rootAnnotationId#, 'reply_result_#arguments.rootAnnotationId#')">Save Reply</button>
-				<output id="reply_result_#arguments.rootAnnotationId#" class="ml-1" aria-live="polite"></output>
+				<button type="button" class="btn btn-xs btn-primary" onclick="saveReplyAnnotation(#arguments.rootAnnotationId#, 'root_reply_result_#arguments.rootAnnotationId#')">Save Reply</button>
+				<output id="root_reply_result_#arguments.rootAnnotationId#" class="ml-1" aria-live="polite"></output>
 			</div>
 		</div>
 		</cfoutput>

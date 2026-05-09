@@ -118,68 +118,68 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 }
 
 /** Save a new reply annotation via AJAX.
- * @param parentAnnotationId annotation_id of the annotation receiving a new reply annotation.
- * @param feedbackDiv id of element to update with saving/saved/error state.
+ * @param rootAnnotationId annotation_id of the root annotation receiving a new reply annotation.
+ * @param rootFeedbackDiv id of element to update with saving/saved/error state.
  * @param callback optional callback after successful save.
- * @param state optional state value to apply to the root annotation.
- * @param resolution optional resolution value to apply to the root annotation.
+ * @param rootState optional state value to apply to the root annotation.
+ * @param rootResolution optional resolution value to apply to the root annotation.
  */
-function saveReplyAnnotation(parentAnnotationId, feedbackDiv, callback=null, state="", resolution="") {
-	var annotationFieldId = "reply_annotation_" + parentAnnotationId;
-	var motivationFieldId = "reply_motivation_" + parentAnnotationId;
-	var annotation = $("#" + annotationFieldId).val();
-	var motivation = $("#" + motivationFieldId).val();
+function saveReplyAnnotation(rootAnnotationId, rootFeedbackDiv, callback=null, rootState="", rootResolution="") {
+	var rootReplyAnnotationFieldId = "root_reply_annotation_" + rootAnnotationId;
+	var rootReplyMotivationFieldId = "root_reply_motivation_" + rootAnnotationId;
+	var annotation = $("#" + rootReplyAnnotationFieldId).val();
+	var motivation = $("#" + rootReplyMotivationFieldId).val();
 	if (!annotation || annotation.length === 0) {
-		setFeedbackControlState(feedbackDiv,"error");
+		setFeedbackControlState(rootFeedbackDiv,"error");
 		messageDialog("You must enter an annotation reply to save.","Reply Required");
 		return false;
 	}
 	if (!motivation || motivation.length === 0) {
 		motivation = "commenting";
 	}
-	if (typeof state !== "string") {
-		state = "";
+	if (typeof rootState !== "string") {
+		rootState = "";
 	}
-	if (typeof resolution !== "string") {
-		resolution = "";
+	if (typeof rootResolution !== "string") {
+		rootResolution = "";
 	}
 	var postData = {
 		method: "addAnnotation",
 		target_type: "annotation",
-		target_id: parentAnnotationId,
+		target_id: rootAnnotationId,
 		annotation: annotation,
 		motivation: motivation,
 		returnformat: "json",
 		queryformat: "column"
 	};
-	if (state.length > 0) {
-		postData.state = state;
+	if (rootState.length > 0) {
+		postData.root_state = rootState;
 	}
-	if (resolution.length > 0) {
-		postData.resolution = resolution;
+	if (rootResolution.length > 0) {
+		postData.root_resolution = rootResolution;
 	}
-	setFeedbackControlState(feedbackDiv,"saving");
+	setFeedbackControlState(rootFeedbackDiv,"saving");
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
 		data: postData,
 		success: function() {
-			setFeedbackControlState(feedbackDiv,"saved");
-			$("#" + annotationFieldId).val("");
+			setFeedbackControlState(rootFeedbackDiv,"saved");
+			$("#" + rootReplyAnnotationFieldId).val("");
 			if (typeof callback === "function") {
 				callback();
 			}
 		},
 		error: function(jqXHR, textStatus, error) {
-			setFeedbackControlState(feedbackDiv,"error");
+			setFeedbackControlState(rootFeedbackDiv,"error");
 			handleFail(jqXHR,textStatus,error,"saving annotation reply");
 		}
 	});
 	return false;
 }
 
-function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null, state="", resolution="") {
-	return saveReplyAnnotation(parentAnnotationId, feedbackDiv, callback, state, resolution);
+function saveAnnotationReply(rootAnnotationId, rootFeedbackDiv, callback=null, rootState="", rootResolution="") {
+	return saveReplyAnnotation(rootAnnotationId, rootFeedbackDiv, callback, rootState, rootResolution);
 }
 
 
