@@ -1069,16 +1069,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<cfif rootChildren.recordcount GT 0>
 				<cfloop query="rootChildren">
 					<cfset childRowHTML = renderAnnotationReviewRow(
-						annotation_id=annotation_id,
-						annotation_display=annotation_display,
-						cf_username=cf_username,
-						email=email,
-						annotate_date=annotate_date,
-						motivation=motivation,
-						reviewed_fg=reviewed_fg,
-						reviewer=reviewer,
-						reviewer_comment=reviewer_comment,
-						mask_annotation_fg=mask_annotation_fg
+						annotation_id=rootChildren.annotation_id,
+						annotation_display=rootChildren.annotation_display,
+						cf_username=rootChildren.cf_username,
+						email=rootChildren.email,
+						annotate_date=rootChildren.annotate_date,
+						motivation=rootChildren.motivation,
+						reviewed_fg=rootChildren.reviewed_fg,
+						reviewer=rootChildren.reviewer,
+						reviewer_comment=rootChildren.reviewer_comment,
+						mask_annotation_fg=rootChildren.mask_annotation_fg
 					)>
 					<div class="ml-2 border-left pl-2">#childRowHTML#</div>
 				</cfloop>
