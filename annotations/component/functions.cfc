@@ -631,11 +631,12 @@ limitations under the License.
 					<cfquery name="updRootAnnStateResolution" datasource="uam_god">
 						UPDATE annotations
 						SET
-							<cfif len(trim(state)) GT 0>
+							<cfif len(trim(state)) GT 0 AND len(trim(resolution)) GT 0>
+								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(state)#'>,
+								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(resolution)#'>
+							<cfelseif len(trim(state)) GT 0>
 								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(state)#'>
-							</cfif>
-							<cfif len(trim(state)) GT 0 AND len(trim(resolution)) GT 0>,</cfif>
-							<cfif len(trim(resolution)) GT 0>
+							<cfelse>
 								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(resolution)#'>
 							</cfif>
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#'>
