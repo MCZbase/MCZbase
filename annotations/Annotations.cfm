@@ -336,7 +336,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getSpecimenAnnotations.annotation_id, childAnnotations=specimenChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -427,7 +427,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getTaxonAnnotations.annotation_id, childAnnotations=taxonChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -510,7 +510,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getPubAnnotations.annotation_id, childAnnotations=publicationChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -593,7 +593,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getProjectAnnotations.annotation_id, childAnnotations=projectChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>
