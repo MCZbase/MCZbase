@@ -117,14 +117,14 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 	});
 }
 
-/** Save a reply annotation for a root annotation via AJAX.
- * @param parentAnnotationId annotation_id of the root annotation receiving a reply.
+/** Save a new reply annotation via AJAX.
+ * @param parentAnnotationId annotation_id of the annotation receiving a new reply annotation.
  * @param feedbackDiv id of element to update with saving/saved/error state.
  * @param callback optional callback after successful save.
  * @param state optional state value to apply to the root annotation.
  * @param resolution optional resolution value to apply to the root annotation.
  */
-function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null, state="", resolution="") {
+function saveReplyAnnotation(parentAnnotationId, feedbackDiv, callback=null, state="", resolution="") {
 	var annotationFieldId = "reply_annotation_" + parentAnnotationId;
 	var motivationFieldId = "reply_motivation_" + parentAnnotationId;
 	var annotation = $("#" + annotationFieldId).val();
@@ -176,6 +176,10 @@ function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null, sta
 		}
 	});
 	return false;
+}
+
+function saveAnnotationReply(parentAnnotationId, feedbackDiv, callback=null, state="", resolution="") {
+	return saveReplyAnnotation(parentAnnotationId, feedbackDiv, callback, state, resolution);
 }
 
 

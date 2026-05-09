@@ -68,104 +68,7 @@ limitations under the License.
 <cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
 <!--- Reused across target-specific root queries to exclude child/reply annotations from root result sets. --->
 <cfset variables.excludeReplyTargetsClause = "AND (annotations.target_table IS NULL OR upper(annotations.target_table) <> 'ANNOTATIONS')">
-
-<!--- Helper method to retrieve child annotations for a list of root annotations. --->
-<cffunction name="getChildAnnotationsForRoots" access="public" returntype="query">
-	<cfargument name="rootAnnotationIds" type="string" required="yes">
-	<cfset var childAnnotations = QueryNew("")>
-	<cfif len(arguments.rootAnnotationIds) EQ 0>
-		<cfreturn childAnnotations>
-	</cfif>
-	<cfquery name="childAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT
-			annotations.annotation_id,
-			NVL(atb.body_value, annotations.annotation) annotation_display,
-			annotations.cf_username,
-			cf_user_data.email,
-			annotations.annotate_date,
-			annotations.motivation,
-			annotations.reviewed_fg,
-			preferred_agent_name.agent_name reviewer,
-			annotations.reviewer_comment,
-			annotations.mask_annotation_fg,
-			annotations.target_primary_key parent_annotation_id
-		FROM
-			annotations
-			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
-			LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-			LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-			LEFT OUTER JOIN (
-				SELECT annotation_id, body_value,
-					ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-				FROM annotation_textualbody
-			) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-		WHERE
-			upper(annotations.target_table) = 'ANNOTATIONS'
-			AND annotations.target_primary_key IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationIds#" list="yes">)
-		ORDER BY
-			annotations.target_primary_key,
-			annotations.annotate_date
-	</cfquery>
-	<cfreturn childAnnotations>
-</cffunction>
-
-<!--- Render child annotation list and root reply controls for a root annotation. --->
-<cffunction name="renderAnnotationConversationSection" access="public" returntype="string">
-	<cfargument name="rootAnnotationId" type="numeric" required="yes">
-	<cfargument name="childAnnotations" type="query" required="yes">
-	<cfset var sectionHtml = "">
-	<cfset var rootChildren = QueryNew("annotation_id,annotation_display,cf_username,email,annotate_date,motivation,reviewed_fg,reviewer,reviewer_comment,mask_annotation_fg")>
-	<cfif arguments.childAnnotations.recordcount GT 0>
-		<cfset var childAnnoQuery = arguments.childAnnotations>
-		<cfquery name="rootChildren" dbtype="query">
-			SELECT
-				annotation_id, annotation_display, cf_username, email,
-				annotate_date, motivation, reviewed_fg, reviewer,
-				reviewer_comment, mask_annotation_fg
-			FROM childAnnoQuery
-			WHERE parent_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationId#">
-		</cfquery>
-	</cfif>
-	<cfsavecontent variable="sectionHtml">
-		<cfoutput>
-		<div class="card-body bg-white border-bottom py-2 pl-4" data-reply-parent-id="#arguments.rootAnnotationId#">
-			<h4 class="h5 mb-2">Conversation</h4>
-			<cfif rootChildren.recordcount GT 0>
-				<cfloop query="rootChildren">
-					<div class="ml-2 border-left pl-2">
-						<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="childRowHTML"
-							annotation_id="#annotation_id#"
-							annotation_display="#annotation_display#"
-							cf_username="#cf_username#"
-							email="#email#"
-							annotate_date="#annotate_date#"
-							motivation="#motivation#"
-							reviewed_fg="#reviewed_fg#"
-							reviewer="#reviewer#"
-							reviewer_comment="#reviewer_comment#"
-							mask_annotation_fg="#mask_annotation_fg#">
-						#childRowHTML#
-					</div>
-				</cfloop>
-			</cfif>
-			<div class="mt-1">
-				<label for="reply_annotation_#arguments.rootAnnotationId#" class="data-entry-label">Reply to this annotation</label>
-				<textarea id="reply_annotation_#arguments.rootAnnotationId#" class="data-entry-textarea col-12 mb-1" rows="2" maxlength="4000"></textarea>
-				<label for="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-label">Reply motivation</label>
-				<select id="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-select col-12 col-md-4 mb-1">
-					<cfloop query="ctmotivation">
-						<cfif ctmotivation.motivation EQ "commenting"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="#encodeForHTML(ctmotivation.motivation)#" #selected#>#encodeForHTML(ctmotivation.motivation)# (#encodeForHTML(ctmotivation.description)#)</option>
-					</cfloop>
-				</select>
-				<button type="button" class="btn btn-xs btn-primary" onclick="saveAnnotationReply(#arguments.rootAnnotationId#, 'reply_result_#arguments.rootAnnotationId#')">Save Reply</button>
-				<output id="reply_result_#arguments.rootAnnotationId#" class="ml-1" aria-live="polite"></output>
-			</div>
-		</div>
-		</cfoutput>
-	</cfsavecontent>
-	<cfreturn trim(sectionHtml)>
-</cffunction>
+<cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
 
 <!--- Data queries for filter picklists --->
 <cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -374,7 +277,7 @@ limitations under the License.
 							)
 						</cfif>
 				</cfquery>
-				<cfset specimenChildAnno = getChildAnnotationsForRoots(valueList(getSpecimenAnnotations.annotation_id))>
+				<cfset specimenChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getSpecimenAnnotations.annotation_id))>
 				<cfquery name="catitem" dbtype="query">
 					SELECT
 						COLLECTION_OBJECT_ID,
@@ -433,7 +336,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -484,7 +387,7 @@ limitations under the License.
 							AND upper(taxonomy.scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.scientific_name)#%">
 						</cfif>
 				</cfquery>
-				<cfset taxonChildAnno = getChildAnnotationsForRoots(valueList(getTaxonAnnotations.annotation_id))>
+				<cfset taxonChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getTaxonAnnotations.annotation_id))>
 				<cfquery name="t" dbtype="query">
 					SELECT taxon_name_id, scientific_name, display_name
 					FROM getTaxonAnnotations
@@ -524,7 +427,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -567,7 +470,7 @@ limitations under the License.
 							AND annotations.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 						</cfif>
 				</cfquery>
-				<cfset publicationChildAnno = getChildAnnotationsForRoots(valueList(getPubAnnotations.annotation_id))>
+				<cfset publicationChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getPubAnnotations.annotation_id))>
 				<cfquery name="getPublicationAnnotations" dbtype="query">
 					SELECT publication_title, publication_id
 					FROM getPubAnnotations
@@ -607,7 +510,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -650,7 +553,7 @@ limitations under the License.
 							AND annotations.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
 						</cfif>
 				</cfquery>
-				<cfset projectChildAnno = getChildAnnotationsForRoots(valueList(getProjectAnnotations.annotation_id))>
+				<cfset projectChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getProjectAnnotations.annotation_id))>
 				<cfquery name="t" dbtype="query">
 					SELECT project_name, project_id
 					FROM getProjectAnnotations
@@ -690,7 +593,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno, motivationOptions=ctmotivation)#
 							</cfloop>
 						</div>
 					</cfloop>

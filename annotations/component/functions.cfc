@@ -469,6 +469,7 @@ limitations under the License.
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
+	<cfset rootAnnotationId = target_id>
 	<cftry>
 		<cfswitch expression="#target_type#">
 			<cfcase value="collection_object">
@@ -531,6 +532,23 @@ limitations under the License.
 					FROM annotations
 					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
+				<cfif annotated.recordcount EQ 0>
+					<cfthrow message="Annotation to annotate not found.">
+				</cfif>
+				<cfquery name="annotationRoot" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT annotation_id
+					FROM (
+						SELECT annotation_id, LEVEL hierarchy_level
+						FROM annotations
+						START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+						CONNECT BY PRIOR target_primary_key = annotation_id AND PRIOR target_table = 'ANNOTATIONS'
+						ORDER BY LEVEL DESC
+					)
+					WHERE ROWNUM = 1
+				</cfquery>
+				<cfif annotationRoot.recordcount EQ 1>
+					<cfset rootAnnotationId = annotationRoot.annotation_id>
+				</cfif>
 			</cfcase>
 			<cfdefaultcase>
 				<cfthrow message="Only annotation of collection objects, projects, publications, taxa, and annotations are supported at this time">
@@ -639,7 +657,7 @@ limitations under the License.
 							<cfelse>
 								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(resolution)#'>
 							</cfif>
-						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#'>
+						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
 				</cfif>
 				<cftransaction action="commit">
@@ -973,6 +991,115 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		</cftry>
 	</cftransaction>
 	<cfreturn serializeJSON(data)>
+</cffunction>
+
+
+<!--- Retrieve child/reply annotations for a list of root annotation ids.
+ @param rootAnnotationIds comma-delimited list of annotation.annotation_id values.
+ @return query of child annotations keyed by parent_annotation_id.
+--->
+<cffunction name="getChildAnnotationsForRoots" returntype="query" access="public">
+	<cfargument name="rootAnnotationIds" type="string" required="yes">
+	<cfset var childAnnotations = QueryNew("")>
+	<cfif len(arguments.rootAnnotationIds) EQ 0>
+		<cfreturn childAnnotations>
+	</cfif>
+	<cfquery name="childAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			annotations.annotation_id,
+			NVL(atb.body_value, annotations.annotation) annotation_display,
+			annotations.cf_username,
+			cf_user_data.email,
+			annotations.annotate_date,
+			annotations.motivation,
+			annotations.reviewed_fg,
+			preferred_agent_name.agent_name reviewer,
+			annotations.reviewer_comment,
+			annotations.mask_annotation_fg,
+			annotations.target_primary_key parent_annotation_id
+		FROM
+			annotations
+			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
+			LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+			LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+			LEFT OUTER JOIN (
+				SELECT annotation_id, body_value,
+					ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+				FROM annotation_textualbody
+			) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+		WHERE
+			upper(annotations.target_table) = 'ANNOTATIONS'
+			AND annotations.target_primary_key IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationIds#" list="yes">)
+		ORDER BY
+			annotations.target_primary_key,
+			annotations.annotate_date
+	</cfquery>
+	<cfreturn childAnnotations>
+</cffunction>
+
+
+<!--- Render child annotation list and root reply controls for a root annotation.
+ @param rootAnnotationId annotation.annotation_id for the root annotation.
+ @param childAnnotations query from getChildAnnotationsForRoots().
+ @param motivationOptions query of ctmotivation rows for reply motivation options.
+ @return html snippet for conversation section.
+--->
+<cffunction name="renderAnnotationConversationSection" returntype="string" access="public">
+	<cfargument name="rootAnnotationId" type="numeric" required="yes">
+	<cfargument name="childAnnotations" type="query" required="yes">
+	<cfargument name="motivationOptions" type="query" required="yes">
+	<cfset var sectionHtml = "">
+	<cfset var rootChildren = QueryNew("annotation_id,annotation_display,cf_username,email,annotate_date,motivation,reviewed_fg,reviewer,reviewer_comment,mask_annotation_fg")>
+	<cfset var childRowHTML = "">
+	<cfif arguments.childAnnotations.recordcount GT 0>
+		<cfset var childAnnoQuery = arguments.childAnnotations>
+		<cfquery name="rootChildren" dbtype="query">
+			SELECT
+				annotation_id, annotation_display, cf_username, email,
+				annotate_date, motivation, reviewed_fg, reviewer,
+				reviewer_comment, mask_annotation_fg
+			FROM childAnnoQuery
+			WHERE parent_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationId#">
+		</cfquery>
+	</cfif>
+	<cfsavecontent variable="sectionHtml">
+		<cfoutput>
+		<div class="card-body bg-white border-bottom py-2 pl-4" data-reply-parent-id="#arguments.rootAnnotationId#">
+			<h4 class="h5 mb-2">Conversation</h4>
+			<cfif rootChildren.recordcount GT 0>
+				<cfloop query="rootChildren">
+					<cfset childRowHTML = renderAnnotationReviewRow(
+						annotation_id=annotation_id,
+						annotation_display=annotation_display,
+						cf_username=cf_username,
+						email=email,
+						annotate_date=annotate_date,
+						motivation=motivation,
+						reviewed_fg=reviewed_fg,
+						reviewer=reviewer,
+						reviewer_comment=reviewer_comment,
+						mask_annotation_fg=mask_annotation_fg
+					)>
+					<div class="ml-2 border-left pl-2">#childRowHTML#</div>
+				</cfloop>
+			</cfif>
+			<div class="mt-1">
+				<label for="reply_annotation_#arguments.rootAnnotationId#" class="data-entry-label">Reply to this annotation</label>
+				<textarea id="reply_annotation_#arguments.rootAnnotationId#" class="data-entry-textarea col-12 mb-1" rows="2" maxlength="4000"></textarea>
+				<label for="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-label">Reply motivation</label>
+				<select id="reply_motivation_#arguments.rootAnnotationId#" class="data-entry-select col-12 col-md-4 mb-1">
+					<cfloop query="arguments.motivationOptions">
+						<cfif arguments.motivationOptions.motivation EQ "commenting"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="#encodeForHTML(arguments.motivationOptions.motivation)#" #selected#>#encodeForHTML(arguments.motivationOptions.motivation)# (#encodeForHTML(arguments.motivationOptions.description)#)</option>
+					</cfloop>
+				</select>
+				<button type="button" class="btn btn-xs btn-primary" onclick="saveReplyAnnotation(#arguments.rootAnnotationId#, 'reply_result_#arguments.rootAnnotationId#')">Save Reply</button>
+				<output id="reply_result_#arguments.rootAnnotationId#" class="ml-1" aria-live="polite"></output>
+			</div>
+		</div>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn trim(sectionHtml)>
 </cffunction>
 
 
