@@ -3236,8 +3236,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
-	<cfset var specLocalityFilter = "">
-	<cfset var verbatimLocalityFilter = "">
+	<cfset var specLocalityFilter = structKeyExists(arguments,"spec_locality") ? arguments.spec_locality : "">
+	<cfset var verbatimLocalityFilter = structKeyExists(arguments,"verbatim_locality") ? arguments.verbatim_locality : "">
 
 	<!---
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
@@ -3322,12 +3322,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset data = ArrayNew(1)>
 	<cfset whereClauses = ArrayNew(1)>
 	<cfset sqlParams = StructNew()>
-	<cfif structKeyExists(arguments,"spec_locality")>
-		<cfset specLocalityFilter = arguments.spec_locality>
-	</cfif>
-	<cfif structKeyExists(arguments,"verbatim_locality")>
-		<cfset verbatimLocalityFilter = arguments.verbatim_locality>
-	</cfif>
 	<cfset flatTableName = "filtered_flat">
 	<cfif ucase(session.flatTableName) EQ "FLAT"><cfset flatTableName = "flat"></cfif>
 
