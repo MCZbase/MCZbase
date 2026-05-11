@@ -122,11 +122,17 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
  * @param callback optional function to execute when the dialog closes.
  */
 function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
-	var dialogid = "annotationDialog_reply_" + rootAnnotationId;
+	var parsedRootAnnotationId = parseInt(rootAnnotationId,10);
+	if (!Number.isFinite(parsedRootAnnotationId) || parsedRootAnnotationId <= 0) {
+		messageDialog("Unable to open annotation dialog for this reply target.","Reply Annotation");
+		return false;
+	}
+	var dialogid = "annotationDialog_reply_" + parsedRootAnnotationId;
 	if ($("#" + dialogid).length === 0) {
 		$("body").append('<div id="' + dialogid + '"></div>');
 	}
-	openAnnotationsDialog(dialogid, "annotation", rootAnnotationId, callback);
+	openAnnotationsDialog(dialogid, "annotation", parsedRootAnnotationId, callback);
+	return true;
 }
 
 /** Save a new reply annotation via AJAX.
