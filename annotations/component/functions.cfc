@@ -89,7 +89,7 @@ limitations under the License.
 								annotations.STATE STATE,
 								annotations.RESOLUTION RESOLUTION,
 								annotations.motivation,
-								revname.agent_name reviewer_name,
+								revname.agent_name revewer_name,
 								annotator.first_name annotator_first_name,
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
@@ -142,7 +142,7 @@ limitations under the License.
 								annotations.STATE STATE,
 								annotations.RESOLUTION RESOLUTION,
 								annotations.motivation,
-								revname.agent_name reviewer_name,
+								revname.agent_name revewer_name,
 								annotator.first_name annotator_first_name,
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
@@ -197,7 +197,7 @@ limitations under the License.
 								annotations.STATE STATE,
 								annotations.RESOLUTION RESOLUTION,
 								annotations.motivation,
-								revname.agent_name reviewer_name,
+								revname.agent_name revewer_name,
 								annotator.first_name annotator_first_name,
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
@@ -253,7 +253,7 @@ limitations under the License.
 								annotations.STATE STATE,
 								annotations.RESOLUTION RESOLUTION,
 								annotations.motivation,
-								revname.agent_name reviewer_name,
+								revname.agent_name revewer_name,
 								annotator.first_name annotator_first_name,
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
@@ -277,73 +277,6 @@ limitations under the License.
 						</cfquery>
 						<!--- TODO: Manage dialog for individual annotations --->
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
-					</cfcase>
-					<cfcase value="annotation">
-						<cfset annotation_id = target_id>
-						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-							select
-								a.annotation_id,
-								atb.body_value
-							from
-								annotations a
-								left outer join (
-									select annotation_id, body_value,
-									       row_number() over (partition by annotation_id order by created_date) rn
-									from annotation_textualbody
-								) atb on a.annotation_id = atb.annotation_id and atb.rn = 1
-							where
-								a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
-						</cfquery>
-						<cfif d.recordcount EQ 0>
-							<cfthrow message="Annotation to annotate not found.">
-						</cfif>
-						<cfloop query="d">
-							<cfif len(body_value) GT 0>
-								<cfset summary="Annotation <strong>#annotation_id#</strong>: #encodeForHTML(body_value)#">
-							<cfelse>
-								<cfset summary="Annotation <strong>#annotation_id#</strong>">
-							</cfif>
-						</cfloop>
-						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-							select annotations.ANNOTATION_ID ANNOTATION_ID,
-								annotations.ANNOTATE_DATE ANNOTATE_DATE,
-								annotations.CF_USERNAME CF_USERNAME,
-								annotations.COLLECTION_OBJECT_ID COLLECTION_OBJECT_ID,
-								annotations.TAXON_NAME_ID TAXON_NAME_ID,
-								annotations.PROJECT_ID PROJECT_ID,
-								annotations.PUBLICATION_ID PUBLICATION_ID,
-								annotations.ANNOTATION ANNOTATION,
-								annotations.REVIEWER_AGENT_ID REVIEWER_AGENT_ID,
-								annotations.REVIEWED_FG REVIEWED_FG,
-								annotations.REVIEWER_COMMENT REVIEWER_COMMENT,
-								annotations.TARGET_TABLE TARGET_TABLE,
-								annotations.TARGET_PRIMARY_KEY TARGET_PRIMARY_KEY,
-								annotations.STATE STATE,
-								annotations.RESOLUTION RESOLUTION,
-								annotations.motivation,
-								revname.agent_name reviewer_name,
-								annotator.first_name annotator_first_name,
-								annotator.middle_name annotator_middle_name,
-								annotator.last_name annotator_last_name,
-								annotator.affiliation annotator_affiliation,
-								annotator.email annotator_email,
-								annotations.ANNOTATOR_AGENT_ID ANNOTATOR_AGENT_ID,
-								annotations.MASK_ANNOTATION_FG MASK_ANNOTATION_FG,
-								atb.body_value BODY_VALUE
-							from annotations
-								left outer join agent rev on annotations.reviewer_agent_id = rev.agent_id
-								left outer join agent_name revname on rev.PREFERRED_AGENT_NAME_ID = revname.agent_NAME_ID
-								left outer join cf_users on annotations.cf_username = cf_users.username
-								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
-								left outer join (
-									select annotation_id, body_value,
-									       row_number() over (partition by annotation_id order by created_date) rn
-									from annotation_textualbody
-								) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
-							where target_table in ('ANNOTATION','ANNOTATIONS')
-								and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
-							order by annotations.STATE, annotate_date
-						</cfquery>
 					</cfcase>
 					<cfdefaultcase>
 						<!--- TODO: Support annotations on at least agents, media (with ROI), and other annotations --->
@@ -528,13 +461,7 @@ limitations under the License.
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
 	</cfif>
-	<cfset motivation = rereplace(motivation,"[^a-zA-Z]","","all")>
-	<cfset hasLegacyTargetColumn = listFindNoCase("collection_object,taxon_name,publication,project",target_type) GT 0>
-	<cfif target_type EQ "annotation">
-		<cfset targetTableName = "ANNOTATIONS">
-	<cfelse>
-		<cfset targetTableName = UCase(target_type)>
-	</cfif>
+	<cfset motivation = rereplace(motivation,"[^a-zA-z]","all")>
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
@@ -592,16 +519,8 @@ limitations under the License.
 					WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
-			<cfcase value="annotation">
-				<cfset annotatable = true>
-				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 'Annotation: ' || annotation_id as annorecord
-					FROM annotations
-					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
-				</cfquery>
-			</cfcase>
 			<cfdefaultcase>
-				<cfthrow message="Only annotation of collection objects, projects, publications, taxa, and annotations are supported at this time">
+				<cfthrow message="Only annotation of collection objects, projects, publications, and taxa are supported at this time">
 			</cfdefaultcase>
 		</cfswitch>
 	<cfcatch>
@@ -646,13 +565,13 @@ limitations under the License.
 				<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
 					INSERT INTO annotations (
 						cf_username,
-						<cfif hasLegacyTargetColumn AND target_type EQ 'collection_object'>
+						<cfif target_type EQ 'collection_object'>
 							collection_object_id,
-						<cfelseif hasLegacyTargetColumn AND target_type EQ 'taxon_name'>
+						<cfelseif target_type EQ 'taxon_name'>
 							taxon_name_id,
-						<cfelseif hasLegacyTargetColumn AND target_type EQ 'publication'>
+						<cfelseif target_type EQ 'publication'>
 							publication_id,
-						<cfelseif hasLegacyTargetColumn AND target_type EQ 'project'>
+						<cfelseif target_type EQ 'project'>
 							project_id,
 						</cfif>
 						annotation,
@@ -664,9 +583,9 @@ limitations under the License.
 						<cfif setMaskFg>,mask_annotation_fg</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-						<cfif hasLegacyTargetColumn><cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,</cfif>
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#targetTableName#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 						'New',
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
