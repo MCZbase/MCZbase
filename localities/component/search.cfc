@@ -3324,13 +3324,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset sqlParams = StructNew()>
 	<cfif structKeyExists(arguments,"spec_locality")>
 		<cfset specLocalityFilter = arguments.spec_locality>
-	<cfelseif isdefined("variables.spec_locality")>
-		<cfset specLocalityFilter = variables.spec_locality>
 	</cfif>
 	<cfif structKeyExists(arguments,"verbatim_locality")>
 		<cfset verbatimLocalityFilter = arguments.verbatim_locality>
-	<cfelseif isdefined("variables.verbatim_locality")>
-		<cfset verbatimLocalityFilter = variables.verbatim_locality>
 	</cfif>
 	<cfset flatTableName = "filtered_flat">
 	<cfif ucase(session.flatTableName) EQ "FLAT"><cfset flatTableName = "flat"></cfif>
