@@ -3251,7 +3251,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset linguisticFlag=true>
 	</cfif>
 	<cfif structKeyExists(arguments,"collectingtime") AND NOT structKeyExists(arguments,"collecting_time")>
-		<cfset collecting_time = arguments.collectingtime>
+		<cfset arguments.collecting_time = arguments.collectingtime>
 	</cfif>
 	<cfif structKeyExists(arguments,"collection_id") and len(arguments.collection_id) gt 0>
 		<cfif not structKeyExists(arguments,"collnOper")><cfset arguments.collnOper= "usedBy"></cfif>
