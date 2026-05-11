@@ -457,9 +457,14 @@ limitations under the License.
 									</script>
 								</div>
 							</div>
-								<div class="col-12 form-row mx-0 px-0">
+								<div class="col-12 mx-0 px-0">
 									<cfif prevAnn.recordcount gt 0>
-										<h2 class="h4 mt-3 px-1">Annotations on this Record</h2>
+										<div class="d-flex justify-content-between align-items-center mt-3 px-1">
+											<h2 class="h4 mb-0">Annotations on this Record</h2>
+											<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+												<a href="#manageIRI#" class="btn btn-xs btn-primary" target="_blank">Manage Annotations</a>
+											</cfif>
+										</div>
 										<cfquery name="rootDialogAnnotations" dbtype="query">
 											SELECT *
 											FROM prevAnn
@@ -468,7 +473,7 @@ limitations under the License.
 										</cfquery>
 										<cfif rootDialogAnnotations.recordcount GT 0>
 											<cfset dialogChildAnno = getChildAnnotationsForRoots(valueList(rootDialogAnnotations.annotation_id))>
-											<div class="card border-0">
+											<div class="card border-0 mt-2">
 												<cfloop query="rootDialogAnnotations">
 													<cfif len(body_value) GT 0>
 														<cfset dialogAnnotationDisplay = body_value>
@@ -494,9 +499,6 @@ limitations under the License.
 												</cfloop>
 											</div>
 										</cfif>
-									<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-										<a href="#manageIRI#" class="h3" target="_blank">Manage Annotations</a>
-									</cfif>
 								<cfelse>
 									<h2 class="h3">There are no annotations for this record.</h2>
 								</cfif>
@@ -1184,7 +1186,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<cfif arguments.includeHeading>
 				<div class="d-flex justify-content-between align-items-center mb-2">
 					<h4 class="h5 mb-0">Conversation</h4>
-					<button type="button" class="btn btn-xs btn-primary open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(arguments.rootAnnotationId)#">Reply in Dialog</button>
+					<button type="button" class="btn btn-xs btn-primary open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(arguments.rootAnnotationId)#">Reply</button>
 				</div>
 			</cfif>
 			<cfif rootChildren.recordcount GT 0>
@@ -1230,7 +1232,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param mask_annotation_fg  0 or 1 annotation visibility flag
  @param is_response         if true, render as a response annotation (no reviewed control).
  @param root_annotation_id  root annotation id for response/reply action targeting.
- @param show_reply_action   if true, show a Reply in Dialog action.
+ @param show_reply_action   if true, show a Reply action.
  @return html string for one annotation review card row
 --->
 <cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
@@ -1315,7 +1317,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<div class="col-12 col-md-2 pt-3 px-1">
 						<div>
 							<cfif arguments.show_reply_action>
-								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply in Dialog</button>
+								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 							</cfif>
 							<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save</button>
 							<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite"></output>
