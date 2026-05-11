@@ -376,9 +376,10 @@ limitations under the License.
 				<section class="container-fluid">
 					<div class="row">
 						<div class="col-12 px-0 px-md-3 mt-2">
+							<h2 class="h3 my-0 px-1 py-2" tabindex="0">Annotations for #summary#</h2>
 							<div class="col-12 px-0 add-form">
 								<div class="add-form-header px-2">
-									<h2 class="h3 my-0 px-1 py-2" tabindex="0">Annotations for #summary#</h2>
+									<h3 class="h4 my-0 px-1 py-2" tabindex="0">Add New Annotation</h3>
 								</div>
 								<div class="row col-12 mx-0 mt-3 d-block">
 									<form name="annotate" onSubmit="return false;" class="form-row">
@@ -1258,8 +1259,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfsavecontent variable="rowHTML">
 		<cfoutput>
 		<div class="card-body bg-light border-bottom py-2">
-			<div class="d-flex justify-content-between align-items-start">
-				<div class="form-row mx-0 col-12 px-0">
+			<div class="form-row mx-0 col-12 px-0">
 				<div class="col-12 col-md-6 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold">Annotation:</span>
 					<cfif showMaskedBody>
@@ -1281,15 +1281,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<span class="data-entry-label font-weight-bold">Motivation:</span>
 					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
 				</div>
-			</div>
-			<div class="pt-2 pr-1 text-right">
-				<cfif arguments.show_reply_action AND NOT arguments.is_response>
-					<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply in Dialog</button><br>
-				</cfif>
-				<cfif arguments.is_response>
-					<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#">Edit Response in Dialog</button>
-				</cfif>
-			</div>
 			</div>
 			<div class="form-row mx-0 col-12 px-0 pt-1">
 				<cfif NOT arguments.is_response>
@@ -1323,11 +1314,19 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-2 pt-3 px-1">
 						<div>
+							<cfif arguments.show_reply_action>
+								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply in Dialog</button>
+							</cfif>
 							<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save</button>
 							<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite"></output>
 						</div>
 					</div>
-				<cfelseif showVisibility>
+				<cfelse>
+					<div class="col-12 col-md-2 pt-3 px-1">
+						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#">Edit</button>
+					</div>
+				</cfif>
+				<cfif arguments.is_response AND showVisibility>
 					<script>
 						$(document).ready(function() {
 							$("##mask_annotation_fg_#arguments.annotation_id#").off("change.responsemask").on("change.responsemask", function() {
