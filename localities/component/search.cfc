@@ -3082,11 +3082,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @param value user supplied query value to parse with setupClause.
 @param paramBase trusted internal base name used when creating named parameters;
 	never pass user-provided content.
-@return nothing (mutates whereClauses and params).
+@return updated whereClauses array including appended clause.
 --->
-<cffunction name="appendSetupClauseCondition" access="private" returntype="void">
-	<cfargument name="whereClauses" type="array" required="yes" passby="reference">
-	<cfargument name="params" type="struct" required="yes" passby="reference">
+<cffunction name="appendSetupClauseCondition" access="private" returntype="array">
+	<cfargument name="whereClauses" type="array" required="yes">
+	<cfargument name="params" type="struct" required="yes">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="paramBase" type="string" required="yes">
@@ -3098,6 +3098,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_VARCHAR',list=(setup['list'] EQ 'yes'))# #setup['post']#">
 	</cfif>
 	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
+	<cfreturn arguments.whereClauses>
 </cffunction>
 
 <!--- Function appendSetupNumericClauseCondition to add a numeric field clause prepared by setupNumericClause to a WHERE clause array.
@@ -3109,11 +3110,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @param paramBase trusted internal base name used when creating named parameters;
 	never pass user-provided content.
 @param scale optional numeric scale for decimal bindings.
-@return nothing (mutates whereClauses and params).
+@return updated whereClauses array including appended clause.
 --->
-<cffunction name="appendSetupNumericClauseCondition" access="private" returntype="void">
-	<cfargument name="whereClauses" type="array" required="yes" passby="reference">
-	<cfargument name="params" type="struct" required="yes" passby="reference">
+<cffunction name="appendSetupNumericClauseCondition" access="private" returntype="array">
+	<cfargument name="whereClauses" type="array" required="yes">
+	<cfargument name="params" type="struct" required="yes">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="paramBase" type="string" required="yes">
@@ -3136,6 +3137,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfif>
 	</cfif>
 	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
+	<cfreturn arguments.whereClauses>
 </cffunction>
 
 <!--- Function getCollectingEvents_queryExecute.
@@ -3379,60 +3381,60 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			</cfif>
 		</cfif>
 
-		<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.continent_ocean",continent_ocean,"continent_ocean")></cfif>
-		<cfif isdefined("country") AND len(country) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.country",country,"country")></cfif>
-		<cfif isdefined("state_prov") AND len(state_prov) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.state_prov",state_prov,"state_prov")></cfif>
-		<cfif isdefined("county") AND len(county) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.county",county,"county")></cfif>
-		<cfif isdefined("feature") AND len(feature) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.feature",feature,"feature")></cfif>
-		<cfif isdefined("island") AND len(island) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island",island,"island")></cfif>
-		<cfif isdefined("island_group") AND len(island_group) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island_group",island_group,"island_group")></cfif>
-		<cfif isdefined("ocean_region") AND len(ocean_region) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.ocean_region",ocean_region,"ocean_region")></cfif>
-		<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.ocean_subregion",ocean_subregion,"ocean_subregion")></cfif>
-		<cfif isdefined("sea") AND len(sea) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.sea",sea,"sea")></cfif>
-		<cfif isdefined("water_feature") AND len(water_feature) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.water_feature",water_feature,"water_feature")></cfif>
-		<cfif isdefined("source_authority") AND len(source_authority) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.source_authority",source_authority,"source_authority")></cfif>
-		<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid",highergeographyid,"highergeographyid")></cfif>
-		<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid_guid_type",highergeographyid_guid_type,"highergeographyid_guid_type")></cfif>
-		<cfif isdefined("spec_locality") AND len(spec_locality) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.spec_locality",spec_locality,"spec_locality")></cfif>
-		<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.locality_remarks",locality_remarks,"locality_remarks")></cfif>
-		<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.orig_elev_units",orig_elev_units,"orig_elev_units")></cfif>
-		<cfif isdefined("depth_units") AND len(depth_units) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.depth_units",depth_units,"depth_units")></cfif>
-		<cfif isdefined("section_part") AND len(section_part) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.section_part",section_part,"section_part")></cfif>
-		<cfif isdefined("datum") AND len(datum) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"accepted_lat_long.datum",datum,"datum")></cfif>
-		<cfif isdefined("georef_by") AND len(georef_by) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.georef_by",georef_by,"georef_by")></cfif>
-		<cfif isdefined("verbatim_locality") AND len(verbatim_locality) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_locality",verbatim_locality,"verbatim_locality")></cfif>
-		<cfif isdefined("verbatim_date") AND len(verbatim_date) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_date",verbatim_date,"verbatim_date")></cfif>
-		<cfif isdefined("verbatimdepth") AND len(verbatimdepth) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimdepth",verbatimdepth,"verbatimdepth")></cfif>
-		<cfif isdefined("verbatimelevation") AND len(verbatimelevation) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimelevation",verbatimelevation,"verbatimelevation")></cfif>
-		<cfif isdefined("verbatimCoordinates") AND len(verbatimCoordinates) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimCoordinates",verbatimCoordinates,"verbatimCoordinates")></cfif>
-		<cfif isdefined("habitat_desc") AND len(habitat_desc) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.habitat_desc",habitat_desc,"habitat_desc")></cfif>
-		<cfif isdefined("collecting_source") AND len(collecting_source) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_source",collecting_source,"collecting_source")></cfif>
-		<cfif isdefined("collecting_method") AND len(collecting_method) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_method",collecting_method,"collecting_method")></cfif>
-		<cfif isdefined("coll_event_remarks") AND len(coll_event_remarks) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.coll_event_remarks",coll_event_remarks,"coll_event_remarks")></cfif>
-		<cfif isdefined("fish_field_number") AND len(fish_field_number) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.fish_field_number",fish_field_number,"fish_field_number")></cfif>
-		<cfif isdefined("verbatim_collectors") AND len(verbatim_collectors) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_collectors",verbatim_collectors,"verbatim_collectors")></cfif>
-		<cfif isdefined("collecting_time") AND len(collecting_time) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_time",collecting_time,"collecting_time")></cfif>
-		<cfif isdefined("verbatimsrs") AND len(verbatimsrs) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimsrs",verbatimsrs,"verbatimsrs")></cfif>
-		<cfif isdefined("verbatimcoordinatesystem") AND len(verbatimcoordinatesystem) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimcoordinatesystem",verbatimcoordinatesystem,"verbatimcoordinatesystem")></cfif>
-		<cfif isdefined("verbatimlatitude") AND len(verbatimlatitude) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimlatitude",verbatimlatitude,"verbatimlatitude")></cfif>
-		<cfif isdefined("verbatimlongitude") AND len(verbatimlongitude) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimlongitude",verbatimlongitude,"verbatimlongitude")></cfif>
-		<cfif isdefined("verbatim_field_numbers") AND len(verbatim_field_numbers) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_field_numbers",verbatim_field_numbers,"verbatim_field_numbers")></cfif>
-		<cfif isdefined("verbatim_habitat") AND len(verbatim_habitat) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_habitat",verbatim_habitat,"verbatim_habitat")></cfif>
+		<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.continent_ocean",continent_ocean,"continent_ocean")></cfif>
+		<cfif isdefined("country") AND len(country) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.country",country,"country")></cfif>
+		<cfif isdefined("state_prov") AND len(state_prov) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.state_prov",state_prov,"state_prov")></cfif>
+		<cfif isdefined("county") AND len(county) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.county",county,"county")></cfif>
+		<cfif isdefined("feature") AND len(feature) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.feature",feature,"feature")></cfif>
+		<cfif isdefined("island") AND len(island) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island",island,"island")></cfif>
+		<cfif isdefined("island_group") AND len(island_group) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island_group",island_group,"island_group")></cfif>
+		<cfif isdefined("ocean_region") AND len(ocean_region) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.ocean_region",ocean_region,"ocean_region")></cfif>
+		<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.ocean_subregion",ocean_subregion,"ocean_subregion")></cfif>
+		<cfif isdefined("sea") AND len(sea) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.sea",sea,"sea")></cfif>
+		<cfif isdefined("water_feature") AND len(water_feature) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.water_feature",water_feature,"water_feature")></cfif>
+		<cfif isdefined("source_authority") AND len(source_authority) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.source_authority",source_authority,"source_authority")></cfif>
+		<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid",highergeographyid,"highergeographyid")></cfif>
+		<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid_guid_type",highergeographyid_guid_type,"highergeographyid_guid_type")></cfif>
+		<cfif isdefined("spec_locality") AND len(spec_locality) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.spec_locality",spec_locality,"spec_locality")></cfif>
+		<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.locality_remarks",locality_remarks,"locality_remarks")></cfif>
+		<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.orig_elev_units",orig_elev_units,"orig_elev_units")></cfif>
+		<cfif isdefined("depth_units") AND len(depth_units) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.depth_units",depth_units,"depth_units")></cfif>
+		<cfif isdefined("section_part") AND len(section_part) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.section_part",section_part,"section_part")></cfif>
+		<cfif isdefined("datum") AND len(datum) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"accepted_lat_long.datum",datum,"datum")></cfif>
+		<cfif isdefined("georef_by") AND len(georef_by) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.georef_by",georef_by,"georef_by")></cfif>
+		<cfif isdefined("verbatim_locality") AND len(verbatim_locality) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_locality",verbatim_locality,"verbatim_locality")></cfif>
+		<cfif isdefined("verbatim_date") AND len(verbatim_date) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_date",verbatim_date,"verbatim_date")></cfif>
+		<cfif isdefined("verbatimdepth") AND len(verbatimdepth) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimdepth",verbatimdepth,"verbatimdepth")></cfif>
+		<cfif isdefined("verbatimelevation") AND len(verbatimelevation) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimelevation",verbatimelevation,"verbatimelevation")></cfif>
+		<cfif isdefined("verbatimCoordinates") AND len(verbatimCoordinates) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimCoordinates",verbatimCoordinates,"verbatimCoordinates")></cfif>
+		<cfif isdefined("habitat_desc") AND len(habitat_desc) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.habitat_desc",habitat_desc,"habitat_desc")></cfif>
+		<cfif isdefined("collecting_source") AND len(collecting_source) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_source",collecting_source,"collecting_source")></cfif>
+		<cfif isdefined("collecting_method") AND len(collecting_method) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_method",collecting_method,"collecting_method")></cfif>
+		<cfif isdefined("coll_event_remarks") AND len(coll_event_remarks) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.coll_event_remarks",coll_event_remarks,"coll_event_remarks")></cfif>
+		<cfif isdefined("fish_field_number") AND len(fish_field_number) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.fish_field_number",fish_field_number,"fish_field_number")></cfif>
+		<cfif isdefined("verbatim_collectors") AND len(verbatim_collectors) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_collectors",verbatim_collectors,"verbatim_collectors")></cfif>
+		<cfif isdefined("collecting_time") AND len(collecting_time) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_time",collecting_time,"collecting_time")></cfif>
+		<cfif isdefined("verbatimsrs") AND len(verbatimsrs) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimsrs",verbatimsrs,"verbatimsrs")></cfif>
+		<cfif isdefined("verbatimcoordinatesystem") AND len(verbatimcoordinatesystem) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimcoordinatesystem",verbatimcoordinatesystem,"verbatimcoordinatesystem")></cfif>
+		<cfif isdefined("verbatimlatitude") AND len(verbatimlatitude) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimlatitude",verbatimlatitude,"verbatimlatitude")></cfif>
+		<cfif isdefined("verbatimlongitude") AND len(verbatimlongitude) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimlongitude",verbatimlongitude,"verbatimlongitude")></cfif>
+		<cfif isdefined("verbatim_field_numbers") AND len(verbatim_field_numbers) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_field_numbers",verbatim_field_numbers,"verbatim_field_numbers")></cfif>
+		<cfif isdefined("verbatim_habitat") AND len(verbatim_habitat) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_habitat",verbatim_habitat,"verbatim_habitat")></cfif>
 
-		<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.minimum_elevation",minimum_elevation,"minimum_elevation")></cfif>
-		<cfif isdefined("minimum_elevation_m") AND len(minimum_elevation_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.minimum_elevation,locality.orig_elev_units)",minimum_elevation_m,"minimum_elevation_m")></cfif>
-		<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.maximum_elevation",maximum_elevation,"maximum_elevation")></cfif>
-		<cfif isdefined("maximum_elevation_m") AND len(maximum_elevation_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.maximum_elevation,locality.orig_elev_units)",maximum_elevation_m,"maximum_elevation_m")></cfif>
-		<cfif isdefined("min_depth") AND len(min_depth) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.min_depth",min_depth,"min_depth")></cfif>
-		<cfif isdefined("min_depth_m") AND len(min_depth_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.min_depth,locality.depth_units)",min_depth_m,"min_depth_m")></cfif>
-		<cfif isdefined("max_depth") AND len(max_depth) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.max_depth",max_depth,"max_depth")></cfif>
-		<cfif isdefined("max_depth_m") AND len(max_depth_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.max_depth,locality.depth_units)",max_depth_m,"max_depth_m")></cfif>
-		<cfif isdefined("section") AND len(section) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.section",section,"section")></cfif>
-		<cfif isdefined("township") AND len(township) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.township",township,"township")></cfif>
-		<cfif isdefined("range") AND len(range) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.range",range,"range")></cfif>
-		<cfif isdefined("max_error_distance") AND len(max_error_distance) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.max_error_distance",max_error_distance,"max_error_distance")></cfif>
-		<cfif isdefined("startdayofyear") AND len(startdayofyear) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"collecting_event.startdayofyear",startdayofyear,"startdayofyear")></cfif>
-		<cfif isdefined("enddayofyear") AND len(enddayofyear) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"collecting_event.enddayofyear",enddayofyear,"enddayofyear")></cfif>
+		<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.minimum_elevation",minimum_elevation,"minimum_elevation")></cfif>
+		<cfif isdefined("minimum_elevation_m") AND len(minimum_elevation_m) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.minimum_elevation,locality.orig_elev_units)",minimum_elevation_m,"minimum_elevation_m")></cfif>
+		<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.maximum_elevation",maximum_elevation,"maximum_elevation")></cfif>
+		<cfif isdefined("maximum_elevation_m") AND len(maximum_elevation_m) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.maximum_elevation,locality.orig_elev_units)",maximum_elevation_m,"maximum_elevation_m")></cfif>
+		<cfif isdefined("min_depth") AND len(min_depth) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.min_depth",min_depth,"min_depth")></cfif>
+		<cfif isdefined("min_depth_m") AND len(min_depth_m) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.min_depth,locality.depth_units)",min_depth_m,"min_depth_m")></cfif>
+		<cfif isdefined("max_depth") AND len(max_depth) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.max_depth",max_depth,"max_depth")></cfif>
+		<cfif isdefined("max_depth_m") AND len(max_depth_m) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.max_depth,locality.depth_units)",max_depth_m,"max_depth_m")></cfif>
+		<cfif isdefined("section") AND len(section) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.section",section,"section")></cfif>
+		<cfif isdefined("township") AND len(township) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.township",township,"township")></cfif>
+		<cfif isdefined("range") AND len(range) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.range",range,"range")></cfif>
+		<cfif isdefined("max_error_distance") AND len(max_error_distance) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.max_error_distance",max_error_distance,"max_error_distance")></cfif>
+		<cfif isdefined("startdayofyear") AND len(startdayofyear) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"collecting_event.startdayofyear",startdayofyear,"startdayofyear")></cfif>
+		<cfif isdefined("enddayofyear") AND len(enddayofyear) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"collecting_event.enddayofyear",enddayofyear,"enddayofyear")></cfif>
 		<cfif isdefined("township_direction") AND len(township_direction) gt 0>
 			<cfif ucase(township_direction) EQ "NULL">
 				<cfset arrayAppend(whereClauses,"locality.township_direction IS NULL")>
@@ -3483,29 +3485,29 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			<cfif left(dec_lat,1) is "=">
 				<cfset arrayAppend(whereClauses,"to_char(accepted_lat_long.dec_lat,'TM') = #addNamedQueryParam(sqlParams,'dec_lat_eq',right(dec_lat,len(dec_lat)-1),'CF_SQL_VARCHAR')#")>
 			<cfelse>
-				<cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.dec_lat",dec_lat,"dec_lat",10)>
+				<cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.dec_lat",dec_lat,"dec_lat",10)>
 			</cfif>
 		</cfif>
 		<cfif isdefined("dec_long") AND len(dec_long) gt 0>
 			<cfif left(dec_long,1) is "=">
 				<cfset arrayAppend(whereClauses,"to_char(accepted_lat_long.dec_long,'TM') = #addNamedQueryParam(sqlParams,'dec_long_eq',right(dec_long,len(dec_long)-1),'CF_SQL_VARCHAR')#")>
 			<cfelse>
-				<cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.dec_long",dec_long,"dec_long",10)>
+				<cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.dec_long",dec_long,"dec_long",10)>
 			</cfif>
 		</cfif>
 
 		<cfif isdefined("georeference_verified_by_id") and len(georeference_verified_by_id) gt 0>
 			<cfset arrayAppend(whereClauses,"georef_verified_agent.agent_id = #addNamedQueryParam(sqlParams,'georeference_verified_by_id',georeference_verified_by_id,'CF_SQL_DECIMAL')#")>
 		<cfelseif isdefined("georeference_verified_by") and len(georeference_verified_by) gt 0>
-			<cfset appendSetupClauseCondition(whereClauses,sqlParams,"georef_verified_agent.agent_name",georeference_verified_by,"georeference_verified_by")>
+			<cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"georef_verified_agent.agent_name",georeference_verified_by,"georeference_verified_by")>
 		</cfif>
 		<cfif isdefined("coordinateDeterminer") and len(coordinateDeterminer) gt 0>
-			<cfset appendSetupClauseCondition(whereClauses,sqlParams,"georef_determined_agent.agent_name",coordinateDeterminer,"coordinateDeterminer")>
+			<cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"georef_determined_agent.agent_name",coordinateDeterminer,"coordinateDeterminer")>
 		</cfif>
 		<cfif isdefined("date_determined_by_agent_id") and len(date_determined_by_agent_id) gt 0>
 			<cfset arrayAppend(whereClauses,"georef_verified_agent.agent_id = #addNamedQueryParam(sqlParams,'date_determined_by_agent_id',date_determined_by_agent_id,'CF_SQL_DECIMAL')#")>
 		<cfelseif isdefined("date_determined_by_agent") and len(date_determined_by_agent) gt 0>
-			<cfset appendSetupClauseCondition(whereClauses,sqlParams,"date_determined_agent.agent_name",date_determined_by_agent,"date_determined_by_agent")>
+			<cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"date_determined_agent.agent_name",date_determined_by_agent,"date_determined_by_agent")>
 		</cfif>
 		<cfif isdefined("geolocate_precision") and len(geolocate_precision) gt 0>
 			<cfset arrayAppend(whereClauses,"lower(accepted_lat_long.geolocate_precision) = #addNamedQueryParam(sqlParams,'geolocate_precision',geolocate_precision,'CF_SQL_VARCHAR')#")>
