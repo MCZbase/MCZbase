@@ -3085,8 +3085,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @return nothing (mutates whereClauses and params).
 --->
 <cffunction name="appendSetupClauseCondition" access="private" returntype="void">
-	<cfargument name="whereClauses" type="array" required="yes">
-	<cfargument name="params" type="struct" required="yes">
+	<cfargument name="whereClauses" type="array" required="yes" passby="reference">
+	<cfargument name="params" type="struct" required="yes" passby="reference">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="paramBase" type="string" required="yes">
@@ -3112,8 +3112,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @return nothing (mutates whereClauses and params).
 --->
 <cffunction name="appendSetupNumericClauseCondition" access="private" returntype="void">
-	<cfargument name="whereClauses" type="array" required="yes">
-	<cfargument name="params" type="struct" required="yes">
+	<cfargument name="whereClauses" type="array" required="yes" passby="reference">
+	<cfargument name="params" type="struct" required="yes" passby="reference">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="paramBase" type="string" required="yes">
