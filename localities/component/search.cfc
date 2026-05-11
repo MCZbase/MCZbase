@@ -3043,7 +3043,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 <!--- Function addNamedQueryParam to add a named typed parameter to a queryExecute parameter struct.
 
 @param params struct of named query parameters to append to.
-@param paramBase base name for generating a unique parameter name.
+@param paramBase trusted internal base name for generating a unique parameter name.
+	Must be code-defined (never user-provided) and match [A-Za-z_][A-Za-z0-9_]*.
 @param value parameter value to bind.
 @param cfsqltype SQL type to use for binding.
 @param list true to bind value as a list parameter.
@@ -3057,8 +3058,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="cfsqltype" type="string" required="yes">
 	<cfargument name="list" type="boolean" required="no" default="false">
 	<cfargument name="scale" type="numeric" required="no">
-	<cfset var paramName = rereplace(arguments.paramBase,"[^A-Za-z0-9_]","","all") & "_" & (structCount(arguments.params) + 1)>
+	<cfset var paramName = "">
 	<cfset var paramStruct = { value = arguments.value, cfsqltype = arguments.cfsqltype }>
+	<cfif REFind("^[A-Za-z_][A-Za-z0-9_]*$",arguments.paramBase) EQ 0>
+		<cfthrow type="Application" message="Invalid parameter base name for queryExecute binding.">
+	</cfif>
+	<cfset paramName = arguments.paramBase & "_" & (structCount(arguments.params) + 1)>
 	<cfif arguments.list>
 		<cfset paramStruct["list"] = true>
 	</cfif>
@@ -3075,7 +3080,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @param params struct of named query parameters for queryExecute.
 @param field SQL field/expression to query.
 @param value user supplied query value to parse with setupClause.
-@param paramBase base name used when creating named parameters.
+@param paramBase trusted internal base name used when creating named parameters;
+	never pass user-provided content.
 @return nothing (mutates whereClauses and params).
 --->
 <cffunction name="appendSetupClauseCondition" access="private" returntype="void">
@@ -3100,7 +3106,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @param params struct of named query parameters for queryExecute.
 @param field SQL field/expression to query.
 @param value user supplied numeric query value to parse with setupNumericClause.
-@param paramBase base name used when creating named parameters.
+@param paramBase trusted internal base name used when creating named parameters;
+	never pass user-provided content.
 @param scale optional numeric scale for decimal bindings.
 @return nothing (mutates whereClauses and params).
 --->
