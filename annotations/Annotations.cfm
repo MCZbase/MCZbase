@@ -88,12 +88,6 @@ limitations under the License.
    GROUP BY taxonomy.family
 	ORDER BY taxonomy.family
 </cfquery>
-<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT motivation, description
-	FROM ctmotivation
-	ORDER BY motivation
-</cfquery>
-
 <main class="container-fluid" id="content">
 	<section role="search">
 		<div class="row mx-0 mb-2">
@@ -334,7 +328,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getSpecimenAnnotations.annotation_id, childAnnotations=specimenChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getSpecimenAnnotations.annotation_id, childAnnotations=specimenChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -424,7 +418,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getTaxonAnnotations.annotation_id, childAnnotations=taxonChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getTaxonAnnotations.annotation_id, childAnnotations=taxonChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -506,7 +500,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getPubAnnotations.annotation_id, childAnnotations=publicationChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getPubAnnotations.annotation_id, childAnnotations=publicationChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -588,7 +582,7 @@ limitations under the License.
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getProjectAnnotations.annotation_id, childAnnotations=projectChildAnno, motivationOptions=ctmotivation)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getProjectAnnotations.annotation_id, childAnnotations=projectChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>

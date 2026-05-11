@@ -1038,16 +1038,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
-<!--- Render child annotation list and root reply controls for a root annotation.
+<!--- Render conversation section with existing child annotations and a button to open annotation dialog for replies.
  @param rootAnnotationId annotation.annotation_id for the root annotation.
  @param childAnnotations query from getChildAnnotationsForRoots().
- @param motivationOptions query of ctmotivation rows for reply motivation options.
  @return html snippet for conversation section.
 --->
 <cffunction name="renderAnnotationConversationSection" returntype="string" access="public">
 	<cfargument name="rootAnnotationId" type="numeric" required="yes">
 	<cfargument name="childAnnotations" type="query" required="yes">
-	<cfargument name="motivationOptions" type="query" required="yes">
 	<cfset var sectionHtml = "">
 	<cfset var rootChildren = QueryNew("annotation_id,annotation_display,cf_username,email,annotate_date,motivation,reviewed_fg,reviewer,reviewer_comment,mask_annotation_fg")>
 	<cfset var childRowHTML = "">
@@ -1065,7 +1063,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfsavecontent variable="sectionHtml">
 		<cfoutput>
 		<div class="card-body bg-white border-bottom py-2 pl-4" data-reply-parent-id="#arguments.rootAnnotationId#">
-			<h4 class="h5 mb-2">Conversation</h4>
+			<div class="d-flex justify-content-between align-items-center mb-2">
+				<h4 class="h5 mb-0">Conversation</h4>
+				<button type="button" class="btn btn-xs btn-primary" onclick="openAnnotationsDialog('annotationDialog_reply_#arguments.rootAnnotationId#','annotation',#arguments.rootAnnotationId#,function(){ window.location.reload(); });">Reply in Dialog</button>
+			</div>
+			<div id="annotationDialog_reply_#arguments.rootAnnotationId#"></div>
 			<cfif rootChildren.recordcount GT 0>
 				<cfloop query="rootChildren">
 					<cfset childRowHTML = renderAnnotationReviewRow(
@@ -1082,20 +1084,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					)>
 					<div class="ml-2 border-left pl-2">#childRowHTML#</div>
 				</cfloop>
+			<cfelse>
+				<p class="small text-muted mb-0">No response annotations.</p>
 			</cfif>
-			<div class="mt-1">
-				<label for="root_reply_annotation_#arguments.rootAnnotationId#" class="data-entry-label">Reply to this annotation</label>
-				<textarea id="root_reply_annotation_#arguments.rootAnnotationId#" class="data-entry-textarea col-12 mb-1" rows="2" maxlength="4000"></textarea>
-				<label for="root_reply_motivation_#arguments.rootAnnotationId#" class="data-entry-label">Reply motivation</label>
-				<select id="root_reply_motivation_#arguments.rootAnnotationId#" class="data-entry-select col-12 col-md-4 mb-1">
-					<cfloop query="motivationOptions">
-						<cfif motivationOptions.motivation EQ "commenting"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="#encodeForHTML(motivationOptions.motivation)#" #selected#>#encodeForHTML(motivationOptions.motivation)# (#encodeForHTML(motivationOptions.description)#)</option>
-					</cfloop>
-				</select>
-				<button type="button" class="btn btn-xs btn-primary" onclick="saveReplyAnnotation(#arguments.rootAnnotationId#, 'root_reply_result_#arguments.rootAnnotationId#')">Save Reply</button>
-				<output id="root_reply_result_#arguments.rootAnnotationId#" class="ml-1" aria-live="polite"></output>
-			</div>
 		</div>
 		</cfoutput>
 	</cfsavecontent>
