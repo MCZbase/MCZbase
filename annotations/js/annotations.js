@@ -1,5 +1,10 @@
 /** JavaScript functions for handling annotations in MCZbase. **/
 
+jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
+	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
+	openReplyAnnotationDialog(rootAnnotationId);
+});
+
 /** saveThisAnnotation - Save a new annotation via AJAX.
  * Requires user to have a login and have entered name and email.
  * @param feedbackDiv the id of a div element to show status feedback.
