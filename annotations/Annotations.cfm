@@ -373,7 +373,6 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
 					WHERE upper(annotations.target_table) = 'TAXON_NAME'
 						<cfif isDefined("variables.taxon_name_id") AND len(variables.taxon_name_id) GT 0>
 							AND annotations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
