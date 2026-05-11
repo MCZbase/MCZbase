@@ -48,16 +48,16 @@ limitations under the License.
 				<cfset manageIRI = "">
 				<cfset dialogTargetId = target_id>
 				<cfset responseRootAnnotationId = "">
-				<cfset dialogIdSuffix = "_" & rereplace(dialogId,"[^A-Za-z0-9_]","","all")>
-				<cfset idtypeFieldId = "idtype" & dialogIdSuffix>
-				<cfset idvalueFieldId = "idvalue" & dialogIdSuffix>
-				<cfset annotationFieldId = "annotation" & dialogIdSuffix>
-				<cfset annotationLengthId = "length_annotation" & dialogIdSuffix>
-				<cfset motivationFieldId = "motivation" & dialogIdSuffix>
-				<cfset maskFieldId = "mask_annotation_fg" & dialogIdSuffix>
-				<cfset rootReviewedFieldId = "root_reviewed_fg" & dialogIdSuffix>
-				<cfset rootMaskFieldId = "root_mask_annotation_fg" & dialogIdSuffix>
-				<cfset annotationResultDivId = "annotationResultDiv" & dialogIdSuffix>
+				<cfset dialogFieldQualifier = "_" & rereplace(dialogId,"[^A-Za-z0-9_]","","all")>
+				<cfset idtypeFieldId = "idtype" & dialogFieldQualifier>
+				<cfset idvalueFieldId = "idvalue" & dialogFieldQualifier>
+				<cfset annotationFieldId = "annotation" & dialogFieldQualifier>
+				<cfset annotationLengthId = "length_annotation" & dialogFieldQualifier>
+				<cfset motivationFieldId = "motivation" & dialogFieldQualifier>
+				<cfset maskFieldId = "mask_annotation_fg" & dialogFieldQualifier>
+				<cfset rootReviewedFieldId = "root_reviewed_fg" & dialogFieldQualifier>
+				<cfset rootMaskFieldId = "root_mask_annotation_fg" & dialogFieldQualifier>
+				<cfset annotationResultDivId = "annotationResultDiv" & dialogFieldQualifier>
 				<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT motivation, description
 					FROM ctmotivation
@@ -309,18 +309,18 @@ limitations under the License.
 						<cfif d.recordcount EQ 0>
 							<cfthrow message="Annotation to annotate not found.">
 						</cfif>
-						<cfset dialogAnnotationId = d.annotation_id>
+						<cfset targetAnnotationId = d.annotation_id>
 						<cfif len(d.body_value) GT 0>
-							<cfset summary="Annotation <strong>#dialogAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
+							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
 						<cfelse>
-							<cfset summary="Annotation <strong>#dialogAnnotationId#</strong>">
+							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>">
 						</cfif>
 						<cfquery name="annotationRootForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT annotation_id
 							FROM (
 								SELECT annotation_id, LEVEL hierarchy_level
 								FROM annotations
-								START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dialogAnnotationId#">
+								START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetAnnotationId#">
 								CONNECT BY PRIOR target_primary_key = annotation_id AND PRIOR target_table = 'ANNOTATIONS'
 								ORDER BY LEVEL DESC
 							)
@@ -330,13 +330,13 @@ limitations under the License.
 							<cfset responseRootAnnotationId = annotationRootForDialog.annotation_id>
 							<cfset dialogTargetId = annotationRootForDialog.annotation_id>
 						<cfelse>
-							<cfset responseRootAnnotationId = dialogAnnotationId>
+							<cfset responseRootAnnotationId = targetAnnotationId>
 						</cfif>
-						<cfif responseRootAnnotationId NEQ dialogAnnotationId>
+						<cfif responseRootAnnotationId NEQ targetAnnotationId>
 							<cfif len(d.body_value) GT 0>
-								<cfset summary="Response Annotation <strong>#dialogAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
+								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
 							<cfelse>
-								<cfset summary="Response Annotation <strong>#dialogAnnotationId#</strong>">
+								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>">
 							</cfif>
 							<cfquery name="rootAnnotationSummaryForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT a.annotation_id, atb.body_value
@@ -477,7 +477,7 @@ limitations under the License.
 											<input type="button" 
 												class="btn btn-xs btn-primary mt-2" 
 												value="Save Annotation" 
-												onclick="saveThisAnnotation('#annotationResultDivId#', function(){ var dialogId = '#encodeForJavaScript(dialogId)#'; $('##' + dialogId).dialog('close'); }, '#dialogIdSuffix#')">
+												onclick="saveThisAnnotation('#annotationResultDivId#', function(){ var dialogId = '#encodeForJavaScript(dialogId)#'; $('##' + dialogId).dialog('close'); }, '#dialogFieldQualifier#')">
 											<output id="#annotationResultDivId#" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
