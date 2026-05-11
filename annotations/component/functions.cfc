@@ -534,7 +534,11 @@ limitations under the License.
 	</cfif>
 	<cfset motivation = rereplace(motivation,"[^a-zA-Z]","","all")>
 	<cfset hasLegacyTargetColumn = listFindNoCase("collection_object,taxon_name,publication,project",target_type) GT 0>
-	<cfif target_type EQ "annotation"><cfset targetTableName = "ANNOTATIONS"><cfelse><cfset targetTableName = UCase(target_type)></cfif>
+	<cfif target_type EQ "annotation">
+		<cfset targetTableName = "ANNOTATIONS">
+	<cfelse>
+		<cfset targetTableName = UCase(target_type)>
+	</cfif>
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
