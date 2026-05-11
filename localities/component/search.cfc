@@ -1758,6 +1758,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
    Obtain a list of collecting events in a form suitable for display in a jqxgrid
 
 	@return json containing data about collecting events matching specified search criteria.
+   @deprecated use getCollectingEvents_queryExecute instead.
 --->
 <cffunction name="getCollectingEvents" access="remote" returntype="any" returnformat="json">
 	<cfargument name="any_geography" type="string" required="no"><!--- keyword index search --->
