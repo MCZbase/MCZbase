@@ -3243,10 +3243,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfif isDefined("maxElevOperM") and maxElevOperM EQ ">" and left(maximum_elevation_m,1) NEQ ">"><cfset maximum_elevation_m=">#maximum_elevation_m#"></cfif>
 	</cfif>
 	<cfif isdefined("minimum_elevation_m") AND len(minimum_elevation_m) gt 0>
-		<cfif isDefined("MinElevOperM") and minElevOperM EQ "!" and left(minimum_elevation_m,1) NEQ "!"><cfset minimum_elevation_m="!#minimum_elevation_m#"></cfif>
-		<cfif isDefined("MinElevOperM") and minElevOperM EQ "<>" and left(minimum_elevation_m,2) NEQ "<>"><cfset minimum_elevation_m="!#minimum_elevation_m#"></cfif>
-		<cfif isDefined("MinElevOperM") and minElevOperM EQ "<" and left(minimum_elevation_m,1) NEQ "<"><cfset minimum_elevation_m="<#minimum_elevation_m#"></cfif>
-		<cfif isDefined("MinElevOperM") and minElevOperM EQ ">" and left(minimum_elevation_m,1) NEQ ">"><cfset minimum_elevation_m=">#minimum_elevation_m#"></cfif>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ "!" and left(minimum_elevation_m,1) NEQ "!"><cfset minimum_elevation_m="!#minimum_elevation_m#"></cfif>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ "<>" and left(minimum_elevation_m,2) NEQ "<>"><cfset minimum_elevation_m="!#minimum_elevation_m#"></cfif>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ "<" and left(minimum_elevation_m,1) NEQ "<"><cfset minimum_elevation_m="<#minimum_elevation_m#"></cfif>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ ">" and left(minimum_elevation_m,1) NEQ ">"><cfset minimum_elevation_m=">#minimum_elevation_m#"></cfif>
 	</cfif>
 	<cfif isdefined("max_depth") AND len(max_depth) gt 0>
 		<cfif isDefined("maxDepthOper") and maxDepthOper EQ "!" and left(max_depth,1) NEQ "!"><cfset max_depth="!#max_depth#"></cfif>
@@ -3267,10 +3267,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ ">" and left(max_depth_m,1) NEQ ">"><cfset max_depth_m=">#max_depth_m#"></cfif>
 	</cfif>
 	<cfif isdefined("min_depth_m") AND len(min_depth_m) gt 0>
-		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "!" and left(min_depth_m,1) NEQ "!"><cfset min_depth_m="!#min_depth_m#"></cfif>
-		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "<>" and left(min_depth_m,2) NEQ "<>"><cfset min_depth_m="!#min_depth_m#"></cfif>
-		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "<" and left(min_depth_m,1) NEQ "<"><cfset min_depth_m="<#min_depth_m#"></cfif>
-		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ ">" and left(min_depth_m,1) NEQ ">"><cfset min_depth_m=">#min_depth_m#"></cfif>
+		<cfif isDefined("minDepthOperM") and minDepthOperM EQ "!" and left(min_depth_m,1) NEQ "!"><cfset min_depth_m="!#min_depth_m#"></cfif>
+		<cfif isDefined("minDepthOperM") and minDepthOperM EQ "<>" and left(min_depth_m,2) NEQ "<>"><cfset min_depth_m="!#min_depth_m#"></cfif>
+		<cfif isDefined("minDepthOperM") and minDepthOperM EQ "<" and left(min_depth_m,1) NEQ "<"><cfset min_depth_m="<#min_depth_m#"></cfif>
+		<cfif isDefined("minDepthOperM") and minDepthOperM EQ ">" and left(min_depth_m,1) NEQ ">"><cfset min_depth_m=">#min_depth_m#"></cfif>
 	</cfif>
 
 	<cfset data = ArrayNew(1)>
