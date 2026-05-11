@@ -66,8 +66,7 @@ limitations under the License.
 <!--- id parameter is used when linking directly to a specific specimen's annotations --->
 <cfif isDefined("url.id")><cfset variables.id = url.id></cfif>
 <cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
-<!--- Reused across target-specific root queries to exclude child/reply annotations from root result sets. --->
-<cfset variables.excludeReplyTargetsClause = "AND (annotations.target_table IS NULL OR upper(annotations.target_table) <> 'ANNOTATIONS')">
+
 <cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
 
 <!--- Data queries for filter picklists --->
@@ -255,8 +254,7 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
-						#variables.excludeReplyTargetsClause#
+					WHERE upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						<cfif isDefined("variables.id") AND len(variables.id) GT 0>
 							AND annotations.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
 						</cfif>
@@ -376,7 +374,7 @@ limitations under the License.
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE 1=1
-						#variables.excludeReplyTargetsClause#
+					WHERE upper(annotations.target_table) = 'TAXON_NAME'
 						<cfif isDefined("variables.taxon_name_id") AND len(variables.taxon_name_id) GT 0>
 							AND annotations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
 						</cfif>
@@ -464,8 +462,7 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
-						#variables.excludeReplyTargetsClause#
+					WHERE upper(annotations.target_table) = 'PUBLICATION'
 						<cfif isDefined("variables.publication_id") AND len(variables.publication_id) GT 0>
 							AND annotations.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 						</cfif>
@@ -547,8 +544,7 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
-						#variables.excludeReplyTargetsClause#
+					WHERE upper(annotations.target_table) = 'PROJECT'
 						<cfif isDefined("variables.project_id") AND len(variables.project_id) GT 0>
 							AND annotations.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
 						</cfif>
