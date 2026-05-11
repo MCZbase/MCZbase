@@ -127,12 +127,7 @@ function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
 		messageDialog("Unable to open annotation dialog for this reply target.","Reply Annotation");
 		return false;
 	}
-	var rootAnnotationIdString = String(parsedRootAnnotationId);
-	if (!/^[1-9][0-9]*$/.test(rootAnnotationIdString)) {
-		messageDialog("Unable to open annotation dialog for this reply target.","Reply Annotation");
-		return false;
-	}
-	var dialogid = "annotationDialog_reply_" + rootAnnotationIdString;
+	var dialogid = "annotationDialog_reply_" + String(parsedRootAnnotationId);
 	if ($("#" + dialogid).length === 0) {
 		$("body").append('<div id="' + dialogid + '"></div>');
 	}
