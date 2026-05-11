@@ -89,7 +89,7 @@ limitations under the License.
 								annotations.STATE STATE,
 								annotations.RESOLUTION RESOLUTION,
 								annotations.motivation,
-								revname.agent_name revewer_name,
+								revname.agent_name reviewer_name,
 								annotator.first_name annotator_first_name,
 								annotator.middle_name annotator_middle_name,
 								annotator.last_name annotator_last_name,
@@ -532,7 +532,7 @@ limitations under the License.
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
 	</cfif>
-	<cfset motivation = rereplace(motivation,"[^a-zA-z]","all")>
+	<cfset motivation = rereplace(motivation,"[^a-zA-z]","ALL")>
 	<cfset hasLegacyTargetColumn = listFindNoCase("collection_object,taxon_name,publication,project",target_type) GT 0>
 
 	<cfset annotatable = false>
