@@ -3630,14 +3630,14 @@ FROM
 	collecting_event
 	join locality on collecting_event.locality_id = locality.locality_id
 	join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-	left join #flatTableName# flatTableName on collecting_event.collecting_event_id=flatTableName.collecting_event_id
+	<cfoutput>left join #flatTableName# flatTableName on collecting_event.collecting_event_id=flatTableName.collecting_event_id</cfoutput>
 	left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
 	left join preferred_agent_name georef_verified_agent on accepted_lat_long.verified_by_agent_id = georef_verified_agent.agent_id
 	left join preferred_agent_name georef_determined_agent on accepted_lat_long.determined_by_agent_id = georef_determined_agent.agent_id
 	left join preferred_agent_name date_determined_agent on collecting_event.date_determined_by_agent_id = date_determined_agent.agent_id
 	left join geology_attributes on locality.locality_id = geology_attributes.locality_id
 	left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
-WHERE #arrayToList(whereClauses,chr(10) & '	AND ')#
+<cfoutput>WHERE #arrayToList(whereClauses,chr(10) & '	AND ')#</cfoutput>
 GROUP BY
 	geog_auth_rec.geog_auth_rec_id,
 	geog_auth_rec.continent_ocean,
