@@ -340,7 +340,7 @@ limitations under the License.
 									       row_number() over (partition by annotation_id order by created_date) rn
 									from annotation_textualbody
 								) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
-							where target_table = 'ANNOTATION'
+							where target_table in ('ANNOTATION','ANNOTATIONS')
 								and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
@@ -530,6 +530,7 @@ limitations under the License.
 	</cfif>
 	<cfset motivation = rereplace(motivation,"[^a-zA-Z]","","all")>
 	<cfset hasLegacyTargetColumn = listFindNoCase("collection_object,taxon_name,publication,project",target_type) GT 0>
+	<cfif target_type EQ "annotation"><cfset targetTableName = "ANNOTATIONS"><cfelse><cfset targetTableName = UCase(target_type)></cfif>
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
@@ -661,7 +662,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
 						<cfif hasLegacyTargetColumn><cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,</cfif>
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#UCase(target_type)#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#targetTableName#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 						'New',
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
