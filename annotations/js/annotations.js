@@ -17,10 +17,7 @@ jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
  * @param idSuffix optional suffix appended to control ids for dialog instance isolation.
  */
 function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
-	var suffix = "";
-	if (typeof idSuffix === "string" && idSuffix.length > 0) {
-		suffix = idSuffix;
-	}
+	var suffix = (typeof idSuffix === "string" && idSuffix.length > 0) ? idSuffix : "";
 	setFeedbackControlState(feedbackDiv,"saving");
 	var idType = $("#idtype" + suffix).val();
 	var idvalue = $("#idvalue" + suffix).val();

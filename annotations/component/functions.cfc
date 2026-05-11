@@ -309,8 +309,8 @@ limitations under the License.
 						<cfif d.recordcount EQ 0>
 							<cfthrow message="Annotation to annotate not found.">
 						</cfif>
-						<cfset targetAnnotationId = queryGetCell(d,"annotation_id",1)>
-						<cfset targetAnnotationBody = queryGetCell(d,"body_value",1)>
+						<cfset targetAnnotationId = d.annotation_id>
+						<cfset targetAnnotationBody = d.body_value>
 						<cfif len(targetAnnotationBody) GT 0>
 							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#">
 						<cfelse>
