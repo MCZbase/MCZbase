@@ -133,8 +133,10 @@ function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
 		return false;
 	}
 	var dialogid = "annotationDialog_reply_" + String(parsedRootAnnotationId);
-	if ($("#" + dialogid).length === 0) {
-		$("body").append('<div id="' + dialogid + '"></div>');
+	if (jQuery("#" + dialogid).length === 0) {
+		var dialogElement = document.createElement("div");
+		dialogElement.id = dialogid;
+		document.body.appendChild(dialogElement);
 	}
 	openAnnotationsDialog(dialogid, "annotation", parsedRootAnnotationId, callback);
 	return true;
