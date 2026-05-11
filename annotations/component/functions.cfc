@@ -1084,7 +1084,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<div class="ml-2 border-left pl-2">#childRowHTML#</div>
 				</cfloop>
 			<cfelse>
-				<p class="small text-muted mb-0">No response annotations</p>
+				<p class="small text-muted mb-0">No reply annotations</p>
 			</cfif>
 		</div>
 		</cfoutput>
