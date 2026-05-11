@@ -55,7 +55,6 @@ limitations under the License.
 							<cfset showExtraFields=1>
 							<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
 							<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-3 px-4">Find Collecting Event</h1></cfif>
-							<input type="hidden" id="method" name="method" value="getCollectingEvents">
 							<input type="hidden" id="method" name="method" value="getCollectingEvents_queryExecute">
 							<div class="row mx-0">
 								<section class="container-fluid" role="search">
