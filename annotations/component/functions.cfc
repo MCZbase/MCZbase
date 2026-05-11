@@ -309,9 +309,10 @@ limitations under the License.
 						<cfif d.recordcount EQ 0>
 							<cfthrow message="Annotation to annotate not found.">
 						</cfif>
-						<cfset targetAnnotationId = d.annotation_id>
-						<cfif len(d.body_value) GT 0>
-							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
+						<cfset targetAnnotationId = queryGetCell(d,"annotation_id",1)>
+						<cfset targetAnnotationBody = queryGetCell(d,"body_value",1)>
+						<cfif len(targetAnnotationBody) GT 0>
+							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#">
 						<cfelse>
 							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>">
 						</cfif>
@@ -333,8 +334,8 @@ limitations under the License.
 							<cfset responseRootAnnotationId = targetAnnotationId>
 						</cfif>
 						<cfif responseRootAnnotationId NEQ targetAnnotationId>
-							<cfif len(d.body_value) GT 0>
-								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
+							<cfif len(targetAnnotationBody) GT 0>
+								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#">
 							<cfelse>
 								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>">
 							</cfif>
@@ -477,7 +478,7 @@ limitations under the License.
 											<input type="button" 
 												class="btn btn-xs btn-primary mt-2" 
 												value="Save Annotation" 
-												onclick="saveThisAnnotation('#annotationResultDivId#', function(){ var dialogId = '#encodeForJavaScript(dialogId)#'; $('##' + dialogId).dialog('close'); }, '#dialogFieldQualifier#')">
+												onclick="saveThisAnnotation('#annotationResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); }, '#dialogFieldQualifier#')">
 											<output id="#annotationResultDivId#" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>

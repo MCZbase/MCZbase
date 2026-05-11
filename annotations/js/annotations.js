@@ -178,6 +178,13 @@ function openEditResponseAnnotationDialog(annotationId, callback=null) {
 	return true;
 }
 
+/** Close a specific annotation dialog by id.
+ * @param dialogId html id of the dialog container element.
+ */
+function closeAnnotationDialogById(dialogId) {
+	$("#" + dialogId).dialog("close");
+}
+
 /** Save a new reply annotation via AJAX.
  * @param rootAnnotationId annotation_id of the root annotation receiving a new reply annotation.
  * @param rootFeedbackDiv id of element to update with saving/saved/error state.
