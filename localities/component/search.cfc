@@ -3198,8 +3198,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	--->
 
 	<cfset linguisticFlag = false>
+	<cfif isdefined("accentInsenstive") AND NOT isdefined("accentInsensitive")>
+		<cfset accentInsensitive = accentInsenstive>
+	</cfif>
 	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
 		<cfset linguisticFlag=true>
+	</cfif>
+	<cfif isdefined("collectingtime") AND NOT isdefined("collecting_time")>
+		<cfset collecting_time = collectingtime>
 	</cfif>
 	<cfif isdefined("collection_id") and len(collection_id) gt 0>
 		<cfif not isDefined("collnOper")><cfset collnOper= "usedBy"></cfif>
