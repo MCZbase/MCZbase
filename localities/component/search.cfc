@@ -3236,10 +3236,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
-	<cfset var argName = "">
-	<cfloop collection="#arguments#" item="argName">
-		<cfset setVariable(argName,arguments[argName])>
-	</cfloop>
 
 	<!---
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
@@ -3324,6 +3320,18 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset data = ArrayNew(1)>
 	<cfset whereClauses = ArrayNew(1)>
 	<cfset sqlParams = StructNew()>
+	<cfset var specLocalityFilter = "">
+	<cfset var verbatimLocalityFilter = "">
+	<cfif structKeyExists(arguments,"spec_locality")>
+		<cfset specLocalityFilter = arguments.spec_locality>
+	<cfelseif isdefined("spec_locality")>
+		<cfset specLocalityFilter = spec_locality>
+	</cfif>
+	<cfif structKeyExists(arguments,"verbatim_locality")>
+		<cfset verbatimLocalityFilter = arguments.verbatim_locality>
+	<cfelseif isdefined("verbatim_locality")>
+		<cfset verbatimLocalityFilter = verbatim_locality>
+	</cfif>
 	<cfset flatTableName = "filtered_flat">
 	<cfif ucase(session.flatTableName) EQ "FLAT"><cfset flatTableName = "flat"></cfif>
 
@@ -3391,14 +3399,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfif isdefined("source_authority") AND len(source_authority) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.source_authority",source_authority,"source_authority")></cfif>
 		<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid",highergeographyid,"highergeographyid")></cfif>
 		<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid_guid_type",highergeographyid_guid_type,"highergeographyid_guid_type")></cfif>
-		<cfif isdefined("spec_locality") AND len(spec_locality) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.spec_locality",spec_locality,"spec_locality")></cfif>
+		<cfif len(specLocalityFilter) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.spec_locality",specLocalityFilter,"spec_locality")></cfif>
 		<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.locality_remarks",locality_remarks,"locality_remarks")></cfif>
 		<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.orig_elev_units",orig_elev_units,"orig_elev_units")></cfif>
 		<cfif isdefined("depth_units") AND len(depth_units) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.depth_units",depth_units,"depth_units")></cfif>
 		<cfif isdefined("section_part") AND len(section_part) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.section_part",section_part,"section_part")></cfif>
 		<cfif isdefined("datum") AND len(datum) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"accepted_lat_long.datum",datum,"datum")></cfif>
 		<cfif isdefined("georef_by") AND len(georef_by) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.georef_by",georef_by,"georef_by")></cfif>
-		<cfif isdefined("verbatim_locality") AND len(verbatim_locality) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_locality",verbatim_locality,"verbatim_locality")></cfif>
+		<cfif len(verbatimLocalityFilter) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_locality",verbatimLocalityFilter,"verbatim_locality")></cfif>
 		<cfif isdefined("verbatim_date") AND len(verbatim_date) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_date",verbatim_date,"verbatim_date")></cfif>
 		<cfif isdefined("verbatimdepth") AND len(verbatimdepth) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimdepth",verbatimdepth,"verbatimdepth")></cfif>
 		<cfif isdefined("verbatimelevation") AND len(verbatimelevation) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimelevation",verbatimelevation,"verbatimelevation")></cfif>
