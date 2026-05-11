@@ -3040,7 +3040,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 </cffunction>
 
 
-<!--- Function addNamedQueryParam add a named typed parameter to a queryExecute parameter struct.
+<!--- Function addNamedQueryParam to add a named typed parameter to a queryExecute parameter struct.
 
 @param params struct of named query parameters to append to.
 @param paramBase base name for generating a unique parameter name.
@@ -3069,7 +3069,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfreturn ":" & paramName>
 </cffunction>
 
-<!--- Function appendSetupClauseCondition add a text field clause prepared by setupClause to a WHERE clause array.
+<!--- Function appendSetupClauseCondition to add a text field clause prepared by setupClause to a WHERE clause array.
 
 @param whereClauses array of SQL WHERE clause fragments.
 @param params struct of named query parameters for queryExecute.
@@ -3094,7 +3094,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
 </cffunction>
 
-<!--- Function appendSetupNumericClauseCondition add a numeric field clause prepared by setupNumericClause to a WHERE clause array.
+<!--- Function appendSetupNumericClauseCondition to add a numeric field clause prepared by setupNumericClause to a WHERE clause array.
 
 @param whereClauses array of SQL WHERE clause fragments.
 @param params struct of named query parameters for queryExecute.
