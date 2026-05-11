@@ -1065,7 +1065,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<div class="card-body bg-white border-bottom py-2 pl-4" data-reply-parent-id="#arguments.rootAnnotationId#">
 			<div class="d-flex justify-content-between align-items-center mb-2">
 				<h4 class="h5 mb-0">Conversation</h4>
-				<button type="button" class="btn btn-xs btn-primary open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(arguments.rootAnnotationId)#" aria-label="Reply to annotation #encodeForHTMLAttribute(arguments.rootAnnotationId)#">Reply in Dialog</button>
+				<button type="button" class="btn btn-xs btn-primary open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(arguments.rootAnnotationId)#" aria-label="Reply to this annotation">Reply in Dialog</button>
 			</div>
 			<cfif rootChildren.recordcount GT 0>
 				<cfloop query="rootChildren">
