@@ -3040,6 +3040,673 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 </cffunction>
 
 
+<cffunction name="addNamedQueryParam" access="private" returntype="string">
+	<cfargument name="params" type="struct" required="yes">
+	<cfargument name="paramBase" type="string" required="yes">
+	<cfargument name="value" required="yes">
+	<cfargument name="cfsqltype" type="string" required="yes">
+	<cfargument name="list" type="boolean" required="no" default="false">
+	<cfargument name="scale" type="numeric" required="no">
+	<cfset var paramName = rereplace(arguments.paramBase,"[^A-Za-z0-9_]","","all") & "_" & (structCount(arguments.params) + 1)>
+	<cfset var paramStruct = { value = arguments.value, cfsqltype = arguments.cfsqltype }>
+	<cfif arguments.list>
+		<cfset paramStruct["list"] = true>
+	</cfif>
+	<cfif structKeyExists(arguments,"scale")>
+		<cfset paramStruct["scale"] = arguments.scale>
+	</cfif>
+	<cfset arguments.params[paramName] = paramStruct>
+	<cfreturn ":" & paramName>
+</cffunction>
+
+<cffunction name="appendSetupClauseCondition" access="private" returntype="void">
+	<cfargument name="whereClauses" type="array" required="yes">
+	<cfargument name="params" type="struct" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfargument name="paramBase" type="string" required="yes">
+	<cfset var setup = setupClause(field=arguments.field,value=arguments.value)>
+	<cfset var clause = "">
+	<cfif len(setup["value"]) EQ 0>
+		<cfset clause = "#setup['pre']# #setup['post']#">
+	<cfelse>
+		<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_VARCHAR',list=(setup['list'] EQ 'yes'))# #setup['post']#">
+	</cfif>
+	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
+</cffunction>
+
+<cffunction name="appendSetupNumericClauseCondition" access="private" returntype="void">
+	<cfargument name="whereClauses" type="array" required="yes">
+	<cfargument name="params" type="struct" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfargument name="paramBase" type="string" required="yes">
+	<cfargument name="scale" type="numeric" required="no">
+	<cfset var setup = setupNumericClause(field=arguments.field,value=arguments.value)>
+	<cfset var clause = "">
+	<cfif len(setup["value"]) EQ 0>
+		<cfset clause = "#setup['pre']# #setup['post']#">
+	<cfelseif setup["between"] EQ "true">
+		<cfif structKeyExists(arguments,"scale")>
+			<cfset clause = "#setup['pre']# BETWEEN #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase & '_start',value=setup['value'],cfsqltype='CF_SQL_DECIMAL',scale=arguments.scale)# AND #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase & '_end',value=setup['value2'],cfsqltype='CF_SQL_DECIMAL',scale=arguments.scale)#">
+		<cfelse>
+			<cfset clause = "#setup['pre']# BETWEEN #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase & '_start',value=setup['value'],cfsqltype='CF_SQL_DECIMAL')# AND #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase & '_end',value=setup['value2'],cfsqltype='CF_SQL_DECIMAL')#">
+		</cfif>
+	<cfelse>
+		<cfif structKeyExists(arguments,"scale")>
+			<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_DECIMAL',list=(setup['list'] EQ 'yes'),scale=arguments.scale)# #setup['post']#">
+		<cfelse>
+			<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_DECIMAL',list=(setup['list'] EQ 'yes'))# #setup['post']#">
+		</cfif>
+	</cfif>
+	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
+</cffunction>
+
+<!--- QueryExecute variant of getCollectingEvents.
+	Drop-in replacement signature and return format for the existing method.
+	LEGACY_SPEC_LOCALITY_FG remains unused.
+--->
+<cffunction name="getCollectingEvents_queryExecute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="any_geography" type="string" required="no"><!--- keyword index search --->
+	<cfargument name="higher_geog" type="string" required="no">
+	<cfargument name="geog_auth_rec_id" type="string" required="no">
+	<cfargument name="continent_ocean" type="string" required="no">
+	<cfargument name="ocean_region" type="string" required="no">
+	<cfargument name="ocean_subregion" type="string" required="no">
+	<cfargument name="sea" type="string" required="no">
+	<cfargument name="island" type="string" required="no">
+	<cfargument name="island_group" type="string" required="no">
+	<cfargument name="feature" type="string" required="no">
+	<cfargument name="water_feature" type="string" required="no">
+	<cfargument name="country" type="string" required="no">
+	<cfargument name="state_prov" type="string" required="no">
+	<cfargument name="county" type="string" required="no">
+	<cfargument name="highergeographyid" type="string" required="no">
+	<cfargument name="highergeographyid_guid_type" type="string" required="no">
+	<cfargument name="source_authority" type="string" required="no">
+	<cfargument name="return_wkt" type="string" required="no">
+	<cfargument name="locality_id" type="string" required="no">
+	<cfargument name="spec_locality" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="orig_elev_units" type="string" required="no">
+	<cfargument name="minElevOper" type="string" required="no">
+	<cfargument name="minimum_elevation" type="string" required="no">
+	<cfargument name="minimum_elevation_m" type="string" required="no">
+	<cfargument name="maxElevOper" type="string" required="no">
+	<cfargument name="maximum_elevation" type="string" required="no">
+	<cfargument name="maximum_elevation_m" type="string" required="no">
+	<cfargument name="depth_units" type="string" required="no">
+	<cfargument name="minDepthOper" type="string" required="no">
+	<cfargument name="min_depth" type="string" required="no">
+	<cfargument name="min_depth_m" type="string" required="no">
+	<cfargument name="maxDepthOper" type="string" required="no">
+	<cfargument name="max_depth" type="string" required="no">
+	<cfargument name="max_depth_m" type="string" required="no">
+	<cfargument name="accentInsenstive" type="string" required="no">
+	<cfargument name="collection_id" type="string" required="no">
+	<cfargument name="collnOper" type="string" required="no">
+	<cfargument name="collnEvOper" type="string" required="no">
+	<cfargument name="include_counts" type="string" required="no"><!--- locality counts by collection --->
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="dec_lat" type="string" required="no">
+	<cfargument name="dec_long" type="string" required="no">
+	<cfargument name="datum" type="string" required="no">
+	<cfargument name="max_error_distance" type="string" required="no">
+	<cfargument name="georef_updated_date" type="string" required="no">
+	<cfargument name="georef_by" type="string" required="no">
+	<cfargument name="geolocate_precision" type="string" required="no">
+	<cfargument name="geolocate_score" type="string" required="no">
+	<cfargument name="geolocate_score2" type="string" required="no">
+	<cfargument name="gs_comparator" type="string" required="no">
+	<cfargument name="coordinateDeterminer" type="string" required="no">
+	<cfargument name="georeference_verified_by_id" type="string" required="no">
+	<cfargument name="georeference_verified_by" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimdepth" type="string" required="no">
+	<cfargument name="verbatimelevation" type="string" required="no">
+	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="collecting_source" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="began_date" type="string" required="no">
+	<cfargument name="ended_date" type="string" required="no">
+	<cfargument name="verbatimCoordinates" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="collectingtime" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
+	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="date_determined_by_agent" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
+	<cfargument name="show_unused" type="string" required="no">
+
+	<!---
+	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
+	--->
+
+	<cfset linguisticFlag = false>
+	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
+		<cfset linguisticFlag=true>
+	</cfif>
+	<cfif isdefined("collection_id") and len(collection_id) gt 0>
+		<cfif not isDefined("collnOper")><cfset collnOper= "usedBy"></cfif>
+	</cfif>
+	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
+	<cfset includeCounts = false>
+	<cfif isdefined("include_counts") AND include_counts EQ 1 >
+		<cfset includeCounts=true>
+	</cfif>
+	<cfif not isdefined("gs_comparator") and len(gs_comparator) gt 0>
+		<cfset gs_comparator = "">
+	</cfif>
+	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
+		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]","","all")>
+	</cfif>
+	<cfif NOT isDefined("collnEvOper")><cfset collnEvOper=""></cfif>
+	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "!" and left(maximum_elevation,1) NEQ "!"><cfset maximum_elevation="!#maximum_elevation#"></cfif>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "<>" and left(maximum_elevation,2) NEQ "<>"><cfset maximum_elevation="!#maximum_elevation#"></cfif>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "<" and left(maximum_elevation,1) NEQ "<"><cfset maximum_elevation="<#maximum_elevation#"></cfif>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ ">" and left(maximum_elevation,1) NEQ ">"><cfset maximum_elevation=">#maximum_elevation#"></cfif>
+	</cfif>
+	<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
+		<cfif isDefined("minElevOper") and minElevOper EQ "!" and left(minimum_elevation,1) NEQ "!"><cfset minimum_elevation="!#minimum_elevation#"></cfif>
+		<cfif isDefined("minElevOper") and minElevOper EQ "<>" and left(minimum_elevation,2) NEQ "<>"><cfset minimum_elevation="!#minimum_elevation#"></cfif>
+		<cfif isDefined("minElevOper") and minElevOper EQ "<" and left(minimum_elevation,1) NEQ "<"><cfset minimum_elevation="<#minimum_elevation#"></cfif>
+		<cfif isDefined("minElevOper") and minElevOper EQ ">" and left(minimum_elevation,1) NEQ ">"><cfset minimum_elevation=">#minimum_elevation#"></cfif>
+	</cfif>
+	<cfif isdefined("maximum_elevation_m") AND len(maximum_elevation_m) gt 0>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ "!" and left(maximum_elevation_m,1) NEQ "!"><cfset maximum_elevation_m="!#maximum_elevation_m#"></cfif>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ "<>" and left(maximum_elevation_m,2) NEQ "<>"><cfset maximum_elevation_m="!#maximum_elevation_m#"></cfif>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ "<" and left(maximum_elevation_m,1) NEQ "<"><cfset maximum_elevation_m="<#maximum_elevation_m#"></cfif>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ ">" and left(maximum_elevation_m,1) NEQ ">"><cfset maximum_elevation_m=">#maximum_elevation_m#"></cfif>
+	</cfif>
+	<cfif isdefined("minimum_elevation_m") AND len(minimum_elevation_m) gt 0>
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ "!" and left(minimum_elevation_m,1) NEQ "!"><cfset minimum_elevation_m="!#minimum_elevation_m#"></cfif>
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ "<>" and left(minimum_elevation_m,2) NEQ "<>"><cfset minimum_elevation_m="!#minimum_elevation_m#"></cfif>
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ "<" and left(minimum_elevation_m,1) NEQ "<"><cfset minimum_elevation_m="<#minimum_elevation_m#"></cfif>
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ ">" and left(minimum_elevation_m,1) NEQ ">"><cfset minimum_elevation_m=">#minimum_elevation_m#"></cfif>
+	</cfif>
+	<cfif isdefined("max_depth") AND len(max_depth) gt 0>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ "!" and left(max_depth,1) NEQ "!"><cfset max_depth="!#max_depth#"></cfif>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ "<>" and left(max_depth,2) NEQ "<>"><cfset max_depth="!#max_depth#"></cfif>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ "<" and left(max_depth,1) NEQ "<"><cfset max_depth="<#max_depth#"></cfif>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ ">" and left(max_depth,1) NEQ ">"><cfset max_depth=">#max_depth#"></cfif>
+	</cfif>
+	<cfif isdefined("min_depth") AND len(min_depth) gt 0>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ "!" and left(min_depth,1) NEQ "!"><cfset min_depth="!#min_depth#"></cfif>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ "<>" and left(min_depth,2) NEQ "<>"><cfset min_depth="!#min_depth#"></cfif>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ "<" and left(min_depth,1) NEQ "<"><cfset min_depth="<#min_depth#"></cfif>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ ">" and left(min_depth,1) NEQ ">"><cfset min_depth=">#min_depth#"></cfif>
+	</cfif>
+	<cfif isdefined("max_depth_m") AND len(max_depth_m) gt 0>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ "!" and left(max_depth_m,1) NEQ "!"><cfset max_depth_m="!#max_depth_m#"></cfif>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ "<>" and left(max_depth_m,2) NEQ "<>"><cfset max_depth_m="!#max_depth_m#"></cfif>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ "<" and left(max_depth_m,1) NEQ "<"><cfset max_depth_m="<#max_depth_m#"></cfif>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ ">" and left(max_depth_m,1) NEQ ">"><cfset max_depth_m=">#max_depth_m#"></cfif>
+	</cfif>
+	<cfif isdefined("min_depth_m") AND len(min_depth_m) gt 0>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "!" and left(min_depth_m,1) NEQ "!"><cfset min_depth_m="!#min_depth_m#"></cfif>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "<>" and left(min_depth_m,2) NEQ "<>"><cfset min_depth_m="!#min_depth_m#"></cfif>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "<" and left(min_depth_m,1) NEQ "<"><cfset min_depth_m="<#min_depth_m#"></cfif>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ ">" and left(min_depth_m,1) NEQ ">"><cfset min_depth_m=">#min_depth_m#"></cfif>
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cfset whereClauses = ArrayNew(1)>
+	<cfset sqlParams = StructNew()>
+	<cfset flatTableName = "filtered_flat">
+	<cfif ucase(session.flatTableName) EQ "FLAT"><cfset flatTableName = "flat"></cfif>
+
+	<cftry>
+		<cfif linguisticFlag >
+			<cfset queryExecute("ALTER SESSION SET NLS_COMP = LINGUISTIC",{},{
+				datasource="user_login",
+				username=session.dbuser,
+				password=decrypt(session.epw,cookie.cfid)
+			})>
+			<cfset queryExecute("ALTER SESSION SET NLS_SORT = GENERIC_M_AI",{},{
+				datasource="user_login",
+				username=session.dbuser,
+				password=decrypt(session.epw,cookie.cfid)
+			})>
+		</cfif>
+
+		<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id is not null")>
+
+		<cfif isDefined("show_unused") AND show_unused EQ "unused_only">
+			<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id not in (select collecting_event_id from flat)")>
+		</cfif>
+		<cfif isDefined("any_geography") and len(any_geography) gt 0>
+			<cfset arrayAppend(whereClauses,"locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,#addNamedQueryParam(sqlParams,'any_geography',any_geography,'CF_SQL_VARCHAR')#,1) > 0)")>
+		</cfif>
+		<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
+			<cfset arrayAppend(whereClauses,"geog_auth_rec.geog_auth_rec_id IN (#addNamedQueryParam(sqlParams,'geog_auth_rec_id',geog_auth_rec_id,'CF_SQL_DECIMAL',true)#)")>
+		<cfelse>
+			<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
+				<cfif left(higher_geog,1) is "=">
+					<cfset arrayAppend(whereClauses,"upper(geog_auth_rec.higher_geog) = #addNamedQueryParam(sqlParams,'higher_geog_eq',ucase(right(higher_geog,len(higher_geog)-1)),'CF_SQL_VARCHAR')#")>
+				<cfelse>
+					<cfset arrayAppend(whereClauses,"upper(geog_auth_rec.higher_geog) like #addNamedQueryParam(sqlParams,'higher_geog_like','%' & ucase(higher_geog) & '%','CF_SQL_VARCHAR')#")>
+				</cfif>
+			</cfif>
+		</cfif>
+		<cfif isDefined("locality_id") and len(locality_id) gt 0>
+			<cfif Find(",",locality_id) GT 0>
+				<cfset arrayAppend(whereClauses,"locality.locality_id IN (#addNamedQueryParam(sqlParams,'locality_id',locality_id,'CF_SQL_DECIMAL',true)#)")>
+			<cfelse>
+				<cfset arrayAppend(whereClauses,"locality.locality_id = #addNamedQueryParam(sqlParams,'locality_id',locality_id,'CF_SQL_DECIMAL')#")>
+			</cfif>
+		</cfif>
+		<cfif isDefined("valid_distribution_fg") and len(valid_distribution_fg) gt 0>
+			<cfif valid_distribution_fg EQ 'NULL'>
+				<cfset arrayAppend(whereClauses,"valid_distribution_fg IS NULL")>
+			<cfelseif valid_distribution_fg EQ 'NOT NULL'>
+				<cfset arrayAppend(whereClauses,"valid_distribution_fg IS NOT NULL")>
+			<cfelse>
+				<cfset arrayAppend(whereClauses,"valid_distribution_fg = #addNamedQueryParam(sqlParams,'valid_distribution_fg',valid_distribution_fg,'CF_SQL_DECIMAL')#")>
+			</cfif>
+		</cfif>
+
+		<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.continent_ocean",continent_ocean,"continent_ocean")></cfif>
+		<cfif isdefined("country") AND len(country) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.country",country,"country")></cfif>
+		<cfif isdefined("state_prov") AND len(state_prov) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.state_prov",state_prov,"state_prov")></cfif>
+		<cfif isdefined("county") AND len(county) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.county",county,"county")></cfif>
+		<cfif isdefined("feature") AND len(feature) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.feature",feature,"feature")></cfif>
+		<cfif isdefined("island") AND len(island) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island",island,"island")></cfif>
+		<cfif isdefined("island_group") AND len(island_group) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island_group",island_group,"island_group")></cfif>
+		<cfif isdefined("ocean_region") AND len(ocean_region) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.ocean_region",ocean_region,"ocean_region")></cfif>
+		<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.ocean_subregion",ocean_subregion,"ocean_subregion")></cfif>
+		<cfif isdefined("sea") AND len(sea) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.sea",sea,"sea")></cfif>
+		<cfif isdefined("water_feature") AND len(water_feature) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.water_feature",water_feature,"water_feature")></cfif>
+		<cfif isdefined("source_authority") AND len(source_authority) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.source_authority",source_authority,"source_authority")></cfif>
+		<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid",highergeographyid,"highergeographyid")></cfif>
+		<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.highergeographyid_guid_type",highergeographyid_guid_type,"highergeographyid_guid_type")></cfif>
+		<cfif isdefined("spec_locality") AND len(spec_locality) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.spec_locality",spec_locality,"spec_locality")></cfif>
+		<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.locality_remarks",locality_remarks,"locality_remarks")></cfif>
+		<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.orig_elev_units",orig_elev_units,"orig_elev_units")></cfif>
+		<cfif isdefined("depth_units") AND len(depth_units) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.depth_units",depth_units,"depth_units")></cfif>
+		<cfif isdefined("section_part") AND len(section_part) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.section_part",section_part,"section_part")></cfif>
+		<cfif isdefined("datum") AND len(datum) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"accepted_lat_long.datum",datum,"datum")></cfif>
+		<cfif isdefined("georef_by") AND len(georef_by) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"locality.georef_by",georef_by,"georef_by")></cfif>
+		<cfif isdefined("verbatim_locality") AND len(verbatim_locality) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_locality",verbatim_locality,"verbatim_locality")></cfif>
+		<cfif isdefined("verbatim_date") AND len(verbatim_date) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_date",verbatim_date,"verbatim_date")></cfif>
+		<cfif isdefined("verbatimdepth") AND len(verbatimdepth) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimdepth",verbatimdepth,"verbatimdepth")></cfif>
+		<cfif isdefined("verbatimelevation") AND len(verbatimelevation) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimelevation",verbatimelevation,"verbatimelevation")></cfif>
+		<cfif isdefined("verbatimCoordinates") AND len(verbatimCoordinates) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimCoordinates",verbatimCoordinates,"verbatimCoordinates")></cfif>
+		<cfif isdefined("habitat_desc") AND len(habitat_desc) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.habitat_desc",habitat_desc,"habitat_desc")></cfif>
+		<cfif isdefined("collecting_source") AND len(collecting_source) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_source",collecting_source,"collecting_source")></cfif>
+		<cfif isdefined("collecting_method") AND len(collecting_method) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_method",collecting_method,"collecting_method")></cfif>
+		<cfif isdefined("coll_event_remarks") AND len(coll_event_remarks) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.coll_event_remarks",coll_event_remarks,"coll_event_remarks")></cfif>
+		<cfif isdefined("fish_field_number") AND len(fish_field_number) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.fish_field_number",fish_field_number,"fish_field_number")></cfif>
+		<cfif isdefined("verbatim_collectors") AND len(verbatim_collectors) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_collectors",verbatim_collectors,"verbatim_collectors")></cfif>
+		<cfif isdefined("collecting_time") AND len(collecting_time) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_time",collecting_time,"collecting_time")></cfif>
+		<cfif isdefined("verbatimsrs") AND len(verbatimsrs) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimsrs",verbatimsrs,"verbatimsrs")></cfif>
+		<cfif isdefined("verbatimcoordinatesystem") AND len(verbatimcoordinatesystem) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimcoordinatesystem",verbatimcoordinatesystem,"verbatimcoordinatesystem")></cfif>
+		<cfif isdefined("verbatimlatitude") AND len(verbatimlatitude) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimlatitude",verbatimlatitude,"verbatimlatitude")></cfif>
+		<cfif isdefined("verbatimlongitude") AND len(verbatimlongitude) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimlongitude",verbatimlongitude,"verbatimlongitude")></cfif>
+		<cfif isdefined("verbatim_field_numbers") AND len(verbatim_field_numbers) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_field_numbers",verbatim_field_numbers,"verbatim_field_numbers")></cfif>
+		<cfif isdefined("verbatim_habitat") AND len(verbatim_habitat) gt 0><cfset appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_habitat",verbatim_habitat,"verbatim_habitat")></cfif>
+
+		<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.minimum_elevation",minimum_elevation,"minimum_elevation")></cfif>
+		<cfif isdefined("minimum_elevation_m") AND len(minimum_elevation_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.minimum_elevation,locality.orig_elev_units)",minimum_elevation_m,"minimum_elevation_m")></cfif>
+		<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.maximum_elevation",maximum_elevation,"maximum_elevation")></cfif>
+		<cfif isdefined("maximum_elevation_m") AND len(maximum_elevation_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.maximum_elevation,locality.orig_elev_units)",maximum_elevation_m,"maximum_elevation_m")></cfif>
+		<cfif isdefined("min_depth") AND len(min_depth) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.min_depth",min_depth,"min_depth")></cfif>
+		<cfif isdefined("min_depth_m") AND len(min_depth_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.min_depth,locality.depth_units)",min_depth_m,"min_depth_m")></cfif>
+		<cfif isdefined("max_depth") AND len(max_depth) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.max_depth",max_depth,"max_depth")></cfif>
+		<cfif isdefined("max_depth_m") AND len(max_depth_m) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"TO_METERS(locality.max_depth,locality.depth_units)",max_depth_m,"max_depth_m")></cfif>
+		<cfif isdefined("section") AND len(section) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.section",section,"section")></cfif>
+		<cfif isdefined("township") AND len(township) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.township",township,"township")></cfif>
+		<cfif isdefined("range") AND len(range) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"locality.range",range,"range")></cfif>
+		<cfif isdefined("max_error_distance") AND len(max_error_distance) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.max_error_distance",max_error_distance,"max_error_distance")></cfif>
+		<cfif isdefined("startdayofyear") AND len(startdayofyear) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"collecting_event.startdayofyear",startdayofyear,"startdayofyear")></cfif>
+		<cfif isdefined("enddayofyear") AND len(enddayofyear) gt 0><cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"collecting_event.enddayofyear",enddayofyear,"enddayofyear")></cfif>
+		<cfif isdefined("township_direction") AND len(township_direction) gt 0>
+			<cfif ucase(township_direction) EQ "NULL">
+				<cfset arrayAppend(whereClauses,"locality.township_direction IS NULL")>
+			<cfelseif ucase(township_direction) EQ "NOT NULL">
+				<cfset arrayAppend(whereClauses,"locality.township_direction IS NOT NULL")>
+			<cfelse>
+				<cfset arrayAppend(whereClauses,"upper(locality.township_direction) = #addNamedQueryParam(sqlParams,'township_direction',township_direction,'CF_SQL_VARCHAR')#")>
+			</cfif>
+		</cfif>
+		<cfif isdefined("range_direction") AND len(range_direction) gt 0>
+			<cfif ucase(range_direction) EQ "NULL">
+				<cfset arrayAppend(whereClauses,"locality.range_direction IS NULL")>
+			<cfelseif ucase(range_direction) EQ "NOT NULL">
+				<cfset arrayAppend(whereClauses,"locality.range_direction IS NOT NULL")>
+			<cfelse>
+				<cfset arrayAppend(whereClauses,"upper(locality.range_direction) = #addNamedQueryParam(sqlParams,'range_direction',range_direction,'CF_SQL_VARCHAR')#")>
+			</cfif>
+		</cfif>
+		<cfif isdefined("collection_id") and len(collection_id) gt 0>
+			<cfif collnOper is "usedOnlyBy">
+				<cfset arrayAppend(whereClauses,"locality.locality_id in (select locality_id from vpd_collection_locality where collection_id = #addNamedQueryParam(sqlParams,'collection_id_locality_usedonly',collection_id,'CF_SQL_DECIMAL')# )")>
+				<cfset arrayAppend(whereClauses,"locality.locality_id not in (select locality_id from vpd_collection_locality where collection_id <> #addNamedQueryParam(sqlParams,'collection_id_locality_notused',collection_id,'CF_SQL_DECIMAL')# and collection_id <> 0 )")>
+			<cfelseif collnOper is "usedBy">
+				<cfset arrayAppend(whereClauses,"locality.locality_id in (select locality_id from vpd_collection_locality where collection_id = #addNamedQueryParam(sqlParams,'collection_id_locality_used',collection_id,'CF_SQL_DECIMAL')# )")>
+			<cfelseif collnOper is "notUsedBy">
+				<cfset arrayAppend(whereClauses,"locality.locality_id not in (select locality_id from vpd_collection_locality where collection_id = #addNamedQueryParam(sqlParams,'collection_id_locality_notusedby',collection_id,'CF_SQL_DECIMAL')# )")>
+			<cfelseif collnOper is "eventUsedOnlyBy">
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id = #addNamedQueryParam(sqlParams,'collection_id_event_usedonly',collection_id,'CF_SQL_DECIMAL')# )")>
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id not in (select collecting_event_id from cataloged_item where collection_id <> #addNamedQueryParam(sqlParams,'collection_id_event_notused',collection_id,'CF_SQL_DECIMAL')# and collection_id <> 0 )")>
+			<cfelseif collnOper is "eventUsedBy">
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id = #addNamedQueryParam(sqlParams,'collection_id_event_used',collection_id,'CF_SQL_DECIMAL')# )")>
+			<cfelseif collnOper is "eventSharedOnlyBy">
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id = #addNamedQueryParam(sqlParams,'collection_id_event_shared',collection_id,'CF_SQL_DECIMAL')# )")>
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id <> #addNamedQueryParam(sqlParams,'collection_id_event_shared_other',collection_id,'CF_SQL_DECIMAL')# and collection_id <> 0 )")>
+			</cfif>
+			<cfif collnEvOper IS "eventUsedOnlyBy">
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id = #addNamedQueryParam(sqlParams,'collection_id_evoper_usedonly',collection_id,'CF_SQL_DECIMAL')# )")>
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id not in (select collecting_event_id from cataloged_item where collection_id <> #addNamedQueryParam(sqlParams,'collection_id_evoper_notused',collection_id,'CF_SQL_DECIMAL')# and collection_id <> 0 )")>
+			<cfelseif collnEvOper IS "eventUsedBy">
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id = #addNamedQueryParam(sqlParams,'collection_id_evoper_used',collection_id,'CF_SQL_DECIMAL')# )")>
+			<cfelseif collnEvOper IS "eventSharedOnlyBy">
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id = #addNamedQueryParam(sqlParams,'collection_id_evoper_shared',collection_id,'CF_SQL_DECIMAL')# )")>
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id <> #addNamedQueryParam(sqlParams,'collection_id_evoper_shared_other',collection_id,'CF_SQL_DECIMAL')# and collection_id <> 0 )")>
+			</cfif>
+		</cfif>
+
+		<cfif isdefined("dec_lat") AND len(dec_lat) gt 0>
+			<cfif left(dec_lat,1) is "=">
+				<cfset arrayAppend(whereClauses,"to_char(accepted_lat_long.dec_lat,'TM') = #addNamedQueryParam(sqlParams,'dec_lat_eq',right(dec_lat,len(dec_lat)-1),'CF_SQL_VARCHAR')#")>
+			<cfelse>
+				<cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.dec_lat",dec_lat,"dec_lat",10)>
+			</cfif>
+		</cfif>
+		<cfif isdefined("dec_long") AND len(dec_long) gt 0>
+			<cfif left(dec_long,1) is "=">
+				<cfset arrayAppend(whereClauses,"to_char(accepted_lat_long.dec_long,'TM') = #addNamedQueryParam(sqlParams,'dec_long_eq',right(dec_long,len(dec_long)-1),'CF_SQL_VARCHAR')#")>
+			<cfelse>
+				<cfset appendSetupNumericClauseCondition(whereClauses,sqlParams,"accepted_lat_long.dec_long",dec_long,"dec_long",10)>
+			</cfif>
+		</cfif>
+
+		<cfif isdefined("georeference_verified_by_id") and len(georeference_verified_by_id) gt 0>
+			<cfset arrayAppend(whereClauses,"georef_verified_agent.agent_id = #addNamedQueryParam(sqlParams,'georeference_verified_by_id',georeference_verified_by_id,'CF_SQL_DECIMAL')#")>
+		<cfelseif isdefined("georeference_verified_by") and len(georeference_verified_by) gt 0>
+			<cfset appendSetupClauseCondition(whereClauses,sqlParams,"georef_verified_agent.agent_name",georeference_verified_by,"georeference_verified_by")>
+		</cfif>
+		<cfif isdefined("coordinateDeterminer") and len(coordinateDeterminer) gt 0>
+			<cfset appendSetupClauseCondition(whereClauses,sqlParams,"georef_determined_agent.agent_name",coordinateDeterminer,"coordinateDeterminer")>
+		</cfif>
+		<cfif isdefined("date_determined_by_agent_id") and len(date_determined_by_agent_id) gt 0>
+			<cfset arrayAppend(whereClauses,"georef_verified_agent.agent_id = #addNamedQueryParam(sqlParams,'date_determined_by_agent_id',date_determined_by_agent_id,'CF_SQL_DECIMAL')#")>
+		<cfelseif isdefined("date_determined_by_agent") and len(date_determined_by_agent) gt 0>
+			<cfset appendSetupClauseCondition(whereClauses,sqlParams,"date_determined_agent.agent_name",date_determined_by_agent,"date_determined_by_agent")>
+		</cfif>
+		<cfif isdefined("geolocate_precision") and len(geolocate_precision) gt 0>
+			<cfset arrayAppend(whereClauses,"lower(accepted_lat_long.geolocate_precision) = #addNamedQueryParam(sqlParams,'geolocate_precision',geolocate_precision,'CF_SQL_VARCHAR')#")>
+		</cfif>
+		<cfif isdefined("geolocate_score") and len(geolocate_score) gt 0>
+			<cfif ArrayLen(REMatch("^[0-9]+\-[0-9]+$",geolocate_score)) GT 0>
+				<cfset bits = ListToArray(geolocate_score,"-")>
+				<cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score BETWEEN #addNamedQueryParam(sqlParams,'geolocate_score_start',bits[1],'CF_SQL_DECIMAL')# AND #addNamedQueryParam(sqlParams,'geolocate_score_end',bits[2],'CF_SQL_DECIMAL')#")>
+			<cfelseif geolocate_score EQ 'NULL'>
+				<cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score IS NULL")>
+			<cfelseif geolocate_score EQ 'NOT NULL'>
+				<cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score IS NOT NULL")>
+			<cfelse>
+				<cfswitch expression="#gs_comparator#">
+					<cfcase value = "between">
+						<cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score BETWEEN #addNamedQueryParam(sqlParams,'geolocate_score_between_start',geolocate_score,'CF_SQL_DECIMAL')# AND #addNamedQueryParam(sqlParams,'geolocate_score_between_end',geolocate_score2,'CF_SQL_DECIMAL')#")>
+					</cfcase>
+					<cfcase value = ">"><cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score > #addNamedQueryParam(sqlParams,'geolocate_score_gt',geolocate_score,'CF_SQL_DECIMAL')#")></cfcase>
+					<cfcase value = "<"><cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score < #addNamedQueryParam(sqlParams,'geolocate_score_lt',geolocate_score,'CF_SQL_DECIMAL')#")></cfcase>
+					<cfcase value = "<>"><cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score <> #addNamedQueryParam(sqlParams,'geolocate_score_ne',geolocate_score,'CF_SQL_DECIMAL')#")></cfcase>
+					<cfdefaultcase><cfset arrayAppend(whereClauses,"accepted_lat_long.geolocate_score = #addNamedQueryParam(sqlParams,'geolocate_score_eq',geolocate_score,'CF_SQL_DECIMAL')#")></cfdefaultcase>
+				</cfswitch>
+			</cfif>
+		</cfif>
+		<cfif isdefined("began_date") and len(began_date) gt 0>
+			<cfswitch expression="#begDateOper#">
+				<cfcase value = ">"><cfset arrayAppend(whereClauses,"collecting_event.began_date > #addNamedQueryParam(sqlParams,'began_date_gt',began_date,'CF_SQL_VARCHAR')#")></cfcase>
+				<cfcase value = "<"><cfset arrayAppend(whereClauses,"collecting_event.began_date < #addNamedQueryParam(sqlParams,'began_date_lt',began_date,'CF_SQL_VARCHAR')#")></cfcase>
+				<cfdefaultcase><cfset arrayAppend(whereClauses,"collecting_event.began_date = #addNamedQueryParam(sqlParams,'began_date_eq',began_date,'CF_SQL_VARCHAR')#")></cfdefaultcase>
+			</cfswitch>
+		</cfif>
+		<cfif isdefined("ended_date") and len(ended_date) gt 0>
+			<cfswitch expression="#endDateOper#">
+				<cfcase value = ">"><cfset arrayAppend(whereClauses,"collecting_event.ended_date > #addNamedQueryParam(sqlParams,'ended_date_gt',ended_date,'CF_SQL_VARCHAR')#")></cfcase>
+				<cfcase value = "<"><cfset arrayAppend(whereClauses,"collecting_event.ended_date < #addNamedQueryParam(sqlParams,'ended_date_lt',ended_date,'CF_SQL_VARCHAR')#")></cfcase>
+				<cfdefaultcase><cfset arrayAppend(whereClauses,"collecting_event.ended_date = #addNamedQueryParam(sqlParams,'ended_date_eq',ended_date,'CF_SQL_VARCHAR')#")></cfdefaultcase>
+			</cfswitch>
+		</cfif>
+
+		<cfsavecontent variable="sqlText">
+SELECT distinct
+	geog_auth_rec.geog_auth_rec_id,
+	geog_auth_rec.continent_ocean,
+	geog_auth_rec.country,
+	geog_auth_rec.state_prov,
+	geog_auth_rec.county,
+	geog_auth_rec.quad,
+	geog_auth_rec.feature,
+	geog_auth_rec.island,
+	geog_auth_rec.island_group,
+	geog_auth_rec.sea,
+	geog_auth_rec.valid_catalog_term_fg,
+	geog_auth_rec.source_authority,
+	geog_auth_rec.higher_geog,
+	geog_auth_rec.ocean_region,
+	geog_auth_rec.ocean_subregion,
+	geog_auth_rec.water_feature,
+	<cfif return_wkt EQ "true">
+		geog_auth_rec.wkt_polygon,
+	<cfelse>
+		nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
+	</cfif>
+	geog_auth_rec.highergeographyid_guid_type,
+	geog_auth_rec.highergeographyid,
+	locality.locality_id,
+	locality.spec_locality,
+	locality.locality_remarks,
+	locality.maximum_elevation,
+	locality.minimum_elevation,
+	locality.orig_elev_units,
+	to_meters(locality.minimum_elevation,locality.orig_elev_units) min_elevation_meters,
+	to_meters(locality.maximum_elevation,locality.orig_elev_units) max_elevation_meters,
+	locality.max_depth,
+	locality.min_depth,
+	locality.depth_units,
+	to_meters(locality.min_depth,locality.depth_units) min_depth_meters,
+	to_meters(locality.max_depth,locality.depth_units) max_depth_meters,
+	locality.curated_fg,
+	locality.sovereign_nation,
+	locality.georef_updated_date,
+	locality.georef_by,
+	locality.nogeorefbecause,
+	trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+	listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by collecting_event.collecting_event_id) geolAtts,
+	<cfif includeCounts >
+		MCZBASE.get_collcodes_for_locality(locality.locality_id) as collcountlocality,
+	<cfelse>
+		null as collcountlocality,
+	</cfif>
+	accepted_lat_long.LAT_LONG_ID,
+	to_char(accepted_lat_long.dec_lat, '99' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')) dec_lat,
+	to_char(accepted_lat_long.dec_long, '999' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')) dec_long,
+	accepted_lat_long.datum,
+	accepted_lat_long.max_error_distance,
+	accepted_lat_long.max_error_units,
+	to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units) coordinateUncertaintyInMeters,
+	accepted_lat_long.extent,
+	accepted_lat_long.verificationstatus,
+	accepted_lat_long.georefmethod,
+	georef_verified_agent.agent_name georef_verified_by_agent,
+	georef_determined_agent.agent_name georef_determined_by_agent,
+	collecting_event.collecting_event_id,
+	collecting_event.verbatim_locality,
+	collecting_event.verbatimdepth,
+	collecting_event.verbatimelevation,
+	collecting_event.verbatim_date,
+	collecting_event.began_date,
+	collecting_event.ended_date,
+	collecting_event.collecting_time,
+	collecting_event.startdayofyear,
+	collecting_event.enddayofyear,
+	collecting_event.habitat_desc,
+	collecting_event.collecting_source,
+	collecting_event.collecting_method,
+	collecting_event.valid_distribution_fg,
+	collecting_event.habitat_desc,
+	collecting_event.fish_field_number,
+	collecting_event.verbatim_collectors,
+	collecting_event.verbatim_field_numbers,
+	collecting_event.verbatim_habitat,
+	collecting_event.verbatimcoordinates,
+	collecting_event.verbatimlatitude,
+	collecting_event.verbatimlongitude,
+	collecting_event.verbatimcoordinatesystem,
+	collecting_event.verbatimsrs,
+	collecting_event.coll_event_remarks,
+	count(flatTableName.collection_object_id) as specimen_count
+FROM
+	collecting_event
+	join locality on collecting_event.locality_id = locality.locality_id
+	join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+	left join #flatTableName# flatTableName on collecting_event.collecting_event_id=flatTableName.collecting_event_id
+	left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+	left join preferred_agent_name georef_verified_agent on accepted_lat_long.verified_by_agent_id = georef_verified_agent.agent_id
+	left join preferred_agent_name georef_determined_agent on accepted_lat_long.determined_by_agent_id = georef_determined_agent.agent_id
+	left join preferred_agent_name date_determined_agent on collecting_event.date_determined_by_agent_id = date_determined_agent.agent_id
+	left join geology_attributes on locality.locality_id = geology_attributes.locality_id
+	left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
+WHERE #arrayToList(whereClauses,chr(10) & '	AND ')#
+GROUP BY
+	geog_auth_rec.geog_auth_rec_id,
+	geog_auth_rec.continent_ocean,
+	geog_auth_rec.country,
+	geog_auth_rec.state_prov,
+	geog_auth_rec.county,
+	geog_auth_rec.quad,
+	geog_auth_rec.feature,
+	geog_auth_rec.island,
+	geog_auth_rec.island_group,
+	geog_auth_rec.sea,
+	geog_auth_rec.valid_catalog_term_fg,
+	geog_auth_rec.source_authority,
+	geog_auth_rec.higher_geog,
+	geog_auth_rec.ocean_region,
+	geog_auth_rec.ocean_subregion,
+	geog_auth_rec.water_feature,
+	<cfif return_wkt EQ "true">
+		geog_auth_rec.wkt_polygon,
+	<cfelse>
+		nvl2(geog_auth_rec.wkt_polygon,'Yes','No'),
+	</cfif>
+	geog_auth_rec.highergeographyid_guid_type,
+	geog_auth_rec.highergeographyid,
+	locality.locality_id,
+	locality.spec_locality,
+	locality.locality_remarks,
+	locality.maximum_elevation,
+	locality.minimum_elevation,
+	locality.orig_elev_units,
+	locality.max_depth,
+	locality.min_depth,
+	locality.depth_units,
+	locality.curated_fg,
+	locality.sovereign_nation,
+	locality.nogeorefbecause,
+	locality.georef_updated_date,
+	locality.georef_by,
+	locality.township, locality.township_direction, locality.range, locality.range_direction,
+	locality.section, locality.section_part,
+	accepted_lat_long.LAT_LONG_ID,
+	to_char(accepted_lat_long.dec_lat, '99' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')),
+	to_char(accepted_lat_long.dec_long, '999' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')),
+	accepted_lat_long.datum,
+	accepted_lat_long.max_error_distance,
+	accepted_lat_long.max_error_units,
+	accepted_lat_long.extent,
+	accepted_lat_long.verificationstatus,
+	accepted_lat_long.georefmethod,
+	georef_verified_agent.agent_name,
+	georef_determined_agent.agent_name,
+	collecting_event.collecting_event_id,
+	collecting_event.verbatim_locality,
+	collecting_event.verbatimdepth,
+	collecting_event.verbatimelevation,
+	collecting_event.verbatim_date,
+	collecting_event.began_date,
+	collecting_event.ended_date,
+	collecting_event.collecting_time,
+	collecting_event.startdayofyear,
+	collecting_event.enddayofyear,
+	collecting_event.habitat_desc,
+	collecting_event.collecting_source,
+	collecting_event.collecting_method,
+	collecting_event.valid_distribution_fg,
+	collecting_event.habitat_desc,
+	collecting_event.fish_field_number,
+	collecting_event.verbatim_collectors,
+	collecting_event.verbatim_field_numbers,
+	collecting_event.verbatim_habitat,
+	collecting_event.verbatimcoordinates,
+	collecting_event.verbatimlatitude,
+	collecting_event.verbatimlongitude,
+	collecting_event.verbatimcoordinatesystem,
+	collecting_event.verbatimsrs,
+	collecting_event.coll_event_remarks,
+	geo_att_value, geology_attributes.geology_attribute
+ORDER BY
+	geog_auth_rec.higher_geog,
+	locality.spec_locality,
+	locality.locality_id,
+	collecting_event.began_date,
+	collecting_event.ended_date
+		</cfsavecontent>
+
+		<cfset search = queryExecute(sqlText,sqlParams,{
+			datasource="user_login",
+			username=session.dbuser,
+			password=decrypt(session.epw,cookie.cfid)
+		})>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset columnNames = ListToArray(search.columnList)>
+			<cfloop array="#columnNames#" index="columnName">
+				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+			</cfloop>
+			<cfset data[i] = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfif linguisticFlag >
+			<cfset queryExecute("ALTER SESSION SET NLS_COMP = BINARY",{},{
+				datasource="user_login",
+				username=session.dbuser,
+				password=decrypt(session.epw,cookie.cfid)
+			})>
+		</cfif>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
 <!---
 Function getCEFieldAutocomplete.  Search for distinct values of a particular field in the collecting event table
   by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
