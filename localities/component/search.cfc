@@ -3209,9 +3209,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfif isdefined("include_counts") AND include_counts EQ 1 >
 		<cfset includeCounts=true>
 	</cfif>
-	<cfif not isdefined("gs_comparator") and len(gs_comparator) gt 0>
+	<cfif not isdefined("gs_comparator") OR len(gs_comparator) EQ 0>
 		<cfset gs_comparator = "">
 	</cfif>
+	<cfif NOT isDefined("begDateOper")><cfset begDateOper=""></cfif>
+	<cfif NOT isDefined("endDateOper")><cfset endDateOper=""></cfif>
 	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
 		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]","","all")>
 	</cfif>
