@@ -5,6 +5,11 @@ jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	return openReplyAnnotationDialog(rootAnnotationId);
 });
 
+jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
+	var annotationId = jQuery(this).attr("data-edit-annotation-id");
+	return openEditResponseAnnotationDialog(annotationId);
+});
+
 /** saveThisAnnotation - Save a new annotation via AJAX.
  * Requires user to have a login and have entered name and email.
  * @param feedbackDiv the id of a div element to show status feedback.
@@ -34,6 +39,12 @@ function saveThisAnnotation(feedbackDiv,callback=null) {
 	};
 	if ($("#mask_annotation_fg").length) {
 		postData.mask_annotation_fg = $("#mask_annotation_fg").val();
+	}
+	if ($("#root_reviewed_fg").length) {
+		postData.root_reviewed_fg = $("#root_reviewed_fg").val();
+	}
+	if ($("#root_mask_annotation_fg").length) {
+		postData.root_mask_annotation_fg = $("#root_mask_annotation_fg").val();
 	}
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
@@ -139,6 +150,26 @@ function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
 		document.body.appendChild(dialogElement);
 	}
 	openAnnotationsDialog(dialogId, "annotation", parsedRootAnnotationId, callback);
+	return true;
+}
+
+/** Open annotation dialog configured to review/edit a response annotation.
+ * @param annotationId annotation_id of the response annotation to edit.
+ * @param callback optional function to execute when the dialog closes.
+ */
+function openEditResponseAnnotationDialog(annotationId, callback=null) {
+	var parsedAnnotationId = parseInt(annotationId, 10);
+	if (!Number.isFinite(parsedAnnotationId) || parsedAnnotationId <= 0) {
+		messageDialog("Unable to open annotation dialog for this response annotation.","Edit Response Annotation");
+		return false;
+	}
+	var dialogId = "annotationDialog_edit_" + String(parsedAnnotationId);
+	if (!document.getElementById(dialogId)) {
+		var dialogElement = document.createElement("div");
+		dialogElement.id = dialogId;
+		document.body.appendChild(dialogElement);
+	}
+	openAnnotationsDialog(dialogId, "annotation", parsedAnnotationId, callback);
 	return true;
 }
 
@@ -280,7 +311,11 @@ function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_
  */
 function doAnnotationUpdate(annotation_id) {
 	var reviewed_fg = $("#reviewed_fg_" + annotation_id).val();
-	var reviewer_comment = $("#reviewer_comment_" + annotation_id).val();
+	var reviewer_comment = "";
+	var commentEl = document.getElementById("reviewer_comment_" + annotation_id);
+	if (commentEl) {
+		reviewer_comment = commentEl.value;
+	}
 	var mask_annotation_fg = "";
 	var maskEl = document.getElementById("mask_annotation_fg_" + annotation_id);
 	if (maskEl) { mask_annotation_fg = maskEl.value; }
