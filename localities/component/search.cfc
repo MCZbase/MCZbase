@@ -3236,6 +3236,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
+	<cfset var argName = "">
+	<cfloop collection="#arguments#" item="argName">
+		<cfset setVariable(argName,arguments[argName])>
+	</cfloop>
 
 	<!---
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
