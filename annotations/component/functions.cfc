@@ -528,7 +528,7 @@ limitations under the License.
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
 	</cfif>
-	<cfset motivation = rereplace(motivation,"[^a-zA-z]","all")>
+	<cfset motivation = rereplace(motivation,"[^a-zA-Z]","","all")>
 	<cfset hasLegacyTargetColumn = listFindNoCase("collection_object,taxon_name,publication,project",target_type) GT 0>
 
 	<cfset annotatable = false>
