@@ -14,17 +14,22 @@ jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
  * Requires user to have a login and have entered name and email.
  * @param feedbackDiv the id of a div element to show status feedback.
  * @param callback optional function to execute on successful save of the annotation.
+ * @param idSuffix optional suffix appended to control ids for dialog instance isolation.
  */
-function saveThisAnnotation(feedbackDiv,callback=null) {
-	setFeedbackControlState(feedbackDiv,"saving");
-	var idType = $("#idtype").val();
-	var idvalue = $("#idvalue").val();
-	var annotation = $("#annotation").val();
-	var motivation = "";
-	if ($("#motivation").length) { 
-		motivation = $("#motivation").val();
+function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
+	var suffix = "";
+	if (typeof idSuffix === "string" && idSuffix.length > 0) {
+		suffix = idSuffix;
 	}
-	if (annotation.length==0){
+	setFeedbackControlState(feedbackDiv,"saving");
+	var idType = $("#idtype" + suffix).val();
+	var idvalue = $("#idvalue" + suffix).val();
+	var annotation = $("#annotation" + suffix).val();
+	var motivation = "";
+	if ($("#motivation" + suffix).length) { 
+		motivation = $("#motivation" + suffix).val();
+	}
+	if (!annotation || annotation.length==0){
 		alert('You must enter an annotation to save.');
 		return false;
 	}
@@ -37,14 +42,14 @@ function saveThisAnnotation(feedbackDiv,callback=null) {
 		returnformat : "json",
 		queryformat : 'column'
 	};
-	if ($("#mask_annotation_fg").length) {
-		postData.mask_annotation_fg = $("#mask_annotation_fg").val();
+	if ($("#mask_annotation_fg" + suffix).length) {
+		postData.mask_annotation_fg = $("#mask_annotation_fg" + suffix).val();
 	}
-	if ($("#root_reviewed_fg").length) {
-		postData.root_reviewed_fg = $("#root_reviewed_fg").val();
+	if ($("#root_reviewed_fg" + suffix).length) {
+		postData.root_reviewed_fg = $("#root_reviewed_fg" + suffix).val();
 	}
-	if ($("#root_mask_annotation_fg").length) {
-		postData.root_mask_annotation_fg = $("#root_mask_annotation_fg").val();
+	if ($("#root_mask_annotation_fg" + suffix).length) {
+		postData.root_mask_annotation_fg = $("#root_mask_annotation_fg" + suffix).val();
 	}
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",

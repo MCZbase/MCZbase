@@ -48,6 +48,16 @@ limitations under the License.
 				<cfset manageIRI = "">
 				<cfset dialogTargetId = target_id>
 				<cfset responseRootAnnotationId = "">
+				<cfset dialogIdSuffix = "_" & rereplace(dialogId,"[^A-Za-z0-9_]","","all")>
+				<cfset idtypeFieldId = "idtype" & dialogIdSuffix>
+				<cfset idvalueFieldId = "idvalue" & dialogIdSuffix>
+				<cfset annotationFieldId = "annotation" & dialogIdSuffix>
+				<cfset annotationLengthId = "length_annotation" & dialogIdSuffix>
+				<cfset motivationFieldId = "motivation" & dialogIdSuffix>
+				<cfset maskFieldId = "mask_annotation_fg" & dialogIdSuffix>
+				<cfset rootReviewedFieldId = "root_reviewed_fg" & dialogIdSuffix>
+				<cfset rootMaskFieldId = "root_mask_annotation_fg" & dialogIdSuffix>
+				<cfset annotationResultDivId = "annotationResultDiv" & dialogIdSuffix>
 				<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT motivation, description
 					FROM ctmotivation
@@ -299,13 +309,11 @@ limitations under the License.
 						<cfif d.recordcount EQ 0>
 							<cfthrow message="Annotation to annotate not found.">
 						</cfif>
-						<cfloop query="d">
-							<cfif len(body_value) GT 0>
-								<cfset summary="Annotation <strong>#annotation_id#</strong>: #encodeForHTML(body_value)#">
-							<cfelse>
-								<cfset summary="Annotation <strong>#annotation_id#</strong>">
-							</cfif>
-						</cfloop>
+						<cfif len(d.body_value) GT 0>
+							<cfset summary="Annotation <strong>#annotation_id#</strong>: #encodeForHTML(d.body_value)#">
+						<cfelse>
+							<cfset summary="Annotation <strong>#annotation_id#</strong>">
+						</cfif>
 						<cfquery name="annotationRootForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT annotation_id
 							FROM (
@@ -322,6 +330,30 @@ limitations under the License.
 							<cfset dialogTargetId = annotationRootForDialog.annotation_id>
 						<cfelse>
 							<cfset responseRootAnnotationId = annotation_id>
+						</cfif>
+						<cfif responseRootAnnotationId NEQ annotation_id>
+							<cfif len(d.body_value) GT 0>
+								<cfset summary="Response Annotation <strong>#annotation_id#</strong>: #encodeForHTML(d.body_value)#">
+							<cfelse>
+								<cfset summary="Response Annotation <strong>#annotation_id#</strong>">
+							</cfif>
+							<cfquery name="rootAnnotationSummaryForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT a.annotation_id, atb.body_value
+								FROM annotations a
+								LEFT OUTER JOIN (
+									SELECT annotation_id, body_value,
+									       row_number() over (partition by annotation_id order by created_date) rn
+									FROM annotation_textualbody
+								) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+								WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
+							</cfquery>
+							<cfif rootAnnotationSummaryForDialog.recordcount EQ 1>
+								<cfif len(rootAnnotationSummaryForDialog.body_value) GT 0>
+									<cfset summary = summary & '<span class="small d-block mt-1">Root Annotation <strong>' & responseRootAnnotationId & '</strong>: ' & encodeForHTML(rootAnnotationSummaryForDialog.body_value) & '</span>'>
+								<cfelse>
+									<cfset summary = summary & '<span class="small d-block mt-1">Root Annotation <strong>' & responseRootAnnotationId & '</strong></span>'>
+								</cfif>
+							</cfif>
 						</cfif>
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
@@ -384,23 +416,23 @@ limitations under the License.
 								<div class="row col-12 mx-0 mt-3 d-block">
 									<form name="annotate" onSubmit="return false;" class="form-row">
 										<input type="hidden" name="action" value="insert">
-										<input type="hidden" name="idtype" id="idtype" value="#target_type#">
-										<input type="hidden" name="idvalue" id="idvalue" value="#dialogTargetId#">
+										<input type="hidden" name="idtype" id="#idtypeFieldId#" value="#target_type#">
+										<input type="hidden" name="idvalue" id="#idvalueFieldId#" value="#dialogTargetId#">
 										<div class="col-12 pb-2">
-											<label for="annotation" class="data-entry-label">Annotation Text (<span id="length_annotation"></span>)</label>
-											<textarea rows="2" name="annotation" id="annotation"
-													onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
+											<label for="#annotationFieldId#" class="data-entry-label">Annotation Text (<span id="#annotationLengthId#"></span>)</label>
+											<textarea rows="2" name="annotation" id="#annotationFieldId#"
+													onkeyup="countCharsLeft('#annotationFieldId#', 4000, '#annotationLengthId#');"
 													class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
 											<script>
 												$(document).ready(function() { 
-													$("##annotation").keyup(autogrow);  
-													$("##annotation").keyup();  
+													$("###annotationFieldId#").keyup(autogrow);  
+													$("###annotationFieldId#").keyup();  
 												});
 											</script>
 										</div>
 										<div class="col-12 pb-2">
-											<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
-											<select id="motivation" name="motivation" class="data-entry-select">
+											<label for="#motivationFieldId#" class="data-entry-label">Your motivation for making this annotation</label>
+											<select id="#motivationFieldId#" name="motivation" class="data-entry-select">
 												<cfloop query="ctmotivation">
 													<cfif target_type EQ "annotation">
 														<cfif motivation EQ "replying"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
@@ -413,8 +445,8 @@ limitations under the License.
 										</div>
 										<cfif target_type EQ "annotation">
 											<div class="col-12 col-md-3 pb-2">
-												<label for="root_reviewed_fg" class="data-entry-label">Mark Parent Reviewed?</label>
-												<select id="root_reviewed_fg" name="root_reviewed_fg" class="data-entry-select">
+												<label for="#rootReviewedFieldId#" class="data-entry-label">Mark Parent Reviewed?</label>
+												<select id="#rootReviewedFieldId#" name="root_reviewed_fg" class="data-entry-select">
 													<option value="" selected="selected">No Change</option>
 													<option value="0">No</option>
 													<option value="1">Yes</option>
@@ -423,16 +455,16 @@ limitations under the License.
 										</cfif>
 										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
 											<div class="col-12 <cfif target_type EQ "annotation">col-md-3<cfelse>col-md-6</cfif> pb-2">
-												<label for="mask_annotation_fg" class="data-entry-label"><cfif target_type EQ "annotation">Response Visibility:<cfelse>Visibility:</cfif></label>
-												<select id="mask_annotation_fg" name="mask_annotation_fg" class="data-entry-select">
+												<label for="#maskFieldId#" class="data-entry-label"><cfif target_type EQ "annotation">Response Visibility:<cfelse>Visibility:</cfif></label>
+												<select id="#maskFieldId#" name="mask_annotation_fg" class="data-entry-select">
 													<option value="0" selected="selected">Public</option>
 													<option value="1">Hidden</option>
 												</select>
 											</div>
 											<cfif target_type EQ "annotation">
 												<div class="col-12 col-md-3 pb-2">
-													<label for="root_mask_annotation_fg" class="data-entry-label">Parent Visibility:</label>
-													<select id="root_mask_annotation_fg" name="root_mask_annotation_fg" class="data-entry-select">
+													<label for="#rootMaskFieldId#" class="data-entry-label">Parent Visibility:</label>
+													<select id="#rootMaskFieldId#" name="root_mask_annotation_fg" class="data-entry-select">
 														<option value="" selected="selected">No Change</option>
 														<option value="0">Public</option>
 														<option value="1">Hidden</option>
@@ -444,17 +476,10 @@ limitations under the License.
 											<input type="button" 
 												class="btn btn-xs btn-primary mt-2" 
 												value="Save Annotation" 
-												onclick="saveThisAnnotation(`annotationResultDiv`,closeAnnotationDialog)">
-											<output id="annotationResultDiv" class="ml-2" aria-live="polite"></output>
+												onclick="saveThisAnnotation('#annotationResultDivId#', function(){ var dialogId = '#encodeForJavaScript(dialogId)#'; $('##' + dialogId).dialog('close'); }, '#dialogIdSuffix#')">
+											<output id="#annotationResultDivId#" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
-									<!--- callback function to close this dialog --->
-									<script>
-										function closeAnnotationDialog() {
-											dialogId = "#dialogId#";
-											$("##"+dialogId).dialog("close");
-										}
-									</script>
 								</div>
 							</div>
 								<div class="col-12 mx-0 px-0">
