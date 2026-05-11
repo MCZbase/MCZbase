@@ -3040,6 +3040,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 </cffunction>
 
 
+<!--- Function addNamedQueryParam add a named typed parameter to a queryExecute parameter struct.
+
+@param params struct of named query parameters to append to.
+@param paramBase base name for generating a unique parameter name.
+@param value parameter value to bind.
+@param cfsqltype SQL type to use for binding.
+@param list true to bind value as a list parameter.
+@param scale optional numeric scale for decimal bindings.
+@return generated named parameter token (e.g. :param_name_1) for use in SQL text.
+--->
 <cffunction name="addNamedQueryParam" access="private" returntype="string">
 	<cfargument name="params" type="struct" required="yes">
 	<cfargument name="paramBase" type="string" required="yes">
@@ -3059,6 +3069,15 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfreturn ":" & paramName>
 </cffunction>
 
+<!--- Function appendSetupClauseCondition add a text field clause prepared by setupClause to a WHERE clause array.
+
+@param whereClauses array of SQL WHERE clause fragments.
+@param params struct of named query parameters for queryExecute.
+@param field SQL field/expression to query.
+@param value user supplied query value to parse with setupClause.
+@param paramBase base name used when creating named parameters.
+@return nothing (mutates whereClauses and params).
+--->
 <cffunction name="appendSetupClauseCondition" access="private" returntype="void">
 	<cfargument name="whereClauses" type="array" required="yes">
 	<cfargument name="params" type="struct" required="yes">
@@ -3075,6 +3094,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
 </cffunction>
 
+<!--- Function appendSetupNumericClauseCondition add a numeric field clause prepared by setupNumericClause to a WHERE clause array.
+
+@param whereClauses array of SQL WHERE clause fragments.
+@param params struct of named query parameters for queryExecute.
+@param field SQL field/expression to query.
+@param value user supplied numeric query value to parse with setupNumericClause.
+@param paramBase base name used when creating named parameters.
+@param scale optional numeric scale for decimal bindings.
+@return nothing (mutates whereClauses and params).
+--->
 <cffunction name="appendSetupNumericClauseCondition" access="private" returntype="void">
 	<cfargument name="whereClauses" type="array" required="yes">
 	<cfargument name="params" type="struct" required="yes">
@@ -3102,9 +3131,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
 </cffunction>
 
-<!--- QueryExecute variant of getCollectingEvents.
-	Drop-in replacement signature and return format for the existing method.
+<!--- Function getCollectingEvents_queryExecute.
+	QueryExecute variant of getCollectingEvents, with drop-in signature and return format.
 	LEGACY_SPEC_LOCALITY_FG remains unused.
+
+@param [same arguments as getCollectingEvents] collecting event and locality search filters.
+@return json containing data about collecting events matching specified search criteria.
 --->
 <cffunction name="getCollectingEvents_queryExecute" access="remote" returntype="any" returnformat="json">
 	<cfargument name="any_geography" type="string" required="no"><!--- keyword index search --->
