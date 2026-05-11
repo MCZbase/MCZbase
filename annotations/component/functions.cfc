@@ -309,17 +309,18 @@ limitations under the License.
 						<cfif d.recordcount EQ 0>
 							<cfthrow message="Annotation to annotate not found.">
 						</cfif>
+						<cfset dialogAnnotationId = d.annotation_id>
 						<cfif len(d.body_value) GT 0>
-							<cfset summary="Annotation <strong>#annotation_id#</strong>: #encodeForHTML(d.body_value)#">
+							<cfset summary="Annotation <strong>#dialogAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
 						<cfelse>
-							<cfset summary="Annotation <strong>#annotation_id#</strong>">
+							<cfset summary="Annotation <strong>#dialogAnnotationId#</strong>">
 						</cfif>
 						<cfquery name="annotationRootForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT annotation_id
 							FROM (
 								SELECT annotation_id, LEVEL hierarchy_level
 								FROM annotations
-								START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+								START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dialogAnnotationId#">
 								CONNECT BY PRIOR target_primary_key = annotation_id AND PRIOR target_table = 'ANNOTATIONS'
 								ORDER BY LEVEL DESC
 							)
@@ -329,13 +330,13 @@ limitations under the License.
 							<cfset responseRootAnnotationId = annotationRootForDialog.annotation_id>
 							<cfset dialogTargetId = annotationRootForDialog.annotation_id>
 						<cfelse>
-							<cfset responseRootAnnotationId = annotation_id>
+							<cfset responseRootAnnotationId = dialogAnnotationId>
 						</cfif>
-						<cfif responseRootAnnotationId NEQ annotation_id>
+						<cfif responseRootAnnotationId NEQ dialogAnnotationId>
 							<cfif len(d.body_value) GT 0>
-								<cfset summary="Response Annotation <strong>#annotation_id#</strong>: #encodeForHTML(d.body_value)#">
+								<cfset summary="Response Annotation <strong>#dialogAnnotationId#</strong>: #encodeForHTML(d.body_value)#">
 							<cfelse>
-								<cfset summary="Response Annotation <strong>#annotation_id#</strong>">
+								<cfset summary="Response Annotation <strong>#dialogAnnotationId#</strong>">
 							</cfif>
 							<cfquery name="rootAnnotationSummaryForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT a.annotation_id, atb.body_value
