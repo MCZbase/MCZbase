@@ -117,6 +117,18 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 	});
 }
 
+/** Open annotation dialog configured to add a reply to a root annotation.
+ * @param rootAnnotationId annotation_id of the root annotation to which to add a reply.
+ * @param callback optional function to execute when the dialog closes.
+ */
+function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
+	var dialogid = "annotationDialog_reply_" + rootAnnotationId;
+	if ($("#" + dialogid).length === 0) {
+		$("body").append('<div id="' + dialogid + '"></div>');
+	}
+	openAnnotationsDialog(dialogid, "annotation", rootAnnotationId, callback);
+}
+
 /** Save a new reply annotation via AJAX.
  * @param rootAnnotationId annotation_id of the root annotation receiving a new reply annotation.
  * @param rootFeedbackDiv id of element to update with saving/saved/error state.

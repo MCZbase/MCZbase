@@ -1065,9 +1065,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<div class="card-body bg-white border-bottom py-2 pl-4" data-reply-parent-id="#arguments.rootAnnotationId#">
 			<div class="d-flex justify-content-between align-items-center mb-2">
 				<h4 class="h5 mb-0">Conversation</h4>
-				<button type="button" class="btn btn-xs btn-primary" onclick="openAnnotationsDialog('annotationDialog_reply_#arguments.rootAnnotationId#','annotation',#arguments.rootAnnotationId#,function(){ window.location.reload(); });">Reply in Dialog</button>
+				<button type="button" class="btn btn-xs btn-primary" onclick="openReplyAnnotationDialog(#arguments.rootAnnotationId#);">Reply in Dialog</button>
 			</div>
-			<div id="annotationDialog_reply_#arguments.rootAnnotationId#"></div>
 			<cfif rootChildren.recordcount GT 0>
 				<cfloop query="rootChildren">
 					<cfset childRowHTML = renderAnnotationReviewRow(
