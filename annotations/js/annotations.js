@@ -2,9 +2,7 @@
 
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
-	if (openReplyAnnotationDialog(rootAnnotationId) === false) {
-		return false;
-	}
+	return openReplyAnnotationDialog(rootAnnotationId);
 });
 
 /** saveThisAnnotation - Save a new annotation via AJAX.
@@ -134,13 +132,13 @@ function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
 		messageDialog("Unable to open annotation dialog for this reply target.","Reply Annotation");
 		return false;
 	}
-	var dialogid = "annotationDialog_reply_" + String(parsedRootAnnotationId);
-	if (!document.getElementById(dialogid)) {
+	var dialogId = "annotationDialog_reply_" + String(parsedRootAnnotationId);
+	if (!document.getElementById(dialogId)) {
 		var dialogElement = document.createElement("div");
-		dialogElement.id = dialogid;
+		dialogElement.id = dialogId;
 		document.body.appendChild(dialogElement);
 	}
-	openAnnotationsDialog(dialogid, "annotation", parsedRootAnnotationId, callback);
+	openAnnotationsDialog(dialogId, "annotation", parsedRootAnnotationId, callback);
 	return true;
 }
 
