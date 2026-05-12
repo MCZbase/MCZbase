@@ -261,6 +261,8 @@ limitations under the License.
 							target_table in ('ANNOTATION','ANNOTATIONS')
 							and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
 						)
+					<cfelse>
+						1=0
 					</cfif>
 					order by annotations.STATE, annotate_date
 				</cfquery>
@@ -342,6 +344,8 @@ limitations under the License.
 									</form>
 								</div>
 							</div>
+							<cfelse>
+								<p class="px-1 py-1 text-muted small">To add an annotation, you must be logged in with a registered email address.</p>
 							</cfif>
 							<div class="col-12 mx-0 px-0 mt-2">
 								<cfif prevAnn.recordcount gt 0>
