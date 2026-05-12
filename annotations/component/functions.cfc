@@ -987,7 +987,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfoutput>
 		<div class="card-body bg-light border-bottom py-2">
 			<div class="form-row mx-0 col-12 px-0">
-				<div class="col-12 col-md-6 pt-2 px-1">
+				<div class="col-12 col-md-4 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold">Annotation:</span>
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
@@ -996,7 +996,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<div class="px-1 small">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
-				<div class="col-12 col-md-4 pt-2 px-1">
+				<div class="col-12 col-md-3 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold">Annotator:</span>
 					<div class="px-1 small">
 						<strong>#encodeForHTML(arguments.cf_username)#</strong>
