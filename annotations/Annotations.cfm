@@ -124,7 +124,7 @@ limitations under the License.
 									<label for="specimen_guid" class="data-entry-label">By Specimen GUID</label>
 									<input type="text" name="specimen_guid" id="specimen_guid"
 										value="#encodeForHTML(variables.specimen_guid)#"
-										placeholder="e.g. MCZ:Herp:12345"
+										placeholder="e.g. MCZ:Herp:A-12345"
 										class="data-entry-input col-12">
 								</div>
 								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
