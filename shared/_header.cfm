@@ -875,22 +875,29 @@ limitations under the License.
 				</form>
 			<cfelse>
 				<!--- user is not logged in, if they do login, determine where to send them from the login page --->
-				<cfif isdefined("gotopage") and len(gotopage) GT 0>
-					<cfset gtp = gotopage>
+				<cfif isdefined("gotopage") and len(trim(gotopage)) GT 0>
+					<cfset gtp = trim(gotopage)>
 				<cfelseif cgi.script_name EQ "/guid/handler.cfm" AND isDefined("url.catalog") AND len(trim(url.catalog)) GT 0 AND REFind("^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$", trim(url.catalog)) GT 0>
 					<!--- initial request was for /guid/{guid} but user is not logged in, so send to login page and then back to the guid page after successful login --->
 					<cfset gtp = "/guid/#trim(url.catalog)#">
-				<cfelseif isDefined("cgi.REDIRECT_URL") AND len(trim(cgi.REDIRECT_URL)) GT 0 AND left(cgi.REDIRECT_URL, 1) EQ "/">
+				<cfelseif isDefined("cgi.REDIRECT_URL") AND len(trim(cgi.REDIRECT_URL)) GT 0 AND left(trim(cgi.REDIRECT_URL), 1) EQ "/" AND left(trim(cgi.REDIRECT_URL), 2) NEQ "//">
 					<cfset gtp = trim(cgi.REDIRECT_URL)>
-				<cfelseif isDefined("requestData.headers.referer") AND left(requestData.headers.referer, len(application.serverRootUrl)) EQ application.serverRootUrl>
-					<cfset gtp = replace(requestData.headers.referer, application.serverRootUrl, "")>
+				<cfelseif isDefined("requestData.headers.referer") AND len(trim(requestData.headers.referer)) GT 0 AND left(trim(requestData.headers.referer), len(application.serverRootUrl)) EQ application.serverRootUrl>
+					<cfset gtp = replace(trim(requestData.headers.referer), application.serverRootUrl, "")>
 				<cfelse>
-					<cfset gtp = replace(cgi.SCRIPT_NAME, "//", "/")>
-					<!--- if cgi.query_string is non empty, then we need to append it to the gotopage value so that after login the user has a search etc. populated --->
+					<cfset gtp = replace(cgi.SCRIPT_NAME, "//", "/", "all")>
+					<!--- if cgi.query_string is non empty, then append it so search pages can restore state after login --->
 					<cfif isDefined("cgi.query_string") AND len(trim(cgi.query_string)) GT 0>
-						<cfset gtp = "#gtp#?#cgi.query_string#">
+						<cfset cleanedQueryString = trim(cgi.query_string)>
+						<cfset cleanedQueryString = REReplaceNoCase(cleanedQueryString, "(^|&)(CFID|CFTOKEN)=[^&]*", "", "all")>
+						<cfset cleanedQueryString = REReplace(cleanedQueryString, "^&+|&+$", "", "all")>
+						<cfset cleanedQueryString = REReplace(cleanedQueryString, "&{2,}", "&", "all")>
+						<cfif len(cleanedQueryString) GT 0>
+							<cfset gtp = "#gtp#?#cleanedQueryString#">
+						</cfif>
+					</cfif>
 				</cfif>
-				<cfif gtp EQ '/errors/forbidden.cfm'>
+				<cfif gtp EQ "/errors/forbidden.cfm">
 					<cfset gtp = "/users/UserProfile.cfm">
 				</cfif>
 				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
