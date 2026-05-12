@@ -877,9 +877,9 @@ limitations under the License.
 				<!--- user is not logged in, if they do login, determine where to send them from the login page --->
 				<cfif isdefined("gotopage") and len(gotopage) GT 0>
 					<cfset gtp = gotopage>
-				<cfelseif cgi.script_name EQ "/guid/handler.cfm" AND isDefined("url.catalog") AND len(trim(url.catalog)) GT 0>
+				<cfelseif cgi.script_name EQ "/guid/handler.cfm" AND isDefined("url.catalog") AND len(trim(url.catalog)) GT 0 AND REFind("^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$", trim(url.catalog)) GT 0>
 					<!--- initial request was for /guid/{guid} but user is not logged in, so send to login page and then back to the guid page after successful login --->
-					<cfset gtp = "/guid/#encodeForUrl(url.catalog)#">
+					<cfset gtp = "/guid/#trim(url.catalog)#">
 				<cfelseif isDefined("cgi.REDIRECT_URL") AND len(trim(cgi.REDIRECT_URL)) GT 0 AND left(cgi.REDIRECT_URL, 1) EQ "/">
 					<cfset gtp = trim(cgi.REDIRECT_URL)>
 				<cfelseif isDefined("requestData.headers.referer") AND left(requestData.headers.referer, len(application.serverRootUrl)) EQ application.serverRootUrl>
