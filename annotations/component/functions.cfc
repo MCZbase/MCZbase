@@ -906,7 +906,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfsavecontent variable="sectionHtml">
 		<cfoutput>
 		<cfif rootChildren.recordcount GT 0>
-			<div class="pl-3 border-left ml-2" data-reply-parent-id="#arguments.rootAnnotationId#">
+			<div class="ml-4 pl-0 border-left border-dark" data-reply-parent-id="#arguments.rootAnnotationId#">
 				<cfloop query="rootChildren">
 					<cfset childRowHTML = renderAnnotationReviewRow(
 						annotation_id=rootChildren.annotation_id,
