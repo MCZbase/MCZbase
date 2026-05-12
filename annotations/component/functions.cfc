@@ -383,9 +383,9 @@ limitations under the License.
 														mask_annotation_fg="#mask_annotation_fg#"
 														is_response="false"
 														root_annotation_id="#annotation_id#"
-														show_reply_action="false">
+														show_reply_action="true">
 													#dialogRootRowHtml#
-													#renderAnnotationConversationSection(rootAnnotationId=rootDialogAnnotations.annotation_id, childAnnotations=dialogChildAnno, includeHeading=true)#
+													#renderAnnotationConversationSection(rootAnnotationId=rootDialogAnnotations.annotation_id, childAnnotations=dialogChildAnno)#
 												</cfloop>
 											</div>
 										</cfif>
@@ -881,16 +881,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
-<!--- Render conversation section with existing child annotations and a button to open annotation dialog for replies.
+<!--- Render conversation section with existing child annotations indented with a left border.
  @param rootAnnotationId annotation.annotation_id for the root annotation.
  @param childAnnotations query from getChildAnnotationsForRoots().
- @param includeHeading if true, include heading and Reply button.
  @return html snippet for conversation section.
 --->
 <cffunction name="renderAnnotationConversationSection" returntype="string" access="public">
 	<cfargument name="rootAnnotationId" type="numeric" required="yes">
 	<cfargument name="childAnnotations" type="query" required="yes">
-	<cfargument name="includeHeading" type="boolean" required="no" default="true">
 	<cfset var sectionHtml = "">
 	<cfset var rootChildren = QueryNew("annotation_id,annotation_display,cf_username,email,annotate_date,motivation,reviewed_fg,reviewer,reviewer_comment,mask_annotation_fg")>
 	<cfset var childRowHTML = "">
@@ -907,14 +905,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	</cfif>
 	<cfsavecontent variable="sectionHtml">
 		<cfoutput>
-		<div class="card-body bg-white border-bottom py-2 pl-4" data-reply-parent-id="#arguments.rootAnnotationId#">
-			<cfif arguments.includeHeading>
-				<div class="d-flex justify-content-between align-items-center mb-2">
-					<h4 class="h5 mb-0">Conversation</h4>
-					<button type="button" class="btn btn-xs btn-primary open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(arguments.rootAnnotationId)#">Reply</button>
-				</div>
-			</cfif>
-			<cfif rootChildren.recordcount GT 0>
+		<cfif rootChildren.recordcount GT 0>
+			<div class="pl-3 border-left ml-2" data-reply-parent-id="#arguments.rootAnnotationId#">
 				<cfloop query="rootChildren">
 					<cfset childRowHTML = renderAnnotationReviewRow(
 						annotation_id=rootChildren.annotation_id,
@@ -931,12 +923,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						root_annotation_id=arguments.rootAnnotationId,
 						show_reply_action=false
 					)>
-					<div class="ml-2 border-left pl-2">#childRowHTML#</div>
+					#childRowHTML#
 				</cfloop>
-			<cfelse>
-				<p class="small text-muted mb-0">No response annotations.</p>
-			</cfif>
-		</div>
+			</div>
+		</cfif>
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn trim(sectionHtml)>
@@ -988,7 +978,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<div class="card-body bg-light border-bottom py-2">
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="col-12 col-md-4 pt-2 px-1">
-					<span class="data-entry-label font-weight-bold">Annotation:</span>
+					<span class="data-entry-label font-weight-bold small">Annotation:</span>
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
 					<cfelse>
@@ -997,36 +987,31 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfif>
 				</div>
 				<div class="col-12 col-md-3 pt-2 px-1">
-					<span class="data-entry-label font-weight-bold">Annotator:</span>
+					<span class="data-entry-label font-weight-bold small">Annotator:</span>
 					<div class="px-1 small">
 						<strong>#encodeForHTML(arguments.cf_username)#</strong>
 						(#encodeForHTML(arguments.email)#)
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
 					</div>
 				</div>
-				<div class="col-12 col-md-3 pt-2 px-1">
-					<span class="data-entry-label font-weight-bold">Motivation:</span>
+				<div class="col-12 col-md-1 pt-2 px-1">
+					<span class="data-entry-label font-weight-bold small">Motivation:</span>
 					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
 				</div>
-			</div>
-			<div class="form-row mx-0 col-12 px-0 pt-1">
 				<cfif NOT arguments.is_response>
-					<div class="col-12 col-md-2 py-1 px-1">
-						<label for="reviewed_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Reviewed?</label>
+					<div class="col-12 col-md-1 pt-2 px-1">
+						<label for="reviewed_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">Reviewed?</label>
 						<select id="reviewed_fg_#arguments.annotation_id#" class="data-entry-select col-12">
 							<cfif val(arguments.reviewed_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="0" #selected#>No</option>
 							<cfif val(arguments.reviewed_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="1" #selected#>Yes</option>
 						</select>
-						<cfif len(arguments.reviewer) GT 0>
-							<div class="pt-1 small">Last review by: #encodeForHTML(arguments.reviewer)#</div>
-						</cfif>
 					</div>
 				</cfif>
 				<cfif showVisibility>
-					<div class="col-12 col-md-2 py-1 px-1">
-						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold">Visibility:</label>
+					<div class="col-12 col-md-1 pt-2 px-1">
+						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">Visibility:</label>
 						<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
 							<cfif val(arguments.mask_annotation_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="0" #selected#>Public</option>
@@ -1038,31 +1023,27 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						</cfif>
 					</div>
 				</cfif>
-				<cfif NOT arguments.is_response>
-					<div class="col-12 col-md-2 pt-3 px-1">
-						<div>
-							<cfif arguments.show_reply_action>
-								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
-							</cfif>
-							<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save</button>
-							<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite"></output>
-						</div>
-					</div>
-				<cfelse>
-					<div class="col-12 col-md-2 pt-3 px-1">
+				<div class="col-12 col-md-2 pt-2 px-1">
+					<cfif NOT arguments.is_response>
+						<cfif arguments.show_reply_action>
+							<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
+						</cfif>
+						<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save</button>
+						<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite" class="small"></output>
+					<cfelse>
 						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#">Edit</button>
-					</div>
-				</cfif>
-				<cfif arguments.is_response AND showVisibility>
-					<script>
-						$(document).ready(function() {
-							$("##mask_annotation_fg_#arguments.annotation_id#").off("change.responsemask").on("change.responsemask", function() {
-								setAnnotationMask(#arguments.annotation_id#, this.value, "mask_result_#arguments.annotation_id#");
-							});
-						});
-					</script>
-				</cfif>
+					</cfif>
+				</div>
 			</div>
+			<cfif arguments.is_response AND showVisibility>
+				<script>
+					$(document).ready(function() {
+						$("##mask_annotation_fg_#arguments.annotation_id#").off("change.responsemask").on("change.responsemask", function() {
+							setAnnotationMask(#arguments.annotation_id#, this.value, "mask_result_#arguments.annotation_id#");
+						});
+					});
+				</script>
+			</cfif>
 		</div>
 		</cfoutput>
 	</cfsavecontent>

@@ -326,7 +326,8 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getSpecimenAnnotations.annotation_id, childAnnotations=specimenChildAnno)#
 							</cfloop>
@@ -416,7 +417,8 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getTaxonAnnotations.annotation_id, childAnnotations=taxonChildAnno)#
 							</cfloop>
@@ -498,7 +500,8 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getPubAnnotations.annotation_id, childAnnotations=publicationChildAnno)#
 							</cfloop>
@@ -580,7 +583,8 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getProjectAnnotations.annotation_id, childAnnotations=projectChildAnno)#
 							</cfloop>
