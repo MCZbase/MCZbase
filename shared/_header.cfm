@@ -884,12 +884,11 @@ limitations under the License.
 					<cfset gtp = trim(cgi.REDIRECT_URL)>
 				<cfelseif isDefined("requestData.headers.referer") AND left(requestData.headers.referer, len(application.serverRootUrl)) EQ application.serverRootUrl>
 					<cfset gtp = replace(requestData.headers.referer, application.serverRootUrl, "")>
+				<cfelse>
+					<cfset gtp = replace(cgi.SCRIPT_NAME, "//", "/")>
 					<!--- if cgi.query_string is non empty, then we need to append it to the gotopage value so that after login the user has a search etc. populated --->
 					<cfif isDefined("cgi.query_string") AND len(trim(cgi.query_string)) GT 0>
 						<cfset gtp = "#gtp#?#cgi.query_string#">
-					</cfif>
-				<cfelse>
-					<cfset gtp = replace(cgi.SCRIPT_NAME, "//", "/")>
 				</cfif>
 				<cfif gtp EQ '/errors/forbidden.cfm'>
 					<cfset gtp = "/users/UserProfile.cfm">
