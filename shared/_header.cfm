@@ -874,19 +874,18 @@ limitations under the License.
 					</button>
 				</form>
 			<cfelse>
+				<!--- user is not logged in, if they do login, determine where to send them from the login page --->
 				<cfif isdefined("gotopage") and len(gotopage) GT 0>
 					<cfset gtp = gotopage>
+				<cfelseif cgi.script_name EQ "/guid/handler.cfm" AND isDefined("url.catalog") AND len(trim(url.catalog)) GT 0>
+					<!--- initial request was for /guid/{guid} but user is not logged in, so send to login page and then back to the guid page after successful login --->
+					<cfset gtp = "/guid/#encodeForUrl(url.catalog)#">
+				<cfelseif isDefined("cgi.REDIRECT_URL") AND len(trim(cgi.REDIRECT_URL)) GT 0 AND left(cgi.REDIRECT_URL, 1) EQ "/">
+					<cfset gtp = trim(cgi.REDIRECT_URL)>
+				<cfelseif isDefined("requestData.headers.referer") AND left(requestData.headers.referer, len(application.serverRootUrl)) EQ application.serverRootUrl>
+					<cfset gtp = replace(requestData.headers.referer, application.serverRootUrl, "")>
 				<cfelse>
-					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',cgi.REDIRECT_URL)>
-						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-					<cfelse>
-						<cfset requestData = #GetHttpRequestData()#>
-						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',requestData.headers.referer)>
-							<cfset gtp=requestData.headers.referer>
-						<cfelse>
-							<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-						</cfif>
-					</cfif>
+					<cfset gtp = replace(cgi.SCRIPT_NAME, "//", "/")>
 				</cfif>
 				<cfif gtp EQ '/errors/forbidden.cfm'>
 					<cfset gtp = "/users/UserProfile.cfm">
