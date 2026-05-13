@@ -1005,13 +1005,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</div>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<label for="reviewed_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">Reviewed?</label>
-						<select id="reviewed_fg_#arguments.annotation_id#" class="data-entry-select col-12">
-							<cfif val(arguments.reviewed_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-							<option value="0" #selected#>No</option>
-							<cfif val(arguments.reviewed_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-							<option value="1" #selected#>Yes</option>
-						</select>
+						<span class="data-entry-label font-weight-bold small d-block">Reviewed?</span>
+						<span class="px-1 small"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></span>
 					</div>
 				</cfif>
 				<cfif showVisibility>
@@ -1023,27 +1018,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<cfif val(arguments.mask_annotation_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="1" #selected#>Hidden</option>
 						</select>
-						<cfif arguments.is_response>
-							<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small ml-1"></output>
-						</cfif>
+						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
 					</div>
 				</cfif>
 				<div class="col-12 col-md-2 pt-2 px-1">
-					<cfif NOT arguments.is_response>
-						<cfif arguments.show_reply_action>
-							<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
-						</cfif>
-						<button type="button" class="btn btn-xs btn-primary mb-1" onclick="doAnnotationUpdate(#arguments.annotation_id#)">Save</button>
-						<output id="feedbackDiv_#arguments.annotation_id#" aria-live="polite" class="small"></output>
-					<cfelse>
-						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#">Edit</button>
+					<cfif NOT arguments.is_response AND arguments.show_reply_action>
+						<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 					</cfif>
+					<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#">Edit</button>
 				</div>
 			</div>
-			<cfif arguments.is_response AND showVisibility>
+			<cfif showVisibility>
 				<script>
 					$(document).ready(function() {
-						$("##mask_annotation_fg_#arguments.annotation_id#").off("change.responsemask").on("change.responsemask", function() {
+						$("##mask_annotation_fg_#arguments.annotation_id#").off("change.annotationmask").on("change.annotationmask", function() {
 							setAnnotationMask(#arguments.annotation_id#, this.value, "mask_result_#arguments.annotation_id#");
 						});
 					});
@@ -1055,5 +1043,440 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<cfreturn trim(rowHTML)>
 </cffunction>
+
+<!--- Return HTML for a dialog to edit an existing annotation.
+ Provides a pre-filled edit form, optional root-annotation controls for response annotations,
+ a context view of the root annotation and its responses, and a collapsible add-annotation form.
+ @param annotation_id the numeric primary key of the annotation to edit.
+ @param dialogId the html id value for the dialog container; used to scope form field ids.
+ @return HTML string for the edit annotation dialog.
+--->
+<cffunction name="getEditAnnotationDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="annotation_id" type="numeric" required="yes">
+	<cfargument name="dialogId" type="string" required="yes">
+
+	<cfthread name="getEditAnnotationDialogHtmlThread" annotation_id="#arguments.annotation_id#" dialogId="#arguments.dialogId#">
+		<cftry>
+			<cfoutput>
+				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+				<cfset canAnnotate = false>
+				<cfif isDefined("session.username") AND len(session.username) GT 0>
+					<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+						SELECT email FROM cf_user_data, cf_users
+						WHERE cf_user_data.user_id = cf_users.user_id
+						AND cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfif hasEmail.recordcount GT 0 AND len(hasEmail.email) GT 0>
+						<cfset canAnnotate = true>
+					</cfif>
+				</cfif>
+				<cfset dq = rereplace(dialogId, "[^A-Za-z0-9_]", "", "all")>
+				<cfset editAnnFieldId       = "edit_annotation_"       & dq>
+				<cfset editAnnLengthId      = "length_edit_annotation_" & dq>
+				<cfset editMotivationFieldId = "edit_motivation_"       & dq>
+				<cfset editMaskFieldId      = "edit_mask_fg_"           & dq>
+				<cfset editRootReviewedFieldId = "edit_root_reviewed_fg_" & dq>
+				<cfset editRootMaskFieldId  = "edit_root_mask_fg_"      & dq>
+				<cfset editResultDivId      = "editAnnotationResultDiv_" & dq>
+				<cfset addFormDivId         = "addAnnotationFormDiv_"   & dq>
+				<cfset addAnnFieldId        = "add_annotation_"         & dq>
+				<cfset addAnnLengthId       = "length_add_annotation_"  & dq>
+				<cfset addMotivationFieldId = "add_motivation_"         & dq>
+				<cfset addMaskFieldId       = "add_mask_fg_"            & dq>
+				<cfset addResultDivId       = "addAnnotationResultDiv_" & dq>
+
+				<!--- Look up the annotation to edit --->
+				<cfquery name="editAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					SELECT
+						a.annotation_id,
+						a.cf_username,
+						a.annotate_date,
+						a.motivation,
+						a.reviewed_fg,
+						a.mask_annotation_fg,
+						a.target_table,
+						a.target_primary_key,
+						atb.body_value,
+						annotator.first_name annotator_first_name,
+						annotator.last_name annotator_last_name,
+						annotator.email annotator_email
+					FROM annotations a
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+							row_number() over (partition by annotation_id order by created_date) rn
+						FROM annotation_textualbody
+					) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+					LEFT OUTER JOIN cf_users ON a.cf_username = cf_users.username
+					LEFT OUTER JOIN cf_user_data annotator ON cf_users.user_id = annotator.user_id
+					WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+				</cfquery>
+				<cfif editAnn.recordcount EQ 0>
+					<p class="text-danger px-2">Annotation not found.</p>
+					<cfabort>
+				</cfif>
+
+				<!--- Determine if this is a response annotation and find the root --->
+				<cfset isResponseAnnotation = (len(editAnn.target_table) GT 0 AND UCASE(editAnn.target_table) EQ "ANNOTATIONS")>
+				<cfset rootAnnotationId = annotation_id>
+				<cfset rootAnnotationBody = "">
+				<cfif isResponseAnnotation>
+					<cfquery name="annRoot" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT annotation_id FROM (
+							SELECT annotation_id, LEVEL hierarchy_level
+							FROM annotations
+							START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+							CONNECT BY PRIOR target_primary_key = annotation_id AND PRIOR target_table = 'ANNOTATIONS'
+							ORDER BY LEVEL DESC
+						) WHERE ROWNUM = 1
+					</cfquery>
+					<cfif annRoot.recordcount EQ 1>
+						<cfset rootAnnotationId = annRoot.annotation_id>
+					<cfelse>
+						<cfset rootAnnotationId = editAnn.target_primary_key>
+					</cfif>
+					<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT atb.body_value
+						FROM annotations a
+						LEFT OUTER JOIN (
+							SELECT annotation_id, body_value,
+								row_number() over (partition by annotation_id order by created_date) rn
+							FROM annotation_textualbody
+						) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+						WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
+					</cfquery>
+					<cfif rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.body_value) GT 0>
+						<cfset rootAnnotationBody = rootAnnQ.body_value>
+					</cfif>
+				</cfif>
+
+				<!--- Load context annotations: root and its children --->
+				<cfquery name="contextAnns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT annotations.ANNOTATION_ID,
+						annotations.ANNOTATE_DATE,
+						annotations.CF_USERNAME,
+						annotations.ANNOTATION,
+						annotations.REVIEWED_FG,
+						annotations.REVIEWER_COMMENT,
+						annotations.TARGET_TABLE,
+						annotations.TARGET_PRIMARY_KEY,
+						annotations.motivation,
+						revname.agent_name reviewer_name,
+						annotator.first_name annotator_first_name,
+						annotator.last_name annotator_last_name,
+						annotator.email annotator_email,
+						annotations.MASK_ANNOTATION_FG,
+						atb.body_value
+					FROM annotations
+					LEFT OUTER JOIN agent rev ON annotations.reviewer_agent_id = rev.agent_id
+					LEFT OUTER JOIN agent_name revname ON rev.PREFERRED_AGENT_NAME_ID = revname.agent_name_id
+					LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
+					LEFT OUTER JOIN cf_user_data annotator ON cf_users.user_id = annotator.user_id
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+							row_number() over (partition by annotation_id order by created_date) rn
+						FROM annotation_textualbody
+					) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
+					OR (
+						UPPER(target_table) IN ('ANNOTATION','ANNOTATIONS')
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
+					)
+					ORDER BY annotations.annotate_date
+				</cfquery>
+
+				<cfif canAnnotate OR canManage>
+					<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+						SELECT motivation, description FROM ctmotivation ORDER BY motivation
+					</cfquery>
+				</cfif>
+
+				<cfset annotationBodyText = editAnn.body_value>
+
+				<section class="container-fluid">
+					<div class="row">
+						<div class="col-12 px-0 px-md-3">
+							<h2 class="h3 my-1 px-1" tabindex="0">
+								Edit Annotation <strong>#annotation_id#</strong>
+								<cfif isResponseAnnotation>
+									<span class="small d-block mt-1">
+										Reply to root annotation <strong>#rootAnnotationId#</strong>
+										<cfif len(rootAnnotationBody) GT 0>: #encodeForHTML(left(rootAnnotationBody, 100))#<cfif len(rootAnnotationBody) GT 100>&#8230;</cfif></cfif>
+									</span>
+								</cfif>
+							</h2>
+							<cfif canManage>
+							<div class="col-12 px-0 add-form">
+								<div class="add-form-header px-2 pb-1">
+									<h3 class="h4 my-0 px-1 py-1" tabindex="0">Edit Annotation</h3>
+								</div>
+								<div class="row col-12 mx-0 mt-1 d-block">
+									<form name="editAnnotationForm_#dq#" onSubmit="return false;" class="form-row">
+										<div class="col-12 pb-1">
+											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text (<span id="#editAnnLengthId#"></span>)</label>
+											<textarea rows="2" id="#editAnnFieldId#"
+													onkeyup="countCharsLeft('#editAnnFieldId#', 4000, '#editAnnLengthId#');"
+													class="autogrow reqdClr form-control data-entry-textarea" required>#encodeForHTML(annotationBodyText)#</textarea>
+											<script>
+												$(document).ready(function() {
+													$("###editAnnFieldId#").keyup(autogrow);
+													$("###editAnnFieldId#").keyup();
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-4 pb-1">
+											<label for="#editMotivationFieldId#" class="data-entry-label">Motivation</label>
+											<select id="#editMotivationFieldId#" class="data-entry-select">
+												<cfloop query="ctmotivation">
+													<cfif motivation EQ editAnn.motivation><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3 pb-1">
+											<label for="#editMaskFieldId#" class="data-entry-label">Visibility</label>
+											<select id="#editMaskFieldId#" class="data-entry-select">
+												<cfif val(editAnn.mask_annotation_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="0"#selected#>Public</option>
+												<cfif val(editAnn.mask_annotation_fg) EQ 1><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="1"#selected#>Hidden</option>
+											</select>
+										</div>
+										<cfif isResponseAnnotation>
+										<div class="col-12 col-md-3 pb-1">
+											<label for="#editRootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed?</label>
+											<select id="#editRootReviewedFieldId#" class="data-entry-select">
+												<option value="" selected="selected">No Change</option>
+												<option value="0">No</option>
+												<option value="1">Yes</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-3 pb-1">
+											<label for="#editRootMaskFieldId#" class="data-entry-label">Root Visibility</label>
+											<select id="#editRootMaskFieldId#" class="data-entry-select">
+												<option value="" selected="selected">No Change</option>
+												<option value="0">Public</option>
+												<option value="1">Hidden</option>
+											</select>
+										</div>
+										</cfif>
+										<div class="col-12 pt-1">
+											<input type="button"
+												class="btn btn-xs btn-primary mt-1"
+												value="Save Changes"
+												onclick="saveAnnotationEdit(#annotation_id#, <cfif isResponseAnnotation>#rootAnnotationId#<cfelse>''</cfif>, '_#dq#', '#encodeForJavaScript(dialogId)#')">
+											<output id="#editResultDivId#" class="ml-2" aria-live="polite"></output>
+										</div>
+									</form>
+								</div>
+							</div>
+							</cfif>
+							<div class="col-12 mx-0 px-0 mt-2">
+								<div class="d-flex justify-content-between align-items-center mt-1 px-1">
+									<h3 class="h4 mb-0">Annotation in Context</h3>
+									<cfif canAnnotate>
+										<button type="button" class="btn btn-xs btn-outline-secondary"
+											onclick="var d=document.getElementById('#addFormDivId#'); d.style.display=(d.style.display==='none'?'block':'none'); this.textContent=(d.style.display==='none'?'Add New Annotation':'Hide Form');">
+											Add New Annotation
+										</button>
+									</cfif>
+								</div>
+								<cfif canAnnotate>
+								<div id="#addFormDivId#" style="display:none;" class="mt-1">
+									<form name="addAnnotationForm_#dq#" onSubmit="return false;" class="form-row px-1">
+										<input type="hidden" id="idtype_add_#dq#" value="annotation">
+										<input type="hidden" id="idvalue_add_#dq#" value="#rootAnnotationId#">
+										<div class="col-12 pb-1">
+											<label for="#addAnnFieldId#" class="data-entry-label">Add Response (<span id="#addAnnLengthId#"></span>)</label>
+											<textarea rows="2" id="#addAnnFieldId#"
+													onkeyup="countCharsLeft('#addAnnFieldId#', 4000, '#addAnnLengthId#');"
+													class="autogrow form-control data-entry-textarea"></textarea>
+											<script>
+												$(document).ready(function() {
+													$("###addAnnFieldId#").keyup(autogrow);
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-4 pb-1">
+											<label for="#addMotivationFieldId#" class="data-entry-label">Motivation</label>
+											<select id="#addMotivationFieldId#" class="data-entry-select">
+												<cfloop query="ctmotivation">
+													<cfif motivation EQ "replying"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<cfif isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+										<div class="col-12 col-md-3 pb-1">
+											<label for="#addMaskFieldId#" class="data-entry-label">Response Visibility</label>
+											<select id="#addMaskFieldId#" class="data-entry-select">
+												<option value="0" selected="selected">Public</option>
+												<option value="1">Hidden</option>
+											</select>
+										</div>
+										</cfif>
+										<div class="col-12 pt-1">
+											<input type="button"
+												class="btn btn-xs btn-primary mt-1"
+												value="Save Response"
+												onclick="saveReplyAnnotationFromEditDialog('idtype_add_#dq#', 'idvalue_add_#dq#', '#addAnnFieldId#', '#addMotivationFieldId#', '#addMaskFieldId#', '#addResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); })">
+											<output id="#addResultDivId#" class="ml-2" aria-live="polite"></output>
+										</div>
+									</form>
+								</div>
+								</cfif>
+								<!--- Context: root annotation + its responses --->
+								<cfset ctxChildAnno = getChildAnnotationsForRoots(rootAnnotationId)>
+								<cfquery name="ctxRoot" dbtype="query">
+									SELECT * FROM contextAnns
+									WHERE TARGET_TABLE IS NULL OR UPPER(TARGET_TABLE) NOT IN ('ANNOTATION','ANNOTATIONS')
+									ORDER BY ANNOTATE_DATE
+								</cfquery>
+								<cfif ctxRoot.recordcount GT 0>
+									<div class="card border-0 mt-1">
+										<cfloop query="ctxRoot">
+											<cfif len(body_value) GT 0>
+												<cfset ctxDisplay = body_value>
+											<cfelse>
+												<cfset ctxDisplay = annotation>
+											</cfif>
+											<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="ctxRowHtml"
+												annotation_id="#annotation_id#"
+												annotation_display="#ctxDisplay#"
+												cf_username="#CF_USERNAME#"
+												email="#annotator_email#"
+												annotate_date="#ANNOTATE_DATE#"
+												motivation="#motivation#"
+												reviewed_fg="#reviewed_fg#"
+												reviewer="#reviewer_name#"
+												reviewer_comment="#reviewer_comment#"
+												mask_annotation_fg="#mask_annotation_fg#"
+												is_response="false"
+												root_annotation_id="#annotation_id#"
+												show_reply_action="false">
+											#ctxRowHtml#
+											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno)#
+										</cfloop>
+									</div>
+								</cfif>
+							</div>
+						</div>
+					</div>
+				</section>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError")><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">Feedback/Report Errors</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getEditAnnotationDialogHtmlThread" />
+	<cfreturn getEditAnnotationDialogHtmlThread.output>
+</cffunction>
+
+
+<!--- Update the text body and motivation of an existing annotation.
+ Requires manage_collection role.
+ Optionally updates visibility of the annotation and reviewed/visibility of the root annotation (for response annotations).
+ @param annotation_id the numeric primary key of the annotation to update.
+ @param annotation the updated annotation body text.
+ @param motivation the updated annotation motivation.
+ @param mask_annotation_fg optional; 0 for public, 1 for hidden.
+ @param root_annotation_id optional; root annotation id for a response annotation.
+ @param root_reviewed_fg optional; 0 or 1 to set reviewed status on the root annotation.
+ @param root_mask_annotation_fg optional; 0 or 1 to set visibility on the root annotation.
+ @return json with status=updated or an http 500 error if the update fails.
+--->
+<cffunction name="updateAnnotationText" returntype="any" access="remote" returnformat="json">
+	<cfargument name="annotation_id"      type="string" required="yes">
+	<cfargument name="annotation"         type="string" required="yes">
+	<cfargument name="motivation"         type="string" required="no" default="">
+	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
+	<cfargument name="root_annotation_id" type="string" required="no" default="">
+	<cfargument name="root_reviewed_fg"   type="string" required="no" default="">
+	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="">
+
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection"))>
+		<cfheader statusCode="403" statusText="The manage_collection role is required to edit annotations.">
+		<cfabort>
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- Update annotation_textualbody body_value (first/earliest row) --->
+			<cfquery name="updBody" datasource="uam_god">
+				UPDATE annotation_textualbody
+				SET body_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urldecode(arguments.annotation)#">
+				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+				AND created_date = (
+					SELECT MIN(created_date) FROM annotation_textualbody
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+				)
+			</cfquery>
+			<!--- Update motivation if provided --->
+			<cfif len(trim(arguments.motivation)) GT 0>
+				<cfset cleanMotivation = rereplace(arguments.motivation, "[^a-zA-Z]", "", "all")>
+				<cfquery name="updMotivation" datasource="uam_god">
+					UPDATE annotations
+					SET motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanMotivation#">
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+				</cfquery>
+			</cfif>
+			<!--- Update this annotation's visibility if provided --->
+			<cfif len(trim(arguments.mask_annotation_fg)) GT 0 AND REFind("^[01]$", trim(arguments.mask_annotation_fg)) GT 0>
+				<cfquery name="updMask" datasource="uam_god">
+					UPDATE annotations
+					SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.mask_annotation_fg)#">
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+				</cfquery>
+			</cfif>
+			<!--- Update root annotation if response --->
+			<cfif len(trim(arguments.root_annotation_id)) GT 0 AND val(arguments.root_annotation_id) GT 0>
+				<cfif len(trim(arguments.root_reviewed_fg)) GT 0 AND REFind("^[01]$", trim(arguments.root_reviewed_fg)) GT 0>
+					<cfquery name="updRootReviewed" datasource="uam_god">
+						UPDATE annotations
+						SET reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_reviewed_fg)#">,
+							reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
+					</cfquery>
+				</cfif>
+				<cfif len(trim(arguments.root_mask_annotation_fg)) GT 0 AND REFind("^[01]$", trim(arguments.root_mask_annotation_fg)) GT 0>
+					<cfquery name="updRootMask" datasource="uam_god">
+						UPDATE annotations
+						SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_mask_annotation_fg)#">
+						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
+					</cfquery>
+				</cfif>
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 
 </cfcomponent>

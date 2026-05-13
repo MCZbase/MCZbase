@@ -7,7 +7,7 @@ jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 
 jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	var annotationId = jQuery(this).attr("data-edit-annotation-id");
-	return openEditResponseAnnotationDialog(annotationId);
+	return openEditAnnotationDialog(annotationId);
 });
 
 /** saveThisAnnotation - Save a new annotation via AJAX.
@@ -155,14 +155,15 @@ function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
 	return true;
 }
 
-/** Open annotation dialog configured to review/edit a response annotation.
- * @param annotationId annotation_id of the response annotation to edit.
+/** Open edit annotation dialog for any annotation (root or response).
+ * Loads getEditAnnotationDialogHtml with pre-filled edit form and annotation context.
+ * @param annotationId annotation_id of the annotation to edit.
  * @param callback optional function to execute when the dialog closes.
  */
-function openEditResponseAnnotationDialog(annotationId, callback=null) {
+function openEditAnnotationDialog(annotationId, callback=null) {
 	var parsedAnnotationId = parseInt(annotationId, 10);
 	if (!Number.isFinite(parsedAnnotationId) || parsedAnnotationId <= 0) {
-		messageDialog("Unable to open annotation dialog for this response annotation.","Edit Response Annotation");
+		messageDialog("Unable to open edit dialog for this annotation.","Edit Annotation");
 		return false;
 	}
 	var dialogId = "annotationDialog_edit_" + String(parsedAnnotationId);
@@ -171,8 +172,70 @@ function openEditResponseAnnotationDialog(annotationId, callback=null) {
 		dialogElement.id = dialogId;
 		document.body.appendChild(dialogElement);
 	}
-	openAnnotationsDialog(dialogId, "annotation", parsedAnnotationId, callback);
+	var title = "Edit Annotation";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var h = $(window).height();
+	if (h>775) { h=775; }
+	var w = $(window).width();
+	if (w>414 && w<=1333) {
+		w = Math.floor(w *.9);
+	} else if (w>1333) {
+		w = 1200;
+	}
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogId).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			if (jQuery.type(callback)==='function') callback();
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "get",
+		data: {
+			method: "getEditAnnotationDialogHtml",
+			returnformat: "plain",
+			annotation_id: parsedAnnotationId,
+			dialogId: dialogId
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading edit annotation dialog");
+		}
+	});
 	return true;
+}
+
+/** Open edit annotation dialog (backwards compatibility alias).
+ * @param annotationId annotation_id of the annotation to edit.
+ * @param callback optional function to execute when the dialog closes.
+ */
+function openEditResponseAnnotationDialog(annotationId, callback=null) {
+	return openEditAnnotationDialog(annotationId, callback);
 }
 
 /** Close a specific annotation dialog by id.
@@ -330,4 +393,104 @@ function doAnnotationUpdate(annotation_id) {
 	if (maskEl) { mask_annotation_fg = maskEl.value; }
 	var feedbackDivId = "feedbackDiv_" + annotation_id;
 	updateAnnotationReview(annotation_id, reviewed_fg, reviewer_comment, mask_annotation_fg, feedbackDivId, null);
+}
+
+/** Save edits to an existing annotation via AJAX.
+ * Requires manage_collection role (enforced server-side).
+ * @param annotationId numeric primary key of the annotation to update.
+ * @param rootAnnotationId numeric primary key of the root annotation for response annotations, or empty string for root annotations.
+ * @param dialogFieldQualifier suffix used to scope form field ids for this dialog instance.
+ * @param dialogId html id of the dialog container, used to close the dialog after saving.
+ */
+function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier, dialogId) {
+	var annField = document.getElementById("edit_annotation" + dialogFieldQualifier);
+	var motivationField = document.getElementById("edit_motivation" + dialogFieldQualifier);
+	var maskField = document.getElementById("edit_mask_fg" + dialogFieldQualifier);
+	var rootReviewedField = document.getElementById("edit_root_reviewed_fg" + dialogFieldQualifier);
+	var rootMaskField = document.getElementById("edit_root_mask_fg" + dialogFieldQualifier);
+	var resultDivId = "editAnnotationResultDiv" + dialogFieldQualifier;
+	if (!annField || !annField.value || annField.value.length === 0) {
+		alert('You must enter annotation text to save.');
+		return false;
+	}
+	setFeedbackControlState(resultDivId, "saving");
+	var postData = {
+		method: "updateAnnotationText",
+		annotation_id: annotationId,
+		annotation: annField.value,
+		returnformat: "json"
+	};
+	if (motivationField) { postData.motivation = motivationField.value; }
+	if (maskField) { postData.mask_annotation_fg = maskField.value; }
+	if (rootAnnotationId && String(rootAnnotationId).length > 0) {
+		postData.root_annotation_id = rootAnnotationId;
+		if (rootReviewedField && rootReviewedField.value.length > 0) {
+			postData.root_reviewed_fg = rootReviewedField.value;
+		}
+		if (rootMaskField && rootMaskField.value.length > 0) {
+			postData.root_mask_annotation_fg = rootMaskField.value;
+		}
+	}
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "post",
+		dataType: "json",
+		data: postData,
+		success: function(result) {
+			setFeedbackControlState(resultDivId, "saved");
+			closeAnnotationDialogById(dialogId);
+		},
+		error: function(jqXHR, textStatus, error) {
+			setFeedbackControlState(resultDivId, "error");
+			handleFail(jqXHR, textStatus, error, "saving annotation edit");
+		}
+	});
+	return false;
+}
+
+/** Save a new reply annotation from the edit dialog's collapsed add-response form.
+ * @param idTypeFieldId id of the hidden input holding the target type.
+ * @param idValueFieldId id of the hidden input holding the target id (root annotation id).
+ * @param annotationFieldId id of the textarea holding the annotation text.
+ * @param motivationFieldId id of the select holding the motivation.
+ * @param maskFieldId id of the select holding the visibility flag (may be absent).
+ * @param resultDivId id of the output element for feedback.
+ * @param callback optional function to call after successful save.
+ */
+function saveReplyAnnotationFromEditDialog(idTypeFieldId, idValueFieldId, annotationFieldId, motivationFieldId, maskFieldId, resultDivId, callback=null) {
+	var idType = $("#" + idTypeFieldId).val();
+	var idValue = $("#" + idValueFieldId).val();
+	var annotation = $("#" + annotationFieldId).val();
+	var motivation = $("#" + motivationFieldId).length ? $("#" + motivationFieldId).val() : "replying";
+	if (!annotation || annotation.length === 0) {
+		alert('You must enter a response annotation to save.');
+		return false;
+	}
+	setFeedbackControlState(resultDivId, "saving");
+	var postData = {
+		method: "addAnnotation",
+		target_type: idType,
+		target_id: idValue,
+		annotation: annotation,
+		motivation: motivation,
+		returnformat: "json",
+		queryformat: "column"
+	};
+	var maskEl = document.getElementById(maskFieldId);
+	if (maskEl) { postData.mask_annotation_fg = maskEl.value; }
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "post",
+		data: postData,
+		success: function() {
+			setFeedbackControlState(resultDivId, "saved");
+			$("#" + annotationFieldId).val("");
+			if (typeof callback === "function") { callback(); }
+		},
+		error: function(jqXHR, textStatus, error) {
+			setFeedbackControlState(resultDivId, "error");
+			handleFail(jqXHR, textStatus, error, "saving response annotation");
+		}
+	});
+	return false;
 }
