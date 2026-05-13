@@ -1201,7 +1201,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<cfif isResponseAnnotation>
 									<span class="small d-block mt-1">
 										Reply to root annotation <strong>#rootAnnotationId#</strong>
-										<cfif len(rootAnnotationBody) GT 0>: #encodeForHTML(left(rootAnnotationBody, rootBodyPreviewLength))#<cfif len(rootAnnotationBody) GT rootBodyPreviewLength>&#8230;</cfif></cfif>
+										<cfif len(rootAnnotationBody) GT 0>
+											: #encodeForHTML(left(rootAnnotationBody, rootBodyPreviewLength))#
+											<cfif len(rootAnnotationBody) GT rootBodyPreviewLength>&##8230;</cfif>
+										</cfif>
 									</span>
 								</cfif>
 							</h2>
