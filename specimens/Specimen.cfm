@@ -1050,7 +1050,6 @@ limitations under the License.
 											class="btn btn-xs small py-0 anchorFocus" >
 											Manage Annotations
 										</a>
-										<a role="button" class="btn btn-xs small py-0 #buttonSpacer# anchorFocus" 
 									</cfif>
 								</h3>
 							</div>
