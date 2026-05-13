@@ -1045,7 +1045,12 @@ limitations under the License.
 										</a>
 									</cfif>
 									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
-										<a href="javascript:void(0)" role="button" aria-label="edit annotations" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">Edit</a>
+										<a role="button" aria-label="manage annotations" target="_blank" 
+											href="/annotations/Annotations.cfm?action=show&type=collection_object_id&collection_object_id=#collection_object_id#"
+											class="btn btn-xs small py-0 anchorFocus" >
+											Manage Annotations
+										</a>
+										<a role="button" class="btn btn-xs small py-0 #buttonSpacer# anchorFocus" 
 									</cfif>
 								</h3>
 							</div>
