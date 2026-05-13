@@ -1327,17 +1327,22 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<!--- Context: root annotation + its responses --->
 								<cfset ctxChildAnno = getChildAnnotationsForRoots(rootAnnotationId)>
 								<cfquery name="ctxRoot" dbtype="query">
-									SELECT * FROM contextAnns
+									SELECT
+										ANNOTATION_ID, ANNOTATE_DATE, CF_USERNAME, ANNOTATION,
+										REVIEWED_FG, REVIEWER_COMMENT, TARGET_TABLE,
+										motivation, reviewer_name, annotator_email,
+										MASK_ANNOTATION_FG, body_value
+									FROM contextAnns
 									WHERE TARGET_TABLE IS NULL OR UPPER(TARGET_TABLE) NOT IN ('ANNOTATION','ANNOTATIONS')
 									ORDER BY ANNOTATE_DATE
 								</cfquery>
 								<cfif ctxRoot.recordcount GT 0>
 									<div class="card border-0 mt-1">
 										<cfloop query="ctxRoot">
-											<cfif len(body_value) GT 0>
-												<cfset ctxDisplay = body_value>
+											<cfif len(ctxRoot.body_value) GT 0>
+												<cfset ctxDisplay = ctxRoot.body_value>
 											<cfelse>
-												<cfset ctxDisplay = annotation>
+												<cfset ctxDisplay = ctxRoot.ANNOTATION>
 											</cfif>
 											<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="ctxRowHtml"
 												annotation_id="#ctxRoot.annotation_id#"
