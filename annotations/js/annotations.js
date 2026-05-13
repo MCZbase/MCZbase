@@ -481,6 +481,7 @@ function saveReplyAnnotationFromEditDialog(idTypeFieldId, idValueFieldId, annota
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
+		dataType: "json",
 		data: postData,
 		success: function() {
 			setFeedbackControlState(resultDivId, "saved");

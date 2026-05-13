@@ -1340,18 +1340,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												<cfset ctxDisplay = annotation>
 											</cfif>
 											<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="ctxRowHtml"
-												annotation_id="#annotation_id#"
+												annotation_id="#ctxRoot.annotation_id#"
 												annotation_display="#ctxDisplay#"
-												cf_username="#CF_USERNAME#"
-												email="#annotator_email#"
-												annotate_date="#ANNOTATE_DATE#"
-												motivation="#motivation#"
-												reviewed_fg="#reviewed_fg#"
-												reviewer="#reviewer_name#"
-												reviewer_comment="#reviewer_comment#"
-												mask_annotation_fg="#mask_annotation_fg#"
+												cf_username="#ctxRoot.CF_USERNAME#"
+												email="#ctxRoot.annotator_email#"
+												annotate_date="#ctxRoot.ANNOTATE_DATE#"
+												motivation="#ctxRoot.motivation#"
+												reviewed_fg="#ctxRoot.reviewed_fg#"
+												reviewer="#ctxRoot.reviewer_name#"
+												reviewer_comment="#ctxRoot.reviewer_comment#"
+												mask_annotation_fg="#ctxRoot.mask_annotation_fg#"
 												is_response="false"
-												root_annotation_id="#annotation_id#"
+												root_annotation_id="#ctxRoot.annotation_id#"
 												show_reply_action="false">
 											#ctxRowHtml#
 											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno)#
