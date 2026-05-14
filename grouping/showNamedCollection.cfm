@@ -42,9 +42,9 @@ limitations under the License.
       (which errors/missing.cfm provides when /namedGroup/{target_underscore_collection_id is provided)
       then use that as the underscore_collection_id to show, otherwise fail over to form.underscore_collection_id
 --->
-<cfif target_underscore_collection_id is defined AND len(target_underscore_collection_id) GT 0>
+<cfif isDefined("target_underscore_collection_id") AND len(target_underscore_collection_id) GT 0>
 	<cfset underscore_collection_id = url.target_underscore_collection_id>
-<cfelseif form.underscore_collection_id is defined AND len(form.underscore_collection_id) GT 0>
+<cfelseif isDefined("form.underscore_collection_id") AND len(form.underscore_collection_id) GT 0>
 	<cfset underscore_collection_id = form.underscore_collection_id>
 </cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
