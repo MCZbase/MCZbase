@@ -22,6 +22,31 @@ limitations under the License.
 <cfif not isdefined("debug")>
 	<cfset debug ="">
 </cfif>
+<!--- if given url.underscore_collection_id redirect to /namedGroup/{target_underscore_collection_id} --->
+<cfif isDefined("url.underscore_collection_id") AND len(url.underscore_collection_id) GT 0>
+	<cfquery name="checkGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkGroup_result" timeout="#Application.short_timeout#">
+		SELECT underscore_collection_id, collection_name
+		FROM underscore_collection
+		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.underscore_collection_id#">
+			<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+				AND mask_fg = 0
+			</cfif>
+	</cfquery>
+	<cfif checkGroup.recordcount is 1>
+		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfheader name="Location" value="/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
+		<cfabort>
+	</cfif>
+</cfif>
+<!--- if target_underscore_collection_id is given in environment 
+      (which errors/missing.cfm provides when /namedGroup/{target_underscore_collection_id is provided)
+      then use that as the underscore_collection_id to show, otherwise fail over to form.underscore_collection_id
+--->
+<cfif isDefined("target_underscore_collection_id") AND len(target_underscore_collection_id) GT 0>
+	<cfset underscore_collection_id = target_underscore_collection_id>
+<cfelseif isDefined("form.underscore_collection_id") AND len(form.underscore_collection_id) GT 0>
+	<cfset underscore_collection_id = form.underscore_collection_id>
+</cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
 	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTitleGroup_result" timeout="#Application.short_timeout#">
 		SELECT collection_name
