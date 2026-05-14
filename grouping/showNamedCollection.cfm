@@ -43,7 +43,7 @@ limitations under the License.
       then use that as the underscore_collection_id to show, otherwise fail over to form.underscore_collection_id
 --->
 <cfif isDefined("target_underscore_collection_id") AND len(target_underscore_collection_id) GT 0>
-	<cfset underscore_collection_id = url.target_underscore_collection_id>
+	<cfset underscore_collection_id = target_underscore_collection_id>
 <cfelseif isDefined("form.underscore_collection_id") AND len(form.underscore_collection_id) GT 0>
 	<cfset underscore_collection_id = form.underscore_collection_id>
 </cfif>
