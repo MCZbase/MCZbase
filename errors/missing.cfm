@@ -224,10 +224,10 @@
 		</cftry>
 		</cfoutput>
 	<cfelseif listfindnocase(rdurl,'namedGroup',"/")>
-		<!--- Request by underscore collection id --->
+		<!--- Request by target_underscore_collection_id --->
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"namedGroup","/")>
-			<cfset underscore_collection_id = listgetat(rdurl,gPos+1,"/")>
+			<cfset target_underscore_collection_id = listgetat(rdurl,gPos+1,"/")>
 			<cfinclude template="/grouping/showNamedCollection.cfm">
 			<cfcatch>
 				<cfset errorMessage = cfcatch.message>
