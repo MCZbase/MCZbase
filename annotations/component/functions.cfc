@@ -1337,56 +1337,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								</div>
 							</div>
 							</cfif>
-							<cfif canAnnotate>
-							<div class="col-12 mx-0 px-0 mt-2">
-								<button type="button" class="btn btn-xs btn-outline-secondary mb-1"
-									onclick="var d=document.getElementById('#addFormDivId#'); d.style.display=(d.style.display==='none'?'block':'none'); this.textContent=(d.style.display==='none'?'Add New Annotation':'Hide Form');">
-									Add New Annotation
-								</button>
-								<div id="#addFormDivId#" style="display:none;" class="border p-1 mt-1">
-									<form name="addAnnotationForm_#dq#" onSubmit="return false;" class="form-row px-1">
-										<input type="hidden" id="idtype_add_#dq#" value="annotation">
-										<input type="hidden" id="idvalue_add_#dq#" value="#rootAnnotationId#">
-										<div class="col-12 pb-1">
-											<label for="#addAnnFieldId#" class="data-entry-label">Add Response (<span id="#addAnnLengthId#"></span>)</label>
-											<textarea rows="2" id="#addAnnFieldId#"
-													onkeyup="countCharsLeft('#addAnnFieldId#', 4000, '#addAnnLengthId#');"
-													class="autogrow form-control data-entry-textarea"></textarea>
-											<script>
-												$(document).ready(function() {
-													$("###addAnnFieldId#").keyup(autogrow);
-												});
-											</script>
-										</div>
-										<div class="col-12 col-md-4 pb-1">
-											<label for="#addMotivationFieldId#" class="data-entry-label">Motivation</label>
-											<select id="#addMotivationFieldId#" class="data-entry-select">
-												<cfloop query="ctmotivation">
-													<cfif motivation EQ "replying"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
-												</cfloop>
-											</select>
-										</div>
-										<cfif isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-										<div class="col-12 col-md-3 pb-1">
-											<label for="#addMaskFieldId#" class="data-entry-label">Response Visibility</label>
-											<select id="#addMaskFieldId#" class="data-entry-select">
-												<option value="0" selected="selected">Public</option>
-												<option value="1">Hidden</option>
-											</select>
-										</div>
-										</cfif>
-										<div class="col-12 pt-1">
-											<input type="button"
-												class="btn btn-xs btn-primary mt-1"
-												value="Save Response"
-												onclick="saveReplyAnnotationFromEditDialog('idtype_add_#dq#', 'idvalue_add_#dq#', '#addAnnFieldId#', '#addMotivationFieldId#', '#addMaskFieldId#', '#addResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); })">
-											<output id="#addResultDivId#" class="ml-2" aria-live="polite"></output>
-										</div>
-									</form>
-								</div>
-							</div>
-							</cfif>
 							<!--- Context: root annotation + its responses in a card with target in the card header --->
 							<cfset ctxChildAnno = getChildAnnotationsForRoots(rootAnnotationId)>
 							<cfquery name="ctxRoot" dbtype="query">
@@ -1399,39 +1349,97 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								WHERE TARGET_TABLE IS NULL OR UPPER(TARGET_TABLE) NOT IN ('ANNOTATION','ANNOTATIONS')
 								ORDER BY ANNOTATE_DATE
 							</cfquery>
-							<div class="col-12 mx-0 px-0 mt-2">
-								<div class="card border-bottom-0 mt-1">
-									<div class="card-header bg-box-header-gray py-1">
-										<h3 class="h5 mb-0">Annotation in Context<cfif len(rootTargetSummary) GT 0> on #rootTargetSummary#</cfif></h3>
+							<!--- Add form appears above heading (hidden, toggled by button in heading row) --->
+							<cfif canAnnotate>
+							<div id="#addFormDivId#" style="display:none;" class="col-12 mx-0 px-0 border p-1 mt-1">
+								<form name="addAnnotationForm_#dq#" onSubmit="return false;" class="form-row px-1">
+									<input type="hidden" id="idtype_add_#dq#" value="annotation">
+									<input type="hidden" id="idvalue_add_#dq#" value="#rootAnnotationId#">
+									<div class="col-12 pb-1">
+										<label for="#addAnnFieldId#" class="data-entry-label">Add Response (<span id="#addAnnLengthId#"></span>)</label>
+										<textarea rows="2" id="#addAnnFieldId#"
+													onkeyup="countCharsLeft('#addAnnFieldId#', 4000, '#addAnnLengthId#');"
+													class="autogrow form-control data-entry-textarea"></textarea>
+										<script>
+											$(document).ready(function() {
+												$("###addAnnFieldId#").keyup(autogrow);
+											});
+										</script>
 									</div>
-									<cfif ctxRoot.recordcount GT 0>
-										<cfloop query="ctxRoot">
-											<cfif len(ctxRoot.body_value) GT 0>
-												<cfset ctxDisplay = ctxRoot.body_value>
-											<cfelse>
-												<cfset ctxDisplay = ctxRoot.ANNOTATION>
-											</cfif>
-											<cfset ctxRowHtml = renderAnnotationReviewRow(
-												annotation_id=ctxRoot.annotation_id,
-												annotation_display=ctxDisplay,
-												cf_username=ctxRoot.CF_USERNAME,
-												email=ctxRoot.annotator_email,
-												annotate_date=ctxRoot.ANNOTATE_DATE,
-												motivation=ctxRoot.motivation,
-												reviewed_fg=ctxRoot.reviewed_fg,
-												reviewer=ctxRoot.reviewer_name,
-												reviewer_comment=ctxRoot.reviewer_comment,
-												mask_annotation_fg=ctxRoot.mask_annotation_fg,
-												is_response=false,
-												root_annotation_id=ctxRoot.annotation_id,
-												show_reply_action=false,
-												highlight_as_editing=(val(ctxRoot.annotation_id) EQ val(arguments.annotation_id)))>
-											#ctxRowHtml#
-											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id)#
-										</cfloop>
-									<cfelse>
-										<div class="card-body py-1 text-muted small"><em>No annotation context found.</em></div>
+									<div class="col-12 col-md-4 pb-1">
+										<label for="#addMotivationFieldId#" class="data-entry-label">Motivation</label>
+										<select id="#addMotivationFieldId#" class="data-entry-select">
+											<cfloop query="ctmotivation">
+												<cfif motivation EQ "replying"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+											</cfloop>
+										</select>
+									</div>
+									<cfif isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+									<div class="col-12 col-md-3 pb-1">
+										<label for="#addMaskFieldId#" class="data-entry-label">Response Visibility</label>
+										<select id="#addMaskFieldId#" class="data-entry-select">
+											<option value="0" selected="selected">Public</option>
+											<option value="1">Hidden</option>
+										</select>
+									</div>
 									</cfif>
+									<div class="col-12 pt-1">
+										<input type="button"
+											class="btn btn-xs btn-primary mt-1"
+											value="Save Response"
+											onclick="saveReplyAnnotationFromEditDialog('idtype_add_#dq#', 'idvalue_add_#dq#', '#addAnnFieldId#', '#addMotivationFieldId#', '#addMaskFieldId#', '#addResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); })">
+										<output id="#addResultDivId#" class="ml-2" aria-live="polite"></output>
+									</div>
+								</form>
+							</div>
+							</cfif>
+							<!--- Annotation in Context heading with Add New Annotation button on same line --->
+							<div class="col-12 mx-0 px-0 mt-2 d-flex align-items-center">
+								<h3 class="h5 mb-0 flex-grow-1">Annotation in Context</h3>
+								<cfif canAnnotate>
+								<button type="button" class="btn btn-xs btn-outline-secondary"
+									onclick="var d=document.getElementById('#addFormDivId#'); d.style.display=(d.style.display==='none'?'block':'none'); this.textContent=(d.style.display==='none'?'Add New Annotation':'Hide Form');">
+									Add New Annotation
+								</button>
+								</cfif>
+							</div>
+							<!--- Context card: target in card-header, annotation rows in card-body --->
+							<div class="col-12 mx-0 px-0 mt-1">
+								<div class="card border-bottom-0">
+								<cfif len(rootTargetSummary) GT 0>
+								<div class="card-header bg-box-header-gray py-1">
+									<span class="small">#rootTargetSummary#</span>
+								</div>
+								</cfif>
+								<cfif ctxRoot.recordcount GT 0>
+									<cfloop query="ctxRoot">
+										<cfif len(ctxRoot.body_value) GT 0>
+											<cfset ctxDisplay = ctxRoot.body_value>
+										<cfelse>
+											<cfset ctxDisplay = ctxRoot.ANNOTATION>
+										</cfif>
+										<cfset ctxRowHtml = renderAnnotationReviewRow(
+											annotation_id=ctxRoot.annotation_id,
+											annotation_display=ctxDisplay,
+											cf_username=ctxRoot.CF_USERNAME,
+											email=ctxRoot.annotator_email,
+											annotate_date=ctxRoot.ANNOTATE_DATE,
+											motivation=ctxRoot.motivation,
+											reviewed_fg=ctxRoot.reviewed_fg,
+											reviewer=ctxRoot.reviewer_name,
+											reviewer_comment=ctxRoot.reviewer_comment,
+											mask_annotation_fg=ctxRoot.mask_annotation_fg,
+											is_response=false,
+											root_annotation_id=ctxRoot.annotation_id,
+											show_reply_action=false,
+											highlight_as_editing=(val(ctxRoot.annotation_id) EQ val(arguments.annotation_id)))>
+										#ctxRowHtml#
+										#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id)#
+									</cfloop>
+								<cfelse>
+									<div class="card-body py-1 text-muted small"><em>No annotation context found.</em></div>
+								</cfif>
 								</div>
 							</div>
 						</div>
