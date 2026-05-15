@@ -794,8 +794,11 @@ function openEditAnnotationsDialog(collection_object_id,dialogId,guid,callback) 
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		data : {
-			method : "getReviewCIAnnotationHTML",
-			collection_object_id: collection_object_id,
+			method : "getAnnotationDialogHtml",
+			returnformat: "plain",
+			target_type: "collection_object",
+			target_id: collection_object_id,
+			dialogId: dialogId
 		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
