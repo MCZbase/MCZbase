@@ -288,18 +288,18 @@ limitations under the License.
 				</oa:TextualBody>
 			</oa:hasBody>
 			<cfif len(variables.targetIRI) GT 0><oa:hasTarget rdf:resource="#XMLFormat(variables.targetIRI)#"/></cfif>
-			<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#</dcterms:created>
+			<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#</dcterms:created>
 			<dcterms:creator rdf:resource="urn:mczbase:user:#XMLFormat(rootAnn.cf_username)#"/>
 		</oa:Annotation>
 		<cfloop query="replyAnns">
 			<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
 				<oa:Annotation rdf:about="#XMLFormat(variables.thisAnnotationIRI)#&amp;reply=#replyAnns.annotation_id#">
-					<oa:motivatedBy rdf:resource="http://www.w3.org/ns/oa#replying"/>
+					<oa:motivatedBy rdf:resource="http://www.w3.org/ns/oa##replying"/>
 					<oa:hasBody>
 						<oa:TextualBody><rdf:value>#XMLFormat(replyAnns.body_value)#</rdf:value></oa:TextualBody>
 					</oa:hasBody>
 					<oa:hasTarget rdf:resource="#XMLFormat(variables.thisAnnotationIRI)#"/>
-					<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#</dcterms:created>
+					<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#</dcterms:created>
 					<dcterms:creator rdf:resource="urn:mczbase:user:#XMLFormat(replyAnns.cf_username)#"/>
 				</oa:Annotation>
 			</cfif>
@@ -308,9 +308,9 @@ limitations under the License.
 <cfelseif variables.format EQ "turtle">
 	<!--- W3C Web Annotation Data Model: Turtle output --->
 	<cfcontent type="text/turtle; charset=UTF-8">
-	<cfoutput>@prefix oa: <http://www.w3.org/ns/oa#> .
+	<cfoutput>@prefix oa: <http://www.w3.org/ns/oa##> .
 	@prefix dcterms: <http://purl.org/dc/terms/> .
-	@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+	@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
 
 	<#variables.thisAnnotationIRI#>
 		a oa:Annotation ;
