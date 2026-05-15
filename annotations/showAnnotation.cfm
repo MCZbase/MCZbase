@@ -372,7 +372,8 @@ limitations under the License.
 				<!--- Root annotation card with replies --->
 				<div class="card border-bottom-0 mb-3">
 					<div class="card-header bg-box-header-gray py-1">
-						<h2 class="h5 mb-0">Root Annotation <span class="text-muted small">(##variables.rootAnnotationId##)</span></h2>
+						<h2 class="h5 mb-0">Root Annotation <span class="text-muted small">(#variables.rootAnnotationId#)</span></h2>
+```  the # are being incorrectly escaped here.
 					</div>
 					<cfif len(rootAnn.body_value) GT 0><cfset variables.rootDisplayText = rootAnn.body_value><cfelse><cfset variables.rootDisplayText = rootAnn.annotation></cfif>
 					<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="rootRowHtml"
