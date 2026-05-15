@@ -238,6 +238,87 @@ function openEditResponseAnnotationDialog(annotationId, callback=null) {
 	return openEditAnnotationDialog(annotationId, callback);
 }
 
+/** Open a dialog showing the full conversation for a root annotation.
+ * Loads showAnnotation.cfm in a dialog to display the root annotation, all replies,
+ * and available actions (reply, edit) depending on user permissions.
+ * @param annotationId annotation_id of any annotation in the conversation (navigates to root).
+ * @param callback optional function to execute when the dialog closes.
+ */
+function openAnnotationConversationDialog(annotationId, callback=null) {
+	var parsedAnnotationId = parseInt(annotationId, 10);
+	if (!Number.isFinite(parsedAnnotationId) || parsedAnnotationId <= 0) {
+		messageDialog("Unable to open conversation dialog for this annotation.","Annotation Conversation");
+		return false;
+	}
+	var dialogId = "annotationConversationDialog_" + String(parsedAnnotationId);
+	if (!document.getElementById(dialogId)) {
+		var dialogElement = document.createElement("div");
+		dialogElement.id = dialogId;
+		document.body.appendChild(dialogElement);
+	}
+	var title = "Annotation Conversation";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var h = $(window).height();
+	if (h>800) { h=800; }
+	var w = $(window).width();
+	if (w>414 && w<=1333) {
+		w = Math.floor(w *.9);
+	} else if (w>1333) {
+		w = 1200;
+	}
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 450,
+		draggable: true,
+		buttons: {
+			"Close": function() {
+				$("#"+dialogId).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			if (jQuery.type(callback)==='function') callback();
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/annotations/showAnnotation.cfm",
+		type: "get",
+		data: {
+			annotation_id: parsedAnnotationId
+		},
+		success: function(data) {
+			// Extract just the main content from the full page HTML, excluding header/footer
+			var parser = new DOMParser();
+			var doc = parser.parseFromString(data, "text/html");
+			var mainEl = doc.getElementById("content");
+			if (mainEl) {
+				$("#"+dialogId+"_div").html(mainEl.innerHTML);
+			} else {
+				$("#"+dialogId+"_div").html(data);
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading annotation conversation");
+		}
+	});
+	return true;
+}
+
 /** Close a specific annotation dialog by id.
  * @param dialogId html id of the dialog container element.
  */
