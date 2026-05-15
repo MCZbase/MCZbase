@@ -1145,7 +1145,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<div class="col-12 col-md-1 pt-2 px-1">
 						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">Visibility:</label>
 						<cfif parentMasked>
-							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12" disabled="disabled" title="Visibility is inherited from the hidden parent annotation">
+							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12" disabled="disabled" aria-describedby="inherited_note_#arguments.annotation_id#">
 						<cfelse>
 							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
 						</cfif>
@@ -1155,7 +1155,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<option value="1" #selected#>Hidden</option>
 						</select>
 						<cfif parentMasked>
-							<span class="small text-muted d-block"><span aria-hidden="true">&#x1F512;</span> <span title="Visibility is inherited from the hidden parent annotation">Inherited from parent</span></span>
+							<span id="inherited_note_#arguments.annotation_id#" class="small text-muted d-block"><span aria-hidden="true">&#x1F512;</span> Inherited from parent</span>
 						</cfif>
 						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
 					</div>
@@ -1166,7 +1166,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfif>
 					<cfif NOT arguments.highlight_as_editing>
 						<cfif parentMasked>
-							<button type="button" class="btn btn-xs btn-secondary mb-1" disabled="disabled" title="Edit is disabled while the parent annotation is hidden">Edit</button>
+							<button type="button" class="btn btn-xs btn-secondary mb-1" disabled="disabled" aria-label="Edit (disabled: parent annotation is hidden)">Edit</button>
 						<cfelse>
 							<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 						</cfif>
