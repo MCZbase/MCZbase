@@ -978,9 +978,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<cfsavecontent variable="rowHTML">
 		<cfoutput>
-		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary</cfif>">
+		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary</cfif>"><!--- " --->
 			<cfif arguments.highlight_as_editing>
-				<div class="badge badge-primary mb-1" style="font-size:0.8em;">&#9998; Editing</div>
+				<div class="badge badge-primary mb-1" style="font-size:0.8em;">&##9998; Editing</div>
 			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="col-12 col-md-4 pt-2 px-1">
