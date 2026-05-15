@@ -1199,7 +1199,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
 				</cfquery>
 				<cfif rootAnnTarget.recordcount GT 0 AND len(trim(rootAnnTarget.target_table)) GT 0
-						AND UCASE(rootAnnTarget.target_table) NOT IN ('ANNOTATION','ANNOTATIONS')>
+						AND UCASE(trim(rootAnnTarget.target_table)) NEQ 'ANNOTATION'
+						AND UCASE(trim(rootAnnTarget.target_table)) NEQ 'ANNOTATIONS'>
 					<cfset rtTable = UCASE(trim(rootAnnTarget.target_table))>
 					<cfset rtKey = rootAnnTarget.target_primary_key>
 					<cfif rtTable EQ "COLLECTION_OBJECT">
