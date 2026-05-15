@@ -1155,7 +1155,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<option value="1" #selected#>Hidden</option>
 						</select>
 						<cfif parentMasked>
-							<span class="small text-muted d-block" title="Visibility is inherited from the hidden parent annotation">&#x1F512; Inherited</span>
+							<span class="small text-muted d-block"><span aria-hidden="true">&#x1F512;</span> <span title="Visibility is inherited from the hidden parent annotation">Inherited from parent</span></span>
 						</cfif>
 						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
 					</div>
@@ -1176,7 +1176,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfif>
 				</div>
 			</div>
-			<cfif showVisibility AND NOT parentMasked>
+			<cfif showVisibility>
 				<script>
 					$(document).ready(function() {
 						$("##mask_annotation_fg_#arguments.annotation_id#").off("change.annotationmask").on("change.annotationmask", function() {
