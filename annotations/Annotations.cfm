@@ -329,7 +329,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getSpecimenAnnotations.annotation_id, childAnnotations=specimenChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -420,7 +420,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getTaxonAnnotations.annotation_id, childAnnotations=taxonChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -503,7 +503,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getPubAnnotations.annotation_id, childAnnotations=publicationChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>
@@ -586,7 +586,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=getProjectAnnotations.annotation_id, childAnnotations=projectChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno)#
 							</cfloop>
 						</div>
 					</cfloop>
