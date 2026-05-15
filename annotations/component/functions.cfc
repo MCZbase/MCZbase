@@ -981,6 +981,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							Response
 						</cfif>
 						Annotation:
+						<span class="text-muted small">(#variables.annotation_id#)</span>
 					</span>
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
