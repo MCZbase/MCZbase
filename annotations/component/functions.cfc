@@ -19,7 +19,6 @@ limitations under the License.
 <cfcomponent>
 
 <cf_rolecheck>
-<cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
