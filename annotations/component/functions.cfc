@@ -1429,6 +1429,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											#ctxRowHtml#
 											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id)#
 										</cfloop>
+									<cfelse>
+										<div class="card-body py-1 text-muted small"><em>No annotation context found.</em></div>
 									</cfif>
 								</div>
 							</div>
