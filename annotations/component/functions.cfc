@@ -1290,7 +1290,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-4 pb-1">
+										<div class="col-12 col-md-2 pb-1">
 											<label for="#editMotivationFieldId#" class="data-entry-label">Motivation</label>
 											<select id="#editMotivationFieldId#" class="data-entry-select">
 												<cfloop query="ctmotivation">
@@ -1299,7 +1299,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3 pb-1">
+										<div class="col-12 col-md-2 pb-1">
 											<label for="#editMaskFieldId#" class="data-entry-label">Visibility</label>
 											<select id="#editMaskFieldId#" class="data-entry-select">
 												<cfif val(editAnn.mask_annotation_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
@@ -1309,22 +1309,22 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											</select>
 										</div>
 										<cfif isResponseAnnotation>
-										<div class="col-12 col-md-3 pb-1">
-											<label for="#editRootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed?</label>
-											<select id="#editRootReviewedFieldId#" class="data-entry-select">
-												<option value="" selected="selected">No Change</option>
-												<option value="0">No</option>
-												<option value="1">Yes</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3 pb-1">
-											<label for="#editRootMaskFieldId#" class="data-entry-label">Root Visibility</label>
-											<select id="#editRootMaskFieldId#" class="data-entry-select">
-												<option value="" selected="selected">No Change</option>
-												<option value="0">Public</option>
-												<option value="1">Hidden</option>
-											</select>
-										</div>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editRootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed?</label>
+												<select id="#editRootReviewedFieldId#" class="data-entry-select">
+													<option value="" selected="selected">No Change</option>
+													<option value="0">No</option>
+													<option value="1">Yes</option>
+												</select>
+											</div>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editRootMaskFieldId#" class="data-entry-label">Root Visibility</label>
+												<select id="#editRootMaskFieldId#" class="data-entry-select">
+													<option value="" selected="selected">No Change</option>
+													<option value="0">Public</option>
+													<option value="1">Hidden</option>
+												</select>
+											</div>
 										</cfif>
 										<div class="col-12 pt-1">
 											<input type="button"
