@@ -930,9 +930,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfif>
 				<a href="#guidLink#" target="_blank" title="#encodeForHTMLAttribute(annAnnotator.agentguid_guid_type)# identifier (opens in new tab)">#guidIcon##encodeForHTML(annAnnotator.agentguid)#</a>
 			</cfif>
-			<cfif showAll>
-				<span class="small text-muted">(#encodeForHTML(annotatorUsername)#)</span>
-			</cfif>
 		<cfelse>
 			<!--- Annotator has no linked agent record --->
 			<cfif showAll>
