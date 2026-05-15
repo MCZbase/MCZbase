@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 
 <cf_rolecheck>
+<cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
@@ -32,7 +33,7 @@ limitations under the License.
 	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="dialogId" type="string" required="yes">
 	
-	<cfthread name="getAnnotationDialogHtmlThread" target_type="#arguments.target_type#" target_id="#arguments.target_id#" dialogId="#arguments.dialogId#">
+	<cfthread name="getAnnotationDialogHtmlThread" target_type="#arguments.target_type#" target_id="#arguments.target_id#" dialogId="#arguments.dialogId#" cmpRef="#this#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -369,20 +370,20 @@ limitations under the License.
 													<cfelse>
 														<cfset dialogAnnotationDisplay = annotation>
 													</cfif>
-													<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="dialogRootRowHtml"
-														annotation_id="#annotation_id#"
-														annotation_display="#dialogAnnotationDisplay#"
-														cf_username="#CF_USERNAME#"
-														email="#annotator_email#"
-														annotate_date="#ANNOTATE_DATE#"
-														motivation="#motivation#"
-														reviewed_fg="#reviewed_fg#"
-														reviewer="#reviewer_name#"
-														reviewer_comment="#reviewer_comment#"
-														mask_annotation_fg="#mask_annotation_fg#"
-														is_response="false"
-														root_annotation_id="#annotation_id#"
-														show_reply_action="true">
+													<cfset dialogRootRowHtml = cmpRef.renderAnnotationReviewRow(
+														annotation_id=annotation_id,
+														annotation_display=dialogAnnotationDisplay,
+														cf_username=CF_USERNAME,
+														email=annotator_email,
+														annotate_date=ANNOTATE_DATE,
+														motivation=motivation,
+														reviewed_fg=reviewed_fg,
+														reviewer=reviewer_name,
+														reviewer_comment=reviewer_comment,
+														mask_annotation_fg=mask_annotation_fg,
+														is_response=false,
+														root_annotation_id=annotation_id,
+														show_reply_action=true)>
 													#dialogRootRowHtml#
 													#renderAnnotationConversationSection(rootAnnotationId=rootDialogAnnotations.annotation_id, childAnnotations=dialogChildAnno)#
 												</cfloop>
@@ -1057,7 +1058,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="annotation_id" type="numeric" required="yes">
 	<cfargument name="dialogId" type="string" required="yes">
 
-	<cfthread name="getEditAnnotationDialogHtmlThread" annotation_id="#arguments.annotation_id#" dialogId="#arguments.dialogId#">
+	<cfthread name="getEditAnnotationDialogHtmlThread" annotation_id="#arguments.annotation_id#" dialogId="#arguments.dialogId#" cmpRef="#this#">
 		<cftry>
 			<cfoutput>
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
@@ -1403,20 +1404,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<cfelse>
 												<cfset ctxDisplay = ctxRoot.ANNOTATION>
 											</cfif>
-											<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="ctxRowHtml"
-												annotation_id="#ctxRoot.annotation_id#"
-												annotation_display="#ctxDisplay#"
-												cf_username="#ctxRoot.CF_USERNAME#"
-												email="#ctxRoot.annotator_email#"
-												annotate_date="#ctxRoot.ANNOTATE_DATE#"
-												motivation="#ctxRoot.motivation#"
-												reviewed_fg="#ctxRoot.reviewed_fg#"
-												reviewer="#ctxRoot.reviewer_name#"
-												reviewer_comment="#ctxRoot.reviewer_comment#"
-												mask_annotation_fg="#ctxRoot.mask_annotation_fg#"
-												is_response="false"
-												root_annotation_id="#ctxRoot.annotation_id#"
-												show_reply_action="false">
+											<cfset ctxRowHtml = cmpRef.renderAnnotationReviewRow(
+												annotation_id=ctxRoot.annotation_id,
+												annotation_display=ctxDisplay,
+												cf_username=ctxRoot.CF_USERNAME,
+												email=ctxRoot.annotator_email,
+												annotate_date=ctxRoot.ANNOTATE_DATE,
+												motivation=ctxRoot.motivation,
+												reviewed_fg=ctxRoot.reviewed_fg,
+												reviewer=ctxRoot.reviewer_name,
+												reviewer_comment=ctxRoot.reviewer_comment,
+												mask_annotation_fg=ctxRoot.mask_annotation_fg,
+												is_response=false,
+												root_annotation_id=ctxRoot.annotation_id,
+												show_reply_action=false)>
 											#ctxRowHtml#
 											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno)#
 										</cfloop>
