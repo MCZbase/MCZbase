@@ -1320,7 +1320,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<input type="button"
 												class="btn btn-xs btn-primary mt-1"
 												value="Save Changes"
-												onclick="saveAnnotationEdit(#annotation_id#, <cfif isResponseAnnotation>#rootAnnotationId#<cfelse>''</cfif>, '_#dq#', '#encodeForJavaScript(dialogId)#')">
+												onclick="saveAnnotationEdit(#annotation_id#, <cfif isResponseAnnotation>#rootAnnotationId#<cfelse>''</cfif>, '_#dq#', '#encodeForJavaScript(dialogId)#')"><!-- " --->
 											<output id="#editResultDivId#" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
@@ -1341,7 +1341,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<p class="px-1 mb-1 small">Target: #rootTargetSummary#</p>
 								</cfif>
 								<cfif canAnnotate>
-								<div id="#addFormDivId#" style="display:none;" class="mt-1">
+								<div id="#addFormDivId#" style="display:none;" class="border p-1 mt-1">
 									<form name="addAnnotationForm_#dq#" onSubmit="return false;" class="form-row px-1">
 										<input type="hidden" id="idtype_add_#dq#" value="annotation">
 										<input type="hidden" id="idvalue_add_#dq#" value="#rootAnnotationId#">
