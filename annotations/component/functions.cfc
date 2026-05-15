@@ -926,9 +926,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfif>
 				<cfset guidIcon = "">
 				<cfif annAnnotator.agentguid_guid_type EQ "ORCiD">
-					<cfset guidIcon = "<img src=""/shared/images/ORCIDiD_icon.svg"" height=""15"" width=""15"" class=""mr-1 align-middle"" alt=""ORCID iD icon"">"<!--- " --->
+					<cfset guidIcon = "<img src=""/shared/images/ORCIDiD_icon.svg"" height=""15"" width=""15"" class=""mr-1 align-middle"" alt=""ORCID iD icon"">" ><!--- " --->
 				<cfelse>
-					<cfset guidIcon = "<img src=""/shared/images/linked_data.png"" height=""15"" width=""15"" class=""mr-1 align-middle"" alt=""Linked data icon"">"<!--- " --->
+					<cfset guidIcon = "<img src=""/shared/images/linked_data.png"" height=""15"" width=""15"" class=""mr-1 align-middle"" alt=""Linked data icon"">" ><!--- " --->
 				</cfif>
 				<a href="#guidLink#" target="_blank" title="#encodeForHTMLAttribute(annAnnotator.agentguid_guid_type)# identifier (opens in new tab)">#guidIcon#</a>
 			</cfif>
