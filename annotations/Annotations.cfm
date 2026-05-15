@@ -330,7 +330,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
 								</div>
 							</cfloop>
 						</div>
@@ -423,7 +423,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
 								</div>
 							</cfloop>
 						</div>
@@ -508,7 +508,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
 								</div>
 							</cfloop>
 						</div>
@@ -593,7 +593,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="true">
 								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno)#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
 								</div>
 							</cfloop>
 						</div>

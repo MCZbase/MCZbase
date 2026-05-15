@@ -384,7 +384,7 @@ limitations under the License.
 														root_annotation_id=annotation_id,
 														show_reply_action=true)>
 													#dialogRootRowHtml#
-													#renderAnnotationConversationSection(rootAnnotationId=rootDialogAnnotations.annotation_id, childAnnotations=dialogChildAnno)#
+													#renderAnnotationConversationSection(rootAnnotationId=rootDialogAnnotations.annotation_id, childAnnotations=dialogChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
 												</cfloop>
 											</div>
 										</cfif>
@@ -1001,12 +1001,15 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param rootAnnotationId annotation.annotation_id for the root annotation.
  @param childAnnotations query from getChildAnnotationsForRoots().
  @param editing_annotation_id optional; annotation_id currently being edited; highlights that row.
+ @param root_mask_annotation_fg optional; mask_annotation_fg value (0 or 1) of the root annotation.
+        When 1, child edit controls are disabled because visibility is inherited from the hidden root.
  @return html snippet for conversation section.
 --->
 <cffunction name="renderAnnotationConversationSection" returntype="string" access="public">
 	<cfargument name="rootAnnotationId" type="numeric" required="yes">
 	<cfargument name="childAnnotations" type="query" required="yes">
 	<cfargument name="editing_annotation_id" type="string" required="no" default="">
+	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="0">
 	<cfset var sectionHtml = "">
 	<cfset var rootChildren = QueryNew("annotation_id,annotation_display,cf_username,email,annotate_date,motivation,reviewed_fg,reviewer,reviewer_comment,mask_annotation_fg")>
 	<cfset var childRowHTML = "">
@@ -1040,7 +1043,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						is_response=true,
 						root_annotation_id=arguments.rootAnnotationId,
 						show_reply_action=false,
-						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(rootChildren.annotation_id) EQ val(arguments.editing_annotation_id))
+						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(rootChildren.annotation_id) EQ val(arguments.editing_annotation_id)),
+						parent_mask_annotation_fg=arguments.root_mask_annotation_fg
 					)>
 					#childRowHTML#
 				</cfloop>
@@ -1068,6 +1072,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param root_annotation_id  root annotation id for response/reply action targeting.
  @param show_reply_action   if true, show a Reply action.
  @param highlight_as_editing if true, visually mark this row as the annotation currently being edited.
+ @param parent_mask_annotation_fg optional; mask_annotation_fg of the parent (root) annotation.
+        When 1 for a response annotation, edit controls are disabled because visibility is inherited from the hidden root.
  @return html string for one annotation review card row
 --->
 <cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
@@ -1085,9 +1091,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="root_annotation_id"  type="string" required="no" default="">
 	<cfargument name="show_reply_action"   type="boolean" required="no" default="false">
 	<cfargument name="highlight_as_editing" type="boolean" required="no" default="false">
+	<cfargument name="parent_mask_annotation_fg" type="string" required="no" default="0">
 
 	<cfset showVisibility = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<cfset showMaskedBody = (val(arguments.mask_annotation_fg) EQ 1) AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
+	<cfset parentMasked = arguments.is_response AND val(arguments.parent_mask_annotation_fg) EQ 1>
 	<cfif len(arguments.root_annotation_id) EQ 0>
 		<cfset rootAnnotationId = arguments.annotation_id>
 	<cfelse>
@@ -1136,12 +1144,19 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfif showVisibility>
 					<div class="col-12 col-md-1 pt-2 px-1">
 						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">Visibility:</label>
-						<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
+						<cfif parentMasked>
+							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12" disabled="disabled" title="Visibility is inherited from the hidden parent annotation">
+						<cfelse>
+							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
+						</cfif>
 							<cfif val(arguments.mask_annotation_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="0" #selected#>Public</option>
 							<cfif val(arguments.mask_annotation_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="1" #selected#>Hidden</option>
 						</select>
+						<cfif parentMasked>
+							<span class="small text-muted d-block" title="Visibility is inherited from the hidden parent annotation">&#x1F512; Inherited</span>
+						</cfif>
 						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
 					</div>
 				</cfif>
@@ -1150,14 +1165,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 					</cfif>
 					<cfif NOT arguments.highlight_as_editing>
-						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
+						<cfif parentMasked>
+							<button type="button" class="btn btn-xs btn-secondary mb-1" disabled="disabled" title="Edit is disabled while the parent annotation is hidden">Edit</button>
+						<cfelse>
+							<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
+						</cfif>
 					</cfif>
 					<cfif NOT arguments.is_response>
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
 					</cfif>
 				</div>
 			</div>
-			<cfif showVisibility>
+			<cfif showVisibility AND NOT parentMasked>
 				<script>
 					$(document).ready(function() {
 						$("##mask_annotation_fg_#arguments.annotation_id#").off("change.annotationmask").on("change.annotationmask", function() {
@@ -1229,7 +1248,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		)>
 		<cfset var convHTML = renderAnnotationConversationSection(
 			rootAnnotationId=rootAnno.annotation_id,
-			childAnnotations=childAnnotations
+			childAnnotations=childAnnotations,
+			root_mask_annotation_fg=rootAnno.mask_annotation_fg
 		)>
 		<cfsavecontent variable="blockHtml">
 			<cfoutput>#rowHTML##convHTML#</cfoutput>
@@ -1640,7 +1660,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											show_reply_action=false,
 											highlight_as_editing=(val(ctxRoot.annotation_id) EQ val(arguments.annotation_id)))>
 										#ctxRowHtml#
-										#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id)#
+										#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id, root_mask_annotation_fg=ctxRoot.mask_annotation_fg)#
 									</cfloop>
 								<cfelse>
 									<div class="card-body py-1 text-muted small"><em>No annotation context found.</em></div>
