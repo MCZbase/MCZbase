@@ -1398,10 +1398,26 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<div class="col-12 mx-0 px-0 mt-2 d-flex align-items-center">
 								<h3 class="h5 mb-0 flex-grow-1">Annotation in Context</h3>
 								<cfif canAnnotate>
-								<button type="button" class="btn btn-xs btn-outline-secondary"
-									onclick="var d=document.getElementById('#addFormDivId#'); d.style.display=(d.style.display==='none'?'block':'none'); this.textContent=(d.style.display==='none'?'Add New Annotation':'Hide Form');">
+								<button type="button" id="toggleAddFormBtn_#dq#" class="btn btn-xs btn-outline-secondary">
 									Add New Annotation
 								</button>
+								<script>
+									function toggleAddAnnotationForm_#dq#() {
+										var d = document.getElementById('#addFormDivId#');
+										var btn = document.getElementById('toggleAddFormBtn_#dq#');
+										if (d.style.display === 'none') {
+											d.style.display = 'block';
+											btn.textContent = 'Hide Form';
+											$("###addAnnFieldId#").keyup();
+										} else {
+											d.style.display = 'none';
+											btn.textContent = 'Add New Annotation';
+										}
+									}
+									$(document).ready(function() {
+										$("##toggleAddFormBtn_#dq#").on('click', toggleAddAnnotationForm_#dq#);
+									});
+								</script>
 								</cfif>
 							</div>
 							<!--- Context card: target in card-header, annotation rows in card-body --->
