@@ -2,12 +2,14 @@
 
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
-	return openReplyAnnotationDialog(rootAnnotationId);
+	var closeCallback = (typeof annotationDialogCloseCallback === "function") ? annotationDialogCloseCallback : null;
+	return openReplyAnnotationDialog(rootAnnotationId, closeCallback);
 });
 
 jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	var annotationId = jQuery(this).attr("data-edit-annotation-id");
-	return openEditAnnotationDialog(annotationId);
+	var closeCallback = (typeof annotationDialogCloseCallback === "function") ? annotationDialogCloseCallback : null;
+	return openEditAnnotationDialog(annotationId, closeCallback);
 });
 
 /** saveThisAnnotation - Save a new annotation via AJAX.

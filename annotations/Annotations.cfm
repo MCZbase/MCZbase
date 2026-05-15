@@ -599,6 +599,9 @@ limitations under the License.
 			</cfoutput>
 		</div>
 	</section>
-
+	<script>
+		/** Reload the page when annotation edit or add dialogs close, so changes are immediately visible. **/
+		var annotationDialogCloseCallback = function() { location.reload(); };
+	</script>
 </main>
 <cfinclude template="/shared/_footer.cfm">
