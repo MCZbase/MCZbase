@@ -434,6 +434,7 @@ limitations under the License.
 												mask_annotation_fg="#replyAnns.mask_annotation_fg#"
 												is_response="true"
 												root_annotation_id="#variables.rootAnnotationId#"
+												parent_mask_annotation_fg="#rootAnn.mask_annotation_fg#"
 												show_reply_action="false">
 											#replyRowHtml#
 										</cfif>
