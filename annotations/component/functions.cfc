@@ -882,11 +882,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 <!--- Render conversation section with existing child annotations indented with a left border.
  @param rootAnnotationId annotation.annotation_id for the root annotation.
  @param childAnnotations query from getChildAnnotationsForRoots().
+ @param editing_annotation_id optional; annotation_id currently being edited; highlights that row.
  @return html snippet for conversation section.
 --->
 <cffunction name="renderAnnotationConversationSection" returntype="string" access="public">
 	<cfargument name="rootAnnotationId" type="numeric" required="yes">
 	<cfargument name="childAnnotations" type="query" required="yes">
+	<cfargument name="editing_annotation_id" type="string" required="no" default="">
 	<cfset var sectionHtml = "">
 	<cfset var rootChildren = QueryNew("annotation_id,annotation_display,cf_username,email,annotate_date,motivation,reviewed_fg,reviewer,reviewer_comment,mask_annotation_fg")>
 	<cfset var childRowHTML = "">
@@ -919,7 +921,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						mask_annotation_fg=rootChildren.mask_annotation_fg,
 						is_response=true,
 						root_annotation_id=arguments.rootAnnotationId,
-						show_reply_action=false
+						show_reply_action=false,
+						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(rootChildren.annotation_id) EQ val(arguments.editing_annotation_id))
 					)>
 					#childRowHTML#
 				</cfloop>
@@ -946,22 +949,24 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param is_response         if true, render as a response annotation (no reviewed control).
  @param root_annotation_id  root annotation id for response/reply action targeting.
  @param show_reply_action   if true, show a Reply action.
+ @param highlight_as_editing if true, visually mark this row as the annotation currently being edited.
  @return html string for one annotation review card row
 --->
 <cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
-	<cfargument name="annotation_id"      type="string" required="yes">
-	<cfargument name="annotation_display" type="string" required="yes">
-	<cfargument name="cf_username"        type="string" required="yes">
-	<cfargument name="email"              type="string" required="no" default="">
-	<cfargument name="annotate_date"      type="string" required="yes">
-	<cfargument name="motivation"         type="string" required="no" default="">
-	<cfargument name="reviewed_fg"        type="string" required="yes">
-	<cfargument name="reviewer"           type="string" required="no" default="">
-	<cfargument name="reviewer_comment"   type="string" required="no" default="">
-	<cfargument name="mask_annotation_fg" type="string" required="no" default="0">
-	<cfargument name="is_response"        type="boolean" required="no" default="false">
-	<cfargument name="root_annotation_id" type="string" required="no" default="">
-	<cfargument name="show_reply_action"  type="boolean" required="no" default="false">
+	<cfargument name="annotation_id"       type="string" required="yes">
+	<cfargument name="annotation_display"  type="string" required="yes">
+	<cfargument name="cf_username"         type="string" required="yes">
+	<cfargument name="email"               type="string" required="no" default="">
+	<cfargument name="annotate_date"       type="string" required="yes">
+	<cfargument name="motivation"          type="string" required="no" default="">
+	<cfargument name="reviewed_fg"         type="string" required="yes">
+	<cfargument name="reviewer"            type="string" required="no" default="">
+	<cfargument name="reviewer_comment"    type="string" required="no" default="">
+	<cfargument name="mask_annotation_fg"  type="string" required="no" default="0">
+	<cfargument name="is_response"         type="boolean" required="no" default="false">
+	<cfargument name="root_annotation_id"  type="string" required="no" default="">
+	<cfargument name="show_reply_action"   type="boolean" required="no" default="false">
+	<cfargument name="highlight_as_editing" type="boolean" required="no" default="false">
 
 	<cfset showVisibility = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<cfset showMaskedBody = (val(arguments.mask_annotation_fg) EQ 1) AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
@@ -973,7 +978,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<cfsavecontent variable="rowHTML">
 		<cfoutput>
-		<div class="card-body bg-light border-bottom py-2">
+		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary</cfif>">
+			<cfif arguments.highlight_as_editing>
+				<div class="badge badge-primary mb-1" style="font-size:0.8em;">&#9998; Editing</div>
+			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="col-12 col-md-4 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold small">
@@ -1417,9 +1425,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												mask_annotation_fg=ctxRoot.mask_annotation_fg,
 												is_response=false,
 												root_annotation_id=ctxRoot.annotation_id,
-												show_reply_action=false)>
+												show_reply_action=false,
+												highlight_as_editing=(val(ctxRoot.annotation_id) EQ val(arguments.annotation_id)))>
 											#ctxRowHtml#
-											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno)#
+											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id)#
 										</cfloop>
 									</div>
 								</cfif>
