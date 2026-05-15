@@ -600,7 +600,10 @@ limitations under the License.
 		</div>
 	</section>
 	<script>
-		/** Reload the page when annotation edit or add dialogs close, so changes are immediately visible. **/
+		/**
+		 * Reload the page when annotation edit or add dialogs close,
+		 * so changes made in the dialog are immediately visible.
+		 **/
 		var annotationDialogCloseCallback = function() { location.reload(); };
 	</script>
 </main>
