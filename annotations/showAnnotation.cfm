@@ -357,7 +357,16 @@ limitations under the License.
 					<div>
 						<h1 class="h3 mb-0">Annotation Conversation</h1>
 						<cfif len(variables.targetSummary) GT 0>
-							<p class="mb-1 text-muted small">Target: <cfif len(variables.targetIRI) GT 0><a href="#variables.targetIRI#">#variables.targetSummary#</a><cfelse>#variables.targetSummary#</cfif></p>
+							<p class="mb-1 text-muted small">
+								Target: 
+								<cfif len(variables.targetIRI) GT 0>
+									<a href="#variables.targetIRI#">
+										#variables.targetSummary#
+									</a>
+								<cfelse>
+									#variables.targetSummary#
+								</cfif>
+							</p>
 						</cfif>
 					</div>
 					<div class="text-right">
@@ -373,9 +382,12 @@ limitations under the License.
 				<div class="card border-bottom-0 mb-3">
 					<div class="card-header bg-box-header-gray py-1">
 						<h2 class="h5 mb-0">Root Annotation <span class="text-muted small">(#variables.rootAnnotationId#)</span></h2>
-```  the # are being incorrectly escaped here.
 					</div>
-					<cfif len(rootAnn.body_value) GT 0><cfset variables.rootDisplayText = rootAnn.body_value><cfelse><cfset variables.rootDisplayText = rootAnn.annotation></cfif>
+					<cfif len(rootAnn.body_value) GT 0>
+						<cfset variables.rootDisplayText = rootAnn.body_value>
+					<cfelse>
+						<cfset variables.rootDisplayText = rootAnn.annotation>
+					</cfif>
 					<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="rootRowHtml"
 						annotation_id="#rootAnn.annotation_id#"
 						annotation_display="#variables.rootDisplayText#"
