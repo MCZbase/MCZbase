@@ -1193,6 +1193,56 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfquery>
 				</cfif>
 
+				<!--- Look up the target context of the root annotation for display in the context section --->
+				<cfset rootTargetSummary = "">
+				<cfquery name="rootAnnTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					SELECT target_table, target_primary_key
+					FROM annotations
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
+				</cfquery>
+				<cfif rootAnnTarget.recordcount GT 0 AND len(trim(rootAnnTarget.target_table)) GT 0
+						AND UCASE(rootAnnTarget.target_table) NOT IN ('ANNOTATION','ANNOTATIONS')>
+					<cfset rtTable = UCASE(trim(rootAnnTarget.target_table))>
+					<cfset rtKey = rootAnnTarget.target_primary_key>
+					<cfif rtTable EQ "COLLECTION_OBJECT">
+						<cfquery name="rtData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT collection.collection, collection.collection_cde, cat_num,
+								mczbase.get_scientific_name_auths(cataloged_item.collection_object_id) display_name
+							FROM cataloged_item
+							JOIN collection ON cataloged_item.collection_id = collection.collection_id
+							WHERE cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
+						</cfquery>
+						<cfif rtData.recordcount GT 0>
+							<cfset rootTargetSummary = "Cataloged Item <strong><a href='/guid/MCZ:#rtData.collection_cde#:#rtData.cat_num#' target='_blank'>MCZ:#rtData.collection_cde#:#rtData.cat_num#</a></strong> #rtData.display_name#">
+						</cfif>
+					<cfelseif rtTable EQ "TAXON_NAME">
+						<cfquery name="rtData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT display_name, author_text FROM taxonomy
+							WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
+						</cfquery>
+						<cfif rtData.recordcount GT 0>
+							<cfset rootTargetSummary = "Taxon <strong>#rtData.display_name# <span class='sm-caps'>#rtData.author_text#</span></strong>">
+						</cfif>
+					<cfelseif rtTable EQ "PROJECT">
+						<cfquery name="rtData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT project_name FROM project
+							WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
+						</cfquery>
+						<cfif rtData.recordcount GT 0>
+							<cfset rootTargetSummary = "Project <strong>#rtData.project_name#</strong>">
+						</cfif>
+					<cfelseif rtTable EQ "PUBLICATION">
+						<cfquery name="rtData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT formatted_publication FROM formatted_publication
+							WHERE format_style = 'long'
+							AND publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
+						</cfquery>
+						<cfif rtData.recordcount GT 0>
+							<cfset rootTargetSummary = "Publication <strong>#rtData.formatted_publication#</strong>">
+						</cfif>
+					</cfif>
+				</cfif>
+
 				<cfset annotationBodyText = editAnn.body_value>
 				<cfset rootBodyPreviewLength = 100>
 
@@ -1287,6 +1337,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 										</button>
 									</cfif>
 								</div>
+								<cfif len(rootTargetSummary) GT 0>
+									<p class="px-1 mb-1 small">Target: #rootTargetSummary#</p>
+								</cfif>
 								<cfif canAnnotate>
 								<div id="#addFormDivId#" style="display:none;" class="mt-1">
 									<form name="addAnnotationForm_#dq#" onSubmit="return false;" class="form-row px-1">
