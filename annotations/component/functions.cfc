@@ -1337,20 +1337,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								</div>
 							</div>
 							</cfif>
+							<cfif canAnnotate>
 							<div class="col-12 mx-0 px-0 mt-2">
-								<div class="d-flex justify-content-between align-items-center mt-1 px-1">
-									<h3 class="h4 mb-0">Annotation in Context</h3>
-									<cfif canAnnotate>
-										<button type="button" class="btn btn-xs btn-outline-secondary"
-											onclick="var d=document.getElementById('#addFormDivId#'); d.style.display=(d.style.display==='none'?'block':'none'); this.textContent=(d.style.display==='none'?'Add New Annotation':'Hide Form');">
-											Add New Annotation
-										</button>
-									</cfif>
-								</div>
-								<cfif len(rootTargetSummary) GT 0>
-									<p class="px-1 mb-1 small">Target: #rootTargetSummary#</p>
-								</cfif>
-								<cfif canAnnotate>
+								<button type="button" class="btn btn-xs btn-outline-secondary mb-1"
+									onclick="var d=document.getElementById('#addFormDivId#'); d.style.display=(d.style.display==='none'?'block':'none'); this.textContent=(d.style.display==='none'?'Add New Annotation':'Hide Form');">
+									Add New Annotation
+								</button>
 								<div id="#addFormDivId#" style="display:none;" class="border p-1 mt-1">
 									<form name="addAnnotationForm_#dq#" onSubmit="return false;" class="form-row px-1">
 										<input type="hidden" id="idtype_add_#dq#" value="annotation">
@@ -1393,21 +1385,26 @@ Annotation to report problematic data concerning #annotated.annorecord#
 										</div>
 									</form>
 								</div>
-								</cfif>
-								<!--- Context: root annotation + its responses --->
-								<cfset ctxChildAnno = getChildAnnotationsForRoots(rootAnnotationId)>
-								<cfquery name="ctxRoot" dbtype="query">
-									SELECT
-										ANNOTATION_ID, ANNOTATE_DATE, CF_USERNAME, ANNOTATION,
-										REVIEWED_FG, REVIEWER_COMMENT, TARGET_TABLE,
-										motivation, reviewer_name, annotator_email,
-										MASK_ANNOTATION_FG, body_value
-									FROM contextAnns
-									WHERE TARGET_TABLE IS NULL OR UPPER(TARGET_TABLE) NOT IN ('ANNOTATION','ANNOTATIONS')
-									ORDER BY ANNOTATE_DATE
-								</cfquery>
-								<cfif ctxRoot.recordcount GT 0>
-									<div class="card border-0 mt-1">
+							</div>
+							</cfif>
+							<!--- Context: root annotation + its responses in a card with target in the card header --->
+							<cfset ctxChildAnno = getChildAnnotationsForRoots(rootAnnotationId)>
+							<cfquery name="ctxRoot" dbtype="query">
+								SELECT
+									ANNOTATION_ID, ANNOTATE_DATE, CF_USERNAME, ANNOTATION,
+									REVIEWED_FG, REVIEWER_COMMENT, TARGET_TABLE,
+									motivation, reviewer_name, annotator_email,
+									MASK_ANNOTATION_FG, body_value
+								FROM contextAnns
+								WHERE TARGET_TABLE IS NULL OR UPPER(TARGET_TABLE) NOT IN ('ANNOTATION','ANNOTATIONS')
+								ORDER BY ANNOTATE_DATE
+							</cfquery>
+							<div class="col-12 mx-0 px-0 mt-2">
+								<div class="card border-bottom-0 mt-1">
+									<div class="card-header bg-box-header-gray py-1">
+										<h3 class="h5 mb-0">Annotation in Context<cfif len(rootTargetSummary) GT 0> on #rootTargetSummary#</cfif></h3>
+									</div>
+									<cfif ctxRoot.recordcount GT 0>
 										<cfloop query="ctxRoot">
 											<cfif len(ctxRoot.body_value) GT 0>
 												<cfset ctxDisplay = ctxRoot.body_value>
@@ -1432,8 +1429,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											#ctxRowHtml#
 											#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id)#
 										</cfloop>
-									</div>
-								</cfif>
+									</cfif>
+								</div>
 							</div>
 						</div>
 					</div>
