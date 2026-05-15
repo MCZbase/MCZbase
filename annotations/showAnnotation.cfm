@@ -33,7 +33,7 @@ limitations under the License.
 		<cfset pageTitle = "Annotation Not Found">
 		<cfinclude template="/shared/_header.cfm">
 		<main class="container py-3">
-			<div class="alert alert-warning"><p>An annotation_id is required to view an annotation conversation.</p><a href="/annotations/Annotations.cfm">Return to Annotation Queue</a></div>
+			<div class="alert alert-warning"><p>An annotation_id is required to view an annotation conversation.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div>
 		</main>
 		<cfinclude template="/shared/_footer.cfm">
 	<cfelse>
@@ -62,7 +62,7 @@ limitations under the License.
 		<cfset pageTitle = "Annotation Not Found">
 		<cfinclude template="/shared/_header.cfm">
 		<main class="container py-3">
-			<cfoutput><div class="alert alert-warning"><p>Annotation #encodeForHTML(variables.annotation_id)# was not found.</p><a href="/annotations/Annotations.cfm">Return to Annotation Queue</a></div></cfoutput>
+			<cfoutput><div class="alert alert-warning"><p>Annotation #encodeForHTML(variables.annotation_id)# was not found.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div></cfoutput>
 		</main>
 		<cfinclude template="/shared/_footer.cfm">
 	<cfelse>
@@ -140,7 +140,7 @@ limitations under the License.
 		<cfset pageTitle = "Annotation Not Found">
 		<cfinclude template="/shared/_header.cfm">
 		<main class="container py-3">
-			<cfoutput><div class="alert alert-warning"><p>Root annotation not found for annotation #encodeForHTML(variables.annotation_id)#.</p><a href="/annotations/Annotations.cfm">Return to Annotation Queue</a></div></cfoutput>
+			<cfoutput><div class="alert alert-warning"><p>Root annotation not found for annotation #encodeForHTML(variables.annotation_id)#.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div></cfoutput>
 		</main>
 		<cfinclude template="/shared/_footer.cfm">
 	<cfelse>
@@ -353,17 +353,11 @@ limitations under the License.
 	<main class="container-fluid" id="content">
 		<div class="row mx-0 mt-2 mb-4">
 			<div class="col-12">
-				<nav aria-label="breadcrumb" class="mb-2">
-					<ol class="breadcrumb mb-1 px-0" style="background:transparent;">
-						<li class="breadcrumb-item"><a href="/annotations/Annotations.cfm">Annotation Queue</a></li>
-						<li class="breadcrumb-item active">Annotation Conversation</li>
-					</ol>
-				</nav>
 				<div class="d-flex justify-content-between align-items-start mb-2">
 					<div>
 						<h1 class="h3 mb-0">Annotation Conversation</h1>
 						<cfif len(variables.targetSummary) GT 0>
-							<p class="mb-1 text-muted small">Target: <cfif len(variables.targetIRI) GT 0><a href="#variables.targetIRI#">#encodeForHTML(variables.targetSummary)#</a><cfelse>#encodeForHTML(variables.targetSummary)#</cfif></p>
+							<p class="mb-1 text-muted small">Target: <cfif len(variables.targetIRI) GT 0><a href="#variables.targetIRI#">#variables.targetSummary#</a><cfelse>#variables.targetSummary#</cfif></p>
 						</cfif>
 					</div>
 					<div class="text-right">
@@ -440,7 +434,7 @@ limitations under the License.
 		<cfset pageTitle = "Error">
 		<cfinclude template="/shared/_header.cfm">
 		<main class="container py-3">
-			<cfoutput><div class="alert alert-danger"><h2>Error Loading Annotation</h2><p>#encodeForHTML(cfcatch.message)#</p><a href="/annotations/Annotations.cfm">Return to Annotation Queue</a></div></cfoutput>
+			<cfoutput><div class="alert alert-danger"><h2>Error Loading Annotation</h2><p>#encodeForHTML(cfcatch.message)#</p><a href="/annotations/Annotations.cfm">List Annotations</a></div></cfoutput>
 		</main>
 		<cfinclude template="/shared/_footer.cfm">
 	<cfelse>
