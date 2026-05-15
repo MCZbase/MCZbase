@@ -835,6 +835,125 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
+<!--- Render a short HTML block describing the annotator of a given annotation.
+ Determines what information to show based on the current viewer's permissions:
+ coldfusion_user role members and the annotator themselves see all available info;
+ other identifiable logged-in users see agent name/link (or username only when no agent);
+ unauthenticated or unidentifiable viewers receive [masked].
+ @param annotation_id numeric annotation primary key.
+ @return HTML string describing the annotator.
+--->
+<cffunction name="renderAnnotatorHtml" returntype="string" access="public">
+	<cfargument name="annotation_id" type="numeric" required="yes">
+
+	<cfset var annotatorHtml = "">
+	<cfset var isLoggedIn = isDefined("session.username") AND len(trim(session.username)) GT 0>
+
+	<!--- Not logged in: always mask --->
+	<cfif NOT isLoggedIn>
+		<cfreturn "<span class=""text-muted small"">[masked]</span>">
+	</cfif>
+
+	<cfset var oneOfUs = isDefined("session.roles") AND listfindnocase(session.roles, "coldfusion_user")>
+
+	<!--- Look up annotation and annotator details in a single query --->
+	<cfquery name="annAnnotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+		SELECT
+			a.cf_username,
+			a.annotator_agent_id,
+			ud.first_name,
+			ud.last_name,
+			ud.email,
+			pan.agent_name preferred_name,
+			ag.agentguid,
+			ag.agentguid_guid_type
+		FROM annotations a
+		LEFT OUTER JOIN cf_users cu ON a.cf_username = cu.username
+		LEFT OUTER JOIN cf_user_data ud ON cu.user_id = ud.user_id
+		LEFT OUTER JOIN agent ag ON a.annotator_agent_id = ag.agent_id
+		LEFT OUTER JOIN agent_name pan ON ag.preferred_agent_name_id = pan.agent_name_id
+		WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+	</cfquery>
+
+	<cfif annAnnotator.recordcount EQ 0>
+		<cfreturn "<span class=""text-muted small"">[unknown]</span>">
+	</cfif>
+
+	<cfset var annotatorUsername = annAnnotator.cf_username>
+	<cfset var annotatorAgentId = annAnnotator.annotator_agent_id>
+	<cfset var isAnnotatorSelf = (annotatorUsername EQ session.username)>
+	<cfset var showAll = (oneOfUs OR isAnnotatorSelf)>
+
+	<!--- If not oneOfUs and not self, check that viewer is identifiable --->
+	<cfif NOT showAll>
+		<!--- Viewer is identifiable if they have a linked agent or both email and name --->
+		<cfset var viewerIdentifiable = (isDefined("session.myAgentId") AND val(session.myAgentId) GT 0)>
+		<cfif NOT viewerIdentifiable>
+			<cfquery name="viewerProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+				SELECT ud.email, ud.first_name, ud.last_name
+				FROM cf_users cu
+				LEFT OUTER JOIN cf_user_data ud ON cu.user_id = ud.user_id
+				WHERE cu.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfif viewerProfile.recordcount GT 0 AND len(trim(viewerProfile.email)) GT 0
+					AND (len(trim(viewerProfile.first_name)) GT 0 OR len(trim(viewerProfile.last_name)) GT 0)>
+				<cfset viewerIdentifiable = true>
+			</cfif>
+		</cfif>
+		<cfif NOT viewerIdentifiable>
+			<cfreturn "<span class=""text-muted small"">[masked]</span>">
+		</cfif>
+	</cfif>
+
+	<!--- Build the annotator display HTML --->
+	<cfsavecontent variable="annotatorHtml">
+		<cfoutput>
+		<cfif val(annotatorAgentId) GT 0>
+			<!--- Annotator has an agent record: show preferred name with link to agent page --->
+			<a href="/agents/Agent.cfm?agent_id=#encodeForHTMLAttribute(annotatorAgentId)#" target="_blank" title="#encodeForHTMLAttribute(annAnnotator.preferred_name)# (opens in new tab)">#encodeForHTML(annAnnotator.preferred_name)#</a>
+			<cfif len(trim(annAnnotator.agentguid)) GT 0>
+				<!--- Resolve guid to a link and show with icon if type is known --->
+				<cfquery name="ctGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					SELECT resolver_regex, resolver_replacement
+					FROM ctguid_type
+					WHERE applies_to LIKE '%agent.agentguid%'
+					AND guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#annAnnotator.agentguid_guid_type#">
+				</cfquery>
+				<cfif ctGuidType.recordcount GT 0 AND len(trim(ctGuidType.resolver_regex)) GT 0>
+					<cfset guidLink = REReplace(annAnnotator.agentguid, ctGuidType.resolver_regex, ctGuidType.resolver_replacement)>
+				<cfelse>
+					<cfset guidLink = annAnnotator.agentguid>
+				</cfif>
+				<cfset guidIcon = "">
+				<cfif annAnnotator.agentguid_guid_type EQ "ORCiD">
+					<cfset guidIcon = "<img src=""/shared/images/ORCIDiD_icon.svg"" height=""15"" width=""15"" class=""mr-1 align-middle"" alt=""ORCID iD icon"">">
+				</cfif>
+				<a href="#guidLink#" target="_blank" title="#encodeForHTMLAttribute(annAnnotator.agentguid_guid_type)# identifier (opens in new tab)">#guidIcon##encodeForHTML(annAnnotator.agentguid)#</a>
+			</cfif>
+			<cfif showAll>
+				<span class="small text-muted">(#encodeForHTML(annotatorUsername)#)</span>
+			</cfif>
+		<cfelse>
+			<!--- Annotator has no linked agent record --->
+			<cfif showAll>
+				<strong>#encodeForHTML(annotatorUsername)#</strong>
+				<cfif len(trim(annAnnotator.first_name)) GT 0 OR len(trim(annAnnotator.last_name)) GT 0>
+					#encodeForHTML(trim(annAnnotator.first_name & " " & annAnnotator.last_name))#
+				</cfif>
+				<cfif len(trim(annAnnotator.email)) GT 0>
+					#encodeForHTML(annAnnotator.email)#
+				</cfif>
+			<cfelse>
+				#encodeForHTML(annotatorUsername)#
+			</cfif>
+		</cfif>
+		</cfoutput>
+	</cfsavecontent>
+
+	<cfreturn trim(annotatorHtml)>
+</cffunction>
+
+
 <!--- Retrieve child/reply annotations for a list of root annotation ids.
  @param rootAnnotationIds comma-delimited list of annotation.annotation_id values.
  @return query of child annotations keyed by parent_annotation_id.
@@ -1001,8 +1120,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<div class="col-12 col-md-3 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold small">Annotator:</span>
 					<div class="px-1 small">
-						<strong>#encodeForHTML(arguments.cf_username)#</strong>
-						(#encodeForHTML(arguments.email)#)
+						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
 					</div>
 				</div>

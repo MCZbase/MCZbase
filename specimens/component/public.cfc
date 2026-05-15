@@ -18,6 +18,7 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml() --->
 <cfif NOT isDefined("reportError")>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
@@ -3941,7 +3942,7 @@ limitations under the License.
 								<cfelse>
 									#rereplace(annotation_display,maskPattern,"[Masked] reported:")#
 								</cfif>
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
+								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 									<cfif reviewed_fg EQ "1">
 										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
@@ -3965,7 +3966,7 @@ limitations under the License.
 												<cfelse>
 													#rereplace(annResponses.annotation_display,maskPattern,"[Masked] reported:")#
 												</cfif>
-												<span class="d-block small mb-0 pb-0">#annResponses.motivation# (#annResponses.annotate_date#) &mdash; #encodeForHTML(annResponses.cf_username)#</span>
+												<span class="d-block small mb-0 pb-0">#annResponses.motivation# (#annResponses.annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annResponses.annotation_id))#</span>
 											</li>
 										</cfloop>
 									</ul>
