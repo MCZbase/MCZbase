@@ -67,6 +67,8 @@ limitations under the License.
 <cfif isDefined("url.id")><cfset variables.id = url.id></cfif>
 <cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
 
+<cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
+
 <!--- Data queries for filter picklists --->
 <cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
@@ -86,7 +88,6 @@ limitations under the License.
    GROUP BY taxonomy.family
 	ORDER BY taxonomy.family
 </cfquery>
-
 <main class="container-fluid" id="content">
 	<section role="search">
 		<div class="row mx-0 mb-2">
@@ -247,7 +248,7 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
+					WHERE upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						<cfif isDefined("variables.id") AND len(variables.id) GT 0>
 							AND annotations.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
 						</cfif>
@@ -268,6 +269,7 @@ limitations under the License.
 							)
 						</cfif>
 				</cfquery>
+				<cfset specimenChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getSpecimenAnnotations.annotation_id))>
 				<cfquery name="catitem" dbtype="query">
 					SELECT
 						COLLECTION_OBJECT_ID,
@@ -314,6 +316,7 @@ limitations under the License.
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(collection_object_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -324,8 +327,11 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -364,7 +370,7 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
+					WHERE upper(annotations.target_table) = 'TAXON_NAME'
 						<cfif isDefined("variables.taxon_name_id") AND len(variables.taxon_name_id) GT 0>
 							AND annotations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
 						</cfif>
@@ -375,6 +381,7 @@ limitations under the License.
 							AND upper(taxonomy.scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.scientific_name)#%">
 						</cfif>
 				</cfquery>
+				<cfset taxonChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getTaxonAnnotations.annotation_id))>
 				<cfquery name="t" dbtype="query">
 					SELECT taxon_name_id, scientific_name, display_name
 					FROM getTaxonAnnotations
@@ -402,6 +409,7 @@ limitations under the License.
 								WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(taxon_name_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -412,8 +420,11 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -450,11 +461,12 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
+					WHERE upper(annotations.target_table) = 'PUBLICATION'
 						<cfif isDefined("variables.publication_id") AND len(variables.publication_id) GT 0>
 							AND annotations.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 						</cfif>
 				</cfquery>
+				<cfset publicationChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getPubAnnotations.annotation_id))>
 				<cfquery name="getPublicationAnnotations" dbtype="query">
 					SELECT publication_title, publication_id
 					FROM getPubAnnotations
@@ -482,6 +494,7 @@ limitations under the License.
 								WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(publication_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -492,8 +505,11 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -530,11 +546,12 @@ limitations under the License.
 								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE 1=1
+					WHERE upper(annotations.target_table) = 'PROJECT'
 						<cfif isDefined("variables.project_id") AND len(variables.project_id) GT 0>
 							AND annotations.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
 						</cfif>
 				</cfquery>
+				<cfset projectChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getProjectAnnotations.annotation_id))>
 				<cfquery name="t" dbtype="query">
 					SELECT project_name, project_id
 					FROM getProjectAnnotations
@@ -562,6 +579,7 @@ limitations under the License.
 								WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(project_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -572,8 +590,11 @@ limitations under the License.
 									reviewed_fg="#reviewed_fg#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#">
+									mask_annotation_fg="#mask_annotation_fg#"
+									show_reply_action="true">
 								#annoRowHTML#
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -586,6 +607,5 @@ limitations under the License.
 			</cfoutput>
 		</div>
 	</section>
-
 </main>
 <cfinclude template="/shared/_footer.cfm">
