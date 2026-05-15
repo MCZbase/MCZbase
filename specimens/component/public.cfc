@@ -3932,6 +3932,7 @@ limitations under the License.
 						</cfif>
 						<cfloop query="annotations">
 							<li class="list-group-item py-1">
+								<span class="small font-weight-bold">Annotation: </span>
 								<cfif mask_annotation_fg EQ "1">
 									<span class="small font-weight-bold">[Hidden] </span>
 								</cfif>
