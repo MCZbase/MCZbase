@@ -1150,7 +1150,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							</cfif>
 						</label>
 						<cfif parentMasked>
-							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12" disabled="disabled" aria-describedby="inherited_note_#arguments.annotation_id#">
+							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12" style="background-color: aliceblue;" disabled="disabled" aria-describedby="inherited_note_#arguments.annotation_id#">
 						<cfelse>
 							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
 						</cfif>
