@@ -1146,7 +1146,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">
 							Visibility:
 							<cfif parentMasked>
-								<span id="inherited_note_#arguments.annotation_id#" class="small" aria-label="Visibility inherited from parent annotation">&##x1F512; hidden</span>
+								<span id="inherited_note_#arguments.annotation_id#" class="small" aria-label="Visibility inherited from parent annotation">hidden</span>
 							</cfif>
 						</label>
 						<cfif parentMasked>
