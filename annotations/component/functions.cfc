@@ -1163,11 +1163,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</div>
 				</cfif>
 				<div class="col-12 col-md-2 pt-3 px-1">
-					<cfif NOT arguments.is_response AND arguments.show_reply_action>
-						<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
-					</cfif>
-					<cfif NOT arguments.highlight_as_editing>
-						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
+					<cfif isdefined("session.username") AND len(#session.username#) GT 0>
+						<cfif isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+							<cfif NOT arguments.is_response AND arguments.show_reply_action>
+								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
+							</cfif>
+							<!--- TODO: Support users editing their own annotations even without manage_collection --->
+							<cfif NOT arguments.highlight_as_editing>
+								<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
+							</cfif>
+						</cfif>
 					</cfif>
 					<cfif NOT arguments.is_response>
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
