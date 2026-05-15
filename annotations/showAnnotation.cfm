@@ -233,7 +233,9 @@ limitations under the License.
 </cfif>
 
 <cfif variables.format EQ "json-ld">
-	<!--- W3C Web Annotation Data Model: JSON-LD output --->
+	<!--- W3C Web Annotation Data Model: JSON-LD output.
+	     Language is consistently defaulted to "en" across all structured data formats
+	     because annotations do not store a language attribute in the current schema. --->
 	<cfcontent type="application/ld+json; charset=UTF-8">
 	<cfoutput>
 		{
