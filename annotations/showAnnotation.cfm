@@ -448,7 +448,7 @@ limitations under the License.
 			</main>
 			</cfoutput>
 			<cfinclude template="/shared/_footer.cfm">
-		</cfcase>
+		</cfdefaultcase>
 	</cfswitch>
 
 <cfcatch>
