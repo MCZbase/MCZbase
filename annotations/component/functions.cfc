@@ -1167,11 +1167,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 					</cfif>
 					<cfif NOT arguments.highlight_as_editing>
-						<cfif parentMasked>
-							<button type="button" class="btn btn-xs btn-secondary mb-1" disabled="disabled" aria-label="Edit (disabled: parent annotation is hidden)">Edit</button>
-						<cfelse>
-							<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
-						</cfif>
+						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 					</cfif>
 					<cfif NOT arguments.is_response>
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
