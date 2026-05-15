@@ -32,7 +32,7 @@ limitations under the License.
 	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="dialogId" type="string" required="yes">
 	
-	<cfthread name="getAnnotationDialogHtmlThread" target_type="#arguments.target_type#" target_id="#arguments.target_id#" dialogId="#arguments.dialogId#" cmpRef="#this#">
+	<cfsavecontent variable="dialogHtml">
 		<cftry>
 			<cfoutput>
 				<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -369,7 +369,7 @@ limitations under the License.
 													<cfelse>
 														<cfset dialogAnnotationDisplay = annotation>
 													</cfif>
-													<cfset dialogRootRowHtml = cmpRef.renderAnnotationReviewRow(
+													<cfset dialogRootRowHtml = renderAnnotationReviewRow(
 														annotation_id=annotation_id,
 														annotation_display=dialogAnnotationDisplay,
 														cf_username=CF_USERNAME,
@@ -415,9 +415,8 @@ limitations under the License.
 			<cfabort>
 		</cfcatch>
 		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getAnnotationDialogHtmlThread" />
-	<cfreturn getAnnotationDialogHtmlThread.output>
+	</cfsavecontent>
+	<cfreturn dialogHtml>
 </cffunction>
 
 
@@ -1057,7 +1056,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="annotation_id" type="numeric" required="yes">
 	<cfargument name="dialogId" type="string" required="yes">
 
-	<cfthread name="getEditAnnotationDialogHtmlThread" annotation_id="#arguments.annotation_id#" dialogId="#arguments.dialogId#" cmpRef="#this#">
+	<cfsavecontent variable="editDialogHtml">
 		<cftry>
 			<cfoutput>
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
@@ -1403,7 +1402,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<cfelse>
 												<cfset ctxDisplay = ctxRoot.ANNOTATION>
 											</cfif>
-											<cfset ctxRowHtml = cmpRef.renderAnnotationReviewRow(
+											<cfset ctxRowHtml = renderAnnotationReviewRow(
 												annotation_id=ctxRoot.annotation_id,
 												annotation_display=ctxDisplay,
 												cf_username=ctxRoot.CF_USERNAME,
@@ -1446,9 +1445,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<cfabort>
 		</cfcatch>
 		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getEditAnnotationDialogHtmlThread" />
-	<cfreturn getEditAnnotationDialogHtmlThread.output>
+	</cfsavecontent>
+	<cfreturn editDialogHtml>
 </cffunction>
 
 
