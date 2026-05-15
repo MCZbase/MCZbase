@@ -1,15 +1,52 @@
 /** JavaScript functions for handling annotations in MCZbase. **/
 
+/** Reload the annotation block for a given root annotation via AJAX.
+ * Replaces the inner contents of #annotation-block-{rootAnnotationId} with fresh HTML
+ * from renderAnnotationBlockHtml so that edits/additions are immediately visible.
+ * @param rootAnnotationId numeric annotation_id of the root annotation block to reload.
+ */
+function reloadAnnotationBlock(rootAnnotationId) {
+	var blockId = "annotation-block-" + rootAnnotationId;
+	var blockEl = document.getElementById(blockId);
+	if (!blockEl) { return; }
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "get",
+		data: {
+			method: "renderAnnotationBlockHtml",
+			returnformat: "plain",
+			root_annotation_id: rootAnnotationId
+		},
+		success: function(data) {
+			$("#" + blockId).html(data);
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, "reloading annotation block");
+		}
+	});
+}
+
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
-	var closeCallback = (typeof annotationDialogCloseCallback === "function") ? annotationDialogCloseCallback : null;
-	return openReplyAnnotationDialog(rootAnnotationId, closeCallback);
+	var callback = null;
+	if (document.getElementById("annotation-block-" + rootAnnotationId)) {
+		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
+	} else if (typeof annotationDialogCloseCallback === "function") {
+		callback = annotationDialogCloseCallback;
+	}
+	return openReplyAnnotationDialog(rootAnnotationId, callback);
 });
 
 jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	var annotationId = jQuery(this).attr("data-edit-annotation-id");
-	var closeCallback = (typeof annotationDialogCloseCallback === "function") ? annotationDialogCloseCallback : null;
-	return openEditAnnotationDialog(annotationId, closeCallback);
+	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
+	var callback = null;
+	if (rootAnnotationId && document.getElementById("annotation-block-" + rootAnnotationId)) {
+		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
+	} else if (typeof annotationDialogCloseCallback === "function") {
+		callback = annotationDialogCloseCallback;
+	}
+	return openEditAnnotationDialog(annotationId, callback);
 });
 
 /** saveThisAnnotation - Save a new annotation via AJAX.

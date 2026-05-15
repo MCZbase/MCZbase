@@ -1033,7 +1033,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 					</cfif>
 					<cfif NOT arguments.highlight_as_editing>
-						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#">Edit</button>
+						<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 					</cfif>
 					<cfif NOT arguments.is_response>
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
@@ -1055,6 +1055,78 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<cfreturn trim(rowHTML)>
 </cffunction>
+
+<!--- Render inner HTML for a root annotation block (root row + conversation section) for AJAX reload.
+ Queries the root annotation by annotation_id and returns the combined row and conversation section HTML.
+ This is intended to be called via AJAX to replace the contents of an annotation-block container after
+ a dialog edit or add action so that changes are immediately visible on the calling page.
+ @param root_annotation_id numeric annotation_id of the root annotation to render.
+ @return html string combining renderAnnotationReviewRow and renderAnnotationConversationSection output.
+--->
+<cffunction name="renderAnnotationBlockHtml" access="remote" returntype="string">
+	<cfargument name="root_annotation_id" type="numeric" required="yes">
+	<cfset var blockHtml = "">
+	<cftry>
+		<cfquery name="rootAnno" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				annotations.annotation_id,
+				NVL(atb.body_value, annotations.annotation) annotation_display,
+				annotations.cf_username,
+				cf_user_data.email,
+				annotations.annotate_date,
+				annotations.motivation,
+				annotations.reviewed_fg,
+				preferred_agent_name.agent_name reviewer,
+				annotations.reviewer_comment,
+				annotations.mask_annotation_fg
+			FROM
+				annotations
+				LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
+				LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+				LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+				LEFT OUTER JOIN (
+					SELECT annotation_id, body_value,
+						ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+					FROM annotation_textualbody
+				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+			WHERE
+				annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
+				AND upper(annotations.target_table) != 'ANNOTATIONS'
+		</cfquery>
+		<cfif rootAnno.recordcount EQ 0>
+			<cfreturn "">
+		</cfif>
+		<cfset var childAnnotations = getChildAnnotationsForRoots(arguments.root_annotation_id)>
+		<cfset var rowHTML = renderAnnotationReviewRow(
+			annotation_id=rootAnno.annotation_id,
+			annotation_display=rootAnno.annotation_display,
+			cf_username=rootAnno.cf_username,
+			email=rootAnno.email,
+			annotate_date=rootAnno.annotate_date,
+			motivation=rootAnno.motivation,
+			reviewed_fg=rootAnno.reviewed_fg,
+			reviewer=rootAnno.reviewer,
+			reviewer_comment=rootAnno.reviewer_comment,
+			mask_annotation_fg=rootAnno.mask_annotation_fg,
+			show_reply_action=true
+		)>
+		<cfset var convHTML = renderAnnotationConversationSection(
+			rootAnnotationId=rootAnno.annotation_id,
+			childAnnotations=childAnnotations
+		)>
+		<cfsavecontent variable="blockHtml">
+			<cfoutput>#rowHTML##convHTML#</cfoutput>
+		</cfsavecontent>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError")><cfset var queryError = cfcatch.queryError><cfelse><cfset var queryError = ""></cfif>
+			<cfset var message = trim("Error in renderAnnotationBlockHtml: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfheader statusCode="500" statusText="#message#">
+			<cfreturn "">
+		</cfcatch>
+	</cftry>
+	<cfreturn trim(blockHtml)>
+</cffunction>
+
 
 <!--- Return HTML for a dialog to edit an existing annotation.
  Provides a pre-filled edit form, optional root-annotation controls for response annotations,

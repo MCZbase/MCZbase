@@ -316,6 +316,7 @@ limitations under the License.
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(collection_object_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -330,6 +331,7 @@ limitations under the License.
 									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -407,6 +409,7 @@ limitations under the License.
 								WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(taxon_name_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -421,6 +424,7 @@ limitations under the License.
 									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -490,6 +494,7 @@ limitations under the License.
 								WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(publication_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -504,6 +509,7 @@ limitations under the License.
 									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -573,6 +579,7 @@ limitations under the License.
 								WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(project_id)#">
 							</cfquery>
 							<cfloop query="itemAnno">
+								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
 									annotation_id="#annotation_id#"
 									annotation_display="#annotation_display#"
@@ -587,6 +594,7 @@ limitations under the License.
 									show_reply_action="true">
 								#annoRowHTML#
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno)#
+								</div>
 							</cfloop>
 						</div>
 					</cfloop>
@@ -599,9 +607,5 @@ limitations under the License.
 			</cfoutput>
 		</div>
 	</section>
-	<!--- Reload the page when annotation edit or add dialogs close so changes made in the dialog are immediately visible. --->
-	<script>
-		var annotationDialogCloseCallback = function() { location.reload(); };
-	</script>
 </main>
 <cfinclude template="/shared/_footer.cfm">
