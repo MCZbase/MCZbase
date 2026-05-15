@@ -453,12 +453,9 @@ limitations under the License.
 
 <cfcatch>
 	<cfif variables.format EQ "html">
-		<cfset pageTitle = "Error">
-		<cfinclude template="/shared/_header.cfm">
-		<main class="container py-3">
-			<cfoutput><div class="alert alert-danger"><h2>Error Loading Annotation</h2><p>#encodeForHTML(cfcatch.message)#</p><a href="/annotations/Annotations.cfm">List Annotations</a></div></cfoutput>
-		</main>
-		<cfinclude template="/shared/_footer.cfm">
+		<!--- rethrow the error --->
+		<cfthrow type="annotationLoadError" message="Error loading annotation conversation: #cfcatch.message#" detail="#cfcatch.detail#" errorcode="#cfcatch.errorcode#">
+		<cfabort>
 	<cfelse>
 		<cfheader statusCode="500" statusText="Internal Server Error">
 		<cfoutput>#encodeForHTML(cfcatch.message)#</cfoutput>

@@ -1155,7 +1155,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<option value="1" #selected#>Hidden</option>
 						</select>
 						<cfif parentMasked>
-							<span id="inherited_note_#arguments.annotation_id#" class="small text-muted d-block"><span aria-hidden="true">&#x1F512;</span> Inherited from parent</span>
+							<span id="inherited_note_#arguments.annotation_id#" class="small text-muted d-block"><span aria-hidden="true">&##x1F512;</span> Inherited from parent</span>
 						</cfif>
 						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
 					</div>
