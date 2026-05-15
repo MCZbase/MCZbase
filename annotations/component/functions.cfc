@@ -1143,7 +1143,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfif>
 				<cfif showVisibility>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">Visibility:</label>
+						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">
+							Visibility:
+							<cfif parentMasked>
+								<span id="inherited_note_#arguments.annotation_id#" class="small text-muted d-block" aria-label="Visibility inherited from parent annotation">&##x1F512;</span>
+							</cfif>
+						</label>
 						<cfif parentMasked>
 							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12" disabled="disabled" aria-describedby="inherited_note_#arguments.annotation_id#">
 						<cfelse>
@@ -1154,13 +1159,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<cfif val(arguments.mask_annotation_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="1" #selected#>Hidden</option>
 						</select>
-						<cfif parentMasked>
-							<span id="inherited_note_#arguments.annotation_id#" class="small text-muted d-block"><span aria-hidden="true">&##x1F512;</span> Inherited from parent</span>
-						</cfif>
 						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
 					</div>
 				</cfif>
-				<div class="col-12 col-md-2 pt-2 px-1">
+				<div class="col-12 col-md-2 pt-3 px-1">
 					<cfif NOT arguments.is_response AND arguments.show_reply_action>
 						<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 					</cfif>
