@@ -275,10 +275,10 @@ limitations under the License.
 	<!--- W3C Web Annotation Data Model: RDF/XML output --->
 	<cfcontent type="application/rdf+xml; charset=UTF-8">
 	<cfoutput><?xml version="1.0" encoding="UTF-8"?>
-	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-		xmlns:oa="http://www.w3.org/ns/oa#"
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
+		xmlns:oa="http://www.w3.org/ns/oa##"
 		xmlns:dcterms="http://purl.org/dc/terms/"
-		xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema##">
 		<oa:Annotation rdf:about="#XMLFormat(variables.thisAnnotationIRI)#">
 			<cfif len(rootAnn.motivation) GT 0><oa:motivatedBy rdf:resource="http://www.w3.org/ns/oa###XMLFormat(rootAnn.motivation)#"/></cfif>
 			<oa:hasBody>
