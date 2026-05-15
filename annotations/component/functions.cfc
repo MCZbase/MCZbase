@@ -1358,8 +1358,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<div class="col-12 pb-1">
 										<label for="#addAnnFieldId#" class="data-entry-label">Add Response (<span id="#addAnnLengthId#"></span>)</label>
 										<textarea rows="2" id="#addAnnFieldId#"
-													onkeyup="countCharsLeft('#addAnnFieldId#', 4000, '#addAnnLengthId#');"
-													class="autogrow form-control data-entry-textarea"></textarea>
+											onkeyup="countCharsLeft('#addAnnFieldId#', 4000, '#addAnnLengthId#');"
+											class="autogrow form-control data-entry-textarea"></textarea>
 										<script>
 											$(document).ready(function() {
 												$("###addAnnFieldId#").keyup(autogrow);
