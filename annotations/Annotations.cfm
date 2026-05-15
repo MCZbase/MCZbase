@@ -599,11 +599,8 @@ limitations under the License.
 			</cfoutput>
 		</div>
 	</section>
+	<!--- Reload the page when annotation edit or add dialogs close so changes made in the dialog are immediately visible. --->
 	<script>
-		/**
-		 * Reload the page when annotation edit or add dialogs close,
-		 * so changes made in the dialog are immediately visible.
-		 **/
 		var annotationDialogCloseCallback = function() { location.reload(); };
 	</script>
 </main>
