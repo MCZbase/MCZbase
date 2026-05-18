@@ -216,7 +216,7 @@ limitations under the License.
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
-	<cfquery name="local.oceanCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+	<cfquery name="local.waterBodyCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 		SELECT * FROM (
 			SELECT flat.continent_ocean as label, count(distinct flat.collection_object_id) as ct
 			FROM underscore_relation
@@ -228,10 +228,10 @@ limitations under the License.
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.continent_ocean ASC
 		) WHERE rownum <= 25
 	</cfquery>
-	<cfloop query="local.oceanCoverageQuery">
+	<cfloop query="local.waterBodyCoverageQuery">
 		<cfset local.context = StructNew()>
-		<cfset local.context.waterBody = local.oceanCoverageQuery.label>
-		<cfset local.context.objectCount = val(local.oceanCoverageQuery.ct)>
+		<cfset local.context.waterBody = local.waterBodyCoverageQuery.label>
+		<cfset local.context.objectCount = val(local.waterBodyCoverageQuery.ct)>
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
