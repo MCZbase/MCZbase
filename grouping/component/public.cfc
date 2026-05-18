@@ -195,9 +195,9 @@ limitations under the License.
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
-	<cfquery name="local.stateCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="local.geogStateCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		SELECT * FROM (
-			SELECT flat.country as country, flat.state_prov as state_province, count(distinct flat.collection_object_id) as ct
+			SELECT flat.country as country, flat.state_prov as state_prov, count(distinct flat.collection_object_id) as ct
 			FROM underscore_relation
 				JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat ON underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
@@ -206,13 +206,13 @@ limitations under the License.
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.country ASC, flat.state_prov ASC
 		) WHERE rownum <= 25
 	</cfquery>
-	<cfloop query="local.stateCoverageQuery">
+	<cfloop query="local.geogStateCoverageQuery">
 		<cfset local.context = StructNew()>
-		<cfif len(local.stateCoverageQuery.country) GT 0>
-			<cfset local.context.country = local.stateCoverageQuery.country>
+		<cfif len(local.geogStateCoverageQuery.country) GT 0>
+			<cfset local.context.country = local.geogStateCoverageQuery.country>
 		</cfif>
-		<cfset local.context.stateProvince = local.stateCoverageQuery.state_province>
-		<cfset local.context.objectCount = val(local.stateCoverageQuery.ct)>
+		<cfset local.context.stateProvince = local.geogStateCoverageQuery.state_prov>
+		<cfset local.context.objectCount = val(local.geogStateCoverageQuery.ct)>
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
