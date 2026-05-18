@@ -3226,7 +3226,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="VerificationStatus" type="string" required="no">
 	<cfargument name="onlyShared" type="string" required="no">
 	<cfargument name="GeorefMethod" type="string" required="no">
-    <cfargument name="collecting_event_id" type="string" required="no">
+	<cfargument name="collecting_event_id" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimdepth" type="string" required="no">
 	<cfargument name="verbatimelevation" type="string" required="no">
@@ -3548,7 +3548,13 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			<cfset arrayAppend(whereClauses,"locality.NoGeorefBecause IS NULL")>
 		</cfif>
 		<cfif structKeyExists(arguments,"isIncomplete") AND len(arguments.isIncomplete) gt 0>
-			<cfset arrayAppend(whereClauses,"( (accepted_lat_long.GPSACCURACY IS NULL AND accepted_lat_long.EXTENT IS NULL) OR accepted_lat_long.MAX_ERROR_DISTANCE = 0 OR accepted_lat_long.MAX_ERROR_DISTANCE IS NULL OR accepted_lat_long.datum IS NULL OR accepted_lat_long.coordinate_precision IS NULL )")>
+			<cfset arrayAppend(whereClauses,
+				"( (accepted_lat_long.GPSACCURACY IS NULL AND accepted_lat_long.EXTENT IS NULL) " &
+				"OR accepted_lat_long.MAX_ERROR_DISTANCE = 0 " &
+				"OR accepted_lat_long.MAX_ERROR_DISTANCE IS NULL " &
+				"OR accepted_lat_long.datum IS NULL " &
+				"OR accepted_lat_long.coordinate_precision IS NULL )"
+			)>
 		</cfif>
 		<cfif structKeyExists(arguments,"findNoAccGeoRef") and len(arguments.findNoAccGeoRef) gt 0>
 			<cfset arrayAppend(whereClauses,"locality.locality_id IN (select locality_id from lat_long)")>
