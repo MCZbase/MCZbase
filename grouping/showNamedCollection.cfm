@@ -52,7 +52,9 @@ limitations under the License.
 	<cfset underscore_collection_id = form.underscore_collection_id>
 </cfif>
 <cfinclude template="/grouping/component/public.cfc" runOnce="true">
-<cfset requestedFormat = "">
+<cfif NOT isDefined("requestedFormat")>
+	<cfset requestedFormat = "html">
+</cfif>
 <cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
 	<cfset requestedFormat = trim(url.format)>
 <cfelseif isDefined("form.format") AND len(trim(form.format)) GT 0>
