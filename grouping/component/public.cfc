@@ -268,6 +268,7 @@ limitations under the License.
 	<cfset local.context["dcterms"] = "http://purl.org/dc/terms/">
 	<cfset local.context["prov"] = "http://www.w3.org/ns/prov##">
 	<cfset local.context["schema"] = "https://schema.org/">
+	<cfset local.context["skos"] = "http://www.w3.org/2004/02/skos/core##">
 	<cfset local.context["rdfs"] = "http://www.w3.org/2000/01/rdf-schema##">
 	<cfset local.context["xsd"] = "http://www.w3.org/2001/XMLSchema##">
 	<cfset local.context["mcz"] = "#Application.serverRootUrl#/vocab/">
@@ -279,14 +280,20 @@ limitations under the License.
 	<cfif len(arguments.model.description) GT 0>
 		<cfset local.doc["dcterms:description"] = arguments.model.description>
 	</cfif>
-	<cfset local.typeStruct = StructNew()>
-	<cfset local.typeStruct["@id"] = arguments.model.typeMapping.typeUri>
-	<cfset local.typeStruct["rdfs:label"] = arguments.model.typeMapping.typeLabel>
-	<cfset local.doc["dcterms:type"] = local.typeStruct>
-	<cfset local.doc["mcz:objectCount"] = arguments.model.objectCount>
-	<cfset local.doc["mcz:totalTaxonClasses"] = arguments.model.totalTaxonClasses>
-	<cfset local.doc["mcz:totalCountries"] = arguments.model.totalCountries>
-	<cfset local.doc["mcz:citationScopeNote"] = arguments.model.citationScopeNote>
+	<cfset local.doc["dcterms:type"] = arguments.model.typeMapping.typeLabel>
+	<cfset local.doc["schema:count"] = arguments.model.objectCount>
+	<cfset local.doc["schema:additionalProperty"] = ArrayNew(1)>
+	<cfset local.totalTaxonClassesProp = StructNew()>
+	<cfset local.totalTaxonClassesProp["@type"] = "schema:PropertyValue">
+	<cfset local.totalTaxonClassesProp["schema:propertyID"] = "totalTaxonClasses">
+	<cfset local.totalTaxonClassesProp["schema:value"] = arguments.model.totalTaxonClasses>
+	<cfset ArrayAppend(local.doc["schema:additionalProperty"], local.totalTaxonClassesProp)>
+	<cfset local.totalCountriesProp = StructNew()>
+	<cfset local.totalCountriesProp["@type"] = "schema:PropertyValue">
+	<cfset local.totalCountriesProp["schema:propertyID"] = "totalCountries">
+	<cfset local.totalCountriesProp["schema:value"] = arguments.model.totalCountries>
+	<cfset ArrayAppend(local.doc["schema:additionalProperty"], local.totalCountriesProp)>
+	<cfset local.doc["skos:scopeNote"] = arguments.model.citationScopeNote>
 
 	<cfset local.doc["mcz:associatedAgent"] = ArrayNew(1)>
 	<cfloop array="#arguments.model.agents#" index="local.agent">
@@ -352,6 +359,7 @@ limitations under the License.
 	<cfset ArrayAppend(local.lines, "@prefix dcterms: <http://purl.org/dc/terms/> .")>
 	<cfset ArrayAppend(local.lines, "@prefix prov: <http://www.w3.org/ns/prov##> .")>
 	<cfset ArrayAppend(local.lines, "@prefix schema: <https://schema.org/> .")>
+	<cfset ArrayAppend(local.lines, "@prefix skos: <http://www.w3.org/2004/02/skos/core##> .")>
 	<cfset ArrayAppend(local.lines, "@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .")>
 	<cfset ArrayAppend(local.lines, "@prefix ltc: <https://ltc.tdwg.org/terms/> .")>
 	<cfset ArrayAppend(local.lines, "@prefix mcz: <#Application.serverRootUrl#/vocab/> .")>
@@ -363,11 +371,11 @@ limitations under the License.
 	<cfif len(arguments.model.description) GT 0>
 		<cfset ArrayAppend(local.preds, 'dcterms:description "' & escapeForTurtleLiteral(arguments.model.description) & '"')>
 	</cfif>
-	<cfset ArrayAppend(local.preds, "dcterms:type <" & arguments.model.typeMapping.typeUri & ">")>
-	<cfset ArrayAppend(local.preds, 'mcz:objectCount "' & arguments.model.objectCount & '"^^xsd:integer')>
-	<cfset ArrayAppend(local.preds, 'mcz:totalTaxonClasses "' & arguments.model.totalTaxonClasses & '"^^xsd:integer')>
-	<cfset ArrayAppend(local.preds, 'mcz:totalCountries "' & arguments.model.totalCountries & '"^^xsd:integer')>
-	<cfset ArrayAppend(local.preds, 'mcz:citationScopeNote "' & escapeForTurtleLiteral(arguments.model.citationScopeNote) & '"')>
+	<cfset ArrayAppend(local.preds, 'dcterms:type "' & escapeForTurtleLiteral(arguments.model.typeMapping.typeLabel) & '"')>
+	<cfset ArrayAppend(local.preds, 'schema:count "' & arguments.model.objectCount & '"^^xsd:integer')>
+	<cfset ArrayAppend(local.preds, 'schema:additionalProperty [ a schema:PropertyValue ; schema:propertyID "totalTaxonClasses" ; schema:value "' & arguments.model.totalTaxonClasses & '"^^xsd:integer ]')>
+	<cfset ArrayAppend(local.preds, 'schema:additionalProperty [ a schema:PropertyValue ; schema:propertyID "totalCountries" ; schema:value "' & arguments.model.totalCountries & '"^^xsd:integer ]')>
+	<cfset ArrayAppend(local.preds, 'skos:scopeNote "' & escapeForTurtleLiteral(arguments.model.citationScopeNote) & '"')>
 
 	<cfloop array="#arguments.model.agents#" index="local.agent">
 		<cfset local.node = '[ a prov:Association ; prov:agent <' & local.agent.uri & '> ; schema:name "' & escapeForTurtleLiteral(local.agent.agentName) & '" ; schema:roleName "' & escapeForTurtleLiteral(local.agent.roleLabel) & '"' >
@@ -435,6 +443,7 @@ limitations under the License.
 	xmlns:dcterms="http://purl.org/dc/terms/"
 	xmlns:prov="http://www.w3.org/ns/prov##"
 	xmlns:schema="https://schema.org/"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core##"
 	xmlns:ltc="https://ltc.tdwg.org/terms/"
 	xmlns:mcz="#xmlFormat(Application.serverRootUrl)#/vocab/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema##">
@@ -444,11 +453,21 @@ limitations under the License.
 <cfif len(arguments.model.description) GT 0>
 		<dcterms:description>#xmlFormat(arguments.model.description)#</dcterms:description>
 </cfif>
-		<dcterms:type rdf:resource="#xmlFormat(arguments.model.typeMapping.typeUri)#" />
-		<mcz:objectCount rdf:datatype="xsd:integer">#arguments.model.objectCount#</mcz:objectCount>
-		<mcz:totalTaxonClasses rdf:datatype="xsd:integer">#arguments.model.totalTaxonClasses#</mcz:totalTaxonClasses>
-		<mcz:totalCountries rdf:datatype="xsd:integer">#arguments.model.totalCountries#</mcz:totalCountries>
-		<mcz:citationScopeNote>#xmlFormat(arguments.model.citationScopeNote)#</mcz:citationScopeNote>
+		<dcterms:type>#xmlFormat(arguments.model.typeMapping.typeLabel)#</dcterms:type>
+		<schema:count rdf:datatype="xsd:integer">#arguments.model.objectCount#</schema:count>
+		<schema:additionalProperty>
+			<schema:PropertyValue>
+				<schema:propertyID>totalTaxonClasses</schema:propertyID>
+				<schema:value rdf:datatype="xsd:integer">#arguments.model.totalTaxonClasses#</schema:value>
+			</schema:PropertyValue>
+		</schema:additionalProperty>
+		<schema:additionalProperty>
+			<schema:PropertyValue>
+				<schema:propertyID>totalCountries</schema:propertyID>
+				<schema:value rdf:datatype="xsd:integer">#arguments.model.totalCountries#</schema:value>
+			</schema:PropertyValue>
+		</schema:additionalProperty>
+		<skos:scopeNote>#xmlFormat(arguments.model.citationScopeNote)#</skos:scopeNote>
 <cfloop array="#arguments.model.agents#" index="local.agent">
 		<mcz:associatedAgent>
 			<prov:Association>
