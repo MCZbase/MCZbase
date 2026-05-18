@@ -91,9 +91,8 @@ limitations under the License.
 
 	<cfset local.model = StructNew()>
 	<cfset local.model.agents = ArrayNew(1)>
-	<cfset local.model.taxonCoverage = ArrayNew(1)>
-	<cfset local.model.geogCoverage = ArrayNew(1)>
-	<cfset local.model.oceanCoverage = ArrayNew(1)>
+	<cfset local.model.taxonomicContexts = ArrayNew(1)>
+	<cfset local.model.geographicContexts = ArrayNew(1)>
 	<cfset local.model.citations = ArrayNew(1)>
 
 	<cfquery name="local.namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -163,10 +162,10 @@ limitations under the License.
 		) WHERE rownum <= 25
 	</cfquery>
 	<cfloop query="local.taxonCoverageQuery">
-		<cfset local.summary = StructNew()>
-		<cfset local.summary.label = local.taxonCoverageQuery.label>
-		<cfset local.summary.objectCount = val(local.taxonCoverageQuery.ct)>
-		<cfset ArrayAppend(local.model.taxonCoverage, local.summary)>
+		<cfset local.context = StructNew()>
+		<cfset local.context.className = local.taxonCoverageQuery.label>
+		<cfset local.context.objectCount = val(local.taxonCoverageQuery.ct)>
+		<cfset ArrayAppend(local.model.taxonomicContexts, local.context)>
 	</cfloop>
 
 	<cfquery name="local.totalCountries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -190,10 +189,31 @@ limitations under the License.
 		) WHERE rownum <= 25
 	</cfquery>
 	<cfloop query="local.geogCoverageQuery">
-		<cfset local.summary = StructNew()>
-		<cfset local.summary.label = local.geogCoverageQuery.label>
-		<cfset local.summary.objectCount = val(local.geogCoverageQuery.ct)>
-		<cfset ArrayAppend(local.model.geogCoverage, local.summary)>
+		<cfset local.context = StructNew()>
+		<cfset local.context.country = local.geogCoverageQuery.label>
+		<cfset local.context.objectCount = val(local.geogCoverageQuery.ct)>
+		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
+	</cfloop>
+
+	<cfquery name="local.stateCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT * FROM (
+			SELECT flat.country as country, flat.state_prov as state_province, count(distinct flat.collection_object_id) as ct
+			FROM underscore_relation
+				JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat ON underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+				AND flat.state_prov IS NOT NULL
+			GROUP BY flat.country, flat.state_prov
+			ORDER BY count(distinct flat.collection_object_id) DESC, flat.country ASC, flat.state_prov ASC
+		) WHERE rownum <= 25
+	</cfquery>
+	<cfloop query="local.stateCoverageQuery">
+		<cfset local.context = StructNew()>
+		<cfif len(local.stateCoverageQuery.country) GT 0>
+			<cfset local.context.country = local.stateCoverageQuery.country>
+		</cfif>
+		<cfset local.context.stateProvince = local.stateCoverageQuery.state_province>
+		<cfset local.context.objectCount = val(local.stateCoverageQuery.ct)>
+		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
 	<cfquery name="local.oceanCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -209,10 +229,10 @@ limitations under the License.
 		) WHERE rownum <= 25
 	</cfquery>
 	<cfloop query="local.oceanCoverageQuery">
-		<cfset local.summary = StructNew()>
-		<cfset local.summary.label = local.oceanCoverageQuery.label>
-		<cfset local.summary.objectCount = val(local.oceanCoverageQuery.ct)>
-		<cfset ArrayAppend(local.model.oceanCoverage, local.summary)>
+		<cfset local.context = StructNew()>
+		<cfset local.context.waterBody = local.oceanCoverageQuery.label>
+		<cfset local.context.objectCount = val(local.oceanCoverageQuery.ct)>
+		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
 	<cfquery name="local.directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -279,31 +299,33 @@ limitations under the License.
 		<cfset ArrayAppend(local.doc["mcz:associatedAgent"], local.agentStruct)>
 	</cfloop>
 
-	<cfset local.doc["mcz:taxonomicCoverage"] = ArrayNew(1)>
-	<cfloop array="#arguments.model.taxonCoverage#" index="local.summary">
-		<cfset local.summaryStruct = StructNew()>
-		<cfset local.summaryStruct["@type"] = "mcz:TaxonomicCoverageSummary">
-		<cfset local.summaryStruct["rdfs:label"] = local.summary.label>
-		<cfset local.summaryStruct["mcz:objectCount"] = local.summary.objectCount>
-		<cfset ArrayAppend(local.doc["mcz:taxonomicCoverage"], local.summaryStruct)>
+	<cfset local.doc["ltc:taxonomicCoverage"] = ArrayNew(1)>
+	<cfloop array="#arguments.model.taxonomicContexts#" index="local.context">
+		<cfset local.contextStruct = StructNew()>
+		<cfset local.contextStruct["@type"] = "ltc:TaxonomicContext">
+		<cfset local.contextStruct["ltc:class"] = local.context.className>
+		<cfset local.contextStruct["schema:count"] = local.context.objectCount>
+		<cfset ArrayAppend(local.doc["ltc:taxonomicCoverage"], local.contextStruct)>
 	</cfloop>
 
-	<cfset local.doc["mcz:geographicCoverage"] = ArrayNew(1)>
-	<cfloop array="#arguments.model.geogCoverage#" index="local.summary">
-		<cfset local.summaryStruct = StructNew()>
-		<cfset local.summaryStruct["@type"] = "mcz:GeographicCoverageSummary">
-		<cfset local.summaryStruct["rdfs:label"] = local.summary.label>
-		<cfset local.summaryStruct["mcz:objectCount"] = local.summary.objectCount>
-		<cfset ArrayAppend(local.doc["mcz:geographicCoverage"], local.summaryStruct)>
-	</cfloop>
-
-	<cfset local.doc["mcz:oceanCoverage"] = ArrayNew(1)>
-	<cfloop array="#arguments.model.oceanCoverage#" index="local.summary">
-		<cfset local.summaryStruct = StructNew()>
-		<cfset local.summaryStruct["@type"] = "mcz:OceanCoverageSummary">
-		<cfset local.summaryStruct["rdfs:label"] = local.summary.label>
-		<cfset local.summaryStruct["mcz:objectCount"] = local.summary.objectCount>
-		<cfset ArrayAppend(local.doc["mcz:oceanCoverage"], local.summaryStruct)>
+	<cfset local.doc["ltc:geographicCoverage"] = ArrayNew(1)>
+	<cfloop array="#arguments.model.geographicContexts#" index="local.context">
+		<cfset local.contextStruct = StructNew()>
+		<cfset local.contextStruct["@type"] = "ltc:GeographicContext">
+		<cfif structKeyExists(local.context, "country") AND len(local.context.country) GT 0>
+			<cfset local.contextStruct["ltc:country"] = local.context.country>
+		</cfif>
+		<cfif structKeyExists(local.context, "countryCode") AND len(local.context.countryCode) GT 0>
+			<cfset local.contextStruct["ltc:countryCode"] = local.context.countryCode>
+		</cfif>
+		<cfif structKeyExists(local.context, "stateProvince") AND len(local.context.stateProvince) GT 0>
+			<cfset local.contextStruct["ltc:stateProvince"] = local.context.stateProvince>
+		</cfif>
+		<cfif structKeyExists(local.context, "waterBody") AND len(local.context.waterBody) GT 0>
+			<cfset local.contextStruct["ltc:waterBody"] = local.context.waterBody>
+		</cfif>
+		<cfset local.contextStruct["schema:count"] = local.context.objectCount>
+		<cfset ArrayAppend(local.doc["ltc:geographicCoverage"], local.contextStruct)>
 	</cfloop>
 
 	<cfset local.doc["dcterms:bibliographicCitation"] = ArrayNew(1)>
@@ -360,17 +382,28 @@ limitations under the License.
 		<cfset ArrayAppend(local.preds, "mcz:associatedAgent " & local.node)>
 	</cfloop>
 
-	<cfloop array="#arguments.model.taxonCoverage#" index="local.summary">
-		<cfset local.node = '[ a mcz:TaxonomicCoverageSummary ; rdfs:label "' & escapeForTurtleLiteral(local.summary.label) & '" ; mcz:objectCount "' & local.summary.objectCount & '"^^xsd:integer ]'>
-		<cfset ArrayAppend(local.preds, "mcz:taxonomicCoverage " & local.node)>
+	<cfloop array="#arguments.model.taxonomicContexts#" index="local.context">
+		<cfset local.node = '[ a ltc:TaxonomicContext ; ltc:class "' & escapeForTurtleLiteral(local.context.className) & '" ; schema:count "' & local.context.objectCount & '"^^xsd:integer ]'>
+		<cfset ArrayAppend(local.preds, "ltc:taxonomicCoverage " & local.node)>
 	</cfloop>
-	<cfloop array="#arguments.model.geogCoverage#" index="local.summary">
-		<cfset local.node = '[ a mcz:GeographicCoverageSummary ; rdfs:label "' & escapeForTurtleLiteral(local.summary.label) & '" ; mcz:objectCount "' & local.summary.objectCount & '"^^xsd:integer ]'>
-		<cfset ArrayAppend(local.preds, "mcz:geographicCoverage " & local.node)>
-	</cfloop>
-	<cfloop array="#arguments.model.oceanCoverage#" index="local.summary">
-		<cfset local.node = '[ a mcz:OceanCoverageSummary ; rdfs:label "' & escapeForTurtleLiteral(local.summary.label) & '" ; mcz:objectCount "' & local.summary.objectCount & '"^^xsd:integer ]'>
-		<cfset ArrayAppend(local.preds, "mcz:oceanCoverage " & local.node)>
+	<cfloop array="#arguments.model.geographicContexts#" index="local.context">
+		<cfset local.contextPredicates = ArrayNew(1)>
+		<cfset ArrayAppend(local.contextPredicates, "a ltc:GeographicContext")>
+		<cfif structKeyExists(local.context, "country") AND len(local.context.country) GT 0>
+			<cfset ArrayAppend(local.contextPredicates, 'ltc:country "' & escapeForTurtleLiteral(local.context.country) & '"')>
+		</cfif>
+		<cfif structKeyExists(local.context, "countryCode") AND len(local.context.countryCode) GT 0>
+			<cfset ArrayAppend(local.contextPredicates, 'ltc:countryCode "' & escapeForTurtleLiteral(local.context.countryCode) & '"')>
+		</cfif>
+		<cfif structKeyExists(local.context, "stateProvince") AND len(local.context.stateProvince) GT 0>
+			<cfset ArrayAppend(local.contextPredicates, 'ltc:stateProvince "' & escapeForTurtleLiteral(local.context.stateProvince) & '"')>
+		</cfif>
+		<cfif structKeyExists(local.context, "waterBody") AND len(local.context.waterBody) GT 0>
+			<cfset ArrayAppend(local.contextPredicates, 'ltc:waterBody "' & escapeForTurtleLiteral(local.context.waterBody) & '"')>
+		</cfif>
+		<cfset ArrayAppend(local.contextPredicates, 'schema:count "' & local.context.objectCount & '"^^xsd:integer')>
+		<cfset local.node = "[ " & ArrayToList(local.contextPredicates, " ; ") & " ]">
+		<cfset ArrayAppend(local.preds, "ltc:geographicCoverage " & local.node)>
 	</cfloop>
 	<cfloop array="#arguments.model.citations#" index="local.citation">
 		<cfset local.node = '[ rdf:value "' & escapeForTurtleLiteral(local.citation.shortCitation) & '" ; schema:additionalType "' & escapeForTurtleLiteral(local.citation.citationType) & '" ; dcterms:identifier <' & local.citation.uri & '>'>
@@ -435,29 +468,32 @@ limitations under the License.
 			</prov:Association>
 		</mcz:associatedAgent>
 </cfloop>
-<cfloop array="#arguments.model.taxonCoverage#" index="local.summary">
-		<mcz:taxonomicCoverage>
-			<mcz:TaxonomicCoverageSummary>
-				<rdfs:label>#xmlFormat(local.summary.label)#</rdfs:label>
-				<mcz:objectCount rdf:datatype="xsd:integer">#local.summary.objectCount#</mcz:objectCount>
-			</mcz:TaxonomicCoverageSummary>
-		</mcz:taxonomicCoverage>
+<cfloop array="#arguments.model.taxonomicContexts#" index="local.context">
+		<ltc:taxonomicCoverage>
+			<ltc:TaxonomicContext>
+				<ltc:class>#xmlFormat(local.context.className)#</ltc:class>
+				<schema:count rdf:datatype="xsd:integer">#local.context.objectCount#</schema:count>
+			</ltc:TaxonomicContext>
+		</ltc:taxonomicCoverage>
 </cfloop>
-<cfloop array="#arguments.model.geogCoverage#" index="local.summary">
-		<mcz:geographicCoverage>
-			<mcz:GeographicCoverageSummary>
-				<rdfs:label>#xmlFormat(local.summary.label)#</rdfs:label>
-				<mcz:objectCount rdf:datatype="xsd:integer">#local.summary.objectCount#</mcz:objectCount>
-			</mcz:GeographicCoverageSummary>
-		</mcz:geographicCoverage>
-</cfloop>
-<cfloop array="#arguments.model.oceanCoverage#" index="local.summary">
-		<mcz:oceanCoverage>
-			<mcz:OceanCoverageSummary>
-				<rdfs:label>#xmlFormat(local.summary.label)#</rdfs:label>
-				<mcz:objectCount rdf:datatype="xsd:integer">#local.summary.objectCount#</mcz:objectCount>
-			</mcz:OceanCoverageSummary>
-		</mcz:oceanCoverage>
+<cfloop array="#arguments.model.geographicContexts#" index="local.context">
+		<ltc:geographicCoverage>
+			<ltc:GeographicContext>
+<cfif structKeyExists(local.context, "country") AND len(local.context.country) GT 0>
+				<ltc:country>#xmlFormat(local.context.country)#</ltc:country>
+</cfif>
+<cfif structKeyExists(local.context, "countryCode") AND len(local.context.countryCode) GT 0>
+				<ltc:countryCode>#xmlFormat(local.context.countryCode)#</ltc:countryCode>
+</cfif>
+<cfif structKeyExists(local.context, "stateProvince") AND len(local.context.stateProvince) GT 0>
+				<ltc:stateProvince>#xmlFormat(local.context.stateProvince)#</ltc:stateProvince>
+</cfif>
+<cfif structKeyExists(local.context, "waterBody") AND len(local.context.waterBody) GT 0>
+				<ltc:waterBody>#xmlFormat(local.context.waterBody)#</ltc:waterBody>
+</cfif>
+				<schema:count rdf:datatype="xsd:integer">#local.context.objectCount#</schema:count>
+			</ltc:GeographicContext>
+		</ltc:geographicCoverage>
 </cfloop>
 <cfloop array="#arguments.model.citations#" index="local.citation">
 		<dcterms:bibliographicCitation>
