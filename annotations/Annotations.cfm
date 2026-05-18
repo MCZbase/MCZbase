@@ -221,6 +221,8 @@ limitations under the License.
 						annotations.reviewer_agent_id,
 						preferred_agent_name.agent_name reviewer,
 						annotations.reviewed_fg,
+						annotations.state,
+						annotations.resolution,
 						annotations.reviewer_comment,
 						annotations.motivation,
 						annotations.mask_annotation_fg,
@@ -310,7 +312,7 @@ limitations under the License.
 							<cfquery name="itemAnno" dbtype="query">
 								SELECT
 									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
 									reviewer_comment, mask_annotation_fg
 								FROM getSpecimenAnnotations 
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(collection_object_id)#">
@@ -325,6 +327,8 @@ limitations under the License.
 									annotate_date="#ANNOTATE_DATE#"
 									motivation="#motivation#"
 									reviewed_fg="#reviewed_fg#"
+									state="#state#"
+									resolution="#resolution#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#"
@@ -354,6 +358,8 @@ limitations under the License.
 						annotations.reviewer_agent_id,
 						preferred_agent_name.agent_name reviewer,
 						annotations.reviewed_fg,
+						annotations.state,
+						annotations.resolution,
 						annotations.reviewer_comment,
 						annotations.motivation,
 						annotations.mask_annotation_fg,
@@ -403,7 +409,7 @@ limitations under the License.
 							<cfquery name="itemAnno" dbtype="query">
 								SELECT
 									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
 									reviewer_comment, mask_annotation_fg
 								FROM getTaxonAnnotations 
 								WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(taxon_name_id)#">
@@ -418,6 +424,8 @@ limitations under the License.
 									annotate_date="#ANNOTATE_DATE#"
 									motivation="#motivation#"
 									reviewed_fg="#reviewed_fg#"
+									state="#state#"
+									resolution="#resolution#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#"
@@ -445,6 +453,8 @@ limitations under the License.
 						annotations.reviewer_agent_id,
 						preferred_agent_name.agent_name reviewer,
 						annotations.reviewed_fg,
+						annotations.state,
+						annotations.resolution,
 						annotations.reviewer_comment,
 						annotations.motivation,
 						annotations.mask_annotation_fg,
@@ -488,7 +498,7 @@ limitations under the License.
 							<cfquery name="itemAnno" dbtype="query">
 								SELECT
 									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
 									reviewer_comment, mask_annotation_fg
 								FROM getPubAnnotations 
 								WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(publication_id)#">
@@ -503,6 +513,8 @@ limitations under the License.
 									annotate_date="#ANNOTATE_DATE#"
 									motivation="#motivation#"
 									reviewed_fg="#reviewed_fg#"
+									state="#state#"
+									resolution="#resolution#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#"
@@ -530,6 +542,8 @@ limitations under the License.
 						annotations.reviewer_agent_id,
 						preferred_agent_name.agent_name reviewer,
 						annotations.reviewed_fg,
+						annotations.state,
+						annotations.resolution,
 						annotations.reviewer_comment,
 						annotations.motivation,
 						annotations.mask_annotation_fg,
@@ -573,7 +587,7 @@ limitations under the License.
 							<cfquery name="itemAnno" dbtype="query">
 								SELECT
 									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, reviewer,
+									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
 									reviewer_comment, mask_annotation_fg
 								FROM getProjectAnnotations 
 								WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(project_id)#">
@@ -588,6 +602,8 @@ limitations under the License.
 									annotate_date="#ANNOTATE_DATE#"
 									motivation="#motivation#"
 									reviewed_fg="#reviewed_fg#"
+									state="#state#"
+									resolution="#resolution#"
 									reviewer="#reviewer#"
 									reviewer_comment="#reviewer_comment#"
 									mask_annotation_fg="#mask_annotation_fg#"

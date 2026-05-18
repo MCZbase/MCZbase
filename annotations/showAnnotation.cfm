@@ -409,6 +409,8 @@ limitations under the License.
 								annotate_date="#rootAnn.annotate_date#"
 								motivation="#rootAnn.motivation#"
 								reviewed_fg="#rootAnn.reviewed_fg#"
+								state="#rootAnn.state#"
+								resolution="#rootAnn.resolution#"
 								reviewer="#rootAnn.reviewer_name#"
 								reviewer_comment="#rootAnn.reviewer_comment#"
 								mask_annotation_fg="#rootAnn.mask_annotation_fg#"
