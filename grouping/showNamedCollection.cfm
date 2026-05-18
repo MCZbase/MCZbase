@@ -33,8 +33,12 @@ limitations under the License.
 			</cfif>
 	</cfquery>
 	<cfif checkGroup.recordcount is 1>
+		<cfset redirectUrl = "/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
+		<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
+			<cfset redirectUrl = "#redirectUrl#?format=#EncodeForURL(trim(url.format))#">
+		</cfif>
 		<cfheader statuscode="301" statustext="Moved permanently">
-		<cfheader name="Location" value="/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
+		<cfheader name="Location" value="#redirectUrl#">
 		<cfabort>
 	</cfif>
 </cfif>
@@ -46,6 +50,33 @@ limitations under the License.
 	<cfset underscore_collection_id = target_underscore_collection_id>
 <cfelseif isDefined("form.underscore_collection_id") AND len(form.underscore_collection_id) GT 0>
 	<cfset underscore_collection_id = form.underscore_collection_id>
+</cfif>
+<cfinclude template="/grouping/component/public.cfc" runOnce="true">
+<cfset requestedFormat = "">
+<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
+	<cfset requestedFormat = trim(url.format)>
+<cfelseif isDefined("form.format") AND len(trim(form.format)) GT 0>
+	<cfset requestedFormat = trim(form.format)>
+</cfif>
+<cftry>
+	<cfset acceptHeader = GetHttpRequestData().Headers["accept"]>
+<cfcatch>
+	<cfset acceptHeader = "">
+</cfcatch>
+</cftry>
+<cfset exportFormat = resolveNamedGroupExportFormat(format=requestedFormat, acceptHeader=acceptHeader)>
+<cfif len(exportFormat) GT 0>
+	<cfif NOT isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
+		<cfthrow message="No named group specified to show.">
+	</cfif>
+	<cfset namedGroupExport = getNamedGroupLatimerCoreExport(
+		underscore_collection_id=underscore_collection_id,
+		oneOfUs=oneOfUs,
+		format=exportFormat
+	)>
+	<cfheader name="Content-Type" value="#namedGroupExport.contentType#">
+	<cfoutput>#namedGroupExport.body#</cfoutput>
+	<cfabort>
 </cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
 	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTitleGroup_result" timeout="#Application.short_timeout#">
