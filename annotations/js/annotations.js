@@ -49,7 +49,7 @@ jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	return openEditAnnotationDialog(annotationId, callback);
 });
 
-/** Attach guidance to default resolution to NOTABUG when motivation is commenting.
+/** Set default root resolution to NOTABUG when motivation is commenting.
  * Does not overwrite an already-selected resolution.
  * @param motivationFieldId id of motivation select.
  * @param resolutionFieldId id of root resolution select.
