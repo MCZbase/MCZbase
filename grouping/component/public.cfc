@@ -184,6 +184,14 @@ limitations under the License.
 				JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat ON underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
 				AND flat.country IS NOT NULL
+				AND NOT EXISTS (
+					SELECT 1
+					FROM underscore_relation underscore_relation_2
+						JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat2 ON underscore_relation_2.collection_object_id = flat2.collection_object_id
+					WHERE underscore_relation_2.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+						AND flat2.country = flat.country
+						AND flat2.state_prov IS NOT NULL
+				)
 			GROUP BY flat.country
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.country ASC
 		) WHERE rownum <= 25
@@ -474,13 +482,13 @@ limitations under the License.
 		<ltc:geographicCoverage>
 			<ltc:GeographicContext>
 <cfif structKeyExists(local.context, "country") AND len(local.context.country) GT 0>
-				<ltc:country>#xmlFormat(local.context.country)#</ltc:country>
+					<ltc:country>#xmlFormat(local.context.country)#</ltc:country>
 </cfif>
 <cfif structKeyExists(local.context, "stateProvince") AND len(local.context.stateProvince) GT 0>
-				<ltc:stateProvince>#xmlFormat(local.context.stateProvince)#</ltc:stateProvince>
+					<ltc:stateProvince>#xmlFormat(local.context.stateProvince)#</ltc:stateProvince>
 </cfif>
 <cfif structKeyExists(local.context, "waterBody") AND len(local.context.waterBody) GT 0>
-				<ltc:waterBody>#xmlFormat(local.context.waterBody)#</ltc:waterBody>
+					<ltc:waterBody>#xmlFormat(local.context.waterBody)#</ltc:waterBody>
 </cfif>
 				<schema:count rdf:datatype="xsd:integer">#local.context.objectCount#</schema:count>
 			</ltc:GeographicContext>
