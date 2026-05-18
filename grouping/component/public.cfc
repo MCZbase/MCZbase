@@ -280,7 +280,11 @@ limitations under the License.
 	<cfif len(arguments.model.description) GT 0>
 		<cfset local.doc["dcterms:description"] = arguments.model.description>
 	</cfif>
-	<cfset local.doc["dcterms:type"] = arguments.model.typeMapping.typeLabel>
+	<cfset local.typeStruct = StructNew()>
+	<cfset local.typeStruct["@id"] = arguments.model.typeMapping.typeUri>
+	<cfset local.typeStruct["rdfs:label"] = arguments.model.typeMapping.typeLabel>
+	<cfset local.doc["dcterms:type"] = local.typeStruct>
+	<cfset local.doc["schema:additionalType"] = arguments.model.typeMapping.typeLabel>
 	<cfset local.doc["schema:count"] = arguments.model.objectCount>
 	<cfset local.doc["schema:additionalProperty"] = ArrayNew(1)>
 	<cfset local.totalTaxonClassesProp = StructNew()>
@@ -371,7 +375,8 @@ limitations under the License.
 	<cfif len(arguments.model.description) GT 0>
 		<cfset ArrayAppend(local.preds, 'dcterms:description "' & escapeForTurtleLiteral(arguments.model.description) & '"')>
 	</cfif>
-	<cfset ArrayAppend(local.preds, 'dcterms:type "' & escapeForTurtleLiteral(arguments.model.typeMapping.typeLabel) & '"')>
+	<cfset ArrayAppend(local.preds, "dcterms:type <" & arguments.model.typeMapping.typeUri & ">")>
+	<cfset ArrayAppend(local.preds, 'schema:additionalType "' & escapeForTurtleLiteral(arguments.model.typeMapping.typeLabel) & '"')>
 	<cfset ArrayAppend(local.preds, 'schema:count "' & arguments.model.objectCount & '"^^xsd:integer')>
 	<cfset ArrayAppend(local.preds, 'schema:additionalProperty [ a schema:PropertyValue ; schema:propertyID "totalTaxonClasses" ; schema:value "' & arguments.model.totalTaxonClasses & '"^^xsd:integer ]')>
 	<cfset ArrayAppend(local.preds, 'schema:additionalProperty [ a schema:PropertyValue ; schema:propertyID "totalCountries" ; schema:value "' & arguments.model.totalCountries & '"^^xsd:integer ]')>
@@ -453,7 +458,8 @@ limitations under the License.
 <cfif len(arguments.model.description) GT 0>
 		<dcterms:description>#xmlFormat(arguments.model.description)#</dcterms:description>
 </cfif>
-		<dcterms:type>#xmlFormat(arguments.model.typeMapping.typeLabel)#</dcterms:type>
+		<dcterms:type rdf:resource="#xmlFormat(arguments.model.typeMapping.typeUri)#" />
+		<schema:additionalType>#xmlFormat(arguments.model.typeMapping.typeLabel)#</schema:additionalType>
 		<schema:count rdf:datatype="xsd:integer">#arguments.model.objectCount#</schema:count>
 		<schema:additionalProperty>
 			<schema:PropertyValue>
@@ -533,7 +539,7 @@ limitations under the License.
 	<cfif len(local.mapping.typeLabel) EQ 0>
 		<cfset local.mapping.typeLabel = "unspecified">
 	</cfif>
-	<cfset local.mapping.typeUri = "#Application.serverRootUrl#/vocab/namedGroupType/#encodeForURL(local.mapping.typeLabel)#">
+	<cfset local.mapping.typeUri = "https://ltc.tdwg.org/terms/ObjectGroup">
 	<cfreturn local.mapping>
 </cffunction>
 
