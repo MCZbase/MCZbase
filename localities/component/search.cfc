@@ -3240,6 +3240,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
+	<cfargument name="collector_agent" type="string" required="no">
+   <cfargument name="collector_agent_id" type="string" required="no">
 
 	<!---
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
@@ -3359,6 +3361,13 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset arrayAppend(whereClauses,"upper(geog_auth_rec.higher_geog) like #addNamedQueryParam(sqlParams,'higher_geog_like','%' & ucase(arguments.higher_geog) & '%','CF_SQL_VARCHAR')#")>
 				</cfif>
 			</cfif>
+		</cfif>
+		<cfif ucase(#session.flatTableName#) EQ 'FLAT'><cfset flatTable="flat"<cfelse><cfset flatTable="filtered_flat"</cfif>
+		<cfif structKeyExists(arguments,"collector_agent") and len(arguments.collector_agent) gt 0>
+			<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id IN (SELECT collecting_event_id FROM collector LEFT JOIN #flatTable# flatTableName ON collector.collection_object_id=flatTableName.collection_object_id LEFT JOIN agent_name ON collector.agent_id = agent_name.agent_id WHERE collector_role = 'c' AND upper(agent_name.agent_name) like #addNamedQueryParam(sqlParams,'collector_agent','%' & ucase(arguments.collector_agent) & '%','CF_SQL_VARCHAR')#)")>
+		</cfif>
+		<cfif structKeyExists(arguments,"collector_agent_id") and len(arguments.collector_agent_id) gt 0>
+			<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id IN (SELECT collecting_event_id FROM collector LEFT JOIN #flatTable# flatTableName ON collector.collection_object_id=flatTableName.collection_object_id WHERE collector_role = 'c' AND agent_id = #addNamedQueryParam(sqlParams,'collector_agent_id',arguments.collector_agent_id,'CF_SQL_DECIMAL')#)")>
 		</cfif>
 		<cfif structKeyExists(arguments,"locality_id") and len(arguments.locality_id) gt 0>
 			<cfif Find(",",arguments.locality_id) GT 0>
