@@ -576,18 +576,25 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 	if (motivationField) { postData.motivation = motivationField.value; }
 	if (maskField) { postData.mask_annotation_fg = maskField.value; }
 	if (rootAnnotationId && String(rootAnnotationId).length > 0) {
-		postData.root_annotation_id = rootAnnotationId;
+		var hasRootUpdate = false;
 		if (rootReviewedField && rootReviewedField.value.length > 0) {
 			postData.root_reviewed_fg = rootReviewedField.value;
+			hasRootUpdate = true;
 		}
 		if (rootMaskField && rootMaskField.value.length > 0) {
 			postData.root_mask_annotation_fg = rootMaskField.value;
+			hasRootUpdate = true;
 		}
 		if (rootStateField && rootStateField.value.length > 0) {
 			postData.root_state = rootStateField.value;
+			hasRootUpdate = true;
 		}
 		if (rootResolutionField && rootResolutionField.value.length > 0) {
 			postData.root_resolution = rootResolutionField.value;
+			hasRootUpdate = true;
+		}
+		if (hasRootUpdate) {
+			postData.root_annotation_id = rootAnnotationId;
 		}
 	}
 	jQuery.ajax({

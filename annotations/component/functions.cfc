@@ -1486,31 +1486,19 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfelse>
 						<cfset rootAnnotationId = editAnn.target_primary_key>
 					</cfif>
-					<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT atb.body_value, a.state, a.resolution
-						FROM annotations a
-						LEFT OUTER JOIN (
-							SELECT annotation_id, body_value,
-								row_number() over (partition by annotation_id order by created_date) rn
-							FROM annotation_textualbody
-						) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
-						WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
-					</cfquery>
-					<cfif rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.body_value) GT 0>
-						<cfset rootAnnotationBody = rootAnnQ.body_value>
-					</cfif>
 				</cfif>
-				<cfif NOT isResponseAnnotation>
-					<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT atb.body_value, a.state, a.resolution
-						FROM annotations a
-						LEFT OUTER JOIN (
-							SELECT annotation_id, body_value,
-								row_number() over (partition by annotation_id order by created_date) rn
-							FROM annotation_textualbody
-						) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
-						WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
-					</cfquery>
+				<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT atb.body_value, a.state, a.resolution
+					FROM annotations a
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+							row_number() over (partition by annotation_id order by created_date) rn
+						FROM annotation_textualbody
+					) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
+				</cfquery>
+				<cfif rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.body_value) GT 0>
+					<cfset rootAnnotationBody = rootAnnQ.body_value>
 				</cfif>
 
 				<!--- Load context annotations: root and its children --->
