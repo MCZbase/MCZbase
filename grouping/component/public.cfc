@@ -195,7 +195,7 @@ limitations under the License.
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
-	<cfquery name="local.stateCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="local.stateCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 		SELECT * FROM (
 			SELECT flat.country, flat.state_prov, count(distinct flat.collection_object_id) as ct
 			FROM underscore_relation
@@ -315,9 +315,6 @@ limitations under the License.
 		<cfif structKeyExists(local.context, "country") AND len(local.context.country) GT 0>
 			<cfset local.contextStruct["ltc:country"] = local.context.country>
 		</cfif>
-		<cfif structKeyExists(local.context, "countryCode") AND len(local.context.countryCode) GT 0>
-			<cfset local.contextStruct["ltc:countryCode"] = local.context.countryCode>
-		</cfif>
 		<cfif structKeyExists(local.context, "stateProvince") AND len(local.context.stateProvince) GT 0>
 			<cfset local.contextStruct["ltc:stateProvince"] = local.context.stateProvince>
 		</cfif>
@@ -391,9 +388,6 @@ limitations under the License.
 		<cfset ArrayAppend(local.contextPredicates, "a ltc:GeographicContext")>
 		<cfif structKeyExists(local.context, "country") AND len(local.context.country) GT 0>
 			<cfset ArrayAppend(local.contextPredicates, 'ltc:country "' & escapeForTurtleLiteral(local.context.country) & '"')>
-		</cfif>
-		<cfif structKeyExists(local.context, "countryCode") AND len(local.context.countryCode) GT 0>
-			<cfset ArrayAppend(local.contextPredicates, 'ltc:countryCode "' & escapeForTurtleLiteral(local.context.countryCode) & '"')>
 		</cfif>
 		<cfif structKeyExists(local.context, "stateProvince") AND len(local.context.stateProvince) GT 0>
 			<cfset ArrayAppend(local.contextPredicates, 'ltc:stateProvince "' & escapeForTurtleLiteral(local.context.stateProvince) & '"')>
@@ -481,9 +475,6 @@ limitations under the License.
 			<ltc:GeographicContext>
 <cfif structKeyExists(local.context, "country") AND len(local.context.country) GT 0>
 				<ltc:country>#xmlFormat(local.context.country)#</ltc:country>
-</cfif>
-<cfif structKeyExists(local.context, "countryCode") AND len(local.context.countryCode) GT 0>
-				<ltc:countryCode>#xmlFormat(local.context.countryCode)#</ltc:countryCode>
 </cfif>
 <cfif structKeyExists(local.context, "stateProvince") AND len(local.context.stateProvince) GT 0>
 				<ltc:stateProvince>#xmlFormat(local.context.stateProvince)#</ltc:stateProvince>
