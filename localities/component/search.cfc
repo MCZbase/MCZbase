@@ -3148,7 +3148,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @param any_geography, higher_geog, geog_auth_rec_id, continent_ocean, ocean_region, ocean_subregion, sea, island, island_group, feature, water_feature, country, state_prov, county, highergeographyid, highergeographyid_guid_type, source_authority, return_wkt locality and geography filters.
 @param locality_id, spec_locality, locality_remarks, orig_elev_units, minElevOper, minimum_elevation, minimum_elevation_m, maxElevOper, maximum_elevation, maximum_elevation_m, depth_units, minDepthOper, min_depth, min_depth_m, maxDepthOper, max_depth, max_depth_m elevation/depth filters.
 @param accentInsenstive, collection_id, collnOper, collnEvOper, include_counts, township, range, township_direction, range_direction, section, section_part grid and collection filters.
-@param dec_lat, dec_long, datum, max_error_distance, georef_updated_date, georef_by, geolocate_precision, geolocate_score, geolocate_score2, gs_comparator, coordinateDeterminer, georeference_verified_by_id, georeference_verified_by georeference filters.
+@param dec_lat, dec_long, datum, max_error_distance, georef_updated_date, georef_by, geolocate_precision, geolocate_score, geolocate_score2, gs_comparator, coordinateDeterminer, georeference_determined_by_id, georeference_verified_by_id, georeference_verified_by georeference filters.
 @param verbatim_locality, verbatimdepth, verbatimelevation, verbatim_date, collecting_source, collecting_method, habitat_desc, coll_event_remarks, began_date, ended_date, verbatimCoordinates, verbatimsrs, verbatimcoordinatesystem, verbatimlatitude, verbatimlongitude, startdayofyear, enddayofyear, collectingtime, fish_field_number, verbatim_collectors, verbatim_field_numbers, verbatim_habitat collecting event filters.
 @param date_determined_by_agent_id, date_determined_by_agent, valid_distribution_fg, show_unused additional search filters.
 @return json containing data about collecting events matching specified search criteria.
@@ -3215,6 +3215,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="geolocate_score2" type="string" required="no">
 	<cfargument name="gs_comparator" type="string" required="no">
 	<cfargument name="coordinateDeterminer" type="string" required="no">
+	<cfargument name="georeference_determined_by_id" type="string" required="no">
 	<cfargument name="georeference_verified_by_id" type="string" required="no">
 	<cfargument name="georeference_verified_by" type="string" required="no">
 	<cfargument name="findNoGeoRef" type="string" required="no">
@@ -3532,7 +3533,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfelseif structKeyExists(arguments,"georeference_verified_by") and len(arguments.georeference_verified_by) gt 0>
 			<cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"georef_verified_agent.agent_name",arguments.georeference_verified_by,"georeference_verified_by")>
 		</cfif>
-		<cfif structKeyExists(arguments,"coordinateDeterminer") and len(arguments.coordinateDeterminer) gt 0>
+		<cfif structKeyExists(arguments,"georeference_determined_by_id") and len(arguments.georeference_determined_by_id) gt 0>
+			<cfset arrayAppend(whereClauses,"georef_determined_agent.agent_id = #addNamedQueryParam(sqlParams,'georeference_determined_by_id',arguments.georeference_determined_by_id,'CF_SQL_DECIMAL')#")>
+		<cfelseif structKeyExists(arguments,"coordinateDeterminer") and len(arguments.coordinateDeterminer) gt 0>
 			<cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"georef_determined_agent.agent_name",arguments.coordinateDeterminer,"coordinateDeterminer")>
 		</cfif>
 		<cfif structKeyExists(arguments,"NoGeorefBecause") AND len(arguments.NoGeorefBecause) gt 0>
