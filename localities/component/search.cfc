@@ -3213,6 +3213,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="coordinateDeterminer" type="string" required="no">
 	<cfargument name="georeference_verified_by_id" type="string" required="no">
 	<cfargument name="georeference_verified_by" type="string" required="no">
+   <cfargument name="collecting_event_id" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimdepth" type="string" required="no">
 	<cfargument name="verbatimelevation" type="string" required="no">
@@ -3239,6 +3240,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
+	<cfargument name="collector_agent" type="string" required="no">
+   <cfargument name="collector_agent_id" type="string" required="no">
 
 	<!---
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
@@ -3359,6 +3362,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 			</cfif>
 		</cfif>
+		<cfif ucase(#session.flatTableName#) EQ 'FLAT'><cfset flatTable="flat"><cfelse><cfset flatTable="filtered_flat"></cfif>
+		<cfif structKeyExists(arguments,"collector_agent_id") and len(arguments.collector_agent_id) gt 0>
+			<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id IN (SELECT collecting_event_id FROM collector LEFT JOIN #flatTable# flatTableName ON collector.collection_object_id=flatTableName.collection_object_id WHERE collector_role = 'c' AND agent_id = #addNamedQueryParam(sqlParams,'collector_agent_id',arguments.collector_agent_id,'CF_SQL_DECIMAL')#)")>
+		<cfelse>
+		 	<cfif structKeyExists(arguments,"collector_agent") and len(arguments.collector_agent) gt 0>
+				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id IN (SELECT collecting_event_id FROM collector LEFT JOIN #flatTable# flatTableName ON collector.collection_object_id=flatTableName.collection_object_id LEFT JOIN agent_name ON collector.agent_id = agent_name.agent_id WHERE collector_role = 'c' AND upper(agent_name.agent_name) like #addNamedQueryParam(sqlParams,'collector_agent','%' & ucase(arguments.collector_agent) & '%','CF_SQL_VARCHAR')#)")>
+			</cfif>
+		</cfif>
 		<cfif structKeyExists(arguments,"locality_id") and len(arguments.locality_id) gt 0>
 			<cfif Find(",",arguments.locality_id) GT 0>
 				<cfset arrayAppend(whereClauses,"locality.locality_id IN (#addNamedQueryParam(sqlParams,'locality_id',arguments.locality_id,'CF_SQL_DECIMAL',true)#)")>
@@ -3397,6 +3408,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfif structKeyExists(arguments,"section_part") AND len(arguments.section_part) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.section_part",arguments.section_part,"section_part")></cfif>
 		<cfif structKeyExists(arguments,"datum") AND len(arguments.datum) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"accepted_lat_long.datum",arguments.datum,"datum")></cfif>
 		<cfif structKeyExists(arguments,"georef_by") AND len(arguments.georef_by) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"locality.georef_by",arguments.georef_by,"georef_by")></cfif>
+		<cfif structKeyExists(arguments,"collecting_event_id") AND len(arguments.collecting_event_id) gt 0><cfset whereClauses = appendSetupNumericClauseCondition(whereClauses,sqlParams,"collecting_event.collecting_event_id",arguments.collecting_event_id,"collecting_event_id")></cfif>
 		<cfif structKeyExists(arguments,"verbatim_locality") AND len(arguments.verbatim_locality) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_locality",arguments.verbatim_locality,"verbatim_locality")></cfif>
 		<cfif structKeyExists(arguments,"verbatim_date") AND len(arguments.verbatim_date) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatim_date",arguments.verbatim_date,"verbatim_date")></cfif>
 		<cfif structKeyExists(arguments,"verbatimdepth") AND len(arguments.verbatimdepth) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"collecting_event.verbatimdepth",arguments.verbatimdepth,"verbatimdepth")></cfif>
