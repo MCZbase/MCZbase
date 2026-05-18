@@ -3168,6 +3168,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="country" type="string" required="no">
 	<cfargument name="state_prov" type="string" required="no">
 	<cfargument name="county" type="string" required="no">
+	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="highergeographyid" type="string" required="no">
 	<cfargument name="highergeographyid_guid_type" type="string" required="no">
 	<cfargument name="source_authority" type="string" required="no">
@@ -3200,6 +3201,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="range_direction" type="string" required="no">
 	<cfargument name="section" type="string" required="no">
 	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="geology_attribute" type="string" required="no">
+	<cfargument name="geo_att_value" type="string" required="no">
+	<cfargument name="geology_attribute_hier" type="string" required="no">
 	<cfargument name="dec_lat" type="string" required="no">
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="datum" type="string" required="no">
@@ -3213,7 +3217,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="coordinateDeterminer" type="string" required="no">
 	<cfargument name="georeference_verified_by_id" type="string" required="no">
 	<cfargument name="georeference_verified_by" type="string" required="no">
-   <cfargument name="collecting_event_id" type="string" required="no">
+	<cfargument name="findNoGeoRef" type="string" required="no">
+	<cfargument name="findHasGeoRef" type="string" required="no">
+	<cfargument name="findNoAccGeoRef" type="string" required="no">
+	<cfargument name="NoGeorefBecause" type="string" required="no">
+	<cfargument name="isIncomplete" type="string" required="no">
+	<cfargument name="nullNoGeorefBecause" type="string" required="no">
+	<cfargument name="VerificationStatus" type="string" required="no">
+	<cfargument name="onlyShared" type="string" required="no">
+	<cfargument name="GeorefMethod" type="string" required="no">
+    <cfargument name="collecting_event_id" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimdepth" type="string" required="no">
 	<cfargument name="verbatimelevation" type="string" required="no">
@@ -3391,6 +3404,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfif structKeyExists(arguments,"country") AND len(arguments.country) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.country",arguments.country,"country")></cfif>
 		<cfif structKeyExists(arguments,"state_prov") AND len(arguments.state_prov) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.state_prov",arguments.state_prov,"state_prov")></cfif>
 		<cfif structKeyExists(arguments,"county") AND len(arguments.county) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.county",arguments.county,"county")></cfif>
+		<cfif structKeyExists(arguments,"sovereign_nation") AND len(arguments.sovereign_nation) gt 0><cfset arrayAppend(whereClauses,"locality.sovereign_nation = #addNamedQueryParam(sqlParams,'sovereign_nation',arguments.sovereign_nation,'CF_SQL_VARCHAR')#")></cfif>
 		<cfif structKeyExists(arguments,"feature") AND len(arguments.feature) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.feature",arguments.feature,"feature")></cfif>
 		<cfif structKeyExists(arguments,"island") AND len(arguments.island) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island",arguments.island,"island")></cfif>
 		<cfif structKeyExists(arguments,"island_group") AND len(arguments.island_group) gt 0><cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"geog_auth_rec.island_group",arguments.island_group,"island_group")></cfif>
@@ -3487,6 +3501,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfset arrayAppend(whereClauses,"collecting_event.collecting_event_id in (select collecting_event_id from cataloged_item where collection_id <> #addNamedQueryParam(sqlParams,'collection_id_evoper_shared_other',arguments.collection_id,'CF_SQL_DECIMAL')# and collection_id <> 0 )")>
 			</cfif>
 		</cfif>
+		<cfif structKeyExists(arguments,"geology_attribute") and len(arguments.geology_attribute) gt 0>
+			<cfset arrayAppend(whereClauses,"geology_attributes.geology_attribute = #addNamedQueryParam(sqlParams,'geology_attribute',arguments.geology_attribute,'CF_SQL_VARCHAR')#")>
+		</cfif>
+		<cfif structKeyExists(arguments,"geo_att_value") and len(arguments.geo_att_value) gt 0>
+			<cfif structKeyExists(arguments,"geology_attribute_hier") and arguments.geology_attribute_hier is 1>
+				<cfset arrayAppend(whereClauses,"geology_attributes.geo_att_value IN ( SELECT attribute_value FROM geology_attribute_hierarchy START WITH upper(attribute_value) like #addNamedQueryParam(sqlParams,'geo_att_value_hier_like','%' & ucase(arguments.geo_att_value) & '%','CF_SQL_VARCHAR')# CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id )")>
+			<cfelse>
+				<cfset arrayAppend(whereClauses,"upper(geology_attributes.geo_att_value) like #addNamedQueryParam(sqlParams,'geo_att_value_like','%' & ucase(arguments.geo_att_value) & '%','CF_SQL_VARCHAR')#")>
+			</cfif>
+		</cfif>
 
 		<cfif structKeyExists(arguments,"dec_lat") AND len(arguments.dec_lat) gt 0>
 			<cfif left(arguments.dec_lat,1) is "=">
@@ -3510,6 +3534,34 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfif>
 		<cfif structKeyExists(arguments,"coordinateDeterminer") and len(arguments.coordinateDeterminer) gt 0>
 			<cfset whereClauses = appendSetupClauseCondition(whereClauses,sqlParams,"georef_determined_agent.agent_name",arguments.coordinateDeterminer,"coordinateDeterminer")>
+		</cfif>
+		<cfif structKeyExists(arguments,"NoGeorefBecause") AND len(arguments.NoGeorefBecause) gt 0>
+			<cfset arrayAppend(whereClauses,"upper(locality.NoGeorefBecause) like #addNamedQueryParam(sqlParams,'NoGeorefBecause_like','%' & ucase(arguments.NoGeorefBecause) & '%','CF_SQL_VARCHAR')#")>
+		</cfif>
+		<cfif structKeyExists(arguments,"VerificationStatus") AND len(arguments.VerificationStatus) gt 0>
+			<cfset arrayAppend(whereClauses,"accepted_lat_long.verificationstatus = #addNamedQueryParam(sqlParams,'VerificationStatus',arguments.VerificationStatus,'CF_SQL_VARCHAR')#")>
+		</cfif>
+		<cfif structKeyExists(arguments,"GeorefMethod") AND len(arguments.GeorefMethod) gt 0>
+			<cfset arrayAppend(whereClauses,"accepted_lat_long.georefmethod = #addNamedQueryParam(sqlParams,'GeorefMethod',arguments.GeorefMethod,'CF_SQL_VARCHAR')#")>
+		</cfif>
+		<cfif structKeyExists(arguments,"nullNoGeorefBecause") and len(arguments.nullNoGeorefBecause) gt 0>
+			<cfset arrayAppend(whereClauses,"locality.NoGeorefBecause IS NULL")>
+		</cfif>
+		<cfif structKeyExists(arguments,"isIncomplete") AND len(arguments.isIncomplete) gt 0>
+			<cfset arrayAppend(whereClauses,"( (accepted_lat_long.GPSACCURACY IS NULL AND accepted_lat_long.EXTENT IS NULL) OR accepted_lat_long.MAX_ERROR_DISTANCE = 0 OR accepted_lat_long.MAX_ERROR_DISTANCE IS NULL OR accepted_lat_long.datum IS NULL OR accepted_lat_long.coordinate_precision IS NULL )")>
+		</cfif>
+		<cfif structKeyExists(arguments,"findNoAccGeoRef") and len(arguments.findNoAccGeoRef) gt 0>
+			<cfset arrayAppend(whereClauses,"locality.locality_id IN (select locality_id from lat_long)")>
+			<cfset arrayAppend(whereClauses,"locality.locality_id NOT IN (select locality_id from lat_long where accepted_lat_long_fg=1)")>
+		</cfif>
+		<cfif structKeyExists(arguments,"findNoGeoRef") and len(arguments.findNoGeoRef) gt 0>
+			<cfset arrayAppend(whereClauses,"locality.locality_id NOT IN (select locality_id from lat_long)")>
+		</cfif>
+		<cfif structKeyExists(arguments,"findHasGeoRef") and len(arguments.findHasGeoRef) gt 0>
+			<cfset arrayAppend(whereClauses,"locality.locality_id IN (select locality_id from lat_long)")>
+		</cfif>
+		<cfif structKeyExists(arguments,"onlyShared") and len(arguments.onlyShared) gt 0>
+			<cfset arrayAppend(whereClauses,"locality.locality_id in (select locality_id from FLAT group by locality_id having count(distinct collection_cde) > 1)")>
 		</cfif>
 		<cfif structKeyExists(arguments,"date_determined_by_agent_id") and len(arguments.date_determined_by_agent_id) gt 0>
 			<cfset arrayAppend(whereClauses,"georef_verified_agent.agent_id = #addNamedQueryParam(sqlParams,'date_determined_by_agent_id',arguments.date_determined_by_agent_id,'CF_SQL_DECIMAL')#")>
