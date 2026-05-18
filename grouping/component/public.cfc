@@ -252,6 +252,7 @@ limitations under the License.
 	</cfloop>
 
 	<cfset local.model.citationScopeNote = "Phase 1 export includes direct named-group citations only. Member-by-member citation expansion is omitted for performance.">
+	<cfset local.model.editorialNote = "Warning: this is an experimental mapping onto Latimer Core concepts and may change.">
 	<cfreturn local.model>
 </cffunction>
 
@@ -299,6 +300,7 @@ limitations under the License.
 	<cfset local.totalCountriesProp["schema:value"] = arguments.model.totalCountries>
 	<cfset ArrayAppend(local.doc["schema:additionalProperty"], local.totalCountriesProp)>
 	<cfset local.doc["skos:scopeNote"] = arguments.model.citationScopeNote>
+	<cfset local.doc["skos:editorialNote"] = arguments.model.editorialNote>
 
 	<cfset local.doc["prov:qualifiedAssociation"] = ArrayNew(1)>
 	<cfloop array="#arguments.model.agents#" index="local.agent">
@@ -381,6 +383,7 @@ limitations under the License.
 	<cfset ArrayAppend(local.preds, 'schema:additionalProperty [ a schema:PropertyValue ; schema:propertyID "totalTaxonClasses" ; schema:value "' & arguments.model.totalTaxonClasses & '"^^xsd:integer ]')>
 	<cfset ArrayAppend(local.preds, 'schema:additionalProperty [ a schema:PropertyValue ; schema:propertyID "totalCountries" ; schema:value "' & arguments.model.totalCountries & '"^^xsd:integer ]')>
 	<cfset ArrayAppend(local.preds, 'skos:scopeNote "' & escapeForTurtleLiteral(arguments.model.citationScopeNote) & '"')>
+	<cfset ArrayAppend(local.preds, 'skos:editorialNote "' & escapeForTurtleLiteral(arguments.model.editorialNote) & '"')>
 
 	<cfloop array="#arguments.model.agents#" index="local.agent">
 		<cfset local.node = '[ a prov:Association ; prov:agent <' & local.agent.uri & '> ; schema:name "' & escapeForTurtleLiteral(local.agent.agentName) & '" ; schema:roleName "' & escapeForTurtleLiteral(local.agent.roleLabel) & '"' >
@@ -473,6 +476,7 @@ limitations under the License.
 			</schema:PropertyValue>
 		</schema:additionalProperty>
 		<skos:scopeNote>#xmlFormat(arguments.model.citationScopeNote)#</skos:scopeNote>
+		<skos:editorialNote>#xmlFormat(arguments.model.editorialNote)#</skos:editorialNote>
 <cfloop array="#arguments.model.agents#" index="local.agent">
 		<prov:qualifiedAssociation>
 			<prov:Association>
