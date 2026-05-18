@@ -247,10 +247,10 @@ limitations under the License.
 	<cfset local.context = StructNew()>
 	<cfset local.context["ltc"] = "https://ltc.tdwg.org/terms/">
 	<cfset local.context["dcterms"] = "http://purl.org/dc/terms/">
-	<cfset local.context["prov"] = "http://www.w3.org/ns/prov#">
+	<cfset local.context["prov"] = "http://www.w3.org/ns/prov##">
 	<cfset local.context["schema"] = "https://schema.org/">
-	<cfset local.context["rdfs"] = "http://www.w3.org/2000/01/rdf-schema#">
-	<cfset local.context["xsd"] = "http://www.w3.org/2001/XMLSchema#">
+	<cfset local.context["rdfs"] = "http://www.w3.org/2000/01/rdf-schema##">
+	<cfset local.context["xsd"] = "http://www.w3.org/2001/XMLSchema##">
 	<cfset local.context["mcz"] = "#Application.serverRootUrl#/vocab/">
 	<cfset local.doc["@context"] = local.context>
 	<cfset local.doc["@id"] = arguments.model.uri>
