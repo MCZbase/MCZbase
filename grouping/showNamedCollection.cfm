@@ -35,7 +35,7 @@ limitations under the License.
 	<cfif checkGroup.recordcount is 1>
 		<cfset redirectUrl = "/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
 		<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
-			<cfset redirectUrl = "#redirectUrl#?format=#EncodeForURL(trim(url.format))#">
+			<cfset redirectUrl = "#redirectUrl#/#EncodeForURL(trim(url.format))#">
 		</cfif>
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="#redirectUrl#">
