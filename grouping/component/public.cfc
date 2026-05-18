@@ -184,14 +184,7 @@ limitations under the License.
 				JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat ON underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
 				AND flat.country IS NOT NULL
-				AND NOT EXISTS (
-					SELECT 1
-					FROM underscore_relation underscore_relation_2
-						JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat2 ON underscore_relation_2.collection_object_id = flat2.collection_object_id
-					WHERE underscore_relation_2.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
-						AND flat2.country = flat.country
-						AND flat2.state_prov IS NOT NULL
-				)
+				AND flat.state_prov IS NULL
 			GROUP BY flat.country
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.country ASC
 		) WHERE rownum <= 25
@@ -209,6 +202,7 @@ limitations under the License.
 			FROM underscore_relation
 				JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat ON underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+				AND flat.country IS NOT NULL
 				AND flat.state_prov IS NOT NULL
 			GROUP BY flat.country, flat.state_prov
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.country ASC, flat.state_prov ASC
@@ -216,9 +210,7 @@ limitations under the License.
 	</cfquery>
 	<cfloop query="local.stateProvCoverageQuery">
 		<cfset local.context = StructNew()>
-		<cfif len(local.stateProvCoverageQuery.country) GT 0>
-			<cfset local.context.country = local.stateProvCoverageQuery.country>
-		</cfif>
+		<cfset local.context.country = local.stateProvCoverageQuery.country>
 		<cfset local.context.stateProvince = local.stateProvCoverageQuery.state_prov>
 		<cfset local.context.objectCount = val(local.stateProvCoverageQuery.ct)>
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
