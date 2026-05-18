@@ -228,6 +228,13 @@
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"namedGroup","/")>
 			<cfset target_underscore_collection_id = listgetat(rdurl,gPos+1,"/")>
+			<!--- if provided, get format from url, otherwise default to html --->
+			<cftry>
+				<cfset format = listgetat(rdurl,gPos+2,"/")>
+				<cfcatch>
+					<cfset format = "html">
+				</cfcatch>
+			</cftry>
 			<cfinclude template="/grouping/showNamedCollection.cfm">
 			<cfcatch>
 				<cfset errorMessage = cfcatch.message>
