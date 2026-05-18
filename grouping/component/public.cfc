@@ -108,7 +108,7 @@ limitations under the License.
 	</cfif>
 
 	<cfset local.model.uri = "#Application.serverRootUrl#/namedGroup/#encodeForURL(local.namedGroup.underscore_collection_id)#">
-	<cfset local.model.identifier = local.namedGroup.underscore_collection_id>
+	<cfset local.model.identifier = local.model.uri>
 	<cfset local.model.collectionName = local.namedGroup.collection_name>
 	<cfset local.model.description = local.namedGroup.description>
 	<cfset local.model.typeMapping = mapNamedGroupTypeToLatimer(groupType=local.namedGroup.underscore_collection_type)>
@@ -271,11 +271,12 @@ limitations under the License.
 	<cfset local.context["skos"] = "http://www.w3.org/2004/02/skos/core##">
 	<cfset local.context["rdfs"] = "http://www.w3.org/2000/01/rdf-schema##">
 	<cfset local.context["xsd"] = "http://www.w3.org/2001/XMLSchema##">
-	<cfset local.context["mcz"] = "#Application.serverRootUrl#/vocab/">
 	<cfset local.doc["@context"] = local.context>
 	<cfset local.doc["@id"] = arguments.model.uri>
 	<cfset local.doc["@type"] = "ltc:ObjectGroup">
-	<cfset local.doc["dcterms:identifier"] = arguments.model.identifier>
+	<cfset local.identifierStruct = StructNew()>
+	<cfset local.identifierStruct["@id"] = arguments.model.identifier>
+	<cfset local.doc["dcterms:identifier"] = local.identifierStruct>
 	<cfset local.doc["dcterms:title"] = arguments.model.collectionName>
 	<cfif len(arguments.model.description) GT 0>
 		<cfset local.doc["dcterms:description"] = arguments.model.description>
@@ -299,14 +300,14 @@ limitations under the License.
 	<cfset ArrayAppend(local.doc["schema:additionalProperty"], local.totalCountriesProp)>
 	<cfset local.doc["skos:scopeNote"] = arguments.model.citationScopeNote>
 
-	<cfset local.doc["mcz:associatedAgent"] = ArrayNew(1)>
+	<cfset local.doc["prov:qualifiedAssociation"] = ArrayNew(1)>
 	<cfloop array="#arguments.model.agents#" index="local.agent">
 		<cfset local.agentStruct = StructNew()>
 		<cfset local.agentStruct["@id"] = local.agent.uri>
 		<cfset local.agentStruct["schema:name"] = local.agent.agentName>
 		<cfset local.agentStruct["schema:roleName"] = local.agent.roleLabel>
 		<cfset local.agentStruct["dcterms:description"] = local.agent.remarks>
-		<cfset ArrayAppend(local.doc["mcz:associatedAgent"], local.agentStruct)>
+		<cfset ArrayAppend(local.doc["prov:qualifiedAssociation"], local.agentStruct)>
 	</cfloop>
 
 	<cfset local.doc["ltc:taxonomicCoverage"] = ArrayNew(1)>
@@ -366,11 +367,10 @@ limitations under the License.
 	<cfset ArrayAppend(local.lines, "@prefix skos: <http://www.w3.org/2004/02/skos/core##> .")>
 	<cfset ArrayAppend(local.lines, "@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .")>
 	<cfset ArrayAppend(local.lines, "@prefix ltc: <https://ltc.tdwg.org/terms/> .")>
-	<cfset ArrayAppend(local.lines, "@prefix mcz: <#Application.serverRootUrl#/vocab/> .")>
 	<cfset ArrayAppend(local.lines, "")>
 
 	<cfset ArrayAppend(local.preds, "a ltc:ObjectGroup")>
-	<cfset ArrayAppend(local.preds, 'dcterms:identifier "' & escapeForTurtleLiteral(arguments.model.identifier) & '"')>
+	<cfset ArrayAppend(local.preds, "dcterms:identifier <" & arguments.model.identifier & ">")>
 	<cfset ArrayAppend(local.preds, 'dcterms:title "' & escapeForTurtleLiteral(arguments.model.collectionName) & '"')>
 	<cfif len(arguments.model.description) GT 0>
 		<cfset ArrayAppend(local.preds, 'dcterms:description "' & escapeForTurtleLiteral(arguments.model.description) & '"')>
@@ -388,7 +388,7 @@ limitations under the License.
 			<cfset local.node = local.node & ' ; dcterms:description "' & escapeForTurtleLiteral(local.agent.remarks) & '"' >
 		</cfif>
 		<cfset local.node = local.node & " ]">
-		<cfset ArrayAppend(local.preds, "mcz:associatedAgent " & local.node)>
+		<cfset ArrayAppend(local.preds, "prov:qualifiedAssociation " & local.node)>
 	</cfloop>
 
 	<cfloop array="#arguments.model.taxonomicContexts#" index="local.context">
@@ -450,10 +450,9 @@ limitations under the License.
 	xmlns:schema="https://schema.org/"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core##"
 	xmlns:ltc="https://ltc.tdwg.org/terms/"
-	xmlns:mcz="#xmlFormat(Application.serverRootUrl)#/vocab/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema##">
 	<ltc:ObjectGroup rdf:about="#xmlFormat(arguments.model.uri)#">
-		<dcterms:identifier>#xmlFormat(arguments.model.identifier)#</dcterms:identifier>
+		<dcterms:identifier rdf:resource="#xmlFormat(arguments.model.identifier)#" />
 		<dcterms:title>#xmlFormat(arguments.model.collectionName)#</dcterms:title>
 <cfif len(arguments.model.description) GT 0>
 		<dcterms:description>#xmlFormat(arguments.model.description)#</dcterms:description>
@@ -475,7 +474,7 @@ limitations under the License.
 		</schema:additionalProperty>
 		<skos:scopeNote>#xmlFormat(arguments.model.citationScopeNote)#</skos:scopeNote>
 <cfloop array="#arguments.model.agents#" index="local.agent">
-		<mcz:associatedAgent>
+		<prov:qualifiedAssociation>
 			<prov:Association>
 				<prov:agent rdf:resource="#xmlFormat(local.agent.uri)#" />
 				<schema:name>#xmlFormat(local.agent.agentName)#</schema:name>
@@ -484,7 +483,7 @@ limitations under the License.
 				<dcterms:description>#xmlFormat(local.agent.remarks)#</dcterms:description>
 </cfif>
 			</prov:Association>
-		</mcz:associatedAgent>
+		</prov:qualifiedAssociation>
 </cfloop>
 <cfloop array="#arguments.model.taxonomicContexts#" index="local.context">
 		<ltc:taxonomicCoverage>
