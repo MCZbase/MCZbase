@@ -184,7 +184,6 @@ limitations under the License.
 				JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat ON underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
 				AND flat.country IS NOT NULL
-				AND flat.state_prov IS NULL
 			GROUP BY flat.country
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.country ASC
 		) WHERE rownum <= 25
@@ -216,7 +215,7 @@ limitations under the License.
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
-	<cfquery name="local.waterBodyCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+	<cfquery name="local.continentOceanCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 		SELECT * FROM (
 			SELECT flat.continent_ocean as label, count(distinct flat.collection_object_id) as ct
 			FROM underscore_relation
@@ -228,10 +227,10 @@ limitations under the License.
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.continent_ocean ASC
 		) WHERE rownum <= 25
 	</cfquery>
-	<cfloop query="local.waterBodyCoverageQuery">
+	<cfloop query="local.continentOceanCoverageQuery">
 		<cfset local.context = StructNew()>
-		<cfset local.context.waterBody = local.waterBodyCoverageQuery.label>
-		<cfset local.context.objectCount = val(local.waterBodyCoverageQuery.ct)>
+		<cfset local.context.waterBody = local.continentOceanCoverageQuery.label>
+		<cfset local.context.objectCount = val(local.continentOceanCoverageQuery.ct)>
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
