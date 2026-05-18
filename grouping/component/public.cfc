@@ -216,7 +216,7 @@ limitations under the License.
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
-	<cfquery name="local.oceanCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="local.oceanCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 		SELECT * FROM (
 			SELECT flat.continent_ocean as label, count(distinct flat.collection_object_id) as ct
 			FROM underscore_relation
