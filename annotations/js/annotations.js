@@ -63,7 +63,7 @@ function applyCommentingResolutionGuidance(motivationFieldId, resolutionFieldId)
 		var resolution = String(resolutionEl.value || "");
 		if (motivation !== "commenting" || resolution.length > 0) { return; }
 		for (var i = 0; i < resolutionEl.options.length; i++) {
-			if (String(resolutionEl.options[i].value).toUpperCase() === "NOTABUG") {
+			if (String(resolutionEl.options[i].value).toLowerCase() === "notabug") {
 				resolutionEl.value = resolutionEl.options[i].value;
 				break;
 			}

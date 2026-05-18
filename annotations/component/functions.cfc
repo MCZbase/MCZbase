@@ -1406,7 +1406,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cftry>
 			<cfoutput>
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-				<cfset canRespond = canManage>
+				<cfset canRespond = userCanRespondToAnnotations()>
 				<cfset canAnnotate = false>
 				<cfif isDefined("session.username") AND len(session.username) GT 0>
 					<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -1673,6 +1673,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											</div>
 										</cfif>
 										<cfif canRespond>
+											<cfset currentRootState = "">
+											<cfset currentRootResolution = "">
+											<cfif rootAnnQ.recordcount EQ 1>
+												<cfset currentRootState = trim(rootAnnQ.state)>
+												<cfset currentRootResolution = trim(rootAnnQ.resolution)>
+											</cfif>
 											<div class="col-12 col-md-2 pb-1">
 												<label for="#editRootStateFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root State<cfelse>State</cfif></label>
 												<select id="#editRootStateFieldId#" class="data-entry-select">
@@ -1680,7 +1686,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 														<option value="" selected="selected">No Change</option>
 													</cfif>
 													<cfloop query="ctstate">
-														<cfif NOT isResponseAnnotation AND ((rootAnnQ.recordcount EQ 1 AND state EQ rootAnnQ.state) OR (rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.state) EQ 0 AND state EQ "New"))><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														<cfset selected = "">
+														<cfif NOT isResponseAnnotation>
+															<cfif state EQ currentRootState OR (len(currentRootState) EQ 0 AND state EQ "New")>
+																<cfset selected = " selected ">
+															</cfif>
+														</cfif>
 														<option value="#encodeForHTMLAttribute(state)#"#selected#>#encodeForHTML(state)#</option>
 													</cfloop>
 												</select>
@@ -1691,10 +1702,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													<cfif isResponseAnnotation>
 														<option value="" selected="selected">No Change</option>
 													<cfelse>
-														<option value="__NULL__"<cfif rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.resolution) EQ 0> selected="selected"</cfif>>Unset</option>
+														<option value="__NULL__"<cfif len(currentRootResolution) EQ 0> selected="selected"</cfif>>Unset</option>
 													</cfif>
 													<cfloop query="ctresolution">
-														<cfif NOT isResponseAnnotation AND rootAnnQ.recordcount EQ 1 AND resolution EQ rootAnnQ.resolution><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														<cfset selected = "">
+														<cfif NOT isResponseAnnotation AND resolution EQ currentRootResolution>
+															<cfset selected = " selected ">
+														</cfif>
 														<option value="#encodeForHTMLAttribute(resolution)#"#selected#>#encodeForHTML(resolution)#</option>
 													</cfloop>
 												</select>
