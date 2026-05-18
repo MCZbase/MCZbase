@@ -195,7 +195,7 @@ limitations under the License.
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
-	<cfquery name="local.geogStateCoverageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="local.geogCoverageStateQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		SELECT * FROM (
 			SELECT flat.country as country, flat.state_prov as state_prov, count(distinct flat.collection_object_id) as ct
 			FROM underscore_relation
@@ -206,13 +206,13 @@ limitations under the License.
 			ORDER BY count(distinct flat.collection_object_id) DESC, flat.country ASC, flat.state_prov ASC
 		) WHERE rownum <= 25
 	</cfquery>
-	<cfloop query="local.geogStateCoverageQuery">
+	<cfloop query="local.geogCoverageStateQuery">
 		<cfset local.context = StructNew()>
-		<cfif len(local.geogStateCoverageQuery.country) GT 0>
-			<cfset local.context.country = local.geogStateCoverageQuery.country>
+		<cfif len(local.geogCoverageStateQuery.country) GT 0>
+			<cfset local.context.country = local.geogCoverageStateQuery.country>
 		</cfif>
-		<cfset local.context.stateProvince = local.geogStateCoverageQuery.state_prov>
-		<cfset local.context.objectCount = val(local.geogStateCoverageQuery.ct)>
+		<cfset local.context.stateProvince = local.geogCoverageStateQuery.state_prov>
+		<cfset local.context.objectCount = val(local.geogCoverageStateQuery.ct)>
 		<cfset ArrayAppend(local.model.geographicContexts, local.context)>
 	</cfloop>
 
