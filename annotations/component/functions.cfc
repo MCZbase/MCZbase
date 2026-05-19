@@ -1252,9 +1252,15 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</div>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<div class="px-1 small"><span class="font-weight-bold">State:</span> <cfif len(trim(arguments.state)) GT 0>#encodeForHTML(arguments.state)#<cfelse>New</cfif></div>
-						<cfif len(trim(arguments.resolution)) GT 0 OR arguments.resolution EQ "Unset">
-							<div class="px-1 small"><span class="font-weight-bold">Resolution:</span>#encodeForHTML(arguments.resolution)#<span class="text-muted">Unset</span></div>
+						<div class="px-1 small">
+							<span class="font-weight-bold">State:</span>
+							#encodeForHTML(arguments.state)#
+						</div>
+						<cfif len(trim(arguments.resolution)) GT 0>
+							<div class="px-1 small">
+								<span class="font-weight-bold">Resolution:</span>
+								#encodeForHTML(arguments.resolution)#
+							</div>
 						</cfif>
 					</div>
 				</cfif>
