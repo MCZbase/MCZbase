@@ -21,6 +21,92 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- Determine whether current user can perform review/response workflow actions.
+ @return boolean true when session user has manage_collection role.
+--->
+<cffunction name="userCanRespondToAnnotations" returntype="boolean" access="public">
+	<cfset var canRespond = false>
+	<cfif isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+		<cfset canRespond = true>
+	</cfif>
+	<cfreturn canRespond>
+</cffunction>
+
+<!--- Load controlled values for annotation workflow state.
+ @return query of allowed state values from ctstate.
+--->
+<cffunction name="getAnnotationCtState" returntype="query" access="public">
+	<cfset var ctstate = QueryNew("")>
+	<cfquery name="ctstate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+		SELECT state
+		FROM ctstate
+		ORDER BY state
+	</cfquery>
+	<cfreturn ctstate>
+</cffunction>
+
+<!--- Load controlled values for annotation workflow resolution.
+ @return query of allowed resolution values from ctresolution.
+--->
+<cffunction name="getAnnotationCtResolution" returntype="query" access="public">
+	<cfset var ctresolution = QueryNew("")>
+	<cfquery name="ctresolution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+		SELECT resolution
+		FROM ctresolution
+		ORDER BY resolution
+	</cfquery>
+	<cfreturn ctresolution>
+</cffunction>
+
+<!--- Configured likely resolution suggestions by root annotation motivation.
+ @return struct mapping motivation (lowercase) to array of likely resolution values.
+--->
+<cffunction name="getRootResolutionGuidanceConfig" returntype="struct" access="public">
+	<cfset var guidanceConfig = StructNew("ordered")>
+	<cfset guidanceConfig["commenting"] = ["NOTABUG"]>
+	<cfset guidanceConfig["replying"] = ["NOTABUG"]>
+	<cfset guidanceConfig["editing"] = ["FIXED","OBSOLETE","WONTFIX"]>
+	<cfreturn guidanceConfig>
+</cffunction>
+
+<!--- Build guidance text for likely resolution values for a specific root motivation.
+ @param rootMotivation motivation value on the root annotation.
+ @return text such as "For motivations of commenting, NOTABUG is often appropriate." or empty string.
+--->
+<cffunction name="getRootResolutionGuidanceText" returntype="string" access="public">
+	<cfargument name="rootMotivation" type="string" required="yes">
+	<cfset var guidanceText = "">
+	<cfset var normalizedMotivation = lcase(trim(arguments.rootMotivation))>
+	<cfset var guidanceConfig = getRootResolutionGuidanceConfig()>
+	<cfset var likelyResolutions = []>
+	<cfset var likelyResolutionText = "">
+	<cfset var i = 0>
+	<cfif len(normalizedMotivation) EQ 0>
+		<cfreturn guidanceText>
+	</cfif>
+	<cfif NOT structKeyExists(guidanceConfig, normalizedMotivation)>
+		<cfreturn guidanceText>
+	</cfif>
+	<cfset likelyResolutions = guidanceConfig[normalizedMotivation]>
+	<cfif arrayLen(likelyResolutions) EQ 1>
+		<cfset likelyResolutionText = likelyResolutions[1]>
+	<cfelseif arrayLen(likelyResolutions) GT 1>
+		<cfloop from="1" to="#arrayLen(likelyResolutions)#" index="i">
+			<cfif i EQ 1>
+				<cfset likelyResolutionText = likelyResolutions[i]>
+			<cfelseif i EQ arrayLen(likelyResolutions)>
+				<cfset likelyResolutionText = likelyResolutionText & " or " & likelyResolutions[i]>
+			<cfelse>
+				<cfset likelyResolutionText = likelyResolutionText & ", " & likelyResolutions[i]>
+			</cfif>
+		</cfloop>
+	</cfif>
+	<cfif len(likelyResolutionText) GT 0>
+		<cfset guidanceText = "For motivations of " & normalizedMotivation & ", " & likelyResolutionText & " is often appropriate.">
+	</cfif>
+	<cfreturn guidanceText>
+</cffunction>
+
 <!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
   * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
   * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
@@ -46,6 +132,7 @@ limitations under the License.
 					<cfset canAnnotate = false>
 				</cfif>
 				<cfset manageIRI = "">
+				<cfset canRespond = userCanRespondToAnnotations()>
 				<cfset dialogTargetId = target_id>
 				<cfset responseRootAnnotationId = "">
 				<cfset dialogFieldQualifier = "_" & rereplace(dialogId,"[^A-Za-z0-9_]","","all")>
@@ -57,13 +144,21 @@ limitations under the License.
 				<cfset maskFieldId = "mask_annotation_fg" & dialogFieldQualifier>
 				<cfset rootReviewedFieldId = "root_reviewed_fg" & dialogFieldQualifier>
 				<cfset rootMaskFieldId = "root_mask_annotation_fg" & dialogFieldQualifier>
+				<cfset rootStateFieldId = "root_state" & dialogFieldQualifier>
+				<cfset rootResolutionFieldId = "root_resolution" & dialogFieldQualifier>
 				<cfset annotationResultDivId = "annotationResultDiv" & dialogFieldQualifier>
+				<cfset rootAnnotationMotivation = "">
+				<cfset rootResolutionGuidanceText = "">
 				<cfif canAnnotate>
 					<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 						SELECT motivation, description
 						FROM ctmotivation
 						ORDER by motivation
 					</cfquery>
+				</cfif>
+				<cfif canRespond>
+					<cfset ctstate = getAnnotationCtState()>
+					<cfset ctresolution = getAnnotationCtResolution()>
 				</cfif>
 				<cfswitch expression="#target_type#">
 					<cfcase value="collection_object">
@@ -178,6 +273,14 @@ limitations under the License.
 						<cfelse>
 							<cfset responseRootAnnotationId = targetAnnotationId>
 						</cfif>
+						<cfquery name="rootAnnotationMotivationForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT motivation
+							FROM annotations
+							WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
+						</cfquery>
+						<cfif rootAnnotationMotivationForDialog.recordcount EQ 1>
+							<cfset rootAnnotationMotivation = rootAnnotationMotivationForDialog.motivation>
+						</cfif>
 						<cfif responseRootAnnotationId NEQ targetAnnotationId>
 							<cfif len(targetAnnotationBody) GT 0>
 								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#">
@@ -208,6 +311,9 @@ limitations under the License.
 						<cfthrow message="Annotation on an unsupported target type.">
 					</cfdefaultcase>
 				</cfswitch>
+				<cfif target_type EQ "annotation">
+					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText(rootAnnotationMotivation)>
+				</cfif>
 				<!--- Single shared query for all target types; WHERE clause varies by target_type using cfif, not by SQL variable. --->
 				<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					select annotations.ANNOTATION_ID ANNOTATION_ID,
@@ -313,6 +419,36 @@ limitations under the License.
 													<option value="1">Yes</option>
 												</select>
 											</div>
+											<cfif canRespond>
+												<div class="col-12 col-md-3 pb-1">
+													<label for="#rootStateFieldId#" class="data-entry-label">Root State</label>
+													<select id="#rootStateFieldId#" name="root_state" class="data-entry-select">
+														<option value="" selected="selected">No Change</option>
+														<cfloop query="ctstate">
+															<option value="#encodeForHTMLAttribute(state)#">#encodeForHTML(state)#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-md-3 pb-1">
+													<label for="#rootResolutionFieldId#" class="data-entry-label">Root Resolution</label>
+													<select id="#rootResolutionFieldId#" name="root_resolution" class="data-entry-select">
+														<option value="" selected="selected">No Change</option>
+														<cfloop query="ctresolution">
+															<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
+														</cfloop>
+													</select>
+													<cfif len(rootResolutionGuidanceText) GT 0>
+														<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+													</cfif>
+												</div>
+												<cfif len(rootResolutionGuidanceText) GT 0>
+													<script>
+														$(document).ready(function() {
+															applyCommentingResolutionGuidance('#motivationFieldId#', '#rootResolutionFieldId#');
+														});
+													</script>
+												</cfif>
+											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
 											<div class="col-12 <cfif target_type EQ "annotation">col-md-3<cfelse>col-md-6</cfif> pb-1">
@@ -377,6 +513,8 @@ limitations under the License.
 														annotate_date=ANNOTATE_DATE,
 														motivation=motivation,
 														reviewed_fg=reviewed_fg,
+														state=state,
+														resolution=resolution,
 														reviewer=reviewer_name,
 														reviewer_comment=reviewer_comment,
 														mask_annotation_fg=mask_annotation_fg,
@@ -455,6 +593,10 @@ limitations under the License.
 	<cfset annotatable = false>
 	<cfset mailTo = "">
 	<cfset rootAnnotationId = target_id>
+	<cfset canRespond = userCanRespondToAnnotations()>
+	<cfset cleanRootState = "">
+	<cfset cleanRootResolution = "">
+	<cfset setRootResolutionNull = false>
 	<cftry>
 		<cfswitch expression="#target_type#">
 			<cfcase value="collection_object">
@@ -558,6 +700,36 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
+	<cfif target_type EQ "annotation">
+		<cfif len(trim(root_state)) GT 0 OR len(trim(root_resolution)) GT 0>
+			<cfif NOT canRespond>
+				<cfheader statusCode="403" statusText="Only users with response workflow permissions may set root annotation state or resolution.">
+				<cfabort>
+			</cfif>
+		</cfif>
+		<cfif len(trim(root_state)) GT 0>
+			<cfquery name="validRootState" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+				SELECT state
+				FROM ctstate
+				WHERE UPPER(state) = UPPER(<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_state)#'>)
+			</cfquery>
+			<cfif validRootState.recordcount EQ 1>
+				<cfset cleanRootState = validRootState.state>
+			</cfif>
+		</cfif>
+		<cfif trim(root_resolution) EQ "__NULL__">
+			<cfset setRootResolutionNull = true>
+		<cfelseif len(trim(root_resolution)) GT 0>
+			<cfquery name="validRootResolution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+				SELECT resolution
+				FROM ctresolution
+				WHERE UPPER(resolution) = UPPER(<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_resolution)#'>)
+			</cfquery>
+			<cfif validRootResolution.recordcount EQ 1>
+				<cfset cleanRootResolution = validRootResolution.resolution>
+			</cfif>
+		</cfif>
+	</cfif>
 	<cfif annotatable>
 		<cftransaction>
 			<cftry>
@@ -630,17 +802,22 @@ limitations under the License.
 						SYSDATE
 					)
 				</cfquery>
-				<cfif target_type EQ "annotation" AND (len(trim(root_state)) GT 0 OR len(trim(root_resolution)) GT 0)>
+				<cfif target_type EQ "annotation" AND (len(cleanRootState) GT 0 OR len(cleanRootResolution) GT 0 OR setRootResolutionNull)>
 					<cfquery name="updRootAnnStateResolution" datasource="uam_god">
 						UPDATE annotations
 						SET
-							<cfif len(trim(root_state)) GT 0 AND len(trim(root_resolution)) GT 0>
-								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_state)#'>,
-								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_resolution)#'>
-							<cfelseif len(trim(root_state)) GT 0>
-								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_state)#'>
+							<cfif len(cleanRootState) GT 0 AND len(cleanRootResolution) GT 0>
+								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#cleanRootState#'>,
+								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#cleanRootResolution#'>
+							<cfelseif len(cleanRootState) GT 0 AND setRootResolutionNull>
+								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#cleanRootState#'>,
+								resolution = NULL
+							<cfelseif len(cleanRootState) GT 0>
+								state = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#cleanRootState#'>
+							<cfelseif setRootResolutionNull>
+								resolution = NULL
 							<cfelse>
-								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(root_resolution)#'>
+								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#cleanRootResolution#'>
 							</cfif>
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
@@ -1065,6 +1242,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param annotate_date       date the annotation was created
  @param motivation          annotation motivation string
  @param reviewed_fg         0 or 1 indicating whether the annotation has been reviewed
+ @param state               optional workflow state value for root annotations.
+ @param resolution          optional workflow resolution value for root annotations.
  @param reviewer            preferred name of the last reviewer, or empty string
  @param reviewer_comment    retained for backwards compatibility.
  @param mask_annotation_fg  0 or 1 annotation visibility flag
@@ -1084,6 +1263,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="annotate_date"       type="string" required="yes">
 	<cfargument name="motivation"          type="string" required="no" default="">
 	<cfargument name="reviewed_fg"         type="string" required="yes">
+	<cfargument name="state"               type="string" required="no" default="">
+	<cfargument name="resolution"          type="string" required="no" default="">
 	<cfargument name="reviewer"            type="string" required="no" default="">
 	<cfargument name="reviewer_comment"    type="string" required="no" default="">
 	<cfargument name="mask_annotation_fg"  type="string" required="no" default="0">
@@ -1124,7 +1305,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<div class="px-1 small">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
-				<div class="col-12 col-md-3 pt-2 px-1">
+				<div class="col-12 col-md-2 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold small">Annotator:</span>
 					<div class="px-1 small">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
@@ -1135,6 +1316,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<span class="data-entry-label font-weight-bold small">Motivation:</span>
 					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
 				</div>
+				<cfif NOT arguments.is_response>
+					<div class="col-12 col-md-1 pt-2 px-1">
+						<div class="px-1 small">
+							<span class="font-weight-bold">State:</span>
+							#encodeForHTML(arguments.state)#
+						</div>
+						<cfif len(trim(arguments.resolution)) GT 0>
+							<div class="px-1 small">
+								<span class="font-weight-bold">Resolution:</span>
+								#encodeForHTML(arguments.resolution)#
+							</div>
+						</cfif>
+					</div>
+				</cfif>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
 						<span class="data-entry-label font-weight-bold small d-block">Reviewed?</span>
@@ -1215,6 +1410,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				annotations.annotate_date,
 				annotations.motivation,
 				annotations.reviewed_fg,
+				annotations.state,
+				annotations.resolution,
 				preferred_agent_name.agent_name reviewer,
 				annotations.reviewer_comment,
 				annotations.mask_annotation_fg
@@ -1244,6 +1441,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			annotate_date=rootAnno.annotate_date,
 			motivation=rootAnno.motivation,
 			reviewed_fg=rootAnno.reviewed_fg,
+			state=rootAnno.state,
+			resolution=rootAnno.resolution,
 			reviewer=rootAnno.reviewer,
 			reviewer_comment=rootAnno.reviewer_comment,
 			mask_annotation_fg=rootAnno.mask_annotation_fg,
@@ -1283,6 +1482,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cftry>
 			<cfoutput>
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+				<cfset canRespond = userCanRespondToAnnotations()>
 				<cfset canAnnotate = false>
 				<cfif isDefined("session.username") AND len(session.username) GT 0>
 					<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -1301,13 +1501,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset editMaskFieldId      = "edit_mask_fg_"           & dq>
 				<cfset editRootReviewedFieldId = "edit_root_reviewed_fg_" & dq>
 				<cfset editRootMaskFieldId  = "edit_root_mask_fg_"      & dq>
+				<cfset editRootStateFieldId = "edit_root_state_"         & dq>
+				<cfset editRootResolutionFieldId = "edit_root_resolution_" & dq>
 				<cfset editResultDivId      = "editAnnotationResultDiv_" & dq>
 				<cfset addFormDivId         = "addAnnotationFormDiv_"   & dq>
 				<cfset addAnnFieldId        = "add_annotation_"         & dq>
 				<cfset addAnnLengthId       = "length_add_annotation_"  & dq>
 				<cfset addMotivationFieldId = "add_motivation_"         & dq>
 				<cfset addMaskFieldId       = "add_mask_fg_"            & dq>
+				<cfset addRootStateFieldId  = "add_root_state_"         & dq>
+				<cfset addRootResolutionFieldId = "add_root_resolution_" & dq>
 				<cfset addResultDivId       = "addAnnotationResultDiv_" & dq>
+				<cfset rootResolutionGuidanceText = "">
 
 				<!--- Look up the annotation to edit --->
 				<cfquery name="editAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -1358,19 +1563,22 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfelse>
 						<cfset rootAnnotationId = editAnn.target_primary_key>
 					</cfif>
-					<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT atb.body_value
-						FROM annotations a
-						LEFT OUTER JOIN (
-							SELECT annotation_id, body_value,
-								row_number() over (partition by annotation_id order by created_date) rn
-							FROM annotation_textualbody
-						) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
-						WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
-					</cfquery>
-					<cfif rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.body_value) GT 0>
-						<cfset rootAnnotationBody = rootAnnQ.body_value>
-					</cfif>
+				</cfif>
+				<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT atb.body_value, a.state, a.resolution, a.motivation, a.mask_annotation_fg, a.reviewed_fg
+					FROM annotations a
+					LEFT OUTER JOIN (
+						SELECT annotation_id, body_value,
+							row_number() over (partition by annotation_id order by created_date) rn
+						FROM annotation_textualbody
+					) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+					WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rootAnnotationId#">
+				</cfquery>
+				<cfif rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.body_value) GT 0>
+					<cfset rootAnnotationBody = rootAnnQ.body_value>
+				</cfif>
+				<cfif rootAnnQ.recordcount EQ 1>
+					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText("" & rootAnnQ.motivation)>
 				</cfif>
 
 				<!--- Load context annotations: root and its children --->
@@ -1381,6 +1589,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						annotations.ANNOTATION,
 						annotations.REVIEWED_FG,
 						annotations.REVIEWER_COMMENT,
+						annotations.STATE,
+						annotations.RESOLUTION,
 						annotations.TARGET_TABLE,
 						annotations.TARGET_PRIMARY_KEY,
 						annotations.motivation,
@@ -1412,6 +1622,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 						SELECT motivation, description FROM ctmotivation ORDER BY motivation
 					</cfquery>
+				</cfif>
+				<cfif canRespond>
+					<cfset ctstate = getAnnotationCtState()>
+					<cfset ctresolution = getAnnotationCtResolution()>
 				</cfif>
 
 				<!--- Look up the target context of the root annotation for display in the context section --->
@@ -1522,7 +1736,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 										</div>
 										<cfif isResponseAnnotation>
 											<div class="col-12 col-md-2 pb-1">
-												<label for="#editRootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed?</label>
+												<cfset currentRootReviewedLabel = "No">
+												<cfif rootAnnQ.recordcount EQ 1 AND val(rootAnnQ.reviewed_fg) EQ 1>
+													<cfset currentRootReviewedLabel = "Yes">
+												</cfif>
+												<label for="#editRootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed? (#encodeForHTML(currentRootReviewedLabel)#)</label>
 												<select id="#editRootReviewedFieldId#" class="data-entry-select">
 													<option value="" selected="selected">No Change</option>
 													<option value="0">No</option>
@@ -1530,7 +1748,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												</select>
 											</div>
 											<div class="col-12 col-md-2 pb-1">
-												<label for="#editRootMaskFieldId#" class="data-entry-label">Root Visibility</label>
+												<cfset currentRootVisibilityLabel = "Public">
+												<cfif rootAnnQ.recordcount EQ 1 AND val(rootAnnQ.mask_annotation_fg) EQ 1>
+													<cfset currentRootVisibilityLabel = "Hidden">
+												</cfif>
+												<label for="#editRootMaskFieldId#" class="data-entry-label">Root Visibility (#encodeForHTML(currentRootVisibilityLabel)#)</label>
 												<select id="#editRootMaskFieldId#" class="data-entry-select">
 													<option value="" selected="selected">No Change</option>
 													<option value="0">Public</option>
@@ -1538,11 +1760,71 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												</select>
 											</div>
 										</cfif>
+										<cfif canRespond>
+											<cfset currentRootState = "">
+											<cfset currentRootResolution = "">
+											<cfset currentRootStateLabel = "New">
+											<cfset currentRootResolutionLabel = "None">
+											<cfif rootAnnQ.recordcount EQ 1>
+												<cfset currentRootState = trim("" & rootAnnQ.state)>
+												<cfset currentRootResolution = trim("" & rootAnnQ.resolution)>
+												<cfif len(currentRootState) GT 0>
+													<cfset currentRootStateLabel = currentRootState>
+												</cfif>
+												<cfif len(currentRootResolution) GT 0>
+													<cfset currentRootResolutionLabel = currentRootResolution>
+												</cfif>
+											</cfif>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editRootStateFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root State (#encodeForHTML(currentRootStateLabel)#)<cfelse>State</cfif></label>
+												<select id="#editRootStateFieldId#" class="data-entry-select">
+													<cfif isResponseAnnotation>
+														<option value="" selected="selected">No Change</option>
+													</cfif>
+													<cfloop query="ctstate">
+														<cfset selected = "">
+														<cfif NOT isResponseAnnotation>
+															<cfif state EQ currentRootState OR (len(currentRootState) EQ 0 AND state EQ "New")>
+																<cfset selected = " selected ">
+															</cfif>
+														</cfif>
+														<option value="#encodeForHTMLAttribute(state)#"#selected#>#encodeForHTML(state)#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editRootResolutionFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root Resolution (#encodeForHTML(currentRootResolutionLabel)#)<cfelse>Resolution</cfif></label>
+												<select id="#editRootResolutionFieldId#" class="data-entry-select">
+													<cfif isResponseAnnotation>
+														<option value="" selected="selected">No Change</option>
+													<cfelse>
+														<option value="__NULL__"<cfif len(currentRootResolution) EQ 0> selected="selected"</cfif>></option>
+													</cfif>
+													<cfloop query="ctresolution">
+														<cfset selected = "">
+														<cfif NOT isResponseAnnotation AND resolution EQ currentRootResolution>
+															<cfset selected = " selected ">
+														</cfif>
+														<option value="#encodeForHTMLAttribute(resolution)#"#selected#>#encodeForHTML(resolution)#</option>
+													</cfloop>
+												</select>
+												<cfif len(rootResolutionGuidanceText) GT 0>
+													<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+												</cfif>
+											</div>
+											<cfif len(rootResolutionGuidanceText) GT 0>
+												<script>
+													$(document).ready(function() {
+														applyCommentingResolutionGuidance('#editMotivationFieldId#', '#editRootResolutionFieldId#');
+													});
+												</script>
+											</cfif>
+										</cfif>
 										<div class="col-12 pt-1">
 											<input type="button"
 												class="btn btn-xs btn-primary mt-1"
 												value="Save Changes"
-												onclick="saveAnnotationEdit(#annotation_id#, <cfif isResponseAnnotation>#rootAnnotationId#<cfelse>''</cfif>, '_#dq#', '#encodeForJavaScript(dialogId)#')"><!-- " --->
+												onclick="saveAnnotationEdit(#annotation_id#, #rootAnnotationId#, '_#dq#', '#encodeForJavaScript(dialogId)#')"><!-- " --->
 											<output id="#editResultDivId#" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
@@ -1555,6 +1837,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								SELECT
 									ANNOTATION_ID, ANNOTATE_DATE, CF_USERNAME, ANNOTATION,
 									REVIEWED_FG, REVIEWER_COMMENT, TARGET_TABLE,
+									STATE, RESOLUTION,
 									motivation, reviewer_name, annotator_email,
 									MASK_ANNOTATION_FG, body_value
 								FROM contextAnns
@@ -1595,12 +1878,42 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<option value="1">Hidden</option>
 										</select>
 									</div>
+									<cfif canRespond>
+										<div class="col-12 col-md-3 pb-1">
+											<label for="#addRootStateFieldId#" class="data-entry-label">Root State</label>
+											<select id="#addRootStateFieldId#" class="data-entry-select">
+												<option value="" selected="selected">No Change</option>
+												<cfloop query="ctstate">
+													<option value="#encodeForHTMLAttribute(state)#">#encodeForHTML(state)#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3 pb-1">
+											<label for="#addRootResolutionFieldId#" class="data-entry-label">Root Resolution</label>
+											<select id="#addRootResolutionFieldId#" class="data-entry-select">
+												<option value="" selected="selected">No Change</option>
+												<cfloop query="ctresolution">
+													<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
+												</cfloop>
+											</select>
+											<cfif len(rootResolutionGuidanceText) GT 0>
+												<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+											</cfif>
+										</div>
+										<cfif len(rootResolutionGuidanceText) GT 0>
+											<script>
+												$(document).ready(function() {
+													applyCommentingResolutionGuidance('#addMotivationFieldId#', '#addRootResolutionFieldId#');
+												});
+											</script>
+										</cfif>
+									</cfif>
 									</cfif>
 									<div class="col-12 pt-1">
 										<input type="button"
 											class="btn btn-xs btn-primary mt-1"
 											value="Save Response"
-											onclick="saveReplyAnnotationFromEditDialog('idtype_add_#dq#', 'idvalue_add_#dq#', '#addAnnFieldId#', '#addMotivationFieldId#', '#addMaskFieldId#', '#addResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); })">
+											onclick="saveReplyAnnotationFromEditDialog('idtype_add_#dq#', 'idvalue_add_#dq#', '#addAnnFieldId#', '#addMotivationFieldId#', '#addMaskFieldId#', '#addRootStateFieldId#', '#addRootResolutionFieldId#', '#addResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); })">
 										<output id="#addResultDivId#" class="ml-2" aria-live="polite"></output>
 									</div>
 								</form>
@@ -1655,6 +1968,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											annotate_date=ctxRoot.ANNOTATE_DATE,
 											motivation=ctxRoot.motivation,
 											reviewed_fg=ctxRoot.reviewed_fg,
+											state=ctxRoot.state,
+											resolution=ctxRoot.resolution,
 											reviewer=ctxRoot.reviewer_name,
 											reviewer_comment=ctxRoot.reviewer_comment,
 											mask_annotation_fg=ctxRoot.mask_annotation_fg,
@@ -1707,6 +2022,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param mask_annotation_fg optional; 0 for public, 1 for hidden.
  @param root_annotation_id optional; root annotation id for a response annotation.
  @param root_reviewed_fg optional; 0 or 1 to set reviewed status on the root annotation.
+ @param root_state optional; controlled vocabulary state value to set on root annotation.
+ @param root_resolution optional; controlled vocabulary resolution value to set on root annotation, or __NULL__ to unset.
  @param root_mask_annotation_fg optional; 0 or 1 to set visibility on the root annotation.
  @return json with status=updated or an http 500 error if the update fails.
 --->
@@ -1717,6 +2034,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
 	<cfargument name="root_annotation_id" type="string" required="no" default="">
 	<cfargument name="root_reviewed_fg"   type="string" required="no" default="">
+	<cfargument name="root_state"         type="string" required="no" default="">
+	<cfargument name="root_resolution"    type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="">
 
 	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection"))>
@@ -1756,11 +2075,56 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 			<!--- Update root annotation if response --->
 			<cfif len(trim(arguments.root_annotation_id)) GT 0 AND val(arguments.root_annotation_id) GT 0>
+				<cfset validRootState = "">
+				<cfset validRootResolution = "">
+				<cfset clearRootResolution = false>
+				<cfif len(trim(arguments.root_state)) GT 0>
+					<cfquery name="stateLookup" datasource="uam_god">
+						SELECT state
+						FROM ctstate
+						WHERE UPPER(state) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.root_state)#">)
+					</cfquery>
+					<cfif stateLookup.recordcount EQ 1>
+						<cfset validRootState = stateLookup.state>
+					</cfif>
+				</cfif>
+				<cfif trim(arguments.root_resolution) EQ "__NULL__">
+					<cfset clearRootResolution = true>
+				<cfelseif len(trim(arguments.root_resolution)) GT 0>
+					<cfquery name="resolutionLookup" datasource="uam_god">
+						SELECT resolution
+						FROM ctresolution
+						WHERE UPPER(resolution) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.root_resolution)#">)
+					</cfquery>
+					<cfif resolutionLookup.recordcount EQ 1>
+						<cfset validRootResolution = resolutionLookup.resolution>
+					</cfif>
+				</cfif>
 				<cfif len(trim(arguments.root_reviewed_fg)) GT 0 AND REFind("^[01]$", trim(arguments.root_reviewed_fg)) GT 0>
 					<cfquery name="updRootReviewed" datasource="uam_god">
 						UPDATE annotations
 						SET reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_reviewed_fg)#">,
 							reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
+					</cfquery>
+				</cfif>
+				<cfif len(validRootState) GT 0 OR len(validRootResolution) GT 0 OR clearRootResolution>
+					<cfquery name="updRootWorkflow" datasource="uam_god">
+						UPDATE annotations
+						SET
+							<cfif len(validRootState) GT 0 AND len(validRootResolution) GT 0>
+								state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#validRootState#">,
+								resolution = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#validRootResolution#">
+							<cfelseif len(validRootState) GT 0 AND clearRootResolution>
+								state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#validRootState#">,
+								resolution = NULL
+							<cfelseif len(validRootState) GT 0>
+								state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#validRootState#">
+							<cfelseif clearRootResolution>
+								resolution = NULL
+							<cfelse>
+								resolution = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#validRootResolution#">
+							</cfif>
 						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
 					</cfquery>
 				</cfif>
