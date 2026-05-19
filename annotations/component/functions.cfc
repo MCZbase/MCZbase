@@ -1239,7 +1239,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<div class="px-1 small">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
-				<div class="col-12 col-md-3 pt-2 px-1">
+				<div class="col-12 col-md-2 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold small">Annotator:</span>
 					<div class="px-1 small">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
@@ -1249,11 +1249,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<div class="col-12 col-md-1 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold small">Motivation:</span>
 					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
-					<cfif NOT arguments.is_response>
+				</div>
+				<cfif NOT arguments.is_response>
+					<div class="col-12 col-md-1 pt-2 px-1">
 						<div class="px-1 small"><span class="font-weight-bold">State:</span> <cfif len(trim(arguments.state)) GT 0>#encodeForHTML(arguments.state)#<cfelse>New</cfif></div>
 						<div class="px-1 small"><span class="font-weight-bold">Resolution:</span> <cfif len(trim(arguments.resolution)) GT 0>#encodeForHTML(arguments.resolution)#<cfelse><span class="text-muted">Unset</span></cfif></div>
-					</cfif>
-				</div>
+					</div>
+				</cfif>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
 						<span class="data-entry-label font-weight-bold small d-block">Reviewed?</span>
