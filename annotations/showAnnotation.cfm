@@ -94,6 +94,7 @@ limitations under the License.
 			annotations.ANNOTATION_ID,
 			annotations.ANNOTATE_DATE,
 			annotations.CF_USERNAME,
+			annotations.ANNOTATOR_AGENT_ID,
 			annotations.ANNOTATION,
 			annotations.REVIEWED_FG,
 			annotations.REVIEWER_COMMENT,
@@ -104,6 +105,9 @@ limitations under the License.
 			annotations.motivation,
 			annotations.MASK_ANNOTATION_FG,
 			revname.agent_name reviewer_name,
+			pan.agent_name annotator_agent_name,
+			ag.agentguid annotator_agentguid,
+			ag.agentguid_guid_type annotator_agentguid_guid_type,
 			annotator.first_name annotator_first_name,
 			annotator.last_name annotator_last_name,
 			annotator.email annotator_email,
@@ -113,6 +117,8 @@ limitations under the License.
 		LEFT OUTER JOIN agent_name revname ON rev.PREFERRED_AGENT_NAME_ID = revname.agent_name_id
 		LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
 		LEFT OUTER JOIN cf_user_data annotator ON cf_users.user_id = annotator.user_id
+		LEFT OUTER JOIN agent ag ON annotations.annotator_agent_id = ag.agent_id
+		LEFT OUTER JOIN agent_name pan ON ag.PREFERRED_AGENT_NAME_ID = pan.agent_name_id
 		LEFT OUTER JOIN (
 			SELECT annotation_id, body_value,
 				row_number() over (partition by annotation_id order by created_date) rn
@@ -126,6 +132,36 @@ limitations under the License.
 		ORDER BY annotations.annotate_date
 	</cfquery>
 	
+	<!--- Prepare creator identity and display name for RDF serialization without exposing username identifiers --->
+	<cfset QueryAddColumn(conversationAnns, "creator_uri", ArrayNew(1))>
+	<cfset QueryAddColumn(conversationAnns, "creator_name", ArrayNew(1))>
+	<cfloop query="conversationAnns">
+		<cfset variables.creatorUri = "">
+		<cfset variables.creatorName = trim(conversationAnns.annotator_first_name & " " & conversationAnns.annotator_last_name)>
+		<cfif val(conversationAnns.annotator_agent_id) GT 0>
+			<cfif ucase(trim(conversationAnns.annotator_agentguid_guid_type)) EQ "ORCID" AND len(trim(conversationAnns.annotator_agentguid)) GT 0>
+				<cfset variables.orcidCandidate = trim(conversationAnns.annotator_agentguid)>
+				<cfif REFindNoCase("^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$", variables.orcidCandidate)>
+					<cfset variables.orcidCandidate = "https://orcid.org/" & variables.orcidCandidate>
+				</cfif>
+				<cfif REFindNoCase("^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$", variables.orcidCandidate)>
+					<cfset variables.creatorUri = variables.orcidCandidate>
+				</cfif>
+			</cfif>
+			<cfif len(variables.creatorUri) EQ 0>
+				<cfset variables.creatorUri = Application.ServerRootUrl & "/agents/Agent.cfm?agent_id=" & conversationAnns.annotator_agent_id>
+			</cfif>
+			<cfif len(trim(conversationAnns.annotator_agent_name)) GT 0>
+				<cfset variables.creatorName = trim(conversationAnns.annotator_agent_name)>
+			</cfif>
+		</cfif>
+		<cfif len(variables.creatorName) EQ 0>
+			<cfset variables.creatorName = "Unknown creator">
+		</cfif>
+		<cfset QuerySetCell(conversationAnns, "creator_uri", variables.creatorUri, conversationAnns.currentrow)>
+		<cfset QuerySetCell(conversationAnns, "creator_name", variables.creatorName, conversationAnns.currentrow)>
+	</cfloop>
+
 	<cfquery name="rootAnn" dbtype="query">
 		SELECT * FROM conversationAnns
 		WHERE ANNOTATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
@@ -252,7 +288,10 @@ limitations under the License.
 					"target": "#JSStringFormat(variables.targetIRI)#",
 					"motivation": "#JSStringFormat(rootAnn.motivation)#",
 					"created": "#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#",
-					"creator": {"id": "#JSStringFormat(rootAnn.cf_username)#"},
+					"creator": {
+						<cfif len(rootAnn.creator_uri) GT 0>"id": "#JSStringFormat(rootAnn.creator_uri)#",</cfif>
+						"name": "#JSStringFormat(rootAnn.creator_name)#"
+					},
 					"reviewed": <cfif val(rootAnn.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 					"visibility": "<cfif val(rootAnn.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
 					<cfif replyAnns.recordcount GT 0>
@@ -268,7 +307,10 @@ limitations under the License.
 										"target": "#JSStringFormat(variables.thisAnnotationIRI)#",
 										"motivation": "replying",
 										"created": "#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#",
-										"creator": {"id": "#JSStringFormat(replyAnns.cf_username)#"}
+										"creator": {
+											<cfif len(replyAnns.creator_uri) GT 0>"id": "#JSStringFormat(replyAnns.creator_uri)#",</cfif>
+											"name": "#JSStringFormat(replyAnns.creator_name)#"
+										}
 									}
 									<cfset variables.firstReply = false>
 								</cfif>
@@ -285,6 +327,7 @@ limitations under the License.
 			<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
 				xmlns:oa="http://www.w3.org/ns/oa##"
 				xmlns:dcterms="http://purl.org/dc/terms/"
+				xmlns:foaf="http://xmlns.com/foaf/0.1/"
 				xmlns:xsd="http://www.w3.org/2001/XMLSchema##">
 				<oa:Annotation rdf:about="#XMLFormat(variables.thisAnnotationIRI)#">
 					<cfif len(rootAnn.motivation) GT 0><oa:motivatedBy rdf:resource="http://www.w3.org/ns/oa###XMLFormat(rootAnn.motivation)#"/></cfif>
@@ -296,7 +339,11 @@ limitations under the License.
 					</oa:hasBody>
 					<cfif len(variables.targetIRI) GT 0><oa:hasTarget rdf:resource="#XMLFormat(variables.targetIRI)#"/></cfif>
 					<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#</dcterms:created>
-					<dcterms:creator rdf:resource="urn:mczbase:user:#XMLFormat(rootAnn.cf_username)#"/>
+					<dcterms:creator>
+						<foaf:Agent<cfif len(rootAnn.creator_uri) GT 0> rdf:about="#XMLFormat(rootAnn.creator_uri)#"</cfif>>
+							<foaf:name>#XMLFormat(rootAnn.creator_name)#</foaf:name>
+						</foaf:Agent>
+					</dcterms:creator>
 				</oa:Annotation>
 				<cfloop query="replyAnns">
 					<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
@@ -307,7 +354,11 @@ limitations under the License.
 							</oa:hasBody>
 							<oa:hasTarget rdf:resource="#XMLFormat(variables.thisAnnotationIRI)#"/>
 							<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#</dcterms:created>
-							<dcterms:creator rdf:resource="urn:mczbase:user:#XMLFormat(replyAnns.cf_username)#"/>
+							<dcterms:creator>
+								<foaf:Agent<cfif len(replyAnns.creator_uri) GT 0> rdf:about="#XMLFormat(replyAnns.creator_uri)#"</cfif>>
+									<foaf:name>#XMLFormat(replyAnns.creator_name)#</foaf:name>
+								</foaf:Agent>
+							</dcterms:creator>
 						</oa:Annotation>
 					</cfif>
 				</cfloop>
@@ -317,36 +368,44 @@ limitations under the License.
 			<!--- W3C Web Annotation Data Model: Turtle output --->
 			<cfcontent type="text/turtle; charset=UTF-8">
 			<cfoutput>@prefix oa: <http://www.w3.org/ns/oa##> .
-			@prefix dcterms: <http://purl.org/dc/terms/> .
-			@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
 		
-			<#variables.thisAnnotationIRI#>
-				a oa:Annotation ;
-				<cfif len(rootAnn.motivation) GT 0>oa:motivatedBy oa:#rootAnn.motivation# ;</cfif>
-				oa:hasBody [
-					a oa:TextualBody ;
-					rdf:value "#JSStringFormat(rootAnn.body_value)#" ;
-					dcterms:language "en"
-				] ;
-				<cfif len(variables.targetIRI) GT 0>oa:hasTarget <#variables.targetIRI#> ;</cfif>
-				dcterms:created "#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-				dcterms:creator <urn:mczbase:user:#encodeForURL(rootAnn.cf_username)#> .
-		
-			<cfloop query="replyAnns">
-				<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
-				<#variables.thisAnnotationIRI#&reply=#replyAnns.annotation_id#>
-					a oa:Annotation ;
-					oa:motivatedBy oa:replying ;
-					oa:hasBody [
-						a oa:TextualBody ;
-						rdf:value "#JSStringFormat(replyAnns.body_value)#" ;
-						dcterms:language "en"
-					] ;
-					oa:hasTarget <#variables.thisAnnotationIRI#> ;
-					dcterms:created "#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-					dcterms:creator <urn:mczbase:user:#encodeForURL(replyAnns.cf_username)#> .
-				</cfif>
-			</cfloop></cfoutput>
+<#variables.thisAnnotationIRI#>
+    a oa:Annotation ;
+    <cfif len(rootAnn.motivation) GT 0>oa:motivatedBy oa:#rootAnn.motivation# ;</cfif>
+    oa:hasBody [
+      a oa:TextualBody ;
+      rdf:value "#JSStringFormat(rootAnn.body_value)#" ;
+      dcterms:language "en"
+    ] ;
+    <cfif len(variables.targetIRI) GT 0>oa:hasTarget <#variables.targetIRI#> ;</cfif>
+    dcterms:created "#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
+	 dcterms:creator <cfif len(rootAnn.creator_uri) GT 0><#rootAnn.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(rootAnn.creator_name)#" ]</cfif> .
+<cfif len(rootAnn.creator_uri) GT 0>
+<#rootAnn.creator_uri#> foaf:name "#JSStringFormat(rootAnn.creator_name)#" .
+</cfif>
+<cfloop query="replyAnns">
+
+<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
+<#variables.thisAnnotationIRI#&reply=#replyAnns.annotation_id#>
+    a oa:Annotation ;
+    oa:motivatedBy oa:replying ;
+    oa:hasBody [
+        a oa:TextualBody ;
+        rdf:value "#JSStringFormat(replyAnns.body_value)#" ;
+        dcterms:language "en"
+    ] ;
+    oa:hasTarget <#variables.thisAnnotationIRI#> ;
+    dcterms:created "#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
+    dcterms:creator <cfif len(replyAnns.creator_uri) GT 0><#replyAnns.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(replyAnns.creator_name)#" ]</cfif> .
+<cfif len(replyAnns.creator_uri) GT 0>
+<#replyAnns.creator_uri#> foaf:name "#JSStringFormat(replyAnns.creator_name)#" .
+</cfif>
+</cfif>
+</cfloop></cfoutput>
 		</cfcase>
 		<cfdefaultcase>
 			<!--- HTML view: standard MCZbase page with full conversation --->
