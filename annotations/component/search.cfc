@@ -98,7 +98,7 @@ limitations under the License.
 	<cfset var normalizedRootMode = "root">
 	<cfset var normalizedReviewedFg = "">
 	<cfset var normalizedVisibility = "">
-	<cfset var search = QueryNew("")>
+	<cfset var annotationResults = QueryNew("")>
 
 	<cfswitch expression="#lcase(trim(arguments.target_type))#">
 		<cfcase value="collection_object,collection_object_id">
@@ -133,7 +133,7 @@ limitations under the License.
 		</cfif>
 	</cfif>
 
-	<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="annotationResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			annotations.annotation_id,
 			annotations.annotate_date,
@@ -190,6 +190,7 @@ limitations under the License.
 			LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
 			LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
 			LEFT OUTER JOIN (
+				<!--- Use earliest textual body for compatibility with existing annotation_display behavior on this page. --->
 				SELECT annotation_id, body_value,
 					ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 				FROM annotation_textualbody
@@ -266,7 +267,7 @@ limitations under the License.
 			target_key,
 			annotations.annotate_date DESC
 	</cfquery>
-	<cfreturn search>
+	<cfreturn annotationResults>
 </cffunction>
 
 </cfcomponent>

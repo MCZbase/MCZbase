@@ -353,9 +353,9 @@ limitations under the License.
 									AND target_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_key#">
 							</cfquery>
 							<cfloop query="itemAnno">
-								<cfset showReplyAction = "false">
+								<cfset showReplyAction = false>
 								<cfif NOT isNumeric(parent_annotation_id)>
-									<cfset showReplyAction = "true">
+									<cfset showReplyAction = true>
 								</cfif>
 								<div id="annotation-block-#annotation_id#">
 								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
@@ -373,7 +373,7 @@ limitations under the License.
 									mask_annotation_fg="#mask_annotation_fg#"
 									show_reply_action="#showReplyAction#">
 								#annoRowHTML#
-								<cfif showReplyAction EQ "true">
+								<cfif showReplyAction>
 									#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=childAnnotations, root_mask_annotation_fg=mask_annotation_fg)#
 								</cfif>
 								</div>
