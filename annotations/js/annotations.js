@@ -49,6 +49,31 @@ jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	return openEditAnnotationDialog(annotationId, callback);
 });
 
+/** Set default root resolution to NOTABUG when motivation is commenting.
+ * Does not overwrite an already-selected resolution.
+ * @param motivationFieldId id of motivation select.
+ * @param resolutionFieldId id of root resolution select.
+ */
+function applyCommentingResolutionGuidance(motivationFieldId, resolutionFieldId) {
+	var motivationEl = document.getElementById(motivationFieldId);
+	var resolutionEl = document.getElementById(resolutionFieldId);
+	if (!motivationEl || !resolutionEl) { return; }
+	var maybeSetResolution = function() {
+		var motivation = String(motivationEl.value || "").toLowerCase();
+		var resolution = String(resolutionEl.value || "");
+		if (motivation !== "commenting" || resolution.length > 0) { return; }
+		for (var i = 0; i < resolutionEl.options.length; i++) {
+			if (String(resolutionEl.options[i].value).toLowerCase() === "notabug") {
+				resolutionEl.value = resolutionEl.options[i].value;
+				break;
+			}
+		}
+	};
+	$(document).ready(function() {
+		$("#" + motivationFieldId).off("change.resolutionguidance").on("change.resolutionguidance", maybeSetResolution);
+	});
+}
+
 /** saveThisAnnotation - Save a new annotation via AJAX.
  * Requires user to have a login and have entered name and email.
  * @param feedbackDiv the id of a div element to show status feedback.
@@ -86,6 +111,12 @@ function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
 	}
 	if ($("#root_mask_annotation_fg" + suffix).length) {
 		postData.root_mask_annotation_fg = $("#root_mask_annotation_fg" + suffix).val();
+	}
+	if ($("#root_state" + suffix).length) {
+		postData.root_state = $("#root_state" + suffix).val();
+	}
+	if ($("#root_resolution" + suffix).length) {
+		postData.root_resolution = $("#root_resolution" + suffix).val();
 	}
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
@@ -528,6 +559,8 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 	var maskField = document.getElementById("edit_mask_fg" + dialogFieldQualifier);
 	var rootReviewedField = document.getElementById("edit_root_reviewed_fg" + dialogFieldQualifier);
 	var rootMaskField = document.getElementById("edit_root_mask_fg" + dialogFieldQualifier);
+	var rootStateField = document.getElementById("edit_root_state" + dialogFieldQualifier);
+	var rootResolutionField = document.getElementById("edit_root_resolution" + dialogFieldQualifier);
 	var resultDivId = "editAnnotationResultDiv" + dialogFieldQualifier;
 	if (!annField || !annField.value || annField.value.length === 0) {
 		alert('You must enter annotation text to save.');
@@ -543,12 +576,25 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 	if (motivationField) { postData.motivation = motivationField.value; }
 	if (maskField) { postData.mask_annotation_fg = maskField.value; }
 	if (rootAnnotationId && String(rootAnnotationId).length > 0) {
-		postData.root_annotation_id = rootAnnotationId;
+		var hasRootUpdate = false;
 		if (rootReviewedField && rootReviewedField.value.length > 0) {
 			postData.root_reviewed_fg = rootReviewedField.value;
+			hasRootUpdate = true;
 		}
 		if (rootMaskField && rootMaskField.value.length > 0) {
 			postData.root_mask_annotation_fg = rootMaskField.value;
+			hasRootUpdate = true;
+		}
+		if (rootStateField && rootStateField.value.length > 0) {
+			postData.root_state = rootStateField.value;
+			hasRootUpdate = true;
+		}
+		if (rootResolutionField && rootResolutionField.value.length > 0) {
+			postData.root_resolution = rootResolutionField.value;
+			hasRootUpdate = true;
+		}
+		if (hasRootUpdate) {
+			postData.root_annotation_id = rootAnnotationId;
 		}
 	}
 	jQuery.ajax({
@@ -574,10 +620,12 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
  * @param annotationFieldId id of the textarea holding the annotation text.
  * @param motivationFieldId id of the select holding the motivation.
  * @param maskFieldId id of the select holding the visibility flag (may be absent).
+ * @param rootStateFieldId id of the select holding root state (may be absent).
+ * @param rootResolutionFieldId id of the select holding root resolution (may be absent).
  * @param resultDivId id of the output element for feedback.
  * @param callback optional function to call after successful save.
  */
-function saveReplyAnnotationFromEditDialog(idTypeFieldId, idValueFieldId, annotationFieldId, motivationFieldId, maskFieldId, resultDivId, callback=null) {
+function saveReplyAnnotationFromEditDialog(idTypeFieldId, idValueFieldId, annotationFieldId, motivationFieldId, maskFieldId, rootStateFieldId, rootResolutionFieldId, resultDivId, callback=null) {
 	var idType = $("#" + idTypeFieldId).val();
 	var idValue = $("#" + idValueFieldId).val();
 	var annotation = $("#" + annotationFieldId).val();
@@ -598,6 +646,10 @@ function saveReplyAnnotationFromEditDialog(idTypeFieldId, idValueFieldId, annota
 	};
 	var maskEl = document.getElementById(maskFieldId);
 	if (maskEl) { postData.mask_annotation_fg = maskEl.value; }
+	var rootStateEl = document.getElementById(rootStateFieldId);
+	if (rootStateEl && rootStateEl.value.length > 0) { postData.root_state = rootStateEl.value; }
+	var rootResolutionEl = document.getElementById(rootResolutionFieldId);
+	if (rootResolutionEl && rootResolutionEl.value.length > 0) { postData.root_resolution = rootResolutionEl.value; }
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
 		type: "post",
