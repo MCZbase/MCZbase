@@ -1563,7 +1563,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfif>
 				</cfif>
 				<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT atb.body_value, a.state, a.resolution, a.motivation
+					SELECT atb.body_value, a.state, a.resolution, a.motivation, a.mask_annotation_fg
 					FROM annotations a
 					LEFT OUTER JOIN (
 						SELECT annotation_id, body_value,
@@ -1742,7 +1742,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												</select>
 											</div>
 											<div class="col-12 col-md-2 pb-1">
-												<label for="#editRootMaskFieldId#" class="data-entry-label">Root Visibility</label>
+												<cfset currentRootVisibilityLabel = "Public">
+												<cfif rootAnnQ.recordcount EQ 1 AND val(rootAnnQ.mask_annotation_fg) EQ 1>
+													<cfset currentRootVisibilityLabel = "Hidden">
+												</cfif>
+												<label for="#editRootMaskFieldId#" class="data-entry-label">Root Visibility (#encodeForHTML(currentRootVisibilityLabel)#)</label>
 												<select id="#editRootMaskFieldId#" class="data-entry-select">
 													<option value="" selected="selected">No Change</option>
 													<option value="0">Public</option>
@@ -1753,12 +1757,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 										<cfif canRespond>
 											<cfset currentRootState = "">
 											<cfset currentRootResolution = "">
+											<cfset currentRootStateLabel = "New">
+											<cfset currentRootResolutionLabel = "None">
 											<cfif rootAnnQ.recordcount EQ 1>
 												<cfset currentRootState = trim(rootAnnQ.state)>
 												<cfset currentRootResolution = trim(rootAnnQ.resolution)>
+												<cfif len(currentRootState) GT 0>
+													<cfset currentRootStateLabel = currentRootState>
+												</cfif>
+												<cfif len(currentRootResolution) GT 0>
+													<cfset currentRootResolutionLabel = currentRootResolution>
+												</cfif>
 											</cfif>
 											<div class="col-12 col-md-2 pb-1">
-												<label for="#editRootStateFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root State<cfelse>State</cfif></label>
+												<label for="#editRootStateFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root State (#encodeForHTML(currentRootStateLabel)#)<cfelse>State</cfif></label>
 												<select id="#editRootStateFieldId#" class="data-entry-select">
 													<cfif isResponseAnnotation>
 														<option value="" selected="selected">No Change</option>
@@ -1775,7 +1787,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												</select>
 											</div>
 											<div class="col-12 col-md-2 pb-1">
-												<label for="#editRootResolutionFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root Resolution<cfelse>Resolution</cfif></label>
+												<label for="#editRootResolutionFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root Resolution (#encodeForHTML(currentRootResolutionLabel)#)<cfelse>Resolution</cfif></label>
 												<select id="#editRootResolutionFieldId#" class="data-entry-select">
 													<cfif isResponseAnnotation>
 														<option value="" selected="selected">No Change</option>
