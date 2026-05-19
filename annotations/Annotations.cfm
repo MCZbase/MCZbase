@@ -275,7 +275,7 @@ limitations under the License.
 							</div>
 							<button type="submit" class="btn btn-xs btn-primary">Search</button>
 							<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
-							<div class="small text-muted mt-2">URL-driven links can populate this form and execute with <code>execute=true</code>.</div>
+							<div class="small text-muted mt-2">URL-driven links can populate this form and execute with <code>execute=true</code>. Example: <code>?target_type=collection_object&amp;specimen_guid=MCZ:Herp:A-12345&amp;execute=true</code></div>
 						</div>
 					</form>
 				</div>
