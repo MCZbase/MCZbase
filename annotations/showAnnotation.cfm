@@ -368,44 +368,44 @@ limitations under the License.
 			<!--- W3C Web Annotation Data Model: Turtle output --->
 			<cfcontent type="text/turtle; charset=UTF-8">
 			<cfoutput>@prefix oa: <http://www.w3.org/ns/oa##> .
-			@prefix dcterms: <http://purl.org/dc/terms/> .
-			@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-			@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##> .
-			@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
 		
-			<#variables.thisAnnotationIRI#>
-				a oa:Annotation ;
-				<cfif len(rootAnn.motivation) GT 0>oa:motivatedBy oa:#rootAnn.motivation# ;</cfif>
-				oa:hasBody [
-					a oa:TextualBody ;
-					rdf:value "#JSStringFormat(rootAnn.body_value)#" ;
-					dcterms:language "en"
-				] ;
-				<cfif len(variables.targetIRI) GT 0>oa:hasTarget <#variables.targetIRI#> ;</cfif>
-				dcterms:created "#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-				dcterms:creator <cfif len(rootAnn.creator_uri) GT 0><#rootAnn.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(rootAnn.creator_name)#" ]</cfif> .
-			<cfif len(rootAnn.creator_uri) GT 0>
-			<#rootAnn.creator_uri#> foaf:name "#JSStringFormat(rootAnn.creator_name)#" .
-			</cfif>
-		
-			<cfloop query="replyAnns">
-				<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
-				<#variables.thisAnnotationIRI#&reply=#replyAnns.annotation_id#>
-					a oa:Annotation ;
-					oa:motivatedBy oa:replying ;
-					oa:hasBody [
-						a oa:TextualBody ;
-						rdf:value "#JSStringFormat(replyAnns.body_value)#" ;
-						dcterms:language "en"
-					] ;
-					oa:hasTarget <#variables.thisAnnotationIRI#> ;
-					dcterms:created "#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-					dcterms:creator <cfif len(replyAnns.creator_uri) GT 0><#replyAnns.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(replyAnns.creator_name)#" ]</cfif> .
-				<cfif len(replyAnns.creator_uri) GT 0>
-				<#replyAnns.creator_uri#> foaf:name "#JSStringFormat(replyAnns.creator_name)#" .
-				</cfif>
-				</cfif>
-			</cfloop></cfoutput>
+<#variables.thisAnnotationIRI#>
+    a oa:Annotation ;
+    <cfif len(rootAnn.motivation) GT 0>oa:motivatedBy oa:#rootAnn.motivation# ;</cfif>
+    oa:hasBody [
+      a oa:TextualBody ;
+      rdf:value "#JSStringFormat(rootAnn.body_value)#" ;
+      dcterms:language "en"
+    ] ;
+    <cfif len(variables.targetIRI) GT 0>oa:hasTarget <#variables.targetIRI#> ;</cfif>
+    dcterms:created "#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
+	 dcterms:creator <cfif len(rootAnn.creator_uri) GT 0><#rootAnn.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(rootAnn.creator_name)#" ]</cfif> .
+<cfif len(rootAnn.creator_uri) GT 0>
+<#rootAnn.creator_uri#> foaf:name "#JSStringFormat(rootAnn.creator_name)#" .
+</cfif>
+<cfloop query="replyAnns">
+
+<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
+<#variables.thisAnnotationIRI#&reply=#replyAnns.annotation_id#>
+    a oa:Annotation ;
+    oa:motivatedBy oa:replying ;
+    oa:hasBody [
+        a oa:TextualBody ;
+        rdf:value "#JSStringFormat(replyAnns.body_value)#" ;
+        dcterms:language "en"
+    ] ;
+    oa:hasTarget <#variables.thisAnnotationIRI#> ;
+    dcterms:created "#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
+    dcterms:creator <cfif len(replyAnns.creator_uri) GT 0><#replyAnns.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(replyAnns.creator_name)#" ]</cfif> .
+<cfif len(replyAnns.creator_uri) GT 0>
+<#replyAnns.creator_uri#> foaf:name "#JSStringFormat(replyAnns.creator_name)#" .
+</cfif>
+</cfif>
+</cfloop></cfoutput>
 		</cfcase>
 		<cfdefaultcase>
 			<!--- HTML view: standard MCZbase page with full conversation --->
