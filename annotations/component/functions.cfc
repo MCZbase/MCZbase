@@ -58,6 +58,53 @@ limitations under the License.
 	<cfreturn ctresolution>
 </cffunction>
 
+<!--- Configured likely resolution suggestions by root annotation motivation.
+ @return struct mapping motivation (lowercase) to array of likely resolution values.
+--->
+<cffunction name="getRootResolutionGuidanceConfig" returntype="struct" access="public">
+	<cfset var guidanceConfig = StructNew("ordered")>
+	<cfset guidanceConfig["commenting"] = ["NOTABUG"]>
+	<cfreturn guidanceConfig>
+</cffunction>
+
+<!--- Build guidance text for likely resolution values for a specific root motivation.
+ @param rootMotivation motivation value on the root annotation.
+ @return text such as "For motivations of commenting, NOTABUG is often appropriate." or empty string.
+--->
+<cffunction name="getRootResolutionGuidanceText" returntype="string" access="public">
+	<cfargument name="rootMotivation" type="string" required="yes">
+	<cfset var guidanceText = "">
+	<cfset var normalizedMotivation = lcase(trim(arguments.rootMotivation))>
+	<cfset var guidanceConfig = getRootResolutionGuidanceConfig()>
+	<cfset var likelyResolutions = []>
+	<cfset var likelyResolutionText = "">
+	<cfset var i = 0>
+	<cfif len(normalizedMotivation) EQ 0>
+		<cfreturn guidanceText>
+	</cfif>
+	<cfif NOT structKeyExists(guidanceConfig, normalizedMotivation)>
+		<cfreturn guidanceText>
+	</cfif>
+	<cfset likelyResolutions = guidanceConfig[normalizedMotivation]>
+	<cfif arrayLen(likelyResolutions) EQ 1>
+		<cfset likelyResolutionText = likelyResolutions[1]>
+	<cfelseif arrayLen(likelyResolutions) GT 1>
+		<cfloop from="1" to="#arrayLen(likelyResolutions)#" index="i">
+			<cfif i EQ 1>
+				<cfset likelyResolutionText = likelyResolutions[i]>
+			<cfelseif i EQ arrayLen(likelyResolutions)>
+				<cfset likelyResolutionText = likelyResolutionText & " or " & likelyResolutions[i]>
+			<cfelse>
+				<cfset likelyResolutionText = likelyResolutionText & ", " & likelyResolutions[i]>
+			</cfif>
+		</cfloop>
+	</cfif>
+	<cfif len(likelyResolutionText) GT 0>
+		<cfset guidanceText = "For motivations of " & normalizedMotivation & ", " & likelyResolutionText & " is often appropriate.">
+	</cfif>
+	<cfreturn guidanceText>
+</cffunction>
+
 <!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
   * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
   * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
@@ -98,6 +145,8 @@ limitations under the License.
 				<cfset rootStateFieldId = "root_state" & dialogFieldQualifier>
 				<cfset rootResolutionFieldId = "root_resolution" & dialogFieldQualifier>
 				<cfset annotationResultDivId = "annotationResultDiv" & dialogFieldQualifier>
+				<cfset rootAnnotationMotivation = "">
+				<cfset rootResolutionGuidanceText = "">
 				<cfif canAnnotate>
 					<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 						SELECT motivation, description
@@ -222,6 +271,14 @@ limitations under the License.
 						<cfelse>
 							<cfset responseRootAnnotationId = targetAnnotationId>
 						</cfif>
+						<cfquery name="rootAnnotationMotivationForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT motivation
+							FROM annotations
+							WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
+						</cfquery>
+						<cfif rootAnnotationMotivationForDialog.recordcount EQ 1>
+							<cfset rootAnnotationMotivation = rootAnnotationMotivationForDialog.motivation>
+						</cfif>
 						<cfif responseRootAnnotationId NEQ targetAnnotationId>
 							<cfif len(targetAnnotationBody) GT 0>
 								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#">
@@ -252,6 +309,9 @@ limitations under the License.
 						<cfthrow message="Annotation on an unsupported target type.">
 					</cfdefaultcase>
 				</cfswitch>
+				<cfif target_type EQ "annotation">
+					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText(rootAnnotationMotivation)>
+				</cfif>
 				<!--- Single shared query for all target types; WHERE clause varies by target_type using cfif, not by SQL variable. --->
 				<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					select annotations.ANNOTATION_ID ANNOTATION_ID,
@@ -375,13 +435,17 @@ limitations under the License.
 															<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
 														</cfloop>
 													</select>
-													<span class="small text-muted d-block">For commenting motivations, NOTABUG is often appropriate.</span>
+													<cfif len(rootResolutionGuidanceText) GT 0>
+														<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+													</cfif>
 												</div>
-												<script>
-													$(document).ready(function() {
-														applyCommentingResolutionGuidance('#motivationFieldId#', '#rootResolutionFieldId#');
-													});
-												</script>
+												<cfif len(rootResolutionGuidanceText) GT 0>
+													<script>
+														$(document).ready(function() {
+															applyCommentingResolutionGuidance('#motivationFieldId#', '#rootResolutionFieldId#');
+														});
+													</script>
+												</cfif>
 											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
@@ -1446,6 +1510,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset addRootStateFieldId  = "add_root_state_"         & dq>
 				<cfset addRootResolutionFieldId = "add_root_resolution_" & dq>
 				<cfset addResultDivId       = "addAnnotationResultDiv_" & dq>
+				<cfset rootResolutionGuidanceText = "">
 
 				<!--- Look up the annotation to edit --->
 				<cfquery name="editAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -1498,7 +1563,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfif>
 				</cfif>
 				<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT atb.body_value, a.state, a.resolution
+					SELECT atb.body_value, a.state, a.resolution, a.motivation
 					FROM annotations a
 					LEFT OUTER JOIN (
 						SELECT annotation_id, body_value,
@@ -1509,6 +1574,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfquery>
 				<cfif rootAnnQ.recordcount EQ 1 AND len(rootAnnQ.body_value) GT 0>
 					<cfset rootAnnotationBody = rootAnnQ.body_value>
+				</cfif>
+				<cfif rootAnnQ.recordcount EQ 1>
+					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText(rootAnnQ.motivation)>
 				</cfif>
 
 				<!--- Load context annotations: root and its children --->
@@ -1712,7 +1780,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													<cfif isResponseAnnotation>
 														<option value="" selected="selected">No Change</option>
 													<cfelse>
-														<option value="__NULL__"<cfif len(currentRootResolution) EQ 0> selected="selected"</cfif>>Unset</option>
+														<option value="__NULL__"<cfif len(currentRootResolution) EQ 0> selected="selected"</cfif>></option>
 													</cfif>
 													<cfloop query="ctresolution">
 														<cfset selected = "">
@@ -1722,13 +1790,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 														<option value="#encodeForHTMLAttribute(resolution)#"#selected#>#encodeForHTML(resolution)#</option>
 													</cfloop>
 												</select>
-												<span class="small text-muted d-block">For commenting motivations, NOTABUG is often appropriate.</span>
+												<cfif len(rootResolutionGuidanceText) GT 0>
+													<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+												</cfif>
 											</div>
-											<script>
-												$(document).ready(function() {
-													applyCommentingResolutionGuidance('#editMotivationFieldId#', '#editRootResolutionFieldId#');
-												});
-											</script>
+											<cfif len(rootResolutionGuidanceText) GT 0>
+												<script>
+													$(document).ready(function() {
+														applyCommentingResolutionGuidance('#editMotivationFieldId#', '#editRootResolutionFieldId#');
+													});
+												</script>
+											</cfif>
 										</cfif>
 										<div class="col-12 pt-1">
 											<input type="button"
@@ -1806,13 +1878,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
 												</cfloop>
 											</select>
-											<span class="small text-muted d-block">For commenting motivations, NOTABUG is often appropriate.</span>
+											<cfif len(rootResolutionGuidanceText) GT 0>
+												<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+											</cfif>
 										</div>
-										<script>
-											$(document).ready(function() {
-												applyCommentingResolutionGuidance('#addMotivationFieldId#', '#addRootResolutionFieldId#');
-											});
-										</script>
+										<cfif len(rootResolutionGuidanceText) GT 0>
+											<script>
+												$(document).ready(function() {
+													applyCommentingResolutionGuidance('#addMotivationFieldId#', '#addRootResolutionFieldId#');
+												});
+											</script>
+										</cfif>
 									</cfif>
 									</cfif>
 									<div class="col-12 pt-1">
