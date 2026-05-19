@@ -64,6 +64,8 @@ limitations under the License.
 <cffunction name="getRootResolutionGuidanceConfig" returntype="struct" access="public">
 	<cfset var guidanceConfig = StructNew("ordered")>
 	<cfset guidanceConfig["commenting"] = ["NOTABUG"]>
+	<cfset guidanceConfig["replying"] = ["NOTABUG"]>
+	<cfset guidanceConfig["editing"] = ["FIXED","OBSOLETE","WONTFIX"]>
 	<cfreturn guidanceConfig>
 </cffunction>
 
