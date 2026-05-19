@@ -1975,7 +1975,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset validRootResolution = "">
 				<cfset clearRootResolution = false>
 				<cfif len(trim(arguments.root_state)) GT 0>
-					<cfquery name="stateLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					<cfquery name="stateLookup" datasource="uam_god">
 						SELECT state
 						FROM ctstate
 						WHERE UPPER(state) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.root_state)#">)
@@ -1987,7 +1987,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfif trim(arguments.root_resolution) EQ "__NULL__">
 					<cfset clearRootResolution = true>
 				<cfelseif len(trim(arguments.root_resolution)) GT 0>
-					<cfquery name="resolutionLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					<cfquery name="resolutionLookup" datasource="uam_god">
 						SELECT resolution
 						FROM ctresolution
 						WHERE UPPER(resolution) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.root_resolution)#">)
