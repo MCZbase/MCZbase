@@ -1576,7 +1576,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfset rootAnnotationBody = rootAnnQ.body_value>
 				</cfif>
 				<cfif rootAnnQ.recordcount EQ 1>
-					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText(rootAnnQ.motivation)>
+					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText("" & rootAnnQ.motivation)>
 				</cfif>
 
 				<!--- Load context annotations: root and its children --->
@@ -1760,8 +1760,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<cfset currentRootStateLabel = "New">
 											<cfset currentRootResolutionLabel = "None">
 											<cfif rootAnnQ.recordcount EQ 1>
-												<cfset currentRootState = trim(rootAnnQ.state)>
-												<cfset currentRootResolution = trim(rootAnnQ.resolution)>
+												<cfset currentRootState = trim("" & rootAnnQ.state)>
+												<cfset currentRootResolution = trim("" & rootAnnQ.resolution)>
 												<cfif len(currentRootState) GT 0>
 													<cfset currentRootStateLabel = currentRootState>
 												</cfif>
