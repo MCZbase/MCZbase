@@ -1563,7 +1563,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfif>
 				</cfif>
 				<cfquery name="rootAnnQ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT atb.body_value, a.state, a.resolution, a.motivation, a.mask_annotation_fg
+					SELECT atb.body_value, a.state, a.resolution, a.motivation, a.mask_annotation_fg, a.reviewed_fg
 					FROM annotations a
 					LEFT OUTER JOIN (
 						SELECT annotation_id, body_value,
@@ -1734,7 +1734,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 										</div>
 										<cfif isResponseAnnotation>
 											<div class="col-12 col-md-2 pb-1">
-												<label for="#editRootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed?</label>
+												<cfset currentRootReviewedLabel = "No">
+												<cfif rootAnnQ.recordcount EQ 1 AND val(rootAnnQ.reviewed_fg) EQ 1>
+													<cfset currentRootReviewedLabel = "Yes">
+												</cfif>
+												<label for="#editRootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed? (#encodeForHTML(currentRootReviewedLabel)#)</label>
 												<select id="#editRootReviewedFieldId#" class="data-entry-select">
 													<option value="" selected="selected">No Change</option>
 													<option value="0">No</option>
