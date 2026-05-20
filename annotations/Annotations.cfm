@@ -255,8 +255,6 @@ limitations under the License.
 					WHERE upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						<cfif isDefined("variables.id") AND len(variables.id) GT 0>
 							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
-						<cfelseif len(variables.collection) GT 0>
-							AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection#">
 						<cfelseif len(variables.specimen_guid) GT 0>
 							AND annotations.target_primary_key IN (
 								SELECT collection_object_id
@@ -269,6 +267,8 @@ limitations under the License.
 									WHERE upper(guid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.specimen_guid)#">
 								</cfif>
 							)
+						<cfelseif len(variables.collection) GT 0>
+							AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection#">
 						</cfif>
 				</cfquery>
 				<cfset specimenChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getSpecimenAnnotations.annotation_id))>
