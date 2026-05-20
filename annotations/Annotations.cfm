@@ -252,7 +252,7 @@ limitations under the License.
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						<cfif isDefined("variables.id") AND len(variables.id) GT 0>
-							AND annotations.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
+							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
 						</cfif>
 						<cfif len(variables.collection) GT 0>
 							AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection#">
@@ -378,7 +378,7 @@ limitations under the License.
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE upper(annotations.target_table) = 'TAXON_NAME'
 						<cfif isDefined("variables.taxon_name_id") AND len(variables.taxon_name_id) GT 0>
-							AND annotations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
+							AND annotations.target_primary_key= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
 						</cfif>
 						<cfif len(variables.taxon_family) GT 0>
 							AND upper(taxonomy.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.taxon_family)#">
@@ -473,7 +473,7 @@ limitations under the License.
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE upper(annotations.target_table) = 'PUBLICATION'
 						<cfif isDefined("variables.publication_id") AND len(variables.publication_id) GT 0>
-							AND annotations.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
+							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 						</cfif>
 				</cfquery>
 				<cfset publicationChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getPubAnnotations.annotation_id))>
@@ -562,7 +562,7 @@ limitations under the License.
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE upper(annotations.target_table) = 'PROJECT'
 						<cfif isDefined("variables.project_id") AND len(variables.project_id) GT 0>
-							AND annotations.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
 						</cfif>
 				</cfquery>
 				<cfset projectChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getProjectAnnotations.annotation_id))>
