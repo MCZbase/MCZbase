@@ -217,7 +217,7 @@ limitations under the License.
 						annotations.ANNOTATION_ID,
 						annotations.ANNOTATE_DATE,
 						annotations.CF_USERNAME,
-						annotations.COLLECTION_OBJECT_ID,
+						annotations target_primary_key as COLLECTION_OBJECT_ID,
 						annotations.annotation,
 						NVL(atb.body_value, annotations.annotation) annotation_display,
 						annotations.reviewer_agent_id,
@@ -238,7 +238,7 @@ limitations under the License.
 						cf_user_data.email
 					FROM
 						annotations
-						INNER JOIN cataloged_item ON annotations.target_primary_key = cataloged_item.COLLECTION_OBJECT_ID aND upper(annotations.target_table) = 'COLLECTION_OBJECT'
+						INNER JOIN cataloged_item ON annotations.target_primary_key = cataloged_item.COLLECTION_OBJECT_ID AND upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
 						INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
@@ -364,7 +364,7 @@ limitations under the License.
 						annotations.motivation,
 						annotations.mask_annotation_fg,
 						cf_user_data.email,
-						annotations.taxon_name_id
+						annotations.target_primary_key as taxon_name_id
 					FROM
 						annotations
 						INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
@@ -459,7 +459,7 @@ limitations under the License.
 						annotations.motivation,
 						annotations.mask_annotation_fg,
 						cf_user_data.email,
-						annotations.publication_id
+						annotations.target_primary_key as publication_id
 					FROM
 						annotations
 						INNER JOIN publication ON annotations.publication_id = publication.publication_id
@@ -548,7 +548,7 @@ limitations under the License.
 						annotations.motivation,
 						annotations.mask_annotation_fg,
 						cf_user_data.email,
-						annotations.project_id
+						annotations.target_primary_key as project_id
 					FROM
 						annotations
 						INNER JOIN project ON annotations.project_id = project.project_id
