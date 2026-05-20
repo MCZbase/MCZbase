@@ -217,7 +217,7 @@ limitations under the License.
 						annotations.ANNOTATION_ID,
 						annotations.ANNOTATE_DATE,
 						annotations.CF_USERNAME,
-						annotations target_primary_key as COLLECTION_OBJECT_ID,
+						annotations.target_primary_key as COLLECTION_OBJECT_ID,
 						annotations.annotation,
 						NVL(atb.body_value, annotations.annotation) annotation_display,
 						annotations.reviewer_agent_id,
