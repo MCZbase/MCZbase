@@ -269,15 +269,15 @@ limitations under the License.
 								<select name="target_type" id="target_type" class="data-entry-select col-12">
 									<option value="">All Target Types</option>
 									<cfloop query="getAnnotatedTargetTypes">
-										<cfset targetTypeLabel = "">
+										<cfset target_type_label = "">
 										<cfswitch expression="#target_table#">
-											<cfcase value="COLLECTION_OBJECT"><cfset targetTypeLabel = "Specimen"></cfcase>
-											<cfcase value="TAXON_NAME"><cfset targetTypeLabel = "Taxon"></cfcase>
-											<cfcase value="PUBLICATION"><cfset targetTypeLabel = "Publication"></cfcase>
-											<cfcase value="PROJECT"><cfset targetTypeLabel = "Project"></cfcase>
-											<cfdefaultcase><cfset targetTypeLabel = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
+											<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
+											<cfcase value="TAXON_NAME"><cfset target_type_label = "Taxon"></cfcase>
+											<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
+											<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
+											<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
 										</cfswitch>
-										<option value="#encodeForHTML(target_table)#" <cfif variables.target_type EQ target_table>selected="selected"</cfif>>#encodeForHTML(targetTypeLabel)# (#ct#)</option>
+										<option value="#encodeForHTML(target_table)#" <cfif variables.target_type EQ target_table>selected="selected"</cfif>>#encodeForHTML(target_type_label)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -419,7 +419,7 @@ limitations under the License.
 								}
 								if (filledGroups.length > 1) {
 									var orderedGroups = ['specimen', 'taxon', 'publication', 'project'];
-									// When multiple target-specific groups contain values, apply deterministic precedence.
+									// Deterministic precedence for conflicts: specimen, then taxon, then publication, then project.
 									var selectedGroup = orderedGroups.find(function (groupName) {
 										return filledGroups.indexOf(groupName) !== -1;
 									});
