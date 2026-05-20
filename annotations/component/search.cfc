@@ -19,7 +19,11 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!--- Load controlled vocabularies and target subset picklists for annotation search. --->
+<!---
+ @return struct containing query objects used to populate annotation search controls:
+   ctstate, ctresolution, ctmotivation, collections, families.
+ Called by /annotations/Annotations.cfm to build filter select lists before rendering the form.
+--->
 <cffunction name="getAnnotationSearchFilters" returntype="struct" access="public">
 	<cfset var filterData = StructNew()>
 	<cfset var ctstate = QueryNew("")>
@@ -74,7 +78,27 @@ limitations under the License.
 	<cfreturn filterData>
 </cffunction>
 
-<!--- Generalized annotation-first search with optional target-aware filtering. --->
+<!---
+ Generalized annotation-first search with optional target-aware filtering.
+ @param target_type optional target selector: collection_object|taxon_name|publication|project (aliases with *_id are accepted).
+ @param state optional annotation state exact match.
+ @param resolution optional annotation resolution exact match.
+ @param annotator optional username fragment (case-insensitive contains match).
+ @param annotation_text optional annotation body fragment (case-insensitive contains match).
+ @param motivation optional annotation motivation exact match.
+ @param reviewed_fg optional review flag; accepts 1/0/true/false/yes/no.
+ @param root_mode optional thread position filter; root (default) or response.
+ @param visibility optional mask flag; accepts 1/0/true/false/yes/no.
+ @param collection optional exact collection name for specimen targets.
+ @param specimen_guid optional specimen guid filter; supports single guid, comma-delimited list, or SQL wildcard pattern.
+ @param collection_object_id optional numeric specimen primary key filter.
+ @param family optional exact taxon family filter (case-insensitive).
+ @param scientific_name optional taxon scientific name fragment (case-insensitive contains match).
+ @param taxon_name_id optional numeric taxon primary key filter.
+ @param publication_id optional numeric publication primary key filter.
+ @param project_id optional numeric project primary key filter.
+ @return query of annotation rows with target context fields used by /annotations/Annotations.cfm result rendering.
+--->
 <cffunction name="findAnnotations" returntype="query" access="public">
 	<cfargument name="target_type" type="string" required="no" default="">
 	<cfargument name="state" type="string" required="no" default="">
