@@ -24,8 +24,13 @@ limitations under the License.
 
 <!--- Explicit URL scope declarations --->
 
+<!--- generic target type and primary key --->
+<!--- TODO: Rename these to match target_table and target_primary_key for clarity --->
 <cfif isDefined("url.type")><cfset variables.type = url.type></cfif>
 <cfif NOT isDefined("variables.type") OR len(variables.type) EQ 0><cfset variables.type = ""></cfif>
+<!--- id parameter is used when linking directly to a specific target --->
+<cfif isDefined("url.id")><cfset variables.id = url.id></cfif>
+<cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
 
 <cfif isDefined("url.collection")><cfset variables.collection = url.collection></cfif>
 <cfif NOT isDefined("variables.collection")><cfset variables.collection = ""></cfif>
@@ -63,9 +68,6 @@ limitations under the License.
 <cfif isDefined("url.project_id")><cfset variables.project_id = url.project_id></cfif>
 <cfif NOT isDefined("variables.project_id")><cfset variables.project_id = ""></cfif>
 
-<!--- id parameter is used when linking directly to a specific specimen's annotations --->
-<cfif isDefined("url.id")><cfset variables.id = url.id></cfif>
-<cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
 
 <cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
 
@@ -75,7 +77,7 @@ limitations under the License.
       count(annotation_id) as ct, collection.collection
    FROM collection 
       JOIN cataloged_item ON collection.collection_id = cataloged_item.collection_id
-      JOIN annotations ON cataloged_item.collection_object_id = annotations.collection_object_id
+      JOIN annotations ON cataloged_item.collection_object_id = annotations.target_primary_key and upper(annotations.target_table) = 'COLLECTION_OBJECT'
    GROUP BY collection.collection
    ORDER BY collection
 </cfquery>
@@ -83,7 +85,7 @@ limitations under the License.
 <cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT count(annotation_id) as ct, taxonomy.family
 	FROM annotations
-		INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
+		INNER JOIN taxonomy ON annotations.target_primary_key = taxonomy.taxon_name_id aND upper(annotations.target_table) = 'TAXON_NAME'
 	WHERE taxonomy.family IS NOT NULL
    GROUP BY taxonomy.family
 	ORDER BY taxonomy.family
@@ -236,7 +238,7 @@ limitations under the License.
 						cf_user_data.email
 					FROM
 						annotations
-						INNER JOIN cataloged_item ON annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID
+						INNER JOIN cataloged_item ON annotations.target_table_id = cataloged_item.COLLECTION_OBJECT_ID aND upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
 						INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
@@ -253,11 +255,9 @@ limitations under the License.
 					WHERE upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						<cfif isDefined("variables.id") AND len(variables.id) GT 0>
 							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
-						</cfif>
-						<cfif len(variables.collection) GT 0>
+						<cfelseif len(variables.collection) GT 0>
 							AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection#">
-						</cfif>
-						<cfif len(variables.specimen_guid) GT 0>
+						<cfelseif len(variables.specimen_guid) GT 0>
 							AND annotations.target_primary_key IN (
 								SELECT collection_object_id
 								FROM #session.flatTableName#
