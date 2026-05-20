@@ -116,26 +116,26 @@ limitations under the License.
 			annotations.motivation,
 			annotations.mask_annotation_fg,
 			CASE
-				WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 				ELSE annotations.target_table
 			END target_table,
 			CASE
-				WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 				ELSE annotations.target_primary_key
 			END target_primary_key,
 			CASE
-				WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN annotations.target_primary_key
+				WHEN annotations.target_table = 'ANNOTATIONS' THEN annotations.target_primary_key
 				ELSE NULL
 			END parent_annotation_id,
 			CASE
 				WHEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'COLLECTION_OBJECT' THEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				)
@@ -144,12 +144,12 @@ limitations under the License.
 			CASE
 				WHEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'TAXON_NAME' THEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				)
@@ -158,12 +158,12 @@ limitations under the License.
 			CASE
 				WHEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'PUBLICATION' THEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				)
@@ -172,12 +172,12 @@ limitations under the License.
 			CASE
 				WHEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'PROJECT' THEN (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				)
@@ -198,20 +198,20 @@ limitations under the License.
 			project.project_name,
 			to_char(
 				CASE
-					WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+					WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 					ELSE annotations.target_primary_key
 				END
 			) target_key
 		FROM
 			annotations
-			LEFT OUTER JOIN annotations parent_annotations ON upper(annotations.target_table) = 'ANNOTATIONS'
+			LEFT OUTER JOIN annotations parent_annotations ON annotations.target_table = 'ANNOTATIONS'
 				AND annotations.target_primary_key = parent_annotations.annotation_id
 			LEFT OUTER JOIN cataloged_item ON (
-					upper(annotations.target_table) = 'COLLECTION_OBJECT'
+					annotations.target_table = 'COLLECTION_OBJECT'
 					AND annotations.target_primary_key = cataloged_item.collection_object_id
 				) OR (
-					upper(annotations.target_table) = 'ANNOTATIONS'
-					AND upper(parent_annotations.target_table) = 'COLLECTION_OBJECT'
+					annotations.target_table = 'ANNOTATIONS'
+					AND parent_annotations.target_table = 'COLLECTION_OBJECT'
 					AND parent_annotations.target_primary_key = cataloged_item.collection_object_id
 				)
 			LEFT OUTER JOIN collection ON cataloged_item.collection_id = collection.collection_id
@@ -221,27 +221,27 @@ limitations under the License.
 			LEFT OUTER JOIN locality ON collecting_event.locality_id = locality.locality_id
 			LEFT OUTER JOIN geog_auth_rec ON locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 			LEFT OUTER JOIN taxonomy ON (
-					upper(annotations.target_table) = 'TAXON_NAME'
+					annotations.target_table = 'TAXON_NAME'
 					AND annotations.target_primary_key = taxonomy.taxon_name_id
 				) OR (
-					upper(annotations.target_table) = 'ANNOTATIONS'
-					AND upper(parent_annotations.target_table) = 'TAXON_NAME'
+					annotations.target_table = 'ANNOTATIONS'
+					AND parent_annotations.target_table = 'TAXON_NAME'
 					AND parent_annotations.target_primary_key = taxonomy.taxon_name_id
 				)
 			LEFT OUTER JOIN publication ON (
-					upper(annotations.target_table) = 'PUBLICATION'
+					annotations.target_table = 'PUBLICATION'
 					AND annotations.target_primary_key = publication.publication_id
 				) OR (
-					upper(annotations.target_table) = 'ANNOTATIONS'
-					AND upper(parent_annotations.target_table) = 'PUBLICATION'
+					annotations.target_table = 'ANNOTATIONS'
+					AND parent_annotations.target_table = 'PUBLICATION'
 					AND parent_annotations.target_primary_key = publication.publication_id
 				)
 			LEFT OUTER JOIN project ON (
-					upper(annotations.target_table) = 'PROJECT'
+					annotations.target_table = 'PROJECT'
 					AND annotations.target_primary_key = project.project_id
 				) OR (
-					upper(annotations.target_table) = 'ANNOTATIONS'
-					AND upper(parent_annotations.target_table) = 'PROJECT'
+					annotations.target_table = 'ANNOTATIONS'
+					AND parent_annotations.target_table = 'PROJECT'
 					AND parent_annotations.target_primary_key = project.project_id
 				)
 			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
@@ -258,22 +258,22 @@ limitations under the License.
 			<cfif len(targetTableFilter) GT 0>
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targetTableFilter#">
 			<cfelse>
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) IN ('COLLECTION_OBJECT','TAXON_NAME','PUBLICATION','PROJECT')
 			</cfif>
 			<cfif normalizedRootMode EQ "root">
-				AND upper(annotations.target_table) <> 'ANNOTATIONS'
+				AND annotations.target_table <> 'ANNOTATIONS'
 			<cfelseif normalizedRootMode EQ "response">
-				AND upper(annotations.target_table) = 'ANNOTATIONS'
+				AND annotations.target_table = 'ANNOTATIONS'
 			</cfif>
 			<cfif len(trim(arguments.state)) GT 0>
 				AND annotations.state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.state)#">
@@ -302,13 +302,13 @@ limitations under the License.
 			<cfif len(trim(arguments.collection_object_id)) GT 0 AND isNumeric(arguments.collection_object_id)>
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'COLLECTION_OBJECT'
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.collection_object_id)#">
@@ -316,13 +316,13 @@ limitations under the License.
 			<cfif len(trim(arguments.specimen_guid)) GT 0>
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'COLLECTION_OBJECT'
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				) IN (
@@ -340,13 +340,13 @@ limitations under the License.
 			<cfif len(trim(arguments.taxon_name_id)) GT 0 AND isNumeric(arguments.taxon_name_id)>
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'TAXON_NAME'
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.taxon_name_id)#">
@@ -360,13 +360,13 @@ limitations under the License.
 			<cfif len(trim(arguments.publication_id)) GT 0 AND isNumeric(arguments.publication_id)>
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'PUBLICATION'
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.publication_id)#">
@@ -374,20 +374,20 @@ limitations under the License.
 			<cfif len(trim(arguments.project_id)) GT 0 AND isNumeric(arguments.project_id)>
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
 				) = 'PROJECT'
 				AND (
 					CASE
-						WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.project_id)#">
 			</cfif>
 		ORDER BY
 			CASE
-				WHEN upper(annotations.target_table) = 'ANNOTATIONS' THEN parent_annotations.target_table
+				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 				ELSE annotations.target_table
 			END,
 			target_key,
