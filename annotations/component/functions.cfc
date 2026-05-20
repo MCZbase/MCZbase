@@ -1824,7 +1824,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<input type="button"
 												class="btn btn-xs btn-primary mt-1"
 												value="Save Changes"
-												onclick="saveAnnotationEdit(#annotation_id#, #rootAnnotationId#, '_#dq#', '#encodeForJavaScript(dialogId)#')"><!-- " --->
+												onclick="saveAnnotationEdit(#annotation_id#, #rootAnnotationId#, '_#dq#', '#encodeForJavaScript(dialogId)#')">
 											<output id="#editResultDivId#" class="ml-2" aria-live="polite"></output>
 										</div>
 									</form>
@@ -1861,7 +1861,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-4 pb-1">
+									<div class="col-12 col-md-2 pb-1">
 										<label for="#addMotivationFieldId#" class="data-entry-label">Motivation</label>
 										<select id="#addMotivationFieldId#" class="data-entry-select">
 											<cfloop query="ctmotivation">
