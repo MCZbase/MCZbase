@@ -60,13 +60,12 @@ limitations under the License.
 	<cfargument name="project_id" type="string" required="no" default="">
 
 	<cfset var targetTableFilter = "">
-	<cfset var normalizedTargetType = lcase(trim(arguments.target_type))>
 	<cfset var normalizedRootMode = "root">
 	<cfset var normalizedReviewedFg = "">
 	<cfset var normalizedVisibility = "">
 	<cfset var annotationResults = QueryNew("")>
 
-	<cfswitch expression="#normalizedTargetType#">
+	<cfswitch expression="#lcase(trim(arguments.target_type))#">
 		<cfcase value="collection_object,collection_object_id">
 			<cfset targetTableFilter = "COLLECTION_OBJECT">
 		</cfcase>

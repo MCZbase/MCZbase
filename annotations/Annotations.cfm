@@ -231,7 +231,6 @@ limitations under the License.
 				<div class="col-12 px-3 py-3">
 					<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
 						<input type="hidden" name="execute" value="true">
-						<input type="hidden" name="root_mode" value="#encodeForHTML(variables.root_mode)#">
 						<div class="col-12 col-md-6 col-xl-3 mb-3">
 							<h2 class="h5 mb-2">Annotation Metadata Filters</h2>
 							<div class="form-group mb-2">
@@ -270,12 +269,13 @@ limitations under the License.
 								<select name="target_type" id="target_type" class="data-entry-select col-12">
 									<option value="">All Target Types</option>
 									<cfloop query="getAnnotatedTargetTypes">
-										<cfset targetTypeLabel = rereplace(lcase(target_table), "_", " ", "all")>
+										<cfset targetTypeLabel = "">
 										<cfswitch expression="#target_table#">
 											<cfcase value="COLLECTION_OBJECT"><cfset targetTypeLabel = "Specimen"></cfcase>
 											<cfcase value="TAXON_NAME"><cfset targetTypeLabel = "Taxon"></cfcase>
 											<cfcase value="PUBLICATION"><cfset targetTypeLabel = "Publication"></cfcase>
 											<cfcase value="PROJECT"><cfset targetTypeLabel = "Project"></cfcase>
+											<cfdefaultcase><cfset targetTypeLabel = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
 										</cfswitch>
 										<option value="#encodeForHTML(target_table)#" <cfif variables.target_type EQ target_table>selected="selected"</cfif>>#encodeForHTML(targetTypeLabel)# (#ct#)</option>
 									</cfloop>
@@ -419,6 +419,7 @@ limitations under the License.
 								}
 								if (filledGroups.length > 1) {
 									var orderedGroups = ['specimen', 'taxon', 'publication', 'project'];
+									// When multiple target-specific groups contain values, apply deterministic precedence.
 									var selectedGroup = orderedGroups.find(function (groupName) {
 										return filledGroups.indexOf(groupName) !== -1;
 									});
