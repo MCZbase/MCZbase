@@ -238,7 +238,7 @@ limitations under the License.
 						cf_user_data.email
 					FROM
 						annotations
-						INNER JOIN cataloged_item ON annotations.target_table_id = cataloged_item.COLLECTION_OBJECT_ID aND upper(annotations.target_table) = 'COLLECTION_OBJECT'
+						INNER JOIN cataloged_item ON annotations.target_primary_key = cataloged_item.COLLECTION_OBJECT_ID aND upper(annotations.target_table) = 'COLLECTION_OBJECT'
 						INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
 						INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 						INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
