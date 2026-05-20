@@ -68,6 +68,8 @@ limitations under the License.
 <cfset variables.taxon_name_id = trim(url.taxon_name_id)>
 <cfset variables.publication_id = trim(url.publication_id)>
 <cfset variables.project_id = trim(url.project_id)>
+<cfset variables.publication_lookup = "">
+<cfset variables.project_lookup = "">
 
 <cfswitch expression="#lcase(variables.target_type)#">
 	<cfcase value="collection_object,collection_object_id"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
@@ -185,6 +187,26 @@ limitations under the License.
 	GROUP BY taxonomy.family
 	ORDER BY taxonomy.family
 </cfquery>
+<cfif len(variables.publication_id) GT 0 AND isNumeric(variables.publication_id)>
+	<cfquery name="getPublicationDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+		SELECT MCZbase.getshortcitation(publication_id) short_citation
+		FROM publication
+		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
+	</cfquery>
+	<cfif getPublicationDisplay.recordcount GT 0>
+		<cfset variables.publication_lookup = getPublicationDisplay.short_citation>
+	</cfif>
+</cfif>
+<cfif len(variables.project_id) GT 0 AND isNumeric(variables.project_id)>
+	<cfquery name="getProjectDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+		SELECT project_name
+		FROM project
+		WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+	</cfquery>
+	<cfif getProjectDisplay.recordcount GT 0>
+		<cfset variables.project_lookup = getProjectDisplay.project_name>
+	</cfif>
+</cfif>
 <cfset searchResults = QueryNew("")>
 <cfset childAnnotations = QueryNew("")>
 
@@ -231,7 +253,7 @@ limitations under the License.
 				<div class="col-12 px-3 py-3">
 					<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
 						<input type="hidden" name="execute" value="true">
-						<div class="col-12 col-md-6 col-xl-3 mb-3">
+						<div class="col-12 col-md-6 col-xl-2 mb-3 d-flex flex-column">
 							<h2 class="h5 mb-2">Annotation Metadata Filters</h2>
 							<div class="form-group mb-2">
 								<label for="state" class="data-entry-label">State</label>
@@ -260,27 +282,14 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
+							<div class="mt-auto pt-2">
+								<button type="submit" class="btn btn-xs btn-primary">Search</button>
+								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
+							</div>
 						</div>
 
-						<div class="col-12 col-md-6 col-xl-3 mb-3">
+						<div class="col-12 col-md-6 col-xl-2 mb-3">
 							<h2 class="h5 mb-2">Annotation Text and Review Filters</h2>
-							<div class="form-group mb-2">
-								<label for="target_type" class="data-entry-label">Target Type</label>
-								<select name="target_type" id="target_type" class="data-entry-select col-12">
-									<option value="">All Target Types</option>
-									<cfloop query="getAnnotatedTargetTypes">
-										<cfset target_type_label = "">
-										<cfswitch expression="#target_table#">
-											<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
-											<cfcase value="TAXON_NAME"><cfset target_type_label = "Taxon"></cfcase>
-											<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
-											<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
-											<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
-										</cfswitch>
-										<option value="#encodeForHTML(target_table)#" <cfif variables.target_type EQ target_table>selected="selected"</cfif>>#encodeForHTML(target_type_label)# (#ct#)</option>
-									</cfloop>
-								</select>
-							</div>
 							<div class="form-group mb-2">
 								<label for="annotator" class="data-entry-label">Annotator Username</label>
 								<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
@@ -307,7 +316,24 @@ limitations under the License.
 							</div>
 						</div>
 
-						<div class="col-12 col-md-6 col-xl-3 mb-3">
+						<div class="col-12 col-md-6 col-xl-4 mb-3">
+							<div class="form-group mb-2">
+								<label for="target_type" class="data-entry-label">Target Type</label>
+								<select name="target_type" id="target_type" class="data-entry-select col-12">
+									<option value="">All Target Types</option>
+									<cfloop query="getAnnotatedTargetTypes">
+										<cfset target_type_label = "">
+										<cfswitch expression="#target_table#">
+											<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
+											<cfcase value="TAXON_NAME"><cfset target_type_label = "Taxon"></cfcase>
+											<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
+											<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
+											<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
+										</cfswitch>
+										<option value="#encodeForHTML(target_table)#" <cfif variables.target_type EQ target_table>selected="selected"</cfif>>#encodeForHTML(target_type_label)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
 							<h2 class="h5 mb-2">Target-Specific Context Filters</h2>
 							<div class="form-group mb-2" data-target-group="specimen">
 								<label for="collection" class="data-entry-label">Collection</label>
@@ -345,18 +371,18 @@ limitations under the License.
 							</div>
 						</div>
 
-						<div class="col-12 col-md-6 col-xl-3 mb-3">
+						<div class="col-12 col-md-6 col-xl-4 mb-3">
 							<h2 class="h5 mb-2">Publication and Project Filters</h2>
 							<div class="form-group mb-2" data-target-group="publication">
-								<label for="publication_id" class="data-entry-label">Publication ID</label>
-								<input type="text" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#" class="data-entry-input col-12">
+								<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
+								<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
+								<input type="text" name="publication_lookup" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12">
 							</div>
 							<div class="form-group mb-3" data-target-group="project">
-								<label for="project_id" class="data-entry-label">Project ID</label>
-								<input type="text" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#" class="data-entry-input col-12">
+								<label for="project_lookup" class="data-entry-label">Project Title</label>
+								<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
+								<input type="text" name="project_lookup" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12">
 							</div>
-							<button type="submit" class="btn btn-xs btn-primary">Search</button>
-							<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
 						</div>
 					</form>
 					<script>
@@ -367,8 +393,8 @@ limitations under the License.
 							var groupFields = {
 								specimen: ['collection', 'specimen_guid', 'collection_object_id'],
 								taxon: ['family', 'scientific_name', 'taxon_name_id'],
-								publication: ['publication_id'],
-								project: ['project_id']
+								publication: ['publication_lookup', 'publication_id'],
+								project: ['project_lookup', 'project_id']
 							};
 							var groupToTargetType = {
 								specimen: 'COLLECTION_OBJECT',
@@ -434,6 +460,18 @@ limitations under the License.
 							targetTypeInput.addEventListener('change', function () {
 								applyTargetTypeState(true);
 							});
+							makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
+							makeProjectAutocompleteMeta('project_lookup', 'project_id');
+							document.getElementById('publication_lookup').addEventListener('input', function () {
+								if (this.value.trim().length === 0) {
+									document.getElementById('publication_id').value = '';
+								}
+							});
+							document.getElementById('project_lookup').addEventListener('input', function () {
+								if (this.value.trim().length === 0) {
+									document.getElementById('project_id').value = '';
+								}
+							});
 							form.addEventListener('submit', function () {
 								inferTargetType();
 								applyTargetTypeState(true);
@@ -473,6 +511,7 @@ limitations under the License.
 						<cfset targetTitle = "">
 						<cfset targetLink = "">
 						<cfset targetMeta = "">
+						<cfset targetTitleContainsHtml = false>
 						<cfswitch expression="#ucase(targets.target_table)#">
 							<cfcase value="COLLECTION_OBJECT">
 								<cfset specimenGuid = "#targets.institution_acronym#:#targets.collection_cde#:#targets.cat_num#">
@@ -483,6 +522,7 @@ limitations under the License.
 							<cfcase value="TAXON_NAME">
 								<cfset targetTitle = targets.taxon_display_name>
 								<cfset targetLink = "/name/#encodeForURL(targets.taxon_scientific_name)#">
+								<cfset targetTitleContainsHtml = true>
 							</cfcase>
 							<cfcase value="PUBLICATION">
 								<cfset targetTitle = targets.publication_title>
@@ -501,9 +541,9 @@ limitations under the License.
 							<div class="card-header bg-box-header-gray">
 								<h3 class="h4 mb-0">
 									<cfif len(targetLink) GT 0>
-										<a href="#targetLink#" target="_blank">#encodeForHTML(targetTitle)#</a>
+										<a href="#targetLink#" target="_blank"><cfif targetTitleContainsHtml>#targetTitle#<cfelse>#encodeForHTML(targetTitle)#</cfif></a>
 									<cfelse>
-										#encodeForHTML(targetTitle)#
+										<cfif targetTitleContainsHtml>#targetTitle#<cfelse>#encodeForHTML(targetTitle)#</cfif>
 									</cfif>
 									<cfif len(targetMeta) GT 0><span class="ml-2 small">#targetMeta#</span></cfif>
 								</h3>
@@ -545,7 +585,7 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 			<cfelse>
-				<p class="mt-3 text-muted pl-1">Set filters and click Search, or provide URL parameters with <code>execute=true</code> for direct contextual links.</p>
+				<p class="mt-3 text-muted pl-1">Set filters and click Search.</p>
 			</cfif>
 			</cfoutput>
 		</div>
