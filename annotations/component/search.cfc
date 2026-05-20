@@ -20,66 +20,6 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
- getAnnotationSearchFilters builds filter select lists to support the search form.
- @return struct containing query objects used to populate annotation search controls:
-   ctstate, ctresolution, ctmotivation, collections, families.
-  Called by /annotations/Annotations.cfm to build filter select lists before rendering the form.
---->
-<cffunction name="getAnnotationSearchFilters" returntype="struct" access="public">
-	<cfset var filterData = StructNew()>
-	<cfset var ctstate = QueryNew("")>
-	<cfset var ctresolution = QueryNew("")>
-	<cfset var ctmotivation = QueryNew("")>
-	<cfset var collections = QueryNew("")>
-	<cfset var families = QueryNew("")>
-
-	<cfquery name="ctstate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT state
-		FROM ctstate
-		ORDER BY state
-	</cfquery>
-	<cfquery name="ctresolution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT resolution
-		FROM ctresolution
-		ORDER BY resolution
-	</cfquery>
-	<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT motivation
-		FROM ctmotivation
-		ORDER BY motivation
-	</cfquery>
-	<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT
-			count(annotations.annotation_id) ct,
-			collection.collection
-		FROM collection
-			JOIN cataloged_item ON collection.collection_id = cataloged_item.collection_id
-			JOIN annotations ON annotations.target_table = 'COLLECTION_OBJECT'
-				AND annotations.target_primary_key = cataloged_item.collection_object_id
-		GROUP BY collection.collection
-		ORDER BY collection.collection
-	</cfquery>
-	<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT
-			count(annotations.annotation_id) ct,
-			taxonomy.family
-		FROM annotations
-			INNER JOIN taxonomy ON annotations.target_table = 'TAXON_NAME'
-				AND annotations.target_primary_key = taxonomy.taxon_name_id
-		WHERE taxonomy.family IS NOT NULL
-		GROUP BY taxonomy.family
-		ORDER BY taxonomy.family
-	</cfquery>
-
-	<cfset filterData.ctstate = ctstate>
-	<cfset filterData.ctresolution = ctresolution>
-	<cfset filterData.ctmotivation = ctmotivation>
-	<cfset filterData.collections = collections>
-	<cfset filterData.families = families>
-	<cfreturn filterData>
-</cffunction>
-
-<!---
  findAnnotations performs generalized annotation-first search with optional target-aware filtering.
  @param target_type optional target selector: collection_object|taxon_name|publication|project (aliases with *_id are accepted).
  @param state optional annotation state exact match.

@@ -97,12 +97,43 @@ limitations under the License.
 
 <cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
 <cfset annotationSearch = CreateObject("component","annotations.component.search")>
-<cfset filterData = annotationSearch.getAnnotationSearchFilters()>
-<cfset ctstate = filterData.ctstate>
-<cfset ctresolution = filterData.ctresolution>
-<cfset ctmotivation = filterData.ctmotivation>
-<cfset getAnnotatedCollections = filterData.collections>
-<cfset getAnnotatedFamilies = filterData.families>
+<cfquery name="ctstate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT state
+	FROM ctstate
+	ORDER BY state
+</cfquery>
+<cfquery name="ctresolution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT resolution
+	FROM ctresolution
+	ORDER BY resolution
+</cfquery>
+<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT motivation
+	FROM ctmotivation
+	ORDER BY motivation
+</cfquery>
+<cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		count(annotations.annotation_id) ct,
+		collection.collection
+	FROM collection
+		JOIN cataloged_item ON collection.collection_id = cataloged_item.collection_id
+		JOIN annotations ON annotations.target_table = 'COLLECTION_OBJECT'
+			AND annotations.target_primary_key = cataloged_item.collection_object_id
+	GROUP BY collection.collection
+	ORDER BY collection.collection
+</cfquery>
+<cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		count(annotations.annotation_id) ct,
+		taxonomy.family
+	FROM annotations
+		INNER JOIN taxonomy ON annotations.target_table = 'TAXON_NAME'
+			AND annotations.target_primary_key = taxonomy.taxon_name_id
+	WHERE taxonomy.family IS NOT NULL
+	GROUP BY taxonomy.family
+	ORDER BY taxonomy.family
+</cfquery>
 <cfset searchResults = QueryNew("")>
 <cfset childAnnotations = QueryNew("")>
 
