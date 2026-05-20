@@ -1043,7 +1043,7 @@ limitations under the License.
  									<cfelseif isdefined("session.username") AND len(session.username) gt 0>
 										<!--- anyone with a username can create annotations --->
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
-											Report Bad Data
+											Annotate
 										</a>
 									</cfif>
 								</h3>
