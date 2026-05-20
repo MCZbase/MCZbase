@@ -258,7 +258,7 @@ limitations under the License.
 							AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection#">
 						</cfif>
 						<cfif len(variables.specimen_guid) GT 0>
-							AND annotations.COLLECTION_OBJECT_ID IN (
+							AND annotations.target_primary_key IN (
 								SELECT collection_object_id
 								FROM #session.flatTableName#
 								<cfif variables.specimen_guid contains ",">
