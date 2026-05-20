@@ -3881,7 +3881,7 @@ limitations under the License.
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE
 						upper(annotations.target_table) = 'COLLECTION_OBJECT'
-						AND annotations.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND annotations.target_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
 							AND (annotations.mask_annotation_fg = 0 OR annotations.cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 						</cfif>
