@@ -20,9 +20,10 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
+ getAnnotationSearchFilters builds filter select lists to support the search form.
  @return struct containing query objects used to populate annotation search controls:
    ctstate, ctresolution, ctmotivation, collections, families.
- Called by /annotations/Annotations.cfm to build filter select lists before rendering the form.
+  Called by /annotations/Annotations.cfm to build filter select lists before rendering the form.
 --->
 <cffunction name="getAnnotationSearchFilters" returntype="struct" access="public">
 	<cfset var filterData = StructNew()>
@@ -79,7 +80,7 @@ limitations under the License.
 </cffunction>
 
 <!---
- Generalized annotation-first search with optional target-aware filtering.
+ findAnnotations performs generalized annotation-first search with optional target-aware filtering.
  @param target_type optional target selector: collection_object|taxon_name|publication|project (aliases with *_id are accepted).
  @param state optional annotation state exact match.
  @param resolution optional annotation resolution exact match.
