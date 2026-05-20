@@ -370,6 +370,12 @@ limitations under the License.
 								publication: ['publication_id'],
 								project: ['project_id']
 							};
+							var groupToTargetType = {
+								specimen: 'COLLECTION_OBJECT',
+								taxon: 'TAXON_NAME',
+								publication: 'PUBLICATION',
+								project: 'PROJECT'
+							};
 							var targetTypeToGroup = {
 								COLLECTION_OBJECT: ['specimen'],
 								TAXON_NAME: ['taxon'],
@@ -409,20 +415,14 @@ limitations under the License.
 									if (groupHasValue) { filledGroups.push(groupName); }
 								});
 								if (filledGroups.length === 1) {
-									if (filledGroups[0] === 'specimen') { targetTypeInput.value = 'COLLECTION_OBJECT'; }
-									if (filledGroups[0] === 'taxon') { targetTypeInput.value = 'TAXON_NAME'; }
-									if (filledGroups[0] === 'publication') { targetTypeInput.value = 'PUBLICATION'; }
-									if (filledGroups[0] === 'project') { targetTypeInput.value = 'PROJECT'; }
+									targetTypeInput.value = groupToTargetType[filledGroups[0]];
 								}
 								if (filledGroups.length > 1) {
 									var orderedGroups = ['specimen', 'taxon', 'publication', 'project'];
 									var selectedGroup = orderedGroups.find(function (groupName) {
 										return filledGroups.indexOf(groupName) !== -1;
 									});
-									if (selectedGroup === 'specimen') { targetTypeInput.value = 'COLLECTION_OBJECT'; }
-									if (selectedGroup === 'taxon') { targetTypeInput.value = 'TAXON_NAME'; }
-									if (selectedGroup === 'publication') { targetTypeInput.value = 'PUBLICATION'; }
-									if (selectedGroup === 'project') { targetTypeInput.value = 'PROJECT'; }
+									targetTypeInput.value = groupToTargetType[selectedGroup];
 								}
 							}
 							function applyTargetTypeState(clearInconsistentValues) {
