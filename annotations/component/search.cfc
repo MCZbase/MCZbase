@@ -21,7 +21,7 @@ limitations under the License.
 
 <!---
  findAnnotations performs generalized annotation-first search with optional target-aware filtering.
- @param target_type optional target selector: collection_object|taxon_name|publication|project (aliases with *_id are accepted).
+ @param target_type optional target selector; accepts known aliases (collection_object|taxon_name|publication|project with *_id aliases) and any target_table value.
  @param state optional annotation state exact match.
  @param resolution optional annotation resolution exact match.
  @param annotator optional username fragment (case-insensitive contains match).
@@ -60,12 +60,13 @@ limitations under the License.
 	<cfargument name="project_id" type="string" required="no" default="">
 
 	<cfset var targetTableFilter = "">
+	<cfset var normalizedTargetType = lcase(trim(arguments.target_type))>
 	<cfset var normalizedRootMode = "root">
 	<cfset var normalizedReviewedFg = "">
 	<cfset var normalizedVisibility = "">
 	<cfset var annotationResults = QueryNew("")>
 
-	<cfswitch expression="#lcase(trim(arguments.target_type))#">
+	<cfswitch expression="#normalizedTargetType#">
 		<cfcase value="collection_object,collection_object_id">
 			<cfset targetTableFilter = "COLLECTION_OBJECT">
 		</cfcase>
@@ -78,10 +79,12 @@ limitations under the License.
 		<cfcase value="project,project_id">
 			<cfset targetTableFilter = "PROJECT">
 		</cfcase>
+		<cfdefaultcase>
+			<cfif len(trim(arguments.target_type)) GT 0>
+				<cfset targetTableFilter = ucase(trim(arguments.target_type))>
+			</cfif>
+		</cfdefaultcase>
 	</cfswitch>
-	<cfif len(targetTableFilter) GT 0>
-		<cfset targetTableFilter = ucase(targetTableFilter)>
-	</cfif>
 
 	<cfif listFindNoCase("root,response", trim(arguments.root_mode))>
 		<cfset normalizedRootMode = lcase(trim(arguments.root_mode))>
@@ -262,13 +265,6 @@ limitations under the License.
 						ELSE annotations.target_table
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targetTableFilter#">
-			<cfelse>
-				AND (
-					CASE
-						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
-						ELSE annotations.target_table
-					END
-				) IN ('COLLECTION_OBJECT','TAXON_NAME','PUBLICATION','PROJECT')
 			</cfif>
 			<cfif normalizedRootMode EQ "root">
 				AND annotations.target_table <> 'ANNOTATIONS'

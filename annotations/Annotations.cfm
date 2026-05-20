@@ -70,10 +70,15 @@ limitations under the License.
 <cfset variables.project_id = trim(url.project_id)>
 
 <cfswitch expression="#lcase(variables.target_type)#">
-	<cfcase value="collection_object_id"><cfset variables.target_type = "collection_object"></cfcase>
-	<cfcase value="taxon_name_id"><cfset variables.target_type = "taxon_name"></cfcase>
-	<cfcase value="publication_id"><cfset variables.target_type = "publication"></cfcase>
-	<cfcase value="project_id"><cfset variables.target_type = "project"></cfcase>
+	<cfcase value="collection_object,collection_object_id"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
+	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXON_NAME"></cfcase>
+	<cfcase value="publication,publication_id"><cfset variables.target_type = "PUBLICATION"></cfcase>
+	<cfcase value="project,project_id"><cfset variables.target_type = "PROJECT"></cfcase>
+	<cfdefaultcase>
+		<cfif len(variables.target_type) GT 0>
+			<cfset variables.target_type = ucase(variables.target_type)>
+		</cfif>
+	</cfdefaultcase>
 </cfswitch>
 <cfif NOT listFindNoCase("root,response", variables.root_mode)>
 	<cfset variables.root_mode = "root">
@@ -101,19 +106,62 @@ limitations under the License.
 <cfset variables.queryUsername = session.dbuser>
 <cfset variables.queryPassword = decrypt(session.epw,cookie.cfid)>
 <cfquery name="ctstate" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
-	SELECT state
+	SELECT
+		ctstate.state,
+		NVL(annotation_counts.ct, 0) ct
 	FROM ctstate
-	ORDER BY state
+		LEFT OUTER JOIN (
+			SELECT state, count(annotation_id) ct
+			FROM annotations
+			WHERE state IS NOT NULL
+			GROUP BY state
+		) annotation_counts ON ctstate.state = annotation_counts.state
+	ORDER BY ctstate.state
 </cfquery>
 <cfquery name="ctresolution" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
-	SELECT resolution
+	SELECT
+		ctresolution.resolution,
+		NVL(annotation_counts.ct, 0) ct
 	FROM ctresolution
-	ORDER BY resolution
+		LEFT OUTER JOIN (
+			SELECT resolution, count(annotation_id) ct
+			FROM annotations
+			WHERE resolution IS NOT NULL
+			GROUP BY resolution
+		) annotation_counts ON ctresolution.resolution = annotation_counts.resolution
+	ORDER BY ctresolution.resolution
 </cfquery>
 <cfquery name="ctmotivation" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
-	SELECT motivation
+	SELECT
+		ctmotivation.motivation,
+		NVL(annotation_counts.ct, 0) ct
 	FROM ctmotivation
-	ORDER BY motivation
+		LEFT OUTER JOIN (
+			SELECT motivation, count(annotation_id) ct
+			FROM annotations
+			WHERE motivation IS NOT NULL
+			GROUP BY motivation
+		) annotation_counts ON ctmotivation.motivation = annotation_counts.motivation
+	ORDER BY ctmotivation.motivation
+</cfquery>
+<cfquery name="getAnnotatedTargetTypes" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+	SELECT
+		resolved_targets.target_table,
+		count(*) ct
+	FROM (
+		SELECT
+			CASE
+				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+				ELSE annotations.target_table
+			END target_table
+		FROM
+			annotations
+			LEFT OUTER JOIN annotations parent_annotations ON annotations.target_table = 'ANNOTATIONS'
+				AND annotations.target_primary_key = parent_annotations.annotation_id
+	) resolved_targets
+	WHERE resolved_targets.target_table IS NOT NULL
+	GROUP BY resolved_targets.target_table
+	ORDER BY resolved_targets.target_table
 </cfquery>
 <cfquery name="getAnnotatedCollections" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT
@@ -183,24 +231,15 @@ limitations under the License.
 				<div class="col-12 px-3 py-3">
 					<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
 						<input type="hidden" name="execute" value="true">
+						<input type="hidden" name="root_mode" value="#encodeForHTML(variables.root_mode)#">
 						<div class="col-12 col-md-6 col-xl-3 mb-3">
-							<h2 class="h5 mb-2">Annotation Filters</h2>
-							<div class="form-group mb-2">
-								<label for="target_type" class="data-entry-label">Target Type</label>
-								<select name="target_type" id="target_type" class="data-entry-select col-12">
-									<option value="">All Supported Targets</option>
-									<option value="collection_object" <cfif variables.target_type EQ "collection_object">selected="selected"</cfif>>Specimen</option>
-									<option value="taxon_name" <cfif variables.target_type EQ "taxon_name">selected="selected"</cfif>>Taxon</option>
-									<option value="publication" <cfif variables.target_type EQ "publication">selected="selected"</cfif>>Publication</option>
-									<option value="project" <cfif variables.target_type EQ "project">selected="selected"</cfif>>Project</option>
-								</select>
-							</div>
+							<h2 class="h5 mb-2">Annotation Metadata Filters</h2>
 							<div class="form-group mb-2">
 								<label for="state" class="data-entry-label">State</label>
 								<select name="state" id="state" class="data-entry-select col-12">
 									<option value="">Any State</option>
 									<cfloop query="ctstate">
-										<option value="#encodeForHTML(state)#" <cfif variables.state EQ state>selected="selected"</cfif>>#encodeForHTML(state)#</option>
+										<option value="#encodeForHTML(state)#" <cfif variables.state EQ state>selected="selected"</cfif>>#encodeForHTML(state)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -209,7 +248,7 @@ limitations under the License.
 								<select name="resolution" id="resolution" class="data-entry-select col-12">
 									<option value="">Any Resolution</option>
 									<cfloop query="ctresolution">
-										<option value="#encodeForHTML(resolution)#" <cfif variables.resolution EQ resolution>selected="selected"</cfif>>#encodeForHTML(resolution)#</option>
+										<option value="#encodeForHTML(resolution)#" <cfif variables.resolution EQ resolution>selected="selected"</cfif>>#encodeForHTML(resolution)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -218,14 +257,30 @@ limitations under the License.
 								<select name="motivation" id="motivation" class="data-entry-select col-12">
 									<option value="">Any Motivation</option>
 									<cfloop query="ctmotivation">
-										<option value="#encodeForHTML(motivation)#" <cfif variables.motivation EQ motivation>selected="selected"</cfif>>#encodeForHTML(motivation)#</option>
+										<option value="#encodeForHTML(motivation)#" <cfif variables.motivation EQ motivation>selected="selected"</cfif>>#encodeForHTML(motivation)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
 						</div>
 
 						<div class="col-12 col-md-6 col-xl-3 mb-3">
-							<h2 class="h5 mb-2">Annotation Metadata</h2>
+							<h2 class="h5 mb-2">Annotation Text and Review Filters</h2>
+							<div class="form-group mb-2">
+								<label for="target_type" class="data-entry-label">Target Type</label>
+								<select name="target_type" id="target_type" class="data-entry-select col-12">
+									<option value="">All Target Types</option>
+									<cfloop query="getAnnotatedTargetTypes">
+										<cfset targetTypeLabel = rereplace(lcase(target_table), "_", " ", "all")>
+										<cfswitch expression="#target_table#">
+											<cfcase value="COLLECTION_OBJECT"><cfset targetTypeLabel = "Specimen"></cfcase>
+											<cfcase value="TAXON_NAME"><cfset targetTypeLabel = "Taxon"></cfcase>
+											<cfcase value="PUBLICATION"><cfset targetTypeLabel = "Publication"></cfcase>
+											<cfcase value="PROJECT"><cfset targetTypeLabel = "Project"></cfcase>
+										</cfswitch>
+										<option value="#encodeForHTML(target_table)#" <cfif variables.target_type EQ target_table>selected="selected"</cfif>>#encodeForHTML(targetTypeLabel)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
 							<div class="form-group mb-2">
 								<label for="annotator" class="data-entry-label">Annotator Username</label>
 								<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
@@ -243,13 +298,6 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="form-group mb-2">
-								<label for="root_mode" class="data-entry-label">Root vs Response</label>
-								<select name="root_mode" id="root_mode" class="data-entry-select col-12">
-									<option value="root" <cfif variables.root_mode EQ "root">selected="selected"</cfif>>Roots Only</option>
-									<option value="response" <cfif variables.root_mode EQ "response">selected="selected"</cfif>>Responses Only</option>
-								</select>
-							</div>
-							<div class="form-group mb-2">
 								<label for="visibility" class="data-entry-label">Visibility</label>
 								<select name="visibility" id="visibility" class="data-entry-select col-12">
 									<option value="">Any</option>
@@ -260,8 +308,8 @@ limitations under the License.
 						</div>
 
 						<div class="col-12 col-md-6 col-xl-3 mb-3">
-							<h2 class="h5 mb-2">Specimen and Taxon Context</h2>
-							<div class="form-group mb-2">
+							<h2 class="h5 mb-2">Target-Specific Context Filters</h2>
+							<div class="form-group mb-2" data-target-group="specimen">
 								<label for="collection" class="data-entry-label">Collection</label>
 								<select name="collection" id="collection" class="data-entry-select col-12">
 									<option value="">Any Collection</option>
@@ -270,15 +318,15 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="form-group mb-2">
+							<div class="form-group mb-2" data-target-group="specimen">
 								<label for="specimen_guid" class="data-entry-label">Specimen GUID</label>
 								<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
 							</div>
-							<div class="form-group mb-2">
+							<div class="form-group mb-2" data-target-group="specimen">
 								<label for="collection_object_id" class="data-entry-label">Collection Object ID</label>
 								<input type="text" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#" class="data-entry-input col-12">
 							</div>
-							<div class="form-group mb-2">
+							<div class="form-group mb-2" data-target-group="taxon">
 								<label for="family" class="data-entry-label">Family</label>
 								<select name="family" id="family" class="data-entry-select col-12">
 									<option value="">Any Family</option>
@@ -287,31 +335,111 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="form-group mb-2">
+							<div class="form-group mb-2" data-target-group="taxon">
 								<label for="scientific_name" class="data-entry-label">Scientific Name Contains</label>
 								<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
 							</div>
-							<div class="form-group mb-2">
+							<div class="form-group mb-2" data-target-group="taxon">
 								<label for="taxon_name_id" class="data-entry-label">Taxon Name ID</label>
 								<input type="text" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#" class="data-entry-input col-12">
 							</div>
 						</div>
 
 						<div class="col-12 col-md-6 col-xl-3 mb-3">
-							<h2 class="h5 mb-2">Publication and Project Context</h2>
-							<div class="form-group mb-2">
+							<h2 class="h5 mb-2">Publication and Project Filters</h2>
+							<div class="form-group mb-2" data-target-group="publication">
 								<label for="publication_id" class="data-entry-label">Publication ID</label>
 								<input type="text" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#" class="data-entry-input col-12">
 							</div>
-							<div class="form-group mb-3">
+							<div class="form-group mb-3" data-target-group="project">
 								<label for="project_id" class="data-entry-label">Project ID</label>
 								<input type="text" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#" class="data-entry-input col-12">
 							</div>
 							<button type="submit" class="btn btn-xs btn-primary">Search</button>
 							<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
-							<div class="small text-muted mt-2">URL-driven links can populate this form and execute with <code>execute=true</code>. Example: <code>?target_type=collection_object&amp;specimen_guid=MCZ:Herp:A-12345&amp;execute=true</code></div>
 						</div>
 					</form>
+					<script>
+						(function () {
+							var form = document.getElementById('annotationSearchForm');
+							if (!form) { return; }
+							var targetTypeInput = document.getElementById('target_type');
+							var groupFields = {
+								specimen: ['collection', 'specimen_guid', 'collection_object_id'],
+								taxon: ['family', 'scientific_name', 'taxon_name_id'],
+								publication: ['publication_id'],
+								project: ['project_id']
+							};
+							var targetTypeToGroup = {
+								COLLECTION_OBJECT: ['specimen'],
+								TAXON_NAME: ['taxon'],
+								PUBLICATION: ['publication'],
+								PROJECT: ['project']
+							};
+							function clearGroup(groupName) {
+								groupFields[groupName].forEach(function (fieldId) {
+									var field = document.getElementById(fieldId);
+									if (field) { field.value = ''; }
+								});
+							}
+							function setGroupState(activeGroups, clearInconsistentValues) {
+								var allGroups = ['specimen', 'taxon', 'publication', 'project'];
+								allGroups.forEach(function (groupName) {
+									var active = activeGroups.indexOf(groupName) !== -1;
+									var groupBlocks = form.querySelectorAll('[data-target-group="' + groupName + '"]');
+									groupBlocks.forEach(function (block) {
+										block.style.display = active ? '' : 'none';
+									});
+									groupFields[groupName].forEach(function (fieldId) {
+										var field = document.getElementById(fieldId);
+										if (field) { field.disabled = !active; }
+									});
+									if (!active && clearInconsistentValues) {
+										clearGroup(groupName);
+									}
+								});
+							}
+							function inferTargetType() {
+								var filledGroups = [];
+								Object.keys(groupFields).forEach(function (groupName) {
+									var groupHasValue = groupFields[groupName].some(function (fieldId) {
+										var field = document.getElementById(fieldId);
+										return field && String(field.value).trim().length > 0;
+									});
+									if (groupHasValue) { filledGroups.push(groupName); }
+								});
+								if (filledGroups.length === 1) {
+									if (filledGroups[0] === 'specimen') { targetTypeInput.value = 'COLLECTION_OBJECT'; }
+									if (filledGroups[0] === 'taxon') { targetTypeInput.value = 'TAXON_NAME'; }
+									if (filledGroups[0] === 'publication') { targetTypeInput.value = 'PUBLICATION'; }
+									if (filledGroups[0] === 'project') { targetTypeInput.value = 'PROJECT'; }
+								}
+								if (filledGroups.length > 1) {
+									var orderedGroups = ['specimen', 'taxon', 'publication', 'project'];
+									var selectedGroup = orderedGroups.find(function (groupName) {
+										return filledGroups.indexOf(groupName) !== -1;
+									});
+									if (selectedGroup === 'specimen') { targetTypeInput.value = 'COLLECTION_OBJECT'; }
+									if (selectedGroup === 'taxon') { targetTypeInput.value = 'TAXON_NAME'; }
+									if (selectedGroup === 'publication') { targetTypeInput.value = 'PUBLICATION'; }
+									if (selectedGroup === 'project') { targetTypeInput.value = 'PROJECT'; }
+								}
+							}
+							function applyTargetTypeState(clearInconsistentValues) {
+								var selectedTargetType = targetTypeInput.value ? targetTypeInput.value.toUpperCase() : '';
+								var activeGroups = targetTypeToGroup[selectedTargetType] || ['specimen', 'taxon', 'publication', 'project'];
+								setGroupState(activeGroups, clearInconsistentValues);
+							}
+							targetTypeInput.addEventListener('change', function () {
+								applyTargetTypeState(true);
+							});
+							form.addEventListener('submit', function () {
+								inferTargetType();
+								applyTargetTypeState(true);
+							});
+							applyTargetTypeState(false);
+						})();
+					</script>
 				</div>
 				</cfoutput>
 			</div>
