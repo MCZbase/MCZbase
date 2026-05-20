@@ -97,22 +97,25 @@ limitations under the License.
 
 <cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
 <cfset annotationSearch = CreateObject("component","annotations.component.search")>
-<cfquery name="ctstate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<cfset variables.queryDatasource = "user_login">
+<cfset variables.queryUsername = session.dbuser>
+<cfset variables.queryPassword = decrypt(session.epw,cookie.cfid)>
+<cfquery name="ctstate" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT state
 	FROM ctstate
 	ORDER BY state
 </cfquery>
-<cfquery name="ctresolution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<cfquery name="ctresolution" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT resolution
 	FROM ctresolution
 	ORDER BY resolution
 </cfquery>
-<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<cfquery name="ctmotivation" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT motivation
 	FROM ctmotivation
 	ORDER BY motivation
 </cfquery>
-<cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<cfquery name="getAnnotatedCollections" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT
 		count(annotations.annotation_id) ct,
 		collection.collection
@@ -123,7 +126,7 @@ limitations under the License.
 	GROUP BY collection.collection
 	ORDER BY collection.collection
 </cfquery>
-<cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<cfquery name="getAnnotatedFamilies" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT
 		count(annotations.annotation_id) ct,
 		taxonomy.family
