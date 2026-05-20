@@ -422,7 +422,7 @@ limitations under the License.
 									// Deterministic precedence for conflicts: specimen, then taxon, then publication, then project.
 									var selectedGroup = orderedGroups.find(function (groupName) {
 										return filledGroups.indexOf(groupName) !== -1;
-									});
+									}) || orderedGroups[0];
 									targetTypeInput.value = groupToTargetType[selectedGroup];
 								}
 							}
