@@ -463,23 +463,31 @@ limitations under the License.
 							if (typeof makePublicationAutocompleteMeta === 'function') {
 								makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
 							} else {
-								console.warn('makePublicationAutocompleteMeta is unavailable.');
+								console.warn('Publication autocomplete unavailable. Publication filtering requires ID-driven URL values.');
 							}
 							if (typeof makeProjectAutocompleteMeta === 'function') {
 								makeProjectAutocompleteMeta('project_lookup', 'project_id');
 							} else {
-								console.warn('makeProjectAutocompleteMeta is unavailable.');
+								console.warn('Project autocomplete unavailable. Project filtering requires ID-driven URL values.');
 							}
-							document.getElementById('publication_lookup').addEventListener('input', function () {
-								if (this.value.trim().length === 0) {
-									document.getElementById('publication_id').value = '';
-								}
-							});
-							document.getElementById('project_lookup').addEventListener('input', function () {
-								if (this.value.trim().length === 0) {
-									document.getElementById('project_id').value = '';
-								}
-							});
+							var publicationLookupInput = document.getElementById('publication_lookup');
+							var publicationIdInput = document.getElementById('publication_id');
+							if (publicationLookupInput && publicationIdInput) {
+								publicationLookupInput.addEventListener('input', function () {
+									if (this.value.trim().length === 0) {
+										publicationIdInput.value = '';
+									}
+								});
+							}
+							var projectLookupInput = document.getElementById('project_lookup');
+							var projectIdInput = document.getElementById('project_id');
+							if (projectLookupInput && projectIdInput) {
+								projectLookupInput.addEventListener('input', function () {
+									if (this.value.trim().length === 0) {
+										projectIdInput.value = '';
+									}
+								});
+							}
 							form.addEventListener('submit', function () {
 								inferTargetType();
 								applyTargetTypeState(true);
@@ -529,8 +537,6 @@ limitations under the License.
 							</cfcase>
 							<cfcase value="TAXON_NAME">
 								<cfset targetTitle = targets.taxon_display_name>
-								<cfset targetTitle = REReplaceNoCase(targetTitle, "<(?!/?(i|em|b|sub|sup|u)\b)[^>]*>", "", "all")>
-								<cfset targetTitle = REReplaceNoCase(targetTitle, " on[a-z]+\s*=\s*(['""]).*?\1", "", "all")>
 								<cfset targetLink = "/name/#encodeForURL(targets.taxon_scientific_name)#">
 								<cfset targetTitleContainsHtml = true>
 							</cfcase>
