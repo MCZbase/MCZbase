@@ -524,7 +524,8 @@ limitations under the License.
 									.then(function (html) {
 										resultsContainer.innerHTML = html;
 									})
-									.catch(function () {
+									.catch(function (error) {
+										console.error(error);
 										resultsContainer.innerHTML = '<p class="mt-3 text-danger pl-1">Unable to load search results.</p>';
 									});
 							}
@@ -557,6 +558,9 @@ limitations under the License.
 					<p class="mt-3 text-muted pl-1">Set filters and click Search.</p>
 				</cfif>
 			</div>
+			<noscript>
+				<cfinclude template="/annotations/component/searchResults.cfm">
+			</noscript>
 		</div>
 	</section>
 </main>

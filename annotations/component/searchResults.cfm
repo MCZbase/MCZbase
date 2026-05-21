@@ -205,36 +205,36 @@ AJAX endpoint to render annotation search results for annotations/Annotations.cf
 						<cfif len(variables.targetMeta) GT 0><span class="ml-2 small">#variables.targetMeta#</span></cfif>
 					</h3>
 				</div>
-				<cfquery name="itemAnno" dbtype="query">
+				<cfquery name="targetAnnotations" dbtype="query">
 					SELECT annotation_id, annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
 						state, resolution, reviewer, reviewer_comment, mask_annotation_fg, parent_annotation_id
 					FROM searchResults
 					WHERE target_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_table#">
 						AND target_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_key#">
 				</cfquery>
-				<cfloop query="itemAnno">
+				<cfloop query="targetAnnotations">
 					<cfset variables.showReplyAction = false>
-					<cfif NOT isNumeric(itemAnno.parent_annotation_id)>
+					<cfif NOT isNumeric(targetAnnotations.parent_annotation_id)>
 						<cfset variables.showReplyAction = true>
 					</cfif>
-					<div id="annotation-block-#itemAnno.annotation_id#">
+					<div id="annotation-block-#targetAnnotations.annotation_id#">
 					<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="variables.annoRowHTML"
-						annotation_id="#itemAnno.annotation_id#"
-						annotation_display="#itemAnno.annotation_display#"
-						cf_username="#itemAnno.cf_username#"
-						email="#itemAnno.email#"
-						annotate_date="#itemAnno.annotate_date#"
-						motivation="#itemAnno.motivation#"
-						reviewed_fg="#itemAnno.reviewed_fg#"
-						state="#itemAnno.state#"
-						resolution="#itemAnno.resolution#"
-						reviewer="#itemAnno.reviewer#"
-						reviewer_comment="#itemAnno.reviewer_comment#"
-						mask_annotation_fg="#itemAnno.mask_annotation_fg#"
+						annotation_id="#targetAnnotations.annotation_id#"
+						annotation_display="#targetAnnotations.annotation_display#"
+						cf_username="#targetAnnotations.cf_username#"
+						email="#targetAnnotations.email#"
+						annotate_date="#targetAnnotations.annotate_date#"
+						motivation="#targetAnnotations.motivation#"
+						reviewed_fg="#targetAnnotations.reviewed_fg#"
+						state="#targetAnnotations.state#"
+						resolution="#targetAnnotations.resolution#"
+						reviewer="#targetAnnotations.reviewer#"
+						reviewer_comment="#targetAnnotations.reviewer_comment#"
+						mask_annotation_fg="#targetAnnotations.mask_annotation_fg#"
 						show_reply_action="#variables.showReplyAction#">
 					#variables.annoRowHTML#
 					<cfif variables.showReplyAction>
-						#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=itemAnno.annotation_id, childAnnotations=variables.childAnnotations, root_mask_annotation_fg=itemAnno.mask_annotation_fg)#
+						#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=targetAnnotations.annotation_id, childAnnotations=variables.childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
 					</cfif>
 					</div>
 				</cfloop>
