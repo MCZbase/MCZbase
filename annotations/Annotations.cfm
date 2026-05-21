@@ -102,8 +102,6 @@ limitations under the License.
 	<cfset runSearch = true>
 </cfif>
 
-<cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
-<cfset annotationSearch = CreateObject("component","annotations.component.search")>
 <cfset variables.queryDatasource = "user_login">
 <cfset variables.queryUsername = session.dbuser>
 <cfset variables.queryPassword = decrypt(session.epw,cookie.cfid)>
@@ -237,41 +235,6 @@ limitations under the License.
 		<cfset variables.project_lookup = getProjectDisplay.project_name>
 	</cfif>
 </cfif>
-<cfset searchResults = QueryNew("")>
-<cfset childAnnotations = QueryNew("")>
-
-<cfif runSearch>
-	<cfset searchResults = annotationSearch.findAnnotations(
-		target_type = variables.target_type,
-		state = variables.state,
-		resolution = variables.resolution,
-		annotator = variables.annotator,
-		annotation_text = variables.annotation_text,
-		motivation = variables.motivation,
-		reviewed_fg = variables.reviewed_fg,
-		root_mode = variables.root_mode,
-		visibility = variables.visibility,
-		collection = variables.collection,
-		specimen_guid = variables.specimen_guid,
-		collection_object_id = variables.collection_object_id,
-		family = variables.family,
-		scientific_name = variables.scientific_name,
-		taxon_name_id = variables.taxon_name_id,
-		publication_id = variables.publication_id,
-		project_id = variables.project_id
-	)>
-	<cfif searchResults.recordcount GT 0>
-		<cfquery name="rootAnnotationsInResults" dbtype="query">
-			SELECT annotation_id
-			FROM searchResults
-			WHERE parent_annotation_id IS NULL
-		</cfquery>
-		<cfif rootAnnotationsInResults.recordcount GT 0>
-			<cfset childAnnotations = annotationFunctions.getChildAnnotationsForRoots(valueList(rootAnnotationsInResults.annotation_id))>
-		</cfif>
-	</cfif>
-</cfif>
-
 <main class="container-fluid" id="content">
 	<section role="search">
 		<div class="row mx-0 mb-2">
@@ -527,26 +490,56 @@ limitations under the License.
 									}
 								});
 							}
-							function disableEmptySubmitFields() {
+							function showSearchingMarker() {
+								var resultsContainer = document.getElementById('annotationSearchResultsContainer');
+								if (!resultsContainer) { return; }
+								resultsContainer.innerHTML = '<p class="mt-3 text-muted pl-1">Searching...</p>';
+							}
+							function buildSearchQueryString() {
+								var params = new URLSearchParams();
+								params.set('execute', 'true');
 								Array.prototype.forEach.call(form.elements, function (field) {
-									if (!field || !field.name || field.disabled) { return; }
+									if (!field || !field.name || field.disabled || field.name === 'execute') { return; }
 									var fieldType = (field.type || '').toLowerCase();
 									if (fieldType === 'submit' || fieldType === 'button' || fieldType === 'reset' || fieldType === 'file') { return; }
-									if ((fieldType === 'checkbox' || fieldType === 'radio') && !field.checked) {
-										field.disabled = true;
-										return;
-									}
-									if (String(field.value || '').trim().length === 0) {
-										field.disabled = true;
+									if ((fieldType === 'checkbox' || fieldType === 'radio') && !field.checked) { return; }
+									var value = String(field.value || '').trim();
+									if (value.length > 0) {
+										params.append(field.name, value);
 									}
 								});
+								return params.toString();
 							}
-							form.addEventListener('submit', function () {
+							function loadResults(queryString) {
+								var resultsContainer = document.getElementById('annotationSearchResultsContainer');
+								if (!resultsContainer) { return; }
+								showSearchingMarker();
+								fetch('/annotations/component/searchResults.cfm?' + queryString, { credentials: 'same-origin' })
+									.then(function (response) {
+										if (!response.ok) {
+											throw new Error('Failed to load annotation results');
+										}
+										return response.text();
+									})
+									.then(function (html) {
+										resultsContainer.innerHTML = html;
+									})
+									.catch(function () {
+										resultsContainer.innerHTML = '<p class="mt-3 text-danger pl-1">Unable to load search results.</p>';
+									});
+							}
+							form.addEventListener('submit', function (event) {
+								event.preventDefault();
 								inferTargetType();
 								applyTargetTypeState(true);
-								disableEmptySubmitFields();
+								var queryString = buildSearchQueryString();
+								history.replaceState({}, '', '/annotations/Annotations.cfm?' + queryString);
+								loadResults(queryString);
 							});
 							applyTargetTypeState(false);
+							<cfif runSearch>
+								loadResults(window.location.search.replace(/^\?/, ''));
+							</cfif>
 						})();
 					</script>
 				</div>
@@ -557,131 +550,13 @@ limitations under the License.
 
 	<section class="row mx-0 mb-4">
 		<div class="col-12">
-			<cfoutput>
-			<cfif runSearch>
-				<cfset targetCount = 0>
-				<cfset variables.annotationLabel = "annotations">
-				<cfset variables.targetLabel = "targets">
-				<cfset variables.searchTermLabels = []>
-				<cfif searchResults.recordcount GT 0>
-					<cfquery name="targets" dbtype="query">
-						SELECT target_table, target_key, collection_object_id, institution_acronym, collection_cde, cat_num,
-							idAs, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
-							publication_id, publication_title, project_id, project_name
-						FROM searchResults
-						GROUP BY target_table, target_key, collection_object_id, institution_acronym, collection_cde, cat_num,
-							idAs, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
-							publication_id, publication_title, project_id, project_name
-						ORDER BY target_table, target_key
-					</cfquery>
-					<cfset targetCount = targets.recordcount>
-				</cfif>
-				<cfif searchResults.recordcount EQ 1><cfset variables.annotationLabel = "annotation"></cfif>
-				<cfif targetCount EQ 1><cfset variables.targetLabel = "target"></cfif>
-				<cfif len(variables.state) GT 0><cfset arrayAppend(variables.searchTermLabels, "state")></cfif>
-				<cfif len(variables.resolution) GT 0><cfset arrayAppend(variables.searchTermLabels, "resolution")></cfif>
-				<cfif len(variables.motivation) GT 0><cfset arrayAppend(variables.searchTermLabels, "motivation")></cfif>
-				<cfif len(variables.annotator) GT 0><cfset arrayAppend(variables.searchTermLabels, "annotator")></cfif>
-				<cfif len(variables.annotation_text) GT 0><cfset arrayAppend(variables.searchTermLabels, "annotation text")></cfif>
-				<cfif len(variables.reviewed_fg) GT 0><cfset arrayAppend(variables.searchTermLabels, "reviewed")></cfif>
-				<cfif len(variables.visibility) GT 0><cfset arrayAppend(variables.searchTermLabels, "visibility")></cfif>
-				<cfif len(variables.target_type) GT 0><cfset arrayAppend(variables.searchTermLabels, "target type")></cfif>
-				<cfif len(variables.collection) GT 0><cfset arrayAppend(variables.searchTermLabels, "collection")></cfif>
-				<cfif len(variables.specimen_guid) GT 0><cfset arrayAppend(variables.searchTermLabels, "specimen guid")></cfif>
-				<cfif len(variables.collection_object_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "collection object id")></cfif>
-				<cfif len(variables.family) GT 0><cfset arrayAppend(variables.searchTermLabels, "family")></cfif>
-				<cfif len(variables.scientific_name) GT 0><cfset arrayAppend(variables.searchTermLabels, "scientific name")></cfif>
-				<cfif len(variables.taxon_name_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "taxon name id")></cfif>
-				<cfif len(variables.publication_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "publication")></cfif>
-				<cfif len(variables.project_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "project")></cfif>
-				<cfset variables.searchedOn = "none (all annotations)">
-				<cfif arrayLen(variables.searchTermLabels) GT 0><cfset variables.searchedOn = arrayToList(variables.searchTermLabels, ", ")></cfif>
-				<h2 class="h3 mt-3 pl-1">Annotation Results (#searchResults.recordcount# #variables.annotationLabel# on #targetCount# #variables.targetLabel#)</h2>
-				<p class="text-muted pl-1 mb-2">Searched on #encodeForHTML(variables.searchedOn)#.</p>
-				<cfif searchResults.recordcount EQ 0>
-					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
+			<div id="annotationSearchResultsContainer">
+				<cfif runSearch>
+					<p class="mt-3 text-muted pl-1">Searching...</p>
 				<cfelse>
-					<cfloop query="targets">
-						<cfset targetTitle = "">
-						<cfset targetLink = "">
-						<cfset targetMeta = "">
-						<cfset targetTitleContainsHtml = false>
-						<cfswitch expression="#ucase(targets.target_table)#">
-							<cfcase value="COLLECTION_OBJECT">
-								<cfset specimenGuid = "#targets.institution_acronym#:#targets.collection_cde#:#targets.cat_num#">
-								<cfset targetTitle = specimenGuid>
-								<cfset targetLink = "/guid/#encodeForURL(specimenGuid)#">
-								<cfset targetMeta = "Current Identification: #encodeForHTML(targets.idAs)#; Locality: #encodeForHTML(targets.higher_geog)#: #encodeForHTML(targets.spec_locality)#">
-							</cfcase>
-							<cfcase value="TAXON_NAME">
-								<cfset targetTitle = targets.taxon_display_name>
-								<cfset targetLink = "/name/#encodeForURL(targets.taxon_scientific_name)#">
-								<cfset targetTitleContainsHtml = true>
-							</cfcase>
-							<cfcase value="PUBLICATION">
-								<cfset targetTitle = targets.publication_title>
-								<cfset targetLink = "/publications/showPublication.cfm?publication_id=#encodeForURL(targets.publication_id)#">
-							</cfcase>
-							<cfcase value="PROJECT">
-								<cfset targetTitle = targets.project_name>
-								<cfset targetLink = "/ProjectDetail?project_id=#encodeForURL(targets.project_id)#">
-							</cfcase>
-							<cfdefaultcase>
-								<cfset targetTitle = "Target #encodeForHTML(targets.target_key)#">
-							</cfdefaultcase>
-						</cfswitch>
-
-						<div class="col-12 px-0 my-2 card border-bottom-0">
-							<div class="card-header bg-box-header-gray">
-								<h3 class="h4 mb-0">
-									<cfif len(targetLink) GT 0>
-										<a href="#targetLink#" target="_blank"><cfif targetTitleContainsHtml>#targetTitle#<cfelse>#encodeForHTML(targetTitle)#</cfif></a>
-									<cfelse>
-										<cfif targetTitleContainsHtml>#targetTitle#<cfelse>#encodeForHTML(targetTitle)#</cfif>
-									</cfif>
-									<cfif len(targetMeta) GT 0><span class="ml-2 small">#targetMeta#</span></cfif>
-								</h3>
-							</div>
-							<cfquery name="itemAnno" dbtype="query">
-								SELECT annotation_id, annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
-									state, resolution, reviewer, reviewer_comment, mask_annotation_fg, parent_annotation_id
-								FROM searchResults
-								WHERE target_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_table#">
-									AND target_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_key#">
-							</cfquery>
-							<cfloop query="itemAnno">
-								<cfset showReplyAction = false>
-								<cfif NOT isNumeric(parent_annotation_id)>
-									<cfset showReplyAction = true>
-								</cfif>
-								<div id="annotation-block-#annotation_id#">
-								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
-									annotation_id="#annotation_id#"
-									annotation_display="#annotation_display#"
-									cf_username="#cf_username#"
-									email="#email#"
-									annotate_date="#annotate_date#"
-									motivation="#motivation#"
-									reviewed_fg="#reviewed_fg#"
-									state="#state#"
-									resolution="#resolution#"
-									reviewer="#reviewer#"
-									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#"
-									show_reply_action="#showReplyAction#">
-								#annoRowHTML#
-								<cfif showReplyAction>
-									#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=childAnnotations, root_mask_annotation_fg=mask_annotation_fg)#
-								</cfif>
-								</div>
-							</cfloop>
-						</div>
-					</cfloop>
+					<p class="mt-3 text-muted pl-1">Set filters and click Search.</p>
 				</cfif>
-			<cfelse>
-				<p class="mt-3 text-muted pl-1">Set filters and click Search.</p>
-			</cfif>
-			</cfoutput>
+			</div>
 		</div>
 	</section>
 </main>
