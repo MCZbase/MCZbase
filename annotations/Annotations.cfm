@@ -419,6 +419,11 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
+					<style>
+						#annotationSearchForm .cursor-not-allowed {
+							cursor: not-allowed;
+						}
+					</style>
 					<script>
 						(function () {
 							var form = document.getElementById('annotationSearchForm');
@@ -465,7 +470,7 @@ limitations under the License.
 											field.disabled = !active;
 											field.classList.toggle('bg-light', !active);
 											field.classList.toggle('text-muted', !active);
-											field.style.cursor = active ? '' : 'not-allowed';
+											field.classList.toggle('cursor-not-allowed', !active);
 										}
 									});
 									if (!active && clearInconsistentValues) {
