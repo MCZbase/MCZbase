@@ -388,7 +388,277 @@ limitations under the License.
 			target_key,
 			annotations.annotate_date DESC
 	</cfquery>
-	<cfreturn annotationResults>
+<cfreturn annotationResults>
+</cffunction>
+
+<!---
+ renderAnnotationSearchResults renders annotation search results HTML for async and noscript loads.
+ @param execute optional execution flag; accepted true values are true/1/yes/y/on.
+ @param target_type optional target selector alias/value passed to findAnnotations.
+ @param type optional legacy alias for target_type.
+ @param state optional annotation state exact match.
+ @param resolution optional annotation resolution exact match.
+ @param annotator optional username fragment.
+ @param annotation_text optional annotation body fragment.
+ @param motivation optional annotation motivation exact match.
+ @param reviewed_fg optional review flag value.
+ @param root_mode optional root/response mode.
+ @param visibility optional mask flag value.
+ @param collection optional exact collection filter.
+ @param specimen_guid optional specimen guid filter.
+ @param collection_object_id optional specimen id filter.
+ @param id optional alias for collection_object_id.
+ @param family optional exact taxon family filter.
+ @param taxon_family optional alias for family.
+ @param scientific_name optional taxon scientific name contains filter.
+ @param taxon_name_id optional taxon id filter.
+ @param publication_id optional publication id filter.
+ @param project_id optional project id filter.
+ @return HTML string for annotation search results section using existing annotation render helpers.
+--->
+<cffunction name="renderAnnotationSearchResults" access="remote" returntype="string" returnformat="plain" output="false">
+	<cfargument name="execute" type="string" required="no" default="">
+	<cfargument name="target_type" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="state" type="string" required="no" default="">
+	<cfargument name="resolution" type="string" required="no" default="">
+	<cfargument name="annotator" type="string" required="no" default="">
+	<cfargument name="annotation_text" type="string" required="no" default="">
+	<cfargument name="motivation" type="string" required="no" default="">
+	<cfargument name="reviewed_fg" type="string" required="no" default="">
+	<cfargument name="root_mode" type="string" required="no" default="root">
+	<cfargument name="visibility" type="string" required="no" default="">
+	<cfargument name="collection" type="string" required="no" default="">
+	<cfargument name="specimen_guid" type="string" required="no" default="">
+	<cfargument name="collection_object_id" type="string" required="no" default="">
+	<cfargument name="id" type="string" required="no" default="">
+	<cfargument name="family" type="string" required="no" default="">
+	<cfargument name="taxon_family" type="string" required="no" default="">
+	<cfargument name="scientific_name" type="string" required="no" default="">
+	<cfargument name="taxon_name_id" type="string" required="no" default="">
+	<cfargument name="publication_id" type="string" required="no" default="">
+	<cfargument name="project_id" type="string" required="no" default="">
+
+	<cfset var annotationFunctions = CreateObject("component","annotations.component.functions")>
+	<cfset var normalizedTargetType = trim(arguments.target_type)>
+	<cfset var normalizedCollectionObjectId = trim(arguments.collection_object_id)>
+	<cfset var normalizedFamily = trim(arguments.family)>
+	<cfset var normalizedRootMode = lcase(trim(arguments.root_mode))>
+	<cfset var runSearch = false>
+	<cfset var searchResults = QueryNew("")>
+	<cfset var childAnnotations = QueryNew("")>
+	<cfset var rootAnnotationsInResults = QueryNew("")>
+	<cfset var targets = QueryNew("")>
+	<cfset var targetAnnotations = QueryNew("")>
+	<cfset var targetCount = 0>
+	<cfset var annotationLabel = "annotations">
+	<cfset var targetLabel = "targets">
+	<cfset var searchTermLabels = []>
+	<cfset var searchedOn = "none (all annotations)">
+	<cfset var targetTitle = "">
+	<cfset var targetLink = "">
+	<cfset var targetMeta = "">
+	<cfset var targetTitleContainsHtml = false>
+	<cfset var specimenGuid = "">
+	<cfset var showReplyAction = false>
+	<cfset var annoRowHTML = "">
+	<cfset var result = "">
+
+	<cfif len(normalizedTargetType) EQ 0>
+		<cfset normalizedTargetType = trim(arguments.type)>
+	</cfif>
+	<cfswitch expression="#lcase(normalizedTargetType)#">
+		<cfcase value="collection_object,collection_object_id"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
+		<cfcase value="taxon_name,taxon_name_id"><cfset normalizedTargetType = "TAXON_NAME"></cfcase>
+		<cfcase value="publication,publication_id"><cfset normalizedTargetType = "PUBLICATION"></cfcase>
+		<cfcase value="project,project_id"><cfset normalizedTargetType = "PROJECT"></cfcase>
+		<cfdefaultcase>
+			<cfif len(normalizedTargetType) GT 0>
+				<cfset normalizedTargetType = ucase(normalizedTargetType)>
+			</cfif>
+		</cfdefaultcase>
+	</cfswitch>
+	<cfif len(normalizedCollectionObjectId) EQ 0 AND len(trim(arguments.id)) GT 0>
+		<cfset normalizedCollectionObjectId = trim(arguments.id)>
+	</cfif>
+	<cfif len(normalizedFamily) EQ 0>
+		<cfset normalizedFamily = trim(arguments.taxon_family)>
+	</cfif>
+	<cfif NOT listFindNoCase("root,response", normalizedRootMode)>
+		<cfset normalizedRootMode = "root">
+	</cfif>
+	<cfif listFindNoCase("true,1,yes,y,on", lcase(trim(arguments.execute)))>
+		<cfset runSearch = true>
+	</cfif>
+	<cfif NOT runSearch AND (
+		len(normalizedTargetType) GT 0 OR
+		len(trim(arguments.specimen_guid)) GT 0 OR
+		len(normalizedCollectionObjectId) GT 0 OR
+		len(normalizedFamily) GT 0 OR
+		len(trim(arguments.taxon_name_id)) GT 0 OR
+		len(trim(arguments.publication_id)) GT 0 OR
+		len(trim(arguments.project_id)) GT 0
+	)>
+		<cfset runSearch = true>
+	</cfif>
+
+	<cfif runSearch>
+		<cfset searchResults = findAnnotations(
+			target_type = normalizedTargetType,
+			state = trim(arguments.state),
+			resolution = trim(arguments.resolution),
+			annotator = trim(arguments.annotator),
+			annotation_text = trim(arguments.annotation_text),
+			motivation = trim(arguments.motivation),
+			reviewed_fg = trim(arguments.reviewed_fg),
+			root_mode = normalizedRootMode,
+			visibility = trim(arguments.visibility),
+			collection = trim(arguments.collection),
+			specimen_guid = trim(arguments.specimen_guid),
+			collection_object_id = normalizedCollectionObjectId,
+			family = normalizedFamily,
+			scientific_name = trim(arguments.scientific_name),
+			taxon_name_id = trim(arguments.taxon_name_id),
+			publication_id = trim(arguments.publication_id),
+			project_id = trim(arguments.project_id)
+		)>
+		<cfif searchResults.recordcount GT 0>
+			<cfquery name="rootAnnotationsInResults" dbtype="query">
+				SELECT annotation_id
+				FROM searchResults
+				WHERE parent_annotation_id IS NULL
+			</cfquery>
+			<cfif rootAnnotationsInResults.recordcount GT 0>
+				<cfset childAnnotations = annotationFunctions.getChildAnnotationsForRoots(valueList(rootAnnotationsInResults.annotation_id))>
+			</cfif>
+		</cfif>
+	</cfif>
+
+	<cfsavecontent variable="result">
+		<cfoutput>
+		<cfif runSearch>
+			<cfif searchResults.recordcount GT 0>
+				<cfquery name="targets" dbtype="query">
+					SELECT target_table, target_key, collection_object_id, institution_acronym, collection_cde, cat_num,
+						idAs, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
+						publication_id, publication_title, project_id, project_name
+					FROM searchResults
+					GROUP BY target_table, target_key, collection_object_id, institution_acronym, collection_cde, cat_num,
+						idAs, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
+						publication_id, publication_title, project_id, project_name
+					ORDER BY target_table, target_key
+				</cfquery>
+				<cfset targetCount = targets.recordcount>
+			</cfif>
+			<cfif searchResults.recordcount EQ 1><cfset annotationLabel = "annotation"></cfif>
+			<cfif targetCount EQ 1><cfset targetLabel = "target"></cfif>
+			<cfif len(trim(arguments.state)) GT 0><cfset arrayAppend(searchTermLabels, "state")></cfif>
+			<cfif len(trim(arguments.resolution)) GT 0><cfset arrayAppend(searchTermLabels, "resolution")></cfif>
+			<cfif len(trim(arguments.motivation)) GT 0><cfset arrayAppend(searchTermLabels, "motivation")></cfif>
+			<cfif len(trim(arguments.annotator)) GT 0><cfset arrayAppend(searchTermLabels, "annotator")></cfif>
+			<cfif len(trim(arguments.annotation_text)) GT 0><cfset arrayAppend(searchTermLabels, "annotation text")></cfif>
+			<cfif len(trim(arguments.reviewed_fg)) GT 0><cfset arrayAppend(searchTermLabels, "reviewed")></cfif>
+			<cfif len(trim(arguments.visibility)) GT 0><cfset arrayAppend(searchTermLabels, "visibility")></cfif>
+			<cfif len(normalizedTargetType) GT 0><cfset arrayAppend(searchTermLabels, "target type")></cfif>
+			<cfif len(trim(arguments.collection)) GT 0><cfset arrayAppend(searchTermLabels, "collection")></cfif>
+			<cfif len(trim(arguments.specimen_guid)) GT 0><cfset arrayAppend(searchTermLabels, "specimen guid")></cfif>
+			<cfif len(normalizedCollectionObjectId) GT 0><cfset arrayAppend(searchTermLabels, "collection object id")></cfif>
+			<cfif len(normalizedFamily) GT 0><cfset arrayAppend(searchTermLabels, "family")></cfif>
+			<cfif len(trim(arguments.scientific_name)) GT 0><cfset arrayAppend(searchTermLabels, "scientific name")></cfif>
+			<cfif len(trim(arguments.taxon_name_id)) GT 0><cfset arrayAppend(searchTermLabels, "taxon name id")></cfif>
+			<cfif len(trim(arguments.publication_id)) GT 0><cfset arrayAppend(searchTermLabels, "publication")></cfif>
+			<cfif len(trim(arguments.project_id)) GT 0><cfset arrayAppend(searchTermLabels, "project")></cfif>
+			<cfif arrayLen(searchTermLabels) GT 0><cfset searchedOn = arrayToList(searchTermLabels, ", ")></cfif>
+			<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationSearchResultsHeading">
+				<h2 class="h3 mb-0 mr-3">Annotation Results (#searchResults.recordcount# #annotationLabel# on #targetCount# #targetLabel#)</h2>
+				<div class="text-muted mb-1">Searched on #encodeForHTML(searchedOn)#.</div>
+			</div>
+			<cfif searchResults.recordcount EQ 0>
+				<p class="text-muted pl-1 mt-2">No annotations found matching the selected filters.</p>
+			<cfelse>
+				<cfloop query="targets">
+					<cfset targetTitle = "">
+					<cfset targetLink = "">
+					<cfset targetMeta = "">
+					<cfset targetTitleContainsHtml = false>
+					<cfswitch expression="#ucase(targets.target_table)#">
+						<cfcase value="COLLECTION_OBJECT">
+							<cfset specimenGuid = "#targets.institution_acronym#:#targets.collection_cde#:#targets.cat_num#">
+							<cfset targetTitle = specimenGuid>
+							<cfset targetLink = "/guid/#encodeForURL(specimenGuid)#">
+							<cfset targetMeta = "Current Identification: #encodeForHTML(targets.idAs)#; Locality: #encodeForHTML(targets.higher_geog)#: #encodeForHTML(targets.spec_locality)#">
+						</cfcase>
+						<cfcase value="TAXON_NAME">
+							<cfset targetTitle = targets.taxon_display_name>
+							<cfset targetLink = "/name/#encodeForURL(targets.taxon_scientific_name)#">
+							<cfset targetTitleContainsHtml = true>
+						</cfcase>
+						<cfcase value="PUBLICATION">
+							<cfset targetTitle = targets.publication_title>
+							<cfset targetLink = "/publications/showPublication.cfm?publication_id=#encodeForURL(targets.publication_id)#">
+						</cfcase>
+						<cfcase value="PROJECT">
+							<cfset targetTitle = targets.project_name>
+							<cfset targetLink = "/ProjectDetail?project_id=#encodeForURL(targets.project_id)#">
+						</cfcase>
+						<cfdefaultcase>
+							<cfset targetTitle = "Target #encodeForHTML(targets.target_key)#">
+						</cfdefaultcase>
+					</cfswitch>
+					<div class="col-12 px-0 my-2 card border-bottom-0">
+						<div class="card-header bg-box-header-gray">
+							<h3 class="h4 mb-0">
+								<cfif len(targetLink) GT 0>
+									<a href="#targetLink#" target="_blank"><cfif targetTitleContainsHtml>#targetTitle#<cfelse>#encodeForHTML(targetTitle)#</cfif></a>
+								<cfelse>
+									<cfif targetTitleContainsHtml>#targetTitle#<cfelse>#encodeForHTML(targetTitle)#</cfif>
+								</cfif>
+								<cfif len(targetMeta) GT 0><span class="ml-2 small">#targetMeta#</span></cfif>
+							</h3>
+						</div>
+						<cfquery name="targetAnnotations" dbtype="query">
+							SELECT annotation_id, annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
+								state, resolution, reviewer, reviewer_comment, mask_annotation_fg, parent_annotation_id
+							FROM searchResults
+							WHERE target_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_table#">
+								AND target_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_key#">
+						</cfquery>
+						<cfloop query="targetAnnotations">
+							<cfset showReplyAction = false>
+							<cfif NOT isNumeric(targetAnnotations.parent_annotation_id)>
+								<cfset showReplyAction = true>
+							</cfif>
+							<div id="annotation-block-#targetAnnotations.annotation_id#">
+							<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
+								annotation_id="#targetAnnotations.annotation_id#"
+								annotation_display="#targetAnnotations.annotation_display#"
+								cf_username="#targetAnnotations.cf_username#"
+								email="#targetAnnotations.email#"
+								annotate_date="#targetAnnotations.annotate_date#"
+								motivation="#targetAnnotations.motivation#"
+								reviewed_fg="#targetAnnotations.reviewed_fg#"
+								state="#targetAnnotations.state#"
+								resolution="#targetAnnotations.resolution#"
+								reviewer="#targetAnnotations.reviewer#"
+								reviewer_comment="#targetAnnotations.reviewer_comment#"
+								mask_annotation_fg="#targetAnnotations.mask_annotation_fg#"
+								show_reply_action="#showReplyAction#">
+							#annoRowHTML#
+							<cfif showReplyAction>
+								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=targetAnnotations.annotation_id, childAnnotations=childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
+							</cfif>
+							</div>
+						</cfloop>
+					</div>
+				</cfloop>
+			</cfif>
+		<cfelse>
+			<p class="mt-3 text-muted pl-1">Set filters and click Search.</p>
+		</cfif>
+		</cfoutput>
+	</cfsavecontent>
+
+	<cfreturn result>
 </cffunction>
 
 </cfcomponent>

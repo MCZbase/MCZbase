@@ -514,7 +514,7 @@ limitations under the License.
 								var resultsContainer = document.getElementById('annotationSearchResultsContainer');
 								if (!resultsContainer) { return; }
 								showSearchingMarker();
-								fetch('/annotations/component/searchResults.cfm?' + queryString, { credentials: 'same-origin' })
+								fetch('/annotations/component/search.cfc?method=renderAnnotationSearchResults&returnformat=plain&' + queryString, { credentials: 'same-origin' })
 									.then(function (response) {
 										if (!response.ok) {
 											throw new Error('Failed to load annotation results');
@@ -561,7 +561,27 @@ limitations under the License.
 				</cfif>
 			</div>
 			<noscript>
-				<cfinclude template="/annotations/component/searchResults.cfm">
+				<cfset variables.noscriptResultsHtml = "">
+				<cfinvoke component="/annotations/component/search" method="renderAnnotationSearchResults" returnvariable="variables.noscriptResultsHtml"
+					execute="#runSearch#"
+					target_type="#variables.target_type#"
+					state="#variables.state#"
+					resolution="#variables.resolution#"
+					annotator="#variables.annotator#"
+					annotation_text="#variables.annotation_text#"
+					motivation="#variables.motivation#"
+					reviewed_fg="#variables.reviewed_fg#"
+					root_mode="#variables.root_mode#"
+					visibility="#variables.visibility#"
+					collection="#variables.collection#"
+					specimen_guid="#variables.specimen_guid#"
+					collection_object_id="#variables.collection_object_id#"
+					family="#variables.family#"
+					scientific_name="#variables.scientific_name#"
+					taxon_name_id="#variables.taxon_name_id#"
+					publication_id="#variables.publication_id#"
+					project_id="#variables.project_id#">
+				<cfoutput>#variables.noscriptResultsHtml#</cfoutput>
 			</noscript>
 		</div>
 	</section>
