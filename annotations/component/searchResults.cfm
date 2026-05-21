@@ -158,7 +158,7 @@ AJAX endpoint to render annotation search results for annotations/Annotations.cf
 	<cfif len(variables.project_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "project")></cfif>
 	<cfset variables.searchedOn = "none (all annotations)">
 	<cfif arrayLen(variables.searchTermLabels) GT 0><cfset variables.searchedOn = arrayToList(variables.searchTermLabels, ", ")></cfif>
-	<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationResultsHeading">
+	<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationSearchResultsHeading">
 		<h2 class="h3 mb-0 mr-3">Annotation Results (#variables.searchResults.recordcount# #variables.annotationLabel# on #variables.targetCount# #variables.targetLabel#)</h2>
 		<div class="text-muted mb-1">Searched on #encodeForHTML(variables.searchedOn)#.</div>
 	</div>

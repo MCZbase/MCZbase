@@ -534,12 +534,14 @@ limitations under the License.
 								inferTargetType();
 								applyTargetTypeState(true);
 								var queryString = buildSearchQueryString();
-								history.replaceState({}, '', '/annotations/Annotations.cfm?' + queryString);
+								history.replaceState({}, '', window.location.pathname + '?' + queryString);
 								loadResults(queryString);
 							});
 							applyTargetTypeState(false);
 							<cfif runSearch>
-								loadResults(window.location.search.replace(/^\?/, ''));
+								var initialParams = new URLSearchParams(window.location.search);
+								initialParams.set('execute', 'true');
+								loadResults(initialParams.toString());
 							</cfif>
 						})();
 					</script>
