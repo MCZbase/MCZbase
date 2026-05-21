@@ -462,9 +462,13 @@ limitations under the License.
 							});
 							if (typeof makePublicationAutocompleteMeta === 'function') {
 								makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
+							} else {
+								console.warn('makePublicationAutocompleteMeta is unavailable.');
 							}
 							if (typeof makeProjectAutocompleteMeta === 'function') {
 								makeProjectAutocompleteMeta('project_lookup', 'project_id');
+							} else {
+								console.warn('makeProjectAutocompleteMeta is unavailable.');
 							}
 							document.getElementById('publication_lookup').addEventListener('input', function () {
 								if (this.value.trim().length === 0) {
@@ -525,6 +529,8 @@ limitations under the License.
 							</cfcase>
 							<cfcase value="TAXON_NAME">
 								<cfset targetTitle = targets.taxon_display_name>
+								<cfset targetTitle = REReplaceNoCase(targetTitle, "<(?!/?(i|em|b|sub|sup|u)\b)[^>]*>", "", "all")>
+								<cfset targetTitle = REReplaceNoCase(targetTitle, " on[a-z]+\s*=\s*(['""]).*?\1", "", "all")>
 								<cfset targetLink = "/name/#encodeForURL(targets.taxon_scientific_name)#">
 								<cfset targetTitleContainsHtml = true>
 							</cfcase>
