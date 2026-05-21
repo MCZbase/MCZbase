@@ -527,9 +527,24 @@ limitations under the License.
 									}
 								});
 							}
+							function disableEmptySubmitFields() {
+								Array.prototype.forEach.call(form.elements, function (field) {
+									if (!field || !field.name || field.disabled) { return; }
+									var fieldType = (field.type || '').toLowerCase();
+									if (fieldType === 'submit' || fieldType === 'button' || fieldType === 'reset' || fieldType === 'file') { return; }
+									if ((fieldType === 'checkbox' || fieldType === 'radio') && !field.checked) {
+										field.disabled = true;
+										return;
+									}
+									if (String(field.value || '').trim().length === 0) {
+										field.disabled = true;
+									}
+								});
+							}
 							form.addEventListener('submit', function () {
 								inferTargetType();
 								applyTargetTypeState(true);
+								disableEmptySubmitFields();
 							});
 							applyTargetTypeState(false);
 						})();
