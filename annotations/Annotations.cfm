@@ -560,6 +560,9 @@ limitations under the License.
 			<cfoutput>
 			<cfif runSearch>
 				<cfset targetCount = 0>
+				<cfset variables.annotationLabel = "annotations">
+				<cfset variables.targetLabel = "targets">
+				<cfset variables.searchTermLabels = []>
 				<cfif searchResults.recordcount GT 0>
 					<cfquery name="targets" dbtype="query">
 						SELECT target_table, target_key, collection_object_id, institution_acronym, collection_cde, cat_num,
@@ -573,7 +576,28 @@ limitations under the License.
 					</cfquery>
 					<cfset targetCount = targets.recordcount>
 				</cfif>
-				<h2 class="h3 mt-3 pl-1">Annotation Results (#searchResults.recordcount# annotations on #targetCount# targets)</h2>
+				<cfif searchResults.recordcount EQ 1><cfset variables.annotationLabel = "annotation"></cfif>
+				<cfif targetCount EQ 1><cfset variables.targetLabel = "target"></cfif>
+				<cfif len(variables.state) GT 0><cfset arrayAppend(variables.searchTermLabels, "state")></cfif>
+				<cfif len(variables.resolution) GT 0><cfset arrayAppend(variables.searchTermLabels, "resolution")></cfif>
+				<cfif len(variables.motivation) GT 0><cfset arrayAppend(variables.searchTermLabels, "motivation")></cfif>
+				<cfif len(variables.annotator) GT 0><cfset arrayAppend(variables.searchTermLabels, "annotator")></cfif>
+				<cfif len(variables.annotation_text) GT 0><cfset arrayAppend(variables.searchTermLabels, "annotation text")></cfif>
+				<cfif len(variables.reviewed_fg) GT 0><cfset arrayAppend(variables.searchTermLabels, "reviewed")></cfif>
+				<cfif len(variables.visibility) GT 0><cfset arrayAppend(variables.searchTermLabels, "visibility")></cfif>
+				<cfif len(variables.target_type) GT 0><cfset arrayAppend(variables.searchTermLabels, "target type")></cfif>
+				<cfif len(variables.collection) GT 0><cfset arrayAppend(variables.searchTermLabels, "collection")></cfif>
+				<cfif len(variables.specimen_guid) GT 0><cfset arrayAppend(variables.searchTermLabels, "specimen guid")></cfif>
+				<cfif len(variables.collection_object_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "collection object id")></cfif>
+				<cfif len(variables.family) GT 0><cfset arrayAppend(variables.searchTermLabels, "family")></cfif>
+				<cfif len(variables.scientific_name) GT 0><cfset arrayAppend(variables.searchTermLabels, "scientific name")></cfif>
+				<cfif len(variables.taxon_name_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "taxon name id")></cfif>
+				<cfif len(variables.publication_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "publication")></cfif>
+				<cfif len(variables.project_id) GT 0><cfset arrayAppend(variables.searchTermLabels, "project")></cfif>
+				<cfset variables.searchedOn = "none (all annotations)">
+				<cfif arrayLen(variables.searchTermLabels) GT 0><cfset variables.searchedOn = arrayToList(variables.searchTermLabels, ", ")></cfif>
+				<h2 class="h3 mt-3 pl-1">Annotation Results (#searchResults.recordcount# #variables.annotationLabel# on #targetCount# #variables.targetLabel#)</h2>
+				<p class="text-muted pl-1 mb-2">Searched on #encodeForHTML(variables.searchedOn)#.</p>
 				<cfif searchResults.recordcount EQ 0>
 					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
 				<cfelse>
