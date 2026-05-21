@@ -419,11 +419,6 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<style>
-						#annotationSearchForm .cursor-not-allowed {
-							cursor: not-allowed;
-						}
-					</style>
 					<script>
 						(function () {
 							var form = document.getElementById('annotationSearchForm');
@@ -460,9 +455,7 @@ limitations under the License.
 									var groupBlocks = form.querySelectorAll('[data-target-group="' + groupName + '"]');
 									groupBlocks.forEach(function (block) {
 										block.classList.toggle('opacity-50', !active);
-										block.querySelectorAll('.data-entry-label').forEach(function (label) {
-											label.classList.toggle('text-muted', !active);
-										});
+										block.classList.toggle('text-muted', !active);
 									});
 									groupFields[groupName].forEach(function (fieldId) {
 										var field = document.getElementById(fieldId);
@@ -470,7 +463,6 @@ limitations under the License.
 											field.disabled = !active;
 											field.classList.toggle('bg-light', !active);
 											field.classList.toggle('text-muted', !active);
-											field.classList.toggle('cursor-not-allowed', !active);
 										}
 									});
 									if (!active && clearInconsistentValues) {
