@@ -463,12 +463,12 @@ limitations under the License.
 							if (typeof makePublicationAutocompleteMeta === 'function') {
 								makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
 							} else {
-								console.warn('Publication autocomplete unavailable. Publication filtering requires ID-driven URL values.');
+								console.warn('Publication autocomplete unavailable. Use publication_id in URL parameters for publication filtering.');
 							}
 							if (typeof makeProjectAutocompleteMeta === 'function') {
 								makeProjectAutocompleteMeta('project_lookup', 'project_id');
 							} else {
-								console.warn('Project autocomplete unavailable. Project filtering requires ID-driven URL values.');
+								console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
 							}
 							var publicationLookupInput = document.getElementById('publication_lookup');
 							var publicationIdInput = document.getElementById('publication_id');
