@@ -365,6 +365,7 @@ limitations under the License.
 								</select>
 							</div>
 							<h2 class="h5 mb-2">Target-Specific Context Filters</h2>
+							<h3 class="h6 mb-2">Specimen Filters</h3>
 							<div class="form-group mb-2" data-target-group="specimen">
 								<label for="collection" class="data-entry-label">Collection</label>
 								<select name="collection" id="collection" class="data-entry-select col-12">
@@ -384,6 +385,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-2 mb-3">
+							<h3 class="h6 mb-2">Taxon Filters</h3>
 							<div class="form-group mb-2" data-target-group="taxon">
 								<label for="family" class="data-entry-label">Family</label>
 								<select name="family" id="family" class="data-entry-select col-12">
@@ -450,10 +452,6 @@ limitations under the License.
 								var allGroups = ['specimen', 'taxon', 'publication', 'project'];
 								allGroups.forEach(function (groupName) {
 									var active = activeGroups.indexOf(groupName) !== -1;
-									var groupBlocks = form.querySelectorAll('[data-target-group="' + groupName + '"]');
-									groupBlocks.forEach(function (block) {
-										block.style.display = active ? '' : 'none';
-									});
 									groupFields[groupName].forEach(function (fieldId) {
 										var field = document.getElementById(fieldId);
 										if (field) { field.disabled = !active; }
