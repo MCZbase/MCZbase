@@ -236,6 +236,7 @@
 					<cfset requestedformat = "html">
 				</cfcatch>
 			</cftry>
+			<cfset variables.loadMapLibraries = true>
 			<cfinclude template="/grouping/showNamedCollection.cfm">
 			<cfcatch>
 				<cfset errorMessage = cfcatch.message>
