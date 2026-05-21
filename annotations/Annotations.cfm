@@ -187,6 +187,36 @@ limitations under the License.
 	GROUP BY taxonomy.family
 	ORDER BY taxonomy.family
 </cfquery>
+<cfquery name="reviewedCounts" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+	SELECT reviewed_fg, count(annotation_id) ct
+	FROM annotations
+	WHERE reviewed_fg IN (0,1)
+	GROUP BY reviewed_fg
+</cfquery>
+<cfquery name="visibilityCounts" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+	SELECT mask_annotation_fg, count(annotation_id) ct
+	FROM annotations
+	WHERE mask_annotation_fg IN (0,1)
+	GROUP BY mask_annotation_fg
+</cfquery>
+<cfset variables.reviewedCountReviewed = 0>
+<cfset variables.reviewedCountNotReviewed = 0>
+<cfloop query="reviewedCounts">
+	<cfif val(reviewedCounts.reviewed_fg) EQ 1>
+		<cfset variables.reviewedCountReviewed = reviewedCounts.ct>
+	<cfelseif val(reviewedCounts.reviewed_fg) EQ 0>
+		<cfset variables.reviewedCountNotReviewed = reviewedCounts.ct>
+	</cfif>
+</cfloop>
+<cfset variables.visibilityCountVisible = 0>
+<cfset variables.visibilityCountMasked = 0>
+<cfloop query="visibilityCounts">
+	<cfif val(visibilityCounts.mask_annotation_fg) EQ 0>
+		<cfset variables.visibilityCountVisible = visibilityCounts.ct>
+	<cfelseif val(visibilityCounts.mask_annotation_fg) EQ 1>
+		<cfset variables.visibilityCountMasked = visibilityCounts.ct>
+	</cfif>
+</cfloop>
 <cfif len(variables.publication_id) GT 0 AND isNumeric(variables.publication_id)>
 	<cfquery name="getPublicationDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 		SELECT MCZbase.getshortcitation(publication_id) short_citation
@@ -302,21 +332,21 @@ limitations under the License.
 								<label for="reviewed_fg" class="data-entry-label">Reviewed</label>
 								<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select col-12">
 									<option value="">Any</option>
-									<option value="1" <cfif variables.reviewed_fg EQ "1">selected="selected"</cfif>>Reviewed</option>
-									<option value="0" <cfif variables.reviewed_fg EQ "0">selected="selected"</cfif>>Not Reviewed</option>
+									<option value="1" <cfif variables.reviewed_fg EQ "1">selected="selected"</cfif>>Reviewed (#variables.reviewedCountReviewed#)</option>
+									<option value="0" <cfif variables.reviewed_fg EQ "0">selected="selected"</cfif>>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
 								</select>
 							</div>
 							<div class="form-group mb-2">
 								<label for="visibility" class="data-entry-label">Visibility</label>
 								<select name="visibility" id="visibility" class="data-entry-select col-12">
 									<option value="">Any</option>
-									<option value="0" <cfif variables.visibility EQ "0">selected="selected"</cfif>>Visible</option>
-									<option value="1" <cfif variables.visibility EQ "1">selected="selected"</cfif>>Masked</option>
+									<option value="0" <cfif variables.visibility EQ "0">selected="selected"</cfif>>Visible (#variables.visibilityCountVisible#)</option>
+									<option value="1" <cfif variables.visibility EQ "1">selected="selected"</cfif>>Masked (#variables.visibilityCountMasked#)</option>
 								</select>
 							</div>
 						</div>
 
-						<div class="col-12 col-md-6 col-xl-4 mb-3">
+						<div class="col-12 col-md-6 col-xl-3 mb-3">
 							<div class="form-group mb-2">
 								<label for="target_type" class="data-entry-label">Target Type</label>
 								<select name="target_type" id="target_type" class="data-entry-select col-12">
@@ -352,6 +382,8 @@ limitations under the License.
 								<label for="collection_object_id" class="data-entry-label">Collection Object ID</label>
 								<input type="text" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#" class="data-entry-input col-12">
 							</div>
+						</div>
+						<div class="col-12 col-md-6 col-xl-2 mb-3">
 							<div class="form-group mb-2" data-target-group="taxon">
 								<label for="family" class="data-entry-label">Family</label>
 								<select name="family" id="family" class="data-entry-select col-12">
@@ -371,7 +403,7 @@ limitations under the License.
 							</div>
 						</div>
 
-						<div class="col-12 col-md-6 col-xl-4 mb-3">
+						<div class="col-12 col-md-6 col-xl-3 mb-3">
 							<h2 class="h5 mb-2">Publication and Project Filters</h2>
 							<div class="form-group mb-2" data-target-group="publication">
 								<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
