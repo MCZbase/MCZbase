@@ -202,18 +202,18 @@ limitations under the License.
 <cfset variables.reviewedCountReviewed = 0>
 <cfset variables.reviewedCountNotReviewed = 0>
 <cfloop query="reviewedCounts">
-	<cfif reviewedCounts.reviewed_fg EQ 1>
+	<cfif reviewedCounts.reviewed_fg IS 1>
 		<cfset variables.reviewedCountReviewed = reviewedCounts.ct>
-	<cfelseif reviewedCounts.reviewed_fg EQ 0>
+	<cfelseif reviewedCounts.reviewed_fg IS 0>
 		<cfset variables.reviewedCountNotReviewed = reviewedCounts.ct>
 	</cfif>
 </cfloop>
 <cfset variables.visibilityCountVisible = 0>
 <cfset variables.visibilityCountMasked = 0>
 <cfloop query="visibilityCounts">
-	<cfif visibilityCounts.mask_annotation_fg EQ 0>
+	<cfif visibilityCounts.mask_annotation_fg IS 0>
 		<cfset variables.visibilityCountVisible = visibilityCounts.ct>
-	<cfelseif visibilityCounts.mask_annotation_fg EQ 1>
+	<cfelseif visibilityCounts.mask_annotation_fg IS 1>
 		<cfset variables.visibilityCountMasked = visibilityCounts.ct>
 	</cfif>
 </cfloop>
