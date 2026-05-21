@@ -460,8 +460,12 @@ limitations under the License.
 							targetTypeInput.addEventListener('change', function () {
 								applyTargetTypeState(true);
 							});
-							makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
-							makeProjectAutocompleteMeta('project_lookup', 'project_id');
+							if (typeof makePublicationAutocompleteMeta === 'function') {
+								makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
+							}
+							if (typeof makeProjectAutocompleteMeta === 'function') {
+								makeProjectAutocompleteMeta('project_lookup', 'project_id');
+							}
 							document.getElementById('publication_lookup').addEventListener('input', function () {
 								if (this.value.trim().length === 0) {
 									document.getElementById('publication_id').value = '';
