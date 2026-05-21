@@ -17,7 +17,11 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfif NOT structKeyExists(variables, "annotationFunctionsComponent")>
+	<cfset variables.annotationFunctionsComponent = CreateObject("component","annotations.component.functions")>
+</cfif>
 
 <!---
  findAnnotations performs generalized annotation-first search with optional target-aware filtering.
@@ -439,7 +443,7 @@ limitations under the License.
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 
-	<cfset var annotationFunctions = CreateObject("component","annotations.component.functions")>
+	<cfset var annotationFunctions = variables.annotationFunctionsComponent>
 	<cfset var normalizedTargetType = trim(arguments.target_type)>
 	<cfset var normalizedCollectionObjectId = trim(arguments.collection_object_id)>
 	<cfset var normalizedFamily = trim(arguments.family)>
@@ -629,20 +633,21 @@ limitations under the License.
 								<cfset showReplyAction = true>
 							</cfif>
 							<div id="annotation-block-#targetAnnotations.annotation_id#">
-							<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
-								annotation_id="#targetAnnotations.annotation_id#"
-								annotation_display="#targetAnnotations.annotation_display#"
-								cf_username="#targetAnnotations.cf_username#"
-								email="#targetAnnotations.email#"
-								annotate_date="#targetAnnotations.annotate_date#"
-								motivation="#targetAnnotations.motivation#"
-								reviewed_fg="#targetAnnotations.reviewed_fg#"
-								state="#targetAnnotations.state#"
-								resolution="#targetAnnotations.resolution#"
-								reviewer="#targetAnnotations.reviewer#"
-								reviewer_comment="#targetAnnotations.reviewer_comment#"
-								mask_annotation_fg="#targetAnnotations.mask_annotation_fg#"
-								show_reply_action="#showReplyAction#">
+							<cfset annoRowHTML = annotationFunctions.renderAnnotationReviewRow(
+								annotation_id=targetAnnotations.annotation_id,
+								annotation_display=targetAnnotations.annotation_display,
+								cf_username=targetAnnotations.cf_username,
+								email=targetAnnotations.email,
+								annotate_date=targetAnnotations.annotate_date,
+								motivation=targetAnnotations.motivation,
+								reviewed_fg=targetAnnotations.reviewed_fg,
+								state=targetAnnotations.state,
+								resolution=targetAnnotations.resolution,
+								reviewer=targetAnnotations.reviewer,
+								reviewer_comment=targetAnnotations.reviewer_comment,
+								mask_annotation_fg=targetAnnotations.mask_annotation_fg,
+								show_reply_action=showReplyAction
+							)>
 							#annoRowHTML#
 							<cfif showReplyAction>
 								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=targetAnnotations.annotation_id, childAnnotations=childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
