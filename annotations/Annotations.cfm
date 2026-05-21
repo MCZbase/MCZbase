@@ -419,6 +419,19 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
+					<style>
+						#annotationSearchForm .target-group-disabled {
+							opacity: 0.65;
+						}
+						#annotationSearchForm .target-group-disabled .data-entry-label {
+							color: #6c757d;
+						}
+						#annotationSearchForm .target-group-disabled .data-entry-input,
+						#annotationSearchForm .target-group-disabled .data-entry-select {
+							background-color: #e9ecef;
+							cursor: not-allowed;
+						}
+					</style>
 					<script>
 						(function () {
 							var form = document.getElementById('annotationSearchForm');
@@ -452,6 +465,10 @@ limitations under the License.
 								var allGroups = ['specimen', 'taxon', 'publication', 'project'];
 								allGroups.forEach(function (groupName) {
 									var active = activeGroups.indexOf(groupName) !== -1;
+									var groupBlocks = form.querySelectorAll('[data-target-group="' + groupName + '"]');
+									groupBlocks.forEach(function (block) {
+										block.classList.toggle('target-group-disabled', !active);
+									});
 									groupFields[groupName].forEach(function (fieldId) {
 										var field = document.getElementById(fieldId);
 										if (field) { field.disabled = !active; }
