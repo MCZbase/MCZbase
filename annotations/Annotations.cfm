@@ -372,8 +372,8 @@ limitations under the License.
 
 						<div class="col-12 col-md-6 col-xl-3 mb-3">
 							<div class="form-group mb-2">
-								<label for="target_type" class="data-entry-label">Target Type</label>
-								<select name="target_type" id="target_type" class="data-entry-select col-12">
+								<label for="target_type_select" class="data-entry-label">Target Type</label>
+								<select name="target_type" id="target_type_select" class="data-entry-select col-12">
 									<option value="">All Target Types</option>
 									<cfloop query="getAnnotatedTargetTypes">
 										<cfset target_type_label = "">
@@ -446,7 +446,7 @@ limitations under the License.
 					</form>
 					<script>
 						var form = $('##annotationSearchForm');
-						var targetTypeInput = $('##target_type');
+						var targetTypeInput = $('##target_type_select');
 						// Single config object: add new target types here only.
 						// fields: search parameter inputs (drives inference, disable/clear, query string).
 						// displayFields: display-only inputs (cleared/disabled with group but not in query string).
@@ -526,7 +526,7 @@ limitations under the License.
 							var activeGroups = targetTypeToGroup[selectedTargetType] || allGroups;
 							setGroupState(activeGroups, clearInconsistentValues);
 						}
-						targetTypeInput.addEventListener('change', function () {
+						$('##target_type_select').on('change', function () {
 							applyTargetTypeState(true);
 						});
 						if (typeof makePublicationAutocompleteMeta === 'function') {
@@ -626,7 +626,7 @@ limitations under the License.
 								});
 						}
 						$(document).ready(function () {
-							$("##annotationSearchForm").addEventListener('submit', function (event) {
+							$("##annotationSearchForm").on('submit', function (event) {
 								event.preventDefault();
 								inferTargetType();
 								applyTargetTypeState(true);
