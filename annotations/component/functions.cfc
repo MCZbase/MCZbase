@@ -1155,6 +1155,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			annotations.target_primary_key parent_annotation_id
 		FROM
 			annotations
+			LEFT OUTER JOIN annotations root_annotation ON annotations.target_primary_key = root_annotation.annotation_id
 			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
 			LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
 			LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
@@ -1166,6 +1167,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		WHERE
 			upper(annotations.target_table) = 'ANNOTATIONS'
 			AND annotations.target_primary_key IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationIds#" list="yes">)
+			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+				AND (
+					(annotations.mask_annotation_fg = 0 AND NVL(root_annotation.mask_annotation_fg, 0) = 0)
+					OR annotations.cf_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				)
+			</cfif>
 		ORDER BY
 			annotations.target_primary_key,
 			annotations.annotate_date

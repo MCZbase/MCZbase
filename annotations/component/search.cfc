@@ -382,6 +382,12 @@ limitations under the License.
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.project_id)#">
 			</cfif>
+			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+				AND (
+					(annotations.mask_annotation_fg = 0 AND NVL(parent_annotations.mask_annotation_fg, 0) = 0)
+					OR annotations.cf_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				)
+			</cfif>
 		ORDER BY
 			CASE
 				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
