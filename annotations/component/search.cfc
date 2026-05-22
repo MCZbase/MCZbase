@@ -125,10 +125,6 @@ limitations under the License.
 				ELSE annotations.target_table
 			END target_table,
 			CASE
-				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
-				ELSE annotations.target_primary_key
-			END target_primary_key,
-			CASE
 				WHEN annotations.target_table = 'ANNOTATIONS' THEN annotations.target_primary_key
 				ELSE NULL
 			END parent_annotation_id,
