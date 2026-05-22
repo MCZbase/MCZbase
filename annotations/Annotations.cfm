@@ -445,188 +445,187 @@ limitations under the License.
 						</div>
 					</form>
 					<script>
-						(function () {
-							var form = document.getElementById('annotationSearchForm');
-							if (!form) { return; }
-							var targetTypeInput = document.getElementById('target_type');
-							// Single config object: add new target types here only.
-							// fields: search parameter inputs (drives inference, disable/clear, query string).
-							// displayFields: display-only inputs (cleared/disabled with group but not in query string).
-							var groupConfig = {
-								specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
-								taxon:       { targetType: 'TAXON_NAME',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
-								publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
-								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
-							};
-							// Derived lookups — no manual update needed when groupConfig is extended.
-							var allGroups = Object.keys(groupConfig);
-							var targetTypeToGroup = {};
-							allGroups.forEach(function (groupName) {
-								targetTypeToGroup[groupConfig[groupName].targetType] = [groupName];
+						var form = $('##annotationSearchForm');
+						var targetTypeInput = $('##target_type');
+						// Single config object: add new target types here only.
+						// fields: search parameter inputs (drives inference, disable/clear, query string).
+						// displayFields: display-only inputs (cleared/disabled with group but not in query string).
+						var groupConfig = {
+							specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
+							taxon:       { targetType: 'TAXON_NAME',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
+							publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
+							project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
+						};
+						// Derived lookups — no manual update needed when groupConfig is extended.
+						var allGroups = Object.keys(groupConfig);
+						var targetTypeToGroup = {};
+						allGroups.forEach(function (groupName) {
+							targetTypeToGroup[groupConfig[groupName].targetType] = [groupName];
+						});
+						function clearGroup(groupName) {
+							groupConfig[groupName].fields.forEach(function (fieldId) {
+								var field = document.getElementById(fieldId);
+								if (field) { field.value = ''; }
 							});
-							function clearGroup(groupName) {
+							(groupConfig[groupName].displayFields || []).forEach(function (fieldId) {
+								var field = document.getElementById(fieldId);
+								if (field) { field.value = ''; }
+							});
+						}
+						function setGroupState(activeGroups, clearInconsistentValues) {
+							allGroups.forEach(function (groupName) {
+								var active = activeGroups.indexOf(groupName) !== -1;
+								var groupBlocks = form.querySelectorAll('[data-target-group="' + groupName + '"]');
+								groupBlocks.forEach(function (block) {
+									block.classList.toggle('opacity-50', !active);
+									block.classList.toggle('text-muted', !active);
+								});
 								groupConfig[groupName].fields.forEach(function (fieldId) {
 									var field = document.getElementById(fieldId);
-									if (field) { field.value = ''; }
+									if (field) {
+										field.disabled = !active;
+										field.classList.toggle('bg-light', !active);
+										field.classList.toggle('text-muted', !active);
+									}
 								});
 								(groupConfig[groupName].displayFields || []).forEach(function (fieldId) {
 									var field = document.getElementById(fieldId);
-									if (field) { field.value = ''; }
-								});
-							}
-							function setGroupState(activeGroups, clearInconsistentValues) {
-								allGroups.forEach(function (groupName) {
-									var active = activeGroups.indexOf(groupName) !== -1;
-									var groupBlocks = form.querySelectorAll('[data-target-group="' + groupName + '"]');
-									groupBlocks.forEach(function (block) {
-										block.classList.toggle('opacity-50', !active);
-										block.classList.toggle('text-muted', !active);
-									});
-									groupConfig[groupName].fields.forEach(function (fieldId) {
-										var field = document.getElementById(fieldId);
-										if (field) {
-											field.disabled = !active;
-											field.classList.toggle('bg-light', !active);
-											field.classList.toggle('text-muted', !active);
-										}
-									});
-									(groupConfig[groupName].displayFields || []).forEach(function (fieldId) {
-										var field = document.getElementById(fieldId);
-										if (field) {
-											field.disabled = !active;
-											field.classList.toggle('bg-light', !active);
-											field.classList.toggle('text-muted', !active);
-										}
-									});
-									if (!active && clearInconsistentValues) {
-										clearGroup(groupName);
+									if (field) {
+										field.disabled = !active;
+										field.classList.toggle('bg-light', !active);
+										field.classList.toggle('text-muted', !active);
 									}
 								});
-							}
-							function inferTargetType() {
-								var filledGroups = [];
-								allGroups.forEach(function (groupName) {
-									var groupHasValue = groupConfig[groupName].fields.some(function (fieldId) {
-										var field = document.getElementById(fieldId);
-										return field && String(field.value).trim().length > 0;
-									});
-									if (groupHasValue) { filledGroups.push(groupName); }
-								});
-								if (filledGroups.length === 1) {
-									targetTypeInput.value = groupConfig[filledGroups[0]].targetType;
+								if (!active && clearInconsistentValues) {
+									clearGroup(groupName);
 								}
-								if (filledGroups.length > 1) {
-									// Deterministic precedence for conflicts: use order from groupConfig.
-									var selectedGroup = allGroups.find(function (groupName) {
-										return filledGroups.indexOf(groupName) !== -1;
-									}) || allGroups[0];
-									targetTypeInput.value = groupConfig[selectedGroup].targetType;
-								}
-							}
-							function applyTargetTypeState(clearInconsistentValues) {
-								var selectedTargetType = targetTypeInput.value ? targetTypeInput.value.toUpperCase() : '';
-								var activeGroups = targetTypeToGroup[selectedTargetType] || allGroups;
-								setGroupState(activeGroups, clearInconsistentValues);
-							}
-							targetTypeInput.addEventListener('change', function () {
-								applyTargetTypeState(true);
 							});
-							if (typeof makePublicationAutocompleteMeta === 'function') {
-								makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
-							} else {
-								console.warn('Publication autocomplete unavailable. Use publication_id in URL parameters for publication filtering.');
-							}
-							if (typeof makeProjectAutocompleteMeta === 'function') {
-								makeProjectAutocompleteMeta('project_lookup', 'project_id');
-							} else {
-								console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
-							}
-							var publicationLookupInput = document.getElementById('publication_lookup');
-							var publicationIdInput = document.getElementById('publication_id');
-							var publicationTextInput = document.getElementById('publication_text');
-							if (publicationLookupInput && publicationIdInput) {
-								// Clear the stored publication_id whenever the user edits the lookup field manually.
-								publicationLookupInput.addEventListener('input', function () {
-									publicationIdInput.value = '';
-									if (publicationTextInput) { publicationTextInput.value = ''; }
+						}
+						function inferTargetType() {
+							var filledGroups = [];
+							allGroups.forEach(function (groupName) {
+								var groupHasValue = groupConfig[groupName].fields.some(function (fieldId) {
+									var field = document.getElementById(fieldId);
+									return field && String(field.value).trim().length > 0;
 								});
+								if (groupHasValue) { filledGroups.push(groupName); }
+							});
+							if (filledGroups.length === 1) {
+								targetTypeInput.value = groupConfig[filledGroups[0]].targetType;
 							}
-							var projectLookupInput = document.getElementById('project_lookup');
-							var projectIdInput = document.getElementById('project_id');
-							var projectTextInput = document.getElementById('project_text');
-							if (projectLookupInput && projectIdInput) {
-								// Clear the stored project_id whenever the user edits the lookup field manually.
-								projectLookupInput.addEventListener('input', function () {
-									projectIdInput.value = '';
-									if (projectTextInput) { projectTextInput.value = ''; }
-								});
+							if (filledGroups.length > 1) {
+								// Deterministic precedence for conflicts: use order from groupConfig.
+								var selectedGroup = allGroups.find(function (groupName) {
+									return filledGroups.indexOf(groupName) !== -1;
+								}) || allGroups[0];
+								targetTypeInput.value = groupConfig[selectedGroup].targetType;
 							}
-							var scientificNameInput = document.getElementById('scientific_name');
-							var taxonNameIdInput = document.getElementById('taxon_name_id');
-							if (scientificNameInput && taxonNameIdInput) {
-								scientificNameInput.addEventListener('input', function () {
-									taxonNameIdInput.value = '';
-								});
-							}
-							function syncTextSearchFields() {
-								// When publication_id is not set, populate publication_text from the lookup display field.
-								// When publication_id is set (autocomplete selected), clear publication_text so only the id is sent.
-								if (publicationLookupInput && publicationIdInput && publicationTextInput) {
-									if (publicationIdInput.value.trim().length > 0) {
-										publicationTextInput.value = '';
-									} else {
-										publicationTextInput.value = publicationLookupInput.value.trim();
-									}
+						}
+						function applyTargetTypeState(clearInconsistentValues) {
+							var selectedTargetType = targetTypeInput.value ? targetTypeInput.value.toUpperCase() : '';
+							var activeGroups = targetTypeToGroup[selectedTargetType] || allGroups;
+							setGroupState(activeGroups, clearInconsistentValues);
+						}
+						targetTypeInput.addEventListener('change', function () {
+							applyTargetTypeState(true);
+						});
+						if (typeof makePublicationAutocompleteMeta === 'function') {
+							makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
+						} else {
+							console.warn('Publication autocomplete unavailable. Use publication_id in URL parameters for publication filtering.');
+						}
+						if (typeof makeProjectAutocompleteMeta === 'function') {
+							makeProjectAutocompleteMeta('project_lookup', 'project_id');
+						} else {
+							console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
+						}
+						var publicationLookupInput = document.getElementById('publication_lookup');
+						var publicationIdInput = document.getElementById('publication_id');
+						var publicationTextInput = document.getElementById('publication_text');
+						if (publicationLookupInput && publicationIdInput) {
+							// Clear the stored publication_id whenever the user edits the lookup field manually.
+							publicationLookupInput.addEventListener('input', function () {
+								publicationIdInput.value = '';
+								if (publicationTextInput) { publicationTextInput.value = ''; }
+							});
+						}
+						var projectLookupInput = document.getElementById('project_lookup');
+						var projectIdInput = document.getElementById('project_id');
+						var projectTextInput = document.getElementById('project_text');
+						if (projectLookupInput && projectIdInput) {
+							// Clear the stored project_id whenever the user edits the lookup field manually.
+							projectLookupInput.addEventListener('input', function () {
+								projectIdInput.value = '';
+								if (projectTextInput) { projectTextInput.value = ''; }
+							});
+						}
+						var scientificNameInput = document.getElementById('scientific_name');
+						var taxonNameIdInput = document.getElementById('taxon_name_id');
+						if (scientificNameInput && taxonNameIdInput) {
+							scientificNameInput.addEventListener('input', function () {
+								taxonNameIdInput.value = '';
+							});
+						}
+						function syncTextSearchFields() {
+							// When publication_id is not set, populate publication_text from the lookup display field.
+							// When publication_id is set (autocomplete selected), clear publication_text so only the id is sent.
+							if (publicationLookupInput && publicationIdInput && publicationTextInput) {
+								if (publicationIdInput.value.trim().length > 0) {
+									publicationTextInput.value = '';
+								} else {
+									publicationTextInput.value = publicationLookupInput.value.trim();
 								}
-								// Same for project.
-								if (projectLookupInput && projectIdInput && projectTextInput) {
-									if (projectIdInput.value.trim().length > 0) {
-										projectTextInput.value = '';
-									} else {
-										projectTextInput.value = projectLookupInput.value.trim();
-									}
+							}
+							// Same for project.
+							if (projectLookupInput && projectIdInput && projectTextInput) {
+								if (projectIdInput.value.trim().length > 0) {
+									projectTextInput.value = '';
+								} else {
+									projectTextInput.value = projectLookupInput.value.trim();
 								}
 							}
-							function showSearchingMarker() {
-								var resultsContainer = document.getElementById('annotationSearchResultsContainer');
-								if (!resultsContainer) { return; }
-								resultsContainer.innerHTML = '<p class="mt-3 text-muted pl-1">Searching...</p>';
-							}
-							function buildSearchQueryString() {
-								syncTextSearchFields();
-								var params = new URLSearchParams();
-								params.set('execute', 'true');
-								Array.prototype.forEach.call(form.elements, function (field) {
-									if (!field || !field.name || field.disabled || field.name === 'execute') { return; }
-									var fieldType = (field.type || '').toLowerCase();
-									if (fieldType === 'submit' || fieldType === 'button' || fieldType === 'reset' || fieldType === 'file') { return; }
-									if ((fieldType === 'checkbox' || fieldType === 'radio') && !field.checked) { return; }
-									var value = String(field.value || '').trim();
-									if (value.length > 0) {
-										params.append(field.name, value);
+						}
+						function showSearchingMarker() {
+							var resultsContainer = document.getElementById('annotationSearchResultsContainer');
+							if (!resultsContainer) { return; }
+							resultsContainer.innerHTML = '<p class="mt-3 text-muted pl-1">Searching...</p>';
+						}
+						function buildSearchQueryString() {
+							syncTextSearchFields();
+							var params = new URLSearchParams();
+							params.set('execute', 'true');
+							Array.prototype.forEach.call(form.elements, function (field) {
+								if (!field || !field.name || field.disabled || field.name === 'execute') { return; }
+								var fieldType = (field.type || '').toLowerCase();
+								if (fieldType === 'submit' || fieldType === 'button' || fieldType === 'reset' || fieldType === 'file') { return; }
+								if ((fieldType === 'checkbox' || fieldType === 'radio') && !field.checked) { return; }
+								var value = String(field.value || '').trim();
+								if (value.length > 0) {
+									params.append(field.name, value);
+								}
+							});
+							return params.toString();
+						}
+						function loadResults(queryString) {
+							var resultsContainer = document.getElementById('annotationSearchResultsContainer');
+							if (!resultsContainer) { return; }
+							showSearchingMarker();
+							fetch('/annotations/component/search.cfc?method=renderAnnotationSearchResults&returnformat=plain&' + queryString, { credentials: 'same-origin' })
+								.then(function (response) {
+									if (!response.ok) {
+										throw new Error('Failed to load annotation results');
 									}
+									return response.text();
+								})
+								.then(function (html) {
+									resultsContainer.innerHTML = html;
+								})
+								.catch(function (error) {
+									console.error(error);
+									resultsContainer.innerHTML = '<p class="mt-3 text-danger pl-1">Unable to load search results.</p>';
 								});
-								return params.toString();
-							}
-							function loadResults(queryString) {
-								var resultsContainer = document.getElementById('annotationSearchResultsContainer');
-								if (!resultsContainer) { return; }
-								showSearchingMarker();
-								fetch('/annotations/component/search.cfc?method=renderAnnotationSearchResults&returnformat=plain&' + queryString, { credentials: 'same-origin' })
-									.then(function (response) {
-										if (!response.ok) {
-											throw new Error('Failed to load annotation results');
-										}
-										return response.text();
-									})
-									.then(function (html) {
-										resultsContainer.innerHTML = html;
-									})
-									.catch(function (error) {
-										console.error(error);
-										resultsContainer.innerHTML = '<p class="mt-3 text-danger pl-1">Unable to load search results.</p>';
-									});
-							}
+						}
+						$(document).ready(function () {
 							form.addEventListener('submit', function (event) {
 								event.preventDefault();
 								inferTargetType();
@@ -639,7 +638,7 @@ limitations under the License.
 							<cfif runSearch>
 								loadResults(buildSearchQueryString());
 							</cfif>
-						})();
+						}
 					</script>
 				</div>
 				</cfoutput>
@@ -647,42 +646,16 @@ limitations under the License.
 		</div>
 	</section>
 
-	<!--- Results container: AJAX-loaded by JavaScript; noscript fallback renders server-side. --->
+	<!--- Results container: AJAX-loaded by JavaScript --->
 	<section class="row mx-0 mb-4">
 		<div class="col-12">
 			<div id="annotationSearchResultsContainer">
 				<cfif runSearch>
 					<p class="mt-3 text-muted pl-1">Searching...</p>
 				<cfelse>
-					<p class="mt-3 text-muted pl-1">Set filters and click Search.</p>
+					<p class="mt-3 text-muted pl-1">Add desired search terms and click Search.</p>
 				</cfif>
 			</div>
-			<noscript>
-				<cfset variables.noscriptResultsHtml = "">
-				<cfinvoke component="/annotations/component/search" method="renderAnnotationSearchResults" returnvariable="variables.noscriptResultsHtml"
-					execute="#runSearch#"
-					target_type="#variables.target_type#"
-					state="#variables.state#"
-					resolution="#variables.resolution#"
-					annotator="#variables.annotator#"
-					annotation_text="#variables.annotation_text#"
-					motivation="#variables.motivation#"
-					reviewed_fg="#variables.reviewed_fg#"
-					root_mode="#variables.root_mode#"
-					visibility="#variables.visibility#"
-					collection="#variables.collection#"
-					specimen_guid="#variables.specimen_guid#"
-					collection_object_id="#variables.collection_object_id#"
-					family="#variables.family#"
-					scientific_name="#variables.scientific_name#"
-					taxon_name_id="#variables.taxon_name_id#"
-					publication_id="#variables.publication_id#"
-					publication_text="#variables.publication_text#"
-					project_id="#variables.project_id#"
-					project_text="#variables.project_text#"
-					has_responses="#variables.has_responses#">
-				<cfoutput>#variables.noscriptResultsHtml#</cfoutput>
-			</noscript>
 		</div>
 	</section>
 </main>
