@@ -401,6 +401,9 @@ limitations under the License.
 
 <!---
  renderAnnotationSearchResults renders annotation search results HTML for async and noscript loads.
+ Works with findAnnotations query result structure and uses existing annotation render helpers to 
+ maintain consistent display with other annotation sections.
+
  @param execute optional execution flag; accepted true values are true/1/yes/y/on.
  @param target_type optional target selector alias/value passed to findAnnotations.
  @param type optional legacy alias for target_type.
@@ -423,6 +426,7 @@ limitations under the License.
  @param publication_id optional publication id filter.
  @param project_id optional project id filter.
  @return HTML string for annotation search results section using existing annotation render helpers.
+ @see findAnnotations 
 --->
 <cffunction name="renderAnnotationSearchResults" access="remote" returntype="string" returnformat="plain" output="false">
 	<cfargument name="execute" type="string" required="no" default="">
