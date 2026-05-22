@@ -192,7 +192,7 @@ limitations under the License.
 			collection.collection_cde,
 			collection.institution_acronym,
 			cataloged_item.cat_num,
-			NVL(identification.scientific_name, '') idAs,
+			NVL(identification.scientific_name, '') scientific_name,
 			NVL(geog_auth_rec.higher_geog, '') higher_geog,
 			NVL(locality.spec_locality, '') spec_locality,
 			taxonomy.scientific_name taxon_scientific_name,
@@ -205,7 +205,7 @@ limitations under the License.
 					WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 					ELSE annotations.target_primary_key
 				END
-			) target_key
+			) target_primary_key
 		FROM
 			annotations
 			LEFT OUTER JOIN annotations parent_annotations ON annotations.target_table = 'ANNOTATIONS'
@@ -393,7 +393,7 @@ limitations under the License.
 				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 				ELSE annotations.target_table
 			END,
-			target_key,
+			target_primary_key,
 			annotations.annotate_date DESC
 	</cfquery>
 <cfreturn annotationResults>
@@ -546,14 +546,14 @@ limitations under the License.
 		<cfif runSearch>
 			<cfif searchResults.recordcount GT 0>
 				<cfquery name="targets" dbtype="query">
-					SELECT target_table, target_key, collection_object_id, institution_acronym, collection_cde, cat_num,
-						idAs, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
+					SELECT target_table, target_primary_key, collection_object_id, institution_acronym, collection_cde, cat_num,
+						scientific_name, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
 						publication_id, publication_title, project_id, project_name
 					FROM searchResults
-					GROUP BY target_table, target_key, collection_object_id, institution_acronym, collection_cde, cat_num,
-						idAs, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
+					GROUP BY target_table, target_primary_key, collection_object_id, institution_acronym, collection_cde, cat_num,
+						scientific_name, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
 						publication_id, publication_title, project_id, project_name
-					ORDER BY target_table, target_key
+					ORDER BY target_table, target_primary_key
 				</cfquery>
 				<cfset targetCount = targets.recordcount>
 			</cfif>
@@ -593,7 +593,7 @@ limitations under the License.
 							<cfset specimenGuid = "#targets.institution_acronym#:#targets.collection_cde#:#targets.cat_num#">
 							<cfset targetTitle = specimenGuid>
 							<cfset targetLink = "/guid/#encodeForURL(specimenGuid)#">
-							<cfset targetMeta = "Current Identification: #encodeForHTML(targets.idAs)#; Locality: #encodeForHTML(targets.higher_geog)#: #encodeForHTML(targets.spec_locality)#">
+							<cfset targetMeta = "Current Identification: #encodeForHTML(targets.scientific_name)#; Locality: #encodeForHTML(targets.higher_geog)#: #encodeForHTML(targets.spec_locality)#">
 						</cfcase>
 						<cfcase value="TAXON_NAME">
 							<cfset targetTitle = targets.taxon_display_name>
@@ -609,7 +609,7 @@ limitations under the License.
 							<cfset targetLink = "/ProjectDetail?project_id=#encodeForURL(targets.project_id)#">
 						</cfcase>
 						<cfdefaultcase>
-							<cfset targetTitle = "Target #encodeForHTML(targets.target_key)#">
+							<cfset targetTitle = "Target #encodeForHTML(targets.target_primary_key)#">
 						</cfdefaultcase>
 					</cfswitch>
 					<div class="col-12 px-0 my-2 card border-bottom-0">
@@ -628,7 +628,7 @@ limitations under the License.
 								state, resolution, reviewer, reviewer_comment, mask_annotation_fg, parent_annotation_id
 							FROM searchResults
 							WHERE target_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_table#">
-								AND target_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_key#">
+								AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_primary_key#">
 						</cfquery>
 						<cfloop query="targetAnnotations">
 							<cfset showReplyAction = false>
