@@ -225,7 +225,9 @@ limitations under the License.
 								publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 						</cfquery>
 						<cfloop query="d">
-							<cfset summary="Publication <strong>#formatted_publication#</strong>">
+							<!--- title may contain html markup, remove for this use --->
+							<cfset cleaned_formatted_publication = reReplace(d.formatted_publication, "<[^>]+>", "", "all")><!--- " --->
+							<cfset summary="Publication <strong>#cleaned_formatted_publication#</strong>">
 						</cfloop>
 						<!--- TODO: Manage dialog for individual annotations --->
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
@@ -1155,6 +1157,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			annotations.target_primary_key parent_annotation_id
 		FROM
 			annotations
+			LEFT OUTER JOIN annotations root_annotation ON annotations.target_primary_key = root_annotation.annotation_id
 			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
 			LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
 			LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
@@ -1166,6 +1169,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		WHERE
 			upper(annotations.target_table) = 'ANNOTATIONS'
 			AND annotations.target_primary_key IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationIds#" list="yes">)
+			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+				AND (
+					(annotations.mask_annotation_fg = 0 AND NVL(root_annotation.mask_annotation_fg, 0) = 0)
+					OR annotations.cf_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				)
+			</cfif>
 		ORDER BY
 			annotations.target_primary_key,
 			annotations.annotate_date
@@ -1674,7 +1683,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							AND publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
 						</cfquery>
 						<cfif rtData.recordcount GT 0>
-							<cfset rootTargetSummary = "Publication <strong>#rtData.formatted_publication#</strong>">
+							<!--- title may contain html markup, remove for this use  --->
+							<cfset cleaned_formatted_publication = reReplace(rtData.formatted_publication, "<[^>]+>", "", "all")><!--- " --->
+							<cfset rootTargetSummary = "Publication <strong>#cleaned_formatted_publication#</strong>">
 						</cfif>
 					</cfif>
 				</cfif>
@@ -1990,21 +2001,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</section>
 			</cfoutput>
 		<cfcatch>
-			<cfif isDefined("cfcatch.queryError")><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
-			<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">Feedback/Report Errors</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
 		</cftry>

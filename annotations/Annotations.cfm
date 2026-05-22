@@ -1,7 +1,7 @@
 <!---
 annotations/Annotations.cfm
 
-Review annotations page.  Provides a filter form for browsing annotations by target.
+Review annotations page. Provides a search interface for annotations, with filters on annotation metadata and on properties of the annotation target.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
@@ -22,74 +22,265 @@ limitations under the License.
 <cfset pageTitle = "Review Annotations">
 <cfinclude template="/shared/_header.cfm">
 
-<!--- Explicit URL scope declarations --->
+<!--- URL parameter declarations: expose all supported search parameters from URL scope. --->
+<cfparam name="url.action" default="">
+<cfparam name="url.execute" default="">
+<cfparam name="url.target_type" default="">
+<cfparam name="url.type" default="">
+<cfparam name="url.state" default="">
+<cfparam name="url.resolution" default="">
+<cfparam name="url.annotator" default="">
+<cfparam name="url.annotation_text" default="">
+<cfparam name="url.motivation" default="">
+<cfparam name="url.reviewed_fg" default="">
+<cfparam name="url.root_mode" default="root">
+<cfparam name="url.visibility" default="">
+<cfparam name="url.collection" default="">
+<cfparam name="url.specimen_guid" default="">
+<cfparam name="url.GUID" default="">
+<cfparam name="url.collection_object_id" default="">
+<cfparam name="url.id" default="">
+<cfparam name="url.family" default="">
+<cfparam name="url.taxon_family" default="">
+<cfparam name="url.scientific_name" default="">
+<cfparam name="url.taxon_name_id" default="">
+<cfparam name="url.publication_id" default="">
+<cfparam name="url.publication_text" default="">
+<cfparam name="url.project_id" default="">
+<cfparam name="url.project_text" default="">
+<cfparam name="url.has_responses" default="">
 
-<!--- generic target type and primary key --->
-<!--- TODO: Rename these to match target_table and target_primary_key for clarity --->
-<cfif isDefined("url.type")><cfset variables.type = url.type></cfif>
-<cfif NOT isDefined("variables.type") OR len(variables.type) EQ 0><cfset variables.type = ""></cfif>
-<!--- id parameter is used when linking directly to a specific target --->
-<cfif isDefined("url.id")><cfset variables.id = url.id></cfif>
-<cfif NOT isDefined("variables.id")><cfset variables.id = ""></cfif>
+<cfset variables.execute = lcase(trim(url.execute))>
+<cfset variables.action = lcase(trim(url.action))>
+<cfset variables.target_type = trim(url.target_type)>
+<cfif len(variables.target_type) EQ 0><cfset variables.target_type = trim(url.type)></cfif>
+<cfset variables.state = trim(url.state)>
+<cfset variables.resolution = trim(url.resolution)>
+<cfset variables.annotator = trim(url.annotator)>
+<cfset variables.annotation_text = trim(url.annotation_text)>
+<cfset variables.motivation = trim(url.motivation)>
+<cfset variables.reviewed_fg = trim(url.reviewed_fg)>
+<cfset variables.root_mode = lcase(trim(url.root_mode))>
+<cfset variables.visibility = trim(url.visibility)>
+<cfset variables.collection = trim(url.collection)>
+<cfset variables.specimen_guid = trim(url.specimen_guid)>
+<cfset variables.collection_object_id = trim(url.collection_object_id)>
+<cfset variables.family = trim(url.family)>
+<cfif len(variables.family) EQ 0><cfset variables.family = trim(url.taxon_family)></cfif>
+<cfset variables.scientific_name = trim(url.scientific_name)>
+<cfset variables.taxon_name_id = trim(url.taxon_name_id)>
+<cfset variables.publication_id = trim(url.publication_id)>
+<cfset variables.publication_text = trim(url.publication_text)>
+<cfset variables.project_id = trim(url.project_id)>
+<cfset variables.project_text = trim(url.project_text)>
+<cfset variables.has_responses = trim(url.has_responses)>
+<cfset variables.publication_lookup = "">
+<cfset variables.project_lookup = "">
 
-<cfif isDefined("url.collection")><cfset variables.collection = url.collection></cfif>
-<cfif NOT isDefined("variables.collection")><cfset variables.collection = ""></cfif>
-
-<cfif isDefined("url.specimen_guid")><cfset variables.specimen_guid = trim(url.specimen_guid)></cfif>
-<cfif NOT isDefined("variables.specimen_guid")><cfset variables.specimen_guid = ""></cfif>
-
-<cfif isDefined("url.collection_object_id")>
-	<cfset variables.collection_object_id = url.collection_object_id>
-	<cfif len(variables.specimen_guid) EQ 0 AND isNumeric(variables.collection_object_id)>
-		<!--- If a collection_object_id is provided but not a specimen_guid, attempt to look up the GUID --->
-		<cfquery name="getGuidForCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT guid
-			FROM #session.flatTableName#
-			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-		</cfquery>
-		<cfif getGuidForCollectionObject.recordcount EQ 1>
-			<cfset variables.specimen_guid = getGuidForCollectionObject.guid>
+<!--- Normalize target_type aliases and validate root_mode. --->
+<cfswitch expression="#lcase(variables.target_type)#">
+	<cfcase value="collection_object,collection_object_id"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
+	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXON_NAME"></cfcase>
+	<cfcase value="publication,publication_id"><cfset variables.target_type = "PUBLICATION"></cfcase>
+	<cfcase value="project,project_id"><cfset variables.target_type = "PROJECT"></cfcase>
+	<cfcase value="guid"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
+	<cfdefaultcase>
+		<cfif len(variables.target_type) GT 0>
+			<cfset variables.target_type = ucase(variables.target_type)>
 		</cfif>
+	</cfdefaultcase>
+</cfswitch>
+
+<!--- Map the generic url.id parameter to the appropriate id field based on normalized target_type. --->
+<cfif len(trim(url.id)) GT 0>
+	<cfswitch expression="#variables.target_type#">
+		<cfcase value="TAXON_NAME">
+			<cfif len(variables.taxon_name_id) EQ 0><cfset variables.taxon_name_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfcase value="PUBLICATION">
+			<cfif len(variables.publication_id) EQ 0><cfset variables.publication_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfcase value="PROJECT">
+			<cfif len(variables.project_id) EQ 0><cfset variables.project_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfdefaultcase>
+			<cfif len(variables.collection_object_id) EQ 0><cfset variables.collection_object_id = trim(url.id)></cfif>
+		</cfdefaultcase>
+	</cfswitch>
+</cfif>
+<!--- Map url.GUID to specimen_guid for API compatibility. --->
+<cfif len(variables.specimen_guid) EQ 0 AND len(trim(url.GUID)) GT 0>
+	<cfset variables.specimen_guid = trim(url.GUID)>
+</cfif>
+<cfif NOT listFindNoCase("root,response", variables.root_mode)>
+	<cfset variables.root_mode = "root">
+</cfif>
+
+<cfset runSearch = false>
+<cfif listFindNoCase("true,1,yes,y,on", variables.execute) OR variables.action EQ "show">
+	<cfset runSearch = true>
+</cfif>
+<cfif NOT runSearch AND (
+	len(variables.target_type) GT 0 OR
+	len(variables.specimen_guid) GT 0 OR
+	len(variables.collection_object_id) GT 0 OR
+	len(variables.family) GT 0 OR
+	len(variables.taxon_name_id) GT 0 OR
+	len(variables.publication_id) GT 0 OR
+	len(variables.publication_text) GT 0 OR
+	len(variables.project_id) GT 0 OR
+	len(variables.project_text) GT 0
+)>
+	<cfset runSearch = true>
+</cfif>
+
+<!--- Code-table and filter option queries: populate select controls and count badges. --->
+<cfquery name="ctstate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		count(annotations.state) AS ct,
+		ctstate.state
+	FROM ctstate
+		LEFT JOIN annotations ON ctstate.state = annotations.state
+	GROUP BY ctstate.state
+	ORDER BY ctstate.state
+</cfquery>
+<cfquery name="ctresolution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		count(annotations.resolution) AS ct,
+		ctresolution.resolution
+	FROM ctresolution
+		LEFT JOIN annotations ON ctresolution.resolution = annotations.resolution
+	GROUP BY ctresolution.resolution
+	ORDER BY ctresolution.resolution
+</cfquery>
+<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		count(annotations.motivation) AS ct,
+		ctmotivation.motivation
+	FROM ctmotivation
+		LEFT JOIN annotations ON ctmotivation.motivation = annotations.motivation
+	GROUP BY ctmotivation.motivation
+	ORDER BY ctmotivation.motivation
+</cfquery>
+<cfquery name="getAnnotatedTargetTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		resolved_targets.target_table,
+		count(*) ct
+	FROM (
+		SELECT
+			CASE
+				WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+				ELSE annotations.target_table
+			END target_table
+		FROM
+			annotations
+			LEFT OUTER JOIN annotations parent_annotations ON annotations.target_table = 'ANNOTATIONS'
+				AND annotations.target_primary_key = parent_annotations.annotation_id
+	) resolved_targets
+	WHERE resolved_targets.target_table IS NOT NULL
+	GROUP BY resolved_targets.target_table
+	ORDER BY resolved_targets.target_table
+</cfquery>
+<cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		count(annotations.annotation_id) ct,
+		collection.collection
+	FROM collection
+		JOIN cataloged_item ON collection.collection_id = cataloged_item.collection_id
+		JOIN annotations ON annotations.target_table = 'COLLECTION_OBJECT'
+			AND annotations.target_primary_key = cataloged_item.collection_object_id
+	GROUP BY collection.collection
+	ORDER BY collection.collection
+</cfquery>
+<cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		count(annotations.annotation_id) ct,
+		taxonomy.family
+	FROM annotations
+		INNER JOIN taxonomy ON annotations.target_table = 'TAXON_NAME'
+			AND annotations.target_primary_key = taxonomy.taxon_name_id
+	WHERE taxonomy.family IS NOT NULL
+	GROUP BY taxonomy.family
+	ORDER BY taxonomy.family
+</cfquery>
+<cfquery name="reviewedCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT reviewed_fg, count(annotation_id) ct
+	FROM annotations
+	WHERE reviewed_fg IN (0,1)
+	GROUP BY reviewed_fg
+</cfquery>
+<cfquery name="visibilityCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT mask_annotation_fg, count(annotation_id) ct
+	FROM annotations
+	WHERE mask_annotation_fg IN (0,1)
+	GROUP BY mask_annotation_fg
+</cfquery>
+<cfset variables.reviewedCountReviewed = 0>
+<cfset variables.reviewedCountNotReviewed = 0>
+<cfloop query="reviewedCounts">
+	<cfif reviewedCounts.reviewed_fg IS 1>
+		<cfset variables.reviewedCountReviewed = reviewedCounts.ct>
+	<cfelseif reviewedCounts.reviewed_fg IS 0>
+		<cfset variables.reviewedCountNotReviewed = reviewedCounts.ct>
+	</cfif>
+</cfloop>
+<cfset variables.visibilityCountVisible = 0>
+<cfset variables.visibilityCountMasked = 0>
+<cfloop query="visibilityCounts">
+	<cfif visibilityCounts.mask_annotation_fg IS 0>
+		<cfset variables.visibilityCountVisible = visibilityCounts.ct>
+	<cfelseif visibilityCounts.mask_annotation_fg IS 1>
+		<cfset variables.visibilityCountMasked = visibilityCounts.ct>
+	</cfif>
+</cfloop>
+<cfif len(variables.publication_id) GT 0 AND isNumeric(variables.publication_id)>
+	<cfquery name="getPublicationDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT MCZbase.getshortcitation(publication_id) short_citation
+		FROM publication
+		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
+	</cfquery>
+	<cfif getPublicationDisplay.recordcount GT 0>
+		<cfset variables.publication_lookup = getPublicationDisplay.short_citation>
+	</cfif>
+<cfelseif len(variables.publication_text) GT 0>
+	<!--- When a publication text search is provided (no id), show the text in the lookup display field. --->
+	<cfset variables.publication_lookup = variables.publication_text>
+</cfif>
+<cfif len(variables.project_id) GT 0 AND isNumeric(variables.project_id)>
+	<cfquery name="getProjectDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT project_name
+		FROM project
+		WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+	</cfquery>
+	<cfif getProjectDisplay.recordcount GT 0>
+		<cfset variables.project_lookup = getProjectDisplay.project_name>
+	</cfif>
+<cfelseif len(variables.project_text) GT 0>
+	<!--- When a project text search is provided (no id), show the text in the lookup display field. --->
+	<cfset variables.project_lookup = variables.project_text>
+</cfif>
+<cfif len(variables.collection_object_id) GT 0 AND isNumeric(variables.collection_object_id) and len(variables.specimen_guid) EQ 0>
+	<cfquery name="getGuidDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT GUID
+		FROM <cfif session.flatTableName EQ "FLAT">FLAT<cfelse>FLTERED_FLAT</cfif> flatTableName
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+	</cfquery>
+	<cfif getGuidDisplay.recordcount GT 0>
+		<cfset variables.specimen_guid = getGuidDisplay.GUID>
+	</cfif>
+</cfif>
+<cfif len(variables.taxon_name_id) GT 0 AND isNumeric(variables.taxon_name_id) AND len(variables.scientific_name) EQ 0>
+	<cfquery name="getTaxonDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT scientific_name
+		FROM taxonomy
+		WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
+	</cfquery>
+	<cfif getTaxonDisplay.recordcount GT 0>
+		<cfset variables.scientific_name = getTaxonDisplay.scientific_name>
 	</cfif>
 </cfif>
 
-<cfif isDefined("url.taxon_family")><cfset variables.taxon_family = url.taxon_family></cfif>
-<cfif NOT isDefined("variables.taxon_family")><cfset variables.taxon_family = ""></cfif>
-
-<cfif isDefined("url.scientific_name")><cfset variables.scientific_name = url.scientific_name></cfif>
-<cfif NOT isDefined("variables.scientific_name")><cfset variables.scientific_name = ""></cfif>
-
-<cfif isDefined("url.taxon_name_id")><cfset variables.taxon_name_id = url.taxon_name_id></cfif>
-<cfif NOT isDefined("variables.taxon_name_id")><cfset variables.taxon_name_id = ""></cfif>
-
-<cfif isDefined("url.publication_id")><cfset variables.publication_id = url.publication_id></cfif>
-<cfif NOT isDefined("variables.publication_id")><cfset variables.publication_id = ""></cfif>
-
-<cfif isDefined("url.project_id")><cfset variables.project_id = url.project_id></cfif>
-<cfif NOT isDefined("variables.project_id")><cfset variables.project_id = ""></cfif>
-
-
-<cfset annotationFunctions = CreateObject("component","annotations.component.functions")>
-
-<!--- Data queries for filter picklists --->
-<cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT 
-      count(annotation_id) as ct, collection.collection
-   FROM collection 
-      JOIN cataloged_item ON collection.collection_id = cataloged_item.collection_id
-      JOIN annotations ON cataloged_item.collection_object_id = annotations.target_primary_key and upper(annotations.target_table) = 'COLLECTION_OBJECT'
-   GROUP BY collection.collection
-   ORDER BY collection
-</cfquery>
-
-<cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT count(annotation_id) as ct, taxonomy.family
-	FROM annotations
-		INNER JOIN taxonomy ON annotations.target_primary_key = taxonomy.taxon_name_id aND upper(annotations.target_table) = 'TAXON_NAME'
-	WHERE taxonomy.family IS NOT NULL
-   GROUP BY taxonomy.family
-	ORDER BY taxonomy.family
-</cfquery>
+<!--- Search form: annotation metadata filters, target type, and target-specific context filters. --->
 <main class="container-fluid" id="content">
 	<section role="search">
 		<div class="row mx-0 mb-2">
@@ -98,529 +289,355 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-				<div class="col-12 px-2 py-2">
-					<div class="form-row">
-
-						<!--- Specimens filter --->
-						<div class="col-12 col-md-4 px-2 mb-2 border-right">
-							<h2 class="h5 mb-2">Annotations on Specimens</h2>
-							<form id="filterSpecimens" method="get" action="/annotations/Annotations.cfm">
-								<input type="hidden" name="type" value="collection_object_id">
-								<div class="form-group mb-2">
-									<label for="collection" class="data-entry-label">By Collection</label>
-									<select name="collection" id="collection" class="data-entry-select col-12">
-										<option value="">All Collections</option>
-										<cfloop query="getAnnotatedCollections">
-											<cfif variables.collection EQ getAnnotatedCollections.collection><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-											<option value="#encodeForHTML(getAnnotatedCollections.collection)#" #selected#>#encodeForHTML(getAnnotatedCollections.collection)# (#getAnnotatedCollections.ct#)</option>
-										</cfloop>
-									</select>
-									<script>
-										$(document).ready(function() {
-											$("##collection").change(function() {
-												$("##specimen_guid").val("");
-											});
-										});
-									</script>
-								</div>
-								<div class="form-group mb-2">
-									<label for="specimen_guid" class="data-entry-label">By Specimen GUID</label>
-									<input type="text" name="specimen_guid" id="specimen_guid"
-										value="#encodeForHTML(variables.specimen_guid)#"
-										placeholder="e.g. MCZ:Herp:A-12345"
-										class="data-entry-input col-12">
-								</div>
-								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
+				<div class="col-12 px-3 py-3">
+					<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
+						<input type="hidden" name="execute" value="true">
+						<div class="col-12 col-md-6 col-xl-2 mb-3 d-flex flex-column">
+							<h2 class="h5 mb-2">Annotation Metadata</h2>
+							<div class="form-group mb-2">
+								<label for="state" class="data-entry-label">State</label>
+								<select name="state" id="state" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfloop query="ctstate">
+										<cfif variables.state EQ state><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(state)#" #local.selected#>#encodeForHTML(state)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="form-group mb-2">
+								<label for="resolution" class="data-entry-label">Resolution</label>
+								<select name="resolution" id="resolution" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfif variables.resolution EQ "NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="NULL" #local.selected#>No Resolution</option>
+									<cfif variables.resolution EQ "NOT NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="NOT NULL" #local.selected#>Any Resolution</option>
+									<cfloop query="ctresolution">
+										<cfif variables.resolution EQ resolution><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(resolution)#" #local.selected#>#encodeForHTML(resolution)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="form-group mb-2">
+								<label for="motivation" class="data-entry-label">Motivation</label>
+								<select name="motivation" id="motivation" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfloop query="ctmotivation">
+										<cfif variables.motivation EQ motivation><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(motivation)#" #local.selected#>#encodeForHTML(motivation)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="form-group mb-2">
+								<label for="has_responses" class="data-entry-label">Has Responses</label>
+								<select name="has_responses" id="has_responses" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfif variables.has_responses EQ "yes"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="yes" #local.selected#>Yes</option>
+									<cfif variables.has_responses EQ "no"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="no" #local.selected#>No</option>
+								</select>
+							</div>
+							<div class="mt-auto pt-2">
+								<button type="submit" class="btn btn-xs btn-primary">Search</button>
 								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
-							</form>
+							</div>
 						</div>
 
-						<!--- Taxonomy filter --->
-						<div class="col-12 col-md-4 px-2 mb-2 border-right">
-							<h2 class="h5 mb-2">Annotations on Taxon Records</h2>
-							<form id="filterTaxonomy" method="get" action="/annotations/Annotations.cfm">
-								<input type="hidden" name="type" value="taxon_name_id">
-								<div class="form-group mb-2">
-									<label for="taxon_family" class="data-entry-label">By Family</label>
-									<select name="taxon_family" id="taxon_family" class="data-entry-select col-12">
-										<option value="">All Annotated Families</option>
-										<cfloop query="getAnnotatedFamilies">
-											<cfif variables.taxon_family EQ getAnnotatedFamilies.family><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-											<option value="#encodeForHTML(family)#" #selected#>#encodeForHTML(family)# (#getAnnotatedFamilies.ct#)</option>
-										</cfloop>
-									</select>
-									<script>
-										$(document).ready(function() {
-											$("##taxon_family").change(function() {
-												$("##scientific_name").val("");
-											});
-										});
-									</script>
-								</div>
-								<div class="form-group mb-2">
-									<label for="scientific_name" class="data-entry-label">By any part of Scientific Name</label>
-									<input type="text" name="scientific_name" id="scientific_name"
-										value="#encodeForHTML(variables.scientific_name)#"
-										class="data-entry-input col-12">
-								</div>
-								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
-								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
-							</form>
+						<div class="col-12 col-md-6 col-xl-2 mb-3">
+							<h2 class="h5 mb-2">Annotation Text and Review</h2>
+							<div class="form-group mb-2">
+								<label for="annotator" class="data-entry-label">Annotator Username</label>
+								<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
+							</div>
+							<div class="form-group mb-2">
+								<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
+								<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="data-entry-input col-12">
+							</div>
+							<div class="form-group mb-2">
+								<label for="reviewed_fg" class="data-entry-label">Reviewed</label>
+								<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfif variables.reviewed_fg EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="1" #local.selected#>Reviewed (#variables.reviewedCountReviewed#)</option>
+									<cfif variables.reviewed_fg EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
+								</select>
+							</div>
+							<div class="form-group mb-2">
+								<label for="visibility" class="data-entry-label">Visibility</label>
+								<select name="visibility" id="visibility" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfif variables.visibility EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="0" #local.selected#>Visible (#variables.visibilityCountVisible#)</option>
+									<cfif variables.visibility EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
+								</select>
+							</div>
 						</div>
 
-						<!--- Other types filter --->
-						<cfquery name="countProjectAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT COUNT(DISTINCT project_id) AS ct
-							FROM annotations
-							WHERE project_id IS NOT NULL
-						</cfquery>
-						<cfquery name="countPublicationAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT COUNT(DISTINCT publication_id) AS ct
-							FROM annotations
-							WHERE publication_id IS NOT NULL
-						</cfquery>
-						<div class="col-12 col-md-4 px-2 mb-2">
-							<h2 class="h5 mb-2">Other Annotation Targets</h2>
-							<form id="filterOther" method="get" action="/annotations/Annotations.cfm">
-								<div class="form-group mb-2">
-									<label for="otherType" class="data-entry-label">By Type</label>
-									<select name="type" id="otherType" class="data-entry-select col-12">
-										<option value="">Select a type</option>
-										<cfif variables.type EQ "project_id"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-										<option value="project_id" #selected#>Project (#countProjectAnnotations.ct#)</option>
-										<cfif variables.type EQ "publication_id"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-										<option value="publication_id" #selected#>Publication (#countPublicationAnnotations.ct#)</option>
-									</select>
-								</div>
-								<button type="submit" class="btn btn-xs btn-primary">Filter</button>
-								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
-							</form>
+						<div class="col-12 col-md-6 col-xl-3 mb-3">
+							<div class="form-group mb-2">
+								<label for="target_type_select" class="data-entry-label">Target Type</label>
+								<select name="target_type" id="target_type_select" class="data-entry-select col-12">
+									<option value="">All Target Types</option>
+									<cfloop query="getAnnotatedTargetTypes">
+										<cfset target_type_label = "">
+										<cfswitch expression="#target_table#">
+											<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
+											<cfcase value="TAXON_NAME"><cfset target_type_label = "Taxon"></cfcase>
+											<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
+											<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
+											<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
+										</cfswitch>
+										<cfif variables.target_type EQ target_table><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(target_table)#" #local.selected#>#encodeForHTML(target_type_label)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<h2 class="h5 mb-2">Target-Specific Context</h2>
+							<h3 class="h6 mb-2">Specimen</h3>
+							<div class="form-group mb-2" data-target-group="specimen">
+								<label for="collection" class="data-entry-label">Collection</label>
+								<select name="collection" id="collection" class="data-entry-select col-12">
+									<option value="">Any Collection</option>
+									<cfloop query="getAnnotatedCollections">
+										<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="form-group mb-2" data-target-group="specimen">
+								<label for="specimen_guid" class="data-entry-label">Specimen GUID</label>
+								<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
+							</div>
+							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
+						</div>
+						<div class="col-12 col-md-6 col-xl-2 mb-3">
+							<h3 class="h6 mb-2">Taxon</h3>
+							<div class="form-group mb-2" data-target-group="taxon">
+								<label for="family" class="data-entry-label">Family</label>
+								<select name="family" id="family" class="data-entry-select col-12">
+									<option value="">Any Family</option>
+									<cfloop query="getAnnotatedFamilies">
+										<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="form-group mb-2" data-target-group="taxon">
+								<label for="scientific_name" class="data-entry-label">Scientific Name Contains</label>
+								<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
+							</div>
+							<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 						</div>
 
-					</div>
+						<div class="col-12 col-md-6 col-xl-3 mb-3">
+							<h2 class="h5 mb-2">Publication and Project</h2>
+							<div class="form-group mb-2" data-target-group="publication">
+								<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
+								<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
+								<!--- publication_text: JS syncs from publication_lookup on submit when publication_id is empty; initial value supports noscript fallback. --->
+								<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
+								<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
+							</div>
+							<div class="form-group mb-3" data-target-group="project">
+								<label for="project_lookup" class="data-entry-label">Project Title</label>
+								<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
+								<!--- project_text: JS syncs from project_lookup on submit when project_id is empty; initial value supports noscript fallback. --->
+								<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
+								<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
+							</div>
+						</div>
+					</form>
+					<script>
+						var $form = $('##annotationSearchForm');
+						var $targetTypeSelect = $('##target_type_select');
+						// Single config object: add new target types here only.
+						// fields: search parameter inputs (drives inference, disable/clear, query string).
+						// displayFields: display-only inputs (cleared/disabled with group but not in query string).
+						var groupConfig = {
+							specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
+							taxon:       { targetType: 'TAXON_NAME',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
+							publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
+							project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
+						};
+						// Derived lookups — no manual update needed when groupConfig is extended.
+						var allGroups = Object.keys(groupConfig);
+						var targetTypeToGroup = {};
+						$.each(allGroups, function (i, groupName) {
+							targetTypeToGroup[groupConfig[groupName].targetType] = [groupName];
+						});
+						function clearGroup(groupName) {
+							$.each(groupConfig[groupName].fields, function (i, fieldId) {
+								$('##' + fieldId).val('');
+							});
+							$.each(groupConfig[groupName].displayFields || [], function (i, fieldId) {
+								$('##' + fieldId).val('');
+							});
+						}
+						function setGroupState(activeGroups, clearInconsistentValues) {
+							$.each(allGroups, function (i, groupName) {
+								var active = $.inArray(groupName, activeGroups) !== -1;
+								$form.find('[data-target-group="' + groupName + '"]')
+									.toggleClass('opacity-50', !active)
+									.toggleClass('text-muted', !active);
+								$.each(groupConfig[groupName].fields, function (j, fieldId) {
+									$('##' + fieldId)
+										.prop('disabled', !active)
+										.toggleClass('bg-light', !active)
+										.toggleClass('text-muted', !active);
+								});
+								$.each(groupConfig[groupName].displayFields || [], function (j, fieldId) {
+									$('##' + fieldId)
+										.prop('disabled', !active)
+										.toggleClass('bg-light', !active)
+										.toggleClass('text-muted', !active);
+								});
+								if (!active && clearInconsistentValues) {
+									clearGroup(groupName);
+								}
+							});
+						}
+						function inferTargetType() {
+							var filledGroups = [];
+							$.each(allGroups, function (i, groupName) {
+								var groupHasValue = false;
+								$.each(groupConfig[groupName].fields, function (j, fieldId) {
+									if ($.trim($('##' + fieldId).val()).length > 0) {
+										groupHasValue = true;
+										return false;
+									}
+								});
+								if (groupHasValue) { filledGroups.push(groupName); }
+							});
+							if (filledGroups.length === 1) {
+								$targetTypeSelect.val(groupConfig[filledGroups[0]].targetType);
+							}
+							if (filledGroups.length > 1) {
+								// Deterministic precedence for conflicts: use order from groupConfig.
+								var selectedGroup = null;
+								$.each(allGroups, function (i, groupName) {
+									if ($.inArray(groupName, filledGroups) !== -1) {
+										selectedGroup = groupName;
+										return false;
+									}
+								});
+								$targetTypeSelect.val(groupConfig[selectedGroup || allGroups[0]].targetType);
+							}
+						}
+						function applyTargetTypeState(clearInconsistentValues) {
+							var selectedTargetType = $targetTypeSelect.val() ? $targetTypeSelect.val().toUpperCase() : '';
+							var activeGroups = targetTypeToGroup[selectedTargetType] || allGroups;
+							setGroupState(activeGroups, clearInconsistentValues);
+						}
+						$('##target_type_select').on('change', function () {
+							applyTargetTypeState(true);
+						});
+						if (typeof makePublicationAutocompleteMeta === 'function') {
+							makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
+						} else {
+							console.warn('Publication autocomplete unavailable. Use publication_id in URL parameters for publication filtering.');
+						}
+						if (typeof makeProjectAutocompleteMeta === 'function') {
+							makeProjectAutocompleteMeta('project_lookup', 'project_id');
+						} else {
+							console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
+						}
+						// Clear the stored publication_id whenever the user edits the lookup display field manually.
+						$('##publication_lookup').on('input', function () {
+							$('##publication_id').val('');
+							$('##publication_text').val('');
+						});
+						// Clear the stored project_id whenever the user edits the lookup display field manually.
+						$('##project_lookup').on('input', function () {
+							$('##project_id').val('');
+							$('##project_text').val('');
+						});
+						// Clear taxon_name_id whenever the user types in the scientific name field.
+						$('##scientific_name').on('input', function () {
+							$('##taxon_name_id').val('');
+						});
+						function syncTextSearchFields() {
+							// When publication_id is not set, populate publication_text from the lookup display field.
+							// When publication_id is set (autocomplete selected), clear publication_text so only the id is sent.
+							if ($.trim($('##publication_id').val()).length > 0) {
+								$('##publication_text').val('');
+							} else {
+								$('##publication_text').val($.trim($('##publication_lookup').val()));
+							}
+							// Same for project.
+							if ($.trim($('##project_id').val()).length > 0) {
+								$('##project_text').val('');
+							} else {
+								$('##project_text').val($.trim($('##project_lookup').val()));
+							}
+						}
+						function showSearchingMarker() {
+							$('##annotationSearchResultsContainer').html('<p class="mt-3 text-muted pl-1">Searching...</p>');
+						}
+						function buildSearchQueryString() {
+							syncTextSearchFields();
+							var params = [{ name: 'execute', value: 'true' }];
+							$form.find(':input').not(':disabled').each(function () {
+								var $field = $(this);
+								var name = $field.attr('name');
+								if (!name || name === 'execute') { return; }
+								var type = ($field.attr('type') || '').toLowerCase();
+								if (type === 'submit' || type === 'button' || type === 'reset' || type === 'file') { return; }
+								if ((type === 'checkbox' || type === 'radio') && !$field.prop('checked')) { return; }
+								var value = $.trim($field.val() || '');
+								if (value.length > 0) {
+									params.push({ name: name, value: value });
+								}
+							});
+							return $.param(params);
+						}
+						function loadResults(queryString) {
+							showSearchingMarker();
+							$.ajax({
+								url: '/annotations/component/search.cfc?method=renderAnnotationSearchResults&returnformat=plain&' + queryString,
+								type: 'get',
+								success: function (data) {
+									$('##annotationSearchResultsContainer').html(data);
+								},
+								error: function (jqXHR, textStatus, error) {
+									console.error(error);
+									$('##annotationSearchResultsContainer').html('<p class="mt-3 text-danger pl-1">Unable to load search results.</p>');
+								}
+							});
+						}
+						$(document).ready(function () {
+							$('##annotationSearchForm').on('submit', function (event) {
+								event.preventDefault();
+								inferTargetType();
+								applyTargetTypeState(true);
+								var queryString = buildSearchQueryString();
+								history.replaceState({}, '', window.location.pathname + '?' + queryString);
+								loadResults(queryString);
+							});
+							applyTargetTypeState(false);
+							<cfif runSearch>
+								loadResults(buildSearchQueryString());
+							</cfif>
+						});
+					</script>
 				</div>
 				</cfoutput>
 			</div>
 		</div>
 	</section>
 
+	<!--- Results container: AJAX-loaded by JavaScript --->
 	<section class="row mx-0 mb-4">
 		<div class="col-12">
-			<cfoutput>
-
-			<!--- ============================================================
-			     Specimen annotations (type = collection_object_id)
-			     ============================================================ --->
-			<cfif variables.type EQ "collection_object_id">
-				<cfquery name="getSpecimenAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						annotations.ANNOTATION_ID,
-						annotations.ANNOTATE_DATE,
-						annotations.CF_USERNAME,
-						annotations.target_primary_key as COLLECTION_OBJECT_ID,
-						annotations.annotation,
-						NVL(atb.body_value, annotations.annotation) annotation_display,
-						annotations.reviewer_agent_id,
-						preferred_agent_name.agent_name reviewer,
-						annotations.reviewed_fg,
-						annotations.state,
-						annotations.resolution,
-						annotations.reviewer_comment,
-						annotations.motivation,
-						annotations.mask_annotation_fg,
-						collection.collection,
-						collection.collection_cde,
-						collection.institution_acronym,
-						cataloged_item.cat_num,
-						identification.scientific_name idAs,
-						geog_auth_rec.higher_geog,
-						locality.spec_locality,
-						cf_user_data.email
-					FROM
-						annotations
-						INNER JOIN cataloged_item ON annotations.target_primary_key = cataloged_item.COLLECTION_OBJECT_ID AND upper(annotations.target_table) = 'COLLECTION_OBJECT'
-						INNER JOIN collection ON cataloged_item.collection_id = collection.collection_id
-						INNER JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-						INNER JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-						INNER JOIN locality ON collecting_event.locality_id = locality.locality_id
-						INNER JOIN geog_auth_rec ON locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-						LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-						LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-						LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-						LEFT OUTER JOIN (
-							SELECT annotation_id, body_value,
-								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-							FROM annotation_textualbody
-						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE upper(annotations.target_table) = 'COLLECTION_OBJECT'
-						<cfif isDefined("variables.id") AND len(variables.id) GT 0>
-							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.id#">
-						<cfelseif len(variables.specimen_guid) GT 0>
-							AND annotations.target_primary_key IN (
-								SELECT collection_object_id
-								FROM #session.flatTableName#
-								<cfif variables.specimen_guid contains ",">
-									WHERE guid IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.specimen_guid#" list="yes">)
-								<cfelseif variables.specimen_guid contains "%" OR variables.specimen_guid contains "_">
-									WHERE guid LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.specimen_guid#">
-								<cfelse>
-									WHERE upper(guid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.specimen_guid)#">
-								</cfif>
-							)
-						<cfelseif len(variables.collection) GT 0>
-							AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection#">
-						</cfif>
-				</cfquery>
-				<cfset specimenChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getSpecimenAnnotations.annotation_id))>
-				<cfquery name="catitem" dbtype="query">
-					SELECT
-						COLLECTION_OBJECT_ID,
-						collection,
-						collection_cde,
-						institution_acronym,
-						cat_num,
-						idAs,
-						higher_geog,
-						spec_locality
-					FROM getSpecimenAnnotations
-					GROUP BY
-						COLLECTION_OBJECT_ID,
-						collection,
-						collection_cde,
-						institution_acronym,
-						cat_num,
-						idAs,
-						higher_geog,
-						spec_locality
-				</cfquery>
-				<cfset plural = "s">
-				<cfif catitem.recordcount EQ 1><cfset plural = ""></cfif>
-				<h2 class="h3 mt-3 pl-1">Specimen Annotations (#catitem.recordcount# specimen#plural#)</h2>
-				<cfif catitem.recordcount EQ 0>
-					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
+			<div id="annotationSearchResultsContainer">
+				<cfif runSearch>
+					<p class="mt-3 text-muted pl-1">Searching...</p>
 				<cfelse>
-					<cfloop query="catitem">
-						<cfset specimenGuid = "#institution_acronym#:#collection_cde#:#cat_num#">
-						<div class="col-12 px-0 my-2 card border-bottom-0">
-							<div class="card-header bg-box-header-gray">
-								<h3 class="h4 mb-0">
-									<a href="/guid/#specimenGuid#" target="_blank">#encodeForHTML(specimenGuid)#</a>
-									<span class="mx-2 small">&nbsp;Current Identification: <em>#encodeForHTML(idAs)#</em></span>
-									<span class="ml-1 small">Locality: #encodeForHTML(higher_geog)#: #encodeForHTML(spec_locality)#</span>
-								</h3>
-							</div>
-							<cfquery name="itemAnno" dbtype="query">
-								SELECT
-									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
-									reviewer_comment, mask_annotation_fg
-								FROM getSpecimenAnnotations 
-								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(collection_object_id)#">
-							</cfquery>
-							<cfloop query="itemAnno">
-								<div id="annotation-block-#annotation_id#">
-								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
-									annotation_id="#annotation_id#"
-									annotation_display="#annotation_display#"
-									cf_username="#CF_USERNAME#"
-									email="#email#"
-									annotate_date="#ANNOTATE_DATE#"
-									motivation="#motivation#"
-									reviewed_fg="#reviewed_fg#"
-									state="#state#"
-									resolution="#resolution#"
-									reviewer="#reviewer#"
-									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#"
-									show_reply_action="true">
-								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=specimenChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
-								</div>
-							</cfloop>
-						</div>
-					</cfloop>
+					<p class="mt-3 text-muted pl-1">Add desired search terms and click Search.</p>
 				</cfif>
-
-			<!--- ============================================================
-			     Taxonomy annotations (type = taxon_name_id)
-			     ============================================================ --->
-			<cfelseif variables.type EQ "taxon_name_id">
-				<cfquery name="getTaxonAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						taxonomy.scientific_name,
-						taxonomy.display_name,
-						taxonomy.family,
-						annotations.ANNOTATION_ID,
-						annotations.ANNOTATE_DATE,
-						annotations.CF_USERNAME,
-						annotations.annotation,
-						NVL(atb.body_value, annotations.annotation) annotation_display,
-						annotations.reviewer_agent_id,
-						preferred_agent_name.agent_name reviewer,
-						annotations.reviewed_fg,
-						annotations.state,
-						annotations.resolution,
-						annotations.reviewer_comment,
-						annotations.motivation,
-						annotations.mask_annotation_fg,
-						cf_user_data.email,
-						annotations.target_primary_key as taxon_name_id
-					FROM
-						annotations
-						INNER JOIN taxonomy ON annotations.taxon_name_id = taxonomy.taxon_name_id
-						LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-						LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-						LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-						LEFT OUTER JOIN (
-							SELECT annotation_id, body_value,
-								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-							FROM annotation_textualbody
-						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE upper(annotations.target_table) = 'TAXON_NAME'
-						<cfif isDefined("variables.taxon_name_id") AND len(variables.taxon_name_id) GT 0>
-							AND annotations.target_primary_key= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
-						</cfif>
-						<cfif len(variables.taxon_family) GT 0>
-							AND upper(taxonomy.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.taxon_family)#">
-						</cfif>
-						<cfif len(variables.scientific_name) GT 0>
-							AND upper(taxonomy.scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.scientific_name)#%">
-						</cfif>
-				</cfquery>
-				<cfset taxonChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getTaxonAnnotations.annotation_id))>
-				<cfquery name="t" dbtype="query">
-					SELECT taxon_name_id, scientific_name, display_name
-					FROM getTaxonAnnotations
-					GROUP BY taxon_name_id, scientific_name, display_name
-				</cfquery>
-				<cfset taxaword = "taxa">
-				<cfif t.recordcount EQ 1><cfset taxaword = "taxon"></cfif>
-				<h2 class="h3 mt-3 pl-1">Taxonomic Annotations (#t.recordcount# #taxaword#)</h2>
-				<cfif t.recordcount EQ 0>
-					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
-				<cfelse>
-					<cfloop query="t">
-						<div class="col-12 px-0 my-2 card border-bottom-0">
-							<div class="card-header bg-box-header-gray">
-								<h3 class="h4 mb-0">
-									<a href="/name/#encodeForURL(scientific_name)#">#display_name#</a>
-								</h3>
-							</div>
-							<cfquery name="itemAnno" dbtype="query">
-								SELECT
-									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
-									reviewer_comment, mask_annotation_fg
-								FROM getTaxonAnnotations 
-								WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(taxon_name_id)#">
-							</cfquery>
-							<cfloop query="itemAnno">
-								<div id="annotation-block-#annotation_id#">
-								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
-									annotation_id="#annotation_id#"
-									annotation_display="#annotation_display#"
-									cf_username="#CF_USERNAME#"
-									email="#email#"
-									annotate_date="#ANNOTATE_DATE#"
-									motivation="#motivation#"
-									reviewed_fg="#reviewed_fg#"
-									state="#state#"
-									resolution="#resolution#"
-									reviewer="#reviewer#"
-									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#"
-									show_reply_action="true">
-								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=taxonChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
-								</div>
-							</cfloop>
-						</div>
-					</cfloop>
-				</cfif>
-
-			<!--- ============================================================
-			     Publication annotations (type = publication_id)
-			     ============================================================ --->
-			<cfelseif variables.type EQ "publication_id">
-				<cfquery name="getPubAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						publication.publication_title,
-						annotations.ANNOTATION_ID,
-						annotations.ANNOTATE_DATE,
-						annotations.CF_USERNAME,
-						annotations.annotation,
-						NVL(atb.body_value, annotations.annotation) annotation_display,
-						annotations.reviewer_agent_id,
-						preferred_agent_name.agent_name reviewer,
-						annotations.reviewed_fg,
-						annotations.state,
-						annotations.resolution,
-						annotations.reviewer_comment,
-						annotations.motivation,
-						annotations.mask_annotation_fg,
-						cf_user_data.email,
-						annotations.target_primary_key as publication_id
-					FROM
-						annotations
-						INNER JOIN publication ON annotations.publication_id = publication.publication_id
-						LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-						LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-						LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-						LEFT OUTER JOIN (
-							SELECT annotation_id, body_value,
-								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-							FROM annotation_textualbody
-						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE upper(annotations.target_table) = 'PUBLICATION'
-						<cfif isDefined("variables.publication_id") AND len(variables.publication_id) GT 0>
-							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
-						</cfif>
-				</cfquery>
-				<cfset publicationChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getPubAnnotations.annotation_id))>
-				<cfquery name="getPublicationAnnotations" dbtype="query">
-					SELECT publication_title, publication_id
-					FROM getPubAnnotations
-					GROUP BY publication_title, publication_id
-				</cfquery>
-				<cfset plural = "s">
-				<cfif getPublicationAnnotations.recordcount EQ 1><cfset plural = ""></cfif>
-				<h2 class="h3 mt-3 pl-1">Publication Annotations (#getPublicationAnnotations.recordcount# publication#plural#)</h2>
-				<cfif getPublicationAnnotations.recordcount EQ 0>
-					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
-				<cfelse>
-					<cfloop query="getPublicationAnnotations">
-						<div class="col-12 px-0 my-2 card border-bottom-0">
-							<div class="card-header bg-box-header-gray">
-								<h3 class="h4 mb-0">
-									<a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#publication_title#</a>
-								</h3>
-							</div>
-							<cfquery name="itemAnno" dbtype="query">
-								SELECT
-									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
-									reviewer_comment, mask_annotation_fg
-								FROM getPubAnnotations 
-								WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(publication_id)#">
-							</cfquery>
-							<cfloop query="itemAnno">
-								<div id="annotation-block-#annotation_id#">
-								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
-									annotation_id="#annotation_id#"
-									annotation_display="#annotation_display#"
-									cf_username="#CF_USERNAME#"
-									email="#email#"
-									annotate_date="#ANNOTATE_DATE#"
-									motivation="#motivation#"
-									reviewed_fg="#reviewed_fg#"
-									state="#state#"
-									resolution="#resolution#"
-									reviewer="#reviewer#"
-									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#"
-									show_reply_action="true">
-								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=publicationChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
-								</div>
-							</cfloop>
-						</div>
-					</cfloop>
-				</cfif>
-
-			<!--- ============================================================
-			     Project annotations (type = project_id)
-			     ============================================================ --->
-			<cfelseif variables.type EQ "project_id">
-				<cfquery name="getProjectAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						project.project_name,
-						annotations.ANNOTATION_ID,
-						annotations.ANNOTATE_DATE,
-						annotations.CF_USERNAME,
-						annotations.annotation,
-						NVL(atb.body_value, annotations.annotation) annotation_display,
-						annotations.reviewer_agent_id,
-						preferred_agent_name.agent_name reviewer,
-						annotations.reviewed_fg,
-						annotations.state,
-						annotations.resolution,
-						annotations.reviewer_comment,
-						annotations.motivation,
-						annotations.mask_annotation_fg,
-						cf_user_data.email,
-						annotations.target_primary_key as project_id
-					FROM
-						annotations
-						INNER JOIN project ON annotations.project_id = project.project_id
-						LEFT OUTER JOIN cf_users ON annotations.CF_USERNAME = cf_users.username
-						LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
-						LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-						LEFT OUTER JOIN (
-							SELECT annotation_id, body_value,
-								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-							FROM annotation_textualbody
-						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-					WHERE upper(annotations.target_table) = 'PROJECT'
-						<cfif isDefined("variables.project_id") AND len(variables.project_id) GT 0>
-							AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
-						</cfif>
-				</cfquery>
-				<cfset projectChildAnno = annotationFunctions.getChildAnnotationsForRoots(valueList(getProjectAnnotations.annotation_id))>
-				<cfquery name="t" dbtype="query">
-					SELECT project_name, project_id
-					FROM getProjectAnnotations
-					GROUP BY project_name, project_id
-				</cfquery>
-				<cfset plural = "s">
-				<cfif t.recordcount EQ 1><cfset plural = ""></cfif>
-				<h2 class="h3 mt-3 pl-1">Project Annotations (#t.recordcount# project#plural#)</h2>
-				<cfif t.recordcount EQ 0>
-					<p class="text-muted pl-1">No annotations found matching the selected filters.</p>
-				<cfelse>
-					<cfloop query="t">
-						<div class="col-12 px-0 my-2 card border-bottom-0">
-							<div class="card-header bg-box-header-gray">
-								<h3 class="h4 mb-0">
-									<a href="/ProjectDetail?project_id=#encodeForURL(project_id)#">#encodeForHTML(project_name)#</a>
-								</h3>
-							</div>
-							<cfquery name="itemAnno" dbtype="query">
-								SELECT
-									ANNOTATION_ID, annotation_display, CF_USERNAME, email,
-									ANNOTATE_DATE, motivation, reviewed_fg, state, resolution, reviewer,
-									reviewer_comment, mask_annotation_fg
-								FROM getProjectAnnotations 
-								WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(project_id)#">
-							</cfquery>
-							<cfloop query="itemAnno">
-								<div id="annotation-block-#annotation_id#">
-								<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="annoRowHTML"
-									annotation_id="#annotation_id#"
-									annotation_display="#annotation_display#"
-									cf_username="#CF_USERNAME#"
-									email="#email#"
-									annotate_date="#ANNOTATE_DATE#"
-									motivation="#motivation#"
-									reviewed_fg="#reviewed_fg#"
-									state="#state#"
-									resolution="#resolution#"
-									reviewer="#reviewer#"
-									reviewer_comment="#reviewer_comment#"
-									mask_annotation_fg="#mask_annotation_fg#"
-									show_reply_action="true">
-								#annoRowHTML#
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=annotation_id, childAnnotations=projectChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
-								</div>
-							</cfloop>
-						</div>
-					</cfloop>
-				</cfif>
-
-			<cfelse>
-				<p class="mt-3 text-muted pl-1">Please select a filter above and click Filter to view annotations.</p>
-			</cfif>
-
-			</cfoutput>
+			</div>
 		</div>
 	</section>
 </main>

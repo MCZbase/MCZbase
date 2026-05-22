@@ -3841,7 +3841,7 @@ limitations under the License.
 <cffunction name="getAnnotationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfthread name="getAnnotationsThread">
+	<cfthread name="getAnnotationsThread" collection_object_id="#arguments.collection_object_id#">
 		<cfoutput>
 			<cftry>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -3851,8 +3851,8 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record and prevent access, further check for mask parts below ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					SELECT
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
@@ -3881,7 +3881,7 @@ limitations under the License.
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE
 						upper(annotations.target_table) = 'COLLECTION_OBJECT'
-						AND annotations.target_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND annotations.target_primary_key = <cfqueryparam value="#attributes.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
 							AND (annotations.mask_annotation_fg = 0 OR annotations.cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 						</cfif>
