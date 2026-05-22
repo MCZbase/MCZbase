@@ -36,6 +36,7 @@ limitations under the License.
 <cfparam name="url.visibility" default="">
 <cfparam name="url.collection" default="">
 <cfparam name="url.specimen_guid" default="">
+<cfparam name="url.GUID" default="">
 <cfparam name="url.collection_object_id" default="">
 <cfparam name="url.id" default="">
 <cfparam name="url.family" default="">
@@ -43,7 +44,9 @@ limitations under the License.
 <cfparam name="url.scientific_name" default="">
 <cfparam name="url.taxon_name_id" default="">
 <cfparam name="url.publication_id" default="">
+<cfparam name="url.publication_text" default="">
 <cfparam name="url.project_id" default="">
+<cfparam name="url.project_text" default="">
 <cfparam name="url.has_responses" default="">
 
 <cfset variables.execute = lcase(trim(url.execute))>
@@ -60,15 +63,14 @@ limitations under the License.
 <cfset variables.collection = trim(url.collection)>
 <cfset variables.specimen_guid = trim(url.specimen_guid)>
 <cfset variables.collection_object_id = trim(url.collection_object_id)>
-<cfif len(variables.collection_object_id) EQ 0 AND len(trim(url.id)) GT 0>
-	<cfset variables.collection_object_id = trim(url.id)>
-</cfif>
 <cfset variables.family = trim(url.family)>
 <cfif len(variables.family) EQ 0><cfset variables.family = trim(url.taxon_family)></cfif>
 <cfset variables.scientific_name = trim(url.scientific_name)>
 <cfset variables.taxon_name_id = trim(url.taxon_name_id)>
 <cfset variables.publication_id = trim(url.publication_id)>
+<cfset variables.publication_text = trim(url.publication_text)>
 <cfset variables.project_id = trim(url.project_id)>
+<cfset variables.project_text = trim(url.project_text)>
 <cfset variables.has_responses = trim(url.has_responses)>
 <cfset variables.publication_lookup = "">
 <cfset variables.project_lookup = "">
@@ -79,12 +81,35 @@ limitations under the License.
 	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXON_NAME"></cfcase>
 	<cfcase value="publication,publication_id"><cfset variables.target_type = "PUBLICATION"></cfcase>
 	<cfcase value="project,project_id"><cfset variables.target_type = "PROJECT"></cfcase>
+	<cfcase value="guid"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
 	<cfdefaultcase>
 		<cfif len(variables.target_type) GT 0>
 			<cfset variables.target_type = ucase(variables.target_type)>
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
+
+<!--- Map the generic url.id parameter to the appropriate id field based on normalized target_type. --->
+<cfif len(trim(url.id)) GT 0>
+	<cfswitch expression="#variables.target_type#">
+		<cfcase value="TAXON_NAME">
+			<cfif len(variables.taxon_name_id) EQ 0><cfset variables.taxon_name_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfcase value="PUBLICATION">
+			<cfif len(variables.publication_id) EQ 0><cfset variables.publication_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfcase value="PROJECT">
+			<cfif len(variables.project_id) EQ 0><cfset variables.project_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfdefaultcase>
+			<cfif len(variables.collection_object_id) EQ 0><cfset variables.collection_object_id = trim(url.id)></cfif>
+		</cfdefaultcase>
+	</cfswitch>
+</cfif>
+<!--- Map url.GUID to specimen_guid for API compatibility. --->
+<cfif len(variables.specimen_guid) EQ 0 AND len(trim(url.GUID)) GT 0>
+	<cfset variables.specimen_guid = trim(url.GUID)>
+</cfif>
 <cfif NOT listFindNoCase("root,response", variables.root_mode)>
 	<cfset variables.root_mode = "root">
 </cfif>
@@ -100,7 +125,9 @@ limitations under the License.
 	len(variables.family) GT 0 OR
 	len(variables.taxon_name_id) GT 0 OR
 	len(variables.publication_id) GT 0 OR
-	len(variables.project_id) GT 0
+	len(variables.publication_text) GT 0 OR
+	len(variables.project_id) GT 0 OR
+	len(variables.project_text) GT 0
 )>
 	<cfset runSearch = true>
 </cfif>
@@ -217,6 +244,9 @@ limitations under the License.
 	<cfif getPublicationDisplay.recordcount GT 0>
 		<cfset variables.publication_lookup = getPublicationDisplay.short_citation>
 	</cfif>
+<cfelseif len(variables.publication_text) GT 0>
+	<!--- When a publication text search is provided (no id), show the text in the lookup display field. --->
+	<cfset variables.publication_lookup = variables.publication_text>
 </cfif>
 <cfif len(variables.project_id) GT 0 AND isNumeric(variables.project_id)>
 	<cfquery name="getProjectDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
@@ -227,6 +257,9 @@ limitations under the License.
 	<cfif getProjectDisplay.recordcount GT 0>
 		<cfset variables.project_lookup = getProjectDisplay.project_name>
 	</cfif>
+<cfelseif len(variables.project_text) GT 0>
+	<!--- When a project text search is provided (no id), show the text in the lookup display field. --->
+	<cfset variables.project_lookup = variables.project_text>
 </cfif>
 <cfif len(variables.taxon_name_id) GT 0 AND isNumeric(variables.taxon_name_id) AND len(variables.scientific_name) EQ 0>
 	<cfquery name="getTaxonDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
@@ -267,6 +300,10 @@ limitations under the License.
 								<label for="resolution" class="data-entry-label">Resolution</label>
 								<select name="resolution" id="resolution" class="data-entry-select col-12">
 									<option value=""></option>
+									<cfif variables.resolution EQ "NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="NULL" #local.selected#>No Resolution</option>
+									<cfif variables.resolution EQ "NOT NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="NOT NULL" #local.selected#>Any Resolution</option>
 									<cfloop query="ctresolution">
 										<cfif variables.resolution EQ resolution><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
 										<option value="#encodeForHTML(resolution)#" #local.selected#>#encodeForHTML(resolution)# (#ct#)</option>
@@ -395,12 +432,14 @@ limitations under the License.
 							<div class="form-group mb-2" data-target-group="publication">
 								<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
 								<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
-								<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12">
+								<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
+								<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 							</div>
 							<div class="form-group mb-3" data-target-group="project">
 								<label for="project_lookup" class="data-entry-label">Project Title</label>
 								<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
-								<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12">
+								<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
+								<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 							</div>
 						</div>
 					</form>
@@ -415,8 +454,8 @@ limitations under the License.
 							var groupConfig = {
 								specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
 								taxon:       { targetType: 'TAXON_NAME',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
-								publication: { targetType: 'PUBLICATION',       fields: ['publication_id'], displayFields: ['publication_lookup'] },
-								project:     { targetType: 'PROJECT',           fields: ['project_id'],     displayFields: ['project_lookup'] }
+								publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
+								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
 							};
 							// Derived lookups — no manual update needed when groupConfig is extended.
 							var allGroups = Object.keys(groupConfig);
@@ -503,20 +542,22 @@ limitations under the License.
 							}
 							var publicationLookupInput = document.getElementById('publication_lookup');
 							var publicationIdInput = document.getElementById('publication_id');
+							var publicationTextInput = document.getElementById('publication_text');
 							if (publicationLookupInput && publicationIdInput) {
+								// Clear the stored publication_id whenever the user edits the lookup field manually.
 								publicationLookupInput.addEventListener('input', function () {
-									if (this.value.trim().length === 0) {
-										publicationIdInput.value = '';
-									}
+									publicationIdInput.value = '';
+									if (publicationTextInput) { publicationTextInput.value = ''; }
 								});
 							}
 							var projectLookupInput = document.getElementById('project_lookup');
 							var projectIdInput = document.getElementById('project_id');
+							var projectTextInput = document.getElementById('project_text');
 							if (projectLookupInput && projectIdInput) {
+								// Clear the stored project_id whenever the user edits the lookup field manually.
 								projectLookupInput.addEventListener('input', function () {
-									if (this.value.trim().length === 0) {
-										projectIdInput.value = '';
-									}
+									projectIdInput.value = '';
+									if (projectTextInput) { projectTextInput.value = ''; }
 								});
 							}
 							var scientificNameInput = document.getElementById('scientific_name');
@@ -526,12 +567,32 @@ limitations under the License.
 									taxonNameIdInput.value = '';
 								});
 							}
+							function syncTextSearchFields() {
+								// When publication_id is not set, populate publication_text from the lookup display field.
+								// When publication_id is set (autocomplete selected), clear publication_text so only the id is sent.
+								if (publicationLookupInput && publicationIdInput && publicationTextInput) {
+									if (publicationIdInput.value.trim().length > 0) {
+										publicationTextInput.value = '';
+									} else {
+										publicationTextInput.value = publicationLookupInput.value.trim();
+									}
+								}
+								// Same for project.
+								if (projectLookupInput && projectIdInput && projectTextInput) {
+									if (projectIdInput.value.trim().length > 0) {
+										projectTextInput.value = '';
+									} else {
+										projectTextInput.value = projectLookupInput.value.trim();
+									}
+								}
+							}
 							function showSearchingMarker() {
 								var resultsContainer = document.getElementById('annotationSearchResultsContainer');
 								if (!resultsContainer) { return; }
 								resultsContainer.innerHTML = '<p class="mt-3 text-muted pl-1">Searching...</p>';
 							}
 							function buildSearchQueryString() {
+								syncTextSearchFields();
 								var params = new URLSearchParams();
 								params.set('execute', 'true');
 								Array.prototype.forEach.call(form.elements, function (field) {
@@ -615,7 +676,9 @@ limitations under the License.
 					scientific_name="#variables.scientific_name#"
 					taxon_name_id="#variables.taxon_name_id#"
 					publication_id="#variables.publication_id#"
+					publication_text="#variables.publication_text#"
 					project_id="#variables.project_id#"
+					project_text="#variables.project_text#"
 					has_responses="#variables.has_responses#">
 				<cfoutput>#variables.noscriptResultsHtml#</cfoutput>
 			</noscript>

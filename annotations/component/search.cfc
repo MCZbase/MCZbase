@@ -25,7 +25,7 @@ limitations under the License.
  findAnnotations searches annotations by annotation metadata and optionally by properties of the annotation target.
  @param target_type optional target selector; accepts known aliases (collection_object|taxon_name|publication|project with *_id aliases) and any target_table value.
  @param state optional annotation state exact match.
- @param resolution optional annotation resolution exact match.
+ @param resolution optional annotation resolution exact match; pass "NULL" to find annotations with no resolution, "NOT NULL" to find annotations with any resolution.
  @param annotator optional username fragment (case-insensitive contains match).
  @param annotation_text optional annotation body fragment (case-insensitive contains match).
  @param motivation optional annotation motivation exact match.
@@ -39,8 +39,10 @@ limitations under the License.
  @param family optional exact taxon family filter (case-insensitive).
  @param scientific_name optional taxon scientific name fragment (case-insensitive contains match).
  @param taxon_name_id optional numeric taxon primary key filter.
- @param publication_id optional numeric publication primary key filter.
- @param project_id optional numeric project primary key filter.
+ @param publication_id optional numeric publication primary key filter; takes precedence over publication_text when both are provided.
+ @param publication_text optional publication citation/title substring; used only when publication_id is not provided.
+ @param project_id optional numeric project primary key filter; takes precedence over project_text when both are provided.
+ @param project_text optional project name substring; used only when project_id is not provided.
  @return query of annotation rows with target context fields used by /annotations/Annotations.cfm result rendering.
 --->
 <cffunction name="findAnnotations" returntype="query" access="public">
@@ -60,7 +62,9 @@ limitations under the License.
 	<cfargument name="scientific_name" type="string" required="no" default="">
 	<cfargument name="taxon_name_id" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
+	<cfargument name="publication_text" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
+	<cfargument name="project_text" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var targetTableFilter = "">
@@ -274,7 +278,11 @@ limitations under the License.
 			<cfif len(trim(arguments.state)) GT 0>
 				AND annotations.state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.state)#">
 			</cfif>
-			<cfif len(trim(arguments.resolution)) GT 0>
+			<cfif trim(arguments.resolution) EQ "NULL">
+				AND annotations.resolution IS NULL
+			<cfelseif trim(arguments.resolution) EQ "NOT NULL">
+				AND annotations.resolution IS NOT NULL
+			<cfelseif len(trim(arguments.resolution)) GT 0>
 				AND annotations.resolution = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.resolution)#">
 			</cfif>
 			<cfif len(trim(arguments.motivation)) GT 0>
@@ -366,6 +374,23 @@ limitations under the License.
 						ELSE annotations.target_primary_key
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.publication_id)#">
+			<cfelseif len(trim(arguments.publication_text)) GT 0>
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+						ELSE annotations.target_table
+					END
+				) = 'PUBLICATION'
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						ELSE annotations.target_primary_key
+					END
+				) IN (
+					SELECT publication_id
+					FROM formatted_publication
+					WHERE upper(formatted_publication) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.publication_text))#%">
+				)
 			</cfif>
 			<cfif len(trim(arguments.project_id)) GT 0 AND isNumeric(arguments.project_id)>
 				AND (
@@ -380,6 +405,23 @@ limitations under the License.
 						ELSE annotations.target_primary_key
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.project_id)#">
+			<cfelseif len(trim(arguments.project_text)) GT 0>
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+						ELSE annotations.target_table
+					END
+				) = 'PROJECT'
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						ELSE annotations.target_primary_key
+					END
+				) IN (
+					SELECT project_id
+					FROM project
+					WHERE upper(project_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.project_text))#%">
+				)
 			</cfif>
 			<cfif normalizedRootMode EQ "root" AND listFindNoCase("yes,no", trim(arguments.has_responses))>
 				<cfif lcase(trim(arguments.has_responses)) EQ "yes">
@@ -440,13 +482,15 @@ limitations under the License.
  @param collection optional exact collection filter.
  @param specimen_guid optional specimen guid filter.
  @param collection_object_id optional specimen id filter.
- @param id optional alias for collection_object_id.
+ @param id optional alias for collection_object_id; mapped to the appropriate id field based on target_type.
  @param family optional exact taxon family filter.
  @param taxon_family optional alias for family.
  @param scientific_name optional taxon scientific name contains filter.
  @param taxon_name_id optional taxon id filter.
- @param publication_id optional publication id filter.
- @param project_id optional project id filter.
+ @param publication_id optional publication id filter; takes precedence over publication_text.
+ @param publication_text optional publication citation/title substring; used only when publication_id is not provided.
+ @param project_id optional project id filter; takes precedence over project_text.
+ @param project_text optional project name substring; used only when project_id is not provided.
  @return HTML string for annotation search results section using existing annotation render helpers.
  @see findAnnotations 
 --->
@@ -471,11 +515,16 @@ limitations under the License.
 	<cfargument name="scientific_name" type="string" required="no" default="">
 	<cfargument name="taxon_name_id" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
+	<cfargument name="publication_text" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
+	<cfargument name="project_text" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var normalizedTargetType = trim(arguments.target_type)>
 	<cfset var normalizedCollectionObjectId = trim(arguments.collection_object_id)>
+	<cfset var normalizedTaxonNameId = trim(arguments.taxon_name_id)>
+	<cfset var normalizedPublicationId = trim(arguments.publication_id)>
+	<cfset var normalizedProjectId = trim(arguments.project_id)>
 	<cfset var normalizedFamily = trim(arguments.family)>
 	<cfset var normalizedRootMode = lcase(trim(arguments.root_mode))>
 	<cfset var runSearch = false>
@@ -506,14 +555,29 @@ limitations under the License.
 		<cfcase value="taxon_name,taxon_name_id"><cfset normalizedTargetType = "TAXON_NAME"></cfcase>
 		<cfcase value="publication,publication_id"><cfset normalizedTargetType = "PUBLICATION"></cfcase>
 		<cfcase value="project,project_id"><cfset normalizedTargetType = "PROJECT"></cfcase>
+		<cfcase value="guid"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
 		<cfdefaultcase>
 			<cfif len(normalizedTargetType) GT 0>
 				<cfset normalizedTargetType = ucase(normalizedTargetType)>
 			</cfif>
 		</cfdefaultcase>
 	</cfswitch>
-	<cfif len(normalizedCollectionObjectId) EQ 0 AND len(trim(arguments.id)) GT 0>
-		<cfset normalizedCollectionObjectId = trim(arguments.id)>
+	<!--- Map the generic id parameter to the appropriate id field based on normalized target_type. --->
+	<cfif len(trim(arguments.id)) GT 0>
+		<cfswitch expression="#normalizedTargetType#">
+			<cfcase value="TAXON_NAME">
+				<cfif len(normalizedTaxonNameId) EQ 0><cfset normalizedTaxonNameId = trim(arguments.id)></cfif>
+			</cfcase>
+			<cfcase value="PUBLICATION">
+				<cfif len(normalizedPublicationId) EQ 0><cfset normalizedPublicationId = trim(arguments.id)></cfif>
+			</cfcase>
+			<cfcase value="PROJECT">
+				<cfif len(normalizedProjectId) EQ 0><cfset normalizedProjectId = trim(arguments.id)></cfif>
+			</cfcase>
+			<cfdefaultcase>
+				<cfif len(normalizedCollectionObjectId) EQ 0><cfset normalizedCollectionObjectId = trim(arguments.id)></cfif>
+			</cfdefaultcase>
+		</cfswitch>
 	</cfif>
 	<cfif len(normalizedFamily) EQ 0>
 		<cfset normalizedFamily = trim(arguments.taxon_family)>
@@ -529,9 +593,11 @@ limitations under the License.
 		len(trim(arguments.specimen_guid)) GT 0 OR
 		len(normalizedCollectionObjectId) GT 0 OR
 		len(normalizedFamily) GT 0 OR
-		len(trim(arguments.taxon_name_id)) GT 0 OR
-		len(trim(arguments.publication_id)) GT 0 OR
-		len(trim(arguments.project_id)) GT 0
+		len(normalizedTaxonNameId) GT 0 OR
+		len(normalizedPublicationId) GT 0 OR
+		len(trim(arguments.publication_text)) GT 0 OR
+		len(normalizedProjectId) GT 0 OR
+		len(trim(arguments.project_text)) GT 0
 	)>
 		<cfset runSearch = true>
 	</cfif>
@@ -553,9 +619,11 @@ limitations under the License.
 			collection_object_id = normalizedCollectionObjectId,
 			family = normalizedFamily,
 			scientific_name = trim(arguments.scientific_name),
-			taxon_name_id = trim(arguments.taxon_name_id),
-			publication_id = trim(arguments.publication_id),
-			project_id = trim(arguments.project_id)
+			taxon_name_id = normalizedTaxonNameId,
+			publication_id = normalizedPublicationId,
+			publication_text = trim(arguments.publication_text),
+			project_id = normalizedProjectId,
+			project_text = trim(arguments.project_text)
 		)>
 		<cfif searchResults.recordcount GT 0>
 			<cfquery name="rootAnnotationsInResults" dbtype="query">
@@ -601,9 +669,11 @@ limitations under the License.
 			<cfif len(normalizedCollectionObjectId) GT 0><cfset arrayAppend(searchTermLabels, "collection object id")></cfif>
 			<cfif len(normalizedFamily) GT 0><cfset arrayAppend(searchTermLabels, "family")></cfif>
 			<cfif len(trim(arguments.scientific_name)) GT 0><cfset arrayAppend(searchTermLabels, "scientific name")></cfif>
-			<cfif len(trim(arguments.taxon_name_id)) GT 0><cfset arrayAppend(searchTermLabels, "taxon name id")></cfif>
-			<cfif len(trim(arguments.publication_id)) GT 0><cfset arrayAppend(searchTermLabels, "publication")></cfif>
-			<cfif len(trim(arguments.project_id)) GT 0><cfset arrayAppend(searchTermLabels, "project")></cfif>
+			<cfif len(normalizedTaxonNameId) GT 0><cfset arrayAppend(searchTermLabels, "taxon name id")></cfif>
+			<cfif len(normalizedPublicationId) GT 0><cfset arrayAppend(searchTermLabels, "publication")></cfif>
+			<cfif len(trim(arguments.publication_text)) GT 0><cfset arrayAppend(searchTermLabels, "publication text")></cfif>
+			<cfif len(normalizedProjectId) GT 0><cfset arrayAppend(searchTermLabels, "project")></cfif>
+			<cfif len(trim(arguments.project_text)) GT 0><cfset arrayAppend(searchTermLabels, "project text")></cfif>
 			<cfif listFindNoCase("yes,no", trim(arguments.has_responses))><cfset arrayAppend(searchTermLabels, "has responses")></cfif>
 			<cfif arrayLen(searchTermLabels) GT 0><cfset searchedOn = arrayToList(searchTermLabels, ", ")></cfif>
 			<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationSearchResultsHeading">
