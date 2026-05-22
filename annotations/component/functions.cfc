@@ -225,7 +225,9 @@ limitations under the License.
 								publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 						</cfquery>
 						<cfloop query="d">
-							<cfset summary="Publication <strong>#formatted_publication#</strong>">
+							<!--- title may contain html markup, remove for this use --->
+							<cfset cleaned_formatted_publication = reReplace(d.formatted_publication, "<[^>]+>", "", "all")><!--- " --->
+							<cfset summary="Publication <strong>#cleaned_formatted_publication#</strong>">
 						</cfloop>
 						<!--- TODO: Manage dialog for individual annotations --->
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
@@ -1681,7 +1683,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							AND publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
 						</cfquery>
 						<cfif rtData.recordcount GT 0>
-							<cfset rootTargetSummary = "Publication <strong>#rtData.formatted_publication#</strong>">
+							<!--- title may contain html markup, remove for this use  --->
+							<cfset cleaned_formatted_publication = reReplace(rtData.formatted_publication, "<[^>]+>", "", "all")><!--- " --->
+							<cfset rootTargetSummary = "Publication <strong>#cleaned_formatted_publication#</strong>">
 						</cfif>
 					</cfif>
 				</cfif>
