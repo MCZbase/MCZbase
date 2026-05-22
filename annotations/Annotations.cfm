@@ -626,7 +626,7 @@ limitations under the License.
 								});
 						}
 						$(document).ready(function () {
-							form.addEventListener('submit', function (event) {
+							$("##annotationSearchForm").addEventListener('submit', function (event) {
 								event.preventDefault();
 								inferTargetType();
 								applyTargetTypeState(true);
