@@ -638,7 +638,7 @@ limitations under the License.
 							<cfif runSearch>
 								loadResults(buildSearchQueryString());
 							</cfif>
-						}
+						});
 					</script>
 				</div>
 				</cfoutput>
