@@ -51,6 +51,7 @@ limitations under the License.
 <cfparam name="url.has_responses" default="">
 
 <cfset variables.execute = lcase(trim(url.execute))>
+<cfset variables.action = lcase(trim(url.action))>
 <cfset variables.target_type = trim(url.target_type)>
 <cfif len(variables.target_type) EQ 0><cfset variables.target_type = trim(url.type)></cfif>
 <cfset variables.state = trim(url.state)>
@@ -116,7 +117,7 @@ limitations under the License.
 </cfif>
 
 <cfset runSearch = false>
-<cfif listFindNoCase("true,1,yes,y,on", variables.execute) OR lcase(trim(url.action)) EQ "show">
+<cfif listFindNoCase("true,1,yes,y,on", variables.execute) OR variables.action EQ "show">
 	<cfset runSearch = true>
 </cfif>
 <cfif NOT runSearch AND (
