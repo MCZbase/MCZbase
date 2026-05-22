@@ -1,7 +1,7 @@
 <!---
 annotations/Annotations.cfm
 
-Review annotations page. Provides a unified annotation-first search interface with target-aware contextual filters.
+Review annotations page. Provides a search interface for annotations, with filters on annotation metadata and on properties of the annotation target.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College

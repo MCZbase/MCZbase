@@ -22,7 +22,7 @@ limitations under the License.
 <cfinclude template="/annotations/component/functions.cfc" runOnce="true">
 
 <!---
- findAnnotations performs generalized annotation-first search with optional target-aware filtering.
+ findAnnotations searches annotations by annotation metadata and optionally by properties of the annotation target.
  @param target_type optional target selector; accepts known aliases (collection_object|taxon_name|publication|project with *_id aliases) and any target_table value.
  @param state optional annotation state exact match.
  @param resolution optional annotation resolution exact match.
