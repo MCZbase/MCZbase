@@ -19,9 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-<cfif NOT structKeyExists(variables, "annotationFunctionsComponent")>
-	<cfset variables.annotationFunctionsComponent = CreateObject("component","annotations.component.functions")>
-</cfif>
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true">
 
 <!---
  findAnnotations performs generalized annotation-first search with optional target-aware filtering.
@@ -443,7 +441,6 @@ limitations under the License.
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 
-	<cfset var annotationFunctions = variables.annotationFunctionsComponent>
 	<cfset var normalizedTargetType = trim(arguments.target_type)>
 	<cfset var normalizedCollectionObjectId = trim(arguments.collection_object_id)>
 	<cfset var normalizedFamily = trim(arguments.family)>
@@ -533,7 +530,7 @@ limitations under the License.
 				WHERE parent_annotation_id IS NULL
 			</cfquery>
 			<cfif rootAnnotationsInResults.recordcount GT 0>
-				<cfset childAnnotations = annotationFunctions.getChildAnnotationsForRoots(valueList(rootAnnotationsInResults.annotation_id))>
+				<cfset childAnnotations = getChildAnnotationsForRoots(valueList(rootAnnotationsInResults.annotation_id))>
 			</cfif>
 		</cfif>
 	</cfif>
@@ -633,7 +630,7 @@ limitations under the License.
 								<cfset showReplyAction = true>
 							</cfif>
 							<div id="annotation-block-#targetAnnotations.annotation_id#">
-							<cfset annoRowHTML = annotationFunctions.renderAnnotationReviewRow(
+							<cfset annoRowHTML = renderAnnotationReviewRow(
 								annotation_id=targetAnnotations.annotation_id,
 								annotation_display=targetAnnotations.annotation_display,
 								cf_username=targetAnnotations.cf_username,
@@ -650,7 +647,7 @@ limitations under the License.
 							)>
 							#annoRowHTML#
 							<cfif showReplyAction>
-								#annotationFunctions.renderAnnotationConversationSection(rootAnnotationId=targetAnnotations.annotation_id, childAnnotations=childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
+								#renderAnnotationConversationSection(rootAnnotationId=targetAnnotations.annotation_id, childAnnotations=childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
 							</cfif>
 							</div>
 						</cfloop>
