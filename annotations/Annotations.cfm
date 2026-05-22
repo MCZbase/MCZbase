@@ -432,12 +432,14 @@ limitations under the License.
 							<div class="form-group mb-2" data-target-group="publication">
 								<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
 								<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
+								<!--- publication_text: JS syncs from publication_lookup on submit when publication_id is empty; initial value supports noscript fallback. --->
 								<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
 								<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 							</div>
 							<div class="form-group mb-3" data-target-group="project">
 								<label for="project_lookup" class="data-entry-label">Project Title</label>
 								<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
+								<!--- project_text: JS syncs from project_lookup on submit when project_id is empty; initial value supports noscript fallback. --->
 								<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
 								<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 							</div>
