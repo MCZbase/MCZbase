@@ -134,12 +134,8 @@ limitations under the License.
 	<cfset runSearch = true>
 </cfif>
 
-<cfset variables.queryDatasource = "user_login">
-<cfset variables.queryUsername = session.dbuser>
-<cfset variables.queryPassword = decrypt(session.epw,cookie.cfid)>
-
 <!--- Code-table and filter option queries: populate select controls and count badges. --->
-<cfquery name="ctstate" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="ctstate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		count(annotations.state) AS ct,
 		ctstate.state
@@ -148,7 +144,7 @@ limitations under the License.
 	GROUP BY ctstate.state
 	ORDER BY ctstate.state
 </cfquery>
-<cfquery name="ctresolution" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="ctresolution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		count(annotations.resolution) AS ct,
 		ctresolution.resolution
@@ -157,7 +153,7 @@ limitations under the License.
 	GROUP BY ctresolution.resolution
 	ORDER BY ctresolution.resolution
 </cfquery>
-<cfquery name="ctmotivation" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		count(annotations.motivation) AS ct,
 		ctmotivation.motivation
@@ -166,7 +162,7 @@ limitations under the License.
 	GROUP BY ctmotivation.motivation
 	ORDER BY ctmotivation.motivation
 </cfquery>
-<cfquery name="getAnnotatedTargetTypes" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="getAnnotatedTargetTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		resolved_targets.target_table,
 		count(*) ct
@@ -185,7 +181,7 @@ limitations under the License.
 	GROUP BY resolved_targets.target_table
 	ORDER BY resolved_targets.target_table
 </cfquery>
-<cfquery name="getAnnotatedCollections" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="getAnnotatedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		count(annotations.annotation_id) ct,
 		collection.collection
@@ -196,7 +192,7 @@ limitations under the License.
 	GROUP BY collection.collection
 	ORDER BY collection.collection
 </cfquery>
-<cfquery name="getAnnotatedFamilies" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="getAnnotatedFamilies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		count(annotations.annotation_id) ct,
 		taxonomy.family
@@ -207,13 +203,13 @@ limitations under the License.
 	GROUP BY taxonomy.family
 	ORDER BY taxonomy.family
 </cfquery>
-<cfquery name="reviewedCounts" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="reviewedCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT reviewed_fg, count(annotation_id) ct
 	FROM annotations
 	WHERE reviewed_fg IN (0,1)
 	GROUP BY reviewed_fg
 </cfquery>
-<cfquery name="visibilityCounts" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+<cfquery name="visibilityCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT mask_annotation_fg, count(annotation_id) ct
 	FROM annotations
 	WHERE mask_annotation_fg IN (0,1)
@@ -238,7 +234,7 @@ limitations under the License.
 	</cfif>
 </cfloop>
 <cfif len(variables.publication_id) GT 0 AND isNumeric(variables.publication_id)>
-	<cfquery name="getPublicationDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+	<cfquery name="getPublicationDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT MCZbase.getshortcitation(publication_id) short_citation
 		FROM publication
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
@@ -251,7 +247,7 @@ limitations under the License.
 	<cfset variables.publication_lookup = variables.publication_text>
 </cfif>
 <cfif len(variables.project_id) GT 0 AND isNumeric(variables.project_id)>
-	<cfquery name="getProjectDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+	<cfquery name="getProjectDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT project_name
 		FROM project
 		WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
@@ -263,8 +259,18 @@ limitations under the License.
 	<!--- When a project text search is provided (no id), show the text in the lookup display field. --->
 	<cfset variables.project_lookup = variables.project_text>
 </cfif>
+<cfif len(variables.collection_object_id) GT 0 AND isNumeric(variables.collection_object_id) and len(variables.specimen_guid) EQ 0>
+	<cfquery name="getGuidDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT GUID
+		FROM <cfif session.flatTableName EQ "FLAT">FLAT<cfelse>FLTERED_FLAT</cfif> flatTableName
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+	</cfquery>
+	<cfif getGuidDisplay.recordcount GT 0>
+		<cfset variables.specimen_guid = getGuidDisplay.GUID>
+	</cfif>
+</cfif>
 <cfif len(variables.taxon_name_id) GT 0 AND isNumeric(variables.taxon_name_id) AND len(variables.scientific_name) EQ 0>
-	<cfquery name="getTaxonDisplay" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
+	<cfquery name="getTaxonDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT scientific_name
 		FROM taxonomy
 		WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxon_name_id#">
