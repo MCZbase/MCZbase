@@ -381,19 +381,20 @@ limitations under the License.
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.project_id)#">
 			</cfif>
-			<cfif normalizedRootMode EQ "root" AND lcase(trim(arguments.has_responses)) EQ "yes">
-				AND EXISTS (
-					SELECT 1 FROM annotations resp
-					WHERE resp.target_table = 'ANNOTATIONS'
-						AND resp.target_primary_key = annotations.annotation_id
-				)
-			</cfif>
-			<cfif normalizedRootMode EQ "root" AND lcase(trim(arguments.has_responses)) EQ "no">
-				AND NOT EXISTS (
-					SELECT 1 FROM annotations resp
-					WHERE resp.target_table = 'ANNOTATIONS'
-						AND resp.target_primary_key = annotations.annotation_id
-				)
+			<cfif normalizedRootMode EQ "root" AND listFindNoCase("yes,no", trim(arguments.has_responses))>
+				<cfif lcase(trim(arguments.has_responses)) EQ "yes">
+					AND EXISTS (
+						SELECT 1 FROM annotations resp
+						WHERE resp.target_table = 'ANNOTATIONS'
+							AND resp.target_primary_key = annotations.annotation_id
+					)
+				<cfelseif lcase(trim(arguments.has_responses)) EQ "no">
+					AND NOT EXISTS (
+						SELECT 1 FROM annotations resp
+						WHERE resp.target_table = 'ANNOTATIONS'
+							AND resp.target_primary_key = annotations.annotation_id
+					)
+				</cfif>
 			</cfif>
 			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
 				AND (
