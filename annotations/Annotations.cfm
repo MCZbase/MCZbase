@@ -253,7 +253,8 @@ limitations under the License.
 								<select name="state" id="state" class="data-entry-select col-12">
 									<option value="">Any State</option>
 									<cfloop query="ctstate">
-										<option value="#encodeForHTML(state)#" <cfif variables.state EQ state>selected="selected"</cfif>>#encodeForHTML(state)# (#ct#)</option>
+										<cfif variables.state EQ state><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(state)#" #local.selected#>#encodeForHTML(state)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -262,7 +263,8 @@ limitations under the License.
 								<select name="resolution" id="resolution" class="data-entry-select col-12">
 									<option value="">Any Resolution</option>
 									<cfloop query="ctresolution">
-										<option value="#encodeForHTML(resolution)#" <cfif variables.resolution EQ resolution>selected="selected"</cfif>>#encodeForHTML(resolution)# (#ct#)</option>
+										<cfif variables.resolution EQ resolution><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(resolution)#" #local.selected#>#encodeForHTML(resolution)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -271,7 +273,8 @@ limitations under the License.
 								<select name="motivation" id="motivation" class="data-entry-select col-12">
 									<option value="">Any Motivation</option>
 									<cfloop query="ctmotivation">
-										<option value="#encodeForHTML(motivation)#" <cfif variables.motivation EQ motivation>selected="selected"</cfif>>#encodeForHTML(motivation)# (#ct#)</option>
+										<cfif variables.motivation EQ motivation><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(motivation)#" #local.selected#>#encodeForHTML(motivation)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -295,16 +298,20 @@ limitations under the License.
 								<label for="reviewed_fg" class="data-entry-label">Reviewed</label>
 								<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select col-12">
 									<option value="">Any</option>
-									<option value="1" <cfif variables.reviewed_fg EQ "1">selected="selected"</cfif>>Reviewed (#variables.reviewedCountReviewed#)</option>
-									<option value="0" <cfif variables.reviewed_fg EQ "0">selected="selected"</cfif>>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
+									<cfif variables.reviewed_fg EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="1" #local.selected#>Reviewed (#variables.reviewedCountReviewed#)</option>
+									<cfif variables.reviewed_fg EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
 								</select>
 							</div>
 							<div class="form-group mb-2">
 								<label for="visibility" class="data-entry-label">Visibility</label>
 								<select name="visibility" id="visibility" class="data-entry-select col-12">
 									<option value="">Any</option>
-									<option value="0" <cfif variables.visibility EQ "0">selected="selected"</cfif>>Visible (#variables.visibilityCountVisible#)</option>
-									<option value="1" <cfif variables.visibility EQ "1">selected="selected"</cfif>>Masked (#variables.visibilityCountMasked#)</option>
+									<cfif variables.visibility EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="0" #local.selected#>Visible (#variables.visibilityCountVisible#)</option>
+									<cfif variables.visibility EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
 								</select>
 							</div>
 						</div>
@@ -323,7 +330,8 @@ limitations under the License.
 											<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
 											<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
 										</cfswitch>
-										<option value="#encodeForHTML(target_table)#" <cfif variables.target_type EQ target_table>selected="selected"</cfif>>#encodeForHTML(target_type_label)# (#ct#)</option>
+										<cfif variables.target_type EQ target_table><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(target_table)#" #local.selected#>#encodeForHTML(target_type_label)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -334,7 +342,8 @@ limitations under the License.
 								<select name="collection" id="collection" class="data-entry-select col-12">
 									<option value="">Any Collection</option>
 									<cfloop query="getAnnotatedCollections">
-										<option value="#encodeForHTML(collection)#" <cfif variables.collection EQ collection>selected="selected"</cfif>>#encodeForHTML(collection)# (#ct#)</option>
+										<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
@@ -354,7 +363,8 @@ limitations under the License.
 								<select name="family" id="family" class="data-entry-select col-12">
 									<option value="">Any Family</option>
 									<cfloop query="getAnnotatedFamilies">
-										<option value="#encodeForHTML(family)#" <cfif variables.family EQ family>selected="selected"</cfif>>#encodeForHTML(family)# (#ct#)</option>
+										<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
 									</cfloop>
 								</select>
 							</div>
