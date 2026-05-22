@@ -23,6 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 
 <!--- URL parameter declarations: expose all supported search parameters from URL scope. --->
+<cfparam name="url.action" default="">
 <cfparam name="url.execute" default="">
 <cfparam name="url.target_type" default="">
 <cfparam name="url.type" default="">
@@ -115,7 +116,7 @@ limitations under the License.
 </cfif>
 
 <cfset runSearch = false>
-<cfif listFindNoCase("true,1,yes,y,on", variables.execute)>
+<cfif listFindNoCase("true,1,yes,y,on", variables.execute) OR lcase(trim(url.action)) EQ "show">
 	<cfset runSearch = true>
 </cfif>
 <cfif NOT runSearch AND (
@@ -403,10 +404,7 @@ limitations under the License.
 								<label for="specimen_guid" class="data-entry-label">Specimen GUID</label>
 								<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
 							</div>
-							<div class="form-group mb-2" data-target-group="specimen">
-								<label for="collection_object_id" class="data-entry-label">Collection Object ID</label>
-								<input type="text" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#" class="data-entry-input col-12">
-							</div>
+							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 						</div>
 						<div class="col-12 col-md-6 col-xl-2 mb-3">
 							<h3 class="h6 mb-2">Taxon</h3>
