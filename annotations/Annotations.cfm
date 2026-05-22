@@ -44,6 +44,7 @@ limitations under the License.
 <cfparam name="url.taxon_name_id" default="">
 <cfparam name="url.publication_id" default="">
 <cfparam name="url.project_id" default="">
+<cfparam name="url.has_responses" default="">
 
 <cfset variables.execute = lcase(trim(url.execute))>
 <cfset variables.target_type = trim(url.target_type)>
@@ -68,6 +69,7 @@ limitations under the License.
 <cfset variables.taxon_name_id = trim(url.taxon_name_id)>
 <cfset variables.publication_id = trim(url.publication_id)>
 <cfset variables.project_id = trim(url.project_id)>
+<cfset variables.has_responses = trim(url.has_responses)>
 <cfset variables.publication_lookup = "">
 <cfset variables.project_lookup = "">
 
@@ -240,7 +242,7 @@ limitations under the License.
 					<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
 						<input type="hidden" name="execute" value="true">
 						<div class="col-12 col-md-6 col-xl-2 mb-3 d-flex flex-column">
-							<h2 class="h5 mb-2">Annotation Metadata Filters</h2>
+							<h2 class="h5 mb-2">Annotation Metadata</h2>
 							<div class="form-group mb-2">
 								<label for="state" class="data-entry-label">State</label>
 								<select name="state" id="state" class="data-entry-select col-12">
@@ -271,6 +273,16 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
+							<div class="form-group mb-2">
+								<label for="has_responses" class="data-entry-label">Has Responses</label>
+								<select name="has_responses" id="has_responses" class="data-entry-select col-12">
+									<option value="">Any</option>
+									<cfif variables.has_responses EQ "yes"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="yes" #local.selected#>Yes</option>
+									<cfif variables.has_responses EQ "no"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+									<option value="no" #local.selected#>No</option>
+								</select>
+							</div>
 							<div class="mt-auto pt-2">
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
 								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
@@ -278,7 +290,7 @@ limitations under the License.
 						</div>
 
 						<div class="col-12 col-md-6 col-xl-2 mb-3">
-							<h2 class="h5 mb-2">Annotation Text and Review Filters</h2>
+							<h2 class="h5 mb-2">Annotation Text and Review</h2>
 							<div class="form-group mb-2">
 								<label for="annotator" class="data-entry-label">Annotator Username</label>
 								<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
@@ -328,8 +340,8 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<h2 class="h5 mb-2">Target-Specific Context Filters</h2>
-							<h3 class="h6 mb-2">Specimen Filters</h3>
+							<h2 class="h5 mb-2">Target-Specific Context</h2>
+							<h3 class="h6 mb-2">Specimen</h3>
 							<div class="form-group mb-2" data-target-group="specimen">
 								<label for="collection" class="data-entry-label">Collection</label>
 								<select name="collection" id="collection" class="data-entry-select col-12">
@@ -350,7 +362,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-2 mb-3">
-							<h3 class="h6 mb-2">Taxon Filters</h3>
+							<h3 class="h6 mb-2">Taxon</h3>
 							<div class="form-group mb-2" data-target-group="taxon">
 								<label for="family" class="data-entry-label">Family</label>
 								<select name="family" id="family" class="data-entry-select col-12">
@@ -372,7 +384,7 @@ limitations under the License.
 						</div>
 
 						<div class="col-12 col-md-6 col-xl-3 mb-3">
-							<h2 class="h5 mb-2">Publication and Project Filters</h2>
+							<h2 class="h5 mb-2">Publication and Project</h2>
 							<div class="form-group mb-2" data-target-group="publication">
 								<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
 								<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
@@ -577,7 +589,8 @@ limitations under the License.
 					scientific_name="#variables.scientific_name#"
 					taxon_name_id="#variables.taxon_name_id#"
 					publication_id="#variables.publication_id#"
-					project_id="#variables.project_id#">
+					project_id="#variables.project_id#"
+					has_responses="#variables.has_responses#">
 				<cfoutput>#variables.noscriptResultsHtml#</cfoutput>
 			</noscript>
 		</div>

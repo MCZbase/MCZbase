@@ -32,6 +32,7 @@ limitations under the License.
  @param reviewed_fg optional review flag; accepts 1/0/true/false/yes/no.
  @param root_mode optional thread position filter; root (default) or response.
  @param visibility optional mask flag; accepts 1/0/true/false/yes/no.
+ @param has_responses optional filter for root annotations by whether they have responses; accepts yes/no.
  @param collection optional exact collection name for specimen targets.
  @param specimen_guid optional specimen guid filter; supports single guid, comma-delimited list, or SQL wildcard pattern.
  @param collection_object_id optional numeric specimen primary key filter.
@@ -60,6 +61,7 @@ limitations under the License.
 	<cfargument name="taxon_name_id" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
+	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var targetTableFilter = "">
 	<cfset var normalizedRootMode = "root">
@@ -379,6 +381,20 @@ limitations under the License.
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.project_id)#">
 			</cfif>
+			<cfif normalizedRootMode EQ "root" AND lcase(trim(arguments.has_responses)) EQ "yes">
+				AND EXISTS (
+					SELECT 1 FROM annotations resp
+					WHERE resp.target_table = 'ANNOTATIONS'
+						AND resp.target_primary_key = annotations.annotation_id
+				)
+			</cfif>
+			<cfif normalizedRootMode EQ "root" AND lcase(trim(arguments.has_responses)) EQ "no">
+				AND NOT EXISTS (
+					SELECT 1 FROM annotations resp
+					WHERE resp.target_table = 'ANNOTATIONS'
+						AND resp.target_primary_key = annotations.annotation_id
+				)
+			</cfif>
 			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
 				AND (
 					(annotations.mask_annotation_fg = 0 AND NVL(parent_annotations.mask_annotation_fg, 0) = 0)
@@ -419,6 +435,7 @@ limitations under the License.
  @param reviewed_fg optional review flag value.
  @param root_mode optional root/response mode.
  @param visibility optional mask flag value.
+ @param has_responses optional filter for whether root annotations have responses; accepts yes/no.
  @param collection optional exact collection filter.
  @param specimen_guid optional specimen guid filter.
  @param collection_object_id optional specimen id filter.
@@ -454,6 +471,7 @@ limitations under the License.
 	<cfargument name="taxon_name_id" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
+	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var normalizedTargetType = trim(arguments.target_type)>
 	<cfset var normalizedCollectionObjectId = trim(arguments.collection_object_id)>
@@ -528,6 +546,7 @@ limitations under the License.
 			reviewed_fg = trim(arguments.reviewed_fg),
 			root_mode = normalizedRootMode,
 			visibility = trim(arguments.visibility),
+			has_responses = lcase(trim(arguments.has_responses)),
 			collection = trim(arguments.collection),
 			specimen_guid = trim(arguments.specimen_guid),
 			collection_object_id = normalizedCollectionObjectId,
@@ -584,6 +603,7 @@ limitations under the License.
 			<cfif len(trim(arguments.taxon_name_id)) GT 0><cfset arrayAppend(searchTermLabels, "taxon name id")></cfif>
 			<cfif len(trim(arguments.publication_id)) GT 0><cfset arrayAppend(searchTermLabels, "publication")></cfif>
 			<cfif len(trim(arguments.project_id)) GT 0><cfset arrayAppend(searchTermLabels, "project")></cfif>
+			<cfif listFindNoCase("yes,no", trim(arguments.has_responses))><cfset arrayAppend(searchTermLabels, "has responses")></cfif>
 			<cfif arrayLen(searchTermLabels) GT 0><cfset searchedOn = arrayToList(searchTermLabels, ", ")></cfif>
 			<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationSearchResultsHeading">
 				<h2 class="h3 mb-0 mr-3">Annotation Results (#searchResults.recordcount# #annotationLabel# on #targetCount# #targetLabel#)</h2>
