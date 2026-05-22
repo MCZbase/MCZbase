@@ -22,7 +22,7 @@ limitations under the License.
 <cfset pageTitle = "Review Annotations">
 <cfinclude template="/shared/_header.cfm">
 
-<!--- Explicit URL scope declarations for URL-driven population/execution. --->
+<!--- URL parameter declarations: expose all supported search parameters from URL scope. --->
 <cfparam name="url.execute" default="">
 <cfparam name="url.target_type" default="">
 <cfparam name="url.type" default="">
@@ -71,6 +71,7 @@ limitations under the License.
 <cfset variables.publication_lookup = "">
 <cfset variables.project_lookup = "">
 
+<!--- Normalize target_type aliases and validate root_mode. --->
 <cfswitch expression="#lcase(variables.target_type)#">
 	<cfcase value="collection_object,collection_object_id"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
 	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXON_NAME"></cfcase>
@@ -105,43 +106,33 @@ limitations under the License.
 <cfset variables.queryDatasource = "user_login">
 <cfset variables.queryUsername = session.dbuser>
 <cfset variables.queryPassword = decrypt(session.epw,cookie.cfid)>
+
+<!--- Code-table and filter option queries: populate select controls and count badges. --->
 <cfquery name="ctstate" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT
-		ctstate.state,
-		NVL(annotation_counts.ct, 0) ct
+		count(annotations.state) AS ct,
+		ctstate.state
 	FROM ctstate
-		LEFT OUTER JOIN (
-			SELECT state, count(annotation_id) ct
-			FROM annotations
-			WHERE state IS NOT NULL
-			GROUP BY state
-		) annotation_counts ON ctstate.state = annotation_counts.state
+		LEFT JOIN annotations ON ctstate.state = annotations.state
+	GROUP BY ctstate.state
 	ORDER BY ctstate.state
 </cfquery>
 <cfquery name="ctresolution" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT
-		ctresolution.resolution,
-		NVL(annotation_counts.ct, 0) ct
+		count(annotations.resolution) AS ct,
+		ctresolution.resolution
 	FROM ctresolution
-		LEFT OUTER JOIN (
-			SELECT resolution, count(annotation_id) ct
-			FROM annotations
-			WHERE resolution IS NOT NULL
-			GROUP BY resolution
-		) annotation_counts ON ctresolution.resolution = annotation_counts.resolution
+		LEFT JOIN annotations ON ctresolution.resolution = annotations.resolution
+	GROUP BY ctresolution.resolution
 	ORDER BY ctresolution.resolution
 </cfquery>
 <cfquery name="ctmotivation" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
 	SELECT
-		ctmotivation.motivation,
-		NVL(annotation_counts.ct, 0) ct
+		count(annotations.motivation) AS ct,
+		ctmotivation.motivation
 	FROM ctmotivation
-		LEFT OUTER JOIN (
-			SELECT motivation, count(annotation_id) ct
-			FROM annotations
-			WHERE motivation IS NOT NULL
-			GROUP BY motivation
-		) annotation_counts ON ctmotivation.motivation = annotation_counts.motivation
+		LEFT JOIN annotations ON ctmotivation.motivation = annotations.motivation
+	GROUP BY ctmotivation.motivation
 	ORDER BY ctmotivation.motivation
 </cfquery>
 <cfquery name="getAnnotatedTargetTypes" datasource="#variables.queryDatasource#" username="#variables.queryUsername#" password="#variables.queryPassword#">
@@ -235,6 +226,8 @@ limitations under the License.
 		<cfset variables.project_lookup = getProjectDisplay.project_name>
 	</cfif>
 </cfif>
+
+<!--- Search form: annotation metadata filters, target type, and target-specific context filters. --->
 <main class="container-fluid" id="content">
 	<section role="search">
 		<div class="row mx-0 mb-2">
@@ -397,32 +390,26 @@ limitations under the License.
 							var form = document.getElementById('annotationSearchForm');
 							if (!form) { return; }
 							var targetTypeInput = document.getElementById('target_type');
-							var groupFields = {
-								specimen: ['collection', 'specimen_guid', 'collection_object_id'],
-								taxon: ['family', 'scientific_name', 'taxon_name_id'],
-								publication: ['publication_lookup', 'publication_id'],
-								project: ['project_lookup', 'project_id']
+							// Single config object: add new target types here only.
+							var groupConfig = {
+								specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
+								taxon:       { targetType: 'TAXON_NAME',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
+								publication: { targetType: 'PUBLICATION',       fields: ['publication_lookup', 'publication_id'] },
+								project:     { targetType: 'PROJECT',           fields: ['project_lookup', 'project_id'] }
 							};
-							var groupToTargetType = {
-								specimen: 'COLLECTION_OBJECT',
-								taxon: 'TAXON_NAME',
-								publication: 'PUBLICATION',
-								project: 'PROJECT'
-							};
-							var targetTypeToGroup = {
-								COLLECTION_OBJECT: ['specimen'],
-								TAXON_NAME: ['taxon'],
-								PUBLICATION: ['publication'],
-								PROJECT: ['project']
-							};
+							// Derived lookups — no manual update needed when groupConfig is extended.
+							var allGroups = Object.keys(groupConfig);
+							var targetTypeToGroup = {};
+							allGroups.forEach(function (groupName) {
+								targetTypeToGroup[groupConfig[groupName].targetType] = [groupName];
+							});
 							function clearGroup(groupName) {
-								groupFields[groupName].forEach(function (fieldId) {
+								groupConfig[groupName].fields.forEach(function (fieldId) {
 									var field = document.getElementById(fieldId);
 									if (field) { field.value = ''; }
 								});
 							}
 							function setGroupState(activeGroups, clearInconsistentValues) {
-								var allGroups = ['specimen', 'taxon', 'publication', 'project'];
 								allGroups.forEach(function (groupName) {
 									var active = activeGroups.indexOf(groupName) !== -1;
 									var groupBlocks = form.querySelectorAll('[data-target-group="' + groupName + '"]');
@@ -430,7 +417,7 @@ limitations under the License.
 										block.classList.toggle('opacity-50', !active);
 										block.classList.toggle('text-muted', !active);
 									});
-									groupFields[groupName].forEach(function (fieldId) {
+									groupConfig[groupName].fields.forEach(function (fieldId) {
 										var field = document.getElementById(fieldId);
 										if (field) {
 											field.disabled = !active;
@@ -445,28 +432,27 @@ limitations under the License.
 							}
 							function inferTargetType() {
 								var filledGroups = [];
-								Object.keys(groupFields).forEach(function (groupName) {
-									var groupHasValue = groupFields[groupName].some(function (fieldId) {
+								allGroups.forEach(function (groupName) {
+									var groupHasValue = groupConfig[groupName].fields.some(function (fieldId) {
 										var field = document.getElementById(fieldId);
 										return field && String(field.value).trim().length > 0;
 									});
 									if (groupHasValue) { filledGroups.push(groupName); }
 								});
 								if (filledGroups.length === 1) {
-									targetTypeInput.value = groupToTargetType[filledGroups[0]];
+									targetTypeInput.value = groupConfig[filledGroups[0]].targetType;
 								}
 								if (filledGroups.length > 1) {
-									var orderedGroups = ['specimen', 'taxon', 'publication', 'project'];
-									// Deterministic precedence for conflicts: specimen, then taxon, then publication, then project.
-									var selectedGroup = orderedGroups.find(function (groupName) {
+									// Deterministic precedence for conflicts: use order from groupConfig.
+									var selectedGroup = allGroups.find(function (groupName) {
 										return filledGroups.indexOf(groupName) !== -1;
-									}) || orderedGroups[0];
-									targetTypeInput.value = groupToTargetType[selectedGroup];
+									}) || allGroups[0];
+									targetTypeInput.value = groupConfig[selectedGroup].targetType;
 								}
 							}
 							function applyTargetTypeState(clearInconsistentValues) {
 								var selectedTargetType = targetTypeInput.value ? targetTypeInput.value.toUpperCase() : '';
-								var activeGroups = targetTypeToGroup[selectedTargetType] || ['specimen', 'taxon', 'publication', 'project'];
+								var activeGroups = targetTypeToGroup[selectedTargetType] || allGroups;
 								setGroupState(activeGroups, clearInconsistentValues);
 							}
 							targetTypeInput.addEventListener('change', function () {
@@ -561,6 +547,7 @@ limitations under the License.
 		</div>
 	</section>
 
+	<!--- Results container: AJAX-loaded by JavaScript; noscript fallback renders server-side. --->
 	<section class="row mx-0 mb-4">
 		<div class="col-12">
 			<div id="annotationSearchResultsContainer">
