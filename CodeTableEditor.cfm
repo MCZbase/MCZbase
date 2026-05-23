@@ -2324,7 +2324,7 @@
 			SET 
 				state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
-				state_curie = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#state_curie#" />
+				state_curie = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_curie#" />
 			WHERE
 				state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -2538,7 +2538,7 @@
 				description
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#state_curie#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_curie#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
