@@ -23,7 +23,7 @@ limitations under the License.
 
 <!---
  findAnnotations searches annotations by annotation metadata and optionally by properties of the annotation target.
- @param target_type optional target selector; accepts known aliases (collection_object|taxon_name|publication|project with *_id aliases) and any target_table value.
+ @param target_type optional target selector; accepts known table names (COLLECTION_OBJECT|TAXONOMY|PUBLICATION|PROJECT with *_id aliases) and any target_table value.
  @param state optional annotation state exact match.
  @param resolution optional annotation resolution exact match; pass "NULL" to find annotations with no resolution, "NOT NULL" to find annotations with any resolution.
  @param annotator optional username fragment (case-insensitive contains match).
@@ -78,14 +78,17 @@ limitations under the License.
 		<cfcase value="collection_object,collection_object_id">
 			<cfset targetTableFilter = "COLLECTION_OBJECT">
 		</cfcase>
-		<cfcase value="taxon_name,taxon_name_id">
-			<cfset targetTableFilter = "TAXON_NAME">
+		<cfcase value="taxonomy,taxon_name_id">
+			<cfset targetTableFilter = "TAXONOMY">
 		</cfcase>
 		<cfcase value="publication,publication_id">
 			<cfset targetTableFilter = "PUBLICATION">
 		</cfcase>
 		<cfcase value="project,project_id">
 			<cfset targetTableFilter = "PROJECT">
+		</cfcase>
+		<cfcase value="annotations,annotation_id">
+			<cfset targetTableFilter = "ANNOTATIONS">
 		</cfcase>
 		<cfdefaultcase>
 			<cfif len(trim(arguments.target_type)) GT 0>
@@ -154,7 +157,7 @@ limitations under the License.
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
-				) = 'TAXON_NAME' THEN (
+				) = 'TAXONOMY' THEN (
 					CASE
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
@@ -228,11 +231,11 @@ limitations under the License.
 			LEFT OUTER JOIN locality ON collecting_event.locality_id = locality.locality_id
 			LEFT OUTER JOIN geog_auth_rec ON locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 			LEFT OUTER JOIN taxonomy ON (
-					annotations.target_table = 'TAXON_NAME'
+					annotations.target_table = 'TAXONOMY'
 					AND annotations.target_primary_key = taxonomy.taxon_name_id
 				) OR (
 					annotations.target_table = 'ANNOTATIONS'
-					AND parent_annotations.target_table = 'TAXON_NAME'
+					AND parent_annotations.target_table = 'TAXONOMY'
 					AND parent_annotations.target_primary_key = taxonomy.taxon_name_id
 				)
 			LEFT OUTER JOIN publication ON (
@@ -347,7 +350,7 @@ limitations under the License.
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
-				) = 'TAXON_NAME'
+				) = 'TAXONOMY'
 				AND (
 					CASE
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
@@ -520,7 +523,7 @@ limitations under the License.
 	<cfargument name="project_text" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
-	<cfset var normalizedTargetType = trim(arguments.target_type)>
+	<cfset var normalizedTargetType = trim(ucase(arguments.target_type))>
 	<cfset var normalizedCollectionObjectId = trim(arguments.collection_object_id)>
 	<cfset var normalizedTaxonNameId = trim(arguments.taxon_name_id)>
 	<cfset var normalizedPublicationId = trim(arguments.publication_id)>
@@ -548,11 +551,11 @@ limitations under the License.
 	<cfset var result = "">
 
 	<cfif len(normalizedTargetType) EQ 0>
-		<cfset normalizedTargetType = trim(arguments.type)>
+		<cfset normalizedTargetType = trim(ucase(arguments.type))>
 	</cfif>
 	<cfswitch expression="#lcase(normalizedTargetType)#">
 		<cfcase value="collection_object,collection_object_id"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
-		<cfcase value="taxon_name,taxon_name_id"><cfset normalizedTargetType = "TAXON_NAME"></cfcase>
+		<cfcase value="taxonomy,taxon_name_id"><cfset normalizedTargetType = "TAXONOMY"></cfcase>
 		<cfcase value="publication,publication_id"><cfset normalizedTargetType = "PUBLICATION"></cfcase>
 		<cfcase value="project,project_id"><cfset normalizedTargetType = "PROJECT"></cfcase>
 		<cfcase value="guid"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
@@ -565,7 +568,7 @@ limitations under the License.
 	<!--- Map the generic id parameter to the appropriate id field based on normalized target_type. --->
 	<cfif len(trim(arguments.id)) GT 0>
 		<cfswitch expression="#normalizedTargetType#">
-			<cfcase value="TAXON_NAME">
+			<cfcase value="TAXONOMY">
 				<cfif len(normalizedTaxonNameId) EQ 0><cfset normalizedTaxonNameId = trim(arguments.id)></cfif>
 			</cfcase>
 			<cfcase value="PUBLICATION">
@@ -695,7 +698,7 @@ limitations under the License.
 							<cfset targetLink = "/guid/#encodeForURL(specimenGuid)#">
 							<cfset targetMeta = "Current Identification: #encodeForHTML(targets.scientific_name)#; Locality: #encodeForHTML(targets.higher_geog)#: #encodeForHTML(targets.spec_locality)#">
 						</cfcase>
-						<cfcase value="TAXON_NAME">
+						<cfcase value="TAXONOMY">
 							<cfset targetTitle = targets.taxon_display_name>
 							<cfset targetLink = "/name/#encodeForURL(targets.taxon_scientific_name)#">
 							<cfset targetTitleContainsHtml = true>

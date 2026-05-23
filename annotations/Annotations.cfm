@@ -80,7 +80,7 @@ limitations under the License.
 <!--- Normalize target_type aliases and validate root_mode. --->
 <cfswitch expression="#lcase(variables.target_type)#">
 	<cfcase value="collection_object,collection_object_id"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
-	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXON_NAME"></cfcase>
+	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXONOMY"></cfcase>
 	<cfcase value="publication,publication_id"><cfset variables.target_type = "PUBLICATION"></cfcase>
 	<cfcase value="project,project_id"><cfset variables.target_type = "PROJECT"></cfcase>
 	<cfcase value="guid"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
@@ -94,7 +94,7 @@ limitations under the License.
 <!--- Map the generic url.id parameter to the appropriate id field based on normalized target_type. --->
 <cfif len(trim(url.id)) GT 0>
 	<cfswitch expression="#variables.target_type#">
-		<cfcase value="TAXON_NAME">
+		<cfcase value="TAXONOMY">
 			<cfif len(variables.taxon_name_id) EQ 0><cfset variables.taxon_name_id = trim(url.id)></cfif>
 		</cfcase>
 		<cfcase value="PUBLICATION">
@@ -197,7 +197,7 @@ limitations under the License.
 		count(annotations.annotation_id) ct,
 		taxonomy.family
 	FROM annotations
-		INNER JOIN taxonomy ON annotations.target_table = 'TAXON_NAME'
+		INNER JOIN taxonomy ON annotations.target_table = 'TAXONOMY'
 			AND annotations.target_primary_key = taxonomy.taxon_name_id
 	WHERE taxonomy.family IS NOT NULL
 	GROUP BY taxonomy.family
@@ -385,7 +385,7 @@ limitations under the License.
 										<cfset target_type_label = "">
 										<cfswitch expression="#target_table#">
 											<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
-											<cfcase value="TAXON_NAME"><cfset target_type_label = "Taxon"></cfcase>
+											<cfcase value="TAXONOMY"><cfset target_type_label = "Taxon"></cfcase>
 											<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
 											<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
 											<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
@@ -458,7 +458,7 @@ limitations under the License.
 						// displayFields: display-only inputs (cleared/disabled with group but not in query string).
 						var groupConfig = {
 							specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
-							taxon:       { targetType: 'TAXON_NAME',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
+							taxon:       { targetType: 'TAXONOMY',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
 							publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
 							project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
 						};

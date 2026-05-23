@@ -108,7 +108,7 @@ limitations under the License.
 </cffunction>
 
 <!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
-  * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
+  * @param target_type the entity to be annotated (e.g. collection_object, taxonomy, publication, permit, annotation)
   * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
   * @param dialogId the html id value for the dialog to contain the returned HTML; used to set the id attribute of the form within the dialog and for callback functions to close the dialog after saving an annotation.
   * @return HTML string for a dialog to view existing annotations and add a new annotation for the specified record.
@@ -118,6 +118,7 @@ limitations under the License.
 	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="dialogId" type="string" required="yes">
 	
+	<cfset variables.target_type = ucase(arguments.target_type)>
 	<cfsavecontent variable="dialogHtml">
 		<cftry>
 			<cfoutput>
@@ -160,8 +161,8 @@ limitations under the License.
 					<cfset ctstate = getAnnotationCtState()>
 					<cfset ctresolution = getAnnotationCtResolution()>
 				</cfif>
-				<cfswitch expression="#target_type#">
-					<cfcase value="collection_object">
+				<cfswitch expression="#variables.target_type#">
+					<cfcase value="COLLECTION_OBJECT">
 						<cfset collection_object_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
@@ -181,7 +182,7 @@ limitations under the License.
 							<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=collection_object_id&collection=#d.collection#&collection_object_id=#collection_object_id#">
 						</cfloop>
 					</cfcase>
-					<cfcase value="taxon_name">
+					<cfcase value="TAXONOMY">
 						<cfset taxon_name_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
@@ -197,7 +198,7 @@ limitations under the License.
 						<!--- TODO: Manage dialog for individual annotations --->
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=taxon_name_id&taxon_name_id=#taxon_name_id#">
 					</cfcase>
-					<cfcase value="project">
+					<cfcase value="PROJECT">
 						<cfset project_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
@@ -213,7 +214,7 @@ limitations under the License.
 						<!--- TODO: Manage dialog for individual annotations --->
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=project_id&project_id=#project_id#">
 					</cfcase>
-					<cfcase value="publication">
+					<cfcase value="PUBLICATION">
 						<cfset publication_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
@@ -232,7 +233,7 @@ limitations under the License.
 						<!--- TODO: Manage dialog for individual annotations --->
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
 					</cfcase>
-					<cfcase value="annotation">
+					<cfcase value="ANNOTATION">
 						<cfset annotation_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select
@@ -285,7 +286,7 @@ limitations under the License.
 						</cfif>
 						<cfif responseRootAnnotationId NEQ targetAnnotationId>
 							<cfif len(targetAnnotationBody) GT 0>
-								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#">
+								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#"><!--- " --->
 							<cfelse>
 								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>">
 							</cfif>
@@ -313,7 +314,7 @@ limitations under the License.
 						<cfthrow message="Annotation on an unsupported target type.">
 					</cfdefaultcase>
 				</cfswitch>
-				<cfif target_type EQ "annotation">
+				<cfif variables.target_type EQ "ANNOTATIONS">
 					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText(rootAnnotationMotivation)>
 				</cfif>
 				<!--- Single shared query for all target types; WHERE clause varies by target_type using cfif, not by SQL variable. --->
@@ -321,10 +322,6 @@ limitations under the License.
 					select annotations.ANNOTATION_ID ANNOTATION_ID,
 						annotations.ANNOTATE_DATE ANNOTATE_DATE,
 						annotations.CF_USERNAME CF_USERNAME,
-						annotations.COLLECTION_OBJECT_ID COLLECTION_OBJECT_ID,
-						annotations.TAXON_NAME_ID TAXON_NAME_ID,
-						annotations.PROJECT_ID PROJECT_ID,
-						annotations.PUBLICATION_ID PUBLICATION_ID,
 						annotations.ANNOTATION ANNOTATION,
 						annotations.REVIEWER_AGENT_ID REVIEWER_AGENT_ID,
 						annotations.REVIEWED_FG REVIEWED_FG,
@@ -354,18 +351,18 @@ limitations under the License.
 							from annotation_textualbody
 						) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
 					where
-					<cfif target_type EQ "collection_object">
+					<cfif variables.target_type EQ "COLLECTION_OBJECT">
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					<cfelseif target_type EQ "taxon_name">
+					<cfelseif variables.target_type EQ "TAXONOMY">
 						taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-					<cfelseif target_type EQ "project">
+					<cfelseif variables.target_type EQ "PROJECT">
 						project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
-					<cfelseif target_type EQ "publication">
+					<cfelseif variables.target_type EQ "PUBLICATION">
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-					<cfelseif target_type EQ "annotation">
+					<cfelseif variables.target_type EQ "ANNOTATIONS">
 						annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
 						OR (
-							target_table in ('ANNOTATION','ANNOTATIONS')
+							target_table = 'ANNOTATIONS'
 							and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
 						)
 					<cfelse>
@@ -378,109 +375,116 @@ limitations under the License.
 						<div class="col-12 px-0 px-md-3">
 							<h2 class="h3 my-1 px-1" tabindex="0">Annotations for #summary#</h2>
 							<cfif canAnnotate>
-							<div class="col-12 px-0 add-form">
-								<div class="add-form-header px-2 pb-1">
-									<h3 class="h4 my-0 px-1 py-1" tabindex="0">Add New Annotation</h3>
-								</div>
-								<div class="row col-12 mx-0 mt-1 d-block">
-									<form name="annotate" onSubmit="return false;" class="form-row">
-										<input type="hidden" name="action" value="insert">
-										<input type="hidden" name="idtype" id="#idtypeFieldId#" value="#target_type#">
-										<input type="hidden" name="idvalue" id="#idvalueFieldId#" value="#dialogTargetId#">
-										<div class="col-12 pb-1">
-											<label for="#annotationFieldId#" class="data-entry-label">Annotation Text (<span id="#annotationLengthId#"></span>)</label>
-											<textarea rows="2" name="annotation" id="#annotationFieldId#"
-													onkeyup="countCharsLeft('#annotationFieldId#', 4000, '#annotationLengthId#');"
-													class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
-											<script>
-												$(document).ready(function() { 
-													$("###annotationFieldId#").keyup(autogrow);  
-													$("###annotationFieldId#").keyup();  
-												});
-											</script>
-										</div>
-										<div class="col-12 pb-1">
-											<label for="#motivationFieldId#" class="data-entry-label">Your motivation for making this annotation</label>
-											<select id="#motivationFieldId#" name="motivation" class="data-entry-select">
-												<cfloop query="ctmotivation">
-													<cfif target_type EQ "annotation">
-														<cfif motivation EQ "replying"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-													<cfelse>
-														<cfif motivation EQ "commenting"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-													</cfif>
-													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
-												</cfloop>
-											</select>
-										</div>
-										<cfif target_type EQ "annotation">
-											<div class="col-12 col-md-3 pb-1">
-												<label for="#rootReviewedFieldId#" class="data-entry-label">Mark Parent Reviewed?</label>
-												<select id="#rootReviewedFieldId#" name="root_reviewed_fg" class="data-entry-select">
-													<option value="" selected="selected">No Change</option>
-													<option value="0">No</option>
-													<option value="1">Yes</option>
+								<div class="col-12 px-0 add-form">
+									<div class="add-form-header px-2 pb-1">
+										<h3 class="h4 my-0 px-1 py-1" tabindex="0">Add New Annotation</h3>
+									</div>
+									<div class="row col-12 mx-0 mt-1 d-block">
+										<form name="annotate" onSubmit="return false;" class="form-row">
+											<input type="hidden" name="action" value="insert">
+											<input type="hidden" name="idtype" id="#idtypeFieldId#" value="#variables.target_type#">
+											<input type="hidden" name="idvalue" id="#idvalueFieldId#" value="#dialogTargetId#">
+											<div class="col-12 pb-1">
+												<label for="#annotationFieldId#" class="data-entry-label">Annotation Text (<span id="#annotationLengthId#"></span>)</label>
+												<textarea rows="2" name="annotation" id="#annotationFieldId#"
+														onkeyup="countCharsLeft('#annotationFieldId#', 4000, '#annotationLengthId#');"
+														class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
+												<script>
+													$(document).ready(function() { 
+														$("###annotationFieldId#").keyup(autogrow);  
+														$("###annotationFieldId#").keyup();  
+													});
+												</script>
+											</div>
+											<div class="col-12 pb-1">
+												<label for="#motivationFieldId#" class="data-entry-label">Your motivation for making this annotation</label>
+												<select id="#motivationFieldId#" name="motivation" class="data-entry-select">
+													<cfloop query="ctmotivation">
+														<cfif variables.target_type EQ "ANNOTATIONS">
+															<cfif motivation EQ "replying"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														<cfelse>
+															<cfif motivation EQ "commenting"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														</cfif>
+														<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+													</cfloop>
 												</select>
 											</div>
-											<cfif canRespond>
+											<cfif variables.target_type EQ "ANNOTATIONS">
 												<div class="col-12 col-md-3 pb-1">
-													<label for="#rootStateFieldId#" class="data-entry-label">Root State</label>
-													<select id="#rootStateFieldId#" name="root_state" class="data-entry-select">
+													<label for="#rootReviewedFieldId#" class="data-entry-label">Mark Parent Reviewed?</label>
+													<select id="#rootReviewedFieldId#" name="root_reviewed_fg" class="data-entry-select">
 														<option value="" selected="selected">No Change</option>
-														<cfloop query="ctstate">
-															<option value="#encodeForHTMLAttribute(state)#">#encodeForHTML(state)#</option>
-														</cfloop>
+														<option value="0">No</option>
+														<option value="1">Yes</option>
 													</select>
 												</div>
-												<div class="col-12 col-md-3 pb-1">
-													<label for="#rootResolutionFieldId#" class="data-entry-label">Root Resolution</label>
-													<select id="#rootResolutionFieldId#" name="root_resolution" class="data-entry-select">
-														<option value="" selected="selected">No Change</option>
-														<cfloop query="ctresolution">
-															<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
-														</cfloop>
-													</select>
+												<cfif canRespond>
+													<div class="col-12 col-md-3 pb-1">
+														<label for="#rootStateFieldId#" class="data-entry-label">Root State</label>
+														<select id="#rootStateFieldId#" name="root_state" class="data-entry-select">
+															<option value="" selected="selected">No Change</option>
+															<cfloop query="ctstate">
+																<option value="#encodeForHTMLAttribute(state)#">#encodeForHTML(state)#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-12 col-md-3 pb-1">
+														<label for="#rootResolutionFieldId#" class="data-entry-label">Root Resolution</label>
+														<select id="#rootResolutionFieldId#" name="root_resolution" class="data-entry-select">
+															<option value="" selected="selected">No Change</option>
+															<cfloop query="ctresolution">
+																<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
+															</cfloop>
+														</select>
+														<cfif len(rootResolutionGuidanceText) GT 0>
+															<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+														</cfif>
+													</div>
 													<cfif len(rootResolutionGuidanceText) GT 0>
-														<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+														<script>
+															$(document).ready(function() {
+																applyCommentingResolutionGuidance('#motivationFieldId#', '#rootResolutionFieldId#');
+															});
+														</script>
 													</cfif>
-												</div>
-												<cfif len(rootResolutionGuidanceText) GT 0>
-													<script>
-														$(document).ready(function() {
-															applyCommentingResolutionGuidance('#motivationFieldId#', '#rootResolutionFieldId#');
-														});
-													</script>
 												</cfif>
 											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
-											<div class="col-12 <cfif target_type EQ "annotation">col-md-3<cfelse>col-md-6</cfif> pb-1">
-												<label for="#maskFieldId#" class="data-entry-label"><cfif target_type EQ "annotation">Response Visibility:<cfelse>Visibility:</cfif></label>
-												<select id="#maskFieldId#" name="mask_annotation_fg" class="data-entry-select">
-													<option value="0" selected="selected">Public</option>
-													<option value="1">Hidden</option>
-												</select>
-											</div>
-											<cfif target_type EQ "annotation">
-												<div class="col-12 col-md-3 pb-1">
-													<label for="#rootMaskFieldId#" class="data-entry-label">Parent Visibility:</label>
-													<select id="#rootMaskFieldId#" name="root_mask_annotation_fg" class="data-entry-select">
-														<option value="" selected="selected">No Change</option>
-														<option value="0">Public</option>
+											<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
+												<cfif variables.target_type EQ "ANNOTATIONS"><cfset colvar="col-md-3"><cfelse><cfset colvar="col-md-6"></cfif>
+												<div class="col-12 #colvar# pb-1">
+													<label for="#maskFieldId#" class="data-entry-label">
+														<cfif variables.target_type EQ "ANNOTATIONS">
+															Response Visibility:
+														<cfelse>
+															Visibility:
+														</cfif>
+													</label>
+													<select id="#maskFieldId#" name="mask_annotation_fg" class="data-entry-select">
+														<option value="0" selected="selected">Public</option>
 														<option value="1">Hidden</option>
 													</select>
 												</div>
+												<cfif variables.target_type EQ "ANNOTATIONS">
+													<div class="col-12 col-md-3 pb-1">
+														<label for="#rootMaskFieldId#" class="data-entry-label">Parent Visibility:</label>
+														<select id="#rootMaskFieldId#" name="root_mask_annotation_fg" class="data-entry-select">
+															<option value="" selected="selected">No Change</option>
+															<option value="0">Public</option>
+															<option value="1">Hidden</option>
+														</select>
+													</div>
+												</cfif>
 											</cfif>
-										</cfif>
-										<div class="col-12 pt-1">
-											<input type="button"
-												class="btn btn-xs btn-primary mt-1" 
-												value="Save Annotation" 
-												onclick="saveThisAnnotation('#annotationResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); }, '#dialogFieldQualifier#')">
-											<output id="#annotationResultDivId#" class="ml-2" aria-live="polite"></output>
-										</div>
-									</form>
+											<div class="col-12 pt-1">
+												<input type="button"
+													class="btn btn-xs btn-primary mt-1" 
+													value="Save Annotation" 
+													onclick="saveThisAnnotation('#annotationResultDivId#', function(){ closeAnnotationDialogById('#encodeForJavaScript(dialogId)#'); }, '#dialogFieldQualifier#')">
+												<output id="#annotationResultDivId#" class="ml-2" aria-live="polite"></output>
+											</div>
+										</form>
+									</div>
 								</div>
-							</div>
 							<cfelse>
 								<p class="px-1 py-1 text-muted small">To add an annotation, you must be logged in with a registered email address.</p>
 							</cfif>
@@ -560,8 +564,9 @@ limitations under the License.
 </cffunction>
 
 
-<!--- Given an entity and id to annotate and the text of an annotation, save the annotation of the data record.
-  * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
+<!--- function addAnnotation Given an entity and id to annotate and the text of an annotation, 
+ * save the annotation of the data record.
+ * @param target_type the entity to be annotated (e.g. COLLECTION_OBJECT, TAXONOMY, PUBLICATION, PERMIT, ANNOTATIONS)
  * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
  * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
  * @param motivation the motivation for the annotation (optional, defaults to commenting).
@@ -586,11 +591,8 @@ limitations under the License.
 		<cfset motivation = "commenting">
 	</cfif>
 	<cfset motivation = rereplace(motivation,"[^a-zA-Z]","","all")>
-	<cfif target_type EQ "annotation">
-		<cfset targetTableName = "ANNOTATIONS">
-	<cfelse>
-		<cfset targetTableName = UCase(target_type)>
-	</cfif>
+	<cfset variables.target_type = ucase(arguments.target_type)>
+	<cfset targetTableName = variables.target_type>
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
@@ -600,8 +602,8 @@ limitations under the License.
 	<cfset cleanRootResolution = "">
 	<cfset setRootResolutionNull = false>
 	<cftry>
-		<cfswitch expression="#target_type#">
-			<cfcase value="collection_object">
+		<cfswitch expression="#variables.target_type#">
+			<cfcase value="COLLECTION_OBJECT">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT guid as annorecord
@@ -629,7 +631,7 @@ limitations under the License.
 				</cfquery>
 				<cfset mailTo = valuelist(whoTo.address)>
 			</cfcase>
-			<cfcase value="taxon_name">
+			<cfcase value="TAXONOMY">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 'Taxon:' || scientific_name || ' ' || author_text as annorecord
@@ -637,7 +639,7 @@ limitations under the License.
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
-			<cfcase value="publication">
+			<cfcase value="PUBLICATION">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
@@ -645,7 +647,7 @@ limitations under the License.
 					WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
-			<cfcase value="project">
+			<cfcase value="PROJECT">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 'Project:' || project_name as annorecord
@@ -653,7 +655,7 @@ limitations under the License.
 					WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
-			<cfcase value="annotation">
+			<cfcase value="ANNOTATIONS">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
@@ -702,7 +704,7 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfif target_type EQ "annotation">
+	<cfif variables.target_type EQ "ANNOTATIONS">
 		<cfif len(trim(root_state)) GT 0 OR len(trim(root_resolution)) GT 0>
 			<cfif NOT canRespond>
 				<cfheader statusCode="403" statusText="Only users with response workflow permissions may set root annotation state or resolution.">
@@ -735,15 +737,6 @@ limitations under the License.
 	<cfif annotatable>
 		<cftransaction>
 			<cftry>
-				<cfset var storedTargetTable = "">
-				<cfswitch expression="#target_type#">
-					<cfcase value="annotation">
-						<cfset storedTargetTable = "ANNOTATIONS">
-					</cfcase>
-					<cfdefaultcase>
-						<cfset storedTargetTable = UCase(target_type)>
-					</cfdefaultcase>
-				</cfswitch>
 				<cfquery name="agentLookup" datasource="uam_god">
 					SELECT MIN(an.agent_id) AS annotator_agent_id
 					FROM agent_name an
@@ -774,7 +767,7 @@ limitations under the License.
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
-						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#storedTargetTable#' >,
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#variables.target_type#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 						'New',
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
@@ -804,7 +797,7 @@ limitations under the License.
 						SYSDATE
 					)
 				</cfquery>
-				<cfif target_type EQ "annotation" AND (len(cleanRootState) GT 0 OR len(cleanRootResolution) GT 0 OR setRootResolutionNull)>
+				<cfif target_type EQ "ANNOTATIONS" AND (len(cleanRootState) GT 0 OR len(cleanRootResolution) GT 0 OR setRootResolutionNull)>
 					<cfquery name="updRootAnnStateResolution" datasource="uam_god">
 						UPDATE annotations
 						SET
@@ -824,7 +817,7 @@ limitations under the License.
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
 				</cfif>
-				<cfif target_type EQ "annotation" AND len(trim(root_reviewed_fg)) GT 0 AND REFind("^[01]$", trim(root_reviewed_fg)) GT 0>
+				<cfif target_type EQ "ANNOTATIONS" AND len(trim(root_reviewed_fg)) GT 0 AND REFind("^[01]$", trim(root_reviewed_fg)) GT 0>
 					<cfquery name="updRootAnnReviewed" datasource="uam_god">
 						UPDATE annotations
 						SET
@@ -833,7 +826,7 @@ limitations under the License.
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
 				</cfif>
-				<cfif target_type EQ "annotation"
+				<cfif target_type EQ "ANNOTATIONS"
 					AND isdefined("session.roles")
 					AND listfindnocase(session.roles,"manage_collection")
 					AND len(trim(root_mask_annotation_fg)) GT 0
@@ -878,8 +871,8 @@ An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name
     			</blockquote>
     
     			View details at
-    			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#target_type#&id=#target_id#">
-    			#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#target_type#&id=#target_id#
+    			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#variables.target_type#&id=#target_id#">
+    			#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#variables.target_type#&id=#target_id#
     			</a>
 			</cfmail>
 			<cfset newline= Chr(13) & Chr(10)>
@@ -920,7 +913,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset var generatedDialogId = "reviewAnnotationsDialog_" & val(arguments.collection_object_id)>
 	<cfreturn getAnnotationDialogHtml(
-		target_type = "collection_object",
+		target_type = "COLLECTION_OBJECT",
 		target_id = val(arguments.collection_object_id),
 		dialogId = generatedDialogId
 	)>
@@ -1660,7 +1653,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<cfif rtData.recordcount GT 0>
 							<cfset rootTargetSummary = "Cataloged Item <strong><a href='/guid/MCZ:#rtData.collection_cde#:#rtData.cat_num#' target='_blank'>MCZ:#rtData.collection_cde#:#rtData.cat_num#</a></strong> #rtData.display_name#">
 						</cfif>
-					<cfelseif rtTable EQ "TAXON_NAME">
+					<cfelseif rtTable EQ "TAXONOMY">
 						<cfquery name="rtData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							SELECT display_name, author_text FROM taxonomy
 							WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
