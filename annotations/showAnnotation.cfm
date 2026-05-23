@@ -209,9 +209,10 @@ limitations under the License.
 				<cfset variables.targetSummary = "Cataloged Item " & targetRecord.institution_acronym & ":" & targetRecord.collection_cde & ":" & targetRecord.cat_num & " " & targetRecord.display_name>
 			</cfif>
 		</cfcase>
-		<cfcase value="TAXON_NAME">
+		<cfcase value="TAXONOMY">
 			<cfquery name="targetRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-				SELECT display_name, scientific_name FROM taxonomy
+				SELECT display_name, scientific_name 
+				FROM taxonomy
 				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.targetId#">
 			</cfquery>
 			<cfif targetRecord.recordcount EQ 1>
@@ -221,7 +222,10 @@ limitations under the License.
 		</cfcase>
 		<cfcase value="PUBLICATION">
 			<cfquery name="targetRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-				SELECT formatted_publication FROM formatted_publication WHERE publication_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#variables.targetId#'> AND format_style = 'short'
+				SELECT formatted_publication 
+				FROM formatted_publication 
+				WHERE publication_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#variables.targetId#'> 
+					AND format_style = 'short'
 			</cfquery>
 			<cfif targetRecord.recordcount EQ 1>
 				<cfset variables.targetIRI = Application.ServerRootUrl & "/publications/showPublication.cfm?publication_id=" & variables.targetId>
@@ -230,7 +234,9 @@ limitations under the License.
 		</cfcase>
 		<cfcase value="PROJECT">
 			<cfquery name="targetRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-				SELECT project_name FROM project WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.targetId#">
+				SELECT project_name 
+				FROM project 
+				WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.targetId#">
 			</cfquery>
 			<cfif targetRecord.recordcount EQ 1>
 				<cfset variables.targetIRI = Application.ServerRootUrl & "/projects/Project.cfm?project_id=" & variables.targetId>
@@ -247,9 +253,10 @@ limitations under the License.
 	<cfset variables.canAnnotate = false>
 	<cfif isDefined("session.username") AND len(session.username) GT 0>
 		<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-			SELECT email FROM cf_user_data, cf_users
+			SELECT email 
+			FROM cf_user_data, cf_users
 			WHERE cf_user_data.user_id = cf_users.user_id
-			AND cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif hasEmail.recordcount GT 0 AND len(hasEmail.email) GT 0>
 			<cfset variables.canAnnotate = true>

@@ -173,11 +173,11 @@
 			<cfif existingAnnotations.cnt GT 0>
 				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
 					class="smallBtn" value="Annotate this record and view existing annotations"
-					onClick="openAnnotationsDialog('annotationDialog','project',#project_id#,null);">Annotate/View Annotations</button>
+					onClick="openAnnotationsDialog('annotationDialog','PROJECT',#project_id#,null);">Annotate/View Annotations</button>
 			<cfelse>
 				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
 					class="smallBtn" value="Annotate this record"
-					onClick="openAnnotationsDialog('annotationDialog','project',#project_id#,null);">Annotate</button>
+					onClick="openAnnotationsDialog('annotationDialog','PROJECT',#project_id#,null);">Annotate</button>
 			</cfif>
 			<div id="annotationDialog"></div>
 			<cfif existingAnnotations.cnt gt 0>

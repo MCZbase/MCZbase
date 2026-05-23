@@ -221,7 +221,7 @@ function openReplyAnnotationDialog(rootAnnotationId, callback=null) {
 		dialogElement.id = dialogId;
 		document.body.appendChild(dialogElement);
 	}
-	openAnnotationsDialog(dialogId, "annotation", parsedRootAnnotationId, callback);
+	openAnnotationsDialog(dialogId, "ANNOTATIONS", parsedRootAnnotationId, callback);
 	return true;
 }
 
