@@ -1125,6 +1125,113 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
+<!--- getAnnotationHistoryDialogHtml - return HTML for dialog display of one annotation's change history.
+ @param annotation_id numeric annotation primary key.
+ @return HTML string containing ordered history rows from ANNOTATION_HISTORY for one annotation.
+--->
+<cffunction name="getAnnotationHistoryDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="annotation_id" type="numeric" required="yes">
+	<cfset var historyDialogHtml = "">
+	<cfset var annotationExists = QueryNew("")>
+	<cfset var annotationHistory = QueryNew("")>
+	<cfset var changedByDisplay = "">
+	<cfset var queryError = "">
+	<cfset var message = "">
+
+	<cfsavecontent variable="historyDialogHtml">
+		<cftry>
+			<cfoutput>
+				<cfquery name="annotationExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					SELECT annotation_id
+					FROM annotations
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+				</cfquery>
+				<cfif annotationExists.recordcount EQ 0>
+					<div class="alert alert-warning mb-2">
+						Annotation #encodeForHTML(arguments.annotation_id)# was not found.
+					</div>
+					<cfabort>
+				</cfif>
+
+				<cfquery name="annotationHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						TO_CHAR(h.changed_date, 'YYYY-MM-DD HH24:MI:SS') AS changed_date,
+						h.changed_by_username AS changed_by_username,
+						pan.agent_name AS changed_by_agent_name,
+						h.event_type AS event_type,
+						h.changed_field AS changed_field,
+						h.old_value AS old_value,
+						h.new_value AS new_value
+					FROM annotation_history h
+					LEFT OUTER JOIN preferred_agent_name pan ON h.changed_by_agent_id = pan.agent_id
+					WHERE h.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+					ORDER BY h.changed_date DESC, h.annotation_history_id DESC
+				</cfquery>
+
+				<div class="container-fluid px-0">
+					<h2 class="h5 mb-2">History for Annotation #encodeForHTML(arguments.annotation_id)#</h2>
+					<cfif annotationHistory.recordcount EQ 0>
+						<p class="text-muted mb-0">No history records were found for this annotation.</p>
+					<cfelse>
+						<div class="table-responsive">
+							<table class="table table-sm table-striped table-bordered mb-1" aria-label="Annotation history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">
+								<thead class="thead-light">
+									<tr>
+										<th scope="col">Changed Date</th>
+										<th scope="col">Changed By</th>
+										<th scope="col">Event Type</th>
+										<th scope="col">Changed Field</th>
+										<th scope="col">Old Value</th>
+										<th scope="col">New Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="annotationHistory">
+										<cfset changedByDisplay = trim(annotationHistory.changed_by_username)>
+										<cfif len(trim(annotationHistory.changed_by_agent_name)) GT 0>
+											<cfif len(changedByDisplay) GT 0>
+												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name) & " (" & changedByDisplay & ")">
+											<cfelse>
+												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name)>
+											</cfif>
+										</cfif>
+										<cfif len(changedByDisplay) EQ 0><cfset changedByDisplay = "[unknown]"></cfif>
+										<tr>
+											<td><cfif len(trim(annotationHistory.changed_date)) GT 0>#encodeForHTML(annotationHistory.changed_date)#<cfelse><span class="text-muted">[unknown]</span></cfif></td>
+											<td>#encodeForHTML(changedByDisplay)#</td>
+											<td><cfif len(trim(annotationHistory.event_type)) GT 0>#encodeForHTML(annotationHistory.event_type)#<cfelse><span class="text-muted">[unspecified]</span></cfif></td>
+											<td><cfif len(trim(annotationHistory.changed_field)) GT 0>#encodeForHTML(annotationHistory.changed_field)#<cfelse><span class="text-muted">[unspecified]</span></cfif></td>
+											<td><cfif len(trim(annotationHistory.old_value)) GT 0><span class="small">#encodeForHTML(annotationHistory.old_value)#</span><cfelse><span class="text-muted">[empty]</span></cfif></td>
+											<td><cfif len(trim(annotationHistory.new_value)) GT 0><span class="small">#encodeForHTML(annotationHistory.new_value)#</span><cfelse><span class="text-muted">[empty]</span></cfif></td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</cfif>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container-fluid px-0">
+					<div class="alert alert-danger mb-0" role="alert">
+						<p class="mb-1"><strong>Unable to load annotation history.</strong></p>
+						<p class="mb-0">#message#</p>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfsavecontent>
+
+	<cfreturn trim(historyDialogHtml)>
+</cffunction>
+
+
 <!--- Retrieve child/reply annotations for a list of root annotation ids.
  @param rootAnnotationIds comma-delimited list of annotation.annotation_id values.
  @return query of child annotations keyed by parent_annotation_id.
@@ -1371,6 +1478,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							</cfif>
 						</cfif>
 					</cfif>
+					<button type="button" class="btn btn-xs btn-outline-secondary mb-1 open-annotation-history-dialog" data-history-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" aria-label="View history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">History</button>
 					<cfif NOT arguments.is_response>
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
 					</cfif>

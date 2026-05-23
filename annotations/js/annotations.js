@@ -49,6 +49,11 @@ jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	return openEditAnnotationDialog(annotationId, callback);
 });
 
+jQuery(document).on("click", ".open-annotation-history-dialog", function() {
+	var annotationId = jQuery(this).attr("data-history-annotation-id");
+	return openAnnotationHistoryDialog(annotationId);
+});
+
 /** Set default root resolution to NOTABUG when motivation is commenting.
  * Does not overwrite an already-selected resolution.
  * @param motivationFieldId id of motivation select.
@@ -306,6 +311,80 @@ function openEditAnnotationDialog(annotationId, callback=null) {
  */
 function openEditResponseAnnotationDialog(annotationId, callback=null) {
 	return openEditAnnotationDialog(annotationId, callback);
+}
+
+/** Open a dialog showing change history for a single annotation.
+ * Loads getAnnotationHistoryDialogHtml and renders history rows from ANNOTATION_HISTORY.
+ * @param annotationId annotation_id of the annotation.
+ * @param callback optional function to execute when the dialog closes.
+ */
+function openAnnotationHistoryDialog(annotationId, callback=null) {
+	var parsedAnnotationId = parseInt(annotationId, 10);
+	if (!Number.isFinite(parsedAnnotationId) || parsedAnnotationId <= 0) {
+		messageDialog("Unable to open history dialog for this annotation.","Annotation History");
+		return false;
+	}
+	var dialogId = "annotationHistoryDialog_" + String(parsedAnnotationId);
+	if (!document.getElementById(dialogId)) {
+		var dialogElement = document.createElement("div");
+		dialogElement.id = dialogId;
+		document.body.appendChild(dialogElement);
+	}
+	var title = "Annotation History";
+	var content = '<div id="'+dialogId+'_div">Loading...</div>';
+	var h = $(window).height();
+	if (h>750) { h=750; }
+	var w = $(window).width();
+	if (w>414 && w<=1333) {
+		w = Math.floor(w *.9);
+	} else if (w>1333) {
+		w = 1100;
+	}
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 300,
+		draggable: true,
+		buttons: {
+			"Close": function() {
+				$("#"+dialogId).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			if (jQuery.type(callback)==='function') callback();
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "get",
+		data: {
+			method: "getAnnotationHistoryDialogHtml",
+			returnformat: "plain",
+			annotation_id: parsedAnnotationId
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading annotation history dialog");
+		}
+	});
+	return true;
 }
 
 /** Open a dialog showing the full conversation for a root annotation.
