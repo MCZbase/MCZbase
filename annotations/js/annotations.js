@@ -331,7 +331,7 @@ function openAnnotationHistoryDialog(annotationId, callback=null) {
 		document.body.appendChild(dialogElement);
 	}
 	var title = "Annotation History";
-	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var h = $(window).height();
 	if (h>750) { h=750; }
 	var w = $(window).width();
