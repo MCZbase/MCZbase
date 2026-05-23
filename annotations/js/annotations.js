@@ -27,8 +27,8 @@ function reloadAnnotationBlock(rootAnnotationId) {
 }
 
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
-	var targetAnnotationId = jQuery(this).attr("data-target-annotation-id") || jQuery(this).attr("data-root-annotation-id");
-	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
+	var targetAnnotationId = $(this).attr("data-target-annotation-id") || $(this).attr("data-root-annotation-id");
+	var rootAnnotationId = $(this).attr("data-root-annotation-id");
 	var callback = null;
 	if (rootAnnotationId && document.getElementById("annotation-block-" + rootAnnotationId)) {
 		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
