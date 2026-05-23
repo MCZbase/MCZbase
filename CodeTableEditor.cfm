@@ -18,7 +18,7 @@
          c.comments
 		FROM 
 			sys.user_tables t
-			LEFT JOIN sys.user_tab_comments c ON sys.user_tables.table_name = c.table_name
+			LEFT JOIN sys.user_tab_comments c ON t.table_name = c.table_name
 		WHERE 
 			t.table_name like 'CT%'
 		UNION 
