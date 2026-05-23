@@ -484,30 +484,14 @@ limitations under the License.
 								root_annotation_id="#rootAnn.annotation_id#"
 								show_reply_action="#variables.canAnnotate OR variables.canManage#">
 							#rootRowHtml#
-							<cfif replyAnns.recordcount GT 0>
-								<div class="ml-4 pl-0 border-left border-dark" data-reply-parent-id="#variables.rootAnnotationId#">
-									<cfloop query="replyAnns">
-										<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
-											<cfif len(replyAnns.body_value) GT 0><cfset variables.replyDisplayText = replyAnns.body_value><cfelse><cfset variables.replyDisplayText = replyAnns.annotation></cfif>
-											<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="replyRowHtml"
-												annotation_id="#replyAnns.annotation_id#"
-												annotation_display="#variables.replyDisplayText#"
-												cf_username="#replyAnns.cf_username#"
-												email="#replyAnns.annotator_email#"
-												annotate_date="#replyAnns.annotate_date#"
-												motivation="#replyAnns.motivation#"
-												reviewed_fg="#replyAnns.reviewed_fg#"
-												reviewer="#replyAnns.reviewer_name#"
-												reviewer_comment="#replyAnns.reviewer_comment#"
-												mask_annotation_fg="#replyAnns.mask_annotation_fg#"
-												is_response="true"
-												root_annotation_id="#variables.rootAnnotationId#"
-												parent_mask_annotation_fg="#rootAnn.mask_annotation_fg#"
-												show_reply_action="false">
-											#replyRowHtml#
-										</cfif>
-									</cfloop>
-								</div>
+							<cfinvoke component="/annotations/component/functions" method="getAnnotationThreadForRoot" returnvariable="variables.fullThread"
+							rootAnnotationId="#variables.rootAnnotationId#">
+							<cfinvoke component="/annotations/component/functions" method="renderAnnotationThreadSection" returnvariable="variables.threadSectionHtml"
+								rootAnnotationId="#variables.rootAnnotationId#"
+								threadAnnotations="#variables.fullThread#"
+								root_mask_annotation_fg="#rootAnn.mask_annotation_fg#">
+							<cfif len(trim(variables.threadSectionHtml)) GT 0>
+								#variables.threadSectionHtml#
 							<cfelse>
 								<div class="card-body py-1 text-muted small"><em>No replies yet.</em></div>
 							</cfif>

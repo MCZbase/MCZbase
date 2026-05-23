@@ -254,10 +254,15 @@ limitations under the License.
 						</cfif>
 						<cfset targetAnnotationId = d.annotation_id>
 						<cfset targetAnnotationBody = d.body_value>
+						<cfset var targetBodyPreview = "">
 						<cfif len(targetAnnotationBody) GT 0>
-							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#">
+							<cfset targetBodyPreview = left(targetAnnotationBody, 60)>
+							<cfif len(targetAnnotationBody) GT 60><cfset targetBodyPreview = targetBodyPreview & "..."></cfif>
+						</cfif>
+						<cfif len(targetBodyPreview) GT 0>
+							<cfset summary = "Annotation: " & encodeForHTML(targetBodyPreview) & " (" & targetAnnotationId & ")">
 						<cfelse>
-							<cfset summary="Annotation <strong>#targetAnnotationId#</strong>">
+							<cfset summary = "Annotation (" & targetAnnotationId & ")">
 						</cfif>
 						<cfquery name="annotationRootForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT annotation_id
@@ -272,10 +277,10 @@ limitations under the License.
 						</cfquery>
 						<cfif annotationRootForDialog.recordcount EQ 1>
 							<cfset responseRootAnnotationId = annotationRootForDialog.annotation_id>
-							<cfset dialogTargetId = annotationRootForDialog.annotation_id>
 						<cfelse>
 							<cfset responseRootAnnotationId = targetAnnotationId>
 						</cfif>
+						<cfset dialogTargetId = targetAnnotationId>
 						<cfquery name="rootAnnotationMotivationForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							SELECT motivation
 							FROM annotations
@@ -285,10 +290,10 @@ limitations under the License.
 							<cfset rootAnnotationMotivation = rootAnnotationMotivationForDialog.motivation>
 						</cfif>
 						<cfif responseRootAnnotationId NEQ targetAnnotationId>
-							<cfif len(targetAnnotationBody) GT 0>
-								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>: #encodeForHTML(targetAnnotationBody)#"><!--- " --->
+							<cfif len(targetBodyPreview) GT 0>
+								<cfset summary = "Response Annotation: " & encodeForHTML(targetBodyPreview) & " (" & targetAnnotationId & ")">
 							<cfelse>
-								<cfset summary="Response Annotation <strong>#targetAnnotationId#</strong>">
+								<cfset summary = "Response Annotation (" & targetAnnotationId & ")">
 							</cfif>
 							<cfquery name="rootAnnotationSummaryForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT a.annotation_id, atb.body_value
@@ -301,10 +306,15 @@ limitations under the License.
 								WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
 							</cfquery>
 							<cfif rootAnnotationSummaryForDialog.recordcount EQ 1>
+								<cfset var rootBodyPreview = "">
 								<cfif len(rootAnnotationSummaryForDialog.body_value) GT 0>
-									<cfset summary = summary & '<span class="small d-block mt-1">Root Annotation <strong>' & responseRootAnnotationId & '</strong>: ' & encodeForHTML(rootAnnotationSummaryForDialog.body_value) & '</span>'>
+									<cfset rootBodyPreview = left(rootAnnotationSummaryForDialog.body_value, 60)>
+									<cfif len(rootAnnotationSummaryForDialog.body_value) GT 60><cfset rootBodyPreview = rootBodyPreview & "..."></cfif>
+								</cfif>
+								<cfif len(rootBodyPreview) GT 0>
+									<cfset summary = summary & '<span class="small d-block mt-1">Root annotation: ' & encodeForHTML(rootBodyPreview) & ' (' & responseRootAnnotationId & ')</span>'>
 								<cfelse>
-									<cfset summary = summary & '<span class="small d-block mt-1">Root Annotation <strong>' & responseRootAnnotationId & '</strong></span>'>
+									<cfset summary = summary & '<span class="small d-block mt-1">Root annotation (' & responseRootAnnotationId & ')</span>'>
 								</cfif>
 							</cfif>
 						</cfif>
@@ -503,7 +513,7 @@ limitations under the License.
 											ORDER BY ANNOTATE_DATE
 										</cfquery>
 										<cfif rootDialogAnnotations.recordcount GT 0>
-											<cfset dialogChildAnno = getChildAnnotationsForRoots(valueList(rootDialogAnnotations.annotation_id))>
+											<cfset var dialogThread = getAnnotationThreadsForRoots(valueList(rootDialogAnnotations.annotation_id))>
 											<div class="card border-0 mt-1">
 												<cfloop query="rootDialogAnnotations">
 													<cfif len(body_value) GT 0>
@@ -528,7 +538,7 @@ limitations under the License.
 														root_annotation_id=annotation_id,
 														show_reply_action=true)>
 													#dialogRootRowHtml#
-													#renderAnnotationConversationSection(rootAnnotationId=rootDialogAnnotations.annotation_id, childAnnotations=dialogChildAnno, root_mask_annotation_fg=mask_annotation_fg)#
+													#renderAnnotationThreadSection(rootAnnotationId=rootDialogAnnotations.annotation_id, threadAnnotations=dialogThread, root_mask_annotation_fg=mask_annotation_fg)#
 												</cfloop>
 											</div>
 										</cfif>
@@ -1283,6 +1293,109 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
+<!--- getAnnotationThreadsForRoots Retrieve full annotation threads for one or more root annotations, including all descendants at any depth.
+ Uses Oracle hierarchical CONNECT BY to walk from each root down through all reply annotations.
+ Masked annotations and their descendants are excluded for users without the coldfusion_user role,
+ except root nodes at LEVEL=1 which are always included so callers can handle root visibility.
+ @param rootAnnotationIds comma-delimited list of annotation_id values for root annotations (target_table != 'ANNOTATIONS').
+ @return query with columns: annotation_id, parent_annotation_id (NULL for roots), root_annotation_id, depth, display_summary, annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg, state, resolution, reviewer, reviewer_comment, mask_annotation_fg.
+--->
+<cffunction name="getAnnotationThreadsForRoots" returntype="query" access="public">
+	<cfargument name="rootAnnotationIds" type="string" required="yes">
+	<cfset var threadAnnotations = QueryNew("")>
+	<cfif len(trim(arguments.rootAnnotationIds)) EQ 0>
+		<cfreturn threadAnnotations>
+	</cfif>
+	<cfquery name="threadAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			a.annotation_id,
+			CASE WHEN LEVEL = 1 THEN NULL ELSE a.target_primary_key END AS parent_annotation_id,
+			CONNECT_BY_ROOT a.annotation_id AS root_annotation_id,
+			LEVEL - 1 AS depth,
+			NVL(atb.body_value, a.annotation) AS annotation_display,
+			CASE
+				WHEN LENGTH(NVL(atb.body_value, a.annotation)) <= 60
+					THEN NVL(atb.body_value, a.annotation)
+				ELSE SUBSTR(NVL(atb.body_value, a.annotation), 1, 60) || '...'
+			END AS display_summary,
+			a.cf_username,
+			cud.email,
+			a.annotate_date,
+			a.motivation,
+			a.reviewed_fg,
+			a.state,
+			a.resolution,
+			pan.agent_name AS reviewer,
+			a.reviewer_comment,
+			a.mask_annotation_fg
+		FROM annotations a
+		LEFT JOIN cf_users cu ON a.cf_username = cu.username
+		LEFT JOIN cf_user_data cud ON cu.user_id = cud.user_id
+		LEFT JOIN preferred_agent_name pan ON a.reviewer_agent_id = pan.agent_id
+		LEFT JOIN (
+			SELECT annotation_id, body_value,
+				ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+			FROM annotation_textualbody
+		) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+		<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+		WHERE LEVEL = 1 OR a.mask_annotation_fg = 0 OR a.cf_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfif>
+		START WITH a.annotation_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationIds#" list="yes">)
+		CONNECT BY PRIOR a.annotation_id = a.target_primary_key
+			AND a.target_table = 'ANNOTATIONS'
+			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+			AND PRIOR a.mask_annotation_fg = 0
+			</cfif>
+		ORDER SIBLINGS BY a.annotate_date
+	</cfquery>
+	<cfreturn threadAnnotations>
+</cffunction>
+
+
+<!--- getAnnotationThreadForRoot Retrieve the full annotation thread for a single root annotation.
+ Wraps getAnnotationThreadsForRoots for single-root use.
+ @param rootAnnotationId annotation_id of the root annotation.
+ @return query with thread columns from getAnnotationThreadsForRoots.
+--->
+<cffunction name="getAnnotationThreadForRoot" returntype="query" access="public">
+	<cfargument name="rootAnnotationId" type="numeric" required="yes">
+	<cfreturn getAnnotationThreadsForRoots(arguments.rootAnnotationId)>
+</cffunction>
+
+
+<!--- getDescendantCountsForRoots Return total descendant counts for a list of root annotation ids.
+ Counts all descendants at any depth visible to the current user, not only direct children.
+ @param rootAnnotationIds comma-delimited list of annotation_id values for root annotations.
+ @return query with columns root_annotation_id and descendant_count.
+--->
+<cffunction name="getDescendantCountsForRoots" returntype="query" access="public">
+	<cfargument name="rootAnnotationIds" type="string" required="yes">
+	<cfset var descendantCounts = QueryNew("root_annotation_id,descendant_count")>
+	<cfif len(trim(arguments.rootAnnotationIds)) EQ 0>
+		<cfreturn descendantCounts>
+	</cfif>
+	<cfquery name="descendantCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			CONNECT_BY_ROOT annotation_id AS root_annotation_id,
+			COUNT(*) - 1 AS descendant_count
+		FROM annotations
+		<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+		WHERE LEVEL = 1
+			OR (mask_annotation_fg = 0)
+			OR cf_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfif>
+		START WITH annotation_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationIds#" list="yes">)
+		CONNECT BY PRIOR annotation_id = target_primary_key
+			AND target_table = 'ANNOTATIONS'
+			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+			AND PRIOR mask_annotation_fg = 0
+			</cfif>
+		GROUP BY CONNECT_BY_ROOT annotation_id
+	</cfquery>
+	<cfreturn descendantCounts>
+</cffunction>
+
+
 <!--- Render conversation section with existing child annotations indented with a left border.
  @param rootAnnotationId annotation.annotation_id for the root annotation.
  @param childAnnotations query from getChildAnnotationsForRoots().
@@ -1333,6 +1446,176 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						parent_mask_annotation_fg=arguments.root_mask_annotation_fg
 					)>
 					#childRowHTML#
+				</cfloop>
+			</div>
+		</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn trim(sectionHtml)>
+</cffunction>
+
+
+<!--- renderAnnotationThreadSection Render the full annotation conversation thread below a root annotation.
+ Renders depth-1 replies with one level of indentation, depth-2 replies with two levels of indentation,
+ and depth-3 or deeper replies in a flat chronological section with parent context labels.
+ Reply and edit actions are available on all annotations for users with the manage_collection role.
+ History is available on all annotations. Shows total descendant reply count.
+ @param rootAnnotationId annotation.annotation_id of the root annotation.
+ @param threadAnnotations query from getAnnotationThreadsForRoots or getAnnotationThreadForRoot.
+ @param editing_annotation_id optional; annotation_id currently being edited; highlights that row.
+ @param root_mask_annotation_fg optional; mask_annotation_fg value of the root annotation.
+ @return html snippet for the full conversation thread below the root.
+--->
+<cffunction name="renderAnnotationThreadSection" returntype="string" access="public">
+	<cfargument name="rootAnnotationId" type="numeric" required="yes">
+	<cfargument name="threadAnnotations" type="query" required="yes">
+	<cfargument name="editing_annotation_id" type="string" required="no" default="">
+	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="0">
+	<cfset var sectionHtml = "">
+	<cfset var canManage = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+	<cfset var localThread = arguments.threadAnnotations>
+	<cfset var allDescendants = QueryNew("")>
+	<cfset var depth1Nodes = QueryNew("")>
+	<cfset var depth2Children = QueryNew("")>
+	<cfset var deepNodes = QueryNew("")>
+	<cfset var parentRow = QueryNew("")>
+	<cfset var descendantCount = 0>
+	<cfset var rowHtml = "">
+	<cfset var parentSummary = "">
+	<cfset var currentParentId = 0>
+	<cfif arguments.threadAnnotations.recordcount EQ 0>
+		<cfreturn "">
+	</cfif>
+	<cfquery name="allDescendants" dbtype="query">
+		SELECT annotation_id, parent_annotation_id, root_annotation_id, depth, display_summary,
+			annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
+			reviewer, reviewer_comment, mask_annotation_fg
+		FROM localThread
+		WHERE root_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationId#">
+			AND depth > 0
+		ORDER BY annotate_date
+	</cfquery>
+	<cfset descendantCount = allDescendants.recordcount>
+	<cfif descendantCount EQ 0>
+		<cfreturn "">
+	</cfif>
+	<cfquery name="depth1Nodes" dbtype="query">
+		SELECT annotation_id, parent_annotation_id, depth, display_summary,
+			annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
+			reviewer, reviewer_comment, mask_annotation_fg
+		FROM allDescendants
+		WHERE depth = 1
+		ORDER BY annotate_date
+	</cfquery>
+	<cfquery name="deepNodes" dbtype="query">
+		SELECT annotation_id, parent_annotation_id, depth, display_summary,
+			annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
+			reviewer, reviewer_comment, mask_annotation_fg
+		FROM allDescendants
+		WHERE depth >= 3
+		ORDER BY annotate_date
+	</cfquery>
+	<cfsavecontent variable="sectionHtml">
+		<cfoutput>
+		<div class="text-muted small ml-4 pl-2 mt-1" aria-label="Thread reply count">
+			<cfif descendantCount EQ 1>1 response<cfelse>#descendantCount# responses</cfif> in thread
+		</div>
+		<cfif depth1Nodes.recordcount GT 0>
+			<div class="ml-4 pl-0 border-left border-dark" data-reply-parent-id="#arguments.rootAnnotationId#">
+				<cfloop query="depth1Nodes">
+					<cfset rowHtml = renderAnnotationReviewRow(
+						annotation_id=depth1Nodes.annotation_id,
+						annotation_display=depth1Nodes.annotation_display,
+						cf_username=depth1Nodes.cf_username,
+						email=depth1Nodes.email,
+						annotate_date=depth1Nodes.annotate_date,
+						motivation=depth1Nodes.motivation,
+						reviewed_fg=depth1Nodes.reviewed_fg,
+						reviewer=depth1Nodes.reviewer,
+						reviewer_comment=depth1Nodes.reviewer_comment,
+						mask_annotation_fg=depth1Nodes.mask_annotation_fg,
+						is_response=true,
+						root_annotation_id=arguments.rootAnnotationId,
+						show_reply_action=canManage,
+						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth1Nodes.annotation_id) EQ val(arguments.editing_annotation_id)),
+						parent_mask_annotation_fg=arguments.root_mask_annotation_fg
+					)>
+					#rowHtml#
+					<cfset currentParentId = depth1Nodes.annotation_id>
+					<cfquery name="depth2Children" dbtype="query">
+						SELECT annotation_id, parent_annotation_id, depth, display_summary,
+							annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
+							reviewer, reviewer_comment, mask_annotation_fg
+						FROM allDescendants
+						WHERE depth = 2 AND parent_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#currentParentId#">
+						ORDER BY annotate_date
+					</cfquery>
+					<cfif depth2Children.recordcount GT 0>
+						<div class="ml-4 pl-0 border-left border-secondary" data-reply-parent-id="#depth1Nodes.annotation_id#">
+							<cfloop query="depth2Children">
+								<cfset rowHtml = renderAnnotationReviewRow(
+									annotation_id=depth2Children.annotation_id,
+									annotation_display=depth2Children.annotation_display,
+									cf_username=depth2Children.cf_username,
+									email=depth2Children.email,
+									annotate_date=depth2Children.annotate_date,
+									motivation=depth2Children.motivation,
+									reviewed_fg=depth2Children.reviewed_fg,
+									reviewer=depth2Children.reviewer,
+									reviewer_comment=depth2Children.reviewer_comment,
+									mask_annotation_fg=depth2Children.mask_annotation_fg,
+									is_response=true,
+									root_annotation_id=arguments.rootAnnotationId,
+									show_reply_action=canManage,
+									highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth2Children.annotation_id) EQ val(arguments.editing_annotation_id)),
+									parent_mask_annotation_fg=arguments.root_mask_annotation_fg
+								)>
+								#rowHtml#
+							</cfloop>
+						</div>
+					</cfif>
+				</cfloop>
+			</div>
+		</cfif>
+		<cfif deepNodes.recordcount GT 0>
+			<div class="ml-4 pl-0 border-left border-secondary mt-1" data-thread-deep="true">
+				<div class="px-2 pt-1 pb-0">
+					<span class="badge badge-secondary" style="font-size:0.75em;">Deeper Thread</span>
+				</div>
+				<cfloop query="deepNodes">
+					<cfset parentSummary = "">
+					<cfif isNumeric(deepNodes.parent_annotation_id) AND val(deepNodes.parent_annotation_id) GT 0>
+						<cfquery name="parentRow" dbtype="query">
+							SELECT display_summary, annotation_id FROM localThread
+							WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deepNodes.parent_annotation_id#">
+						</cfquery>
+						<cfif parentRow.recordcount GT 0>
+							<cfset parentSummary = encodeForHTML(parentRow.display_summary) & " (" & parentRow.annotation_id & ")">
+						</cfif>
+					</cfif>
+					<cfif len(parentSummary) GT 0>
+						<div class="px-2 pt-1 pb-0 text-muted small" aria-label="Replying to annotation">
+							&##8627; Replying to: #parentSummary#
+						</div>
+					</cfif>
+					<cfset rowHtml = renderAnnotationReviewRow(
+						annotation_id=deepNodes.annotation_id,
+						annotation_display=deepNodes.annotation_display,
+						cf_username=deepNodes.cf_username,
+						email=deepNodes.email,
+						annotate_date=deepNodes.annotate_date,
+						motivation=deepNodes.motivation,
+						reviewed_fg=deepNodes.reviewed_fg,
+						reviewer=deepNodes.reviewer,
+						reviewer_comment=deepNodes.reviewer_comment,
+						mask_annotation_fg=deepNodes.mask_annotation_fg,
+						is_response=true,
+						root_annotation_id=arguments.rootAnnotationId,
+						show_reply_action=canManage,
+						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(deepNodes.annotation_id) EQ val(arguments.editing_annotation_id)),
+						parent_mask_annotation_fg=arguments.root_mask_annotation_fg
+					)>
+					#rowHtml#
 				</cfloop>
 			</div>
 		</cfif>
@@ -1469,8 +1752,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<div class="col-12 col-md-2 pt-3 px-1">
 					<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 						<cfif isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-							<cfif NOT arguments.is_response AND arguments.show_reply_action>
-								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
+							<cfif arguments.show_reply_action>
+								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-target-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 							</cfif>
 							<!--- TODO: Support users editing their own annotations even without manage_collection --->
 							<cfif NOT arguments.highlight_as_editing>
@@ -1542,7 +1825,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfif rootAnno.recordcount EQ 0>
 			<cfreturn "">
 		</cfif>
-		<cfset var childAnnotations = getChildAnnotationsForRoots(arguments.root_annotation_id)>
+		<cfset var threadAnnotations = getAnnotationThreadForRoot(arguments.root_annotation_id)>
 		<cfset var rowHTML = renderAnnotationReviewRow(
 			annotation_id=rootAnno.annotation_id,
 			annotation_display=rootAnno.annotation_display,
@@ -1558,9 +1841,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			mask_annotation_fg=rootAnno.mask_annotation_fg,
 			show_reply_action=true
 		)>
-		<cfset var convHTML = renderAnnotationConversationSection(
+		<cfset var convHTML = renderAnnotationThreadSection(
 			rootAnnotationId=rootAnno.annotation_id,
-			childAnnotations=childAnnotations,
+			threadAnnotations=threadAnnotations,
 			root_mask_annotation_fg=rootAnno.mask_annotation_fg
 		)>
 		<cfsavecontent variable="blockHtml">
@@ -1944,7 +2227,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							</div>
 							</cfif>
 							<!--- Context: root annotation + its responses in a card with target in the card header --->
-							<cfset ctxChildAnno = getChildAnnotationsForRoots(rootAnnotationId)>
+							<cfset var ctxThread = getAnnotationThreadForRoot(rootAnnotationId)>
 							<cfquery name="ctxRoot" dbtype="query">
 								SELECT
 									ANNOTATION_ID, ANNOTATE_DATE, CF_USERNAME, ANNOTATION,
@@ -2090,7 +2373,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											show_reply_action=false,
 											highlight_as_editing=(val(ctxRoot.annotation_id) EQ val(arguments.annotation_id)))>
 										#ctxRowHtml#
-										#renderAnnotationConversationSection(rootAnnotationId=ctxRoot.annotation_id, childAnnotations=ctxChildAnno, editing_annotation_id=arguments.annotation_id, root_mask_annotation_fg=ctxRoot.mask_annotation_fg)#
+										#renderAnnotationThreadSection(rootAnnotationId=ctxRoot.annotation_id, threadAnnotations=ctxThread, editing_annotation_id=arguments.annotation_id, root_mask_annotation_fg=ctxRoot.mask_annotation_fg)#
 									</cfloop>
 								<cfelse>
 									<div class="card-body py-1 text-muted small"><em>No annotation context found.</em></div>

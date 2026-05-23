@@ -27,14 +27,15 @@ function reloadAnnotationBlock(rootAnnotationId) {
 }
 
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
+	var targetAnnotationId = jQuery(this).attr("data-target-annotation-id") || jQuery(this).attr("data-root-annotation-id");
 	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
 	var callback = null;
-	if (document.getElementById("annotation-block-" + rootAnnotationId)) {
+	if (rootAnnotationId && document.getElementById("annotation-block-" + rootAnnotationId)) {
 		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
 	} else if (typeof annotationDialogCloseCallback === "function") {
 		callback = annotationDialogCloseCallback;
 	}
-	return openReplyAnnotationDialog(rootAnnotationId, callback);
+	return openReplyAnnotationDialog(targetAnnotationId, callback);
 });
 
 jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
