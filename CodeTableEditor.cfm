@@ -13,19 +13,23 @@
 <cfset title = "Edit Code Tables">
 <cfif action is "nothing">
 	<cfquery name="getCTName" datasource="uam_god">
-		select 
-			distinct(table_name) table_name 
-		from 
-			sys.user_tables 
-		where 
-			table_name like 'CT%'
+		SELECT 
+			distinct(t.table_name) table_name,
+         c.comments
+		FROM 
+			sys.user_tables t
+			LEFT JOIN sys.user_tab_comments c ON sys.user_tables.table_name = c.table_name
+		WHERE 
+			t.table_name like 'CT%'
 		UNION 
-			select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
-		 order by table_name
+			select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name, 'Geologic Attibute Heirarchy Editor' comments from dual
+		ORDER BY table_name
 	</cfquery>
 	<cfloop query="getCTName">
 		<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
-		<a href="/CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><br>
+		<a href="/CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a>
+		<cfif getCTName.comments NEQ "" > &mdash; #getCTName.comments#</cfif>
+		<br>
 	</cfloop>
 <cfelseif action is "edit">
 	<p>
