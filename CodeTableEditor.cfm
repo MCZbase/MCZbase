@@ -2545,9 +2545,6 @@
 	<cfelseif tbl is "CTAUTHORSHIP_ROLE">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctauthorship_role (
-	<cfelseif tbl is "CTAUTHORSHIP_ROLE">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			INSERT INTO ctauthorship_role (
 				authorship_role,
 				ordinal,
 				nomenclatural_code,
