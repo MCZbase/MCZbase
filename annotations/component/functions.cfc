@@ -233,7 +233,7 @@ limitations under the License.
 						<!--- TODO: Manage dialog for individual annotations --->
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
 					</cfcase>
-					<cfcase value="ANNOTATION">
+					<cfcase value="ANNOTATIONS">
 						<cfset annotation_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select
