@@ -1125,224 +1125,110 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
-<!--- getAnnotationHistoryColumnMap - identify available ANNOTATION_HISTORY columns for history display.
- @return struct with discovered column names for annotation_id, changed_date, changed_by, event_type, changed_field, old_value, and new_value.
---->
-<cffunction name="getAnnotationHistoryColumnMap" returntype="struct" access="public">
-	<cfset var columnMap = StructNew("ordered")>
-	<cfset var availableColumns = StructNew("ordered")>
-	<cfset var historyColumns = QueryNew("")>
-	<cfset var columnCandidates = StructNew("ordered")>
-	<cfset var mapKey = "">
-	<cfset var candidate = "">
-
-	<cfquery name="historyColumns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-		SELECT UPPER(column_name) AS column_name
-		FROM user_tab_columns
-		WHERE table_name = 'ANNOTATION_HISTORY'
-	</cfquery>
-	<cfloop query="historyColumns">
-		<cfset availableColumns[historyColumns.column_name] = true>
-	</cfloop>
-
-	<cfif structKeyExists(availableColumns, "ANNOTATION_ID")>
-		<cfset columnMap["annotation_id"] = "ANNOTATION_ID">
-	<cfelse>
-		<cfset columnMap["annotation_id"] = "">
-	</cfif>
-
-	<cfset columnCandidates["changed_date"] = "CHANGED_DATE,CHANGE_DATE,EVENT_DATE,MODIFIED_DATE,CREATED_DATE">
-	<cfset columnCandidates["changed_by"] = "CHANGED_BY,CHANGED_BY_USERNAME,CF_USERNAME,USERNAME,MODIFIED_BY">
-	<cfset columnCandidates["event_type"] = "EVENT_TYPE,ACTION_TYPE,CHANGE_TYPE,EVENT">
-	<cfset columnCandidates["changed_field"] = "CHANGED_FIELD,FIELD_NAME,COLUMN_NAME">
-	<cfset columnCandidates["old_value"] = "OLD_VALUE,PREVIOUS_VALUE,PRIOR_VALUE">
-	<cfset columnCandidates["new_value"] = "NEW_VALUE,CURRENT_VALUE,UPDATED_VALUE">
-
-	<cfloop collection="#columnCandidates#" item="mapKey">
-		<cfset columnMap[mapKey] = "">
-		<cfloop list="#columnCandidates[mapKey]#" index="candidate">
-			<cfif structKeyExists(availableColumns, candidate)>
-				<cfset columnMap[mapKey] = candidate>
-				<cfbreak>
-			</cfif>
-		</cfloop>
-	</cfloop>
-
-	<cfreturn columnMap>
-</cffunction>
-
-
 <!--- getAnnotationHistoryDialogHtml - return HTML for dialog display of one annotation's change history.
  @param annotation_id numeric annotation primary key.
  @return HTML string containing ordered history rows from ANNOTATION_HISTORY for one annotation.
 --->
 <cffunction name="getAnnotationHistoryDialogHtml" returntype="string" access="remote" returnformat="plain">
-		<cfargument name="annotation_id" type="numeric" required="yes">
-		<cfset var historyDialogHtml = "">
-		<cfset var annotationExists = QueryNew("")>
-		<cfset var historyColumnMap = StructNew("ordered")>
-		<cfset var mapKey = "">
-		<cfset var changedDateExpression = "''">
-		<cfset var changedByExpression = "''">
-		<cfset var eventTypeExpression = "''">
-		<cfset var changedFieldExpression = "''">
-		<cfset var oldValueExpression = "''">
-		<cfset var newValueExpression = "''">
-		<cfset var orderByClause = " ORDER BY h.ROWID DESC">
-		<cfset var annotationHistory = QueryNew("")>
-		<cfset var usernameList = "">
-		<cfset var usernameLookup = QueryNew("")>
-		<cfset var usernameDisplayMap = StructNew("ordered")>
-		<cfset var changedByDisplay = "">
-		<cfset var queryError = "">
-		<cfset var message = "">
+	<cfargument name="annotation_id" type="numeric" required="yes">
+	<cfset var historyDialogHtml = "">
+	<cfset var annotationExists = QueryNew("")>
+	<cfset var annotationHistory = QueryNew("")>
+	<cfset var changedByDisplay = "">
+	<cfset var queryError = "">
+	<cfset var message = "">
 
-		<cfsavecontent variable="historyDialogHtml">
-			<cftry>
-				<cfoutput>
-					<cfquery name="annotationExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-						SELECT annotation_id
-						FROM annotations
-						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
-					</cfquery>
-					<cfif annotationExists.recordcount EQ 0>
-						<div class="alert alert-warning mb-2">
-							Annotation #encodeForHTML(arguments.annotation_id)# was not found.
-						</div>
-						<cfabort>
-					</cfif>
+	<cfsavecontent variable="historyDialogHtml">
+		<cftry>
+			<cfoutput>
+				<cfquery name="annotationExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					SELECT annotation_id
+					FROM annotations
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+				</cfquery>
+				<cfif annotationExists.recordcount EQ 0>
+					<div class="alert alert-warning mb-2">
+						Annotation #encodeForHTML(arguments.annotation_id)# was not found.
+					</div>
+					<cfabort>
+				</cfif>
 
-					<cfset historyColumnMap = getAnnotationHistoryColumnMap()>
-					<cfif NOT structKeyExists(historyColumnMap, "annotation_id") OR len(historyColumnMap.annotation_id) EQ 0>
-						<div class="alert alert-warning mb-2">
-							Annotation history is not available for annotation #encodeForHTML(arguments.annotation_id)#.
-						</div>
-						<cfabort>
-					</cfif>
+				<cfquery name="annotationHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						TO_CHAR(h.changed_date, 'YYYY-MM-DD HH24:MI:SS') AS changed_date,
+						h.changed_by_username AS changed_by_username,
+						pan.agent_name AS changed_by_agent_name,
+						h.event_type AS event_type,
+						h.changed_field AS changed_field,
+						h.old_value AS old_value,
+						h.new_value AS new_value
+					FROM annotation_history h
+					LEFT OUTER JOIN preferred_agent_name pan ON h.changed_by_agent_id = pan.agent_id
+					WHERE h.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+					ORDER BY h.changed_date DESC, h.annotation_history_id DESC
+				</cfquery>
 
-					<cfloop collection="#historyColumnMap#" item="mapKey">
-						<cfif len(historyColumnMap[mapKey]) GT 0 AND REFind("^[A-Z0-9_]+$", historyColumnMap[mapKey]) EQ 0>
-							<cfthrow message="Unexpected ANNOTATION_HISTORY column name." detail="#historyColumnMap[mapKey]#">
-						</cfif>
-					</cfloop>
-
-					<cfif len(historyColumnMap.changed_date) GT 0>
-						<cfset changedDateExpression = "TO_CHAR(h." & historyColumnMap.changed_date & ", 'YYYY-MM-DD HH24:MI:SS')">
-						<cfset orderByClause = " ORDER BY h." & historyColumnMap.changed_date & " DESC NULLS LAST, h.ROWID DESC">
-					</cfif>
-					<cfif len(historyColumnMap.changed_by) GT 0>
-						<cfset changedByExpression = "h." & historyColumnMap.changed_by>
-					</cfif>
-					<cfif len(historyColumnMap.event_type) GT 0>
-						<cfset eventTypeExpression = "h." & historyColumnMap.event_type>
-					</cfif>
-					<cfif len(historyColumnMap.changed_field) GT 0>
-						<cfset changedFieldExpression = "h." & historyColumnMap.changed_field>
-					</cfif>
-					<cfif len(historyColumnMap.old_value) GT 0>
-						<cfset oldValueExpression = "h." & historyColumnMap.old_value>
-					</cfif>
-					<cfif len(historyColumnMap.new_value) GT 0>
-						<cfset newValueExpression = "h." & historyColumnMap.new_value>
-					</cfif>
-
-					<cfquery name="annotationHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-						SELECT
-							#preserveSingleQuotes(changedDateExpression)# AS changed_date,
-							#preserveSingleQuotes(changedByExpression)# AS changed_by,
-							#preserveSingleQuotes(eventTypeExpression)# AS event_type,
-							#preserveSingleQuotes(changedFieldExpression)# AS changed_field,
-							#preserveSingleQuotes(oldValueExpression)# AS old_value,
-							#preserveSingleQuotes(newValueExpression)# AS new_value
-						FROM annotation_history h
-						WHERE h.#historyColumnMap.annotation_id# = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
-						#preserveSingleQuotes(orderByClause)#
-					</cfquery>
-
-					<cfif annotationHistory.recordcount GT 0>
-						<cfloop query="annotationHistory">
-							<cfif len(trim(annotationHistory.changed_by)) GT 0>
-								<cfset usernameList = listAppend(usernameList, lcase(trim(annotationHistory.changed_by)))>
-							</cfif>
-						</cfloop>
-					</cfif>
-					<cfif len(usernameList) GT 0>
-						<cfquery name="usernameLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-							SELECT
-								LOWER(cu.username) AS username_key,
-								pan.agent_name
-							FROM cf_users cu
-							LEFT OUTER JOIN agent_name login_name
-								ON login_name.agent_name_type = 'login'
-								AND LOWER(login_name.agent_name) = LOWER(cu.username)
-							LEFT OUTER JOIN preferred_agent_name pan
-								ON pan.agent_id = login_name.agent_id
-							WHERE LOWER(cu.username) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" list="yes" value="#usernameList#">)
-						</cfquery>
-						<cfloop query="usernameLookup">
-							<cfif len(trim(usernameLookup.agent_name)) GT 0>
-								<cfset usernameDisplayMap[usernameLookup.username_key] = usernameLookup.agent_name>
-							</cfif>
-						</cfloop>
-					</cfif>
-
-					<div class="container-fluid px-0">
-						<h2 class="h5 mb-2">History for Annotation #encodeForHTML(arguments.annotation_id)#</h2>
-						<cfif annotationHistory.recordcount EQ 0>
-							<p class="text-muted mb-0">No history records were found for this annotation.</p>
-						<cfelse>
-							<div class="table-responsive">
-								<table class="table table-sm table-striped table-bordered mb-1" aria-label="Annotation history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">
-									<thead class="thead-light">
-										<tr>
-											<th scope="col">Changed Date</th>
-											<th scope="col">Changed By</th>
-											<th scope="col">Event Type</th>
-											<th scope="col">Changed Field</th>
-											<th scope="col">Old Value</th>
-											<th scope="col">New Value</th>
-										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="annotationHistory">
-											<cfset changedByDisplay = trim(annotationHistory.changed_by)>
-											<cfif len(changedByDisplay) GT 0 AND structKeyExists(usernameDisplayMap, lcase(changedByDisplay))>
-												<cfset changedByDisplay = usernameDisplayMap[lcase(changedByDisplay)] & " (" & changedByDisplay & ")">
+				<div class="container-fluid px-0">
+					<h2 class="h5 mb-2">History for Annotation #encodeForHTML(arguments.annotation_id)#</h2>
+					<cfif annotationHistory.recordcount EQ 0>
+						<p class="text-muted mb-0">No history records were found for this annotation.</p>
+					<cfelse>
+						<div class="table-responsive">
+							<table class="table table-sm table-striped table-bordered mb-1" aria-label="Annotation history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">
+								<thead class="thead-light">
+									<tr>
+										<th scope="col">Changed Date</th>
+										<th scope="col">Changed By</th>
+										<th scope="col">Event Type</th>
+										<th scope="col">Changed Field</th>
+										<th scope="col">Old Value</th>
+										<th scope="col">New Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="annotationHistory">
+										<cfset changedByDisplay = trim(annotationHistory.changed_by_username)>
+										<cfif len(trim(annotationHistory.changed_by_agent_name)) GT 0>
+											<cfif len(changedByDisplay) GT 0>
+												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name) & " (" & changedByDisplay & ")">
+											<cfelse>
+												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name)>
 											</cfif>
-											<cfif len(changedByDisplay) EQ 0><cfset changedByDisplay = "[unknown]"></cfif>
-											<tr>
-												<td><cfif len(trim(annotationHistory.changed_date)) GT 0>#encodeForHTML(annotationHistory.changed_date)#<cfelse><span class="text-muted">[unknown]</span></cfif></td>
-												<td>#encodeForHTML(changedByDisplay)#</td>
-												<td><cfif len(trim(annotationHistory.event_type)) GT 0>#encodeForHTML(annotationHistory.event_type)#<cfelse><span class="text-muted">[unspecified]</span></cfif></td>
-												<td><cfif len(trim(annotationHistory.changed_field)) GT 0>#encodeForHTML(annotationHistory.changed_field)#<cfelse><span class="text-muted">[unspecified]</span></cfif></td>
-												<td><cfif len(trim(annotationHistory.old_value)) GT 0><span class="small">#encodeForHTML(annotationHistory.old_value)#</span><cfelse><span class="text-muted">[empty]</span></cfif></td>
-												<td><cfif len(trim(annotationHistory.new_value)) GT 0><span class="small">#encodeForHTML(annotationHistory.new_value)#</span><cfelse><span class="text-muted">[empty]</span></cfif></td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</div>
-						</cfif>
-					</div>
-				</cfoutput>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
-				<cfheader statusCode="500" statusText="#message#">
-				<cfoutput>
-					<div class="container-fluid px-0">
-						<div class="alert alert-danger mb-0" role="alert">
-							<p class="mb-1"><strong>Unable to load annotation history.</strong></p>
-							<p class="mb-0">#message#</p>
+										</cfif>
+										<cfif len(changedByDisplay) EQ 0><cfset changedByDisplay = "[unknown]"></cfif>
+										<tr>
+											<td><cfif len(trim(annotationHistory.changed_date)) GT 0>#encodeForHTML(annotationHistory.changed_date)#<cfelse><span class="text-muted">[unknown]</span></cfif></td>
+											<td>#encodeForHTML(changedByDisplay)#</td>
+											<td><cfif len(trim(annotationHistory.event_type)) GT 0>#encodeForHTML(annotationHistory.event_type)#<cfelse><span class="text-muted">[unspecified]</span></cfif></td>
+											<td><cfif len(trim(annotationHistory.changed_field)) GT 0>#encodeForHTML(annotationHistory.changed_field)#<cfelse><span class="text-muted">[unspecified]</span></cfif></td>
+											<td><cfif len(trim(annotationHistory.old_value)) GT 0><span class="small">#encodeForHTML(annotationHistory.old_value)#</span><cfelse><span class="text-muted">[empty]</span></cfif></td>
+											<td><cfif len(trim(annotationHistory.new_value)) GT 0><span class="small">#encodeForHTML(annotationHistory.new_value)#</span><cfelse><span class="text-muted">[empty]</span></cfif></td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
 						</div>
+					</cfif>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container-fluid px-0">
+					<div class="alert alert-danger mb-0" role="alert">
+						<p class="mb-1"><strong>Unable to load annotation history.</strong></p>
+						<p class="mb-0">#message#</p>
 					</div>
-				</cfoutput>
-				<cfabort>
-			</cfcatch>
-			</cftry>
-		</cfsavecontent>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfsavecontent>
 
-		<cfreturn trim(historyDialogHtml)>
+	<cfreturn trim(historyDialogHtml)>
 </cffunction>
 
 
