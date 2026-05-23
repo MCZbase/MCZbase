@@ -32,6 +32,8 @@ jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	var callback = null;
 	if (rootAnnotationId && document.getElementById("annotation-block-" + rootAnnotationId)) {
 		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
+	} else if (!rootAnnotationId && targetAnnotationId && document.getElementById("annotation-block-" + targetAnnotationId)) {
+		callback = function() { reloadAnnotationBlock(targetAnnotationId); };
 	} else if (typeof annotationDialogCloseCallback === "function") {
 		callback = annotationDialogCloseCallback;
 	}

@@ -1517,7 +1517,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	</cfquery>
 	<cfsavecontent variable="sectionHtml">
 		<cfoutput>
-		<div class="text-muted small ml-4 pl-2 mt-1" aria-label="Thread reply count">
+		<div class="text-muted small ml-4 pl-2 mt-1" aria-label="Thread reply count: #descendantCount# responses in thread">
 			<cfif descendantCount EQ 1>1 response<cfelse>#descendantCount# responses</cfif> in thread
 		</div>
 		<cfif depth1Nodes.recordcount GT 0>
