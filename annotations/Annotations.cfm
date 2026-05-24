@@ -563,10 +563,8 @@ limitations under the License.
 							$('##collection_object_id').val('');
 						});
 						$('##collection').on('change', function () {
-							if ($.trim($('##specimen_guid').val()).length > 0 || $.trim($('##collection_object_id').val()).length > 0) {
-								$('##specimen_guid').val('');
-								$('##collection_object_id').val('');
-							}
+							$('##specimen_guid').val('');
+							$('##collection_object_id').val('');
 						});
 						$('##family').on('change', function () {
 							$('##taxon_name_id').val('');

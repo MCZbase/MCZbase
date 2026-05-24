@@ -1648,6 +1648,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfset rowHtml = renderAnnotationReviewRow(
 						annotation_id=depth1Nodes.annotation_id,
 						annotation_display=depth1Nodes.annotation_display,
+						annotation_summary=depth1Nodes.display_summary,
 						cf_username=depth1Nodes.cf_username,
 						email=depth1Nodes.email,
 						annotate_date=depth1Nodes.annotate_date,
@@ -1683,6 +1684,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<cfset rowHtml = renderAnnotationReviewRow(
 									annotation_id=depth2Children.annotation_id,
 									annotation_display=depth2Children.annotation_display,
+									annotation_summary=depth2Children.display_summary,
 									cf_username=depth2Children.cf_username,
 									email=depth2Children.email,
 									annotate_date=depth2Children.annotate_date,
@@ -1719,6 +1721,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<cfset rowHtml = renderAnnotationReviewRow(
 												annotation_id=deepItem.annotation_id,
 												annotation_display=deepItem.annotation_display,
+												annotation_summary=deepItem.display_summary,
 												cf_username=deepItem.cf_username,
 												email=deepItem.email,
 												annotate_date=deepItem.annotate_date,
@@ -1778,6 +1781,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 <cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
 	<cfargument name="annotation_id"       type="string" required="yes">
 	<cfargument name="annotation_display"  type="string" required="yes">
+	<cfargument name="annotation_summary"  type="string" required="no" default="">
 	<cfargument name="cf_username"         type="string" required="yes">
 	<cfargument name="email"               type="string" required="no" default="">
 	<cfargument name="annotate_date"       type="string" required="yes">
@@ -1808,16 +1812,21 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
 	<cfset var annotationLabelSummary = "">
 	<cfset var summaryText = "">
+	<cfset var maxSummaryLength = 60>
 	<cfif responseReadOnlyLayout>
 		<cfset annotationBodyColClass = "col-12 col-md-7 pt-2 px-1">
 		<cfset annotatorColClass = "col-12 col-md-3 pt-2 px-1">
 		<cfset motivationColClass = "col-12 col-md-2 pt-2 px-1">
 	</cfif>
 	<cfif arguments.is_response>
-		<cfset summaryText = trim(rereplace(arguments.annotation_display, "<[^>]*>", "", "all"))>
+		<cfif len(trim(arguments.annotation_summary)) GT 0>
+			<cfset summaryText = trim(arguments.annotation_summary)>
+		<cfelse>
+			<cfset summaryText = trim(arguments.annotation_display)>
+		</cfif>
 		<cfset summaryText = rereplace(summaryText, "\s+", " ", "all")>
-		<cfif len(summaryText) GT 60>
-			<cfset summaryText = left(summaryText, 57) & "...">
+		<cfif len(summaryText) GT maxSummaryLength>
+			<cfset summaryText = left(summaryText, maxSummaryLength - 3) & "...">
 		</cfif>
 		<cfset annotationLabelSummary = encodeForHTML(summaryText)>
 	</cfif>
