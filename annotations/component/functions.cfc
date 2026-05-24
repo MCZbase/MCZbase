@@ -1479,11 +1479,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var depth1Nodes = QueryNew("")>
 	<cfset var depth2Children = QueryNew("")>
 	<cfset var deepNodes = QueryNew("")>
-	<cfset var parentRow = QueryNew("")>
 	<cfset var descendantCount = 0>
 	<cfset var rowHtml = "">
 	<cfset var parentSummary = "">
 	<cfset var currentParentId = 0>
+	<cfset var parentOf = {}>
+	<cfset var nodeDepth = {}>
+	<cfset var deepByDepth2 = {}>
+	<cfset var walkId = 0>
+	<cfset var walkLimit = 0>
+	<cfset var d2key = "">
+	<cfset var deepItem = {}>
+	<cfset var parentSummaryOf = {}>
 	<cfif arguments.conversationAnnotations.recordcount EQ 0>
 		<cfreturn "">
 	</cfif>
@@ -1516,6 +1523,46 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		WHERE depth >= 3
 		ORDER BY annotate_date
 	</cfquery>
+	<!--- Build parent/depth lookup maps for walking ancestor chains.
+	      Also build a display-summary lookup to avoid N+1 queries when rendering deep replies. --->
+	<cfloop query="allDescendants">
+		<cfset parentOf[allDescendants.annotation_id] = allDescendants.parent_annotation_id>
+		<cfset nodeDepth[allDescendants.annotation_id] = allDescendants.depth>
+		<cfset parentSummaryOf[allDescendants.annotation_id] = encodeForHTML(allDescendants.display_summary) & " (" & allDescendants.annotation_id & ")">
+	</cfloop>
+	<!--- Group each deepNode under its nearest depth-2 ancestor so the deep replies
+	      can be rendered directly below that depth-2 annotation.
+	      walkLimit caps the ancestor walk at 20 levels, well beyond realistic conversation depth. --->
+	<cfloop query="deepNodes">
+		<cfset walkId = deepNodes.parent_annotation_id>
+		<cfset walkLimit = 20>
+		<cfloop condition="walkLimit GT 0 AND structKeyExists(nodeDepth, walkId) AND nodeDepth[walkId] GT 2">
+			<cfif structKeyExists(parentOf, walkId)>
+				<cfset walkId = parentOf[walkId]>
+			<cfelse>
+				<cfbreak>
+			</cfif>
+			<cfset walkLimit = walkLimit - 1>
+		</cfloop>
+		<cfset d2key = "d2_" & walkId>
+		<cfif NOT structKeyExists(deepByDepth2, d2key)>
+			<cfset deepByDepth2[d2key] = []>
+		</cfif>
+		<cfset arrayAppend(deepByDepth2[d2key], {
+			annotation_id = deepNodes.annotation_id,
+			parent_annotation_id = deepNodes.parent_annotation_id,
+			annotation_display = deepNodes.annotation_display,
+			cf_username = deepNodes.cf_username,
+			email = deepNodes.email,
+			annotate_date = deepNodes.annotate_date,
+			motivation = deepNodes.motivation,
+			reviewed_fg = deepNodes.reviewed_fg,
+			reviewer = deepNodes.reviewer,
+			reviewer_comment = deepNodes.reviewer_comment,
+			mask_annotation_fg = deepNodes.mask_annotation_fg,
+			display_summary = deepNodes.display_summary
+		})>
+	</cfloop>
 	<cfsavecontent variable="sectionHtml">
 		<cfoutput>
 		<cfif depth1Nodes.recordcount GT 0>
@@ -1571,52 +1618,45 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									read_only=arguments.read_only
 								)>
 								#rowHtml#
+								<cfset d2key = "d2_" & depth2Children.annotation_id>
+								<cfif structKeyExists(deepByDepth2, d2key) AND arrayLen(deepByDepth2[d2key]) GT 0>
+									<div class="ml-4 pl-0 border-left border-secondary" data-thread-deep="true">
+										<cfloop array="#deepByDepth2[d2key]#" index="deepItem">
+											<cfset parentSummary = "">
+											<cfif isNumeric(deepItem.parent_annotation_id) AND val(deepItem.parent_annotation_id) GT 0
+												AND structKeyExists(parentSummaryOf, deepItem.parent_annotation_id)>
+												<cfset parentSummary = parentSummaryOf[deepItem.parent_annotation_id]>
+											</cfif>
+											<cfif len(parentSummary) GT 0>
+												<div class="px-2 pt-1 pb-0 text-muted small" aria-label="Replying to annotation">
+													&##8627; Replying to: #parentSummary#
+												</div>
+											</cfif>
+											<cfset rowHtml = renderAnnotationReviewRow(
+												annotation_id=deepItem.annotation_id,
+												annotation_display=deepItem.annotation_display,
+												cf_username=deepItem.cf_username,
+												email=deepItem.email,
+												annotate_date=deepItem.annotate_date,
+												motivation=deepItem.motivation,
+												reviewed_fg=deepItem.reviewed_fg,
+												reviewer=deepItem.reviewer,
+												reviewer_comment=deepItem.reviewer_comment,
+												mask_annotation_fg=deepItem.mask_annotation_fg,
+												is_response=true,
+												root_annotation_id=arguments.rootAnnotationId,
+												show_reply_action=canManage,
+												highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(deepItem.annotation_id) EQ val(arguments.editing_annotation_id)),
+												parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
+												read_only=arguments.read_only
+											)>
+											#rowHtml#
+										</cfloop>
+									</div>
+								</cfif>
 							</cfloop>
 						</div>
 					</cfif>
-				</cfloop>
-			</div>
-		</cfif>
-		<cfif deepNodes.recordcount GT 0>
-			<div class="ml-4 pl-0 border-left border-secondary mt-1" data-thread-deep="true">
-				<div class="px-2 pt-1 pb-0">
-					<span class="badge badge-secondary" style="font-size:0.75em;">Deeper Thread</span>
-				</div>
-				<cfloop query="deepNodes">
-					<cfset parentSummary = "">
-					<cfif isNumeric(deepNodes.parent_annotation_id) AND val(deepNodes.parent_annotation_id) GT 0>
-						<cfquery name="parentRow" dbtype="query">
-							SELECT display_summary, annotation_id FROM localConversation
-							WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deepNodes.parent_annotation_id#">
-						</cfquery>
-						<cfif parentRow.recordcount GT 0>
-							<cfset parentSummary = encodeForHTML(parentRow.display_summary) & " (" & parentRow.annotation_id & ")">
-						</cfif>
-					</cfif>
-					<cfif len(parentSummary) GT 0>
-						<div class="px-2 pt-1 pb-0 text-muted small" aria-label="Replying to annotation">
-							&##8627; Replying to: #parentSummary#
-						</div>
-					</cfif>
-					<cfset rowHtml = renderAnnotationReviewRow(
-						annotation_id=deepNodes.annotation_id,
-						annotation_display=deepNodes.annotation_display,
-						cf_username=deepNodes.cf_username,
-						email=deepNodes.email,
-						annotate_date=deepNodes.annotate_date,
-						motivation=deepNodes.motivation,
-						reviewed_fg=deepNodes.reviewed_fg,
-						reviewer=deepNodes.reviewer,
-						reviewer_comment=deepNodes.reviewer_comment,
-						mask_annotation_fg=deepNodes.mask_annotation_fg,
-						is_response=true,
-						root_annotation_id=arguments.rootAnnotationId,
-						show_reply_action=canManage,
-						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(deepNodes.annotation_id) EQ val(arguments.editing_annotation_id)),
-						parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
-						read_only=arguments.read_only
-					)>
-					#rowHtml#
 				</cfloop>
 			</div>
 		</cfif>
