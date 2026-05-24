@@ -327,7 +327,7 @@ limitations under the License.
 									<!--- immediate parent is already shown as the primary summary heading --->
 									<cfset chainLabel = "">
 								<cfelse>
-									<cfset chainLabel = "&##8627; Reply">
+									<cfset chainLabel = "↳ Reply">
 								</cfif>
 								<cfif len(chainLabel) GT 0>
 									<cfset chainHtml = chainHtml & '<span class="small d-block mt-1">#encodeForHTML(chainLabel)#: #encodeForHTML(chainSummary)# (#chainAnnId#)</span>'>
