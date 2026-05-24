@@ -63,22 +63,22 @@ jQuery(document).on("click", ".open-annotation-history-dialog", function() {
  * @param resolutionFieldId id of root resolution select.
  */
 function applyCommentingResolutionGuidance(motivationFieldId, resolutionFieldId) {
-	var motivationEl = $("#" + motivationFieldId).get(0);
-	var resolutionEl = $("#" + resolutionFieldId).get(0);
-	if (!motivationEl || !resolutionEl) { return; }
+	var $motivationEl = $("#" + motivationFieldId);
+	var $resolutionEl = $("#" + resolutionFieldId);
+	if (!$motivationEl.length || !$resolutionEl.length) { return; }
 	var maybeSetResolution = function() {
-		var motivation = String(motivationEl.value || "").toLowerCase();
-		var resolution = String(resolutionEl.value || "");
+		var motivation = String($motivationEl.val() || "").toLowerCase();
+		var resolution = String($resolutionEl.val() || "");
 		if (motivation !== "commenting" || resolution.length > 0) { return; }
-		for (var i = 0; i < resolutionEl.options.length; i++) {
-			if (String(resolutionEl.options[i].value).toLowerCase() === "notabug") {
-				resolutionEl.value = resolutionEl.options[i].value;
-				break;
+		$resolutionEl.find("option").each(function() {
+			if (String($(this).val()).toLowerCase() === "notabug") {
+				$resolutionEl.val($(this).val());
+				return false;
 			}
-		}
+		});
 	};
 	$(document).ready(function() {
-		$("#" + motivationFieldId).off("change.resolutionguidance").on("change.resolutionguidance", maybeSetResolution);
+		$motivationEl.off("change.resolutionguidance").on("change.resolutionguidance", maybeSetResolution);
 	});
 }
 
