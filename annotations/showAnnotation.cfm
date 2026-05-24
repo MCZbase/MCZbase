@@ -482,7 +482,7 @@ limitations under the License.
 								mask_annotation_fg=rootAnn.mask_annotation_fg,
 								is_response=false,
 								root_annotation_id=rootAnn.annotation_id,
-								show_reply_action=(variables.canAnnotate OR variables.canManage))>
+								show_reply_action=variables.canManage)>
 							#rootRowHtml#
 							<cfset variables.fullConversation = getAnnotationConversationForRoot(rootAnnotationId=variables.rootAnnotationId)>
 							<cfset variables.conversationSectionHtml = renderAnnotationConversationReplies(
