@@ -327,7 +327,7 @@ limitations under the License.
 									<!--- immediate parent is already shown as the primary summary heading --->
 									<cfset chainLabel = "">
 								<cfelse>
-									<cfset chainLabel = "&#8627; Reply">
+									<cfset chainLabel = "&##8627; Reply">
 								</cfif>
 								<cfif len(chainLabel) GT 0>
 									<cfset chainHtml = chainHtml & '<span class="small d-block mt-1">#encodeForHTML(chainLabel)#: #encodeForHTML(chainSummary)# (#chainAnnId#)</span>'>
@@ -2092,7 +2092,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<cfif val(chainId) EQ val(rootAnnotationId)>
 									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">Root annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
 								<cfelse>
-									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">&#8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
+									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">&##8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
 								</cfif>
 								<cfif val(chainId) EQ val(immediateParentId)>
 									<cfset immediateParentBody = editAncestorChain.display_summary>
@@ -2214,7 +2214,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<cfif len(ancestorChainHtml) GT 0>
 										<!--- Depth >= 2: show full chain from root to immediate parent --->
 										#ancestorChainHtml#
-										<span class="small d-block mt-1">&#8627; Editing this annotation <strong>#annotation_id#</strong></span>
+										<span class="small d-block mt-1">&##8627; Editing this annotation <strong>#annotation_id#</strong></span>
 									<cfelse>
 										<!--- Depth 1: direct reply to root annotation --->
 										<span class="small d-block mt-1">
