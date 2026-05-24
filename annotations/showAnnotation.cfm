@@ -191,10 +191,9 @@ limitations under the License.
 	<cfloop query="requestedSubtree">
 		<cfset variables.includedAnnotationIdSet[requestedSubtree.annotation_id] = requestedSubtree.annotation_id>
 	</cfloop>
-	<cfif structIsEmpty(variables.includedAnnotationIdSet)>
+	<cfset variables.includedAnnotationIds = arrayToList(structValueArray(variables.includedAnnotationIdSet))>
+	<cfif len(trim(variables.includedAnnotationIds)) EQ 0>
 		<cfset variables.includedAnnotationIds = variables.annotation_id>
-	<cfelse>
-		<cfset variables.includedAnnotationIds = arrayToList(structValueArray(variables.includedAnnotationIdSet))>
 	</cfif>
 	
 	<cfquery name="includedConversationAnns" dbtype="query">
@@ -365,6 +364,7 @@ limitations under the License.
 						<cfset variables.firstAnnotation = true>
 						<cfloop query="includedConversationAnns">
 							<cfif val(includedConversationAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
+								<!--- Top-level object already represents the requested annotation. --->
 								<cfif val(includedConversationAnns.annotation_id) EQ val(variables.annotation_id)><cfcontinue></cfif>
 								<cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
 								<cfif val(includedConversationAnns.depth) EQ 0>
@@ -406,13 +406,17 @@ limitations under the License.
 				<cfloop query="includedConversationAnns">
 					<cfif val(includedConversationAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
 						<cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
+						<cfset variables.motivationIRI = "">
+						<cfif len(includedConversationAnns.motivation) GT 0>
+							<cfset variables.motivationIRI = "http://www.w3.org/ns/oa#" & includedConversationAnns.motivation>
+						</cfif>
 						<cfif val(includedConversationAnns.depth) EQ 0>
 							<cfset variables.annotationTarget = variables.targetIRI>
 						<cfelse>
 							<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
 						</cfif>
 						<oa:Annotation rdf:about="#XMLFormat(variables.annotationIRI)#">
-							<cfif len(includedConversationAnns.motivation) GT 0><oa:motivatedBy rdf:resource="http://www.w3.org/ns/oa###XMLFormat(includedConversationAnns.motivation)#"/></cfif>
+							<cfif len(variables.motivationIRI) GT 0><oa:motivatedBy rdf:resource="#XMLFormat(variables.motivationIRI)#"/></cfif>
 							<oa:hasBody>
 								<oa:TextualBody>
 									<rdf:value>#XMLFormat(includedConversationAnns.body_value)#</rdf:value>
@@ -444,6 +448,10 @@ limitations under the License.
 
 <cfif val(includedConversationAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
 <cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
+<cfset variables.motivationIRI = "">
+<cfif len(includedConversationAnns.motivation) GT 0>
+	<cfset variables.motivationIRI = "http://www.w3.org/ns/oa#" & includedConversationAnns.motivation>
+</cfif>
 <cfif val(includedConversationAnns.depth) EQ 0>
 	<cfset variables.annotationTarget = variables.targetIRI>
 <cfelse>
@@ -451,7 +459,7 @@ limitations under the License.
 </cfif>
 <#variables.annotationIRI#>
     a oa:Annotation ;
-    <cfif len(includedConversationAnns.motivation) GT 0>oa:motivatedBy <http://www.w3.org/ns/oa###includedConversationAnns.motivation#> ;</cfif>
+    <cfif len(variables.motivationIRI) GT 0>oa:motivatedBy <#variables.motivationIRI#> ;</cfif>
     oa:hasBody [
         a oa:TextualBody ;
         rdf:value "#JSStringFormat(includedConversationAnns.body_value)#" ;
