@@ -315,16 +315,19 @@ limitations under the License.
 								ORDER BY depth_from_target DESC
 							</cfquery>
 							<cfset var chainHtml = "">
+							<cfset var chainAnnId = "">
+							<cfset var chainSummary = "">
+							<cfset var chainLabel = "">
 							<cfloop query="ancestorChainForDialog">
-								<cfset var chainAnnId = ancestorChainForDialog.annotation_id>
-								<cfset var chainSummary = ancestorChainForDialog.display_summary>
+								<cfset chainAnnId = ancestorChainForDialog.annotation_id>
+								<cfset chainSummary = ancestorChainForDialog.display_summary>
 								<cfif val(chainAnnId) EQ val(responseRootAnnotationId)>
-									<cfset var chainLabel = "Root annotation">
+									<cfset chainLabel = "Root annotation">
 								<cfelseif val(chainAnnId) EQ val(targetAnnotationId)>
 									<!--- immediate parent is already shown as the primary summary heading --->
-									<cfset var chainLabel = "">
+									<cfset chainLabel = "">
 								<cfelse>
-									<cfset var chainLabel = "&#8627; Reply">
+									<cfset chainLabel = "&#8627; Reply">
 								</cfif>
 								<cfif len(chainLabel) GT 0>
 									<cfset chainHtml = chainHtml & '<span class="small d-block mt-1">#encodeForHTML(chainLabel)#: #encodeForHTML(chainSummary)# (#chainAnnId#)</span>'>
@@ -1520,6 +1523,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var deepItem = {}>
 	<cfset var parentSummaryOf = {}>
 	<cfset var maskOf = {}>
+	<cfset var precomputedParentMask = 0>
 	<cfif arguments.conversationAnnotations.recordcount EQ 0>
 		<cfreturn "">
 	</cfif>
@@ -1578,6 +1582,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfif NOT structKeyExists(deepByDepth2, d2key)>
 			<cfset deepByDepth2[d2key] = []>
 		</cfif>
+		<cfset precomputedParentMask = 0>
+		<cfif isNumeric(deepNodes.parent_annotation_id) AND val(deepNodes.parent_annotation_id) GT 0
+			AND structKeyExists(maskOf, deepNodes.parent_annotation_id)>
+			<cfset precomputedParentMask = maskOf[deepNodes.parent_annotation_id]>
+		</cfif>
 		<cfset arrayAppend(deepByDepth2[d2key], {
 			annotation_id = deepNodes.annotation_id,
 			parent_annotation_id = deepNodes.parent_annotation_id,
@@ -1590,6 +1599,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			reviewer = deepNodes.reviewer,
 			reviewer_comment = deepNodes.reviewer_comment,
 			mask_annotation_fg = deepNodes.mask_annotation_fg,
+			parent_mask_annotation_fg = precomputedParentMask,
 			display_summary = deepNodes.display_summary
 		})>
 	</cfloop>
@@ -1663,11 +1673,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													&##8627; Replying to: #parentSummary#
 												</div>
 											</cfif>
-											<cfset var deepParentMask = 0>
-											<cfif isNumeric(deepItem.parent_annotation_id) AND val(deepItem.parent_annotation_id) GT 0
-												AND structKeyExists(maskOf, deepItem.parent_annotation_id)>
-												<cfset deepParentMask = maskOf[deepItem.parent_annotation_id]>
-											</cfif>
 											<cfset rowHtml = renderAnnotationReviewRow(
 												annotation_id=deepItem.annotation_id,
 												annotation_display=deepItem.annotation_display,
@@ -1683,7 +1688,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												root_annotation_id=arguments.rootAnnotationId,
 												show_reply_action=canManage,
 												highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(deepItem.annotation_id) EQ val(arguments.editing_annotation_id)),
-												parent_mask_annotation_fg=deepParentMask,
+												parent_mask_annotation_fg=deepItem.parent_mask_annotation_fg,
 												read_only=arguments.read_only
 											)>
 											#rowHtml#
@@ -2055,6 +2060,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset immediateParentId = "">
 				<cfset immediateParentBody = "">
 				<cfset ancestorChainHtml = "">
+				<cfset var chainId = "">
+				<cfset var chainDisplay = "">
 				<cfif isResponseAnnotation>
 					<cfset immediateParentId = editAnn.target_primary_key>
 					<cfif val(immediateParentId) NEQ val(rootAnnotationId)>
@@ -2078,8 +2085,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							ORDER BY depth_from_start DESC
 						</cfquery>
 						<cfloop query="editAncestorChain">
-							<cfset var chainId = editAncestorChain.annotation_id>
-							<cfset var chainDisplay = editAncestorChain.display_summary>
+							<cfset chainId = editAncestorChain.annotation_id>
+							<cfset chainDisplay = editAncestorChain.display_summary>
 							<cfif val(chainId) NEQ val(annotation_id)>
 								<!--- Include all ancestors except the annotation being edited (shown in dialog heading) --->
 								<cfif val(chainId) EQ val(rootAnnotationId)>
