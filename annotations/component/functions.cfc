@@ -1471,8 +1471,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="conversationAnnotations" type="query" required="yes">
 	<cfargument name="editing_annotation_id" type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="0">
+	<cfargument name="read_only" type="boolean" required="no" default="false">
 	<cfset var sectionHtml = "">
-	<cfset var canManage = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+	<cfset var canManage = (NOT arguments.read_only) AND isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<cfset var localConversation = arguments.conversationAnnotations>
 	<cfset var allDescendants = QueryNew("")>
 	<cfset var depth1Nodes = QueryNew("")>
@@ -1535,7 +1536,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						root_annotation_id=arguments.rootAnnotationId,
 						show_reply_action=canManage,
 						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth1Nodes.annotation_id) EQ val(arguments.editing_annotation_id)),
-						parent_mask_annotation_fg=arguments.root_mask_annotation_fg
+						parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
+						read_only=arguments.read_only
 					)>
 					#rowHtml#
 					<cfset currentParentId = depth1Nodes.annotation_id>
@@ -1565,7 +1567,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									root_annotation_id=arguments.rootAnnotationId,
 									show_reply_action=canManage,
 									highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth2Children.annotation_id) EQ val(arguments.editing_annotation_id)),
-									parent_mask_annotation_fg=arguments.root_mask_annotation_fg
+									parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
+									read_only=arguments.read_only
 								)>
 								#rowHtml#
 							</cfloop>
@@ -1610,7 +1613,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						root_annotation_id=arguments.rootAnnotationId,
 						show_reply_action=canManage,
 						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(deepNodes.annotation_id) EQ val(arguments.editing_annotation_id)),
-						parent_mask_annotation_fg=arguments.root_mask_annotation_fg
+						parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
+						read_only=arguments.read_only
 					)>
 					#rowHtml#
 				</cfloop>
@@ -1662,8 +1666,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="show_reply_action"   type="boolean" required="no" default="false">
 	<cfargument name="highlight_as_editing" type="boolean" required="no" default="false">
 	<cfargument name="parent_mask_annotation_fg" type="string" required="no" default="0">
+	<cfargument name="read_only"           type="boolean" required="no" default="false">
 
-	<cfset showVisibility = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+	<cfset showVisibility = (NOT arguments.read_only) AND isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<cfset showMaskedBody = (val(arguments.mask_annotation_fg) EQ 1) AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
 	<cfset parentMasked = arguments.is_response AND val(arguments.parent_mask_annotation_fg) EQ 1>
 	<cfif len(arguments.root_annotation_id) EQ 0>
@@ -1746,6 +1751,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
 					</div>
 				</cfif>
+				<cfif NOT arguments.read_only>
 				<div class="col-12 col-md-2 pt-3 px-1">
 					<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 						<cfif isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
@@ -1763,6 +1769,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
 					</cfif>
 				</div>
+				</cfif>
 			</div>
 			<cfif showVisibility>
 				<script>

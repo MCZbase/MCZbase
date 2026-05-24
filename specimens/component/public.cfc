@@ -3919,8 +3919,8 @@ limitations under the License.
 										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
 									</cfif>
 								</cfif>
-								<!--- Show full multi-level conversation replies for this root annotation --->
-								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversationAnnotations, root_mask_annotation_fg=mask_annotation_fg)#
+								<!--- Show full multi-level conversation replies for this root annotation (read-only, no action buttons) --->
+									#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversationAnnotations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
 						</cfloop>
 					</cfif>
