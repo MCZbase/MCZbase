@@ -571,11 +571,15 @@ limitations under the License.
 	<cfset var normalizedProjectId = trim(arguments.project_id)>
 	<cfset var normalizedFamily = trim(arguments.family)>
 	<cfset var normalizedRootMode = lcase(trim(arguments.root_mode))>
+	<cfset var normalizedVisibility = "">
+	<cfset var hasAnyAnnotationLevelFilter = false>
 	<cfset var runSearch = false>
 	<cfset var searchResults = QueryNew("")>
 	<cfset var conversationAnnotations = QueryNew("")>
 	<cfset var annotationRoots = QueryNew("")>
 	<cfset var annotationToRoot = {}>
+	<cfset var rootToMatchedIdList = {}>
+	<cfset var isConversationAnnotationMatch = false>
 	<cfset var matchedAnnotationIds = "">
 	<cfset var matchedRootIds = "">
 	<cfset var targetRootIdMap = {}>
@@ -637,6 +641,19 @@ limitations under the License.
 	<cfif NOT listFindNoCase("root,response", normalizedRootMode)>
 		<cfset normalizedRootMode = "root">
 	</cfif>
+	<cfif listFindNoCase("1,0,true,false,yes,no", lcase(trim(arguments.visibility)))>
+		<cfif listFindNoCase("1,true,yes", lcase(trim(arguments.visibility)))>
+			<cfset normalizedVisibility = "1">
+		<cfelse>
+			<cfset normalizedVisibility = "0">
+		</cfif>
+	</cfif>
+	<cfset hasAnyAnnotationLevelFilter = (
+		len(trim(arguments.motivation)) GT 0
+		OR len(normalizedVisibility) GT 0
+		OR len(trim(arguments.annotator)) GT 0
+		OR len(trim(arguments.annotation_text)) GT 0
+	)>
 	<cfif listFindNoCase("true,1,yes,y,on", lcase(trim(arguments.execute)))>
 		<cfset runSearch = true>
 	</cfif>
@@ -686,6 +703,30 @@ limitations under the License.
 				<cfloop query="annotationRoots">
 					<cfset annotationToRoot[annotationRoots.annotation_id] = annotationRoots.root_annotation_id>
 				</cfloop>
+				<cfif normalizedRootMode EQ "root" AND hasAnyAnnotationLevelFilter>
+					<cfloop query="conversationAnnotations">
+						<cfset isConversationAnnotationMatch = true>
+						<cfif len(trim(arguments.motivation)) GT 0 AND conversationAnnotations.motivation NEQ trim(arguments.motivation)>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch AND len(normalizedVisibility) GT 0 AND conversationAnnotations.mask_annotation_fg NEQ val(normalizedVisibility)>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch AND len(trim(arguments.annotator)) GT 0 AND NOT findNoCase(trim(arguments.annotator), conversationAnnotations.cf_username & "")>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch AND len(trim(arguments.annotation_text)) GT 0 AND NOT findNoCase(trim(arguments.annotation_text), conversationAnnotations.annotation_display & "")>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch>
+							<cfif structKeyExists(rootToMatchedIdList, conversationAnnotations.root_annotation_id)>
+								<cfset rootToMatchedIdList[conversationAnnotations.root_annotation_id] = listAppend(rootToMatchedIdList[conversationAnnotations.root_annotation_id], conversationAnnotations.annotation_id)>
+							<cfelse>
+								<cfset rootToMatchedIdList[conversationAnnotations.root_annotation_id] = conversationAnnotations.annotation_id>
+							</cfif>
+						</cfif>
+					</cfloop>
+				</cfif>
 			</cfif>
 		</cfif>
 	</cfif>
@@ -783,7 +824,6 @@ limitations under the License.
 							WHERE target_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_table#">
 								AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_primary_key#">
 						</cfquery>
-						<cfset targetMatchIds = valueList(targetAnnotations.annotation_id)>
 						<cfset targetRootIds = []>
 						<cfset targetRootIdMap = {}>
 						<cfloop query="targetAnnotations">
@@ -795,6 +835,20 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						</cfloop>
+						<cfif normalizedRootMode EQ "root" AND hasAnyAnnotationLevelFilter>
+							<cfset targetMatchIds = "">
+							<cfloop array="#targetRootIds#" index="targetRootId">
+								<cfif structKeyExists(rootToMatchedIdList, targetRootId)>
+									<cfif len(targetMatchIds) EQ 0>
+										<cfset targetMatchIds = rootToMatchedIdList[targetRootId]>
+									<cfelse>
+										<cfset targetMatchIds = listAppend(targetMatchIds, rootToMatchedIdList[targetRootId])>
+									</cfif>
+								</cfif>
+							</cfloop>
+						<cfelse>
+							<cfset targetMatchIds = valueList(targetAnnotations.annotation_id)>
+						</cfif>
 						<cfloop array="#targetRootIds#" index="targetRootId">
 							<cfquery name="rootRow" dbtype="query">
 								SELECT annotation_id, annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
