@@ -27,7 +27,7 @@ limitations under the License.
 <cfif variables.format EQ "rdf" OR variables.format EQ "application/rdf+xml" OR variables.format EQ "rdf+xml"><cfset variables.format = "rdf"></cfif>
 <cfif variables.format EQ "turtle" OR variables.format EQ "text/turtle"><cfset variables.format = "turtle"></cfif>
 <cfif NOT listFindNoCase("html,rdf,json-ld,turtle", variables.format)><cfset variables.format = "html"></cfif>
-
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotationReviewRow, getAnnotationThreadForRoot, renderAnnotationThreadSection --->
 <cfif NOT (isDefined("variables.annotation_id") AND len(variables.annotation_id) GT 0 AND isNumeric(variables.annotation_id))>
 	<cfif variables.format EQ "html">
 		<cfset pageTitle = "Annotation Not Found">
@@ -467,29 +467,28 @@ limitations under the License.
 							<cfelse>
 								<cfset variables.rootDisplayText = rootAnn.annotation>
 							</cfif>
-							<cfinvoke component="/annotations/component/functions" method="renderAnnotationReviewRow" returnvariable="rootRowHtml"
-								annotation_id="#rootAnn.annotation_id#"
-								annotation_display="#variables.rootDisplayText#"
-								cf_username="#rootAnn.cf_username#"
-								email="#rootAnn.annotator_email#"
-								annotate_date="#rootAnn.annotate_date#"
-								motivation="#rootAnn.motivation#"
-								reviewed_fg="#rootAnn.reviewed_fg#"
-								state="#rootAnn.state#"
-								resolution="#rootAnn.resolution#"
-								reviewer="#rootAnn.reviewer_name#"
-								reviewer_comment="#rootAnn.reviewer_comment#"
-								mask_annotation_fg="#rootAnn.mask_annotation_fg#"
-								is_response="false"
-								root_annotation_id="#rootAnn.annotation_id#"
-								show_reply_action="#variables.canAnnotate OR variables.canManage#">
+							<cfset rootRowHtml = renderAnnotationReviewRow(
+								annotation_id=rootAnn.annotation_id,
+								annotation_display=variables.rootDisplayText,
+								cf_username=rootAnn.cf_username,
+								email=rootAnn.annotator_email,
+								annotate_date=rootAnn.annotate_date,
+								motivation=rootAnn.motivation,
+								reviewed_fg=rootAnn.reviewed_fg,
+								state=rootAnn.state,
+								resolution=rootAnn.resolution,
+								reviewer=rootAnn.reviewer_name,
+								reviewer_comment=rootAnn.reviewer_comment,
+								mask_annotation_fg=rootAnn.mask_annotation_fg,
+								is_response=false,
+								root_annotation_id=rootAnn.annotation_id,
+								show_reply_action=(variables.canAnnotate OR variables.canManage))>
 							#rootRowHtml#
-							<cfinvoke component="/annotations/component/functions" method="getAnnotationThreadForRoot" returnvariable="variables.fullThread"
-							rootAnnotationId="#variables.rootAnnotationId#">
-							<cfinvoke component="/annotations/component/functions" method="renderAnnotationThreadSection" returnvariable="variables.threadSectionHtml"
-								rootAnnotationId="#variables.rootAnnotationId#"
-								threadAnnotations="#variables.fullThread#"
-								root_mask_annotation_fg="#rootAnn.mask_annotation_fg#">
+							<cfset variables.fullThread = getAnnotationThreadForRoot(rootAnnotationId=variables.rootAnnotationId)>
+							<cfset variables.threadSectionHtml = renderAnnotationThreadSection(
+								rootAnnotationId=variables.rootAnnotationId,
+								threadAnnotations=variables.fullThread,
+								root_mask_annotation_fg=rootAnn.mask_annotation_fg)>
 							<cfif len(trim(variables.threadSectionHtml)) GT 0>
 								#variables.threadSectionHtml#
 							<cfelse>

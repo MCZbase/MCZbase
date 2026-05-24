@@ -30,9 +30,9 @@ jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	var targetAnnotationId = $(this).attr("data-target-annotation-id") || $(this).attr("data-root-annotation-id");
 	var rootAnnotationId = $(this).attr("data-root-annotation-id");
 	var callback = null;
-	if (rootAnnotationId && document.getElementById("annotation-block-" + rootAnnotationId)) {
+	if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
 		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
-	} else if (!rootAnnotationId && targetAnnotationId && document.getElementById("annotation-block-" + targetAnnotationId)) {
+	} else if (!rootAnnotationId && targetAnnotationId && $("#annotation-block-" + targetAnnotationId).length) {
 		callback = function() { reloadAnnotationBlock(targetAnnotationId); };
 	} else if (typeof annotationDialogCloseCallback === "function") {
 		callback = annotationDialogCloseCallback;
@@ -44,7 +44,7 @@ jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	var annotationId = jQuery(this).attr("data-edit-annotation-id");
 	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
 	var callback = null;
-	if (rootAnnotationId && document.getElementById("annotation-block-" + rootAnnotationId)) {
+	if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
 		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
 	} else if (typeof annotationDialogCloseCallback === "function") {
 		callback = annotationDialogCloseCallback;
@@ -63,8 +63,8 @@ jQuery(document).on("click", ".open-annotation-history-dialog", function() {
  * @param resolutionFieldId id of root resolution select.
  */
 function applyCommentingResolutionGuidance(motivationFieldId, resolutionFieldId) {
-	var motivationEl = document.getElementById(motivationFieldId);
-	var resolutionEl = document.getElementById(resolutionFieldId);
+	var motivationEl = $("#" + motivationFieldId).get(0);
+	var resolutionEl = $("#" + resolutionFieldId).get(0);
 	if (!motivationEl || !resolutionEl) { return; }
 	var maybeSetResolution = function() {
 		var motivation = String(motivationEl.value || "").toLowerCase();
