@@ -1686,11 +1686,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="col-12 col-md-4 pt-2 px-1">
 					<span class="data-entry-label font-weight-bold small">
-						<cfif arguments.is_response>
-							Response
-						</cfif>
-						Annotation:
-						<span class="text-muted small">(#encodeForHtml(arguments.annotation_id)#)</span>
+						<cfif arguments.is_response>Response </cfif>Annotation:
+						<span class="text-muted small text-nowrap">(#encodeForHtml(arguments.annotation_id)#)</span>
 					</span>
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
