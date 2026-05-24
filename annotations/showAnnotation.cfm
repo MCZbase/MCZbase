@@ -371,35 +371,36 @@ limitations under the License.
 						<cfloop query="includedConversationAnns">
 							<cfif val(includedConversationAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
 								<!--- Top-level object already represents the requested annotation. --->
-								<cfif val(includedConversationAnns.annotation_id) EQ val(variables.annotation_id)><cfcontinue></cfif>
-								<cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
-								<cfif val(includedConversationAnns.depth) EQ 0>
-									<cfset variables.annotationTarget = variables.targetIRI>
-								<cfelse>
-									<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
+								<cfif val(includedConversationAnns.annotation_id) NEQ val(variables.annotation_id)>
+									<cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
+									<cfif val(includedConversationAnns.depth) EQ 0>
+										<cfset variables.annotationTarget = variables.targetIRI>
+									<cfelse>
+										<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
+									</cfif>
+									<cfset variables.annotationTargetJson = "">
+									<cfset variables.annotationMotivationJson = "">
+									<cfif len(variables.annotationTarget) GT 0>
+										<cfset variables.annotationTargetJson = ', "target": "' & JSStringFormat(variables.annotationTarget) & '"' >
+									</cfif>
+									<cfif len(includedConversationAnns.motivation) GT 0>
+										<cfset variables.annotationMotivationJson = ', "motivation": "' & JSStringFormat(includedConversationAnns.motivation) & '"' >
+									</cfif>
+									<cfif NOT variables.firstAnnotation>,</cfif>
+									{
+										"id": "#JSStringFormat(variables.annotationIRI)#",
+										"type": "Annotation",
+										"body": {"type": "TextualBody", "value": "#JSStringFormat(includedConversationAnns.body_value)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
+										"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
+										"creator": {
+											<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#JSStringFormat(includedConversationAnns.creator_uri)#",</cfif>
+											"name": "#JSStringFormat(includedConversationAnns.creator_name)#"
+										},
+										"reviewed": <cfif val(includedConversationAnns.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
+										"visibility": "<cfif val(includedConversationAnns.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
+									}
+									<cfset variables.firstAnnotation = false>
 								</cfif>
-								<cfset variables.annotationTargetJson = "">
-								<cfset variables.annotationMotivationJson = "">
-								<cfif len(variables.annotationTarget) GT 0>
-									<cfset variables.annotationTargetJson = ', "target": "' & JSStringFormat(variables.annotationTarget) & '"' >
-								</cfif>
-								<cfif len(includedConversationAnns.motivation) GT 0>
-									<cfset variables.annotationMotivationJson = ', "motivation": "' & JSStringFormat(includedConversationAnns.motivation) & '"' >
-								</cfif>
-								<cfif NOT variables.firstAnnotation>,</cfif>
-								{
-									"id": "#JSStringFormat(variables.annotationIRI)#",
-									"type": "Annotation",
-									"body": {"type": "TextualBody", "value": "#JSStringFormat(includedConversationAnns.body_value)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
-									"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
-									"creator": {
-										<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#JSStringFormat(includedConversationAnns.creator_uri)#",</cfif>
-										"name": "#JSStringFormat(includedConversationAnns.creator_name)#"
-									},
-									"reviewed": <cfif val(includedConversationAnns.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
-									"visibility": "<cfif val(includedConversationAnns.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
-								}
-								<cfset variables.firstAnnotation = false>
 							</cfif>
 						</cfloop>
 					]
