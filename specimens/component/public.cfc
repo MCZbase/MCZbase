@@ -3834,7 +3834,7 @@ limitations under the License.
 <!--- getAnnotationsHTML get a block of html containing annotation conversations for a specified cataloged item.
  @param collection_object_id for the cataloged item for which to return annotation conversations.
  @return a block of html with collection object annotation conversations (root annotations with their
-         response annotations nested beneath), or if none, html with the text None.
+         response annotations nested beneath at all depths), or if none, html with the text None.
          Masked annotations are hidden from non-coldfusion_user sessions via sql; manage_specimens users
          see the full annotation text; other users see the personal-info-stripped version.
 --->
@@ -3888,39 +3888,10 @@ limitations under the License.
 					ORDER BY
 						annotations.annotate_date
 				</cfquery>
-				<!--- Query response annotations (replies) for the root annotations found above --->
-				<cfif annotations.recordcount GT 0>
-					<cfquery name="responses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							responses.annotation_id,
-							NVL(atb2.body_value, responses.annotation) annotation_display,
-							responses.cf_username,
-							to_char(responses.annotate_date,'yyyy-mm-dd') annotate_date,
-							responses.motivation,
-							responses.mask_annotation_fg,
-							responses.target_primary_key parent_annotation_id
-						FROM
-							annotations responses
-							<!--- rn=1 selects the earliest textual body when multiple bodies exist for an annotation --->
-							LEFT OUTER JOIN (
-								SELECT annotation_id, body_value,
-									ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-								FROM annotation_textualbody
-							) atb2 ON responses.annotation_id = atb2.annotation_id AND atb2.rn = 1
-						WHERE
-							upper(responses.target_table) = 'ANNOTATIONS'
-							AND responses.target_primary_key IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valueList(annotations.annotation_id)#" list="yes">)
-							<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
-								AND (responses.mask_annotation_fg = 0 OR responses.cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
-							</cfif>
-						ORDER BY
-							responses.target_primary_key,
-							responses.annotate_date
-					</cfquery>
-				<cfelse>
-					<!--- No root annotations: initialise empty responses query with same columns as the query above --->
-					<cfset responses = QueryNew("annotation_id,annotation_display,cf_username,annotate_date,motivation,mask_annotation_fg,parent_annotation_id")>
-				</cfif>
+				<!--- Load full multi-level conversation for all root annotations via CONNECT BY hierarchy --->
+					<cfif annotations.recordcount GT 0>
+						<cfset conversationAnnotations = getAnnotationConversationsForRoots(valueList(annotations.annotation_id))>
+					</cfif>
 				<!--- Personal-info masking pattern applied to legacy annotation text when user lacks manage_specimens role --->
 				<cfset maskPattern = "^.* reported:">
 				<ul class="list-group">
@@ -3948,29 +3919,8 @@ limitations under the License.
 										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
 									</cfif>
 								</cfif>
-								<!--- Show response annotations for this root annotation indented with a left border --->
-								<cfquery name="annResponses" dbtype="query">
-									SELECT annotation_id, annotation_display, cf_username, annotate_date, motivation, mask_annotation_fg
-									FROM responses
-									WHERE parent_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotations.annotation_id#">
-								</cfquery>
-								<cfif annResponses.recordcount GT 0>
-									<ul class="list-group ml-3 mt-1 pl-0 border-left border-dark">
-										<cfloop query="annResponses">
-											<li class="list-group-item py-1 border-0">
-												<cfif annResponses.mask_annotation_fg EQ "1">
-													<span class="small font-weight-bold">[Hidden] </span>
-												</cfif>
-												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													#annResponses.annotation_display#
-												<cfelse>
-													#rereplace(annResponses.annotation_display,maskPattern,"[Masked] reported:")#
-												</cfif>
-												<span class="d-block small mb-0 pb-0">#annResponses.motivation# (#annResponses.annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annResponses.annotation_id))#</span>
-											</li>
-										</cfloop>
-									</ul>
-								</cfif>
+								<!--- Show full multi-level conversation replies for this root annotation --->
+								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversationAnnotations, root_mask_annotation_fg=mask_annotation_fg)#
 							</li>
 						</cfloop>
 					</cfif>
