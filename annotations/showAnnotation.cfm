@@ -463,7 +463,7 @@ limitations under the License.
 <cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
 <cfset variables.motivationIRI = "">
 <cfif len(includedConversationAnns.motivation) GT 0>
-	<cfset variables.motivationIRI = "http://www.w3.org/ns/oa#" & includedConversationAnns.motivation>
+	<cfset variables.motivationIRI = "http://www.w3.org/ns/oa##" & includedConversationAnns.motivation>
 </cfif>
 <cfif val(includedConversationAnns.depth) EQ 0>
 	<cfset variables.annotationTarget = variables.targetIRI>
