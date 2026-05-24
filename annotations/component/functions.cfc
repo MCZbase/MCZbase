@@ -336,6 +336,7 @@ limitations under the License.
 							<cfif len(chainHtml) GT 0>
 								<cfset summary = summary & chainHtml>
 							</cfif>
+							<cfset summary = summary & '<span class="small d-block mt-1">&##8627; Replying to this annotation <strong>#targetAnnotationId#</strong></span>'>
 						</cfif>
 					</cfcase>
 					<cfdefaultcase>
