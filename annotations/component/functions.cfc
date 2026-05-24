@@ -1395,6 +1395,37 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfreturn getAnnotationConversationsForRoots(arguments.rootAnnotationId)>
 </cffunction>
 
+<!--- getRootAnnotationsForAnnotationIds Return root annotation ids for one or more annotations.
+ Uses hierarchical traversal from each provided annotation to the top-most ancestor in its conversation.
+ @param annotationIds comma-delimited list of annotation_id values.
+ @return query with columns annotation_id and root_annotation_id.
+--->
+<cffunction name="getRootAnnotationsForAnnotationIds" returntype="query" access="public">
+	<cfargument name="annotationIds" type="string" required="yes">
+	<cfset var rootAnnotations = QueryNew("annotation_id,root_annotation_id")>
+	<cfif len(trim(arguments.annotationIds)) EQ 0>
+		<cfreturn rootAnnotations>
+	</cfif>
+	<cfquery name="rootAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT annotation_id, root_annotation_id
+		FROM (
+			SELECT
+				CONNECT_BY_ROOT a.annotation_id AS annotation_id,
+				a.annotation_id AS root_annotation_id,
+				ROW_NUMBER() OVER (
+					PARTITION BY CONNECT_BY_ROOT a.annotation_id
+					ORDER BY LEVEL DESC
+				) AS rn
+			FROM annotations a
+			START WITH a.annotation_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotationIds#" list="yes">)
+			CONNECT BY PRIOR a.target_primary_key = a.annotation_id
+				AND PRIOR a.target_table = 'ANNOTATIONS'
+		)
+		WHERE rn = 1
+	</cfquery>
+	<cfreturn rootAnnotations>
+</cffunction>
+
 
 <!--- getDescendantCountsForRoots Return total descendant counts for a list of root annotation ids.
  Counts all descendants at any depth visible to the current user, not only direct children.
@@ -1504,6 +1535,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="conversationAnnotations" type="query" required="yes">
 	<cfargument name="editing_annotation_id" type="string" required="no" default="">
 	<cfargument name="replying_to_annotation_id" type="string" required="no" default="">
+	<cfargument name="highlight_annotation_ids" type="string" required="no" default="">
+	<cfargument name="highlight_label" type="string" required="no" default="Highlighted">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="0">
 	<cfargument name="read_only" type="boolean" required="no" default="false">
 	<cfset var sectionHtml = "">
@@ -1628,6 +1661,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						show_reply_action=canManage,
 						highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth1Nodes.annotation_id) EQ val(arguments.editing_annotation_id)),
 						highlight_as_replying_to=(len(arguments.replying_to_annotation_id) GT 0 AND val(depth1Nodes.annotation_id) EQ val(arguments.replying_to_annotation_id)),
+						highlight_as_target=(len(arguments.highlight_annotation_ids) GT 0 AND listFind(arguments.highlight_annotation_ids, depth1Nodes.annotation_id)),
+						highlight_label=arguments.highlight_label,
 						parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
 						read_only=arguments.read_only
 					)>
@@ -1661,6 +1696,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									show_reply_action=canManage,
 									highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth2Children.annotation_id) EQ val(arguments.editing_annotation_id)),
 									highlight_as_replying_to=(len(arguments.replying_to_annotation_id) GT 0 AND val(depth2Children.annotation_id) EQ val(arguments.replying_to_annotation_id)),
+									highlight_as_target=(len(arguments.highlight_annotation_ids) GT 0 AND listFind(arguments.highlight_annotation_ids, depth2Children.annotation_id)),
+									highlight_label=arguments.highlight_label,
 									parent_mask_annotation_fg=depth1MaskFg,
 									read_only=arguments.read_only
 								)>
@@ -1695,6 +1732,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												show_reply_action=canManage,
 												highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(deepItem.annotation_id) EQ val(arguments.editing_annotation_id)),
 												highlight_as_replying_to=(len(arguments.replying_to_annotation_id) GT 0 AND val(deepItem.annotation_id) EQ val(arguments.replying_to_annotation_id)),
+												highlight_as_target=(len(arguments.highlight_annotation_ids) GT 0 AND listFind(arguments.highlight_annotation_ids, deepItem.annotation_id)),
+												highlight_label=arguments.highlight_label,
 												parent_mask_annotation_fg=deepItem.parent_mask_annotation_fg,
 												read_only=arguments.read_only
 											)>
@@ -1754,12 +1793,34 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="show_reply_action"   type="boolean" required="no" default="false">
 	<cfargument name="highlight_as_editing" type="boolean" required="no" default="false">
 	<cfargument name="highlight_as_replying_to" type="boolean" required="no" default="false">
+	<cfargument name="highlight_as_target" type="boolean" required="no" default="false">
+	<cfargument name="highlight_label" type="string" required="no" default="Highlighted">
 	<cfargument name="parent_mask_annotation_fg" type="string" required="no" default="0">
 	<cfargument name="read_only"           type="boolean" required="no" default="false">
 
-	<cfset showVisibility = (NOT arguments.read_only) AND isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-	<cfset showMaskedBody = (val(arguments.mask_annotation_fg) EQ 1) AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
-	<cfset parentMasked = arguments.is_response AND val(arguments.parent_mask_annotation_fg) EQ 1>
+	<cfset var showVisibility = (NOT arguments.read_only) AND isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+	<cfset var showMaskedBody = (val(arguments.mask_annotation_fg) EQ 1) AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
+	<cfset var parentMasked = arguments.is_response AND val(arguments.parent_mask_annotation_fg) EQ 1>
+	<cfset var rootAnnotationId = "">
+	<cfset var responseReadOnlyLayout = arguments.is_response AND arguments.read_only>
+	<cfset var annotationBodyColClass = "col-12 col-md-4 pt-2 px-1">
+	<cfset var annotatorColClass = "col-12 col-md-2 pt-2 px-1">
+	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
+	<cfset var annotationLabelSummary = "">
+	<cfset var summaryText = "">
+	<cfif responseReadOnlyLayout>
+		<cfset annotationBodyColClass = "col-12 col-md-7 pt-2 px-1">
+		<cfset annotatorColClass = "col-12 col-md-3 pt-2 px-1">
+		<cfset motivationColClass = "col-12 col-md-2 pt-2 px-1">
+	</cfif>
+	<cfif arguments.is_response>
+		<cfset summaryText = trim(rereplace(arguments.annotation_display, "<[^>]*>", "", "all"))>
+		<cfset summaryText = rereplace(summaryText, "\s+", " ", "all")>
+		<cfif len(summaryText) GT 60>
+			<cfset summaryText = left(summaryText, 57) & "...">
+		</cfif>
+		<cfset annotationLabelSummary = encodeForHTML(summaryText)>
+	</cfif>
 	<cfif len(arguments.root_annotation_id) EQ 0>
 		<cfset rootAnnotationId = arguments.annotation_id>
 	<cfelse>
@@ -1768,17 +1829,24 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<cfsavecontent variable="rowHTML">
 		<cfoutput>
-		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary<cfelseif arguments.highlight_as_replying_to> border-left border-success</cfif>"><!--- " --->
+		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary<cfelseif arguments.highlight_as_replying_to> border-left border-success<cfelseif arguments.highlight_as_target> border-left border-warning</cfif>"><!--- " --->
 			<cfif arguments.highlight_as_editing>
 				<div class="badge badge-primary mb-1" style="font-size:0.8em;">&##9998; Editing</div>
 			</cfif>
 			<cfif arguments.highlight_as_replying_to>
 				<div class="badge badge-success mb-1" style="font-size:0.8em;">&##8627; Replying to</div>
 			</cfif>
+			<cfif arguments.highlight_as_target>
+				<div class="badge badge-warning mb-1" style="font-size:0.8em;" aria-label="#encodeForHTMLAttribute(arguments.highlight_label)# annotation">#encodeForHTML(arguments.highlight_label)#</div>
+			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
-				<div class="col-12 col-md-4 pt-2 px-1">
+				<div class="#annotationBodyColClass#">
 					<span class="data-entry-label font-weight-bold small">
-						<cfif arguments.is_response>Response </cfif>Annotation:
+						<cfif arguments.is_response>
+							Response Annotation:<cfif len(annotationLabelSummary) GT 0> #annotationLabelSummary#</cfif>
+						<cfelse>
+							Annotation:
+						</cfif>
 						<span class="text-muted small text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
 					</span>
 					<cfif showMaskedBody>
@@ -1788,14 +1856,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<div class="px-1 small">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
-				<div class="col-12 col-md-2 pt-2 px-1">
+				<div class="#annotatorColClass#">
 					<span class="data-entry-label font-weight-bold small">Annotator:</span>
 					<div class="px-1 small">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
 					</div>
 				</div>
-				<div class="col-12 col-md-1 pt-2 px-1">
+				<div class="#motivationColClass#">
 					<span class="data-entry-label font-weight-bold small">Motivation:</span>
 					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
 				</div>

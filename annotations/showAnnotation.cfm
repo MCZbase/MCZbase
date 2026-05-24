@@ -482,13 +482,17 @@ limitations under the License.
 								mask_annotation_fg=rootAnn.mask_annotation_fg,
 								is_response=false,
 								root_annotation_id=rootAnn.annotation_id,
-								show_reply_action=variables.canManage)>
+								show_reply_action=variables.canManage,
+								highlight_as_target=(val(rootAnn.annotation_id) EQ val(variables.annotation_id)),
+								highlight_label="Selected Annotation")>
 							#rootRowHtml#
 							<cfset variables.fullConversation = getAnnotationConversationForRoot(rootAnnotationId=variables.rootAnnotationId)>
 							<cfset variables.conversationSectionHtml = renderAnnotationConversationReplies(
 								rootAnnotationId=variables.rootAnnotationId,
 								conversationAnnotations=variables.fullConversation,
-								root_mask_annotation_fg=rootAnn.mask_annotation_fg)>
+								root_mask_annotation_fg=rootAnn.mask_annotation_fg,
+								highlight_annotation_ids=variables.annotation_id,
+								highlight_label="Selected Annotation")>
 							<cfif len(trim(variables.conversationSectionHtml)) GT 0>
 								#variables.conversationSectionHtml#
 							<cfelse>

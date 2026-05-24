@@ -558,6 +558,29 @@ limitations under the License.
 						$('##scientific_name').on('input', function () {
 							$('##taxon_name_id').val('');
 						});
+						// Clear dependent hidden/surrogate values when target-specific search values change.
+						$('##specimen_guid').on('input change', function () {
+							$('##collection_object_id').val('');
+						});
+						$('##collection').on('change', function () {
+							if ($.trim($('##specimen_guid').val()).length > 0 || $.trim($('##collection_object_id').val()).length > 0) {
+								$('##specimen_guid').val('');
+								$('##collection_object_id').val('');
+							}
+						});
+						$('##family').on('change', function () {
+							$('##taxon_name_id').val('');
+						});
+						$('##publication_lookup').on('change', function () {
+							if ($.trim($('##publication_id').val()).length === 0) {
+								$('##publication_text').val($.trim($(this).val()));
+							}
+						});
+						$('##project_lookup').on('change', function () {
+							if ($.trim($('##project_id').val()).length === 0) {
+								$('##project_text').val($.trim($(this).val()));
+							}
+						});
 						function syncTextSearchFields() {
 							// When publication_id is not set, populate publication_text from the lookup display field.
 							// When publication_id is set (autocomplete selected), clear publication_text so only the id is sent.
