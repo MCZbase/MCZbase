@@ -191,7 +191,7 @@ limitations under the License.
 	<cfloop query="requestedSubtree">
 		<cfset variables.includedAnnotationIdSet[requestedSubtree.annotation_id] = requestedSubtree.annotation_id>
 	</cfloop>
-	<cfset variables.includedAnnotationIds = arrayToList(structKeyArray(variables.includedAnnotationIdSet))>
+	<cfset variables.includedAnnotationIds = structKeyList(variables.includedAnnotationIdSet)>
 	<cfif len(trim(variables.includedAnnotationIds)) EQ 0>
 		<cfset variables.includedAnnotationIds = variables.annotation_id>
 	</cfif>
@@ -346,13 +346,19 @@ limitations under the License.
 				<cfelse>
 					<cfset variables.requestedTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & requestedAnnRow.parent_annotation_id>
 				</cfif>
+				<cfset variables.requestedTargetJson = "">
+				<cfset variables.requestedMotivationJson = "">
+				<cfif len(variables.requestedTarget) GT 0>
+					<cfset variables.requestedTargetJson = ', "target": "' & JSStringFormat(variables.requestedTarget) & '"' >
+				</cfif>
+				<cfif len(requestedAnnRow.motivation) GT 0>
+					<cfset variables.requestedMotivationJson = ', "motivation": "' & JSStringFormat(requestedAnnRow.motivation) & '"' >
+				</cfif>
 				{
 					"@context": "http://www.w3.org/ns/anno.jsonld",
 					"id": "#JSStringFormat(variables.thisAnnotationIRI)#",
 					"type": "Annotation",
-					"body": {"type": "TextualBody", "value": "#JSStringFormat(requestedAnnRow.body_value)#", "language": "en"},
-					"target": <cfif len(variables.requestedTarget) GT 0>"#JSStringFormat(variables.requestedTarget)#"<cfelse>null</cfif>,
-					"motivation": <cfif len(requestedAnnRow.motivation) GT 0>"#JSStringFormat(requestedAnnRow.motivation)#"<cfelse>null</cfif>,
+					"body": {"type": "TextualBody", "value": "#JSStringFormat(requestedAnnRow.body_value)#", "language": "en"}#variables.requestedTargetJson##variables.requestedMotivationJson#,
 					"created": "#dateformat(requestedAnnRow.annotate_date,'yyyy-mm-dd')#",
 					"creator": {
 						<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#JSStringFormat(requestedAnnRow.creator_uri)#",</cfif>
@@ -372,13 +378,19 @@ limitations under the License.
 								<cfelse>
 									<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
 								</cfif>
+								<cfset variables.annotationTargetJson = "">
+								<cfset variables.annotationMotivationJson = "">
+								<cfif len(variables.annotationTarget) GT 0>
+									<cfset variables.annotationTargetJson = ', "target": "' & JSStringFormat(variables.annotationTarget) & '"' >
+								</cfif>
+								<cfif len(includedConversationAnns.motivation) GT 0>
+									<cfset variables.annotationMotivationJson = ', "motivation": "' & JSStringFormat(includedConversationAnns.motivation) & '"' >
+								</cfif>
 								<cfif NOT variables.firstAnnotation>,</cfif>
 								{
 									"id": "#JSStringFormat(variables.annotationIRI)#",
 									"type": "Annotation",
-									"body": {"type": "TextualBody", "value": "#JSStringFormat(includedConversationAnns.body_value)#", "language": "en"},
-									"target": <cfif len(variables.annotationTarget) GT 0>"#JSStringFormat(variables.annotationTarget)#"<cfelse>null</cfif>,
-									"motivation": <cfif len(includedConversationAnns.motivation) GT 0>"#JSStringFormat(includedConversationAnns.motivation)#"<cfelse>null</cfif>,
+									"body": {"type": "TextualBody", "value": "#JSStringFormat(includedConversationAnns.body_value)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
 									"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
 									"creator": {
 										<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#JSStringFormat(includedConversationAnns.creator_uri)#",</cfif>
