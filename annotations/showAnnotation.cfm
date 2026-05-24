@@ -88,10 +88,12 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	
-	<!--- Load root annotation and all replies in conversation order --->
+	<!--- Load full conversation tree from root annotation in hierarchy order --->
 	<cfquery name="conversationAnns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		SELECT
 			annotations.ANNOTATION_ID,
+			CASE WHEN LEVEL = 1 THEN NULL ELSE annotations.target_primary_key END AS parent_annotation_id,
+			LEVEL - 1 AS depth,
 			annotations.ANNOTATE_DATE,
 			annotations.CF_USERNAME,
 			annotations.ANNOTATOR_AGENT_ID,
@@ -124,12 +126,10 @@ limitations under the License.
 				row_number() over (partition by annotation_id order by created_date) rn
 			FROM annotation_textualbody
 		) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-		WHERE annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
-		OR (
-			UPPER(annotations.target_table) IN ('ANNOTATION','ANNOTATIONS')
-			AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
-		)
-		ORDER BY annotations.annotate_date
+		START WITH annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
+		CONNECT BY PRIOR annotations.annotation_id = annotations.target_primary_key
+			AND UPPER(annotations.target_table) IN ('ANNOTATION','ANNOTATIONS')
+		ORDER SIBLINGS BY annotations.annotate_date
 	</cfquery>
 	
 	<!--- Prepare creator identity and display name for RDF serialization without exposing username identifiers --->
@@ -167,8 +167,41 @@ limitations under the License.
 		WHERE ANNOTATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
 	</cfquery>
 	
-	<cfquery name="replyAnns" dbtype="query">
-		SELECT * FROM conversationAnns WHERE UPPER(TARGET_TABLE) IN ('ANNOTATION','ANNOTATIONS') ORDER BY ANNOTATE_DATE
+	<cfquery name="ancestorPath" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT annotation_id
+		FROM annotations
+		START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.annotation_id#">
+		CONNECT BY PRIOR target_primary_key = annotation_id
+			AND UPPER(PRIOR target_table) IN ('ANNOTATION','ANNOTATIONS')
+	</cfquery>
+	
+	<cfquery name="requestedSubtree" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT annotation_id
+		FROM annotations
+		START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.annotation_id#">
+		CONNECT BY PRIOR annotation_id = target_primary_key
+			AND UPPER(target_table) IN ('ANNOTATION','ANNOTATIONS')
+	</cfquery>
+	
+	<cfset variables.includedAnnotationIdSet = {}>
+	<cfset variables.includedAnnotationIds = "">
+	<cfloop query="ancestorPath">
+		<cfset variables.includedAnnotationIdSet["a#ancestorPath.annotation_id#"] = ancestorPath.annotation_id>
+	</cfloop>
+	<cfloop query="requestedSubtree">
+		<cfset variables.includedAnnotationIdSet["a#requestedSubtree.annotation_id#"] = requestedSubtree.annotation_id>
+	</cfloop>
+	<cfif structIsEmpty(variables.includedAnnotationIdSet)>
+		<cfset variables.includedAnnotationIds = variables.annotation_id>
+	<cfelse>
+		<cfset variables.includedAnnotationIds = arrayToList(structValueArray(variables.includedAnnotationIdSet))>
+	</cfif>
+	
+	<cfquery name="includedConversationAnns" dbtype="query">
+		SELECT *
+		FROM conversationAnns
+		WHERE annotation_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.includedAnnotationIds#" list="yes">)
+		ORDER BY annotate_date
 	</cfquery>
 	
 	<cfif rootAnn.recordcount EQ 0>
@@ -263,7 +296,7 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	
-	<cfset variables.thisAnnotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & variables.rootAnnotationId>
+	<cfset variables.thisAnnotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & variables.annotation_id>
 	
 	<!--- Hide masked annotations from users without manage_collection role --->
 	<cfif val(rootAnn.mask_annotation_fg) EQ 1 AND NOT variables.canManage>
@@ -290,40 +323,38 @@ limitations under the License.
 				{
 					"@context": "http://www.w3.org/ns/anno.jsonld",
 					"id": "#JSStringFormat(variables.thisAnnotationIRI)#",
-					"type": "Annotation",
-					"body": {"type": "TextualBody", "value": "#JSStringFormat(rootAnn.body_value)#", "language": "en"},
-					"target": "#JSStringFormat(variables.targetIRI)#",
-					"motivation": "#JSStringFormat(rootAnn.motivation)#",
-					"created": "#dateformat(rootAnn.annotate_date,'yyyy-mm-dd')#",
-					"creator": {
-						<cfif len(rootAnn.creator_uri) GT 0>"id": "#JSStringFormat(rootAnn.creator_uri)#",</cfif>
-						"name": "#JSStringFormat(rootAnn.creator_name)#"
-					},
-					"reviewed": <cfif val(rootAnn.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
-					"visibility": "<cfif val(rootAnn.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
-					<cfif replyAnns.recordcount GT 0>
-						,"replies": [
-							<cfset variables.firstReply = true>
-							<cfloop query="replyAnns">
-								<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
-									<cfif NOT variables.firstReply>,</cfif>
-									{
-										"id": "#JSStringFormat(variables.thisAnnotationIRI)#&reply=#replyAnns.annotation_id#",
-										"type": "Annotation",
-										"body": {"type": "TextualBody", "value": "#JSStringFormat(replyAnns.body_value)#"},
-										"target": "#JSStringFormat(variables.thisAnnotationIRI)#",
-										"motivation": "replying",
-										"created": "#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#",
-										"creator": {
-											<cfif len(replyAnns.creator_uri) GT 0>"id": "#JSStringFormat(replyAnns.creator_uri)#",</cfif>
-											"name": "#JSStringFormat(replyAnns.creator_name)#"
-										}
-									}
-									<cfset variables.firstReply = false>
+					"type": "AnnotationCollection",
+					"requestedAnnotation": "#JSStringFormat(variables.thisAnnotationIRI)#",
+					"rootAnnotation": "#JSStringFormat(Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & variables.rootAnnotationId)#",
+					"@graph": [
+						<cfset variables.firstAnnotation = true>
+						<cfloop query="includedConversationAnns">
+							<cfif val(includedConversationAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
+								<cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
+								<cfif val(includedConversationAnns.depth) EQ 0>
+									<cfset variables.annotationTarget = variables.targetIRI>
+								<cfelse>
+									<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
 								</cfif>
-							</cfloop>
-						]
-					</cfif>
+								<cfif NOT variables.firstAnnotation>,</cfif>
+								{
+									"id": "#JSStringFormat(variables.annotationIRI)#",
+									"type": "Annotation",
+									"body": {"type": "TextualBody", "value": "#JSStringFormat(includedConversationAnns.body_value)#", "language": "en"},
+									<cfif len(variables.annotationTarget) GT 0>"target": "#JSStringFormat(variables.annotationTarget)#",</cfif>
+									<cfif len(includedConversationAnns.motivation) GT 0>"motivation": "#JSStringFormat(includedConversationAnns.motivation)#",</cfif>
+									"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
+									"creator": {
+										<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#JSStringFormat(includedConversationAnns.creator_uri)#",</cfif>
+										"name": "#JSStringFormat(includedConversationAnns.creator_name)#"
+									},
+									"reviewed": <cfif val(includedConversationAnns.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
+									"visibility": "<cfif val(includedConversationAnns.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
+								}
+								<cfset variables.firstAnnotation = false>
+							</cfif>
+						</cfloop>
+					]
 				}
 			</cfoutput>
 		</cfcase>
@@ -352,18 +383,28 @@ limitations under the License.
 						</foaf:Agent>
 					</dcterms:creator>
 				</oa:Annotation>
-				<cfloop query="replyAnns">
-					<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
-						<oa:Annotation rdf:about="#XMLFormat(variables.thisAnnotationIRI)#&amp;reply=#replyAnns.annotation_id#">
-							<oa:motivatedBy rdf:resource="http://www.w3.org/ns/oa##replying"/>
+				<cfloop query="includedConversationAnns">
+					<cfif val(includedConversationAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
+						<cfif val(includedConversationAnns.annotation_id) EQ val(variables.rootAnnotationId)><cfcontinue></cfif>
+						<cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
+						<cfif val(includedConversationAnns.depth) EQ 0>
+							<cfset variables.annotationTarget = variables.targetIRI>
+						<cfelse>
+							<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
+						</cfif>
+						<oa:Annotation rdf:about="#XMLFormat(variables.annotationIRI)#">
+							<cfif len(includedConversationAnns.motivation) GT 0><oa:motivatedBy rdf:resource="http://www.w3.org/ns/oa###XMLFormat(includedConversationAnns.motivation)#"/></cfif>
 							<oa:hasBody>
-								<oa:TextualBody><rdf:value>#XMLFormat(replyAnns.body_value)#</rdf:value></oa:TextualBody>
+								<oa:TextualBody>
+									<rdf:value>#XMLFormat(includedConversationAnns.body_value)#</rdf:value>
+									<dcterms:language>en</dcterms:language>
+								</oa:TextualBody>
 							</oa:hasBody>
-							<oa:hasTarget rdf:resource="#XMLFormat(variables.thisAnnotationIRI)#"/>
-							<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#</dcterms:created>
+							<cfif len(variables.annotationTarget) GT 0><oa:hasTarget rdf:resource="#XMLFormat(variables.annotationTarget)#"/></cfif>
+							<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#</dcterms:created>
 							<dcterms:creator>
-								<foaf:Agent<cfif len(replyAnns.creator_uri) GT 0> rdf:about="#XMLFormat(replyAnns.creator_uri)#"</cfif>>
-									<foaf:name>#XMLFormat(replyAnns.creator_name)#</foaf:name>
+								<foaf:Agent<cfif len(includedConversationAnns.creator_uri) GT 0> rdf:about="#XMLFormat(includedConversationAnns.creator_uri)#"</cfif>>
+									<foaf:name>#XMLFormat(includedConversationAnns.creator_name)#</foaf:name>
 								</foaf:Agent>
 							</dcterms:creator>
 						</oa:Annotation>
@@ -394,22 +435,29 @@ limitations under the License.
 <cfif len(rootAnn.creator_uri) GT 0>
 <#rootAnn.creator_uri#> foaf:name "#JSStringFormat(rootAnn.creator_name)#" .
 </cfif>
-<cfloop query="replyAnns">
+<cfloop query="includedConversationAnns">
 
-<cfif val(replyAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
-<#variables.thisAnnotationIRI#&reply=#replyAnns.annotation_id#>
+<cfif val(includedConversationAnns.mask_annotation_fg) EQ 0 OR variables.canManage>
+<cfif val(includedConversationAnns.annotation_id) EQ val(variables.rootAnnotationId)><cfcontinue></cfif>
+<cfset variables.annotationIRI = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.annotation_id>
+<cfif val(includedConversationAnns.depth) EQ 0>
+	<cfset variables.annotationTarget = variables.targetIRI>
+<cfelse>
+	<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
+</cfif>
+<#variables.annotationIRI#>
     a oa:Annotation ;
-    oa:motivatedBy oa:replying ;
+    <cfif len(includedConversationAnns.motivation) GT 0>oa:motivatedBy oa:#includedConversationAnns.motivation# ;</cfif>
     oa:hasBody [
         a oa:TextualBody ;
-        rdf:value "#JSStringFormat(replyAnns.body_value)#" ;
+        rdf:value "#JSStringFormat(includedConversationAnns.body_value)#" ;
         dcterms:language "en"
     ] ;
-    oa:hasTarget <#variables.thisAnnotationIRI#> ;
-    dcterms:created "#dateformat(replyAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-    dcterms:creator <cfif len(replyAnns.creator_uri) GT 0><#replyAnns.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(replyAnns.creator_name)#" ]</cfif> .
-<cfif len(replyAnns.creator_uri) GT 0>
-<#replyAnns.creator_uri#> foaf:name "#JSStringFormat(replyAnns.creator_name)#" .
+    <cfif len(variables.annotationTarget) GT 0>oa:hasTarget <#variables.annotationTarget#> ;</cfif>
+    dcterms:created "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
+    dcterms:creator <cfif len(includedConversationAnns.creator_uri) GT 0><#includedConversationAnns.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(includedConversationAnns.creator_name)#" ]</cfif> .
+<cfif len(includedConversationAnns.creator_uri) GT 0>
+<#includedConversationAnns.creator_uri#> foaf:name "#JSStringFormat(includedConversationAnns.creator_name)#" .
 </cfif>
 </cfif>
 </cfloop></cfoutput>
@@ -447,9 +495,9 @@ limitations under the License.
 							<div class="text-right">
 								<div class="btn-group btn-group-sm" role="group" aria-label="Data formats">
 									<span class="btn btn-sm btn-secondary disabled">HTML</span>
-									<a href="showAnnotation.cfm?annotation_id=#variables.rootAnnotationId#&format=json-ld" class="btn btn-sm btn-outline-secondary">JSON-LD</a>
-									<a href="showAnnotation.cfm?annotation_id=#variables.rootAnnotationId#&format=rdf" class="btn btn-sm btn-outline-secondary">RDF/XML</a>
-									<a href="showAnnotation.cfm?annotation_id=#variables.rootAnnotationId#&format=turtle" class="btn btn-sm btn-outline-secondary">Turtle</a>
+									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=json-ld" class="btn btn-sm btn-outline-secondary">JSON-LD</a>
+									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=rdf" class="btn btn-sm btn-outline-secondary">RDF/XML</a>
+									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=turtle" class="btn btn-sm btn-outline-secondary">Turtle</a>
 								</div>
 							</div>
 						</div>
