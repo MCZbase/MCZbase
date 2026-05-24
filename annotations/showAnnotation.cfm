@@ -27,7 +27,7 @@ limitations under the License.
 <cfif variables.format EQ "rdf" OR variables.format EQ "application/rdf+xml" OR variables.format EQ "rdf+xml"><cfset variables.format = "rdf"></cfif>
 <cfif variables.format EQ "turtle" OR variables.format EQ "text/turtle"><cfset variables.format = "turtle"></cfif>
 <cfif NOT listFindNoCase("html,rdf,json-ld,turtle", variables.format)><cfset variables.format = "html"></cfif>
-<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotationReviewRow, getAnnotationThreadForRoot, renderAnnotationThreadSection --->
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotationReviewRow, getAnnotationConversationForRoot, renderAnnotationConversationReplies --->
 <cfif NOT (isDefined("variables.annotation_id") AND len(variables.annotation_id) GT 0 AND isNumeric(variables.annotation_id))>
 	<cfif variables.format EQ "html">
 		<cfset pageTitle = "Annotation Not Found">
@@ -484,13 +484,13 @@ limitations under the License.
 								root_annotation_id=rootAnn.annotation_id,
 								show_reply_action=(variables.canAnnotate OR variables.canManage))>
 							#rootRowHtml#
-							<cfset variables.fullThread = getAnnotationThreadForRoot(rootAnnotationId=variables.rootAnnotationId)>
-							<cfset variables.threadSectionHtml = renderAnnotationThreadSection(
+							<cfset variables.fullConversation = getAnnotationConversationForRoot(rootAnnotationId=variables.rootAnnotationId)>
+							<cfset variables.conversationSectionHtml = renderAnnotationConversationReplies(
 								rootAnnotationId=variables.rootAnnotationId,
-								threadAnnotations=variables.fullThread,
+								conversationAnnotations=variables.fullConversation,
 								root_mask_annotation_fg=rootAnn.mask_annotation_fg)>
-							<cfif len(trim(variables.threadSectionHtml)) GT 0>
-								#variables.threadSectionHtml#
+							<cfif len(trim(variables.conversationSectionHtml)) GT 0>
+								#variables.conversationSectionHtml#
 							<cfelse>
 								<div class="card-body py-1 text-muted small"><em>No replies yet.</em></div>
 							</cfif>

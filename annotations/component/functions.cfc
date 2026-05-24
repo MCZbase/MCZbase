@@ -513,7 +513,7 @@ limitations under the License.
 											ORDER BY ANNOTATE_DATE
 										</cfquery>
 										<cfif rootDialogAnnotations.recordcount GT 0>
-											<cfset var dialogThread = getAnnotationThreadsForRoots(valueList(rootDialogAnnotations.annotation_id))>
+											<cfset var dialogConversation = getAnnotationConversationsForRoots(valueList(rootDialogAnnotations.annotation_id))>
 											<div class="card border-0 mt-1">
 												<cfloop query="rootDialogAnnotations">
 													<cfif len(body_value) GT 0>
@@ -538,7 +538,7 @@ limitations under the License.
 														root_annotation_id=annotation_id,
 														show_reply_action=true)>
 													#dialogRootRowHtml#
-													#renderAnnotationThreadSection(rootAnnotationId=rootDialogAnnotations.annotation_id, threadAnnotations=dialogThread, root_mask_annotation_fg=mask_annotation_fg)#
+													#renderAnnotationConversationReplies(rootAnnotationId=rootDialogAnnotations.annotation_id, conversationAnnotations=dialogConversation, root_mask_annotation_fg=mask_annotation_fg)#
 												</cfloop>
 											</div>
 										</cfif>
@@ -1293,20 +1293,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
-<!--- getAnnotationThreadsForRoots Retrieve full annotation threads for one or more root annotations, including all descendants at any depth.
+<!--- getAnnotationConversationsForRoots Retrieve full annotation conversations for one or more root annotations, including all descendants at any depth.
  Uses Oracle hierarchical CONNECT BY to walk from each root down through all reply annotations.
  Masked annotations and their descendants are excluded for users without the coldfusion_user role,
  except root nodes at LEVEL=1 which are always included so callers can handle root visibility.
  @param rootAnnotationIds comma-delimited list of annotation_id values for root annotations (target_table != 'ANNOTATIONS').
  @return query with columns: annotation_id, parent_annotation_id (NULL for roots), root_annotation_id, depth, display_summary, annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg, state, resolution, reviewer, reviewer_comment, mask_annotation_fg.
 --->
-<cffunction name="getAnnotationThreadsForRoots" returntype="query" access="public">
+<cffunction name="getAnnotationConversationsForRoots" returntype="query" access="public">
 	<cfargument name="rootAnnotationIds" type="string" required="yes">
-	<cfset var threadAnnotations = QueryNew("")>
+	<cfset var conversationAnnotations = QueryNew("")>
 	<cfif len(trim(arguments.rootAnnotationIds)) EQ 0>
-		<cfreturn threadAnnotations>
+		<cfreturn conversationAnnotations>
 	</cfif>
-	<cfquery name="threadAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="conversationAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		SELECT
 			a.annotation_id,
 			CASE WHEN LEVEL = 1 THEN NULL ELSE a.target_primary_key END AS parent_annotation_id,
@@ -1348,18 +1348,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 		ORDER SIBLINGS BY a.annotate_date
 	</cfquery>
-	<cfreturn threadAnnotations>
+	<cfreturn conversationAnnotations>
 </cffunction>
 
 
-<!--- getAnnotationThreadForRoot Retrieve the full annotation thread for a single root annotation.
- Wraps getAnnotationThreadsForRoots for single-root use.
+<!--- getAnnotationConversationForRoot Retrieve the full annotation conversation for a single root annotation.
+ Wraps getAnnotationConversationsForRoots for single-root use.
  @param rootAnnotationId annotation_id of the root annotation.
- @return query with thread columns from getAnnotationThreadsForRoots.
+ @return query with conversation columns from getAnnotationConversationsForRoots.
 --->
-<cffunction name="getAnnotationThreadForRoot" returntype="query" access="public">
+<cffunction name="getAnnotationConversationForRoot" returntype="query" access="public">
 	<cfargument name="rootAnnotationId" type="numeric" required="yes">
-	<cfreturn getAnnotationThreadsForRoots(arguments.rootAnnotationId)>
+	<cfreturn getAnnotationConversationsForRoots(arguments.rootAnnotationId)>
 </cffunction>
 
 
@@ -1455,25 +1455,25 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
-<!--- renderAnnotationThreadSection Render the full annotation conversation thread below a root annotation.
+<!--- renderAnnotationConversationReplies Render the full annotation conversation replies below a root annotation.
  Renders depth-1 replies with one level of indentation, depth-2 replies with two levels of indentation,
  and depth-3 or deeper replies in a flat chronological section with parent context labels.
  Reply and edit actions are available on all annotations for users with the manage_collection role.
- History is available on all annotations. Shows total descendant reply count.
+ History is available on all annotations.
  @param rootAnnotationId annotation.annotation_id of the root annotation.
- @param threadAnnotations query from getAnnotationThreadsForRoots or getAnnotationThreadForRoot.
+ @param conversationAnnotations query from getAnnotationConversationsForRoots or getAnnotationConversationForRoot.
  @param editing_annotation_id optional; annotation_id currently being edited; highlights that row.
  @param root_mask_annotation_fg optional; mask_annotation_fg value of the root annotation.
- @return html snippet for the full conversation thread below the root.
+ @return html snippet for the full conversation replies below the root.
 --->
-<cffunction name="renderAnnotationThreadSection" returntype="string" access="public">
+<cffunction name="renderAnnotationConversationReplies" returntype="string" access="public">
 	<cfargument name="rootAnnotationId" type="numeric" required="yes">
-	<cfargument name="threadAnnotations" type="query" required="yes">
+	<cfargument name="conversationAnnotations" type="query" required="yes">
 	<cfargument name="editing_annotation_id" type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="0">
 	<cfset var sectionHtml = "">
 	<cfset var canManage = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-	<cfset var localThread = arguments.threadAnnotations>
+	<cfset var localConversation = arguments.conversationAnnotations>
 	<cfset var allDescendants = QueryNew("")>
 	<cfset var depth1Nodes = QueryNew("")>
 	<cfset var depth2Children = QueryNew("")>
@@ -1483,14 +1483,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var rowHtml = "">
 	<cfset var parentSummary = "">
 	<cfset var currentParentId = 0>
-	<cfif arguments.threadAnnotations.recordcount EQ 0>
+	<cfif arguments.conversationAnnotations.recordcount EQ 0>
 		<cfreturn "">
 	</cfif>
 	<cfquery name="allDescendants" dbtype="query">
 		SELECT annotation_id, parent_annotation_id, root_annotation_id, depth, display_summary,
 			annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
 			reviewer, reviewer_comment, mask_annotation_fg
-		FROM localThread
+		FROM localConversation
 		WHERE root_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationId#">
 			AND depth > 0
 		ORDER BY annotate_date
@@ -1583,7 +1583,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfset parentSummary = "">
 					<cfif isNumeric(deepNodes.parent_annotation_id) AND val(deepNodes.parent_annotation_id) GT 0>
 						<cfquery name="parentRow" dbtype="query">
-							SELECT display_summary, annotation_id FROM localThread
+							SELECT display_summary, annotation_id FROM localConversation
 							WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deepNodes.parent_annotation_id#">
 						</cfquery>
 						<cfif parentRow.recordcount GT 0>
@@ -1822,7 +1822,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfif rootAnno.recordcount EQ 0>
 			<cfreturn "">
 		</cfif>
-		<cfset var threadAnnotations = getAnnotationThreadForRoot(arguments.root_annotation_id)>
+		<cfset var conversationAnnotations = getAnnotationConversationForRoot(arguments.root_annotation_id)>
 		<cfset var rowHTML = renderAnnotationReviewRow(
 			annotation_id=rootAnno.annotation_id,
 			annotation_display=rootAnno.annotation_display,
@@ -1838,9 +1838,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			mask_annotation_fg=rootAnno.mask_annotation_fg,
 			show_reply_action=true
 		)>
-		<cfset var convHTML = renderAnnotationThreadSection(
+		<cfset var convHTML = renderAnnotationConversationReplies(
 			rootAnnotationId=rootAnno.annotation_id,
-			threadAnnotations=threadAnnotations,
+			conversationAnnotations=conversationAnnotations,
 			root_mask_annotation_fg=rootAnno.mask_annotation_fg
 		)>
 		<cfsavecontent variable="blockHtml">
@@ -2224,7 +2224,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							</div>
 							</cfif>
 							<!--- Context: root annotation + its responses in a card with target in the card header --->
-							<cfset var ctxThread = getAnnotationThreadForRoot(rootAnnotationId)>
+							<cfset var ctxConversation = getAnnotationConversationForRoot(rootAnnotationId)>
 							<cfquery name="ctxRoot" dbtype="query">
 								SELECT
 									ANNOTATION_ID, ANNOTATE_DATE, CF_USERNAME, ANNOTATION,
@@ -2370,7 +2370,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											show_reply_action=false,
 											highlight_as_editing=(val(ctxRoot.annotation_id) EQ val(arguments.annotation_id)))>
 										#ctxRowHtml#
-										#renderAnnotationThreadSection(rootAnnotationId=ctxRoot.annotation_id, threadAnnotations=ctxThread, editing_annotation_id=arguments.annotation_id, root_mask_annotation_fg=ctxRoot.mask_annotation_fg)#
+										#renderAnnotationConversationReplies(rootAnnotationId=ctxRoot.annotation_id, conversationAnnotations=ctxConversation, editing_annotation_id=arguments.annotation_id, root_mask_annotation_fg=ctxRoot.mask_annotation_fg)#
 									</cfloop>
 								<cfelse>
 									<div class="card-body py-1 text-muted small"><em>No annotation context found.</em></div>

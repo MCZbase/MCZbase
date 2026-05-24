@@ -635,7 +635,7 @@ limitations under the License.
 				WHERE parent_annotation_id IS NULL
 			</cfquery>
 			<cfif rootAnnotationsInResults.recordcount GT 0>
-				<cfset childAnnotations = getAnnotationThreadsForRoots(valueList(rootAnnotationsInResults.annotation_id))>
+				<cfset childAnnotations = getAnnotationConversationsForRoots(valueList(rootAnnotationsInResults.annotation_id))>
 			</cfif>
 		</cfif>
 	</cfif>
@@ -756,7 +756,7 @@ limitations under the License.
 							)>
 							#annoRowHTML#
 							<cfif showReplyAction>
-								#renderAnnotationThreadSection(rootAnnotationId=targetAnnotations.annotation_id, threadAnnotations=childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
+								#renderAnnotationConversationReplies(rootAnnotationId=targetAnnotations.annotation_id, conversationAnnotations=childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
 							</cfif>
 							</div>
 						</cfloop>
