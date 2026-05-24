@@ -295,27 +295,42 @@ limitations under the License.
 							<cfelse>
 								<cfset summary = "Response Annotation (" & targetAnnotationId & ")">
 							</cfif>
-							<cfquery name="rootAnnotationSummaryForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT a.annotation_id, atb.body_value
+							<!--- Get full ancestor chain from target up to root for context display --->
+							<cfquery name="ancestorChainForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+								SELECT a.annotation_id,
+									CASE
+										WHEN LENGTH(NVL(atb.body_value, a.annotation)) <= 60
+										THEN NVL(atb.body_value, a.annotation)
+										ELSE SUBSTR(NVL(atb.body_value, a.annotation), 1, 60) || '...'
+									END AS display_summary,
+									LEVEL AS depth_from_target
 								FROM annotations a
 								LEFT OUTER JOIN (
 									SELECT annotation_id, body_value,
-									       row_number() over (partition by annotation_id order by created_date) rn
+										row_number() over (partition by annotation_id order by created_date) rn
 									FROM annotation_textualbody
 								) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
-								WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
+								START WITH a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetAnnotationId#">
+								CONNECT BY a.annotation_id = PRIOR a.target_primary_key AND PRIOR a.target_table = 'ANNOTATIONS'
+								ORDER BY depth_from_target DESC
 							</cfquery>
-							<cfif rootAnnotationSummaryForDialog.recordcount EQ 1>
-								<cfset var rootBodyPreview = "">
-								<cfif len(rootAnnotationSummaryForDialog.body_value) GT 0>
-									<cfset rootBodyPreview = left(rootAnnotationSummaryForDialog.body_value, 60)>
-									<cfif len(rootAnnotationSummaryForDialog.body_value) GT 60><cfset rootBodyPreview = rootBodyPreview & "..."></cfif>
-								</cfif>
-								<cfif len(rootBodyPreview) GT 0>
-									<cfset summary = summary & '<span class="small d-block mt-1">Root annotation: ' & encodeForHTML(rootBodyPreview) & ' (' & responseRootAnnotationId & ')</span>'>
+							<cfset var chainHtml = "">
+							<cfloop query="ancestorChainForDialog">
+								<cfset var chainAnnId = ancestorChainForDialog.annotation_id>
+								<cfset var chainSummary = ancestorChainForDialog.display_summary>
+								<cfif val(chainAnnId) EQ val(responseRootAnnotationId)>
+									<cfset var chainLabel = "Root annotation">
+								<cfelseif val(chainAnnId) EQ val(targetAnnotationId)>
+									<cfset var chainLabel = ""><!--- immediate parent already shown as primary summary --->
 								<cfelse>
-									<cfset summary = summary & '<span class="small d-block mt-1">Root annotation (' & responseRootAnnotationId & ')</span>'>
+									<cfset var chainLabel = "&#8627; Reply">
 								</cfif>
+								<cfif len(chainLabel) GT 0>
+									<cfset chainHtml = chainHtml & '<span class="small d-block mt-1">#encodeForHTML(chainLabel)#: #encodeForHTML(chainSummary)# (#chainAnnId#)</span>'>
+								</cfif>
+							</cfloop>
+							<cfif len(chainHtml) GT 0>
+								<cfset summary = summary & chainHtml>
 							</cfif>
 						</cfif>
 					</cfcase>
@@ -384,10 +399,10 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0 px-md-3">
 							<h2 class="h3 my-1 px-1" tabindex="0">Annotations for #summary#</h2>
-							<cfif canAnnotate>
+							<cfif canAnnotate AND (variables.target_type NEQ "ANNOTATIONS" OR canRespond)>
 								<div class="col-12 px-0 add-form">
 									<div class="add-form-header px-2 pb-1">
-										<h3 class="h4 my-0 px-1 py-1" tabindex="0">Add New Annotation</h3>
+										<h3 class="h4 my-0 px-1 py-1" tabindex="0"><cfif variables.target_type EQ "ANNOTATIONS">Add Reply Annotation<cfelse>Add New Annotation</cfif></h3>
 									</div>
 									<div class="row col-12 mx-0 mt-1 d-block">
 										<form name="annotate" onSubmit="return false;" class="form-row">
@@ -421,7 +436,7 @@ limitations under the License.
 											</div>
 											<cfif variables.target_type EQ "ANNOTATIONS">
 												<div class="col-12 col-md-3 pb-1">
-													<label for="#rootReviewedFieldId#" class="data-entry-label">Mark Parent Reviewed?</label>
+													<label for="#rootReviewedFieldId#" class="data-entry-label">Mark Root Reviewed?</label>
 													<select id="#rootReviewedFieldId#" name="root_reviewed_fg" class="data-entry-select">
 														<option value="" selected="selected">No Change</option>
 														<option value="0">No</option>
@@ -476,7 +491,7 @@ limitations under the License.
 												</div>
 												<cfif variables.target_type EQ "ANNOTATIONS">
 													<div class="col-12 col-md-3 pb-1">
-														<label for="#rootMaskFieldId#" class="data-entry-label">Parent Visibility:</label>
+														<label for="#rootMaskFieldId#" class="data-entry-label">Root Visibility:</label>
 														<select id="#rootMaskFieldId#" name="root_mask_annotation_fg" class="data-entry-select">
 															<option value="" selected="selected">No Change</option>
 															<option value="0">Public</option>
@@ -496,12 +511,16 @@ limitations under the License.
 									</div>
 								</div>
 							<cfelse>
-								<p class="px-1 py-1 text-muted small">To add an annotation, you must be logged in with a registered email address.</p>
+								<cfif variables.target_type EQ "ANNOTATIONS">
+									<p class="px-1 py-1 text-muted small">The manage_collection role is required to reply to annotations.</p>
+								<cfelse>
+									<p class="px-1 py-1 text-muted small">To add an annotation, you must be logged in with a registered email address.</p>
+								</cfif>
 							</cfif>
 							<div id="annotations_on_record_#dialogFieldQualifier#" class="col-12 mx-0 px-0 mt-2" data-dialog-id="#encodeForHTMLAttribute(arguments.dialogId)#" data-target-type="#encodeForHTMLAttribute(variables.target_type)#" data-target-id="#encodeForHTMLAttribute(arguments.target_id)#">
-								<cfif prevAnn.recordcount gt 0>
+									<cfif prevAnn.recordcount gt 0>
 									<div class="d-flex justify-content-between align-items-center mt-1 px-1">
-											<h2 class="h4 mb-0">Annotations on this Record</h2>
+											<h2 class="h4 mb-0"><cfif variables.target_type EQ "ANNOTATIONS">Annotation in Context<cfelse>Annotations on this Record</cfif></h2>
 											<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 												<a href="#manageIRI#" class="btn btn-xs btn-primary" target="_blank">Manage Annotations</a>
 											</cfif>
@@ -602,6 +621,10 @@ limitations under the License.
 	</cfif>
 	<cfset motivation = rereplace(motivation,"[^a-zA-Z]","","all")>
 	<cfset variables.target_type = ucase(arguments.target_type)>
+	<!--- Normalize "ANNOTATION" (singular) to "ANNOTATIONS" for backwards compatibility --->
+	<cfif variables.target_type EQ "ANNOTATION">
+		<cfset variables.target_type = "ANNOTATIONS">
+	</cfif>
 	<cfset targetTableName = variables.target_type>
 
 	<cfset annotatable = false>
@@ -666,6 +689,9 @@ limitations under the License.
 				</cfquery>
 			</cfcase>
 			<cfcase value="ANNOTATIONS">
+				<cfif NOT userCanRespondToAnnotations()>
+					<cfthrow message="Replying to annotations requires the manage_collection role.">
+				</cfif>
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
@@ -1491,6 +1517,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var d2key = "">
 	<cfset var deepItem = {}>
 	<cfset var parentSummaryOf = {}>
+	<cfset var maskOf = {}>
 	<cfif arguments.conversationAnnotations.recordcount EQ 0>
 		<cfreturn "">
 	</cfif>
@@ -1528,6 +1555,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfloop query="allDescendants">
 		<cfset parentOf[allDescendants.annotation_id] = allDescendants.parent_annotation_id>
 		<cfset nodeDepth[allDescendants.annotation_id] = allDescendants.depth>
+		<cfset maskOf[allDescendants.annotation_id] = allDescendants.mask_annotation_fg>
 		<cfset parentSummaryOf[allDescendants.annotation_id] = encodeForHTML(allDescendants.display_summary) & " (" & allDescendants.annotation_id & ")">
 	</cfloop>
 	<!--- Group each deepNode under its nearest depth-2 ancestor so the deep replies
@@ -1614,7 +1642,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									root_annotation_id=arguments.rootAnnotationId,
 									show_reply_action=canManage,
 									highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth2Children.annotation_id) EQ val(arguments.editing_annotation_id)),
-									parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
+									parent_mask_annotation_fg=depth1Nodes.mask_annotation_fg,
 									read_only=arguments.read_only
 								)>
 								#rowHtml#
@@ -1632,6 +1660,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													&##8627; Replying to: #parentSummary#
 												</div>
 											</cfif>
+											<cfset var deepParentMask = 0>
+											<cfif isNumeric(deepItem.parent_annotation_id) AND val(deepItem.parent_annotation_id) GT 0
+												AND structKeyExists(maskOf, deepItem.parent_annotation_id)>
+												<cfset deepParentMask = maskOf[deepItem.parent_annotation_id]>
+											</cfif>
 											<cfset rowHtml = renderAnnotationReviewRow(
 												annotation_id=deepItem.annotation_id,
 												annotation_display=deepItem.annotation_display,
@@ -1647,7 +1680,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												root_annotation_id=arguments.rootAnnotationId,
 												show_reply_action=canManage,
 												highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(deepItem.annotation_id) EQ val(arguments.editing_annotation_id)),
-												parent_mask_annotation_fg=arguments.root_mask_annotation_fg,
+												parent_mask_annotation_fg=deepParentMask,
 												read_only=arguments.read_only
 											)>
 											#rowHtml#
@@ -2015,6 +2048,49 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfset rootResolutionGuidanceText = getRootResolutionGuidanceText("" & rootAnnQ.motivation)>
 				</cfif>
 
+				<!--- For deep response annotations, get the ancestor chain to show context in the heading --->
+				<cfset immediateParentId = "">
+				<cfset immediateParentBody = "">
+				<cfset ancestorChainHtml = "">
+				<cfif isResponseAnnotation>
+					<cfset immediateParentId = editAnn.target_primary_key>
+					<cfif val(immediateParentId) NEQ val(rootAnnotationId)>
+						<!--- Depth >= 2: fetch full ancestor chain from annotation up to root --->
+						<cfquery name="editAncestorChain" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT a.annotation_id,
+								CASE
+									WHEN LENGTH(NVL(atb.body_value, a.annotation)) <= 80
+									THEN NVL(atb.body_value, a.annotation)
+									ELSE SUBSTR(NVL(atb.body_value, a.annotation), 1, 80) || '...'
+								END AS display_summary,
+								LEVEL AS depth_from_start
+							FROM annotations a
+							LEFT OUTER JOIN (
+								SELECT annotation_id, body_value,
+									row_number() over (partition by annotation_id order by created_date) rn
+								FROM annotation_textualbody
+							) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+							START WITH a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+							CONNECT BY a.annotation_id = PRIOR a.target_primary_key AND PRIOR a.target_table = 'ANNOTATIONS'
+							ORDER BY depth_from_start DESC
+						</cfquery>
+						<cfloop query="editAncestorChain">
+							<cfset var chainId = editAncestorChain.annotation_id>
+							<cfset var chainDisplay = editAncestorChain.display_summary>
+							<cfif val(chainId) EQ val(annotation_id)>
+								<!--- Skip the annotation being edited; it is the subject of the dialog heading --->
+							<cfelseif val(chainId) EQ val(rootAnnotationId)>
+								<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">Root annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
+							<cfelse>
+								<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">&#8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
+							</cfif>
+							<cfif val(chainId) EQ val(immediateParentId) AND val(chainId) NEQ val(annotation_id)>
+								<cfset immediateParentBody = editAncestorChain.display_summary>
+							</cfif>
+						</cfloop>
+					</cfif>
+				</cfif>
+
 				<!--- Load context annotations: root and its children --->
 				<cfquery name="contextAnns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					SELECT annotations.ANNOTATION_ID,
@@ -2124,13 +2200,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<h2 class="h3 my-1 px-1" tabindex="0">
 								Edit Annotation <strong>#annotation_id#</strong>
 								<cfif isResponseAnnotation>
-									<span class="small d-block mt-1">
-										Reply to root annotation <strong>#rootAnnotationId#</strong>
-										<cfif len(rootAnnotationBody) GT 0>
-											: #encodeForHTML(left(rootAnnotationBody, rootBodyPreviewLength))#
-											<cfif len(rootAnnotationBody) GT rootBodyPreviewLength>&##8230;</cfif>
-										</cfif>
-									</span>
+									<cfif len(ancestorChainHtml) GT 0>
+										<!--- Depth >= 2: show full chain from root to immediate parent --->
+										#ancestorChainHtml#
+										<span class="small d-block mt-1">&#8627; Editing this annotation <strong>#annotation_id#</strong></span>
+									<cfelse>
+										<!--- Depth 1: direct reply to root annotation --->
+										<span class="small d-block mt-1">
+											Reply to root annotation <strong>#rootAnnotationId#</strong>
+											<cfif len(rootAnnotationBody) GT 0>
+												: #encodeForHTML(left(rootAnnotationBody, rootBodyPreviewLength))#
+												<cfif len(rootAnnotationBody) GT rootBodyPreviewLength>&##8230;</cfif>
+											</cfif>
+										</span>
+									</cfif>
 								</cfif>
 							</h2>
 							<cfif canManage>
@@ -2281,10 +2364,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								ORDER BY ANNOTATE_DATE
 							</cfquery>
 							<!--- Add form appears above heading (hidden, toggled by button in heading row) --->
-							<cfif canAnnotate>
+							<cfif canRespond>
 							<div id="#addFormDivId#" style="display:none;" class="col-12 mx-0 px-0 border p-1 mt-1">
 								<form name="addAnnotationForm_#dq#" onSubmit="return false;" class="form-row px-1">
-									<input type="hidden" id="idtype_add_#dq#" value="annotation">
+									<input type="hidden" id="idtype_add_#dq#" value="ANNOTATIONS">
 									<input type="hidden" id="idvalue_add_#dq#" value="#rootAnnotationId#">
 									<div class="col-12 pb-1">
 										<label for="#addAnnFieldId#" class="data-entry-label">Add Response (<span id="#addAnnLengthId#"></span>)</label>
@@ -2358,9 +2441,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<!--- Annotation in Context heading with Add New Annotation button on same line --->
 							<div class="col-12 mx-0 px-0 mt-2 d-flex align-items-center">
 								<h3 class="h5 mb-0 flex-grow-1">Annotation in Context</h3>
-								<cfif canAnnotate>
+								<cfif canRespond>
 								<button type="button" id="toggleAddFormBtn_#dq#" class="btn btn-xs btn-outline-secondary">
-									Add New Annotation
+									Add Reply Annotation
 								</button>
 								<script>
 									function toggleAddAnnotationForm_#dq#() {
@@ -2372,7 +2455,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											$("###addAnnFieldId#").keyup();
 										} else {
 											d.style.display = 'none';
-											btn.textContent = 'Add New Annotation';
+											btn.textContent = 'Add Reply Annotation';
 										}
 									}
 									$(document).ready(function() {
