@@ -186,10 +186,10 @@ limitations under the License.
 	<cfset variables.includedAnnotationIdSet = {}>
 	<cfset variables.includedAnnotationIds = "">
 	<cfloop query="ancestorPath">
-		<cfset variables.includedAnnotationIdSet["a#ancestorPath.annotation_id#"] = ancestorPath.annotation_id>
+		<cfset variables.includedAnnotationIdSet[ancestorPath.annotation_id] = ancestorPath.annotation_id>
 	</cfloop>
 	<cfloop query="requestedSubtree">
-		<cfset variables.includedAnnotationIdSet["a#requestedSubtree.annotation_id#"] = requestedSubtree.annotation_id>
+		<cfset variables.includedAnnotationIdSet[requestedSubtree.annotation_id] = requestedSubtree.annotation_id>
 	</cfloop>
 	<cfif structIsEmpty(variables.includedAnnotationIdSet)>
 		<cfset variables.includedAnnotationIds = variables.annotation_id>
@@ -451,7 +451,7 @@ limitations under the License.
 </cfif>
 <#variables.annotationIRI#>
     a oa:Annotation ;
-    <cfif len(includedConversationAnns.motivation) GT 0>oa:motivatedBy <http://www.w3.org/ns/oa###encodeForURL(includedConversationAnns.motivation)#> ;</cfif>
+    <cfif len(includedConversationAnns.motivation) GT 0>oa:motivatedBy <http://www.w3.org/ns/oa###includedConversationAnns.motivation#> ;</cfif>
     oa:hasBody [
         a oa:TextualBody ;
         rdf:value "#JSStringFormat(includedConversationAnns.body_value)#" ;
