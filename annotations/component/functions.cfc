@@ -1838,15 +1838,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<cfsavecontent variable="rowHTML">
 		<cfoutput>
-		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary<cfelseif arguments.highlight_as_replying_to> border-left border-success<cfelseif arguments.highlight_as_target> border-left border-warning</cfif>"><!--- " --->
+		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary<cfelseif arguments.highlight_as_replying_to> border-left border-success</cfif>"><!--- " --->
 			<cfif arguments.highlight_as_editing>
 				<div class="badge badge-primary mb-1" style="font-size:0.8em;">&##9998; Editing</div>
 			</cfif>
 			<cfif arguments.highlight_as_replying_to>
 				<div class="badge badge-success mb-1" style="font-size:0.8em;">&##8627; Replying to</div>
-			</cfif>
-			<cfif arguments.highlight_as_target>
-				<div class="badge badge-warning mb-1" style="font-size:0.8em;" aria-label="#encodeForHTMLAttribute(arguments.highlight_label)# annotation">#encodeForHTML(arguments.highlight_label)#</div>
 			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="#annotationBodyColClass#">
@@ -1857,6 +1854,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							Annotation:
 						</cfif>
 						<span class="text-muted small text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
+						<cfif arguments.highlight_as_target>
+							<span class="badge badge-light border text-muted ml-1 align-middle" style="font-size:0.7em;" aria-label="#encodeForHTMLAttribute(arguments.highlight_label)# annotation">#encodeForHTML(arguments.highlight_label)#</span>
+						</cfif>
 					</span>
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
