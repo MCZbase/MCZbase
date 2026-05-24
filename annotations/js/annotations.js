@@ -26,11 +26,54 @@ function reloadAnnotationBlock(rootAnnotationId) {
 	});
 }
 
+/** Reload the content of an annotations dialog by re-fetching from the server.
+ * Used after edit or reply actions initiated from within a dialog's annotation list
+ * so that the "Annotations on this Record" section reflects the latest data.
+ * @param dialogId the id attribute of the dialog container element.
+ * @param targetType the target_type passed to getAnnotationDialogHtml.
+ * @param targetId the target_id passed to getAnnotationDialogHtml.
+ */
+function reloadAnnotationsDialogSection(dialogId, targetType, targetId) {
+	$.ajax({
+		url: "/annotations/component/functions.cfc",
+		type: "get",
+		data: {
+			method: "getAnnotationDialogHtml",
+			returnformat: "plain",
+			target_type: targetType,
+			target_id: targetId,
+			dialogId: dialogId
+		},
+		success: function(data) {
+			var divEl = document.getElementById(dialogId + "_div");
+			if (divEl) { $(divEl).html(data); }
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, "reloading annotations dialog for " + targetType + " " + targetId);
+		}
+	});
+}
+
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	var targetAnnotationId = $(this).attr("data-target-annotation-id") || $(this).attr("data-root-annotation-id");
 	var rootAnnotationId = $(this).attr("data-root-annotation-id");
+	var $parentSection = $(this).closest('[id^="annotations_on_record_"]');
 	var callback = null;
-	if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
+	if ($parentSection.length) {
+		var parentDialogId = $parentSection.attr("data-dialog-id");
+		var parentTargetType = $parentSection.attr("data-target-type");
+		var parentTargetId = $parentSection.attr("data-target-id");
+		var blockCallback = null;
+		if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
+			blockCallback = function() { reloadAnnotationBlock(rootAnnotationId); };
+		} else if (!rootAnnotationId && targetAnnotationId && $("#annotation-block-" + targetAnnotationId).length) {
+			blockCallback = function() { reloadAnnotationBlock(targetAnnotationId); };
+		}
+		callback = function() {
+			if (typeof blockCallback === "function") { blockCallback(); }
+			reloadAnnotationsDialogSection(parentDialogId, parentTargetType, parentTargetId);
+		};
+	} else if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
 		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
 	} else if (!rootAnnotationId && targetAnnotationId && $("#annotation-block-" + targetAnnotationId).length) {
 		callback = function() { reloadAnnotationBlock(targetAnnotationId); };
@@ -43,8 +86,21 @@ jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 jQuery(document).on("click", ".open-edit-annotation-dialog", function() {
 	var annotationId = jQuery(this).attr("data-edit-annotation-id");
 	var rootAnnotationId = jQuery(this).attr("data-root-annotation-id");
+	var $parentSection = $(this).closest('[id^="annotations_on_record_"]');
 	var callback = null;
-	if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
+	if ($parentSection.length) {
+		var parentDialogId = $parentSection.attr("data-dialog-id");
+		var parentTargetType = $parentSection.attr("data-target-type");
+		var parentTargetId = $parentSection.attr("data-target-id");
+		var blockCallback = null;
+		if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
+			blockCallback = function() { reloadAnnotationBlock(rootAnnotationId); };
+		}
+		callback = function() {
+			if (typeof blockCallback === "function") { blockCallback(); }
+			reloadAnnotationsDialogSection(parentDialogId, parentTargetType, parentTargetId);
+		};
+	} else if (rootAnnotationId && $("#annotation-block-" + rootAnnotationId).length) {
 		callback = function() { reloadAnnotationBlock(rootAnnotationId); };
 	} else if (typeof annotationDialogCloseCallback === "function") {
 		callback = annotationDialogCloseCallback;

@@ -498,7 +498,7 @@ limitations under the License.
 							<cfelse>
 								<p class="px-1 py-1 text-muted small">To add an annotation, you must be logged in with a registered email address.</p>
 							</cfif>
-							<div class="col-12 mx-0 px-0 mt-2">
+							<div id="annotations_on_record_#dialogFieldQualifier#" class="col-12 mx-0 px-0 mt-2" data-dialog-id="#encodeForHTMLAttribute(arguments.dialogId)#" data-target-type="#encodeForHTMLAttribute(variables.target_type)#" data-target-id="#encodeForHTMLAttribute(arguments.target_id)#">
 								<cfif prevAnn.recordcount gt 0>
 									<div class="d-flex justify-content-between align-items-center mt-1 px-1">
 											<h2 class="h4 mb-0">Annotations on this Record</h2>
