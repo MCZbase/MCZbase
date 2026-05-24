@@ -307,7 +307,7 @@ limitations under the License.
 								FROM annotations a
 								LEFT OUTER JOIN (
 									SELECT annotation_id, body_value,
-										row_number() over (partition by annotation_id order by created_date) rn
+										ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 									FROM annotation_textualbody
 								) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
 								START WITH a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetAnnotationId#">
@@ -321,7 +321,8 @@ limitations under the License.
 								<cfif val(chainAnnId) EQ val(responseRootAnnotationId)>
 									<cfset var chainLabel = "Root annotation">
 								<cfelseif val(chainAnnId) EQ val(targetAnnotationId)>
-									<cfset var chainLabel = ""><!--- immediate parent already shown as primary summary --->
+									<!--- immediate parent is already shown as the primary summary heading --->
+									<cfset var chainLabel = "">
 								<cfelse>
 									<cfset var chainLabel = "&#8627; Reply">
 								</cfif>
@@ -1509,6 +1510,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var rowHtml = "">
 	<cfset var parentSummary = "">
 	<cfset var currentParentId = 0>
+	<cfset var depth1MaskFg = 0>
 	<cfset var parentOf = {}>
 	<cfset var nodeDepth = {}>
 	<cfset var deepByDepth2 = {}>
@@ -1616,6 +1618,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					)>
 					#rowHtml#
 					<cfset currentParentId = depth1Nodes.annotation_id>
+					<cfset depth1MaskFg = depth1Nodes.mask_annotation_fg>
 					<cfquery name="depth2Children" dbtype="query">
 						SELECT annotation_id, parent_annotation_id, depth, display_summary,
 							annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
@@ -1642,7 +1645,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									root_annotation_id=arguments.rootAnnotationId,
 									show_reply_action=canManage,
 									highlight_as_editing=(len(arguments.editing_annotation_id) GT 0 AND val(depth2Children.annotation_id) EQ val(arguments.editing_annotation_id)),
-									parent_mask_annotation_fg=depth1Nodes.mask_annotation_fg,
+									parent_mask_annotation_fg=depth1MaskFg,
 									read_only=arguments.read_only
 								)>
 								#rowHtml#
@@ -2067,7 +2070,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							FROM annotations a
 							LEFT OUTER JOIN (
 								SELECT annotation_id, body_value,
-									row_number() over (partition by annotation_id order by created_date) rn
+									ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
 								FROM annotation_textualbody
 							) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
 							START WITH a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
@@ -2077,15 +2080,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<cfloop query="editAncestorChain">
 							<cfset var chainId = editAncestorChain.annotation_id>
 							<cfset var chainDisplay = editAncestorChain.display_summary>
-							<cfif val(chainId) EQ val(annotation_id)>
-								<!--- Skip the annotation being edited; it is the subject of the dialog heading --->
-							<cfelseif val(chainId) EQ val(rootAnnotationId)>
-								<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">Root annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
-							<cfelse>
-								<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">&#8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
-							</cfif>
-							<cfif val(chainId) EQ val(immediateParentId) AND val(chainId) NEQ val(annotation_id)>
-								<cfset immediateParentBody = editAncestorChain.display_summary>
+							<cfif val(chainId) NEQ val(annotation_id)>
+								<!--- Include all ancestors except the annotation being edited (shown in dialog heading) --->
+								<cfif val(chainId) EQ val(rootAnnotationId)>
+									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">Root annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
+								<cfelse>
+									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">&#8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'>
+								</cfif>
+								<cfif val(chainId) EQ val(immediateParentId)>
+									<cfset immediateParentBody = editAncestorChain.display_summary>
+								</cfif>
 							</cfif>
 						</cfloop>
 					</cfif>
