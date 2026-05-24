@@ -191,7 +191,7 @@ limitations under the License.
 	<cfloop query="requestedSubtree">
 		<cfset variables.includedAnnotationIdSet[requestedSubtree.annotation_id] = requestedSubtree.annotation_id>
 	</cfloop>
-	<cfset variables.includedAnnotationIds = arrayToList(structValueArray(variables.includedAnnotationIdSet))>
+	<cfset variables.includedAnnotationIds = arrayToList(structKeyArray(variables.includedAnnotationIdSet))>
 	<cfif len(trim(variables.includedAnnotationIds)) EQ 0>
 		<cfset variables.includedAnnotationIds = variables.annotation_id>
 	</cfif>
@@ -351,8 +351,8 @@ limitations under the License.
 					"id": "#JSStringFormat(variables.thisAnnotationIRI)#",
 					"type": "Annotation",
 					"body": {"type": "TextualBody", "value": "#JSStringFormat(requestedAnnRow.body_value)#", "language": "en"},
-					<cfif len(variables.requestedTarget) GT 0>"target": "#JSStringFormat(variables.requestedTarget)#",</cfif>
-					<cfif len(requestedAnnRow.motivation) GT 0>"motivation": "#JSStringFormat(requestedAnnRow.motivation)#",</cfif>
+					"target": <cfif len(variables.requestedTarget) GT 0>"#JSStringFormat(variables.requestedTarget)#"<cfelse>null</cfif>,
+					"motivation": <cfif len(requestedAnnRow.motivation) GT 0>"#JSStringFormat(requestedAnnRow.motivation)#"<cfelse>null</cfif>,
 					"created": "#dateformat(requestedAnnRow.annotate_date,'yyyy-mm-dd')#",
 					"creator": {
 						<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#JSStringFormat(requestedAnnRow.creator_uri)#",</cfif>
@@ -377,8 +377,8 @@ limitations under the License.
 									"id": "#JSStringFormat(variables.annotationIRI)#",
 									"type": "Annotation",
 									"body": {"type": "TextualBody", "value": "#JSStringFormat(includedConversationAnns.body_value)#", "language": "en"},
-									<cfif len(variables.annotationTarget) GT 0>"target": "#JSStringFormat(variables.annotationTarget)#",</cfif>
-									<cfif len(includedConversationAnns.motivation) GT 0>"motivation": "#JSStringFormat(includedConversationAnns.motivation)#",</cfif>
+									"target": <cfif len(variables.annotationTarget) GT 0>"#JSStringFormat(variables.annotationTarget)#"<cfelse>null</cfif>,
+									"motivation": <cfif len(includedConversationAnns.motivation) GT 0>"#JSStringFormat(includedConversationAnns.motivation)#"<cfelse>null</cfif>,
 									"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
 									"creator": {
 										<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#JSStringFormat(includedConversationAnns.creator_uri)#",</cfif>
