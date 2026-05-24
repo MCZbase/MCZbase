@@ -26,12 +26,12 @@ limitations under the License.
  @param target_type optional target selector; accepts known table names (COLLECTION_OBJECT|TAXONOMY|PUBLICATION|PROJECT with *_id aliases) and any target_table value.
  @param state optional annotation state exact match.
  @param resolution optional annotation resolution exact match; pass "NULL" to find annotations with no resolution, "NOT NULL" to find annotations with any resolution.
- @param annotator optional username fragment (case-insensitive contains match).
- @param annotation_text optional annotation body fragment (case-insensitive contains match).
- @param motivation optional annotation motivation exact match.
+ @param annotator optional username fragment (case-insensitive contains match). In root mode, matches root or response annotations within a conversation.
+ @param annotation_text optional annotation body fragment (case-insensitive contains match). In root mode, matches root or response annotations within a conversation.
+ @param motivation optional annotation motivation exact match. In root mode, matches root or response annotations within a conversation.
  @param reviewed_fg optional review flag; accepts 1/0/true/false/yes/no.
  @param root_mode optional thread position filter; root (default) or response.
- @param visibility optional mask flag; accepts 1/0/true/false/yes/no.
+ @param visibility optional mask flag; accepts 1/0/true/false/yes/no. In root mode, matches root or response annotations within a conversation.
  @param has_responses optional filter for root annotations by whether they have responses; accepts yes/no.
  @param collection optional exact collection name for specimen targets.
  @param specimen_guid optional specimen guid filter; supports single guid, comma-delimited list, or SQL wildcard pattern.
@@ -71,6 +71,7 @@ limitations under the License.
 	<cfset var normalizedRootMode = "root">
 	<cfset var normalizedReviewedFg = "">
 	<cfset var normalizedVisibility = "">
+	<cfset var hasAnyAnnotationLevelFilter = false>
 	<cfset var annotationResults = QueryNew("")>
 
 	<cftry>
@@ -114,6 +115,12 @@ limitations under the License.
 			<cfset normalizedVisibility = "0">
 		</cfif>
 	</cfif>
+	<cfset hasAnyAnnotationLevelFilter = (
+		len(trim(arguments.motivation)) GT 0
+		OR len(normalizedVisibility) GT 0
+		OR len(trim(arguments.annotator)) GT 0
+		OR len(trim(arguments.annotation_text)) GT 0
+	)>
 
 	<cfquery name="annotationResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
@@ -288,20 +295,54 @@ limitations under the License.
 			<cfelseif len(trim(arguments.resolution)) GT 0>
 				AND annotations.resolution = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.resolution)#">
 			</cfif>
-			<cfif len(trim(arguments.motivation)) GT 0>
-				AND annotations.motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.motivation)#">
+			<cfif normalizedRootMode EQ "root" AND hasAnyAnnotationLevelFilter>
+				AND EXISTS (
+					SELECT 1
+					FROM annotations conversation_annotation
+					WHERE (
+						conversation_annotation.annotation_id = annotations.annotation_id
+						OR (
+							conversation_annotation.target_table = 'ANNOTATIONS'
+							AND conversation_annotation.target_primary_key = annotations.annotation_id
+						)
+					)
+					<cfif len(trim(arguments.motivation)) GT 0>
+						AND conversation_annotation.motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.motivation)#">
+					</cfif>
+					<cfif len(normalizedVisibility) GT 0>
+						AND conversation_annotation.mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedVisibility#">
+					</cfif>
+					<cfif len(trim(arguments.annotator)) GT 0>
+						AND upper(conversation_annotation.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotator))#%">
+					</cfif>
+					<cfif len(trim(arguments.annotation_text)) GT 0>
+						AND (
+							upper(conversation_annotation.annotation) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
+							OR EXISTS (
+								SELECT 1
+								FROM annotation_textualbody conversation_atb
+								WHERE conversation_atb.annotation_id = conversation_annotation.annotation_id
+									AND upper(conversation_atb.body_value) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
+							)
+						)
+					</cfif>
+				)
+			<cfelse>
+				<cfif len(trim(arguments.motivation)) GT 0>
+					AND annotations.motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.motivation)#">
+				</cfif>
+				<cfif len(normalizedVisibility) GT 0>
+					AND annotations.mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedVisibility#">
+				</cfif>
+				<cfif len(trim(arguments.annotator)) GT 0>
+					AND upper(annotations.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotator))#%">
+				</cfif>
+				<cfif len(trim(arguments.annotation_text)) GT 0>
+					AND upper(NVL(atb.body_value, annotations.annotation)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
+				</cfif>
 			</cfif>
 			<cfif len(normalizedReviewedFg) GT 0>
 				AND annotations.reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedReviewedFg#">
-			</cfif>
-			<cfif len(normalizedVisibility) GT 0>
-				AND annotations.mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedVisibility#">
-			</cfif>
-			<cfif len(trim(arguments.annotator)) GT 0>
-				AND upper(annotations.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotator))#%">
-			</cfif>
-			<cfif len(trim(arguments.annotation_text)) GT 0>
-				AND upper(NVL(atb.body_value, annotations.annotation)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
 			</cfif>
 			<cfif len(trim(arguments.collection)) GT 0>
 				AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.collection)#">
