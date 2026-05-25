@@ -1213,6 +1213,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var annotationExists = QueryNew("")>
 	<cfset var annotationHistory = QueryNew("")>
 	<cfset var changedByDisplay = "">
+	<cfset var changedByAgentId = 0>
 	<cfset var queryError = "">
 	<cfset var message = "">
 
@@ -1266,12 +1267,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								</thead>
 								<tbody>
 									<cfloop query="annotationHistory">
+										<cfset changedByAgentId = val(annotationHistory.changed_by_agent_id)>
 										<cfset changedByDisplay = "">
-										<cfif val(annotationHistory.changed_by_agent_id) GT 0>
+										<cfif changedByAgentId GT 0>
 											<cfif len(trim(annotationHistory.changed_by_agent_name)) GT 0>
 												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name)>
 											<cfelse>
-												<cfset changedByDisplay = "[agent #val(annotationHistory.changed_by_agent_id)#]">
+												<cfset changedByDisplay = "[agent #changedByAgentId#]">
 											</cfif>
 										<cfelseif len(trim(annotationHistory.changed_by_username)) GT 0>
 											<cfset changedByDisplay = trim(annotationHistory.changed_by_username)>
