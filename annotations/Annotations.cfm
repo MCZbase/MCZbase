@@ -470,16 +470,9 @@ limitations under the License.
 									<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 								</div>
 								<div class="form-group mb-2" data-target-group="agent">
-									<label for="agent_name" id="agent_name_label" class="data-entry-label">Agent Name
-										<span id="agent_name_view" class="small d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-									</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text smaller bg-light" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-										</div>
-										<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="agent_name_label" placeholder="Type to search by name or pick an agent">
-										<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
-									</div>
+									<label for="agent_name" class="data-entry-label">Agent Name</label>
+									<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="data-entry-input col-12" placeholder="Type to search by name or pick an agent">
+									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 								</div>
 							</div>
 						</form>
@@ -628,8 +621,8 @@ limitations under the License.
 								} else {
 									console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
 								}
-								if (typeof makeConstrainedRichAgentPickerConfig === 'function') {
-									makeConstrainedRichAgentPickerConfig('agent_name', 'agent_id', 'agent_name_icon', 'agent_name_view', '#encodeForJavaScript(variables.agent_id)#', '', false);
+								if (typeof makeConstrainedAgentPicker === 'function') {
+									makeConstrainedAgentPicker('agent_name', 'agent_id', 'annotated');
 								} else {
 									console.warn('Agent autocomplete unavailable. Use agent_id in URL parameters for agent filtering.');
 								}
