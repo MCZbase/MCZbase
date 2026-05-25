@@ -32,6 +32,43 @@ limitations under the License.
 	<cfreturn canRespond>
 </cffunction>
 
+<!--- Get an agent_id for a login username from agent_name(login).
+ @param login_name the login username to resolve to an agent_id.
+ @return numeric agent_id or 0 when no mapping exists.
+--->
+<cffunction name="getAgentIdForLoginName" returntype="numeric" access="public">
+	<cfargument name="login_name" type="string" required="yes">
+	<cfset var resolvedAgentId = 0>
+	<cfset var agentLookup = QueryNew("")>
+	<cfquery name="agentLookup" datasource="uam_god">
+		SELECT MIN(an.agent_id) AS agent_id
+		FROM agent_name an
+		WHERE an.agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">
+			AND an.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.login_name)#">
+	</cfquery>
+	<cfif agentLookup.recordcount GT 0 AND val(agentLookup.agent_id) GT 0>
+		<cfset resolvedAgentId = val(agentLookup.agent_id)>
+	</cfif>
+	<cfreturn resolvedAgentId>
+</cffunction>
+
+<!--- Require current user login to resolve to an agent_id for annotation edit/update actions.
+ @return numeric non-zero agent_id for the current session user.
+--->
+<cffunction name="requireCurrentUserAnnotationEditorAgentId" returntype="numeric" access="public">
+	<cfset var editorAgentId = 0>
+	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
+		<cfheader statusCode="403" statusText="Editing annotations requires a logged-in user.">
+		<cfabort>
+	</cfif>
+	<cfset editorAgentId = getAgentIdForLoginName(session.username)>
+	<cfif editorAgentId LTE 0>
+		<cfheader statusCode="403" statusText="Editing annotations requires your login name to be associated with an agent record.">
+		<cfabort>
+	</cfif>
+	<cfreturn editorAgentId>
+</cffunction>
+
 <!--- Load controlled values for annotation workflow state.
  @return query of allowed state values from ctstate.
 --->
@@ -777,17 +814,7 @@ limitations under the License.
 	<cfif annotatable>
 		<cftransaction>
 			<cftry>
-				<cfquery name="agentLookup" datasource="uam_god">
-					SELECT MIN(an.agent_id) AS annotator_agent_id
-					FROM agent_name an
-					WHERE an.agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">
-					AND an.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfif agentLookup.recordcount GT 0 AND val(agentLookup.annotator_agent_id) GT 0>
-					<cfset annotatorAgentId = agentLookup.annotator_agent_id>
-				<cfelse>
-					<cfset annotatorAgentId = "">
-				</cfif>
+				<cfset annotatorAgentId = getAgentIdForLoginName(session.username)>
 				<cfquery name="annotator" datasource="uam_god">
 					SELECT username, first_name, last_name, affiliation, email 
 					FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
@@ -801,8 +828,9 @@ limitations under the License.
 						target_table, 
 						target_primary_key,
 						state,
-						motivation
-						<cfif len(annotatorAgentId) GT 0>,annotator_agent_id</cfif>
+						motivation,
+						annotator_agent_id,
+						last_updated_by_agent_id
 						<cfif setMaskFg>,mask_annotation_fg</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
@@ -810,8 +838,9 @@ limitations under the License.
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#variables.target_type#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 						'New',
-						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
-						<cfif len(annotatorAgentId) GT 0>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#'></cfif>
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >,
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">,
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
 						<cfif setMaskFg>,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#mask_annotation_fg#'></cfif>
 					)
 				</cfquery>
@@ -828,13 +857,15 @@ limitations under the License.
 						body_value,
 						body_format,
 						body_language,
-						created_date
+						created_date,
+						last_updated_by_agent_id
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getAnnotationID.annotation_id#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#urldecode(annotation)#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='text/plain'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' null="yes">,
-						SYSDATE
+						SYSDATE,
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
 					)
 				</cfquery>
 				<cfif target_type EQ "ANNOTATIONS" AND (len(cleanRootState) GT 0 OR len(cleanRootResolution) GT 0 OR setRootResolutionNull)>
@@ -853,7 +884,8 @@ limitations under the License.
 								resolution = NULL
 							<cfelse>
 								resolution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#cleanRootResolution#'>
-							</cfif>
+							</cfif>,
+							last_updated_by_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
 				</cfif>
@@ -862,7 +894,8 @@ limitations under the License.
 						UPDATE annotations
 						SET
 							reviewed_fg = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#trim(root_reviewed_fg)#'>,
-							reviewer_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#session.myAgentId#'>
+							reviewer_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">,
+							last_updated_by_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
 				</cfif>
@@ -874,7 +907,8 @@ limitations under the License.
 					<cfquery name="updRootAnnMask" datasource="uam_god">
 						UPDATE annotations
 						SET
-							mask_annotation_fg = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#trim(root_mask_annotation_fg)#'>
+							mask_annotation_fg = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#trim(root_mask_annotation_fg)#'>,
+							last_updated_by_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
 				</cfif>
@@ -973,14 +1007,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
+	<cfset reviewerAgentId = requireCurrentUserAnnotationEditorAgentId()>
 	<cftransaction>
 		<cftry>
 			<cfquery name="updateAnnotation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAnnotation_result">
 				UPDATE annotations
 				SET
-					reviewer_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+					reviewer_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewerAgentId#">,
 					reviewed_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewed_fg#">,
-					reviewer_comment=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reviewer_comment#">
+					reviewer_comment=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reviewer_comment#">,
+					last_updated_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewerAgentId#">
 					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0>
 						,mask_annotation_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">
 					</cfif>
@@ -1022,9 +1058,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection"))>
 				<cfthrow message="The manage_collection role is required to set annotation visibility.">
 			</cfif>
+			<cfset editorAgentId = requireCurrentUserAnnotationEditorAgentId()>
 			<cfquery name="updateMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMask_result">
 				UPDATE annotations
-				SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">
+				SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">,
+					last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
 				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 			</cfquery>
 			<cfif updateMask_result.recordcount NEQ 1>
@@ -1175,6 +1213,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var annotationExists = QueryNew("")>
 	<cfset var annotationHistory = QueryNew("")>
 	<cfset var changedByDisplay = "">
+	<cfset var changedByAgentId = 0>
 	<cfset var queryError = "">
 	<cfset var message = "">
 
@@ -1196,6 +1235,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfquery name="annotationHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					SELECT
 						TO_CHAR(h.changed_date, 'YYYY-MM-DD HH24:MI:SS') AS changed_date,
+						h.changed_by_agent_id AS changed_by_agent_id,
 						h.changed_by_username AS changed_by_username,
 						pan.agent_name AS changed_by_agent_name,
 						h.event_type AS event_type,
@@ -1227,13 +1267,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								</thead>
 								<tbody>
 									<cfloop query="annotationHistory">
-										<cfset changedByDisplay = trim(annotationHistory.changed_by_username)>
-										<cfif len(trim(annotationHistory.changed_by_agent_name)) GT 0>
-											<cfif len(changedByDisplay) GT 0>
-												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name) & " (" & changedByDisplay & ")">
-											<cfelse>
+										<cfset changedByAgentId = val(annotationHistory.changed_by_agent_id)>
+										<cfset changedByDisplay = "">
+										<cfif changedByAgentId GT 0>
+											<cfif len(trim(annotationHistory.changed_by_agent_name)) GT 0>
 												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name)>
+											<cfelse>
+												<cfset changedByDisplay = "[agent #changedByAgentId#]">
 											</cfif>
+										<cfelseif len(trim(annotationHistory.changed_by_username)) GT 0>
+											<cfset changedByDisplay = trim(annotationHistory.changed_by_username)>
 										</cfif>
 										<cfif len(changedByDisplay) EQ 0><cfset changedByDisplay = "[unknown]"></cfif>
 										<tr>
@@ -2653,12 +2696,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	</cfif>
 
 	<cfset data = ArrayNew(1)>
+	<cfset editorAgentId = requireCurrentUserAnnotationEditorAgentId()>
 	<cftransaction>
 		<cftry>
 			<!--- Update annotation_textualbody body_value (first/earliest row) --->
 			<cfquery name="updBody" datasource="uam_god">
 				UPDATE annotation_textualbody
-				SET body_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urldecode(arguments.annotation)#">
+				SET body_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urldecode(arguments.annotation)#">,
+					last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
 				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
 					AND created_date = (
 						SELECT MIN(created_date) FROM annotation_textualbody
@@ -2670,7 +2715,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset cleanMotivation = rereplace(arguments.motivation, "[^a-zA-Z]", "", "all")>
 				<cfquery name="updMotivation" datasource="uam_god">
 					UPDATE annotations
-					SET motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanMotivation#">
+					SET motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanMotivation#">,
+						last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
 					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
 				</cfquery>
 			</cfif>
@@ -2678,7 +2724,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<cfif len(trim(arguments.mask_annotation_fg)) GT 0 AND REFind("^[01]$", trim(arguments.mask_annotation_fg)) GT 0>
 				<cfquery name="updMask" datasource="uam_god">
 					UPDATE annotations
-					SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.mask_annotation_fg)#">
+					SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.mask_annotation_fg)#">,
+						last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
 					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
 				</cfquery>
 			</cfif>
@@ -2713,7 +2760,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfquery name="updRootReviewed" datasource="uam_god">
 						UPDATE annotations
 						SET reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_reviewed_fg)#">,
-							reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+							reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">,
+							last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
 						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
 					</cfquery>
 				</cfif>
@@ -2733,14 +2781,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								resolution = NULL
 							<cfelse>
 								resolution = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#validRootResolution#">
-							</cfif>
+							</cfif>,
+							last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
 						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
 					</cfquery>
 				</cfif>
 				<cfif len(trim(arguments.root_mask_annotation_fg)) GT 0 AND REFind("^[01]$", trim(arguments.root_mask_annotation_fg)) GT 0>
 					<cfquery name="updRootMask" datasource="uam_god">
 						UPDATE annotations
-						SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_mask_annotation_fg)#">
+						SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_mask_annotation_fg)#">,
+							last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
 						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
 					</cfquery>
 				</cfif>
