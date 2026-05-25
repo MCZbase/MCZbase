@@ -390,7 +390,7 @@ limitations under the License.
 												<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
 												<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
 											</cfswitch>
-											<cfif ucase(variables.target_type) NEQ "ANNOTATIONS">
+											<cfif ucase(variables.target_table) NEQ "ANNOTATIONS">
 												<cfif variables.target_type EQ target_table><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
 												<option value="#encodeForHTML(target_table)#" #local.selected#>#encodeForHTML(target_type_label)# (#ct#)</option>
 											</cfif>
