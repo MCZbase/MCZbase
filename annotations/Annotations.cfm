@@ -367,8 +367,8 @@ limitations under the License.
 							<div class="col-12 col-md-6 col-xl-2 mb-3">
 								<h2 class="h5 mb-2">Annotation Text and Review</h2>
 								<div class="form-group mb-2">
-									<label for="annotator" class="data-entry-label">Annotator Username</label>
-									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
+									<label for="annotator" class="data-entry-label">Annotator Login Name</label>
+									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12" placeholder="Type login or annotator name">
 								</div>
 								<div class="form-group mb-2">
 									<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
@@ -626,6 +626,11 @@ limitations under the License.
 									makeConstrainedAgentPicker('agent_name', 'agent_id', 'annotated');
 								} else {
 									console.warn('Agent autocomplete unavailable. Use agent_id in URL parameters for agent filtering.');
+								}
+								if (typeof makeAnnotationParticipantLoginAutocomplete === 'function') {
+									makeAnnotationParticipantLoginAutocomplete('annotator');
+								} else {
+									console.warn('Annotator autocomplete unavailable. Annotator searches will use typed login fragments.');
 								}
 								// Clear the stored publication_id whenever the user edits the lookup display field manually.
 								$('##publication_lookup').on('input', function () {

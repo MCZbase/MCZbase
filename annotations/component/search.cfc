@@ -551,6 +551,110 @@ limitations under the License.
 </cffunction>
 
 <!---
+ getAnnotatorLoginAutocompleteMeta returns annotation-participant login suggestions for annotator search.
+ Suggestions are constrained to existing annotation participants (annotations.cf_username), with optional
+ enrichment from annotator_agent_id and login-name-to-agent mappings to show matched agent names.
+
+ @param term required text fragment to match against login names or related agent names.
+ @return json array for jquery-ui autocomplete with login value and richer meta label.
+--->
+<cffunction name="getAnnotatorLoginAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset var data = ArrayNew(1)>
+	<cfset var searchTerm = trim(arguments.term)>
+	<cfset var searchLike = "%#searchTerm#%">
+	<cfset var rows = 0>
+	<cfset var i = 1>
+	<cfset var row = StructNew()>
+	<cfset var edited_marker = "">
+	<cfset var display_name = "">
+	<cfset var queryError = "">
+	<cfset var message = "">
+
+	<cfif len(searchTerm) EQ 0>
+		<cfreturn serializeJSON(data)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
+			SELECT
+				participants.cf_username,
+				prefername.agent_name preferred_agent_name,
+				NVL(agent.edited, 0) edited,
+				MIN(
+					CASE
+						WHEN upper(searchname.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#"> THEN searchname.agent_name
+						WHEN upper(prefername.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#"> THEN prefername.agent_name
+						ELSE NULL
+					END
+				) matched_agent_name
+			FROM (
+				SELECT
+					annotations.cf_username,
+					MIN(NVL(annotations.annotator_agent_id, login_name.agent_id)) resolved_agent_id
+				FROM annotations
+					LEFT OUTER JOIN agent_name login_name
+						ON login_name.agent_name_type = 'login'
+							AND upper(login_name.agent_name) = upper(annotations.cf_username)
+				WHERE
+					length(trim(annotations.cf_username)) > 0
+				GROUP BY
+					annotations.cf_username
+			) participants
+				LEFT OUTER JOIN agent ON participants.resolved_agent_id = agent.agent_id
+				LEFT OUTER JOIN agent_name prefername ON agent.preferred_agent_name_id = prefername.agent_name_id
+				LEFT OUTER JOIN agent_name searchname ON participants.resolved_agent_id = searchname.agent_id
+			WHERE
+				upper(participants.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+				OR upper(NVL(prefername.agent_name, '')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+				OR upper(NVL(searchname.agent_name, '')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+			GROUP BY
+				participants.cf_username,
+				prefername.agent_name,
+				agent.edited
+			ORDER BY
+				NVL(prefername.agent_name, participants.cf_username),
+				participants.cf_username
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset edited_marker = "">
+			<cfif search.edited EQ 1><cfset edited_marker = " *"></cfif>
+			<cfset display_name = search.matched_agent_name>
+			<cfif len(trim(display_name)) EQ 0><cfset display_name = search.preferred_agent_name></cfif>
+			<cfif len(trim(display_name)) EQ 0><cfset display_name = search.cf_username></cfif>
+			<cfset row["id"] = "#search.cf_username#">
+			<cfset row["value"] = "#search.cf_username#">
+			<cfset row["meta"] = "#display_name##edited_marker# (#search.cf_username#)">
+			<cfset data[i] = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn serializeJSON(data)>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing getAnnotatorLoginAutocompleteMeta: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!---
  renderAnnotationSearchResults renders annotation search results HTML for async and noscript loads.
  Works with findAnnotations query result structure and uses existing annotation render helpers to 
  maintain consistent display with other annotation sections.

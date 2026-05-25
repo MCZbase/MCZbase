@@ -54,6 +54,35 @@ function reloadAnnotationsDialogSection(dialogId, targetType, targetId) {
 	});
 }
 
+/** Make an annotator login field into an annotation-participant autocomplete.
+ *  Displays matched agent metadata in the picklist while selecting a login username value.
+ *  @param controlId the id for the annotator login text input (without leading # selector).
+ */
+function makeAnnotationParticipantLoginAutocomplete(controlId) {
+	$('#' + controlId).autocomplete({
+		source: function(request, response) {
+			$.ajax({
+				url: '/annotations/component/search.cfc',
+				data: {
+					term: request.term,
+					method: 'getAnnotatorLoginAutocompleteMeta'
+				},
+				dataType: 'json',
+				success: function(data) { response(data); },
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'looking up annotation participants for annotator autocomplete');
+				}
+			});
+		},
+		select: function(event, result) {
+			$('#' + controlId).val(result.item.value);
+		},
+		minLength: 2
+	}).autocomplete('instance')._renderItem = function(ul, item) {
+		return $('<li>').append($('<span>').text(item.meta)).appendTo(ul);
+	};
+}
+
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
 	var targetAnnotationId = $(this).attr("data-target-annotation-id") || $(this).attr("data-root-annotation-id");
 	var rootAnnotationId = $(this).attr("data-root-annotation-id");
