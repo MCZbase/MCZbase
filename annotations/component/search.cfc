@@ -563,7 +563,6 @@ limitations under the License.
 	<cfset var data = ArrayNew(1)>
 	<cfset var searchTerm = trim(arguments.term)>
 	<cfset var searchLike = "%#searchTerm#%">
-	<cfset var rows = 0>
 	<cfset var i = 1>
 	<cfset var row = StructNew()>
 	<cfset var edited_marker = "">
@@ -646,7 +645,6 @@ limitations under the License.
 				NVL(prefername.agent_name, participants.cf_username),
 				participants.cf_username
 		</cfquery>
-		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
