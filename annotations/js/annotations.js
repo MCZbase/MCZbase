@@ -78,7 +78,7 @@ function makeAnnotationParticipantLoginAutocomplete(controlId) {
 	}).autocomplete('instance');
 	if (autocompleteInstance) {
 		autocompleteInstance._renderItem = function(ul, item) {
-			var menuLabel = item.meta || item.value || 'Unknown';
+			var menuLabel = item.meta || item.value || '';
 			return $('<li>').append($('<span>').text(menuLabel)).appendTo(ul);
 		};
 	}
