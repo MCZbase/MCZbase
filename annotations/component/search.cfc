@@ -43,6 +43,8 @@ limitations under the License.
  @param publication_text optional publication citation/title substring; used only when publication_id is not provided.
  @param project_id optional numeric project primary key filter; takes precedence over project_text when both are provided.
  @param project_text optional project name substring; used only when project_id is not provided.
+ @param agent_id optional numeric agent primary key filter; takes precedence over agent_name when both are provided.
+ @param agent_name optional agent name substring; used only when agent_id is not provided.
  @return query of annotation rows with target context fields used by /annotations/Annotations.cfm result rendering.
 --->
 <cffunction name="findAnnotations" returntype="query" access="public">
@@ -66,6 +68,7 @@ limitations under the License.
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="project_text" type="string" required="no" default="">
 	<cfargument name="agent_id" type="string" required="no" default="">
+	<cfargument name="agent_name" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var targetTableFilter = "">
@@ -490,6 +493,23 @@ limitations under the License.
 						ELSE annotations.target_primary_key
 					END
 				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.agent_id)#">
+			<cfelseif len(trim(arguments.agent_name)) GT 0>
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+						ELSE annotations.target_table
+					END
+				) = 'AGENT'
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						ELSE annotations.target_primary_key
+					END
+				) IN (
+					SELECT agent_name.agent_id
+					FROM agent_name
+					WHERE upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.agent_name))#%">
+				)
 			</cfif>
 			<cfif normalizedRootMode EQ "root" AND listFindNoCase("yes,no", trim(arguments.has_responses))>
 				<cfif lcase(trim(arguments.has_responses)) EQ "yes">
@@ -559,6 +579,8 @@ limitations under the License.
  @param publication_text optional publication citation/title substring; used only when publication_id is not provided.
  @param project_id optional project id filter; takes precedence over project_text.
  @param project_text optional project name substring; used only when project_id is not provided.
+ @param agent_id optional agent id filter; takes precedence over agent_name.
+ @param agent_name optional agent name substring; used only when agent_id is not provided.
  @return HTML string for annotation search results section using existing annotation render helpers.
  @see findAnnotations 
 --->
@@ -587,6 +609,7 @@ limitations under the License.
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="project_text" type="string" required="no" default="">
 	<cfargument name="agent_id" type="string" required="no" default="">
+	<cfargument name="agent_name" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var normalizedTargetType = trim(ucase(arguments.target_type))>
@@ -697,7 +720,8 @@ limitations under the License.
 		len(trim(arguments.publication_text)) GT 0 OR
 		len(normalizedProjectId) GT 0 OR
 		len(trim(arguments.project_text)) GT 0 OR
-		len(normalizedAgentId) GT 0
+		len(normalizedAgentId) GT 0 OR
+		len(trim(arguments.agent_name)) GT 0
 	)>
 		<cfset runSearch = true>
 	</cfif>
@@ -724,7 +748,8 @@ limitations under the License.
 			publication_text = trim(arguments.publication_text),
 			project_id = normalizedProjectId,
 			project_text = trim(arguments.project_text),
-			agent_id = normalizedAgentId
+			agent_id = normalizedAgentId,
+			agent_name = trim(arguments.agent_name)
 		)>
 		<cfif searchResults.recordcount GT 0>
 			<cfset matchedAnnotationIds = valueList(searchResults.annotation_id)>
@@ -801,6 +826,7 @@ limitations under the License.
 			<cfif len(normalizedProjectId) GT 0><cfset arrayAppend(searchTermLabels, "project")></cfif>
 			<cfif len(trim(arguments.project_text)) GT 0><cfset arrayAppend(searchTermLabels, "project text")></cfif>
 			<cfif len(normalizedAgentId) GT 0><cfset arrayAppend(searchTermLabels, "agent")></cfif>
+			<cfif len(trim(arguments.agent_name)) GT 0><cfset arrayAppend(searchTermLabels, "agent name")></cfif>
 			<cfif listFindNoCase("yes,no", trim(arguments.has_responses))><cfset arrayAppend(searchTermLabels, "has responses")></cfif>
 			<cfif arrayLen(searchTermLabels) GT 0><cfset searchedOn = arrayToList(searchTermLabels, ", ")></cfif>
 			<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationSearchResultsHeading">
