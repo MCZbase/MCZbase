@@ -2372,6 +2372,17 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</cfloop>
+										<!--- annotations reference agents via target_table/target_primary_key, not a standard FK --->
+										<cfquery name="getAnnotationRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+											SELECT count(annotation_id) as ct
+											FROM annotations
+											WHERE target_table = 'AGENT'
+												AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfif getAnnotationRels.ct GT 0>
+											<cfset okToDelete = false>
+											<cfset relatedTo["ANNOTATIONS.TARGET_PRIMARY_KEY"] = getAnnotationRels.ct>
+										</cfif>
 										<div class="card-body py-1 mt-1 mb-1">
 											<cfif okToDelete>
 												<h3 class="small95 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
