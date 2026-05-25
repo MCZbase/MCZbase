@@ -26,12 +26,12 @@ limitations under the License.
  @param target_type optional target selector; accepts known table names (COLLECTION_OBJECT|TAXONOMY|PUBLICATION|PROJECT with *_id aliases) and any target_table value.
  @param state optional annotation state exact match.
  @param resolution optional annotation resolution exact match; pass "NULL" to find annotations with no resolution, "NOT NULL" to find annotations with any resolution.
- @param annotator optional username fragment (case-insensitive contains match).
- @param annotation_text optional annotation body fragment (case-insensitive contains match).
- @param motivation optional annotation motivation exact match.
+ @param annotator optional username fragment (case-insensitive contains match). In root mode, matches root or response annotations within a conversation.
+ @param annotation_text optional annotation body fragment (case-insensitive contains match). In root mode, matches root or response annotations within a conversation.
+ @param motivation optional annotation motivation exact match. In root mode, matches root or response annotations within a conversation.
  @param reviewed_fg optional review flag; accepts 1/0/true/false/yes/no.
  @param root_mode optional thread position filter; root (default) or response.
- @param visibility optional mask flag; accepts 1/0/true/false/yes/no.
+ @param visibility optional mask flag; accepts 1/0/true/false/yes/no. In root mode, matches root or response annotations within a conversation.
  @param has_responses optional filter for root annotations by whether they have responses; accepts yes/no.
  @param collection optional exact collection name for specimen targets.
  @param specimen_guid optional specimen guid filter; supports single guid, comma-delimited list, or SQL wildcard pattern.
@@ -71,6 +71,7 @@ limitations under the License.
 	<cfset var normalizedRootMode = "root">
 	<cfset var normalizedReviewedFg = "">
 	<cfset var normalizedVisibility = "">
+	<cfset var hasAnyAnnotationLevelFilter = false>
 	<cfset var annotationResults = QueryNew("")>
 
 	<cftry>
@@ -114,6 +115,12 @@ limitations under the License.
 			<cfset normalizedVisibility = "0">
 		</cfif>
 	</cfif>
+	<cfset hasAnyAnnotationLevelFilter = (
+		len(trim(arguments.motivation)) GT 0
+		OR len(normalizedVisibility) GT 0
+		OR len(trim(arguments.annotator)) GT 0
+		OR len(trim(arguments.annotation_text)) GT 0
+	)>
 
 	<cfquery name="annotationResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
@@ -288,20 +295,54 @@ limitations under the License.
 			<cfelseif len(trim(arguments.resolution)) GT 0>
 				AND annotations.resolution = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.resolution)#">
 			</cfif>
-			<cfif len(trim(arguments.motivation)) GT 0>
-				AND annotations.motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.motivation)#">
+			<cfif normalizedRootMode EQ "root" AND hasAnyAnnotationLevelFilter>
+				AND EXISTS (
+					SELECT 1
+					FROM annotations conversation_annotation
+					WHERE (
+						conversation_annotation.annotation_id = annotations.annotation_id
+						OR (
+							conversation_annotation.target_table = 'ANNOTATIONS'
+							AND conversation_annotation.target_primary_key = annotations.annotation_id
+						)
+					)
+					<cfif len(trim(arguments.motivation)) GT 0>
+						AND conversation_annotation.motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.motivation)#">
+					</cfif>
+					<cfif len(normalizedVisibility) GT 0>
+						AND conversation_annotation.mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedVisibility#">
+					</cfif>
+					<cfif len(trim(arguments.annotator)) GT 0>
+						AND upper(conversation_annotation.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotator))#%">
+					</cfif>
+					<cfif len(trim(arguments.annotation_text)) GT 0>
+						AND (
+							upper(conversation_annotation.annotation) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
+							OR EXISTS (
+								SELECT 1
+								FROM annotation_textualbody conversation_atb
+								WHERE conversation_atb.annotation_id = conversation_annotation.annotation_id
+									AND upper(conversation_atb.body_value) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
+							)
+						)
+					</cfif>
+				)
+			<cfelse>
+				<cfif len(trim(arguments.motivation)) GT 0>
+					AND annotations.motivation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.motivation)#">
+				</cfif>
+				<cfif len(normalizedVisibility) GT 0>
+					AND annotations.mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedVisibility#">
+				</cfif>
+				<cfif len(trim(arguments.annotator)) GT 0>
+					AND upper(annotations.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotator))#%">
+				</cfif>
+				<cfif len(trim(arguments.annotation_text)) GT 0>
+					AND upper(NVL(atb.body_value, annotations.annotation)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
+				</cfif>
 			</cfif>
 			<cfif len(normalizedReviewedFg) GT 0>
 				AND annotations.reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedReviewedFg#">
-			</cfif>
-			<cfif len(normalizedVisibility) GT 0>
-				AND annotations.mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#normalizedVisibility#">
-			</cfif>
-			<cfif len(trim(arguments.annotator)) GT 0>
-				AND upper(annotations.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotator))#%">
-			</cfif>
-			<cfif len(trim(arguments.annotation_text)) GT 0>
-				AND upper(NVL(atb.body_value, annotations.annotation)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.annotation_text))#%">
 			</cfif>
 			<cfif len(trim(arguments.collection)) GT 0>
 				AND collection.collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.collection)#">
@@ -530,10 +571,22 @@ limitations under the License.
 	<cfset var normalizedProjectId = trim(arguments.project_id)>
 	<cfset var normalizedFamily = trim(arguments.family)>
 	<cfset var normalizedRootMode = lcase(trim(arguments.root_mode))>
+	<cfset var normalizedVisibility = "">
+	<cfset var hasAnyAnnotationLevelFilter = false>
 	<cfset var runSearch = false>
 	<cfset var searchResults = QueryNew("")>
-	<cfset var childAnnotations = QueryNew("")>
-	<cfset var rootAnnotationsInResults = QueryNew("")>
+	<cfset var conversationAnnotations = QueryNew("")>
+	<cfset var annotationRoots = QueryNew("")>
+	<cfset var annotationToRoot = {}>
+	<cfset var rootToMatchedIdList = {}>
+	<cfset var isConversationAnnotationMatch = false>
+	<cfset var matchedAnnotationIds = "">
+	<cfset var matchedRootIds = "">
+	<cfset var targetRootIdMap = {}>
+	<cfset var targetRootIds = []>
+	<cfset var targetRootId = "">
+	<cfset var rootRow = QueryNew("")>
+	<cfset var targetMatchIds = "">
 	<cfset var targets = QueryNew("")>
 	<cfset var targetAnnotations = QueryNew("")>
 	<cfset var targetCount = 0>
@@ -546,8 +599,8 @@ limitations under the License.
 	<cfset var targetMeta = "">
 	<cfset var targetTitleContainsHtml = false>
 	<cfset var specimenGuid = "">
-	<cfset var showReplyAction = false>
 	<cfset var annoRowHTML = "">
+	<cfset var conversationHtml = "">
 	<cfset var result = "">
 
 	<cfif len(normalizedTargetType) EQ 0>
@@ -588,6 +641,19 @@ limitations under the License.
 	<cfif NOT listFindNoCase("root,response", normalizedRootMode)>
 		<cfset normalizedRootMode = "root">
 	</cfif>
+	<cfif listFindNoCase("1,0,true,false,yes,no", lcase(trim(arguments.visibility)))>
+		<cfif listFindNoCase("1,true,yes", lcase(trim(arguments.visibility)))>
+			<cfset normalizedVisibility = "1">
+		<cfelse>
+			<cfset normalizedVisibility = "0">
+		</cfif>
+	</cfif>
+	<cfset hasAnyAnnotationLevelFilter = (
+		len(trim(arguments.motivation)) GT 0
+		OR len(normalizedVisibility) GT 0
+		OR len(trim(arguments.annotator)) GT 0
+		OR len(trim(arguments.annotation_text)) GT 0
+	)>
 	<cfif listFindNoCase("true,1,yes,y,on", lcase(trim(arguments.execute)))>
 		<cfset runSearch = true>
 	</cfif>
@@ -629,13 +695,38 @@ limitations under the License.
 			project_text = trim(arguments.project_text)
 		)>
 		<cfif searchResults.recordcount GT 0>
-			<cfquery name="rootAnnotationsInResults" dbtype="query">
-				SELECT annotation_id
-				FROM searchResults
-				WHERE parent_annotation_id IS NULL
-			</cfquery>
-			<cfif rootAnnotationsInResults.recordcount GT 0>
-				<cfset childAnnotations = getChildAnnotationsForRoots(valueList(rootAnnotationsInResults.annotation_id))>
+			<cfset matchedAnnotationIds = valueList(searchResults.annotation_id)>
+			<cfset annotationRoots = getRootAnnotationsForAnnotationIds(matchedAnnotationIds)>
+			<cfif annotationRoots.recordcount GT 0>
+				<cfset matchedRootIds = valueList(annotationRoots.root_annotation_id)>
+				<cfset conversationAnnotations = getAnnotationConversationsForRoots(matchedRootIds)>
+				<cfloop query="annotationRoots">
+					<cfset annotationToRoot[annotationRoots.annotation_id] = annotationRoots.root_annotation_id>
+				</cfloop>
+				<cfif normalizedRootMode EQ "root" AND hasAnyAnnotationLevelFilter>
+					<cfloop query="conversationAnnotations">
+						<cfset isConversationAnnotationMatch = true>
+						<cfif len(trim(arguments.motivation)) GT 0 AND conversationAnnotations.motivation NEQ trim(arguments.motivation)>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch AND len(normalizedVisibility) GT 0 AND conversationAnnotations.mask_annotation_fg NEQ val(normalizedVisibility)>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch AND len(trim(arguments.annotator)) GT 0 AND NOT findNoCase(trim(arguments.annotator), conversationAnnotations.cf_username & "")>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch AND len(trim(arguments.annotation_text)) GT 0 AND NOT findNoCase(trim(arguments.annotation_text), conversationAnnotations.annotation_display & "")>
+							<cfset isConversationAnnotationMatch = false>
+						</cfif>
+						<cfif isConversationAnnotationMatch>
+							<cfif structKeyExists(rootToMatchedIdList, conversationAnnotations.root_annotation_id)>
+								<cfset rootToMatchedIdList[conversationAnnotations.root_annotation_id] = listAppend(rootToMatchedIdList[conversationAnnotations.root_annotation_id], conversationAnnotations.annotation_id)>
+							<cfelse>
+								<cfset rootToMatchedIdList[conversationAnnotations.root_annotation_id] = conversationAnnotations.annotation_id>
+							</cfif>
+						</cfif>
+					</cfloop>
+				</cfif>
 			</cfif>
 		</cfif>
 	</cfif>
@@ -695,7 +786,7 @@ limitations under the License.
 						<cfcase value="COLLECTION_OBJECT">
 							<cfset specimenGuid = "#targets.institution_acronym#:#targets.collection_cde#:#targets.cat_num#">
 							<cfset targetTitle = specimenGuid>
-							<cfset targetLink = "/guid/#encodeForURL(specimenGuid)#">
+							<cfset targetLink = "/guid/#specimenGuid#">
 							<cfset targetMeta = "Current Identification: #encodeForHTML(targets.scientific_name)#; Locality: #encodeForHTML(targets.higher_geog)#: #encodeForHTML(targets.spec_locality)#">
 						</cfcase>
 						<cfcase value="TAXONOMY">
@@ -704,8 +795,8 @@ limitations under the License.
 							<cfset targetTitleContainsHtml = true>
 						</cfcase>
 						<cfcase value="PUBLICATION">
-							<cfset targetTitle = targets.publication_title>
-							<cfset targetLink = "/publications/showPublication.cfm?publication_id=#encodeForURL(targets.publication_id)#">
+							<cfset targetTitle = reReplace(targets.publication_title, "<[^>]+>", "", "all")><!--- " --->
+							<cfset targetLink = "/publications/showPublication.cfm?publication_id=#encodeForURL(targets.publication_id)#"><!--- " --->
 						</cfcase>
 						<cfcase value="PROJECT">
 							<cfset targetTitle = targets.project_name>
@@ -733,32 +824,70 @@ limitations under the License.
 							WHERE target_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_table#">
 								AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targets.target_primary_key#">
 						</cfquery>
+						<cfset targetRootIds = []>
+						<cfset targetRootIdMap = {}>
 						<cfloop query="targetAnnotations">
-							<cfset showReplyAction = false>
-							<cfif NOT isNumeric(targetAnnotations.parent_annotation_id)>
-								<cfset showReplyAction = true>
+							<cfif structKeyExists(annotationToRoot, targetAnnotations.annotation_id)>
+								<cfset targetRootId = annotationToRoot[targetAnnotations.annotation_id]>
+								<cfif NOT structKeyExists(targetRootIdMap, targetRootId)>
+									<cfset targetRootIdMap[targetRootId] = true>
+									<cfset arrayAppend(targetRootIds, targetRootId)>
+								</cfif>
 							</cfif>
-							<div id="annotation-block-#targetAnnotations.annotation_id#">
-							<cfset annoRowHTML = renderAnnotationReviewRow(
-								annotation_id=targetAnnotations.annotation_id,
-								annotation_display=targetAnnotations.annotation_display,
-								cf_username=targetAnnotations.cf_username,
-								email=targetAnnotations.email,
-								annotate_date=targetAnnotations.annotate_date,
-								motivation=targetAnnotations.motivation,
-								reviewed_fg=targetAnnotations.reviewed_fg,
-								state=targetAnnotations.state,
-								resolution=targetAnnotations.resolution,
-								reviewer=targetAnnotations.reviewer,
-								reviewer_comment=targetAnnotations.reviewer_comment,
-								mask_annotation_fg=targetAnnotations.mask_annotation_fg,
-								show_reply_action=showReplyAction
-							)>
-							#annoRowHTML#
-							<cfif showReplyAction>
-								#renderAnnotationConversationSection(rootAnnotationId=targetAnnotations.annotation_id, childAnnotations=childAnnotations, root_mask_annotation_fg=targetAnnotations.mask_annotation_fg)#
+						</cfloop>
+						<cfif normalizedRootMode EQ "root" AND hasAnyAnnotationLevelFilter>
+							<cfset targetMatchIds = "">
+							<cfloop array="#targetRootIds#" index="targetRootId">
+								<cfif structKeyExists(rootToMatchedIdList, targetRootId)>
+									<cfif len(targetMatchIds) EQ 0>
+										<cfset targetMatchIds = rootToMatchedIdList[targetRootId]>
+									<cfelse>
+										<cfset targetMatchIds = listAppend(targetMatchIds, rootToMatchedIdList[targetRootId])>
+									</cfif>
+								</cfif>
+							</cfloop>
+						<cfelse>
+							<cfset targetMatchIds = valueList(targetAnnotations.annotation_id)>
+						</cfif>
+						<cfloop array="#targetRootIds#" index="targetRootId">
+							<cfquery name="rootRow" dbtype="query">
+								SELECT annotation_id, annotation_display, cf_username, email, annotate_date, motivation, reviewed_fg,
+									state, resolution, reviewer, reviewer_comment, mask_annotation_fg
+								FROM conversationAnnotations
+								WHERE root_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetRootId#">
+									AND depth = 0
+							</cfquery>
+							<cfif rootRow.recordcount EQ 1>
+								<div id="annotation-block-#rootRow.annotation_id#">
+									<cfset annoRowHTML = renderAnnotationReviewRow(
+										annotation_id=rootRow.annotation_id,
+										annotation_display=rootRow.annotation_display,
+										cf_username=rootRow.cf_username,
+										email=rootRow.email,
+										annotate_date=rootRow.annotate_date,
+										motivation=rootRow.motivation,
+										reviewed_fg=rootRow.reviewed_fg,
+										state=rootRow.state,
+										resolution=rootRow.resolution,
+										reviewer=rootRow.reviewer,
+										reviewer_comment=rootRow.reviewer_comment,
+										mask_annotation_fg=rootRow.mask_annotation_fg,
+										show_reply_action=true,
+										highlight_as_target=listFind(targetMatchIds, rootRow.annotation_id),
+										highlight_label="Matched")>
+									#annoRowHTML#
+									<cfset conversationHtml = renderAnnotationConversationReplies(
+										rootAnnotationId=rootRow.annotation_id,
+										conversationAnnotations=conversationAnnotations,
+										root_mask_annotation_fg=rootRow.mask_annotation_fg,
+										highlight_annotation_ids=targetMatchIds,
+										highlight_label="Matched"
+									)>
+									<cfif len(trim(conversationHtml)) GT 0>
+										#conversationHtml#
+									</cfif>
+								</div>
 							</cfif>
-							</div>
 						</cfloop>
 					</div>
 				</cfloop>
