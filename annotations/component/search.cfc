@@ -568,8 +568,9 @@ limitations under the License.
 	<cfset var row = StructNew()>
 	<cfset var edited_marker = "">
 	<cfset var display_name = "">
-	<cfset var queryError = "">
 	<cfset var message = "">
+	<cfset var error_message = "">
+	<cfset var function_called = "">
 
 	<cfif len(searchTerm) EQ 0>
 		<cfreturn serializeJSON(data)>
@@ -662,8 +663,10 @@ limitations under the License.
 		</cfloop>
 		<cfreturn serializeJSON(data)>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getAnnotatorLoginAutocompleteMeta: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfset message = "Error processing annotator login autocomplete.">
 		<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">
