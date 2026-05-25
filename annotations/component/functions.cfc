@@ -850,7 +850,16 @@ limitations under the License.
 					FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
+				<!--- setMaskFg if user has manage_collection role, mask_annotation_fg value is provided, and mask_annotation_fg value is 0 or 1 --->
+				<cfset setMaskFg = false>
+				<cfif  isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
+					<cfset setMaskFg = true>
+				</cfif>
+				<!--- setMaskFg to 1 if user does not have coldfusion_user role (all annotations by external users are hidden by default --->
+				<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
+					<cfset setMaskFg = true>
+					<cfset mask_annotation_fg = "1">
+				</cfif>
 				<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
 					INSERT INTO annotations (
 						cf_username,
