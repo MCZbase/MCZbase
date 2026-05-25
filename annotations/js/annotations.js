@@ -74,9 +74,6 @@ function makeAnnotationParticipantLoginAutocomplete(controlId) {
 				}
 			});
 		},
-		select: function(event, result) {
-			$('#' + controlId).val(result.item.value);
-		},
 		minLength: 2
 	}).autocomplete('instance')._renderItem = function(ul, item) {
 		var menuLabel = item.meta || item.value || item.label || '';

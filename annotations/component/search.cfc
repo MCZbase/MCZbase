@@ -581,33 +581,47 @@ limitations under the License.
 				participants.cf_username,
 				prefername.agent_name preferred_agent_name,
 				NVL(agent.edited, 0) edited,
-				MIN(
-					CASE
-						WHEN upper(searchname.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#"> THEN searchname.agent_name
-						WHEN upper(prefername.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#"> THEN prefername.agent_name
-						ELSE NULL
-					END
-				) matched_agent_name
+				MIN(searchname.agent_name) matched_agent_name
 			FROM (
 				SELECT
-					annotations.cf_username,
-					MIN(NVL(annotations.annotator_agent_id, login_name.agent_id)) resolved_agent_id
-				FROM annotations
-					LEFT OUTER JOIN agent_name login_name
-						ON login_name.agent_name_type = 'login'
-							AND upper(login_name.agent_name) = upper(annotations.cf_username)
+					participants_ranked.cf_username,
+					participants_ranked.resolved_agent_id
+				FROM (
+					SELECT
+						participants_raw.cf_username,
+						participants_raw.resolved_agent_id,
+						ROW_NUMBER() OVER (
+							PARTITION BY participants_raw.cf_username
+							ORDER BY
+								CASE WHEN participants_raw.annotator_agent_id IS NOT NULL THEN 0 ELSE 1 END,
+								CASE WHEN participants_raw.resolved_agent_id IS NOT NULL THEN 0 ELSE 1 END,
+								participants_raw.resolved_agent_id
+						) row_rank
+					FROM (
+						SELECT DISTINCT
+							annotations.cf_username,
+							annotations.annotator_agent_id,
+							NVL(annotations.annotator_agent_id, login_name.agent_id) resolved_agent_id
+						FROM annotations
+							LEFT OUTER JOIN agent_name login_name
+								ON login_name.agent_name_type = 'login'
+									AND upper(login_name.agent_name) = upper(annotations.cf_username)
+						WHERE
+							length(trim(annotations.cf_username)) > 0
+					) participants_raw
+				) participants_ranked
 				WHERE
-					length(trim(annotations.cf_username)) > 0
-				GROUP BY
-					annotations.cf_username
+					participants_ranked.row_rank = 1
 			) participants
 				LEFT OUTER JOIN agent ON participants.resolved_agent_id = agent.agent_id
 				LEFT OUTER JOIN agent_name prefername ON agent.preferred_agent_name_id = prefername.agent_name_id
-				LEFT OUTER JOIN agent_name searchname ON participants.resolved_agent_id = searchname.agent_id
+				LEFT OUTER JOIN agent_name searchname
+					ON participants.resolved_agent_id = searchname.agent_id
+						AND upper(searchname.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
 			WHERE
 				upper(participants.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
 				OR upper(NVL(prefername.agent_name, '')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
-				OR upper(NVL(searchname.agent_name, '')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+				OR searchname.agent_name IS NOT NULL
 			GROUP BY
 				participants.cf_username,
 				prefername.agent_name,
