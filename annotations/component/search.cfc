@@ -571,6 +571,7 @@ limitations under the License.
 	<cfset var message = "">
 	<cfset var error_message = "">
 	<cfset var function_called = "">
+	<cfset var errorResponse = StructNew()>
 
 	<cfif len(searchTerm) EQ 0>
 		<cfreturn serializeJSON(data)>
@@ -668,19 +669,10 @@ limitations under the License.
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfset message = "Error processing annotator login autocomplete.">
 		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ server error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
-		<cfabort>
+		<cfset errorResponse = StructNew()>
+		<cfset errorResponse["error"] = true>
+		<cfset errorResponse["message"] = message>
+		<cfreturn serializeJSON(errorResponse)>
 	</cfcatch>
 	</cftry>
 </cffunction>
