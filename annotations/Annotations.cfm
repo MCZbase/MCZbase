@@ -453,6 +453,12 @@ limitations under the License.
 									<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
 								</div>
 								<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
+								<h3 class="h6 mb-2 mt-3">Agent</h3>
+								<div class="form-group mb-2" data-target-group="agent">
+									<label for="agent_name" class="data-entry-label">Agent Name</label>
+									<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="data-entry-input col-12" placeholder="Type to search by name or pick an agent">
+									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+								</div>
 							</div>
 	
 							<div class="col-12 col-md-6 col-xl-3 mb-3">
@@ -468,11 +474,6 @@ limitations under the License.
 									<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
 									<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
 									<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
-								</div>
-								<div class="form-group mb-2" data-target-group="agent">
-									<label for="agent_name" class="data-entry-label">Agent Name</label>
-									<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="data-entry-input col-12" placeholder="Type to search by name or pick an agent">
-									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 								</div>
 							</div>
 						</form>
