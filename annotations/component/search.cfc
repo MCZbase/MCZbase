@@ -584,38 +584,18 @@ limitations under the License.
 				NVL(agent.edited, 0) edited,
 				searchname.agent_name matched_agent_name
 			FROM (
-				SELECT
-					participants_ranked.cf_username,
-					participants_ranked.resolved_agent_id
-				FROM (
-					SELECT
-						participants_raw.cf_username,
-						participants_raw.resolved_agent_id,
-						ROW_NUMBER() OVER (
-							PARTITION BY participants_raw.cf_username
-							ORDER BY
-								CASE WHEN participants_raw.annotator_agent_id IS NOT NULL THEN 0 ELSE 1 END,
-								CASE WHEN participants_raw.resolved_agent_id IS NOT NULL THEN 0 ELSE 1 END,
-								participants_raw.resolved_agent_id
-						) row_rank
-					FROM (
-						SELECT DISTINCT
-							annotations.cf_username,
-							annotations.annotator_agent_id,
-							CASE
-								WHEN login_name.agent_id IS NOT NULL THEN login_name.agent_id
-								ELSE annotations.annotator_agent_id
-							END resolved_agent_id
-						FROM annotations
-							LEFT OUTER JOIN agent_name login_name
-								ON login_name.agent_name_type = 'login'
-									AND upper(login_name.agent_name) = upper(annotations.cf_username)
-						WHERE
-							length(trim(annotations.cf_username)) > 0
-					) participants_raw
-				) participants_ranked
+				SELECT DISTINCT
+					annotations.cf_username,
+					CASE
+						WHEN login_name.agent_id IS NOT NULL THEN login_name.agent_id
+						ELSE annotations.annotator_agent_id
+					END resolved_agent_id
+				FROM annotations
+					LEFT OUTER JOIN agent_name login_name
+						ON login_name.agent_name_type = 'login'
+							AND upper(login_name.agent_name) = upper(annotations.cf_username)
 				WHERE
-					participants_ranked.row_rank = 1
+					length(trim(annotations.cf_username)) > 0
 			) participants
 				LEFT OUTER JOIN agent ON participants.resolved_agent_id = agent.agent_id
 				LEFT OUTER JOIN agent_name prefername ON agent.preferred_agent_name_id = prefername.agent_name_id
