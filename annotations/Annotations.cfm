@@ -48,6 +48,7 @@ limitations under the License.
 <cfparam name="url.publication_text" default="">
 <cfparam name="url.project_id" default="">
 <cfparam name="url.project_text" default="">
+<cfparam name="url.agent_id" default="">
 <cfparam name="url.has_responses" default="">
 
 <cfset variables.execute = lcase(trim(url.execute))>
@@ -73,6 +74,7 @@ limitations under the License.
 <cfset variables.publication_text = trim(url.publication_text)>
 <cfset variables.project_id = trim(url.project_id)>
 <cfset variables.project_text = trim(url.project_text)>
+<cfset variables.agent_id = trim(url.agent_id)>
 <cfset variables.has_responses = trim(url.has_responses)>
 <cfset variables.publication_lookup = "">
 <cfset variables.project_lookup = "">
@@ -83,6 +85,7 @@ limitations under the License.
 	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXONOMY"></cfcase>
 	<cfcase value="publication,publication_id"><cfset variables.target_type = "PUBLICATION"></cfcase>
 	<cfcase value="project,project_id"><cfset variables.target_type = "PROJECT"></cfcase>
+	<cfcase value="agent,agent_id"><cfset variables.target_type = "AGENT"></cfcase>
 	<cfcase value="guid"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
 	<cfdefaultcase>
 		<cfif len(variables.target_type) GT 0>
@@ -102,6 +105,9 @@ limitations under the License.
 		</cfcase>
 		<cfcase value="PROJECT">
 			<cfif len(variables.project_id) EQ 0><cfset variables.project_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfcase value="AGENT">
+			<cfif len(variables.agent_id) EQ 0><cfset variables.agent_id = trim(url.id)></cfif>
 		</cfcase>
 		<cfdefaultcase>
 			<cfif len(variables.collection_object_id) EQ 0><cfset variables.collection_object_id = trim(url.id)></cfif>
@@ -129,7 +135,8 @@ limitations under the License.
 	len(variables.publication_id) GT 0 OR
 	len(variables.publication_text) GT 0 OR
 	len(variables.project_id) GT 0 OR
-	len(variables.project_text) GT 0
+	len(variables.project_text) GT 0 OR
+	len(variables.agent_id) GT 0
 )>
 	<cfset runSearch = true>
 </cfif>
@@ -388,6 +395,7 @@ limitations under the License.
 												<cfcase value="TAXONOMY"><cfset target_type_label = "Taxon"></cfcase>
 												<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
 												<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
+												<cfcase value="AGENT"><cfset target_type_label = "Agent"></cfcase>
 												<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
 											</cfswitch>
 											<cfif ucase(target_table) NEQ "ANNOTATIONS">
@@ -449,6 +457,7 @@ limitations under the License.
 									<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 								</div>
 							</div>
+							<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 						</form>
 						<script>
 							var $form = $('##annotationSearchForm');

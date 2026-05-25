@@ -65,6 +65,7 @@ limitations under the License.
 	<cfargument name="publication_text" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="project_text" type="string" required="no" default="">
+	<cfargument name="agent_id" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var targetTableFilter = "">
@@ -213,6 +214,7 @@ limitations under the License.
 			taxonomy.family taxon_family,
 			publication.publication_title,
 			project.project_name,
+			NVL(target_pan.agent_name, '') agent_name,
 			to_char(
 				CASE
 					WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
@@ -264,6 +266,14 @@ limitations under the License.
 			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
 			LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
 			LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+			LEFT OUTER JOIN preferred_agent_name target_pan ON (
+					annotations.target_table = 'AGENT'
+					AND annotations.target_primary_key = target_pan.agent_id
+				) OR (
+					annotations.target_table = 'ANNOTATIONS'
+					AND parent_annotations.target_table = 'AGENT'
+					AND parent_annotations.target_primary_key = target_pan.agent_id
+				)
 			LEFT OUTER JOIN (
 				<!--- Use earliest textual body for compatibility with existing annotation_display behavior on this page. --->
 				SELECT annotation_id, body_value,
@@ -467,6 +477,20 @@ limitations under the License.
 					WHERE upper(project_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.project_text))#%">
 				)
 			</cfif>
+			<cfif len(trim(arguments.agent_id)) GT 0 AND isNumeric(arguments.agent_id)>
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+						ELSE annotations.target_table
+					END
+				) = 'AGENT'
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						ELSE annotations.target_primary_key
+					END
+				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.agent_id)#">
+			</cfif>
 			<cfif normalizedRootMode EQ "root" AND listFindNoCase("yes,no", trim(arguments.has_responses))>
 				<cfif lcase(trim(arguments.has_responses)) EQ "yes">
 					AND EXISTS (
@@ -562,6 +586,7 @@ limitations under the License.
 	<cfargument name="publication_text" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="project_text" type="string" required="no" default="">
+	<cfargument name="agent_id" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var normalizedTargetType = trim(ucase(arguments.target_type))>
@@ -569,6 +594,7 @@ limitations under the License.
 	<cfset var normalizedTaxonNameId = trim(arguments.taxon_name_id)>
 	<cfset var normalizedPublicationId = trim(arguments.publication_id)>
 	<cfset var normalizedProjectId = trim(arguments.project_id)>
+	<cfset var normalizedAgentId = trim(arguments.agent_id)>
 	<cfset var normalizedFamily = trim(arguments.family)>
 	<cfset var normalizedRootMode = lcase(trim(arguments.root_mode))>
 	<cfset var normalizedVisibility = "">
@@ -611,6 +637,7 @@ limitations under the License.
 		<cfcase value="taxonomy,taxon_name_id"><cfset normalizedTargetType = "TAXONOMY"></cfcase>
 		<cfcase value="publication,publication_id"><cfset normalizedTargetType = "PUBLICATION"></cfcase>
 		<cfcase value="project,project_id"><cfset normalizedTargetType = "PROJECT"></cfcase>
+		<cfcase value="agent,agent_id"><cfset normalizedTargetType = "AGENT"></cfcase>
 		<cfcase value="guid"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
 		<cfdefaultcase>
 			<cfif len(normalizedTargetType) GT 0>
@@ -629,6 +656,9 @@ limitations under the License.
 			</cfcase>
 			<cfcase value="PROJECT">
 				<cfif len(normalizedProjectId) EQ 0><cfset normalizedProjectId = trim(arguments.id)></cfif>
+			</cfcase>
+			<cfcase value="AGENT">
+				<cfif len(normalizedAgentId) EQ 0><cfset normalizedAgentId = trim(arguments.id)></cfif>
 			</cfcase>
 			<cfdefaultcase>
 				<cfif len(normalizedCollectionObjectId) EQ 0><cfset normalizedCollectionObjectId = trim(arguments.id)></cfif>
@@ -666,7 +696,8 @@ limitations under the License.
 		len(normalizedPublicationId) GT 0 OR
 		len(trim(arguments.publication_text)) GT 0 OR
 		len(normalizedProjectId) GT 0 OR
-		len(trim(arguments.project_text)) GT 0
+		len(trim(arguments.project_text)) GT 0 OR
+		len(normalizedAgentId) GT 0
 	)>
 		<cfset runSearch = true>
 	</cfif>
@@ -692,7 +723,8 @@ limitations under the License.
 			publication_id = normalizedPublicationId,
 			publication_text = trim(arguments.publication_text),
 			project_id = normalizedProjectId,
-			project_text = trim(arguments.project_text)
+			project_text = trim(arguments.project_text),
+			agent_id = normalizedAgentId
 		)>
 		<cfif searchResults.recordcount GT 0>
 			<cfset matchedAnnotationIds = valueList(searchResults.annotation_id)>
@@ -739,11 +771,11 @@ limitations under the License.
 				<cfquery name="targets" dbtype="query">
 					SELECT target_table, target_primary_key, collection_object_id, institution_acronym, collection_cde, cat_num,
 						scientific_name, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
-						publication_id, publication_title, project_id, project_name
+						publication_id, publication_title, project_id, project_name, agent_name
 					FROM searchResults
 					GROUP BY target_table, target_primary_key, collection_object_id, institution_acronym, collection_cde, cat_num,
 						scientific_name, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
-						publication_id, publication_title, project_id, project_name
+						publication_id, publication_title, project_id, project_name, agent_name
 					ORDER BY target_table, target_primary_key
 				</cfquery>
 				<cfset targetCount = targets.recordcount>
@@ -768,6 +800,7 @@ limitations under the License.
 			<cfif len(trim(arguments.publication_text)) GT 0><cfset arrayAppend(searchTermLabels, "publication text")></cfif>
 			<cfif len(normalizedProjectId) GT 0><cfset arrayAppend(searchTermLabels, "project")></cfif>
 			<cfif len(trim(arguments.project_text)) GT 0><cfset arrayAppend(searchTermLabels, "project text")></cfif>
+			<cfif len(normalizedAgentId) GT 0><cfset arrayAppend(searchTermLabels, "agent")></cfif>
 			<cfif listFindNoCase("yes,no", trim(arguments.has_responses))><cfset arrayAppend(searchTermLabels, "has responses")></cfif>
 			<cfif arrayLen(searchTermLabels) GT 0><cfset searchedOn = arrayToList(searchTermLabels, ", ")></cfif>
 			<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationSearchResultsHeading">
@@ -801,6 +834,10 @@ limitations under the License.
 						<cfcase value="PROJECT">
 							<cfset targetTitle = targets.project_name>
 							<cfset targetLink = "/ProjectDetail.cfm?project_id=#encodeForURL(targets.project_id)#">
+						</cfcase>
+						<cfcase value="AGENT">
+							<cfset targetTitle = targets.agent_name>
+							<cfset targetLink = "/agents/Agent.cfm?agent_id=#encodeForURL(targets.target_primary_key)#">
 						</cfcase>
 						<cfdefaultcase>
 							<cfset targetTitle = "Target #encodeForHTML(targets.target_primary_key)#">
