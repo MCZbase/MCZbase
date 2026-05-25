@@ -368,7 +368,7 @@ limitations under the License.
 								<h2 class="h5 mb-2">Annotation Text and Review</h2>
 								<div class="form-group mb-2">
 									<label for="annotator" class="data-entry-label">Annotator Username</label>
-									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12" placeholder="Type login or annotator name">
+									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12" placeholder="Type annotator name or username">
 								</div>
 								<div class="form-group mb-2">
 									<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
