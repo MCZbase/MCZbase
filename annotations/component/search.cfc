@@ -551,6 +551,114 @@ limitations under the License.
 </cffunction>
 
 <!---
+ getAnnotatorLoginAutocompleteMeta returns annotation-participant login suggestions for annotator search.
+ Suggestions are constrained to existing annotation participants (annotations.cf_username), with optional
+ enrichment from annotator_agent_id and login-name-to-agent mappings to show matched agent names.
+
+ @param term required text fragment to match against login names or related agent names.
+ @return json array for jquery-ui autocomplete with login value and richer meta label.
+--->
+<cffunction name="getAnnotatorLoginAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset var data = ArrayNew(1)>
+	<cfset var searchTerm = trim(arguments.term)>
+	<cfset var searchLike = "%#searchTerm#%">
+	<cfset var i = 1>
+	<cfset var row = StructNew()>
+	<cfset var edited_marker = "">
+	<cfset var display_name = "">
+	<cfset var message = "">
+	<cfset var error_message = "">
+	<cfset var function_called = "">
+	<cfset var errorResponse = StructNew()>
+
+	<cfif len(searchTerm) EQ 0>
+		<cfreturn serializeJSON(data)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
+			SELECT
+				participants.cf_username,
+				prefername.agent_name preferred_agent_name,
+				NVL(agent.edited, 0) edited,
+				searchname.agent_name matched_agent_name
+			FROM (
+				SELECT DISTINCT
+					annotations.cf_username,
+					CASE
+						WHEN login_name.agent_id IS NOT NULL THEN login_name.agent_id
+						ELSE annotations.annotator_agent_id
+					END resolved_agent_id
+				FROM annotations
+					LEFT OUTER JOIN agent_name login_name
+						ON login_name.agent_name_type = 'login'
+							AND upper(login_name.agent_name) = upper(annotations.cf_username)
+				WHERE
+					length(trim(annotations.cf_username)) > 0
+			) participants
+				LEFT OUTER JOIN agent ON participants.resolved_agent_id = agent.agent_id
+				LEFT OUTER JOIN agent_name prefername ON agent.preferred_agent_name_id = prefername.agent_name_id
+				LEFT OUTER JOIN (
+					SELECT
+						filtered_names.agent_id,
+						filtered_names.agent_name
+					FROM (
+						SELECT
+							agent_name.agent_id,
+							agent_name.agent_name,
+							agent_name.agent_name_type,
+							ROW_NUMBER() OVER (
+								PARTITION BY agent_name.agent_id
+								ORDER BY
+									CASE WHEN agent_name.agent_name_type = 'preferred' THEN 0 ELSE 1 END,
+									agent_name.agent_name
+							) row_rank
+						FROM agent_name
+						WHERE upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+					) filtered_names
+					WHERE filtered_names.row_rank = 1
+				) searchname
+					ON participants.resolved_agent_id = searchname.agent_id
+			WHERE
+				upper(participants.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+				OR upper(NVL(prefername.agent_name, '')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+				OR searchname.agent_name IS NOT NULL
+			ORDER BY
+				NVL(prefername.agent_name, participants.cf_username),
+				participants.cf_username
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<!--- Keep '*' marker consistent with existing agent meta controls: edited agent record indicator. --->
+			<cfset edited_marker = "">
+			<cfif search.edited EQ 1><cfset edited_marker = " *"></cfif>
+			<cfset display_name = search.matched_agent_name>
+			<cfif len(trim(display_name)) EQ 0><cfset display_name = search.preferred_agent_name></cfif>
+			<cfif len(trim(display_name)) EQ 0><cfset display_name = search.cf_username></cfif>
+			<cfset row["id"] = "#search.cf_username#">
+			<cfset row["value"] = "#search.cf_username#">
+			<cfset row["meta"] = "#display_name##edited_marker# (#search.cf_username#)">
+			<cfset data[i] = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn serializeJSON(data)>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfset message = "Error processing annotator login autocomplete.">
+		<cfheader statusCode="500" statusText="#message#">
+		<cfset errorResponse = StructNew()>
+		<cfset errorResponse["error"] = true>
+		<cfset errorResponse["message"] = message>
+		<cfreturn serializeJSON(errorResponse)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
  renderAnnotationSearchResults renders annotation search results HTML for async and noscript loads.
  Works with findAnnotations query result structure and uses existing annotation render helpers to 
  maintain consistent display with other annotation sections.
