@@ -58,7 +58,7 @@ limitations under the License.
 <cffunction name="requireCurrentUserAnnotationEditorAgentId" returntype="numeric" access="public">
 	<cfset var editorAgentId = 0>
 	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
-		<cfheader statusCode="403" statusText="Editing annotations requires a logged-in user with a login name associated with an agent record.">
+		<cfheader statusCode="403" statusText="Editing annotations requires a logged-in user.">
 		<cfabort>
 	</cfif>
 	<cfset editorAgentId = getAgentIdForLoginName(session.username)>
@@ -1271,7 +1271,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<cfif len(trim(annotationHistory.changed_by_agent_name)) GT 0>
 												<cfset changedByDisplay = trim(annotationHistory.changed_by_agent_name)>
 											<cfelse>
-												<cfset changedByDisplay = "[agent " & val(annotationHistory.changed_by_agent_id) & "]">
+												<cfset changedByDisplay = "[agent #val(annotationHistory.changed_by_agent_id)#]">
 											</cfif>
 										<cfelseif len(trim(annotationHistory.changed_by_username)) GT 0>
 											<cfset changedByDisplay = trim(annotationHistory.changed_by_username)>
