@@ -1007,16 +1007,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
-	<cfset editorAgentId = requireCurrentUserAnnotationEditorAgentId()>
+	<cfset reviewerAgentId = requireCurrentUserAnnotationEditorAgentId()>
 	<cftransaction>
 		<cftry>
 			<cfquery name="updateAnnotation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAnnotation_result">
 				UPDATE annotations
 				SET
-					reviewer_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">,
+					reviewer_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewerAgentId#">,
 					reviewed_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewed_fg#">,
 					reviewer_comment=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reviewer_comment#">,
-					last_updated_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+					last_updated_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewerAgentId#">
 					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0>
 						,mask_annotation_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">
 					</cfif>
