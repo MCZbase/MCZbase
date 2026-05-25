@@ -749,19 +749,24 @@ limitations under the License.
 										AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 									</cfif>
 							</cfquery>
-							<cfif countAgentAnnotations.ct GT 0>
-								<section class="accordion" id="agentAnnotationsSection">
-									<div class="card mb-2 bg-light">
-										<div id="agentAnnotationDialog"></div>
-										<div class="card-header" id="agentAnnotationsHeader">
-											<h2 class="h4 my-0">
-												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##agentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="agentAnnotationsCardBodyWrap">
-													Annotations (#countAgentAnnotations.ct#)
-												</button>
-											</h2>
-										</div>
-										<div id="agentAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="agentAnnotationsHeader" data-parent="##agentAnnotationsSection">
-											<div class="card-body py-2">
+							<section class="accordion" id="agentAnnotationsSection">
+								<div class="card mb-2 bg-light">
+									<div id="agentAnnotationDialog"></div>
+									<div class="card-header" id="agentAnnotationsHeader">
+										<h2 class="h4 my-0">
+											<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##agentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="agentAnnotationsCardBodyWrap">
+												Annotations (#countAgentAnnotations.ct#)
+											</button>
+											<cfif isdefined("session.username") AND len(session.username) GT 0>
+												<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,null);">
+													Annotate
+												</a>
+											</cfif>
+										</h2>
+									</div>
+									<div id="agentAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="agentAnnotationsHeader" data-parent="##agentAnnotationsSection">
+										<div class="card-body py-2">
+											<cfif countAgentAnnotations.ct GT 0>
 												<cfquery name="agentAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 													SELECT
 														annotations.annotation_id,
@@ -789,30 +794,30 @@ limitations under the License.
 														</cfif>
 													ORDER BY annotations.annotate_date
 												</cfquery>
-												<cfif agentAnnotations.recordcount GT 0>
-													<cfset agentAnnotationConversations = getAnnotationConversationsForRoots(valueList(agentAnnotations.annotation_id))>
-													<ul class="list-group">
-														<cfloop query="agentAnnotations">
-															<li class="list-group-item py-1">
-																<span class="small font-weight-bold">Annotation: </span>
-																<cfif mask_annotation_fg EQ "1">
-																	<span class="small font-weight-bold">[Hidden] </span>
-																</cfif>
-																#annotation_display#
-																<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
-																<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-																	<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
-																</cfif>
-																#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=agentAnnotationConversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
-															</li>
-														</cfloop>
-													</ul>
-												</cfif>
-											</div>
+												<cfset agentAnnotationConversations = getAnnotationConversationsForRoots(valueList(agentAnnotations.annotation_id))>
+												<ul class="list-group">
+													<cfloop query="agentAnnotations">
+														<li class="list-group-item py-1">
+															<span class="small font-weight-bold">Annotation: </span>
+															<cfif mask_annotation_fg EQ "1">
+																<span class="small font-weight-bold">[Hidden] </span>
+															</cfif>
+															#annotation_display#
+															<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+															<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
+																<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+															</cfif>
+															#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=agentAnnotationConversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
+														</li>
+													</cfloop>
+												</ul>
+											<cfelse>
+												<p class="my-2 text-muted small">There are no annotations on this agent record.</p>
+											</cfif>
 										</div>
 									</div>
-								</section>
-							</cfif>
+								</div>
+							</section>
 						</div>
 						<div class="d-block mb-0 mb-xl-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
 							<!--- Collector in collections--->
