@@ -33,6 +33,7 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml ---><!--- ? unused ? remove ? --->
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
 <cfinclude template="/annotations/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/public.cfc" runOnce="true">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
@@ -740,24 +741,16 @@ limitations under the License.
 								</section>
 							</cfif>
 							<!--- annotations on this agent record --->
-							<cfquery name="countAgentAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-								SELECT count(annotation_id) ct
-								FROM annotations
-								WHERE target_table = 'AGENT'
-									AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
-										AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
-									</cfif>
-							</cfquery>
+							<cfset agentAnnCard = getAgentAnnotationCardBodyHtml(agent_id=val(agent_id))>
 							<section class="accordion" id="agentAnnotationsSection">
 								<div class="card mb-2 bg-light">
 									<div id="agentAnnotationDialog"></div>
 									<div class="card-header" id="agentAnnotationsHeader">
 										<h2 class="h4 my-0">
 											<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##agentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="agentAnnotationsCardBodyWrap">
-												Annotations (#countAgentAnnotations.ct#)
+												Annotations (#agentAnnCard.ct#)
 											</button>
-											<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_collection") AND countAgentAnnotations.ct GT 0>
+											<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_collection") AND agentAnnCard.ct GT 0>
 												<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,null);">
 													Edit Annotations
 												</a>
@@ -769,56 +762,7 @@ limitations under the License.
 										</h2>
 									</div>
 									<div id="agentAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="agentAnnotationsHeader" data-parent="##agentAnnotationsSection">
-										<div class="card-body py-2">
-											<cfif countAgentAnnotations.ct GT 0>
-												<cfquery name="agentAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-													SELECT
-														annotations.annotation_id,
-														NVL(atb.body_value, annotations.annotation) annotation_display,
-														annotations.cf_username,
-														to_char(annotations.annotate_date, 'yyyy-mm-dd') annotate_date,
-														annotations.motivation,
-														annotations.reviewed_fg,
-														preferred_agent_name.agent_name reviewer,
-														annotations.reviewer_comment,
-														annotations.mask_annotation_fg
-													FROM
-														annotations
-														LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
-														LEFT OUTER JOIN (
-															SELECT annotation_id, body_value,
-																ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
-															FROM annotation_textualbody
-														) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
-													WHERE
-														annotations.target_table = 'AGENT'
-														AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-														<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
-															AND (annotations.mask_annotation_fg = 0 OR annotations.cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
-														</cfif>
-													ORDER BY annotations.annotate_date
-												</cfquery>
-												<cfset agentAnnotationConversations = getAnnotationConversationsForRoots(valueList(agentAnnotations.annotation_id))>
-												<ul class="list-group">
-													<cfloop query="agentAnnotations">
-														<li class="list-group-item py-1">
-															<span class="small font-weight-bold">Annotation: </span>
-															<cfif mask_annotation_fg EQ "1">
-																<span class="small font-weight-bold">[Hidden] </span>
-															</cfif>
-															#annotation_display#
-															<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
-															<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-																<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
-															</cfif>
-															#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=agentAnnotationConversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
-														</li>
-													</cfloop>
-												</ul>
-											<cfelse>
-												<p class="my-2 text-muted small">There are no annotations on this agent record.</p>
-											</cfif>
-										</div>
+										#agentAnnCard.html#
 									</div>
 								</div>
 							</section>
