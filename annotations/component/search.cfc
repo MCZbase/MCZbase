@@ -581,7 +581,7 @@ limitations under the License.
 				participants.cf_username,
 				prefername.agent_name preferred_agent_name,
 				NVL(agent.edited, 0) edited,
-				MIN(searchname.agent_name) matched_agent_name
+				searchname.agent_name matched_agent_name
 			FROM (
 				SELECT
 					participants_ranked.cf_username,
@@ -615,17 +615,31 @@ limitations under the License.
 			) participants
 				LEFT OUTER JOIN agent ON participants.resolved_agent_id = agent.agent_id
 				LEFT OUTER JOIN agent_name prefername ON agent.preferred_agent_name_id = prefername.agent_name_id
-				LEFT OUTER JOIN agent_name searchname
+				LEFT OUTER JOIN (
+					SELECT
+						filtered_names.agent_id,
+						filtered_names.agent_name
+					FROM (
+						SELECT
+							agent_name.agent_id,
+							agent_name.agent_name,
+							agent_name.agent_name_type,
+							ROW_NUMBER() OVER (
+								PARTITION BY agent_name.agent_id
+								ORDER BY
+									CASE WHEN agent_name.agent_name_type = 'preferred' THEN 0 ELSE 1 END,
+									agent_name.agent_name
+							) row_rank
+						FROM agent_name
+						WHERE upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+					) filtered_names
+					WHERE filtered_names.row_rank = 1
+				) searchname
 					ON participants.resolved_agent_id = searchname.agent_id
-						AND upper(searchname.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
 			WHERE
 				upper(participants.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
 				OR upper(NVL(prefername.agent_name, '')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
 				OR searchname.agent_name IS NOT NULL
-			GROUP BY
-				participants.cf_username,
-				prefername.agent_name,
-				agent.edited
 			ORDER BY
 				NVL(prefername.agent_name, participants.cf_username),
 				participants.cf_username
@@ -634,6 +648,7 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
+			<!--- Keep '*' marker consistent with existing agent meta controls: edited agent record indicator. --->
 			<cfset edited_marker = "">
 			<cfif search.edited EQ 1><cfset edited_marker = " *"></cfif>
 			<cfset display_name = search.matched_agent_name>

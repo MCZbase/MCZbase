@@ -59,7 +59,7 @@ function reloadAnnotationsDialogSection(dialogId, targetType, targetId) {
  *  @param controlId the id for the annotator login text input (without leading # selector).
  */
 function makeAnnotationParticipantLoginAutocomplete(controlId) {
-	$('#' + controlId).autocomplete({
+	var autocompleteInstance = $('#' + controlId).autocomplete({
 		source: function(request, response) {
 			$.ajax({
 				url: '/annotations/component/search.cfc',
@@ -75,10 +75,13 @@ function makeAnnotationParticipantLoginAutocomplete(controlId) {
 			});
 		},
 		minLength: 2
-	}).autocomplete('instance')._renderItem = function(ul, item) {
-		var menuLabel = item.meta || item.value || item.label || '';
-		return $('<li>').append($('<span>').text(menuLabel)).appendTo(ul);
-	};
+	}).autocomplete('instance');
+	if (autocompleteInstance) {
+		autocompleteInstance._renderItem = function(ul, item) {
+			var menuLabel = item.meta || item.value || item.label || '';
+			return $('<li>').append($('<span>').text(menuLabel)).appendTo(ul);
+		};
+	}
 }
 
 jQuery(document).on("click", ".open-reply-annotation-dialog", function() {
