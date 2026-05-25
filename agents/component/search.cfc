@@ -793,7 +793,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 					left join coll_object on agent.agent_id = coll_object.entered_person_id
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'annotated'>
-					left join annotations on agent.agent_id = annotations.target_primary_key and annotations.target_table = 'AGENT'
+					left join annotations agent_annotations on agent.agent_id = agent_annotations.target_primary_key and agent_annotations.target_table = 'AGENT'
 				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
@@ -844,7 +844,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 					and coll_object.entered_person_id is not null
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'annotated'>
-					and annotations.annotation_id is not null
+					and agent_annotations.annotation_id is not null
 				</cfif>
 			ORDER BY
 				searchname.agent_name
