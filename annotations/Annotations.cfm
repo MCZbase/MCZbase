@@ -49,6 +49,7 @@ limitations under the License.
 <cfparam name="url.project_id" default="">
 <cfparam name="url.project_text" default="">
 <cfparam name="url.agent_id" default="">
+<cfparam name="url.agent_name" default="">
 <cfparam name="url.has_responses" default="">
 
 <cfset variables.execute = lcase(trim(url.execute))>
@@ -75,6 +76,7 @@ limitations under the License.
 <cfset variables.project_id = trim(url.project_id)>
 <cfset variables.project_text = trim(url.project_text)>
 <cfset variables.agent_id = trim(url.agent_id)>
+<cfset variables.agent_name = trim(url.agent_name)>
 <cfset variables.has_responses = trim(url.has_responses)>
 <cfset variables.publication_lookup = "">
 <cfset variables.project_lookup = "">
@@ -136,7 +138,8 @@ limitations under the License.
 	len(variables.publication_text) GT 0 OR
 	len(variables.project_id) GT 0 OR
 	len(variables.project_text) GT 0 OR
-	len(variables.agent_id) GT 0
+	len(variables.agent_id) GT 0 OR
+	len(variables.agent_name) GT 0
 )>
 	<cfset runSearch = true>
 </cfif>
@@ -265,6 +268,16 @@ limitations under the License.
 <cfelseif len(variables.project_text) GT 0>
 	<!--- When a project text search is provided (no id), show the text in the lookup display field. --->
 	<cfset variables.project_lookup = variables.project_text>
+</cfif>
+<cfif len(variables.agent_id) GT 0 AND isNumeric(variables.agent_id) AND len(variables.agent_name) EQ 0>
+	<cfquery name="getAgentDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT agent_name
+		FROM preferred_agent_name
+		WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.agent_id#">
+	</cfquery>
+	<cfif getAgentDisplay.recordcount GT 0>
+		<cfset variables.agent_name = getAgentDisplay.agent_name>
+	</cfif>
 </cfif>
 <cfif len(variables.collection_object_id) GT 0 AND isNumeric(variables.collection_object_id) and len(variables.specimen_guid) EQ 0>
 	<cfquery name="getGuidDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -456,8 +469,19 @@ limitations under the License.
 									<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
 									<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 								</div>
+								<div class="form-group mb-2" data-target-group="agent">
+									<label for="agent_name" id="agent_name_label" class="data-entry-label">Agent Name
+										<span id="agent_name_view" class="small d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text smaller bg-light" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+										</div>
+										<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="agent_name_label" placeholder="Type to search by name or pick an agent">
+										<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+									</div>
+								</div>
 							</div>
-							<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 						</form>
 						<script>
 							var $form = $('##annotationSearchForm');
@@ -469,7 +493,8 @@ limitations under the License.
 								specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
 								taxon:       { targetType: 'TAXONOMY',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
 								publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
-								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
+								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] },
+								agent:       { targetType: 'AGENT',             fields: ['agent_id', 'agent_name'] }
 							};
 							// Derived lookups — no manual update needed when groupConfig is extended.
 							var allGroups = Object.keys(groupConfig);
@@ -603,6 +628,11 @@ limitations under the License.
 								} else {
 									console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
 								}
+								if (typeof makeConstrainedRichAgentPickerConfig === 'function') {
+									makeConstrainedRichAgentPickerConfig('agent_name', 'agent_id', 'agent_name_icon', 'agent_name_view', '#encodeForJavaScript(variables.agent_id)#', '', false);
+								} else {
+									console.warn('Agent autocomplete unavailable. Use agent_id in URL parameters for agent filtering.');
+								}
 								// Clear the stored publication_id whenever the user edits the lookup display field manually.
 								$('##publication_lookup').on('input', function () {
 									$('##publication_id').val('');
@@ -612,6 +642,9 @@ limitations under the License.
 								$('##project_lookup').on('input', function () {
 									$('##project_id').val('');
 									$('##project_text').val('');
+								});
+								$('##agent_name').on('input', function () {
+									$('##agent_id').val('');
 								});
 								// Clear taxon_name_id whenever the user types in the scientific name field.
 								$('##scientific_name').on('input', function () {
