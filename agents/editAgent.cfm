@@ -713,6 +713,17 @@ limitations under the License.
 								AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 							</cfif>
 					</cfquery>
+					<script type="text/javascript">
+					function reloadEditAgentAnnotationCardBody() {
+						$.ajax({
+							url: '/annotations/component/public.cfc',
+							data: { method: 'getAgentAnnotationCardBodyHtml', agent_id: #val(agent_id)# },
+							success: function(result) { $('##editAgentAnnotationsCardBodyWrap').html(result); },
+							error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading agent annotations'); },
+							dataType: 'html'
+						});
+					}
+					</script>
 					<section class="accordion" id="editAgentAnnotationsSection">
 						<div class="card mb-2 bg-light">
 							<div id="editAgentAnnotationDialog"></div>
@@ -722,11 +733,11 @@ limitations under the License.
 										Annotations (#countAgentAnnotations.ct#)
 									</button>
 									<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_collection") AND countAgentAnnotations.ct GT 0>
-										<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,null);">
+										<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,reloadEditAgentAnnotationCardBody);">
 											Edit Annotations
 										</a>
 									<cfelseif isdefined("session.username") AND len(session.username) GT 0>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,null);">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,reloadEditAgentAnnotationCardBody);">
 											Annotate
 										</a>
 									</cfif>
