@@ -757,7 +757,11 @@ limitations under the License.
 											<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##agentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="agentAnnotationsCardBodyWrap">
 												Annotations (#countAgentAnnotations.ct#)
 											</button>
-											<cfif isdefined("session.username") AND len(session.username) GT 0>
+											<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_agents") AND countAgentAnnotations.ct GT 0>
+												<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,null);">
+													Edit Annotations
+												</a>
+											<cfelseif isdefined("session.username") AND len(session.username) GT 0>
 												<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,null);">
 													Annotate
 												</a>
