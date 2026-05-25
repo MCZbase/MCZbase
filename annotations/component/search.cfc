@@ -602,7 +602,10 @@ limitations under the License.
 						SELECT DISTINCT
 							annotations.cf_username,
 							annotations.annotator_agent_id,
-							NVL(annotations.annotator_agent_id, login_name.agent_id) resolved_agent_id
+							CASE
+								WHEN login_name.agent_id IS NOT NULL THEN login_name.agent_id
+								ELSE annotations.annotator_agent_id
+							END resolved_agent_id
 						FROM annotations
 							LEFT OUTER JOIN agent_name login_name
 								ON login_name.agent_name_type = 'login'
