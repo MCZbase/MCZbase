@@ -49,11 +49,11 @@ limitations under the License.
 		SELECT a.annotation_id, a.target_table, a.target_primary_key, a.mask_annotation_fg,
 			atb.body_value
 		FROM annotations a
-		LEFT OUTER JOIN (
-			SELECT annotation_id, body_value,
-				row_number() over (partition by annotation_id order by created_date) rn
-			FROM annotation_textualbody
-		) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
+			LEFT OUTER JOIN (
+				SELECT annotation_id, body_value,
+					row_number() over (partition by annotation_id order by created_date) rn
+				FROM annotation_textualbody
+			) atb ON a.annotation_id = atb.annotation_id AND atb.rn = 1
 		WHERE a.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.annotation_id#">
 	</cfquery>
 	
@@ -81,7 +81,8 @@ limitations under the License.
 				START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#requestedAnn.annotation_id#">
 				CONNECT BY PRIOR target_primary_key = annotation_id AND PRIOR target_table = 'ANNOTATIONS'
 				ORDER BY LEVEL DESC
-			) WHERE ROWNUM = 1
+			) 
+			WHERE ROWNUM = 1
 		</cfquery>
 		<cfif findRoot.recordcount EQ 1>
 			<cfset variables.rootAnnotationId = findRoot.annotation_id>
@@ -115,17 +116,17 @@ limitations under the License.
 			annotator.email annotator_email,
 			atb.body_value
 		FROM annotations
-		LEFT OUTER JOIN agent rev ON annotations.reviewer_agent_id = rev.agent_id
-		LEFT OUTER JOIN agent_name revname ON rev.PREFERRED_AGENT_NAME_ID = revname.agent_name_id
-		LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
-		LEFT OUTER JOIN cf_user_data annotator ON cf_users.user_id = annotator.user_id
-		LEFT OUTER JOIN agent ag ON annotations.annotator_agent_id = ag.agent_id
-		LEFT OUTER JOIN agent_name pan ON ag.PREFERRED_AGENT_NAME_ID = pan.agent_name_id
-		LEFT OUTER JOIN (
-			SELECT annotation_id, body_value,
-				row_number() over (partition by annotation_id order by created_date) rn
-			FROM annotation_textualbody
-		) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
+			LEFT OUTER JOIN agent rev ON annotations.reviewer_agent_id = rev.agent_id
+			LEFT OUTER JOIN agent_name revname ON rev.PREFERRED_AGENT_NAME_ID = revname.agent_name_id
+			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
+			LEFT OUTER JOIN cf_user_data annotator ON cf_users.user_id = annotator.user_id
+			LEFT OUTER JOIN agent ag ON annotations.annotator_agent_id = ag.agent_id
+			LEFT OUTER JOIN agent_name pan ON ag.PREFERRED_AGENT_NAME_ID = pan.agent_name_id
+			LEFT OUTER JOIN (
+				SELECT annotation_id, body_value,
+					row_number() over (partition by annotation_id order by created_date) rn
+				FROM annotation_textualbody
+			) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 		START WITH annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
 		CONNECT BY PRIOR annotations.annotation_id = annotations.target_primary_key
 			AND UPPER(annotations.target_table) IN ('ANNOTATION','ANNOTATIONS')
@@ -163,7 +164,8 @@ limitations under the License.
 	</cfloop>
 
 	<cfquery name="rootAnn" dbtype="query">
-		SELECT * FROM conversationAnns
+		SELECT * 
+		FROM conversationAnns
 		WHERE ANNOTATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
 	</cfquery>
 	
@@ -238,7 +240,7 @@ limitations under the License.
 				SELECT collection.institution_acronym, collection.collection_cde, cataloged_item.cat_num,
 					mczbase.get_scientific_name_auths(cataloged_item.collection_object_id) display_name
 				FROM cataloged_item
-				LEFT JOIN collection ON cataloged_item.collection_id = collection.collection_id
+					LEFT JOIN collection ON cataloged_item.collection_id = collection.collection_id
 				WHERE cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.targetId#">
 			</cfquery>
 			<cfif targetRecord.recordcount EQ 1>

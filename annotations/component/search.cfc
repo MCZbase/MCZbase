@@ -795,8 +795,8 @@ limitations under the License.
 							<cfset targetTitleContainsHtml = true>
 						</cfcase>
 						<cfcase value="PUBLICATION">
-							<cfset targetTitle = reReplace(targets.publication_title, "<[^>]+>", "", "all")>
-							<cfset targetLink = "/publications/showPublication.cfm?publication_id=#encodeForURL(targets.publication_id)#">
+							<cfset targetTitle = reReplace(targets.publication_title, "<[^>]+>", "", "all")><!--- " --->
+							<cfset targetLink = "/publications/showPublication.cfm?publication_id=#encodeForURL(targets.publication_id)#"><!--- " --->
 						</cfcase>
 						<cfcase value="PROJECT">
 							<cfset targetTitle = targets.project_name>
