@@ -289,340 +289,361 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-				<div class="col-12 px-3 py-3">
-					<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
-						<input type="hidden" name="execute" value="true">
-						<div class="col-12 col-md-6 col-xl-2 mb-3 d-flex flex-column">
-							<h2 class="h5 mb-2">Annotation Metadata</h2>
-							<div class="form-group mb-2">
-								<label for="state" class="data-entry-label">State</label>
-								<select name="state" id="state" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfloop query="ctstate">
-										<cfif variables.state EQ state><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-										<option value="#encodeForHTML(state)#" #local.selected#>#encodeForHTML(state)# (#ct#)</option>
-									</cfloop>
-								</select>
+					<div class="col-12 px-3 py-3">
+						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
+							<input type="hidden" name="execute" value="true">
+							<div class="col-12 col-md-6 col-xl-2 mb-3 d-flex flex-column">
+								<h2 class="h5 mb-2">Annotation Metadata</h2>
+								<div class="form-group mb-2">
+									<label for="state" class="data-entry-label">State</label>
+									<select name="state" id="state" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfloop query="ctstate">
+											<cfif variables.state EQ state><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+											<option value="#encodeForHTML(state)#" #local.selected#>#encodeForHTML(state)# (#ct#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="form-group mb-2">
+									<label for="resolution" class="data-entry-label">Resolution</label>
+									<select name="resolution" id="resolution" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfif variables.resolution EQ "NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="NULL" #local.selected#>No Resolution</option>
+										<cfif variables.resolution EQ "NOT NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="NOT NULL" #local.selected#>Any Resolution</option>
+										<cfloop query="ctresolution">
+											<cfif variables.resolution EQ resolution><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+											<option value="#encodeForHTML(resolution)#" #local.selected#>#encodeForHTML(resolution)# (#ct#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="form-group mb-2">
+									<label for="motivation" class="data-entry-label">Motivation</label>
+									<select name="motivation" id="motivation" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfloop query="ctmotivation">
+											<cfif variables.motivation EQ motivation><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+											<option value="#encodeForHTML(motivation)#" #local.selected#>#encodeForHTML(motivation)# (#ct#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="form-group mb-2">
+									<label for="has_responses" class="data-entry-label">Has Responses</label>
+									<select name="has_responses" id="has_responses" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfif variables.has_responses EQ "yes"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="yes" #local.selected#>Yes</option>
+										<cfif variables.has_responses EQ "no"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="no" #local.selected#>No</option>
+									</select>
+								</div>
+								<div class="mt-auto pt-2">
+									<button type="submit" class="btn btn-xs btn-primary">Search</button>
+									<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
+								</div>
 							</div>
-							<div class="form-group mb-2">
-								<label for="resolution" class="data-entry-label">Resolution</label>
-								<select name="resolution" id="resolution" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfif variables.resolution EQ "NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="NULL" #local.selected#>No Resolution</option>
-									<cfif variables.resolution EQ "NOT NULL"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="NOT NULL" #local.selected#>Any Resolution</option>
-									<cfloop query="ctresolution">
-										<cfif variables.resolution EQ resolution><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-										<option value="#encodeForHTML(resolution)#" #local.selected#>#encodeForHTML(resolution)# (#ct#)</option>
-									</cfloop>
-								</select>
+	
+							<div class="col-12 col-md-6 col-xl-2 mb-3">
+								<h2 class="h5 mb-2">Annotation Text and Review</h2>
+								<div class="form-group mb-2">
+									<label for="annotator" class="data-entry-label">Annotator Username</label>
+									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
+								</div>
+								<div class="form-group mb-2">
+									<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
+									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="data-entry-input col-12">
+								</div>
+								<div class="form-group mb-2">
+									<label for="reviewed_fg" class="data-entry-label">Reviewed</label>
+									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfif variables.reviewed_fg EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="1" #local.selected#>Reviewed (#variables.reviewedCountReviewed#)</option>
+										<cfif variables.reviewed_fg EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
+									</select>
+								</div>
+								<div class="form-group mb-2">
+									<label for="visibility" class="data-entry-label">Visibility</label>
+									<select name="visibility" id="visibility" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfif variables.visibility EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="0" #local.selected#>Visible (#variables.visibilityCountVisible#)</option>
+										<cfif variables.visibility EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+										<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
+									</select>
+								</div>
 							</div>
-							<div class="form-group mb-2">
-								<label for="motivation" class="data-entry-label">Motivation</label>
-								<select name="motivation" id="motivation" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfloop query="ctmotivation">
-										<cfif variables.motivation EQ motivation><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-										<option value="#encodeForHTML(motivation)#" #local.selected#>#encodeForHTML(motivation)# (#ct#)</option>
-									</cfloop>
-								</select>
+	
+							<div class="col-12 col-md-6 col-xl-3 mb-3">
+								<div class="form-group mb-2">
+									<label for="target_type_select" class="data-entry-label">Target Type</label>
+									<select name="target_type" id="target_type_select" class="data-entry-select col-12">
+										<option value="">All Target Types</option>
+										<cfloop query="getAnnotatedTargetTypes">
+											<cfset target_type_label = "">
+											<cfswitch expression="#target_table#">
+												<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
+												<cfcase value="TAXONOMY"><cfset target_type_label = "Taxon"></cfcase>
+												<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
+												<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
+												<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
+											</cfswitch>
+											<cfif ucase(target_table) NEQ "ANNOTATIONS">
+												<cfif variables.target_type EQ target_table><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+												<option value="#encodeForHTML(target_table)#" #local.selected#>#encodeForHTML(target_type_label)# (#ct#)</option>
+											</cfif>
+										</cfloop>
+									</select>
+								</div>
+								<h2 class="h5 mb-2">Target-Specific Context</h2>
+								<h3 class="h6 mb-2">Specimen</h3>
+								<div class="form-group mb-2" data-target-group="specimen">
+									<label for="collection" class="data-entry-label">Collection</label>
+									<select name="collection" id="collection" class="data-entry-select col-12">
+										<option value="">Any Collection</option>
+										<cfloop query="getAnnotatedCollections">
+											<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+											<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="form-group mb-2" data-target-group="specimen">
+									<label for="specimen_guid" class="data-entry-label">Specimen GUID</label>
+									<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
+								</div>
+								<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 							</div>
-							<div class="form-group mb-2">
-								<label for="has_responses" class="data-entry-label">Has Responses</label>
-								<select name="has_responses" id="has_responses" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfif variables.has_responses EQ "yes"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="yes" #local.selected#>Yes</option>
-									<cfif variables.has_responses EQ "no"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="no" #local.selected#>No</option>
-								</select>
+							<div class="col-12 col-md-6 col-xl-2 mb-3">
+								<h3 class="h6 mb-2">Taxon</h3>
+								<div class="form-group mb-2" data-target-group="taxon">
+									<label for="family" class="data-entry-label">Family</label>
+									<select name="family" id="family" class="data-entry-select col-12">
+										<option value="">Any Family</option>
+										<cfloop query="getAnnotatedFamilies">
+											<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+											<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="form-group mb-2" data-target-group="taxon">
+									<label for="scientific_name" class="data-entry-label">Scientific Name Contains</label>
+									<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
+								</div>
+								<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 							</div>
-							<div class="mt-auto pt-2">
-								<button type="submit" class="btn btn-xs btn-primary">Search</button>
-								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
+	
+							<div class="col-12 col-md-6 col-xl-3 mb-3">
+								<h2 class="h5 mb-2">Publication and Project</h2>
+								<div class="form-group mb-2" data-target-group="publication">
+									<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
+									<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
+									<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
+									<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
+								</div>
+								<div class="form-group mb-3" data-target-group="project">
+									<label for="project_lookup" class="data-entry-label">Project Title</label>
+									<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
+									<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
+									<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
+								</div>
 							</div>
-						</div>
-
-						<div class="col-12 col-md-6 col-xl-2 mb-3">
-							<h2 class="h5 mb-2">Annotation Text and Review</h2>
-							<div class="form-group mb-2">
-								<label for="annotator" class="data-entry-label">Annotator Username</label>
-								<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
-							</div>
-							<div class="form-group mb-2">
-								<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
-								<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="data-entry-input col-12">
-							</div>
-							<div class="form-group mb-2">
-								<label for="reviewed_fg" class="data-entry-label">Reviewed</label>
-								<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfif variables.reviewed_fg EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="1" #local.selected#>Reviewed (#variables.reviewedCountReviewed#)</option>
-									<cfif variables.reviewed_fg EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
-								</select>
-							</div>
-							<div class="form-group mb-2">
-								<label for="visibility" class="data-entry-label">Visibility</label>
-								<select name="visibility" id="visibility" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfif variables.visibility EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="0" #local.selected#>Visible (#variables.visibilityCountVisible#)</option>
-									<cfif variables.visibility EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-									<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="col-12 col-md-6 col-xl-3 mb-3">
-							<div class="form-group mb-2">
-								<label for="target_type_select" class="data-entry-label">Target Type</label>
-								<select name="target_type" id="target_type_select" class="data-entry-select col-12">
-									<option value="">All Target Types</option>
-									<cfloop query="getAnnotatedTargetTypes">
-										<cfset target_type_label = "">
-										<cfswitch expression="#target_table#">
-											<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
-											<cfcase value="TAXONOMY"><cfset target_type_label = "Taxon"></cfcase>
-											<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
-											<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
-											<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
-										</cfswitch>
-										<cfif variables.target_type EQ target_table><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-										<option value="#encodeForHTML(target_table)#" #local.selected#>#encodeForHTML(target_type_label)# (#ct#)</option>
-									</cfloop>
-								</select>
-							</div>
-							<h2 class="h5 mb-2">Target-Specific Context</h2>
-							<h3 class="h6 mb-2">Specimen</h3>
-							<div class="form-group mb-2" data-target-group="specimen">
-								<label for="collection" class="data-entry-label">Collection</label>
-								<select name="collection" id="collection" class="data-entry-select col-12">
-									<option value="">Any Collection</option>
-									<cfloop query="getAnnotatedCollections">
-										<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-										<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="form-group mb-2" data-target-group="specimen">
-								<label for="specimen_guid" class="data-entry-label">Specimen GUID</label>
-								<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
-							</div>
-							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
-						</div>
-						<div class="col-12 col-md-6 col-xl-2 mb-3">
-							<h3 class="h6 mb-2">Taxon</h3>
-							<div class="form-group mb-2" data-target-group="taxon">
-								<label for="family" class="data-entry-label">Family</label>
-								<select name="family" id="family" class="data-entry-select col-12">
-									<option value="">Any Family</option>
-									<cfloop query="getAnnotatedFamilies">
-										<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-										<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="form-group mb-2" data-target-group="taxon">
-								<label for="scientific_name" class="data-entry-label">Scientific Name Contains</label>
-								<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
-							</div>
-							<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
-						</div>
-
-						<div class="col-12 col-md-6 col-xl-3 mb-3">
-							<h2 class="h5 mb-2">Publication and Project</h2>
-							<div class="form-group mb-2" data-target-group="publication">
-								<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
-								<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
-								<!--- publication_text: JS syncs from publication_lookup on submit when publication_id is empty; initial value supports noscript fallback. --->
-								<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
-								<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
-							</div>
-							<div class="form-group mb-3" data-target-group="project">
-								<label for="project_lookup" class="data-entry-label">Project Title</label>
-								<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
-								<!--- project_text: JS syncs from project_lookup on submit when project_id is empty; initial value supports noscript fallback. --->
-								<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
-								<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
-							</div>
-						</div>
-					</form>
-					<script>
-						var $form = $('##annotationSearchForm');
-						var $targetTypeSelect = $('##target_type_select');
-						// Single config object: add new target types here only.
-						// fields: search parameter inputs (drives inference, disable/clear, query string).
-						// displayFields: display-only inputs (cleared/disabled with group but not in query string).
-						var groupConfig = {
-							specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
-							taxon:       { targetType: 'TAXONOMY',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
-							publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
-							project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
-						};
-						// Derived lookups — no manual update needed when groupConfig is extended.
-						var allGroups = Object.keys(groupConfig);
-						var targetTypeToGroup = {};
-						$.each(allGroups, function (i, groupName) {
-							targetTypeToGroup[groupConfig[groupName].targetType] = [groupName];
-						});
-						function clearGroup(groupName) {
-							$.each(groupConfig[groupName].fields, function (i, fieldId) {
-								$('##' + fieldId).val('');
-							});
-							$.each(groupConfig[groupName].displayFields || [], function (i, fieldId) {
-								$('##' + fieldId).val('');
-							});
-						}
-						function setGroupState(activeGroups, clearInconsistentValues) {
+						</form>
+						<script>
+							var $form = $('##annotationSearchForm');
+							var $targetTypeSelect = $('##target_type_select');
+							// Single config object: add new target types here only.
+							// fields: search parameter inputs (drives inference, disable/clear, query string).
+							// displayFields: display-only inputs (cleared/disabled with group but not in query string).
+							var groupConfig = {
+								specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
+								taxon:       { targetType: 'TAXONOMY',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
+								publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
+								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
+							};
+							// Derived lookups — no manual update needed when groupConfig is extended.
+							var allGroups = Object.keys(groupConfig);
+							var targetTypeToGroup = {};
 							$.each(allGroups, function (i, groupName) {
-								var active = $.inArray(groupName, activeGroups) !== -1;
-								$form.find('[data-target-group="' + groupName + '"]')
-									.toggleClass('opacity-50', !active)
-									.toggleClass('text-muted', !active);
-								$.each(groupConfig[groupName].fields, function (j, fieldId) {
-									$('##' + fieldId)
-										.prop('disabled', !active)
-										.toggleClass('bg-light', !active)
-										.toggleClass('text-muted', !active);
-								});
-								$.each(groupConfig[groupName].displayFields || [], function (j, fieldId) {
-									$('##' + fieldId)
-										.prop('disabled', !active)
-										.toggleClass('bg-light', !active)
-										.toggleClass('text-muted', !active);
-								});
-								if (!active && clearInconsistentValues) {
-									clearGroup(groupName);
-								}
+								targetTypeToGroup[groupConfig[groupName].targetType] = [groupName];
 							});
-						}
-						function inferTargetType() {
-							var filledGroups = [];
-							$.each(allGroups, function (i, groupName) {
-								var groupHasValue = false;
-								$.each(groupConfig[groupName].fields, function (j, fieldId) {
-									if ($.trim($('##' + fieldId).val()).length > 0) {
-										groupHasValue = true;
-										return false;
-									}
+							function clearGroup(groupName) {
+								$.each(groupConfig[groupName].fields, function (i, fieldId) {
+									$('##' + fieldId).val('');
 								});
-								if (groupHasValue) { filledGroups.push(groupName); }
-							});
-							if (filledGroups.length === 1) {
-								$targetTypeSelect.val(groupConfig[filledGroups[0]].targetType);
+								$.each(groupConfig[groupName].displayFields || [], function (i, fieldId) {
+									$('##' + fieldId).val('');
+								});
 							}
-							if (filledGroups.length > 1) {
-								// Deterministic precedence for conflicts: use order from groupConfig.
-								var selectedGroup = null;
+							function setGroupState(activeGroups, clearInconsistentValues) {
 								$.each(allGroups, function (i, groupName) {
-									if ($.inArray(groupName, filledGroups) !== -1) {
-										selectedGroup = groupName;
-										return false;
+									var active = $.inArray(groupName, activeGroups) !== -1;
+									$form.find('[data-target-group="' + groupName + '"]')
+										.toggleClass('opacity-50', !active)
+										.toggleClass('text-muted', !active);
+									$.each(groupConfig[groupName].fields, function (j, fieldId) {
+										$('##' + fieldId)
+											.prop('disabled', !active)
+											.toggleClass('bg-light', !active)
+											.toggleClass('text-muted', !active);
+									});
+									$.each(groupConfig[groupName].displayFields || [], function (j, fieldId) {
+										$('##' + fieldId)
+											.prop('disabled', !active)
+											.toggleClass('bg-light', !active)
+											.toggleClass('text-muted', !active);
+									});
+									if (!active && clearInconsistentValues) {
+										clearGroup(groupName);
 									}
 								});
-								$targetTypeSelect.val(groupConfig[selectedGroup || allGroups[0]].targetType);
 							}
-						}
-						function applyTargetTypeState(clearInconsistentValues) {
-							var selectedTargetType = $targetTypeSelect.val() ? $targetTypeSelect.val().toUpperCase() : '';
-							var activeGroups = targetTypeToGroup[selectedTargetType] || allGroups;
-							setGroupState(activeGroups, clearInconsistentValues);
-						}
-						$('##target_type_select').on('change', function () {
-							applyTargetTypeState(true);
-						});
-						if (typeof makePublicationAutocompleteMeta === 'function') {
-							makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
-						} else {
-							console.warn('Publication autocomplete unavailable. Use publication_id in URL parameters for publication filtering.');
-						}
-						if (typeof makeProjectAutocompleteMeta === 'function') {
-							makeProjectAutocompleteMeta('project_lookup', 'project_id');
-						} else {
-							console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
-						}
-						// Clear the stored publication_id whenever the user edits the lookup display field manually.
-						$('##publication_lookup').on('input', function () {
-							$('##publication_id').val('');
-							$('##publication_text').val('');
-						});
-						// Clear the stored project_id whenever the user edits the lookup display field manually.
-						$('##project_lookup').on('input', function () {
-							$('##project_id').val('');
-							$('##project_text').val('');
-						});
-						// Clear taxon_name_id whenever the user types in the scientific name field.
-						$('##scientific_name').on('input', function () {
-							$('##taxon_name_id').val('');
-						});
-						function syncTextSearchFields() {
-							// When publication_id is not set, populate publication_text from the lookup display field.
-							// When publication_id is set (autocomplete selected), clear publication_text so only the id is sent.
-							if ($.trim($('##publication_id').val()).length > 0) {
-								$('##publication_text').val('');
-							} else {
-								$('##publication_text').val($.trim($('##publication_lookup').val()));
-							}
-							// Same for project.
-							if ($.trim($('##project_id').val()).length > 0) {
-								$('##project_text').val('');
-							} else {
-								$('##project_text').val($.trim($('##project_lookup').val()));
-							}
-						}
-						function showSearchingMarker() {
-							$('##annotationSearchResultsContainer').html('<p class="mt-3 text-muted pl-1">Searching...</p>');
-						}
-						function buildSearchQueryString() {
-							syncTextSearchFields();
-							var params = [{ name: 'execute', value: 'true' }];
-							$form.find(':input').not(':disabled').each(function () {
-								var $field = $(this);
-								var name = $field.attr('name');
-								if (!name || name === 'execute') { return; }
-								var type = ($field.attr('type') || '').toLowerCase();
-								if (type === 'submit' || type === 'button' || type === 'reset' || type === 'file') { return; }
-								if ((type === 'checkbox' || type === 'radio') && !$field.prop('checked')) { return; }
-								var value = $.trim($field.val() || '');
-								if (value.length > 0) {
-									params.push({ name: name, value: value });
+							function inferTargetType() {
+								var filledGroups = [];
+								$.each(allGroups, function (i, groupName) {
+									var groupHasValue = false;
+									$.each(groupConfig[groupName].fields, function (j, fieldId) {
+										if ($.trim($('##' + fieldId).val()).length > 0) {
+											groupHasValue = true;
+											return false;
+										}
+									});
+									if (groupHasValue) { filledGroups.push(groupName); }
+								});
+								if (filledGroups.length === 1) {
+									$targetTypeSelect.val(groupConfig[filledGroups[0]].targetType);
 								}
-							});
-							return $.param(params);
-						}
-						function loadResults(queryString) {
-							showSearchingMarker();
-							$.ajax({
-								url: '/annotations/component/search.cfc?method=renderAnnotationSearchResults&returnformat=plain&' + queryString,
-								type: 'get',
-								success: function (data) {
-									$('##annotationSearchResultsContainer').html(data);
-								},
-								error: function (jqXHR, textStatus, error) {
-									console.error(error);
-									$('##annotationSearchResultsContainer').html('<p class="mt-3 text-danger pl-1">Unable to load search results.</p>');
+								if (filledGroups.length > 1) {
+									// Deterministic precedence for conflicts: use order from groupConfig.
+									var selectedGroup = null;
+									$.each(allGroups, function (i, groupName) {
+										if ($.inArray(groupName, filledGroups) !== -1) {
+											selectedGroup = groupName;
+											return false;
+										}
+									});
+									$targetTypeSelect.val(groupConfig[selectedGroup || allGroups[0]].targetType);
 								}
+							}
+							function applyTargetTypeState(clearInconsistentValues) {
+								var selectedTargetType = $targetTypeSelect.val() ? $targetTypeSelect.val().toUpperCase() : '';
+								var activeGroups = targetTypeToGroup[selectedTargetType] || allGroups;
+								setGroupState(activeGroups, clearInconsistentValues);
+							}
+							function syncTextSearchFields() {
+								// When publication_id is not set, populate publication_text from the lookup display field.
+								// When publication_id is set (autocomplete selected), clear publication_text so only the id is sent.
+								if ($.trim($('##publication_id').val()).length > 0) {
+									$('##publication_text').val('');
+								} else {
+									$('##publication_text').val($.trim($('##publication_lookup').val()));
+								}
+								// Same for project.
+								if ($.trim($('##project_id').val()).length > 0) {
+									$('##project_text').val('');
+								} else {
+									$('##project_text').val($.trim($('##project_lookup').val()));
+								}
+							}
+							function showSearchingMarker() {
+								$('##annotationSearchResultsContainer').html('<p class="mt-3 text-muted pl-1">Searching...</p>');
+							}
+							function buildSearchQueryString() {
+								syncTextSearchFields();
+								var params = [{ name: 'execute', value: 'true' }];
+								$form.find(':input').not(':disabled').each(function () {
+									var $field = $(this);
+									var name = $field.attr('name');
+									if (!name || name === 'execute') { return; }
+									var type = ($field.attr('type') || '').toLowerCase();
+									if (type === 'submit' || type === 'button' || type === 'reset' || type === 'file') { return; }
+									if ((type === 'checkbox' || type === 'radio') && !$field.prop('checked')) { return; }
+									var value = $.trim($field.val() || '');
+									if (value.length > 0) {
+										params.push({ name: name, value: value });
+									}
+								});
+								return $.param(params);
+							}
+							function loadResults(queryString) {
+								showSearchingMarker();
+								$.ajax({
+									url: '/annotations/component/search.cfc?method=renderAnnotationSearchResults&returnformat=plain&' + queryString,
+									type: 'get',
+									success: function (data) {
+										$('##annotationSearchResultsContainer').html(data);
+									},
+									error: function (jqXHR, textStatus, error) {
+										console.error(error);
+										$('##annotationSearchResultsContainer').html('<p class="mt-3 text-danger pl-1">Unable to load search results.</p>');
+									}
+								});
+							}
+							$(document).ready(function () {
+								$('##target_type_select').on('change', function () {
+									applyTargetTypeState(true);
+								});
+								if (typeof makePublicationAutocompleteMeta === 'function') {
+									makePublicationAutocompleteMeta('publication_lookup', 'publication_id');
+								} else {
+									console.warn('Publication autocomplete unavailable. Use publication_id in URL parameters for publication filtering.');
+								}
+								if (typeof makeProjectAutocompleteMeta === 'function') {
+									makeProjectAutocompleteMeta('project_lookup', 'project_id');
+								} else {
+									console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
+								}
+								// Clear the stored publication_id whenever the user edits the lookup display field manually.
+								$('##publication_lookup').on('input', function () {
+									$('##publication_id').val('');
+									$('##publication_text').val('');
+								});
+								// Clear the stored project_id whenever the user edits the lookup display field manually.
+								$('##project_lookup').on('input', function () {
+									$('##project_id').val('');
+									$('##project_text').val('');
+								});
+								// Clear taxon_name_id whenever the user types in the scientific name field.
+								$('##scientific_name').on('input', function () {
+									$('##taxon_name_id').val('');
+								});
+								// Clear dependent hidden/surrogate values when target-specific search values change.
+								$('##specimen_guid').on('input change', function () {
+									$('##collection_object_id').val('');
+								});
+								$('##collection').on('change', function () {
+									$('##specimen_guid').val('');
+									$('##collection_object_id').val('');
+								});
+								$('##family').on('change', function () {
+									$('##taxon_name_id').val('');
+								});
+								$('##publication_lookup').on('change', function () {
+									if ($.trim($('##publication_id').val()).length === 0) {
+										$('##publication_text').val($.trim($(this).val()));
+									}
+								});
+								$('##project_lookup').on('change', function () {
+									if ($.trim($('##project_id').val()).length === 0) {
+										$('##project_text').val($.trim($(this).val()));
+									}
+								});
+								$('##annotationSearchForm').on('submit', function (event) {
+									event.preventDefault();
+									inferTargetType();
+									applyTargetTypeState(true);
+									var queryString = buildSearchQueryString();
+									history.replaceState({}, '', window.location.pathname + '?' + queryString);
+									loadResults(queryString);
+								});
+								applyTargetTypeState(false);
+								<cfif runSearch>
+									loadResults(buildSearchQueryString());
+								</cfif>
 							});
-						}
-						$(document).ready(function () {
-							$('##annotationSearchForm').on('submit', function (event) {
-								event.preventDefault();
-								inferTargetType();
-								applyTargetTypeState(true);
-								var queryString = buildSearchQueryString();
-								history.replaceState({}, '', window.location.pathname + '?' + queryString);
-								loadResults(queryString);
-							});
-							applyTargetTypeState(false);
-							<cfif runSearch>
-								loadResults(buildSearchQueryString());
-							</cfif>
-						});
-					</script>
-				</div>
+						</script>
+					</div>
 				</cfoutput>
 			</div>
 		</div>
