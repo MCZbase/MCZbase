@@ -33,6 +33,11 @@ limitations under the License.
 --->
 <cffunction name="getAgentAnnotationCardBodyHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="agent_id" type="numeric" required="yes">
+
+	<!--- TODO: Generalize to all agent types as targets  --->
+	<cfset target_table = "AGENT">
+	<cfset target_label = "agent">
+
 	<cfset var annQuery = QueryNew("")>
 	<cfset var conversations = QueryNew("")>
 	<cfset var cardBodyHtml = "">
@@ -57,8 +62,10 @@ limitations under the License.
 					FROM annotation_textualbody
 				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 			WHERE
-				annotations.target_table = 'AGENT'
-				AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">
+				<cfif target_table = "AGENT">
+					annotations.target_table = 'AGENT'
+					AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">
+				</cfif>
 				<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
 					AND (annotations.mask_annotation_fg = 0 OR annotations.cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 				</cfif>
@@ -88,7 +95,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p class="my-2 text-muted small">There are no annotations on this agent record.</p>
+					<p class="my-2 text-muted small">There are no annotations on this #target_label# record.</p>
 				</cfif>
 			</div>
 			</cfoutput>
