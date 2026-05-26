@@ -282,6 +282,18 @@ limitations under the License.
 				<cfset variables.targetSummary = "Project " & targetRecord.project_name>
 			</cfif>
 		</cfcase>
+		<cfcase value="AGENT">
+			<cfquery name="targetRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+				SELECT agent_name
+				FROM agent_name
+				WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.targetId#">
+					AND agent_name_type = 'preferred'
+			</cfquery>
+			<cfif targetRecord.recordcount EQ 1>
+				<cfset variables.targetIRI = Application.ServerRootUrl & "/agents/Agent.cfm?agent_id=" & variables.targetId>
+				<cfset variables.targetSummary = "Agent " & targetRecord.agent_name>
+			</cfif>
+		</cfcase>
 		<cfdefaultcase>
 			<cfset variables.targetSummary = variables.targetType & " " & variables.targetId>
 		</cfdefaultcase>

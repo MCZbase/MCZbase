@@ -48,6 +48,8 @@ limitations under the License.
 <cfparam name="url.publication_text" default="">
 <cfparam name="url.project_id" default="">
 <cfparam name="url.project_text" default="">
+<cfparam name="url.agent_id" default="">
+<cfparam name="url.agent_name" default="">
 <cfparam name="url.has_responses" default="">
 
 <cfset variables.execute = lcase(trim(url.execute))>
@@ -73,6 +75,8 @@ limitations under the License.
 <cfset variables.publication_text = trim(url.publication_text)>
 <cfset variables.project_id = trim(url.project_id)>
 <cfset variables.project_text = trim(url.project_text)>
+<cfset variables.agent_id = trim(url.agent_id)>
+<cfset variables.agent_name = trim(url.agent_name)>
 <cfset variables.has_responses = trim(url.has_responses)>
 <cfset variables.publication_lookup = "">
 <cfset variables.project_lookup = "">
@@ -83,6 +87,7 @@ limitations under the License.
 	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXONOMY"></cfcase>
 	<cfcase value="publication,publication_id"><cfset variables.target_type = "PUBLICATION"></cfcase>
 	<cfcase value="project,project_id"><cfset variables.target_type = "PROJECT"></cfcase>
+	<cfcase value="agent,agent_id"><cfset variables.target_type = "AGENT"></cfcase>
 	<cfcase value="guid"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
 	<cfdefaultcase>
 		<cfif len(variables.target_type) GT 0>
@@ -102,6 +107,9 @@ limitations under the License.
 		</cfcase>
 		<cfcase value="PROJECT">
 			<cfif len(variables.project_id) EQ 0><cfset variables.project_id = trim(url.id)></cfif>
+		</cfcase>
+		<cfcase value="AGENT">
+			<cfif len(variables.agent_id) EQ 0><cfset variables.agent_id = trim(url.id)></cfif>
 		</cfcase>
 		<cfdefaultcase>
 			<cfif len(variables.collection_object_id) EQ 0><cfset variables.collection_object_id = trim(url.id)></cfif>
@@ -129,7 +137,9 @@ limitations under the License.
 	len(variables.publication_id) GT 0 OR
 	len(variables.publication_text) GT 0 OR
 	len(variables.project_id) GT 0 OR
-	len(variables.project_text) GT 0
+	len(variables.project_text) GT 0 OR
+	len(variables.agent_id) GT 0 OR
+	len(variables.agent_name) GT 0
 )>
 	<cfset runSearch = true>
 </cfif>
@@ -259,6 +269,16 @@ limitations under the License.
 	<!--- When a project text search is provided (no id), show the text in the lookup display field. --->
 	<cfset variables.project_lookup = variables.project_text>
 </cfif>
+<cfif len(variables.agent_id) GT 0 AND isNumeric(variables.agent_id) AND len(variables.agent_name) EQ 0>
+	<cfquery name="getAgentDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT agent_name
+		FROM preferred_agent_name
+		WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.agent_id#">
+	</cfquery>
+	<cfif getAgentDisplay.recordcount GT 0>
+		<cfset variables.agent_name = getAgentDisplay.agent_name>
+	</cfif>
+</cfif>
 <cfif len(variables.collection_object_id) GT 0 AND isNumeric(variables.collection_object_id) and len(variables.specimen_guid) EQ 0>
 	<cfquery name="getGuidDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT GUID
@@ -348,7 +368,7 @@ limitations under the License.
 								<h2 class="h5 mb-2">Annotation Text and Review</h2>
 								<div class="form-group mb-2">
 									<label for="annotator" class="data-entry-label">Annotator Username</label>
-									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12">
+									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12" placeholder="Type annotator name or username">
 								</div>
 								<div class="form-group mb-2">
 									<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
@@ -388,6 +408,7 @@ limitations under the License.
 												<cfcase value="TAXONOMY"><cfset target_type_label = "Taxon"></cfcase>
 												<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
 												<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
+												<cfcase value="AGENT"><cfset target_type_label = "Agent"></cfcase>
 												<cfdefaultcase><cfset target_type_label = rereplace(lcase(target_table), "_", " ", "all")></cfdefaultcase>
 											</cfswitch>
 											<cfif ucase(target_table) NEQ "ANNOTATIONS">
@@ -432,6 +453,12 @@ limitations under the License.
 									<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
 								</div>
 								<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
+								<h3 class="h6 mb-2 mt-3">Agent</h3>
+								<div class="form-group mb-2" data-target-group="agent">
+									<label for="agent_name" class="data-entry-label">Agent Name</label>
+									<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="data-entry-input col-12" placeholder="Type to search by name or pick an agent">
+									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+								</div>
 							</div>
 	
 							<div class="col-12 col-md-6 col-xl-3 mb-3">
@@ -460,7 +487,8 @@ limitations under the License.
 								specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
 								taxon:       { targetType: 'TAXONOMY',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
 								publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
-								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] }
+								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] },
+								agent:       { targetType: 'AGENT',             fields: ['agent_id', 'agent_name'] }
 							};
 							// Derived lookups — no manual update needed when groupConfig is extended.
 							var allGroups = Object.keys(groupConfig);
@@ -594,6 +622,16 @@ limitations under the License.
 								} else {
 									console.warn('Project autocomplete unavailable. Use project_id in URL parameters for project filtering.');
 								}
+								if (typeof makeConstrainedAgentPicker === 'function') {
+									makeConstrainedAgentPicker('agent_name', 'agent_id', 'annotated');
+								} else {
+									console.warn('Agent autocomplete unavailable. Use agent_id in URL parameters for agent filtering.');
+								}
+								if (typeof makeAnnotationParticipantLoginAutocomplete === 'function') {
+									makeAnnotationParticipantLoginAutocomplete('annotator');
+								} else {
+									console.warn('Annotator autocomplete unavailable. Annotator searches will use typed login fragments.');
+								}
 								// Clear the stored publication_id whenever the user edits the lookup display field manually.
 								$('##publication_lookup').on('input', function () {
 									$('##publication_id').val('');
@@ -603,6 +641,9 @@ limitations under the License.
 								$('##project_lookup').on('input', function () {
 									$('##project_id').val('');
 									$('##project_text').val('');
+								});
+								$('##agent_name').on('input', function () {
+									$('##agent_id').val('');
 								});
 								// Clear taxon_name_id whenever the user types in the scientific name field.
 								$('##scientific_name').on('input', function () {

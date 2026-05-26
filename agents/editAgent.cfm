@@ -58,6 +58,8 @@ limitations under the License.
 <cfset includeJQXEditor='true'>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/public.cfc" runOnce="true">
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -701,6 +703,51 @@ limitations under the License.
 								</section>
 							</div>
 						</div>
+					<!--- annotations on this agent record --->
+					<cfquery name="countAgentAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+						SELECT count(annotation_id) ct
+						FROM annotations
+						WHERE target_table = 'AGENT'
+							AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+								AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+							</cfif>
+					</cfquery>
+					<script type="text/javascript">
+					function reloadEditAgentAnnotationCardBody() {
+						$.ajax({
+							url: '/annotations/component/public.cfc',
+							data: { method: 'getAgentAnnotationCardBodyHtml', agent_id: #val(agent_id)# },
+							success: function(result) { $('##editAgentAnnotationsCardBodyWrap').html(result); },
+							error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading agent annotations'); },
+							dataType: 'html'
+						});
+					}
+					</script>
+					<section class="accordion" id="editAgentAnnotationsSection">
+						<div class="card mb-2 bg-light">
+							<div id="editAgentAnnotationDialog"></div>
+							<div class="card-header" id="editAgentAnnotationsHeader">
+								<h2 class="h4 my-0">
+									<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##editAgentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="editAgentAnnotationsCardBodyWrap">
+										Annotations (#countAgentAnnotations.ct#)
+									</button>
+									<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_collection") AND countAgentAnnotations.ct GT 0>
+										<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,reloadEditAgentAnnotationCardBody);">
+											Edit Annotations
+										</a>
+									<cfelseif isdefined("session.username") AND len(session.username) GT 0>
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,reloadEditAgentAnnotationCardBody);">
+											Annotate
+										</a>
+									</cfif>
+								</h2>
+							</div>
+							<div id="editAgentAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="editAgentAnnotationsHeader" data-parent="##editAgentAnnotationsSection">
+								#getAgentAnnotationCardBodyHtml(agent_id=val(agent_id))#
+							</div>
+						</div>
+					</section>
 					</cfloop>
 				</cfif>
 			</main>

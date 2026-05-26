@@ -43,6 +43,8 @@ limitations under the License.
  @param publication_text optional publication citation/title substring; used only when publication_id is not provided.
  @param project_id optional numeric project primary key filter; takes precedence over project_text when both are provided.
  @param project_text optional project name substring; used only when project_id is not provided.
+ @param agent_id optional numeric agent primary key filter; takes precedence over agent_name when both are provided.
+ @param agent_name optional agent name substring; used only when agent_id is not provided.
  @return query of annotation rows with target context fields used by /annotations/Annotations.cfm result rendering.
 --->
 <cffunction name="findAnnotations" returntype="query" access="public">
@@ -65,6 +67,8 @@ limitations under the License.
 	<cfargument name="publication_text" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="project_text" type="string" required="no" default="">
+	<cfargument name="agent_id" type="string" required="no" default="">
+	<cfargument name="agent_name" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var targetTableFilter = "">
@@ -213,6 +217,7 @@ limitations under the License.
 			taxonomy.family taxon_family,
 			publication.publication_title,
 			project.project_name,
+			NVL(target_pan.agent_name, '') agent_name,
 			to_char(
 				CASE
 					WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
@@ -264,6 +269,14 @@ limitations under the License.
 			LEFT OUTER JOIN cf_users ON annotations.cf_username = cf_users.username
 			LEFT OUTER JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
 			LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+			LEFT OUTER JOIN preferred_agent_name target_pan ON (
+					annotations.target_table = 'AGENT'
+					AND annotations.target_primary_key = target_pan.agent_id
+				) OR (
+					annotations.target_table = 'ANNOTATIONS'
+					AND parent_annotations.target_table = 'AGENT'
+					AND parent_annotations.target_primary_key = target_pan.agent_id
+				)
 			LEFT OUTER JOIN (
 				<!--- Use earliest textual body for compatibility with existing annotation_display behavior on this page. --->
 				SELECT annotation_id, body_value,
@@ -467,6 +480,37 @@ limitations under the License.
 					WHERE upper(project_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.project_text))#%">
 				)
 			</cfif>
+			<cfif len(trim(arguments.agent_id)) GT 0 AND isNumeric(arguments.agent_id)>
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+						ELSE annotations.target_table
+					END
+				) = 'AGENT'
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						ELSE annotations.target_primary_key
+					END
+				) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.agent_id)#">
+			<cfelseif len(trim(arguments.agent_name)) GT 0>
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
+						ELSE annotations.target_table
+					END
+				) = 'AGENT'
+				AND (
+					CASE
+						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
+						ELSE annotations.target_primary_key
+					END
+				) IN (
+					SELECT agent_name.agent_id
+					FROM agent_name
+					WHERE upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.agent_name))#%">
+				)
+			</cfif>
 			<cfif normalizedRootMode EQ "root" AND listFindNoCase("yes,no", trim(arguments.has_responses))>
 				<cfif lcase(trim(arguments.has_responses)) EQ "yes">
 					AND EXISTS (
@@ -507,6 +551,114 @@ limitations under the License.
 </cffunction>
 
 <!---
+ getAnnotatorLoginAutocompleteMeta returns annotation-participant login suggestions for annotator search.
+ Suggestions are constrained to existing annotation participants (annotations.cf_username), with optional
+ enrichment from annotator_agent_id and login-name-to-agent mappings to show matched agent names.
+
+ @param term required text fragment to match against login names or related agent names.
+ @return json array for jquery-ui autocomplete with login value and richer meta label.
+--->
+<cffunction name="getAnnotatorLoginAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset var data = ArrayNew(1)>
+	<cfset var searchTerm = trim(arguments.term)>
+	<cfset var searchLike = "%#searchTerm#%">
+	<cfset var i = 1>
+	<cfset var row = StructNew()>
+	<cfset var edited_marker = "">
+	<cfset var display_name = "">
+	<cfset var message = "">
+	<cfset var error_message = "">
+	<cfset var function_called = "">
+	<cfset var errorResponse = StructNew()>
+
+	<cfif len(searchTerm) EQ 0>
+		<cfreturn serializeJSON(data)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
+			SELECT
+				participants.cf_username,
+				prefername.agent_name preferred_agent_name,
+				NVL(agent.edited, 0) edited,
+				searchname.agent_name matched_agent_name
+			FROM (
+				SELECT DISTINCT
+					annotations.cf_username,
+					CASE
+						WHEN login_name.agent_id IS NOT NULL THEN login_name.agent_id
+						ELSE annotations.annotator_agent_id
+					END resolved_agent_id
+				FROM annotations
+					LEFT OUTER JOIN agent_name login_name
+						ON login_name.agent_name_type = 'login'
+							AND upper(login_name.agent_name) = upper(annotations.cf_username)
+				WHERE
+					length(trim(annotations.cf_username)) > 0
+			) participants
+				LEFT OUTER JOIN agent ON participants.resolved_agent_id = agent.agent_id
+				LEFT OUTER JOIN agent_name prefername ON agent.preferred_agent_name_id = prefername.agent_name_id
+				LEFT OUTER JOIN (
+					SELECT
+						filtered_names.agent_id,
+						filtered_names.agent_name
+					FROM (
+						SELECT
+							agent_name.agent_id,
+							agent_name.agent_name,
+							agent_name.agent_name_type,
+							ROW_NUMBER() OVER (
+								PARTITION BY agent_name.agent_id
+								ORDER BY
+									CASE WHEN agent_name.agent_name_type = 'preferred' THEN 0 ELSE 1 END,
+									agent_name.agent_name
+							) row_rank
+						FROM agent_name
+						WHERE upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+					) filtered_names
+					WHERE filtered_names.row_rank = 1
+				) searchname
+					ON participants.resolved_agent_id = searchname.agent_id
+			WHERE
+				upper(participants.cf_username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+				OR upper(NVL(prefername.agent_name, '')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(searchLike)#">
+				OR searchname.agent_name IS NOT NULL
+			ORDER BY
+				NVL(prefername.agent_name, participants.cf_username),
+				participants.cf_username
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<!--- Keep '*' marker consistent with existing agent meta controls: edited agent record indicator. --->
+			<cfset edited_marker = "">
+			<cfif search.edited EQ 1><cfset edited_marker = " *"></cfif>
+			<cfset display_name = search.matched_agent_name>
+			<cfif len(trim(display_name)) EQ 0><cfset display_name = search.preferred_agent_name></cfif>
+			<cfif len(trim(display_name)) EQ 0><cfset display_name = search.cf_username></cfif>
+			<cfset row["id"] = "#search.cf_username#">
+			<cfset row["value"] = "#search.cf_username#">
+			<cfset row["meta"] = "#display_name##edited_marker# (#search.cf_username#)">
+			<cfset data[i] = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn serializeJSON(data)>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfset message = "Error processing annotator login autocomplete.">
+		<cfheader statusCode="500" statusText="#message#">
+		<cfset errorResponse = StructNew()>
+		<cfset errorResponse["error"] = true>
+		<cfset errorResponse["message"] = message>
+		<cfreturn serializeJSON(errorResponse)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
  renderAnnotationSearchResults renders annotation search results HTML for async and noscript loads.
  Works with findAnnotations query result structure and uses existing annotation render helpers to 
  maintain consistent display with other annotation sections.
@@ -535,6 +687,8 @@ limitations under the License.
  @param publication_text optional publication citation/title substring; used only when publication_id is not provided.
  @param project_id optional project id filter; takes precedence over project_text.
  @param project_text optional project name substring; used only when project_id is not provided.
+ @param agent_id optional agent id filter; takes precedence over agent_name.
+ @param agent_name optional agent name substring; used only when agent_id is not provided.
  @return HTML string for annotation search results section using existing annotation render helpers.
  @see findAnnotations 
 --->
@@ -562,6 +716,8 @@ limitations under the License.
 	<cfargument name="publication_text" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="project_text" type="string" required="no" default="">
+	<cfargument name="agent_id" type="string" required="no" default="">
+	<cfargument name="agent_name" type="string" required="no" default="">
 	<cfargument name="has_responses" type="string" required="no" default="">
 
 	<cfset var normalizedTargetType = trim(ucase(arguments.target_type))>
@@ -569,6 +725,7 @@ limitations under the License.
 	<cfset var normalizedTaxonNameId = trim(arguments.taxon_name_id)>
 	<cfset var normalizedPublicationId = trim(arguments.publication_id)>
 	<cfset var normalizedProjectId = trim(arguments.project_id)>
+	<cfset var normalizedAgentId = trim(arguments.agent_id)>
 	<cfset var normalizedFamily = trim(arguments.family)>
 	<cfset var normalizedRootMode = lcase(trim(arguments.root_mode))>
 	<cfset var normalizedVisibility = "">
@@ -611,6 +768,7 @@ limitations under the License.
 		<cfcase value="taxonomy,taxon_name_id"><cfset normalizedTargetType = "TAXONOMY"></cfcase>
 		<cfcase value="publication,publication_id"><cfset normalizedTargetType = "PUBLICATION"></cfcase>
 		<cfcase value="project,project_id"><cfset normalizedTargetType = "PROJECT"></cfcase>
+		<cfcase value="agent,agent_id"><cfset normalizedTargetType = "AGENT"></cfcase>
 		<cfcase value="guid"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
 		<cfdefaultcase>
 			<cfif len(normalizedTargetType) GT 0>
@@ -629,6 +787,9 @@ limitations under the License.
 			</cfcase>
 			<cfcase value="PROJECT">
 				<cfif len(normalizedProjectId) EQ 0><cfset normalizedProjectId = trim(arguments.id)></cfif>
+			</cfcase>
+			<cfcase value="AGENT">
+				<cfif len(normalizedAgentId) EQ 0><cfset normalizedAgentId = trim(arguments.id)></cfif>
 			</cfcase>
 			<cfdefaultcase>
 				<cfif len(normalizedCollectionObjectId) EQ 0><cfset normalizedCollectionObjectId = trim(arguments.id)></cfif>
@@ -666,7 +827,9 @@ limitations under the License.
 		len(normalizedPublicationId) GT 0 OR
 		len(trim(arguments.publication_text)) GT 0 OR
 		len(normalizedProjectId) GT 0 OR
-		len(trim(arguments.project_text)) GT 0
+		len(trim(arguments.project_text)) GT 0 OR
+		len(normalizedAgentId) GT 0 OR
+		len(trim(arguments.agent_name)) GT 0
 	)>
 		<cfset runSearch = true>
 	</cfif>
@@ -692,7 +855,9 @@ limitations under the License.
 			publication_id = normalizedPublicationId,
 			publication_text = trim(arguments.publication_text),
 			project_id = normalizedProjectId,
-			project_text = trim(arguments.project_text)
+			project_text = trim(arguments.project_text),
+			agent_id = normalizedAgentId,
+			agent_name = trim(arguments.agent_name)
 		)>
 		<cfif searchResults.recordcount GT 0>
 			<cfset matchedAnnotationIds = valueList(searchResults.annotation_id)>
@@ -739,11 +904,11 @@ limitations under the License.
 				<cfquery name="targets" dbtype="query">
 					SELECT target_table, target_primary_key, collection_object_id, institution_acronym, collection_cde, cat_num,
 						scientific_name, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
-						publication_id, publication_title, project_id, project_name
+						publication_id, publication_title, project_id, project_name, agent_name
 					FROM searchResults
 					GROUP BY target_table, target_primary_key, collection_object_id, institution_acronym, collection_cde, cat_num,
 						scientific_name, higher_geog, spec_locality, taxon_name_id, taxon_scientific_name, taxon_display_name,
-						publication_id, publication_title, project_id, project_name
+						publication_id, publication_title, project_id, project_name, agent_name
 					ORDER BY target_table, target_primary_key
 				</cfquery>
 				<cfset targetCount = targets.recordcount>
@@ -768,6 +933,8 @@ limitations under the License.
 			<cfif len(trim(arguments.publication_text)) GT 0><cfset arrayAppend(searchTermLabels, "publication text")></cfif>
 			<cfif len(normalizedProjectId) GT 0><cfset arrayAppend(searchTermLabels, "project")></cfif>
 			<cfif len(trim(arguments.project_text)) GT 0><cfset arrayAppend(searchTermLabels, "project text")></cfif>
+			<cfif len(normalizedAgentId) GT 0><cfset arrayAppend(searchTermLabels, "agent")></cfif>
+			<cfif len(trim(arguments.agent_name)) GT 0><cfset arrayAppend(searchTermLabels, "agent name")></cfif>
 			<cfif listFindNoCase("yes,no", trim(arguments.has_responses))><cfset arrayAppend(searchTermLabels, "has responses")></cfif>
 			<cfif arrayLen(searchTermLabels) GT 0><cfset searchedOn = arrayToList(searchTermLabels, ", ")></cfif>
 			<div class="d-flex flex-wrap align-items-end mt-3 pl-1" id="annotationSearchResultsHeading">
@@ -801,6 +968,10 @@ limitations under the License.
 						<cfcase value="PROJECT">
 							<cfset targetTitle = targets.project_name>
 							<cfset targetLink = "/ProjectDetail.cfm?project_id=#encodeForURL(targets.project_id)#">
+						</cfcase>
+						<cfcase value="AGENT">
+							<cfset targetTitle = targets.agent_name>
+							<cfset targetLink = "/agents/Agent.cfm?agent_id=#encodeForURL(targets.target_primary_key)#">
 						</cfcase>
 						<cfdefaultcase>
 							<cfset targetTitle = "Target #encodeForHTML(targets.target_primary_key)#">

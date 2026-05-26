@@ -268,6 +268,21 @@ limitations under the License.
 						</cfloop>
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
 					</cfcase>
+					<cfcase value="AGENT">
+						<cfset agent_id = target_id>
+						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT agent_name
+							FROM agent_name
+							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								AND agent_name_type = 'preferred'
+						</cfquery>
+						<cfif d.recordcount GT 0>
+							<cfset summary = "Agent <strong><a href='/agents/Agent.cfm?agent_id=#agent_id#' target='_blank'>#encodeForHTML(d.agent_name)#</a></strong>"><!--- " --->
+						<cfelse>
+							<cfset summary = "Agent <strong>#agent_id#</strong>"><!--- " --->
+						</cfif>
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=agent_id&agent_id=#agent_id#">
+					</cfcase>
 					<cfcase value="ANNOTATIONS">
 						<cfset annotation_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -424,6 +439,9 @@ limitations under the License.
 						project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 					<cfelseif variables.target_type EQ "PUBLICATION">
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					<cfelseif variables.target_type EQ "AGENT">
+						target_table = 'AGENT'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 					<cfelseif variables.target_type EQ "ANNOTATIONS">
 						annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#responseRootAnnotationId#">
 						OR (
@@ -758,8 +776,20 @@ limitations under the License.
 					<cfset rootAnnotationId = annotationRoot.annotation_id>
 				</cfif>
 			</cfcase>
+			<cfcase value="AGENT">
+				<cfset annotatable = true>
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 'Agent:' || agent_name AS annorecord
+					FROM agent_name
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+						AND agent_name_type = 'preferred'
+				</cfquery>
+				<cfif annotated.recordcount EQ 0>
+					<cfthrow message="Agent to annotate not found.">
+				</cfif>
+			</cfcase>
 			<cfdefaultcase>
-				<cfthrow message="Only annotation of collection objects, projects, publications, taxa, and annotations are supported at this time">
+				<cfthrow message="Only annotation of collection objects, projects, publications, taxa, agents, and annotations are supported at this time">
 			</cfdefaultcase>
 		</cfswitch>
 	<cfcatch>
@@ -820,7 +850,16 @@ limitations under the License.
 					FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset setMaskFg = isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
+				<!--- setMaskFg if user has manage_collection role, mask_annotation_fg value is provided, and mask_annotation_fg value is 0 or 1 --->
+				<cfset setMaskFg = false>
+				<cfif  isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND len(mask_annotation_fg) GT 0 AND REFind("^[01]$", trim(mask_annotation_fg)) GT 0>
+					<cfset setMaskFg = true>
+				</cfif>
+				<!--- setMaskFg to 1 if user does not have coldfusion_user role (all annotations by external users are hidden by default --->
+				<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
+					<cfset setMaskFg = true>
+					<cfset mask_annotation_fg = "1">
+				</cfif>
 				<cfquery name="insAnn" datasource="uam_god" result="insAnn_result">
 					INSERT INTO annotations (
 						cf_username,
@@ -2331,6 +2370,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<!--- title may contain html markup, remove for this use  --->
 							<cfset cleaned_formatted_publication = reReplace(rtData.formatted_publication, "<[^>]+>", "", "all")><!--- " --->
 							<cfset rootTargetSummary = "Publication <strong>#cleaned_formatted_publication#</strong>"><!--- " --->
+						</cfif>
+					<cfelseif rtTable EQ "AGENT">
+						<cfquery name="rtData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+							SELECT agent_name
+							FROM agent_name
+							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rtKey#">
+								AND agent_name_type = 'preferred'
+						</cfquery>
+						<cfif rtData.recordcount GT 0>
+							<cfset rootTargetSummary = "Agent <strong><a href='/agents/Agent.cfm?agent_id=#rtKey#' target='_blank'>#encodeForHTML(rtData.agent_name)#</a></strong>"><!--- " --->
 						</cfif>
 					</cfif>
 				</cfif>

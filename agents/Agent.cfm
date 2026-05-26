@@ -32,6 +32,8 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml ---><!--- ? unused ? remove ? --->
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/public.cfc" runOnce="true">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
@@ -738,6 +740,51 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
+							<!--- annotations on this agent record --->
+							<cfquery name="countAgentAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+								SELECT count(annotation_id) ct
+								FROM annotations
+								WHERE target_table = 'AGENT'
+									AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+										AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+									</cfif>
+							</cfquery>
+							<script type="text/javascript">
+							function reloadAgentAnnotationCardBody() {
+								$.ajax({
+									url: '/annotations/component/public.cfc',
+									data: { method: 'getAgentAnnotationCardBodyHtml', agent_id: #val(agent_id)# },
+									success: function(result) { $('##agentAnnotationsCardBodyWrap').html(result); },
+									error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading agent annotations'); },
+									dataType: 'html'
+								});
+							}
+							</script>
+							<section class="accordion" id="agentAnnotationsSection">
+								<div class="card mb-2 bg-light">
+									<div id="agentAnnotationDialog"></div>
+									<div class="card-header" id="agentAnnotationsHeader">
+										<h2 class="h4 my-0">
+											<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##agentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="agentAnnotationsCardBodyWrap">
+												Annotations (#countAgentAnnotations.ct#)
+											</button>
+											<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_collection") AND countAgentAnnotations.ct GT 0>
+												<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,reloadAgentAnnotationCardBody);">
+													Edit Annotations
+												</a>
+											<cfelseif isdefined("session.username") AND len(session.username) GT 0>
+												<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,reloadAgentAnnotationCardBody);">
+													Annotate
+												</a>
+											</cfif>
+										</h2>
+									</div>
+									<div id="agentAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="agentAnnotationsHeader" data-parent="##agentAnnotationsSection">
+										#getAgentAnnotationCardBodyHtml(agent_id=val(agent_id))#
+									</div>
+								</div>
+							</section>
 						</div>
 						<div class="d-block mb-0 mb-xl-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
 							<!--- Collector in collections--->
@@ -2292,6 +2339,17 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</cfloop>
+										<!--- annotations reference agents via target_table/target_primary_key, not a standard FK --->
+										<cfquery name="getAnnotationRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+											SELECT count(annotation_id) as ct
+											FROM annotations
+											WHERE target_table = 'AGENT'
+												AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfif getAnnotationRels.ct GT 0>
+											<cfset okToDelete = false>
+											<cfset relatedTo["ANNOTATIONS.TARGET_PRIMARY_KEY"] = getAnnotationRels.ct>
+										</cfif>
 										<div class="card-body py-1 mt-1 mb-1">
 											<cfif okToDelete>
 												<h3 class="small95 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
