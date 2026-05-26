@@ -3906,7 +3906,7 @@ limitations under the License.
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">
 									Annotation: 
-									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" >
+									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
 										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
 									</a>
 								</span>

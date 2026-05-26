@@ -1934,14 +1934,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							Response Annotation:<cfif len(annotationLabelSummary) GT 0> #annotationLabelSummary#</cfif>
 						<cfelse>
 							Annotation:
+							<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForUrl(arguments.annotation_id)#&format=turtle" target="_blank">
+								<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+							</a> 
 						</cfif>
 						<span class="text-muted small text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
 						<cfif arguments.highlight_as_target>
 							<span class="badge badge-light border text-muted ml-1 align-middle" style="font-size:0.7em;" aria-label="#encodeForHTMLAttribute(arguments.highlight_label)# annotation">#encodeForHTML(arguments.highlight_label)#</span>
 						</cfif>
-						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForUrl(arguments.annotation_id)#&format=turtle" >
-							<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
-						</a> 
 					</span>
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
