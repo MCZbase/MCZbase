@@ -1,5 +1,8 @@
 <!---
 /annotations/component/functions.cfc
+Functions supporting annotation creation and review/response workflow, 
+including permission checks, loading controlled value lists, and 
+generating HTML for annotation dialogs.
 
 Copyright 2020-2026 President and Fellows of Harvard College
 
@@ -390,7 +393,7 @@ limitations under the License.
 						</cfif>
 					</cfcase>
 					<cfdefaultcase>
-						<!--- TODO: Support annotations on at least agents, media (with ROI), and other annotations --->
+						<!--- TODO: Support annotations on at least media (with ROI), and other annotations --->
 						<cfthrow message="Annotation on an unsupported target type.">
 					</cfdefaultcase>
 				</cfswitch>
@@ -2587,43 +2590,43 @@ Annotation to report problematic data concerning #annotated.annorecord#
 										</select>
 									</div>
 									<cfif isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-									<div class="col-12 col-md-3 pb-1">
-										<label for="#addMaskFieldId#" class="data-entry-label">Response Visibility</label>
-										<select id="#addMaskFieldId#" class="data-entry-select">
-											<option value="0" selected="selected">Public</option>
-											<option value="1">Hidden</option>
-										</select>
-									</div>
-									<cfif canRespond>
 										<div class="col-12 col-md-3 pb-1">
-											<label for="#addRootStateFieldId#" class="data-entry-label">Root State</label>
-											<select id="#addRootStateFieldId#" class="data-entry-select">
-												<option value="" selected="selected">No Change</option>
-												<cfloop query="ctstate">
-													<option value="#encodeForHTMLAttribute(state)#">#encodeForHTML(state)#</option>
-												</cfloop>
+											<label for="#addMaskFieldId#" class="data-entry-label">Response Visibility</label>
+											<select id="#addMaskFieldId#" class="data-entry-select">
+												<option value="0" selected="selected">Public</option>
+												<option value="1">Hidden</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-3 pb-1">
-											<label for="#addRootResolutionFieldId#" class="data-entry-label">Root Resolution</label>
-											<select id="#addRootResolutionFieldId#" class="data-entry-select">
-												<option value="" selected="selected">No Change</option>
-												<cfloop query="ctresolution">
-													<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
-												</cfloop>
-											</select>
+										<cfif canRespond>
+											<div class="col-12 col-md-3 pb-1">
+												<label for="#addRootStateFieldId#" class="data-entry-label">Root State</label>
+												<select id="#addRootStateFieldId#" class="data-entry-select">
+													<option value="" selected="selected">No Change</option>
+													<cfloop query="ctstate">
+														<option value="#encodeForHTMLAttribute(state)#">#encodeForHTML(state)#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3 pb-1">
+												<label for="#addRootResolutionFieldId#" class="data-entry-label">Root Resolution</label>
+												<select id="#addRootResolutionFieldId#" class="data-entry-select">
+													<option value="" selected="selected">No Change</option>
+													<cfloop query="ctresolution">
+														<option value="#encodeForHTMLAttribute(resolution)#">#encodeForHTML(resolution)#</option>
+													</cfloop>
+												</select>
+												<cfif len(rootResolutionGuidanceText) GT 0>
+													<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+												</cfif>
+											</div>
 											<cfif len(rootResolutionGuidanceText) GT 0>
-												<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+												<script>
+													$(document).ready(function() {
+														applyCommentingResolutionGuidance('#addMotivationFieldId#', '#addRootResolutionFieldId#');
+													});
+												</script>
 											</cfif>
-										</div>
-										<cfif len(rootResolutionGuidanceText) GT 0>
-											<script>
-												$(document).ready(function() {
-													applyCommentingResolutionGuidance('#addMotivationFieldId#', '#addRootResolutionFieldId#');
-												});
-											</script>
 										</cfif>
-									</cfif>
 									</cfif>
 									<div class="col-12 pt-1">
 										<input type="button"
@@ -2639,35 +2642,35 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<div class="col-12 mx-0 px-0 mt-2 d-flex align-items-center">
 								<h3 class="h5 mb-0 flex-grow-1">Annotation in Context</h3>
 								<cfif canRespond>
-								<button type="button" id="toggleAddFormBtn_#dq#" class="btn btn-xs btn-outline-secondary">
-									Add Reply Annotation
-								</button>
-								<script>
-									function toggleAddAnnotationForm_#dq#() {
-										var d = document.getElementById('#addFormDivId#');
-										var btn = document.getElementById('toggleAddFormBtn_#dq#');
-										if (d.style.display === 'none') {
-											d.style.display = 'block';
-											btn.textContent = 'Hide Form';
-											$("###addAnnFieldId#").keyup();
-										} else {
-											d.style.display = 'none';
-											btn.textContent = 'Add Reply Annotation';
+									<button type="button" id="toggleAddFormBtn_#dq#" class="btn btn-xs btn-outline-secondary">
+										Add Reply Annotation
+									</button>
+									<script>
+										function toggleAddAnnotationForm_#dq#() {
+											var d = document.getElementById('#addFormDivId#');
+											var btn = document.getElementById('toggleAddFormBtn_#dq#');
+											if (d.style.display === 'none') {
+												d.style.display = 'block';
+												btn.textContent = 'Hide Form';
+												$("###addAnnFieldId#").keyup();
+											} else {
+												d.style.display = 'none';
+												btn.textContent = 'Add Reply Annotation';
+											}
 										}
-									}
-									$(document).ready(function() {
-										$("##toggleAddFormBtn_#dq#").on('click', toggleAddAnnotationForm_#dq#);
-									});
-								</script>
+										$(document).ready(function() {
+											$("##toggleAddFormBtn_#dq#").on('click', toggleAddAnnotationForm_#dq#);
+										});
+									</script>
 								</cfif>
 							</div>
 							<!--- Context card: target in card-header, annotation rows in card-body --->
 							<div class="col-12 mx-0 px-0 mt-1">
 								<div class="card border-bottom-0">
 								<cfif len(rootTargetSummary) GT 0>
-								<div class="card-header bg-box-header-gray py-1">
-									<span class="small">#rootTargetSummary#</span>
-								</div>
+									<div class="card-header bg-box-header-gray py-1">
+										<span class="small">#rootTargetSummary#</span>
+									</div>
 								</cfif>
 								<cfif ctxRoot.recordcount GT 0>
 									<cfloop query="ctxRoot">
@@ -2862,6 +2865,5 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	</cftransaction>
 	<cfreturn serializeJSON(data)>
 </cffunction>
-
 
 </cfcomponent>
