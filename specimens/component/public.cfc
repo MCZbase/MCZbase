@@ -3889,9 +3889,9 @@ limitations under the License.
 						annotations.annotate_date
 				</cfquery>
 				<!--- Load full multi-level conversation for all root annotations via CONNECT BY hierarchy --->
-					<cfif annotations.recordcount GT 0>
-						<cfset conversationAnnotations = getAnnotationConversationsForRoots(valueList(annotations.annotation_id))>
-					</cfif>
+				<cfif annotations.recordcount GT 0>
+					<cfset conversationAnnotations = getAnnotationConversationsForRoots(valueList(annotations.annotation_id))>
+				</cfif>
 				<!--- Personal-info masking pattern applied to legacy annotation text when user lacks manage_specimens role --->
 				<cfset maskPattern = "^.* reported:">
 				<ul class="list-group">
@@ -3904,7 +3904,12 @@ limitations under the License.
 						</cfif>
 						<cfloop query="annotations">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="small font-weight-bold">
+									Annotation: 
+									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
+										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+									</a>
+								</span>
 								<cfif mask_annotation_fg EQ "1">
 									<span class="small font-weight-bold">[Hidden] </span>
 								</cfif>
