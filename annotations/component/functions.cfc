@@ -1936,6 +1936,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<cfif arguments.highlight_as_target>
 							<span class="badge badge-light border text-muted ml-1 align-middle" style="font-size:0.7em;" aria-label="#encodeForHTMLAttribute(arguments.highlight_label)# annotation">#encodeForHTML(arguments.highlight_label)#</span>
 						</cfif>
+						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForUrl(arguments.annotation_id)#&format=turtle" >
+							<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+						</a> 
 					</span>
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
