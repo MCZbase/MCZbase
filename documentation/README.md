@@ -324,12 +324,23 @@ Use upper case for SQL reserved words.
 In general, begin each SQL clause on a new line, and indent for readability.
 
 	<cfquery>
-		SELECT fields FROM table
+		SELECT fields 
+		FROM table
 		WHERE
 			field = ‘1’
 			<cfif case EQ ‘x’>
-				otherfield = <cfsqlparam value=”#providedValue#” cfsqltype=”CF_SQL_VARCHAR’>
+				and otherfield = <cfsqlparam value=”#providedValue#” cfsqltype=”CF_SQL_VARCHAR’>
 			</cfif>
+		ORDER BY otherfield
+	</cfquery>
+
+	<cfquery>
+		SELECT fields 
+		FROM table
+			JOIN othertable
+		WHERE
+			field = ‘1’
+			and otherfield = <cfsqlparam value=”#providedValue#” cfsqltype=”CF_SQL_VARCHAR’>
 		ORDER BY otherfield
 	</cfquery>
 
@@ -337,17 +348,20 @@ When declaring a result within each named query, use the name of the query with 
 
 	<cfquery name=”getCounts” .... result=”getCounts_result”>
 
+
 ### Javascript Organization.
 
 Include short javascript function invocations in onClick elements of button and other html tags rather than binding them to clickEvents. (This practice makes generalization harder, but makes following the sequence of events from an event easier to trace out).
 
-In general, embed `<script>` blocks within `<cfoutput>` tags in coldfusion, and escape \# selectors by doubling them. Doing otherwise tends to make syntax highlighting code fail.
+In general, embed `<script>` blocks within `<cfoutput>` tags in coldfusion, and escape \# selectors by doubling them. 
 
 	<cfoutput>
 		<script>
 			$(‘##someId’).var();
 		</script>
 	</cfoutput>
+
+Errors will occur if you do not escape # characters (e.g. in jquery class selectors).
 
 ### Javascript References to DOM
 
@@ -375,6 +389,19 @@ Not (hard coding div id):
 			$(‘#placeToCreateDialog’).dialog....
 		}
 	</script>
+
+In general, use jquery selectors for IDs rather than document.getElementById()
+
+	$("#targetfieldid").val();
+
+### Separate concerns for readability
+
+Avoid using cfset with complex expressions that return booleans, use nested cfif statements instead for readability
+
+	<cfset doStuff = false>
+	<cfif isDefined("url.stuff") AND url.stuff EQ "do">
+		<cfset doStuff = true>	
+	</cfif>
 
 ### CSS
 
