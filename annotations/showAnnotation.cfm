@@ -129,7 +129,7 @@ limitations under the License.
 			) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 		START WITH annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.rootAnnotationId#">
 		CONNECT BY PRIOR annotations.annotation_id = annotations.target_primary_key
-			AND UPPER(annotations.target_table) IN ('ANNOTATION','ANNOTATIONS')
+			AND UPPER(annotations.target_table) = 'ANNOTATIONS'
 		ORDER SIBLINGS BY annotations.annotate_date
 	</cfquery>
 	
@@ -174,7 +174,7 @@ limitations under the License.
 		FROM annotations
 		START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.annotation_id#">
 		CONNECT BY PRIOR target_primary_key = annotation_id
-			AND UPPER(PRIOR target_table) IN ('ANNOTATION','ANNOTATIONS')
+			AND UPPER(PRIOR target_table) = 'ANNOTATIONS'
 	</cfquery>
 	
 	<cfquery name="requestedSubtree" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -182,7 +182,7 @@ limitations under the License.
 		FROM annotations
 		START WITH annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.annotation_id#">
 		CONNECT BY PRIOR annotation_id = target_primary_key
-			AND UPPER(target_table) IN ('ANNOTATION','ANNOTATIONS')
+			AND UPPER(target_table) = 'ANNOTATIONS'
 	</cfquery>
 	
 	<cfset variables.includedAnnotationIdSet = {}>
