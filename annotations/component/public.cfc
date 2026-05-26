@@ -97,7 +97,7 @@ limitations under the License.
 		<cfset cfcatchToErrorMessage(cfcatch)>
 		<cfset reportError(functionName="getAgentAnnotationCardBodyHtml", note="agent_id=#arguments.agent_id#")>
 		<cfheader statuscode="500" statustext="Internal Server Error">
-		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'>
+		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'><!--- ' --->
 		<cfabort>
 	</cfcatch>
 	</cftry>
