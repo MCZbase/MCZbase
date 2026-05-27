@@ -220,7 +220,7 @@ limitations under the License.
                                                 <!-- Agent Type -->
                                                 <div class="col-6 col-md-3 col-xl-2 pl-0 pl-md-0 form-group mb-0 pb-1 pb-md-1">
                                                     <label for="agent_type" class="data-entry-label small" id="agent_type_label">
-                                                        Agent Type
+                                                        Type
                                                         <select id="agent_type" name="agent_type" class="data-entry-select py-0">
                                                             <option></option>
                                                             <cfloop query="ctagent_type">
