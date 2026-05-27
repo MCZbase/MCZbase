@@ -22,6 +22,64 @@ limitations under the License.
 <cfif not isdefined("debug")>
 	<cfset debug ="">
 </cfif>
+<!--- if given url.underscore_collection_id redirect to /namedGroup/{target_underscore_collection_id} --->
+<cfif isDefined("url.underscore_collection_id") AND len(url.underscore_collection_id) GT 0>
+	<cfquery name="checkGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkGroup_result" timeout="#Application.short_timeout#">
+		SELECT underscore_collection_id, collection_name
+		FROM underscore_collection
+		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.underscore_collection_id#">
+			<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+				AND mask_fg = 0
+			</cfif>
+	</cfquery>
+	<cfif checkGroup.recordcount is 1>
+		<cfset redirectUrl = "/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
+		<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
+			<cfset redirectUrl = "#redirectUrl#/#EncodeForURL(trim(url.format))#">
+		</cfif>
+		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfheader name="Location" value="#redirectUrl#">
+		<cfabort>
+	</cfif>
+</cfif>
+<!--- if target_underscore_collection_id is given in environment 
+      (which errors/missing.cfm provides when /namedGroup/{target_underscore_collection_id is provided)
+      then use that as the underscore_collection_id to show, otherwise fail over to form.underscore_collection_id
+--->
+<cfif isDefined("target_underscore_collection_id") AND len(target_underscore_collection_id) GT 0>
+	<cfset underscore_collection_id = target_underscore_collection_id>
+<cfelseif isDefined("form.underscore_collection_id") AND len(form.underscore_collection_id) GT 0>
+	<cfset underscore_collection_id = form.underscore_collection_id>
+</cfif>
+<cfinclude template="/grouping/component/public.cfc" runOnce="true">
+<cfif NOT isDefined("requestedFormat")>
+	<cfset requestedFormat = "html">
+</cfif>
+<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
+	<cfset requestedFormat = trim(url.format)>
+<cfelseif isDefined("form.format") AND len(trim(form.format)) GT 0>
+	<cfset requestedFormat = trim(form.format)>
+</cfif>
+<cftry>
+	<cfset acceptHeader = GetHttpRequestData().Headers["accept"]>
+<cfcatch>
+	<cfset acceptHeader = "">
+</cfcatch>
+</cftry>
+<cfset exportFormat = resolveNamedGroupExportFormat(format=requestedFormat, acceptHeader=acceptHeader)>
+<cfif len(exportFormat) GT 0>
+	<cfif NOT isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
+		<cfthrow message="No named group specified to show.">
+	</cfif>
+	<cfset namedGroupExport = getNamedGroupLatimerCoreExport(
+		underscore_collection_id=underscore_collection_id,
+		oneOfUs=oneOfUs,
+		format=exportFormat
+	)>
+	<cfheader name="Content-Type" value="#namedGroupExport.contentType#">
+	<cfoutput>#namedGroupExport.body#</cfoutput>
+	<cfabort>
+</cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
 	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTitleGroup_result" timeout="#Application.short_timeout#">
 		SELECT collection_name

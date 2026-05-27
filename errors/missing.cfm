@@ -223,6 +223,27 @@
 			</cfcatch>
 		</cftry>
 		</cfoutput>
+	<cfelseif listfindnocase(rdurl,'namedGroup',"/")>
+		<!--- Request by target_underscore_collection_id --->
+		<cftry>
+			<cfset gPos=listfindnocase(rdurl,"namedGroup","/")>
+			<cfset target_underscore_collection_id = listgetat(rdurl,gPos+1,"/")>
+			<!--- if provided, get format from url, otherwise default to html --->
+			<cfset requestedformat = "html">
+			<cftry>
+				<cfset requestedformat = listgetat(rdurl,gPos+2,"/")>
+				<cfcatch>
+					<cfset requestedformat = "html">
+				</cfcatch>
+			</cftry>
+			<cfset variables.loadMapLibraries = true>
+			<cfinclude template="/grouping/showNamedCollection.cfm">
+			<cfcatch>
+				<cfset errorMessage = cfcatch.message>
+				<cfset errorDetail = cfcatch.detail>
+				<cfinclude template="/errors/500.cfm">
+			</cfcatch>
+		</cftry>
 	<cfelseif listfindnocase(rdurl,'name',"/")>
 		<!--- Request by name API (for taxon record) --->
 		<cftry>

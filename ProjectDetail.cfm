@@ -1,3 +1,5 @@
+<!--- jquery11=true: added to load jQuery UI (required by annotation dialog); remove on page redesign to shared/_header.cfm --->
+<cfset jquery11 = true>
 <cfinclude template = "includes/_header.cfm">
  
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -156,16 +158,31 @@
 	</cfquery>
 	<span class="annotateSpace">
 		<cfif len(session.username) gt 0>
+			<!--- Dependencies for annotation dialog: added because this page uses includes/_header.cfm
+			      which loads jQuery 1.3.2 only. Remove these script tags when this page is redesigned
+			      to use shared/_header.cfm (which provides jQuery UI and shared-scripts automatically). --->
+			<script type="text/javascript" src="/annotations/js/annotations.js"></script>
+			<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
+			</cfif>
 			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) cnt from annotations
 				where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 			</cfquery>
-			<a href="javascript: openAnnotation('project_id=#project_id#')">
-				[Annotate]							
-			<cfif #existingAnnotations.cnt# gt 0>
+			<cfif existingAnnotations.cnt GT 0>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="smallBtn" value="Annotate this record and view existing annotations"
+					onClick="openAnnotationsDialog('annotationDialog','PROJECT',#project_id#,null);">Annotate/View Annotations</button>
+			<cfelse>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="smallBtn" value="Annotate this record"
+					onClick="openAnnotationsDialog('annotationDialog','PROJECT',#project_id#,null);">Annotate</button>
+			</cfif>
+			<div id="annotationDialog"></div>
+			<cfif existingAnnotations.cnt gt 0>
 				<br>(#existingAnnotations.cnt# existing)
 			</cfif>
-			</a>
 		<cfelse>
 			<a href="/login.cfm">Login or Create Account</a>
 		</cfif>

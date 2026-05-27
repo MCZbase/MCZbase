@@ -18,6 +18,7 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml() --->
 <cfif NOT isDefined("reportError")>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
@@ -3830,14 +3831,17 @@ limitations under the License.
 </cffunction>
 
 
-<!--- getAnnotationsHTML get a block of html containing annotations for a specified cataloged item.
- @param collection_object_id for the cataloged item for which to return annotations.
- @return a block of html with collection object annotations, or if none, html with the text None
+<!--- getAnnotationsHTML get a block of html containing annotation conversations for a specified cataloged item.
+ @param collection_object_id for the cataloged item for which to return annotation conversations.
+ @return a block of html with collection object annotation conversations (root annotations with their
+         response annotations nested beneath at all depths), or if none, html with the text None.
+         Masked annotations are hidden from non-coldfusion_user sessions via sql; manage_specimens users
+         see the full annotation text; other users see the personal-info-stripped version.
 --->
 <cffunction name="getAnnotationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfthread name="getAnnotationsThread">
+	<cfthread name="getAnnotationsThread" collection_object_id="#arguments.collection_object_id#">
 		<cfoutput>
 			<cftry>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -3847,35 +3851,51 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record and prevent access, further check for mask parts below ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					SELECT
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
+				<!--- Query root annotations (target_table = COLLECTION_OBJECT, not replies to other annotations) --->
 				<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
-						annotation_id,
-						to_char(annotate_date,'yyyy-mm-dd') annotate_date,
-						cf_username,
-						annotation,
-						motivation,
-						reviewer_agent_id,
-						MCZBASE.get_agentnameoftype(reviewer_agent_id) reviewer,
-						reviewed_fg,
-						reviewer_comment,
-						state, 
-						resolution
-					FROM 
+						annotations.annotation_id,
+						NVL(atb.body_value, annotations.annotation) annotation_display,
+						annotations.cf_username,
+						to_char(annotations.annotate_date,'yyyy-mm-dd') annotate_date,
+						annotations.motivation,
+						annotations.reviewed_fg,
+						preferred_agent_name.agent_name reviewer,
+						annotations.reviewer_comment,
+						annotations.mask_annotation_fg
+					FROM
 						annotations
+						LEFT OUTER JOIN preferred_agent_name ON annotations.reviewer_agent_id = preferred_agent_name.agent_id
+						<!--- rn=1 selects the earliest textual body when multiple bodies exist for an annotation --->
+						LEFT OUTER JOIN (
+							SELECT annotation_id, body_value,
+								ROW_NUMBER() OVER (PARTITION BY annotation_id ORDER BY created_date) rn
+							FROM annotation_textualbody
+						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE
-						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY 
-						annotate_date
+						upper(annotations.target_table) = 'COLLECTION_OBJECT'
+						AND annotations.target_primary_key = <cfqueryparam value="#attributes.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
+							AND (annotations.mask_annotation_fg = 0 OR annotations.cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+						</cfif>
+					ORDER BY
+						annotations.annotate_date
 				</cfquery>
+				<!--- Load full multi-level conversation for all root annotations via CONNECT BY hierarchy --->
+				<cfif annotations.recordcount GT 0>
+					<cfset conversationAnnotations = getAnnotationConversationsForRoots(valueList(annotations.annotation_id))>
+				</cfif>
+				<!--- Personal-info masking pattern applied to legacy annotation text when user lacks manage_specimens role --->
+				<cfset maskPattern = "^.* reported:">
 				<ul class="list-group">
-					<!--- check for mask parts, hide collection object remarks if mask parts ---->
+					<!--- check for mask parts, hide collection object annotations if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item">Masked</li>
 					<cfelse>
@@ -3883,21 +3903,30 @@ limitations under the License.
 							<li class="small list-group-item font-italic py-0">None </li>
 						</cfif>
 						<cfloop query="annotations">
-							<cfif len(#annotation#) gt 0>
-								<li class="list-group-item py-1">
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-										#annotation#
-									<cfelse>
-										#rereplace(annotation,"^.* reported:","[Masked] reported:")#
+							<li class="list-group-item py-1">
+								<span class="small font-weight-bold">
+									Annotation: 
+									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
+										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+									</a>
+								</span>
+								<cfif mask_annotation_fg EQ "1">
+									<span class="small font-weight-bold">[Hidden] </span>
+								</cfif>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+									#annotation_display#
+								<cfelse>
+									#rereplace(annotation_display,maskPattern,"[Masked] reported:")#
+								</cfif>
+								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+									<cfif reviewed_fg EQ "1">
+										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
 									</cfif>
-									<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) #state#</span>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-										<cfif reviewed_fg EQ "1">
-											<span class="d-block small mb-0 pb-0">#resolution# #reviewer# #reviewer_comment#</span>
-										</cfif>
-									</cfif>
-								</li>
-							</cfif>
+								</cfif>
+								<!--- Show full multi-level conversation replies for this root annotation (read-only, no action buttons) --->
+									#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversationAnnotations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
+							</li>
 						</cfloop>
 					</cfif>
 				</ul>
