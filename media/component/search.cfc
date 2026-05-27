@@ -116,6 +116,12 @@ limitations under the License.
 			<cfset keysearch="ctxcat">
 		</cfif>
 	</cfif>
+	<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0)>
+		<cfif NOT ( isdefined("media_relationship_value") AND len(media_relationship_value) GT 0 )>
+			<!--- relationship type specified but no value, treat as if unlinked were selected so that search has criteria. --->
+			<cfset media_relationship_value = "NOT NULL">
+		</cfif>
+	</cfif>
 	<cfif isdefined("media_relationship_value") AND (media_relationship_value EQ "NULL" OR media_relationship_value EQ "NOT NULL")>
 		<!--- set a non-meaningfull, but non-empty value for media_relationship_id to support CFIF logic in building query --->
 		<cfset media_relationship_id = "-1">
@@ -147,6 +153,11 @@ limitations under the License.
 			</cfloop>
 		</cfif>
 	</cfif>
+	<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0)>
+		<cfif NOT ( isdefined("media_relationship_value_1") AND len(media_relationship_value_1) GT 0 )>
+			<!--- relationship type specified but no value, treat as if unlinked were selected so that search has criteria. --->
+			<cfset media_relationship_value_1 = "NOT NULL">
+		</cfif>
 	<cfif isdefined("media_relationship_id_1") AND isdefined("media_relationship_type_1") and isdefined("media_relationship_value_1")>
 		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
 		<cfif media_relationship_id_1 EQ "undefined" AND media_relationship_type_1 EQ "ANY cataloged_item">
