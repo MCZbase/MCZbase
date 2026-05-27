@@ -778,6 +778,18 @@ limitations under the License.
 			<cfelse>
 				
 			</cfif>
+
+			<!--- Check if media filenames in specimen_images contain spaces, error if they do. --->
+			<cfquery name="errorSpacesInName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE 
+					cf_temp_media
+				SET status = concat(nvl2(status, status || '; ', ''),'Spaces are not allowed in MEDIA_URI for media in specimen_images directory, you must fix both the filename and this record.')
+				WHERE 
+					media_uri like '% %'
+					and media_uri like '%mczbase.mcz.harvard.edu/specimen_images/%'
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+
 			<!---NOT in codetable warnings or match expectation--->
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE

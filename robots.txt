@@ -5,7 +5,6 @@ Disallow: /CFIDE/
 Disallow: /.git/
 Disallow: /Admin/
 Disallow: /ajax/
-Disallow: /ALA_Imaging/
 Disallow: /annotations/
 Disallow: /bnhmMaps/
 Disallow: /Bulkloader/
@@ -18,7 +17,7 @@ Disallow: /download/
 Disallow: /errors/
 Disallow: /form/
 Disallow: /grouping/component/
-Disallow: /help/
+Disallow: /hello/
 Disallow: /images/
 Disallow: /includes/
 Disallow: /info/
@@ -27,7 +26,6 @@ Disallow: /localities/
 Disallow: /log/
 Disallow: /media/component/
 Disallow: /media/js/
-Disallow: /PaleoImager/
 Disallow: /picks/
 Disallow: /projects/
 Disallow: /publications/component/
@@ -63,9 +61,7 @@ Disallow: /bulkCollEvent.cfm
 Disallow: /bulkLocality.cfm
 Disallow: /checkContainerMovement.cfm
 Disallow: /Citation.cfm
-Disallow: /CodeTableButtons.cfm
 Disallow: /CodeTableEditor.cfm
-Disallow: /compDGR.cfm
 Disallow: /ContainerBrowse.cfm
 Disallow: /ContainerDetails.cfm
 Disallow: /containerPositions.cfm
@@ -77,7 +73,6 @@ Disallow: /dumpAll.cfm
 Disallow: /edecView.cfm
 Disallow: /editAccn.cfm
 Disallow: /editAllAgent.cfm
-Disallow: /editBook.cfm
 Disallow: /editContainer.cfm
 Disallow: /localities/Locality.cfm
 Disallow: /localities/HigherGeography.cfm
@@ -87,7 +82,6 @@ Disallow: /googled712d4c80741b156.html
 Disallow: /labels2containers.cfm
 Disallow: /LICENSE
 Disallow: /LoadBarcodes.cfm
-Disallow: /Loan.cfm
 Disallow: /loanByBarcode.cfm
 Disallow: /loanFreezerLocn.cfm
 Disallow: /Locality.cfm
@@ -96,21 +90,13 @@ Disallow: /media.cfm
 Disallow: /moveContainer.cfm
 Disallow: /nothing.cfm
 Disallow: /part2container.cfm
-Disallow: /Permit.cfm
-Disallow: /poweredby.png
-Disallow: /Publication.cfm
-Disallow: /searchAll.cfm
-Disallow: /SelectedLoanItems.cfm
 Disallow: /SpecimenContainerLabels.cfm
 Disallow: /specLocality.cfm
 Disallow: /TAG.cfm
-Disallow: /Taxonomy.cfm
 Disallow: /Transactions.cfm
 Disallow: /userBrowseBulked.cfm
 Disallow: /userBrowseBulkedGrid.cfm
 Disallow: /users/
-Disallow: /viewAccn.cfm
-Disallow: /digir/
 Sitemap: https://mczbase.mcz.harvard.edu/sitemapindex.xml.gz
 User-agent: dotbot
 Crawl-delay: 10
