@@ -116,7 +116,7 @@ limitations under the License.
 			<cfset keysearch="ctxcat">
 		</cfif>
 	</cfif>
-	<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0)>
+	<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0>
 		<cfif NOT ( isdefined("media_relationship_value") AND len(media_relationship_value) GT 0 )>
 			<!--- relationship type specified but no value, treat as if unlinked were selected so that search has criteria. --->
 			<cfset media_relationship_value = "NOT NULL">
@@ -153,7 +153,7 @@ limitations under the License.
 			</cfloop>
 		</cfif>
 	</cfif>
-	<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0)>
+	<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0>
 		<cfif NOT ( isdefined("media_relationship_value_1") AND len(media_relationship_value_1) GT 0 )>
 			<!--- relationship type specified but no value, treat as if unlinked were selected so that search has criteria. --->
 			<cfset media_relationship_value_1 = "NOT NULL">
