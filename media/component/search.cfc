@@ -158,6 +158,7 @@ limitations under the License.
 			<!--- relationship type specified but no value, treat as if unlinked were selected so that search has criteria. --->
 			<cfset media_relationship_value_1 = "NOT NULL">
 		</cfif>
+	</cfif>
 	<cfif isdefined("media_relationship_id_1") AND isdefined("media_relationship_type_1") and isdefined("media_relationship_value_1")>
 		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
 		<cfif media_relationship_id_1 EQ "undefined" AND media_relationship_type_1 EQ "ANY cataloged_item">
