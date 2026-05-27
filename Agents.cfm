@@ -173,7 +173,8 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">         
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
-                                <fieldset class="mt-2 mb-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
+                                <div class="border">
+                                    <fieldset class="mt-2 mb-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
                                     <legend class="h6 mb-1 px-3 border field-set-legend w-auto sr-only">Agent / Identifier</legend>
 								    <div class="form-row pt-2">
                                         <div class="col-12 col-md-12 col-lg-4 col-xl-5 px-0 mx-0 mb-1 mt-0 pr-md-0 form-group">
@@ -239,7 +240,7 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="mb-2 px-3 pb-0 border-top border-right border-bottom border-left field-set">
+                                    <fieldset class="mb-2 px-3 pb-0 border-top border-right border-bottom border-left field-set">
                                     <legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
                                     <div class="form-row mb-0 pt-2">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 px-md-0 mb-0 mb-md-1 mt-0">
@@ -320,7 +321,7 @@ limitations under the License.
                                     </div><!---form row--->
                                 </fieldset>
                                                         
-                                
+                                 </div>
                                 <!-- ========== SECTION 3: Dates ========== -->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset dateWord = "Date">
@@ -422,7 +423,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pb-md-1 mb-md-0">
                                                     <div class="form-group mb-1 pb-0">
-                                                        <label for="permit_agent_role" class="data-entry-label small font-weight-bold" id="edited_label">Permissions &amp; Rights
+                                                        <label for="permit_agent_role" class="data-entry-label small" id="edited_label">Permissions &amp; Rights
                                                         <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
                                                             <option></option>
                                                             <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
