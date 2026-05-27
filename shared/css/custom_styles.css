@@ -2250,6 +2250,23 @@ button.help-btnSp-SearchWiki {
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
 }
+button.help-btnA-SearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    float: right;
+    margin-bottom: 15px;
+    top: 1.5rem;
+    right: 6rem;
+    z-index: 1; 
+    padding-top: .5rem;
+    padding-bottom: .35rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    /* Only bottom-left and bottom-right rounded */
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+}
 button.help-btnSearchWiki {
     background-color: #1b1b1b;
     color: white;
