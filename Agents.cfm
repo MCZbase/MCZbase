@@ -145,7 +145,7 @@ limitations under the License.
 		<main id="content">
          <!---   <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>--->
                 <cftry>
-                      <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSearchWiki border-0")#</cfoutput>
+                      <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki border-0")#</cfoutput>
                       <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
                 </cftry>
      <!---       </cfif>--->
@@ -188,7 +188,7 @@ limitations under the License.
                                              </label>
                                         </div>
                                         <!--- onblur, if field is emptied, clear the agent_id. --->
-                                        <script>
+                                            <script>
                                                 function specificagentBlurHandler() { 
                                                     if($('##specificagent').val()=='') { 
                                                         $('##agent_id').val('');
@@ -203,7 +203,7 @@ limitations under the License.
                                             <div class="form-row mb-0">
                                                 <!-- Specific Agent + ID + Type grouped on the right -->
                                                 <div class="col-12 col-md-7 col-xl-8  pr-md-0 form-group mb-0 pb-0">
-                                                    <label for="specificagent" class="data-entry-label small font-weight-bold" id="specificagent_label">
+                                                    <label for="specificagent" class="data-entry-label small" id="specificagent_label">
                                                         Specific Agent
                                                     <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
                                                             onblur=" specificagentBlurHandler();">
@@ -211,14 +211,14 @@ limitations under the License.
                                                 </div>
                                                 <!-- Agent ID -->
                                                 <div class="col-6 col-md-2 col-xl-2 mb-1 pr-0 px-md-0 form-group mb-0 pb-1 pb-md-1">
-                                                    <label for="specificagent" class="data-entry-label small font-weight-bold" id="specificagent_label">
+                                                    <label for="specificagent" class="data-entry-label small" id="specificagent_label">
                                                         Agent ID
                                                     <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
                                                     </label>
                                                 </div>
                                                 <!-- Agent Type -->
                                                 <div class="col-6 col-md-3 col-xl-2 pl-0 pl-md-0 form-group mb-0 pb-1 pb-md-1">
-                                                    <label for="agent_type" class="data-entry-label small font-weight-bold" id="agent_type_label">
+                                                    <label for="agent_type" class="data-entry-label small" id="agent_type_label">
                                                         Agent Type
                                                         <select id="agent_type" name="agent_type" class="data-entry-select py-0">
                                                             <option></option>
@@ -379,10 +379,10 @@ limitations under the License.
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                    <fieldset class="my-2 px-3 pb-1 field-set border">
                                     <legend class="h6 mt-1 mb-1 px-3 field-set-legend border w-auto sr-only">Internal Collections &amp; Permissions</legend>
-                                        <div class="form-row">
+                                        <div class="form-row mt-2">
                                             <div class="col-12 col-md-3 col-xl-3 pr-md-0 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
-                                                    <label for="collector_collection" class="data-entry-label small font-weight-bold" id="edited_label">Collector in Collection
+                                                    <label for="collector_collection" class="data-entry-label small" id="edited_label">Collector in Collection
                                                         <select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
                                                             <option></option>
                                                             <cfloop query="collections">
@@ -395,7 +395,7 @@ limitations under the License.
                                             </div>
                                             <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
-                                                    <label for="author_collection" class="data-entry-label small font-weight-bold" id="edited_label">Author in Collection
+                                                    <label for="author_collection" class="data-entry-label small" id="edited_label">Author in Collection
                                                         <select id="author_collection" name="author_collection" class="data-entry-select py-0">
                                                             <option></option>
                                                             <cfloop query="collections">
@@ -409,7 +409,7 @@ limitations under the License.
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
                                                 <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pr-md-0 px-xl-0">
                                                     <div class="form-group mb-1 pb-0">
-                                                        <label for="trans_agent_collection" class="data-entry-label small font-weight-bold" id="edited_label">Collection Transactions
+                                                        <label for="trans_agent_collection" class="data-entry-label small" id="edited_label">Collection Transactions
                                                             <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
                                                                 <option></option>
                                                                 <cfloop query="collections">
