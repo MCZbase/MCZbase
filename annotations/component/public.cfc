@@ -62,7 +62,7 @@ limitations under the License.
 					FROM annotation_textualbody
 				) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 			WHERE
-				<cfif target_table = "AGENT">
+				<cfif target_table EQ "AGENT">
 					annotations.target_table = 'AGENT'
 					AND annotations.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">
 				</cfif>
