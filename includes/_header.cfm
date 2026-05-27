@@ -130,7 +130,7 @@
 								<a class="dropdown-item" target="_top" href="/Publications.cfm">Publications</a>
 								<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Projects</a>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-									<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
+									<a class="dropdown-item" target="_top" href="/annotations/Annotations.cfm">Annotations</a>
 									<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
 								</cfif>
 							</div>
@@ -252,7 +252,7 @@
 									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 											<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
-											<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a>
+											<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 											<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
 											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING"))>
 												<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>

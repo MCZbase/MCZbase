@@ -163,7 +163,7 @@ limitations under the License.
 <script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>
 <link rel="stylesheet" href="/lib/misc/multizoom/multizoom.css">
 <!---Heatmap and Point distribution Map (deckgl and Google)--->
-<cfif CGI.script_name IS "/agents/Agent.cfm" OR CGI.script_name IS "/grouping/showNamedCollection.cfm">
+<cfif CGI.script_name IS "/agents/Agent.cfm" OR CGI.script_name IS "/grouping/showNamedCollection.cfm" OR (isDefined("variables.loadMapLibraries") AND variables.loadMapLibraries) >
     <!--
       Note: We deliberately load the Google Maps JS API synchronously (no async/callback)
       to keep initMap timing simple with our deck.gl integration. This triggers a
@@ -373,11 +373,7 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Projects</a>
 								</cfif>	
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-									<cfif targetMenu EQ "production">
-										<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
-									<cfelse>
-										<a class="dropdown-item bg-warning" href="">Annotations</a>
-									</cfif>
+									<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 									<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> 
 								</cfif>
 							 </li>
@@ -515,11 +511,7 @@ limitations under the License.
 												<cfelse>
 													<a class="dropdown-item bg-warning" href="">Encumbrances</a>
 												</cfif>
-												<cfif targetMenu EQ "production">
-													<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a>
-												<cfelse>
-													<a class="dropdown-item bg-warning" href="">Annotations</a>
-												</cfif>
+												<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 											</cfif>
 											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 												<cfif targetMenu EQ "production">
@@ -882,21 +874,30 @@ limitations under the License.
 					</button>
 				</form>
 			<cfelse>
-				<cfif isdefined("gotopage") and len(gotopage) GT 0>
-					<cfset gtp = gotopage>
+				<!--- user is not logged in, if they do login, determine where to send them from the login page --->
+				<cfif isdefined("gotopage") and len(trim(gotopage)) GT 0>
+					<cfset gtp = trim(gotopage)>
+				<cfelseif cgi.script_name EQ "/guid/handler.cfm" AND isDefined("url.catalog") AND len(trim(url.catalog)) GT 0 AND REFind("^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$", trim(url.catalog)) GT 0>
+					<!--- initial request was for /guid/{guid} but user is not logged in, so send to login page and then back to the guid page after successful login --->
+					<cfset gtp = "/guid/#trim(url.catalog)#">
+				<cfelseif isDefined("cgi.REDIRECT_URL") AND len(trim(cgi.REDIRECT_URL)) GT 0 AND left(trim(cgi.REDIRECT_URL), 1) EQ "/" AND left(trim(cgi.REDIRECT_URL), 2) NEQ "//">
+					<cfset gtp = trim(cgi.REDIRECT_URL)>
+				<cfelseif isDefined("requestData.headers.referer") AND len(trim(requestData.headers.referer)) GT 0 AND left(trim(requestData.headers.referer), len(application.serverRootUrl)) EQ application.serverRootUrl>
+					<cfset gtp = replace(trim(requestData.headers.referer), application.serverRootUrl, "")>
 				<cfelse>
-					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',cgi.REDIRECT_URL)>
-						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-					<cfelse>
-						<cfset requestData = #GetHttpRequestData()#>
-						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',requestData.headers.referer)>
-							<cfset gtp=requestData.headers.referer>
-						<cfelse>
-							<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+					<cfset gtp = replace(cgi.SCRIPT_NAME, "//", "/", "all")>
+					<!--- if cgi.query_string is non empty, then append it so search pages can restore state after login --->
+					<cfif isDefined("cgi.query_string") AND len(trim(cgi.query_string)) GT 0>
+						<cfset cleanedQueryString = trim(cgi.query_string)>
+						<cfset cleanedQueryString = REReplaceNoCase(cleanedQueryString, "(^|&)(CFID|CFTOKEN)=[^&]*", "", "all")>
+						<cfset cleanedQueryString = REReplace(cleanedQueryString, "^&+|&+$", "", "all")>
+						<cfset cleanedQueryString = REReplace(cleanedQueryString, "&{2,}", "&", "all")>
+						<cfif len(cleanedQueryString) GT 0>
+							<cfset gtp = "#gtp#?#cleanedQueryString#">
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif gtp EQ '/errors/forbidden.cfm'>
+				<cfif gtp EQ "/errors/forbidden.cfm">
 					<cfset gtp = "/users/UserProfile.cfm">
 				</cfif>
 				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
