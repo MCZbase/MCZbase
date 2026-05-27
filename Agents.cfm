@@ -173,7 +173,7 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">         
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
-                                <fieldset class="mt-2 mb-0 px-3 pb-1 border field-set">
+                                <fieldset class="mt-2 mb-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
                                     <legend class="h6 mb-1 px-3 border field-set-legend w-auto sr-only">Agent / Identifier</legend>
 								    <div class="form-row pt-2">
                                         <div class="col-12 col-md-12 col-lg-4 col-xl-5 px-0 mx-0 mb-1 mt-0 pr-md-0 form-group">
@@ -239,8 +239,8 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                 <fieldset class="my-2 px-3 pb-0 border field-set">
-                                    <legend class="h6 mt-0 mb-1 px-3 border field-set-legend w-auto sr-only">Name Components</legend>
+                                 <fieldset class="mb-2 px-3 pb-0 border-top border-right border-bottom border-left field-set">
+                                    <legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
                                     <div class="form-row mb-0 pt-2">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 px-md-0 mb-0 mb-md-1 mt-0">
                                             <div class="form-group mb-1 pb-0 mt-0">
@@ -334,7 +334,7 @@ limitations under the License.
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 px-0 mt-0">
 				                            <!-- Death range, always shown -->
-                                            <div class="form-group pb-1 mb-0">
+                                            <div class="form-group pt-2 pb-1 mb-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 small" for="death_date">#dateWord# Of Death</label>
                                                     <input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input py-0 w-100 col-5 px-1" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
