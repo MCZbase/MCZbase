@@ -495,7 +495,7 @@ limitations under the License.
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
-								<div id="selectModeContainer" class="my-1 ml-3" style="display: none;" >
+								<div id="selectModeContainer" class="ml-3" style="display: none;margin-top: .45rem;" >
 									<script>
 										function changeSelectMode(){
 											var selmode = $("##selectMode").val();
@@ -508,7 +508,7 @@ limitations under the License.
 										};
 									</script>
 									<label class="data-entry-label d-inline w-auto my-2" for="selectMode">Grid Select:
-                                        <select class="data-entry-select d-inline w-auto pt-1" id="selectMode" onChange="changeSelectMode();">
+                                        <select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
                                             <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
                                             <option #selected# value="none">Text</option>
                                             <cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
