@@ -2828,8 +2828,8 @@ an overlay that prevents interaction with them.
 /* Desktop / large screens: push content */
 @media (min-width: 768px) {
     #content.pushed {
-        margin-left: 400px;
-        width: calc(100% - 400px);
+        margin-left: 330px;
+        width: calc(100% - 330px);
     }
 }
 /****************end all screen styles*********************/
