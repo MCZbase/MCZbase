@@ -148,7 +148,7 @@ limitations under the License.
 </cffunction>
 
 <!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
-  * @param target_type the entity to be annotated (e.g. collection_object, taxonomy, publication, permit, annotation)
+  * @param target_type the entity to be annotated (e.g. coll_object, taxonomy, publication, permit, annotation)
   * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
   * @param dialogId the html id value for the dialog to contain the returned HTML; used to set the id attribute of the form within the dialog and for callback functions to close the dialog after saving an annotation.
   * @return HTML string for a dialog to view existing annotations and add a new annotation for the specified record.

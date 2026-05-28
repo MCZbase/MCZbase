@@ -80,7 +80,7 @@ limitations under the License.
 
 	<cftry>
 	<cfswitch expression="#lcase(trim(arguments.target_type))#">
-		<cfcase value="collection_object,collection_object_id">
+		<cfcase value="coll_object,collection_object_id">
 			<cfset targetTableFilter = "COLL_OBJECT">
 		</cfcase>
 		<cfcase value="taxonomy,taxon_name_id">
@@ -764,7 +764,7 @@ limitations under the License.
 		<cfset normalizedTargetType = trim(ucase(arguments.type))>
 	</cfif>
 	<cfswitch expression="#lcase(normalizedTargetType)#">
-		<cfcase value="collection_object,collection_object_id"><cfset normalizedTargetType = "COLL_OBJECT"></cfcase>
+		<cfcase value="coll_object,collection_object_id"><cfset normalizedTargetType = "COLL_OBJECT"></cfcase>
 		<cfcase value="taxonomy,taxon_name_id"><cfset normalizedTargetType = "TAXONOMY"></cfcase>
 		<cfcase value="publication,publication_id"><cfset normalizedTargetType = "PUBLICATION"></cfcase>
 		<cfcase value="project,project_id"><cfset normalizedTargetType = "PROJECT"></cfcase>
