@@ -507,19 +507,20 @@ limitations under the License.
 											}
 										};
 									</script>
-									<label class="data-entry-label d-inline w-auto mt-2" for="selectMode">Grid Select:</label>
-									<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
-										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="none">Text</option>
-										<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="singlecell">Single Cell</option>
-										<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="singlerow">Single Row</option>
-										<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
-										<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
-									</select>
+									<label class="data-entry-label d-inline w-auto my-2" for="selectMode">Grid Select:
+                                        <select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
+                                            <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="none">Text</option>
+                                            <cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="singlecell">Single Cell</option>
+                                            <cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="singlerow">Single Row</option>
+                                            <cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+                                            <cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+                                        </select>
+                                    </label>
 								</div>
 								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-2 pt-1 px-2 mx-1 border-0"></output>
 							</div>
