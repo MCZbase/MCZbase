@@ -495,7 +495,7 @@ limitations under the License.
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
-								<div id="selectModeContainer" class="ml-3" style="display: none;margin-top: .45rem;" >
+								<div id="selectModeContainer" class="mb-1 ml-3" style="display: none;margin-top: .45rem;" >
 									<script>
 										function changeSelectMode(){
 											var selmode = $("##selectMode").val();
