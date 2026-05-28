@@ -614,16 +614,22 @@ limitations under the License.
                                                         <cfset usedInIdNotSelected = ''>
                                                     </cfif>
                                                     <li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-                                                        <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-                                                        <label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use</label>
+                                                        <label for="wehavesomeAll" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.6rem;">
+                                                            <input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="" class="position-absolute"   style="left:0; top:0.2rem">
+                                                            <span>Show all taxa without regard for use</span>
+                                                        </label>
                                                     </li>
                                                     <li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-                                                        <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-                                                        <label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist</label>
+                                                        <label for="wehavesomeHave" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.6rem;">
+                                                            <input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1" class="position-absolute"   style="left:0; top:0.2rem">
+                                                            <span>Show only taxa for which cataloged items exist</span>
+                                                        </label>
                                                     </li>
                                                     <li class="list-group-item px-1 px-md-2 py-1">
-                                                        <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-                                                        <label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications</label>
+                                                        <label for="wehavesomeNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.6rem;">
+                                                            <input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0" class="position-absolute"   style="left:0; top:0.2rem">
+                                                            <span>Show only taxa not used in identifications</span>
+                                                        </label>
                                                     </li>
                                                 </ul>
                                             </div>
