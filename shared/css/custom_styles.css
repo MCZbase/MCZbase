@@ -2230,7 +2230,7 @@ button.help-btnSp-SearchWiki {
     float: right;
     margin-bottom: 15px;
     top: 2.2rem;
-    right: 2rem;
+    right: 1.5rem;
     z-index: 1; 
     padding-top: .5rem;
     padding-bottom: .35rem; 
@@ -2247,7 +2247,7 @@ button.help-btnA-SearchWiki {
     float: right;
     margin-bottom: 15px;
     top: 1.5rem;
-    right: 6rem;
+    right: 5.5rem;
     z-index: 1; 
     padding-top: .5rem;
     padding-bottom: .35rem; 
