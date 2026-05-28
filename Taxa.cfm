@@ -475,7 +475,7 @@ limitations under the License.
                                                             </select>
                                                         </label>
                                                     </div>
-                                                    <div class="form-group col-12 col-sm-3 col-md-3 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-sm-4 col-md-3 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
                                                         <label for="taxon_category" class="data-entry-label align-left">Category
                                                             <select name="taxon_category" class="data-entry-select py-0" id="taxon_category">
                                                                 <option></option>
@@ -491,7 +491,7 @@ limitations under the License.
                                                         </label>
                                                     </div>
                                                   
-                                                    <div class="form-group col-12 col-sm-5 col-md-4 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
                                                         <label for="relationship" class="data-entry-label align-left">Has Relationship
                                                             <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
                                                                 <option></option>
@@ -528,7 +528,7 @@ limitations under the License.
                                                             </cfquery>
                                                             <cfset selectedCollection = lookupCollection.collection >
                                                         </cfif>
-                                                        <div class="d-flex flex-wrap col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
+                                                        <div class="d-flex flex-wrap col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
                                                             <label for="collection_cde" class="data-entry-label align-left">Used by Coll.
                                                                 <select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
                                                                     <option value="" class="text-dark">any collection</option>
@@ -544,7 +544,7 @@ limitations under the License.
                                                             </label>
                                                         </div>
                                                     </cfif>
-                                                    <div class="form-group col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
                                                         <label for="taxon_remarks" class="data-entry-label align-left">Remarks
                                                             <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
                                                         </label>
