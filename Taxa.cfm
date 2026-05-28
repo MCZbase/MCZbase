@@ -506,7 +506,7 @@ limitations under the License.
                                                     </div>
 
 
-                                                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 px-0 mb-0 pb-0">
                                                         <label for="source_authority" class="data-entry-label align-left">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
