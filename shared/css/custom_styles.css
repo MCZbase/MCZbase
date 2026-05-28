@@ -2228,15 +2228,6 @@ button.help-btnSp-SearchWiki {
     background-color: #1b1b1b;
     color: white;
     float: right;
-/*    -webkit-backface-visibility: hidden;
-    -webkit-transform: translateX(-98%) rotate(90deg);
-    -webkit-transform-origin: right top;
-    -moz-transform: translateX(-98%) rotate(90deg);
-    -moz-transform-origin: right top;
-    -o-transform: translateX(-98%) rotate(90deg);
-    -o-transform-origin: right top;
-    transform: translateX(-98%) rotate(90deg);*/
-    /*transform-origin: right top;*/
     margin-bottom: 15px;
     top: 2.2rem;
     right: 2rem;
@@ -2757,9 +2748,9 @@ html,body {
 .wiki-drawer {
 	position: fixed;
 	top: 0;
-	left: -400px;
-	width: 400px;
-	max-width: 90vw;
+	left: -330px;
+	width: 330px;
+	max-width: 60vw;
 	height: 100vh;
 	background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
