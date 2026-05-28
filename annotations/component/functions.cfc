@@ -435,11 +435,14 @@ limitations under the License.
 						) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
 					WHERE
 					<cfif variables.target_type EQ "COLL_OBJECT">
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						target_table = 'COLL_OBJECT'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					<cfelseif variables.target_type EQ "TAXONOMY">
-						taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+						target_table = 'TAXONOMY'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					<cfelseif variables.target_type EQ "PROJECT">
-						project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+						target_table = 'PROJECT'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 					<cfelseif variables.target_type EQ "PUBLICATION">
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 					<cfelseif variables.target_type EQ "AGENT">
