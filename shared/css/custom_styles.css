@@ -3357,6 +3357,9 @@ and also iPads specifically.
 	.html_desc {
 		width: 21.5rem!important;
 	}
+    button.help-btnA-SearchWiki {
+        left: 2rem;
+    }
 }
 @media only screen and (max-width: 800px){
 	ol.flowXXS, ul.flowXXS{
