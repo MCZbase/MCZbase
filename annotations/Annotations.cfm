@@ -83,12 +83,12 @@ limitations under the License.
 
 <!--- Normalize target_type aliases and validate root_mode. --->
 <cfswitch expression="#lcase(variables.target_type)#">
-	<cfcase value="collection_object,collection_object_id"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
+	<cfcase value="collection_object,collection_object_id"><cfset variables.target_type = "COLL_OBJECT"></cfcase>
 	<cfcase value="taxon_name,taxon_name_id"><cfset variables.target_type = "TAXONOMY"></cfcase>
 	<cfcase value="publication,publication_id"><cfset variables.target_type = "PUBLICATION"></cfcase>
 	<cfcase value="project,project_id"><cfset variables.target_type = "PROJECT"></cfcase>
 	<cfcase value="agent,agent_id"><cfset variables.target_type = "AGENT"></cfcase>
-	<cfcase value="guid"><cfset variables.target_type = "COLLECTION_OBJECT"></cfcase>
+	<cfcase value="guid"><cfset variables.target_type = "COLL_OBJECT"></cfcase>
 	<cfdefaultcase>
 		<cfif len(variables.target_type) GT 0>
 			<cfset variables.target_type = ucase(variables.target_type)>
@@ -197,7 +197,7 @@ limitations under the License.
 		collection.collection
 	FROM collection
 		JOIN cataloged_item ON collection.collection_id = cataloged_item.collection_id
-		JOIN annotations ON annotations.target_table = 'COLLECTION_OBJECT'
+		JOIN annotations ON annotations.target_table = 'COLL_OBJECT'
 			AND annotations.target_primary_key = cataloged_item.collection_object_id
 	GROUP BY collection.collection
 	ORDER BY collection.collection
@@ -404,7 +404,7 @@ limitations under the License.
 										<cfloop query="getAnnotatedTargetTypes">
 											<cfset target_type_label = "">
 											<cfswitch expression="#target_table#">
-												<cfcase value="COLLECTION_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
+												<cfcase value="COLL_OBJECT"><cfset target_type_label = "Specimen"></cfcase>
 												<cfcase value="TAXONOMY"><cfset target_type_label = "Taxon"></cfcase>
 												<cfcase value="PUBLICATION"><cfset target_type_label = "Publication"></cfcase>
 												<cfcase value="PROJECT"><cfset target_type_label = "Project"></cfcase>
@@ -484,7 +484,7 @@ limitations under the License.
 							// fields: search parameter inputs (drives inference, disable/clear, query string).
 							// displayFields: display-only inputs (cleared/disabled with group but not in query string).
 							var groupConfig = {
-								specimen:    { targetType: 'COLLECTION_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
+								specimen:    { targetType: 'COLL_OBJECT', fields: ['collection', 'specimen_guid', 'collection_object_id'] },
 								taxon:       { targetType: 'TAXONOMY',        fields: ['family', 'scientific_name', 'taxon_name_id'] },
 								publication: { targetType: 'PUBLICATION',       fields: ['publication_id', 'publication_text'], displayFields: ['publication_lookup'] },
 								project:     { targetType: 'PROJECT',           fields: ['project_id', 'project_text'],         displayFields: ['project_lookup'] },

@@ -23,7 +23,7 @@ limitations under the License.
 
 <!---
  findAnnotations searches annotations by annotation metadata and optionally by properties of the annotation target.
- @param target_type optional target selector; accepts known table names (COLLECTION_OBJECT|TAXONOMY|PUBLICATION|PROJECT with *_id aliases) and any target_table value.
+ @param target_type optional target selector; accepts known table names (COLL_OBJECT|TAXONOMY|PUBLICATION|PROJECT with *_id aliases) and any target_table value.
  @param state optional annotation state exact match.
  @param resolution optional annotation resolution exact match; pass "NULL" to find annotations with no resolution, "NOT NULL" to find annotations with any resolution.
  @param annotator optional username fragment (case-insensitive contains match). In root mode, matches root or response annotations within a conversation.
@@ -81,7 +81,7 @@ limitations under the License.
 	<cftry>
 	<cfswitch expression="#lcase(trim(arguments.target_type))#">
 		<cfcase value="collection_object,collection_object_id">
-			<cfset targetTableFilter = "COLLECTION_OBJECT">
+			<cfset targetTableFilter = "COLL_OBJECT">
 		</cfcase>
 		<cfcase value="taxonomy,taxon_name_id">
 			<cfset targetTableFilter = "TAXONOMY">
@@ -154,7 +154,7 @@ limitations under the License.
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
-				) = 'COLLECTION_OBJECT' THEN (
+				) = 'COLL_OBJECT' THEN (
 					CASE
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
 						ELSE annotations.target_primary_key
@@ -229,11 +229,11 @@ limitations under the License.
 			LEFT OUTER JOIN annotations parent_annotations ON annotations.target_table = 'ANNOTATIONS'
 				AND annotations.target_primary_key = parent_annotations.annotation_id
 			LEFT OUTER JOIN cataloged_item ON (
-					annotations.target_table = 'COLLECTION_OBJECT'
+					annotations.target_table = 'COLL_OBJECT'
 					AND annotations.target_primary_key = cataloged_item.collection_object_id
 				) OR (
 					annotations.target_table = 'ANNOTATIONS'
-					AND parent_annotations.target_table = 'COLLECTION_OBJECT'
+					AND parent_annotations.target_table = 'COLL_OBJECT'
 					AND parent_annotations.target_primary_key = cataloged_item.collection_object_id
 				)
 			LEFT OUTER JOIN collection ON cataloged_item.collection_id = collection.collection_id
@@ -366,7 +366,7 @@ limitations under the License.
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
-				) = 'COLLECTION_OBJECT'
+				) = 'COLL_OBJECT'
 				AND (
 					CASE
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
@@ -380,7 +380,7 @@ limitations under the License.
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_table
 						ELSE annotations.target_table
 					END
-				) = 'COLLECTION_OBJECT'
+				) = 'COLL_OBJECT'
 				AND (
 					CASE
 						WHEN annotations.target_table = 'ANNOTATIONS' THEN parent_annotations.target_primary_key
@@ -764,12 +764,12 @@ limitations under the License.
 		<cfset normalizedTargetType = trim(ucase(arguments.type))>
 	</cfif>
 	<cfswitch expression="#lcase(normalizedTargetType)#">
-		<cfcase value="collection_object,collection_object_id"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
+		<cfcase value="collection_object,collection_object_id"><cfset normalizedTargetType = "COLL_OBJECT"></cfcase>
 		<cfcase value="taxonomy,taxon_name_id"><cfset normalizedTargetType = "TAXONOMY"></cfcase>
 		<cfcase value="publication,publication_id"><cfset normalizedTargetType = "PUBLICATION"></cfcase>
 		<cfcase value="project,project_id"><cfset normalizedTargetType = "PROJECT"></cfcase>
 		<cfcase value="agent,agent_id"><cfset normalizedTargetType = "AGENT"></cfcase>
-		<cfcase value="guid"><cfset normalizedTargetType = "COLLECTION_OBJECT"></cfcase>
+		<cfcase value="guid"><cfset normalizedTargetType = "COLL_OBJECT"></cfcase>
 		<cfdefaultcase>
 			<cfif len(normalizedTargetType) GT 0>
 				<cfset normalizedTargetType = ucase(normalizedTargetType)>
@@ -950,7 +950,7 @@ limitations under the License.
 					<cfset targetMeta = "">
 					<cfset targetTitleContainsHtml = false>
 					<cfswitch expression="#ucase(targets.target_table)#">
-						<cfcase value="COLLECTION_OBJECT">
+						<cfcase value="COLL_OBJECT">
 							<cfset specimenGuid = "#targets.institution_acronym#:#targets.collection_cde#:#targets.cat_num#">
 							<cfset targetTitle = specimenGuid>
 							<cfset targetLink = "/guid/#specimenGuid#">
