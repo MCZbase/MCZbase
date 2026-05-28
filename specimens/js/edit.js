@@ -796,7 +796,7 @@ function openEditAnnotationsDialog(collection_object_id,dialogId,guid,callback) 
 		data : {
 			method : "getAnnotationDialogHtml",
 			returnformat: "plain",
-			target_type: "collection_object",
+			target_type: "coll_object",
 			target_id: collection_object_id,
 			dialogId: dialogId
 		},
