@@ -1357,6 +1357,79 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
+									<cfif 0 EQ 1>
+									<div class="col-12 px-0">
+										<!--- obtaining common names for families and classes works, but linking to search results won't find desired matches --->
+										<!--- 
+											SELECT DISTINCT common_name 
+											FROM common_name
+												join taxonomy f on common_name.taxon_name_id = f.taxon_name_id
+												join taxonomy t on t.family = f.family
+												join identification_taxonomy on t.taxon_name_id = identification_taxonomy.taxon_name_id
+												join identification on identification_taxonomy.identification_id = identification.identification_id
+												join underscore_relation on identification.collection_object_id = underscore_relation.collection_object_id
+											WHERE f.genus IS NULL
+												and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											UNION
+											SELECT DISTINCT common_name 
+											FROM common_name
+												join taxonomy c on common_name.taxon_name_id = c.taxon_name_id
+												join taxonomy t on t.phylclass = c.phylclass
+												join identification_taxonomy on t.taxon_name_id = identification_taxonomy.taxon_name_id
+												join identification on identification_taxonomy.identification_id = identification.identification_id
+												join underscore_relation on identification.collection_object_id = underscore_relation.collection_object_id
+											WHERE c.genus IS NULL and c.family IS NULL
+												and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										--->
+										<cfquery name="commonNamesHigher" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="commonNamesHigher_result" timeout="#Application.query_timeout#" >
+											SELECT DISTINCT common_name 
+											FROM common_name
+												join taxonomy on common_name.taxon_name_id = taxonomy.taxon_name_id
+												join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+												join identification on identification_taxonomy.identification_id = identification.identification_id
+												join underscore_relation on identification.collection_object_id = underscore_relation.collection_object_id
+											WHERE f.genus IS NULL
+												and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										</cfquery>
+										<cfif commonNamesHigher.recordcount GT 0>
+											<div class="col-12 pb-3">
+												<h3 class="border-bottom pb-1 border-dark px-2">Common Names</h3>
+												<cfif commonNamesHigher.recordcount gt 50>
+													<div class="accordion col-12 px-0 mb-3" id="accordionForcommonNamesHigher">
+														<div class="card mb-2 bg-light">
+															<div class="card-header py-0" id="headingcommonNamesHigher">
+																<h3 class="h4 my-0">
+																	<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapsecommonNamesHigher">
+																	#commonNamesHigher.recordcount# Common Names:
+																	</button>
+																</h3>
+															</div>
+															<div class="card-body bg-white py-0">
+																<div id="collapsecommonNamesHigher" aria-labelledby="headingcommonNamesHigher" data-parent="##accordionForcommonNamesHigher" class="collapse show">
+																	<ul class="list-unstyled py-2 rounded-0" style="column-count: 3">
+																	<cfloop query="commonNamesHigher">
+																		<li class=""> 
+																			<a class="h4" href="/Specimens.cfm?execute=true&action=fixedSearch&common_name=#commonNamesHigher.common_name#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#commonNamesHigher.common_name# </a> 
+																		</li>
+																	</cfloop>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+												<cfelse>
+													<ul class="list-unstyled py-2 rounded-0">
+														<cfloop query="commonNamesHigher">
+															<li class=""> 
+																<a class="h4" href="/agents/Agent.cfm?agent_id=#commonNamesHigher.agent_id#">#commonNamesHigher.common_name#</a> 
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</cfif>
+									</div>
+									</cfif><!--- disabled comon names block --->
 								</div>
 							</div>
 							<cfif oneOfUs EQ 1>
