@@ -208,8 +208,7 @@ limitations under the License.
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">General Taxonomy Search</legend>
                                             <div class="form-row mb-0">
                                                 <div class="form-group mb-0 col-12 col-md-4 px-0">
-                                                    <label for="scientific_name" class="data-entry-label align-left">
-                                                        Scientific Name 
+                                                    <label for="scientific_name" class="data-entry-label align-left small">Scientific Name 
                                                         <span class="small90">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
@@ -240,7 +239,7 @@ limitations under the License.
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">Scientific Name Search</legend>
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-sm-6 col-md-2 px-0 mb-0 pb-0">
-                                                    <label for="genus" class="data-entry-label align-left">Genus 
+                                                    <label for="genus" class="data-entry-label align-left small">Genus 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('genus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
