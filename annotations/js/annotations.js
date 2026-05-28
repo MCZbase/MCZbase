@@ -217,7 +217,7 @@ function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
 		type: "post",
 		data: postData,
 		success: function(data) {
-			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
+			messageDialog("<p>Your Annotation has been saved. Thank you for helping improve MCZbase!</p><p>"+data+"</p>","Annotation Saved");
 			setFeedbackControlState(feedbackDiv,"saved");
 			if (typeof callback === "function") {
 				callback();
