@@ -3818,11 +3818,11 @@ and also iPads specifically.
         transform: translateX(-98%) rotate(90deg);
         transform-origin: right top;
         margin-bottom: 15px;
-        top: 1.5rem;
-        right: 3.5rem;
+        top: 9.35rem;
+        right: -8rem;
         z-index: 1; 
-        padding-top: .5rem;
-        padding-bottom: .35rem; 
+        padding-top: .35rem;
+        padding-bottom: .5rem; 
         font-size: 13.5px;
         margin-top: 0;
         position: absolute;
