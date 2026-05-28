@@ -194,7 +194,7 @@ limitations under the License.
             </cfif>
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
-                     <div class="d-flex flex-wrap mb-0 mr-0 ml-0 mr-md-4 ml-md-4">
+                     <div class="d-flex flex-wrap mb-0 mr-0 ml-0 mr-xl-4 ml-xl-4">
                         <div class="search-box mt-4">
                             <div class="search-box-header">
                                 <h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
