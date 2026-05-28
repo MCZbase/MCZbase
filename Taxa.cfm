@@ -459,7 +459,7 @@ limitations under the License.
                                         <fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-1 pb-1 mt-0 mx-2">         
                                             <div class="form-row mt-0">             
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="taxon_habitat" class="data-entry-label align-left">Habitat
+                                                        <label for="taxon_habitat" class="data-entry-label align-left small">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_habitat_null">
@@ -474,7 +474,7 @@ limitations under the License.
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="taxon_category" class="data-entry-label align-left">Category
+                                                        <label for="taxon_category" class="data-entry-label align-left small">Category
                                                             <select name="taxon_category" class="data-entry-select py-0" id="taxon_category">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_category">
@@ -490,7 +490,7 @@ limitations under the License.
                                                     </div>
                                                   
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="relationship" class="data-entry-label align-left">Has Relationship
+                                                        <label for="relationship" class="data-entry-label align-left small">Has Relationship
                                                             <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_relation">
@@ -505,7 +505,7 @@ limitations under the License.
 
 
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="source_authority" class="data-entry-label align-left">Source Authority
+                                                        <label for="source_authority" class="data-entry-label align-left small">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
                                                                 <cfloop query="CTTAXONOMIC_AUTHORITY">
@@ -527,7 +527,7 @@ limitations under the License.
                                                             <cfset selectedCollection = lookupCollection.collection >
                                                         </cfif>
                                                         <div class="d-flex flex-wrap col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                            <label for="collection_cde" class="data-entry-label align-left">Used by Coll.
+                                                            <label for="collection_cde" class="data-entry-label align-left small">Used by Coll.
                                                                 <select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
                                                                     <option value="" class="text-dark">any collection</option>
                                                                     <cfloop query="ctcollection">
@@ -543,7 +543,7 @@ limitations under the License.
                                                         </div>
                                                     </cfif>
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="taxon_remarks" class="data-entry-label align-left">Remarks
+                                                        <label for="taxon_remarks" class="data-entry-label align-left small">Remarks
                                                             <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
                                                         </label>
                                                     </div>
