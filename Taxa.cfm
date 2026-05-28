@@ -571,7 +571,7 @@ limitations under the License.
                                                             <cfset validFlagOnlySelected = ''>
                                                             <cfset validFlagNotSelected = ''>
                                                         </cfif>
-                                                        <li class="list-group-item px-1 px-md-2 col-md-2 pb-0 pt-1">
+                                                        <li class="list-group-item px-1 px-md-2 pb-0 pt-1">
                                                             <label for="validFGChecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
                                                                 <input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; top:0.2rem">
                                                                 <span>Show all matches</span>
