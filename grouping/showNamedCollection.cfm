@@ -1388,8 +1388,8 @@ limitations under the License.
 												join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
 												join identification on identification_taxonomy.identification_id = identification.identification_id
 												join underscore_relation on identification.collection_object_id = underscore_relation.collection_object_id
-											WHERE f.genus IS NULL
-												and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											WHERE
+												underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										</cfquery>
 										<cfif commonNamesHigher.recordcount GT 0>
 											<div class="col-12 pb-3">
