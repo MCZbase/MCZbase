@@ -460,7 +460,7 @@ limitations under the License.
                                     <div class="col-12 px-2">     
                                         <fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-1 pb-1 mt-0 mx-2">         
                                             <div class="form-row mt-0">             
-                                                    <div class="form-group col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 px-0 mb-0 pb-0">
+                                                    <div class="form-group col-12 col-sm-4 col-md-4 col-lg-3 col-xl-2 px-0 mb-0 pb-0">
                                                         <label for="taxon_habitat" class="data-entry-label align-left">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
                                                                 <option></option>
