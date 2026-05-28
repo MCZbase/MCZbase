@@ -3787,26 +3787,6 @@ and also iPads specifically.
         /* Only bottom-left and bottom-right rounded */
         border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     }
-}
-@media screen and (max-width: 480px) {
-	#map {
-		height: 350px;
-	}
-	.variedHeight {
-		height: 210px;
-	}
-}
-@media screen and (max-width: 414px) {
-	a.btn-sm {
-		height: calc(1.5rem + .5rem + 1px);
-	}
-	#searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
-		font-size: .78rem;
-		height: 5rem;
-	}
-		.html_desc {
-		width: 100%!important;
-	}
     button.help-btnSp-SearchWiki {
         background-color: #1b1b1b;
         color: white;
@@ -3833,6 +3813,27 @@ and also iPads specifically.
         /* Only bottom-left and bottom-right rounded */
         border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     }
+}
+@media screen and (max-width: 480px) {
+	#map {
+		height: 350px;
+	}
+	.variedHeight {
+		height: 210px;
+	}
+}
+@media screen and (max-width: 414px) {
+	a.btn-sm {
+		height: calc(1.5rem + .5rem + 1px);
+	}
+	#searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
+		font-size: .78rem;
+		height: 5rem;
+	}
+		.html_desc {
+		width: 100%!important;
+	}
+    
    
 }
 /* styles above are media queries for named groups page*/
