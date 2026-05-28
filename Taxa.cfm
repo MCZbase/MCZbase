@@ -205,7 +205,7 @@ limitations under the License.
                                     <input type="hidden" name="action" value="search">
                                     <div class="col-12 px-2">
                                         <fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-1 mt-3 mx-2">
-                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto">General Taxonomy Search</legend>
+                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">General Taxonomy Search</legend>
                                             <div class="form-row mb-0">
                                                 <div class="form-group mb-0 col-12 col-md-4 px-0">
                                                     <label for="scientific_name" class="data-entry-label align-left">
@@ -237,7 +237,7 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                         <fieldset class="bg-light border-right border-left border-top border-bottom field-set rounded px-2 pt-1 pb-1 mt-2 mx-2">
-                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Name Search</legend>
+                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">Scientific Name Search</legend>
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
                                                     <label for="genus" class="data-entry-label align-left">Genus 
@@ -295,7 +295,7 @@ limitations under the License.
                                     </div>
                                     <div class="col-12 px-2">
                                         <fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Classification and Record Filters </legend>     
+                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">Classification and Other Filters </legend>     
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-md-2 px-0 mb-0 pb-0">
                                                     <label for="kingdom" class="data-entry-label align-left">Kingdom 
@@ -555,7 +555,7 @@ limitations under the License.
                                     <div class="form-row mx-0 mt-2">
                                         <div class="col-12 col-xl-6 pl-xl-2 pr-xl-0">
                                             <fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-                                                <legend class="h6 mb-0 px-3 border field-set-legend w-auto">Search accepted names:</legend> 
+                                                <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">Search accepted names:</legend> 
                                                 <div class="form-group mb-0 pb-0">
                                                     <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
                                                         <cfif valid_catalog_term_fg EQ 1>
@@ -590,7 +590,7 @@ limitations under the License.
                                   
                                     <div class="col-12 col-xl-6 pl-xl-0 pr-xl-2">
                                         <fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-                                            <legend class="h6 px-3 mb-0 border field-set-legend w-auto">Search taxa used on specimen records:</legend>
+                                            <legend class="h6 px-3 mb-0 border field-set-legend w-auto bg-teal">Search taxa used on specimen records:</legend>
                                             <div class="form-group mb-0 pb-0">
                                                 <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
                                                     <cfif we_have_some EQ 1>
