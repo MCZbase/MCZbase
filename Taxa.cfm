@@ -443,7 +443,7 @@ limitations under the License.
                                                         </select>
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 px-0 mb-0 pb-0">
                                                     <label for="taxon_status" class="data-entry-label py-0 align-left">Nomenclatural Status
                                                         <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
                                                             <option></option>
