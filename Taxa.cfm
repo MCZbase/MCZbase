@@ -432,7 +432,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-3 col-xl-2 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
                                                     <label for="nomenclatural_code" class="data-entry-label align-left">Nomenclatural Code
                                                         <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
                                                             <option></option>
@@ -443,7 +443,7 @@ limitations under the License.
                                                         </select>
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-md-3 col-xl-3 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
                                                     <label for="taxon_status" class="data-entry-label py-0 align-left">Nomenclatural Status
                                                         <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
                                                             <option></option>
