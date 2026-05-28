@@ -679,7 +679,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton" class="pb-1"></div>
 							<div id="resultDownloadButtonContainer" class="py-0 py-md-1"></div>
-							<div id="selectModeContainer" class="ml-3" style="display: none;" >
+							<div id="selectModeContainer" class="ml-3 my-1" style="display: none;" >
 								<script>
 									function changeSelectMode(){
 										var selmode = $("##selectMode").val();
