@@ -150,7 +150,7 @@ limitations under the License.
                 </cftry>
      <!---       </cfif>--->
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
-				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-4 ml-3 mr-xl-5">
+				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-4 ml-md-3 mr-xl-5">
 					<div class="search-box mt-4">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
@@ -331,7 +331,7 @@ limitations under the License.
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
                                 <fieldset class="my-2 px-3 border pb-1 field-set">
-                                    <legend class="h6 mt-0 mb-1 px-3 border field-set-legend w-auto sr-only">Dates</legend>
+                                    <legend class="h6 mt-0 mb-1 px-3 border field-set-legend w-auto bg-teal">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 px-0 mt-0">
 				                            <!-- Death range, always shown -->
@@ -379,7 +379,7 @@ limitations under the License.
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                    <fieldset class="my-2 px-3 pb-1 field-set border">
-                                    <legend class="h6 mt-1 mb-1 px-3 field-set-legend border w-auto sr-only">Internal Collections &amp; Permissions</legend>
+                                    <legend class="h6 mt-1 mb-1 px-3 field-set-legend border w-auto bg-teal">Internal Role</legend>
                                         <div class="form-row mt-2">
                                             <div class="col-12 col-md-3 col-xl-3 pr-md-0 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
