@@ -48,7 +48,7 @@ function closeWikiDrawer() {
 function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section = null) {
 	$('#'+targetDiv).html('Loading...');
 	if (titleLink) {
-		$('#'+titleTargetDiv).html('Wiki Article: <a href="https://code.mcz.harvard.edu/wiki/index.php?title=' + page + '" target="_blank">' + page + '</a>');
+		$('#'+titleTargetDiv).html('<aside>Wiki Article: <a href="https://code.mcz.harvard.edu/wiki/index.php?title=' + page + '" target="_blank">' + page + '</a></aside>');
 	} else {
 		$('#'+titleTargetDiv).html('Wiki Article: ' + page);
 	}
