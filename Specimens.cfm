@@ -1876,12 +1876,12 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="input-group mt-1">
 												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
-													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)
+													<label for="keywordCollection" id="keywordCollectionLabel" class="data-entry-label">Limit to Collection(s)
                                                         <div name="collection_cde" 
                                                              id="keywordCollection" 
                                                              class="w-100 data-entry-select"
                                                              role="combobox"
-                                                             aria-labelledby="fixedCollectionLabel"
+                                                             aria-labelledby="keywordCollectionLabel"
                                                              aria-haspopup="listbox">
                                                         </div>
                                                         <cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
@@ -1903,9 +1903,17 @@ limitations under the License.
                                                                         <cfset comma=",">
                                                                     </cfloop>
                                                                 ];
-                                                                $("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '24px', width: '100%' });
-                                                                $("##dropdownlistContentkeywordCollection").attr("aria-label", "Open collection list");
-                                                                $("##dropdownlistArrowkeywordCollection .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
+                                                                $("##keywordCollection").jqxComboBox({ 
+                                                                    source: collectionsource, 
+                                                                    displayMember:"name", 
+                                                                    valueMember:"cde", 
+                                                                    multiSelect: true, 
+                                                                    height: '24px', 
+                                                                    width: '100%' 
+                                                                });
+                                                                $("##dropdownlistArrowkeywordCollection").attr("aria-label", "Open collection list");
+                                                                $("##dropdownlistArrowkeywordCollection .jqx-icon-arrow-down .jqx-icon")
+                                                                    .attr("aria-hidden","true");
                                                                 setKeywordCollectionValues();
                                                             });
                                                         </script> 
