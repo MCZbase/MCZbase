@@ -3977,7 +3977,9 @@ Target JSON:
 
 				$("##overlay").show();
 		
-				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" role="grid" aria-label="Specimen search results"'+
+                ' style="z-index: 1;"></div>'
+                );
 				$("##builderresultCount").html("");
 				$("##builderresultLink").html("");
 				$("##buildershowhide").html("");
