@@ -441,7 +441,12 @@ limitations under the License.
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label small">Collection
-														    <div name="collection" id="fixedCollection" class="w-100"></div>
+														    <div name="collection" 
+                                                                 id="fixedCollection" 
+                                                                 class="w-100" 
+                                                                 role="combobox"
+                                                                 aria-haspopup="listbox"
+                                                                 aria_expanded="false"></div>
 														    <cfif not isdefined("collection")><cfset collection=""></cfif>
 														    <cfset collection_array = ListToArray(collection)>
                                                             <script>
