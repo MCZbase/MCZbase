@@ -470,7 +470,7 @@ limitations under the License.
                                                                     $("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
                                                                     setFixedCollectionValues();
                                                                 });
-                                                                $("#fixedCollection")
+                                                                $("##fixedCollection")
                                                                     .removeAttr("aria-multiline")      // remove invalid ARIA on combobox
                                                                     .attr("aria-haspopup", "listbox"); // optional, but more correct
 
