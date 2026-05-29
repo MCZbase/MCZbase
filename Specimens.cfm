@@ -445,9 +445,7 @@ limitations under the License.
                                                                  id="fixedCollection" 
                                                                  class="w-100" 
                                                                  role="combobox"
-                                                                 aria-haspopup="listbox"
-                                                                 aria-expanded="false">
-                                                            </div>
+                                                                 aria-haspopup="listbox"></div>
 														    <cfif not isdefined("collection")><cfset collection=""></cfif>
 														    <cfset collection_array = ListToArray(collection)>
                                                             <script>
@@ -470,11 +468,6 @@ limitations under the License.
                                                                     $("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
                                                                     setFixedCollectionValues();
                                                                 });
-                                                                $("##fixedCollection")
-                                                                    .removeAttr("aria-multiline")      // remove invalid ARIA on combobox
-                                                                    .attr("aria-haspopup", "listbox"); // optional, but more correct
-
-                                                                setFixedCollectionValues();
                                                             </script> 
                                                         </label>
 													</div>
