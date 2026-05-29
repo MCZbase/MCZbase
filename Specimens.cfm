@@ -1107,7 +1107,8 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-														<label class="data-entry-label small" for="when">Verbatim Date
+														<label class="data-entry-label small" for="verbatim_date">Verbatim Date
+                                                            <!---<label class="data-entry-label small" for="when">--->  
 														    <input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
                                                         </label>
 													</div>
