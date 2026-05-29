@@ -259,7 +259,7 @@ limitations under the License.
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
-			<div class="row mr-0 mr-md-3 mr-xl-5">
+			<div class="row mr-0 mr-md-3 ml-xl-5 mr-xl-5">
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-5">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
@@ -4521,41 +4521,7 @@ Target JSON:
 		}
 
 	</script>
-	
-	<!---  script>
-	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
-	TODO: Fix the indentation and nesting, this looks like one function, but isn't.
-	
-	var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
-		showRightPush = document.getElementById( 'showRightPush' ),
-		menuLeft = document.getElementById( 'cbp-spmenu-s3' ),
-		showLeftPush = document.getElementById( 'showLeftPush' ),
-		body = document.body;
-	
-	    showRightPush.onclick = function() {
-		classie.toggle( this, 'active' );
-		classie.toggle( body, 'cbp-spmenu-push-toleft' );
-		classie.toggle( menuRight, 'cbp-spmenu-open' );
-	
-		disableOther( 'showRightPush' );
-	    };
-	
-		showLeftPush.onclick = function() {
-			classie.toggle( this, 'active' );
-			classie.toggle( body, 'cbp-spmenu-push-toright');
-			classie.toggle( menuLeft, 'cbp-spmenu-open' );
-			disableOther( 'showLeftPush' );
-		};
-	
-		function disableOther( button ) {
-		if( button !== 'showLeftPush' ) {
-			classie.toggle( showLeftPush, 'disabled' );
-		}
-		if( button !== 'showRightPush' ) {
-			classie.toggle( showRightPush, 'disabled' );
-		}
-	}
-	</script --->
+
 	
 	<script>
 	/*!
