@@ -2181,7 +2181,7 @@ Target JSON:
 														<output id="nestingFeedback"></output>
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="openParens1" class="data-entry-label">&nbsp;</label>
+														<label for="openParens1" class="data-entry-label">&nbsp;
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
 														<select id="openParens1" name="openParens1" class="data-entry-select">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2197,6 +2197,7 @@ Target JSON:
 															<cfif openParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="5" #selected#>(((((</option>
 														</select>
+                                                        </label>
 													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="fields_result">
