@@ -515,7 +515,7 @@ limitations under the License.
                                                                         </cfloop>
                                                                     ];
                                                                     $("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
-                                                                    $("##other_id_type .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
+                                                                    $("##dropdownlistArrowother_id_type .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
                                                                     setOtherIdTypeValues();
                                                                 });
                                                             </script> 
