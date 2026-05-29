@@ -1439,29 +1439,30 @@ limitations under the License.
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
 													<div class="col-12 mb-0 col-md-2">
-														<label for="coll_object_entered_date" class="data-entry-label small">Last Updated By</label>
-														<cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
-														<cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
-														<!--- lookup agent name --->
-														<cfif len(last_edited_person) EQ 0 AND len(last_edited_person_id) GT 0>
-															<cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
-																SELECT agent_name
-																FROM preferred_agent_name
-																WHERE
-																	agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#last_edited_person_id#">
-															</cfquery>
-															<cfif lookupEnteredBy.recordcount EQ 1>
-																<cfset last_edited_person = "=#lookupDeterminer.agent_name#">
-															</cfif>
-														</cfif>
-														<input type="hidden" id="last_edited_person_id" name="last_edited_person_id" class="data-entry-input" value="#encodeForHtml(last_edited_person_id)#" >
-														<input type="text" id="last_edited_person" name="last_edited_person" class="data-entry-input inputHeight" value="#encodeForHtml(last_edited_person)#" >
-														<script>
-															jQuery(document).ready(function() {
-																// backing doesn't include a join to support substring search, so use picker configured to clear both fields.
-																makeConstrainedAgentPickerConfig('last_edited_person', 'last_edited_person_id', 'last_edited_person', true);
-															});
-														</script>
+														<label for="last_edited_person" class="data-entry-label small">Last Updated By
+                                                            <cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
+                                                            <cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
+                                                            <!--- lookup agent name --->
+                                                            <cfif len(last_edited_person) EQ 0 AND len(last_edited_person_id) GT 0>
+                                                                <cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
+                                                                    SELECT agent_name
+                                                                    FROM preferred_agent_name
+                                                                    WHERE
+                                                                        agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#last_edited_person_id#">
+                                                                </cfquery>
+                                                                <cfif lookupEnteredBy.recordcount EQ 1>
+                                                                    <cfset last_edited_person = "=#lookupDeterminer.agent_name#">
+                                                                </cfif>
+                                                            </cfif>
+                                                            <input type="hidden" id="last_edited_person_id" name="last_edited_person_id" class="data-entry-input" value="#encodeForHtml(last_edited_person_id)#" >
+                                                            <input type="text" id="last_edited_person" name="last_edited_person" class="data-entry-input inputHeight" value="#encodeForHtml(last_edited_person)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    // backing doesn't include a join to support substring search, so use picker configured to clear both fields.
+                                                                    makeConstrainedAgentPickerConfig('last_edited_person', 'last_edited_person_id', 'last_edited_person', true);
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 mb-0 col-md-2">
 														<label for="underscore_collection" class="data-entry-label small">Named Group
