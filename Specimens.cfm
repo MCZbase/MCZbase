@@ -482,30 +482,31 @@ limitations under the License.
 													</cfif>
 													<div class="col-12 mb-1 #other_id_type_cols#">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label small">Other ID Type</label>
-														<div name="other_id_type" id="other_id_type" class="w-100"></div>
-														<cfset otheridtype_array = ListToArray(other_id_type)>
-														<script>
-															function setOtherIdTypeValues() {
-																$('##other_id_type').jqxComboBox('clearSelection');
-																<cfloop query="ctother_id_type">
-																	<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-																		$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-																	</cfif>
-																</cfloop>
-															};
-															$(document).ready(function () {
-																var otheridtypesource = [
-																	<cfset comma="">
-																	<cfloop query="ctother_id_type">
-																		#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-																		<cfset comma=",">
-																	</cfloop>
-																];
-																$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
-																setOtherIdTypeValues();
-															});
-														</script> 
+														<label for="otherID" class="data-entry-label small">Other ID Type
+                                                            <div name="other_id_type" id="other_id_type" class="w-100"></div>
+                                                            <cfset otheridtype_array = ListToArray(other_id_type)>
+                                                            <script>
+                                                                function setOtherIdTypeValues() {
+                                                                    $('##other_id_type').jqxComboBox('clearSelection');
+                                                                    <cfloop query="ctother_id_type">
+                                                                        <cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+                                                                            $("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+                                                                        </cfif>
+                                                                    </cfloop>
+                                                                };
+                                                                $(document).ready(function () {
+                                                                    var otheridtypesource = [
+                                                                        <cfset comma="">
+                                                                        <cfloop query="ctother_id_type">
+                                                                            #comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+                                                                            <cfset comma=",">
+                                                                        </cfloop>
+                                                                    ];
+                                                                    $("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
+                                                                    setOtherIdTypeValues();
+                                                                });
+                                                            </script> 
+                                                        </label>
 													</div>
 													<div class="col-12 mb-1 #other_id_number_cols#">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
