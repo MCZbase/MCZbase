@@ -1405,30 +1405,31 @@ limitations under the License.
 														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 													</div>
 													<div class="col-12 mb-0 col-md-2">
-														<label for="coll_object_entered_date" class="data-entry-label small">Entered By</label>
-														<cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
-														<cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
-														<!--- lookup agent name --->
-														<cfif len(entered_by) EQ 0 AND len(entered_by_id) GT 0>
-															<cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
-																SELECT agent_name
-																FROM preferred_agent_name
-																WHERE
-																	agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#entered_by_id#">
-															</cfquery>
-															<cfif lookupEnteredBy.recordcount EQ 1>
-																<cfset entered_by = "=#lookupDeterminer.agent_name#">
-															</cfif>
-														</cfif>
-														<input type="hidden" id="entered_by_id" name="entered_by_id" class="data-entry-input" value="#encodeForHtml(entered_by_id)#" >
-														<input type="text" id="entered_by" name="entered_by" class="data-entry-input inputHeight" value="#encodeForHtml(entered_by)#" >
-														<script>
-															jQuery(document).ready(function() {
-																// backing doesn't include a join to support substring search, so use picker configured to clear both fields.
-																// makeConstrainedAgentPicker('entered_by', 'entered_by_id', 'entered_by');
-																makeConstrainedAgentPickerConfig('entered_by', 'entered_by_id', 'entered_by', true);
-															});
-														</script>
+														<label for="entered_by" class="data-entry-label small">Entered By
+                                                            <cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
+                                                            <cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
+                                                            <!--- lookup agent name --->
+                                                            <cfif len(entered_by) EQ 0 AND len(entered_by_id) GT 0>
+                                                                <cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
+                                                                    SELECT agent_name
+                                                                    FROM preferred_agent_name
+                                                                    WHERE
+                                                                        agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#entered_by_id#">
+                                                                </cfquery>
+                                                                <cfif lookupEnteredBy.recordcount EQ 1>
+                                                                    <cfset entered_by = "=#lookupDeterminer.agent_name#">
+                                                                </cfif>
+                                                            </cfif>
+                                                            <input type="hidden" id="entered_by_id" name="entered_by_id" class="data-entry-input" value="#encodeForHtml(entered_by_id)#" >
+                                                            <input type="text" id="entered_by" name="entered_by" class="data-entry-input inputHeight" value="#encodeForHtml(entered_by)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    // backing doesn't include a join to support substring search, so use picker configured to clear both fields.
+                                                                    // makeConstrainedAgentPicker('entered_by', 'entered_by_id', 'entered_by');
+                                                                    makeConstrainedAgentPickerConfig('entered_by', 'entered_by_id', 'entered_by', true);
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("last_edit_date")>
