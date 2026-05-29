@@ -1898,6 +1898,8 @@ limitations under the License.
 																</cfloop>
 															];
 															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '24px', width: '100%' });
+                                                            $("##keywordCollection").attr("aria-label", "Open collection list");
+                                                            $("##keywordCollection .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
 															setKeywordCollectionValues();
 														});
 													</script> 
