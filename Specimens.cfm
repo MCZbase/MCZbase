@@ -2064,7 +2064,7 @@ Target JSON:
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
                                             function fixBuilderGridHeaders() {
-  // In CFML, ## becomes # in the rendered JS
+  // In CFML, ## becomes ## in the rendered JS
   $('##buildersearchResultsGrid .jqx-grid-column-header[role="columnheader"]').each(function () {
     var $th = $(this);
     var hasText       = $th.text().trim().length > 0;
