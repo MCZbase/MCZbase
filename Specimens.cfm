@@ -466,7 +466,7 @@ limitations under the License.
                                                                         </cfloop>
                                                                     ];
                                                                     $("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
-                                                                    $("##dropdownlistArrowfixedCollection .jqx-icon-arrow-down").attr("aria-hidden","true");
+                                                                    $("##dropdownlistArrowfixedCollection .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
                                                                     setFixedCollectionValues();
                                                                 });
                                                             </script> 
