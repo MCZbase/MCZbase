@@ -4091,7 +4091,7 @@ Target JSON:
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##buildersearchResultsGrid").jqxGrid('focus');
-                        $(".jqx-grid-column-header[role='columnheader']").eq(0) {
+                        $(".jqx-grid-column-header[role='columnheader']").eq(0) {//this doesn't solve the accessibility issue
                             .attr("aria-label", "Select rows");
                         }   
 					},
@@ -4254,12 +4254,12 @@ Target JSON:
 				"<form id='"+whichGrid+"saveForm'> " + 
 				" <input type='hidden' value='"+uri+"' name='url'>" + 
 				" <div class='col-12 p-1'>" + 
-				"  <label for='search_name_input_"+whichGrid+"'>Search Name</label>" + 
-				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required>" + 
+				"  <label for='search_name_input_"+whichGrid+"'>Search Name" + 
+				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required></label>" + 
 				" </div>" + 
 				" <div class='col-12'>" + 
-				"  <label for='execute_input_"+whichGrid+"'>Execute Immediately</label>"+
-				"  <input id='execute_input_"+whichGrid+"' type='checkbox' name='execute' checked>"+
+				"  <label for='execute_input_"+whichGrid+"'>Execute Immediately"+
+				"  <input id='execute_input_"+whichGrid+"' type='checkbox' name='execute' checked></label>"+
 				" </div>" +
 				"</form>"+
 				"</div>"
