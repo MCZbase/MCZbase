@@ -2267,23 +2267,29 @@ Target JSON:
                                                                         .attr('aria-label', 'Select field to search')   // or aria-labelledby="field1Label"
                                                                         .attr('aria-haspopup', 'listbox');
                                                                     
+                                                
+                                                                    // Label the arrow button so it has an accessible name
                                                                     $('##dropdownlistArrowfield1')
                                                                         .attr('aria-label', 'Open field list')
                                                                         .removeAttr('aria-hidden');
+
+                                                                    // Inner icon is decorative → hide it from AT
+                                                                    $('##dropdownlistArrowfield1 .jqx-icon-arrow-down')
+                                                                        .attr('aria-hidden', 'true');
+
                                                                     // bind an autocomplete, if one applies
-                                                                    handleFieldSetup('field1',1);
+                                                                    handleFieldSetup('field1', 1);
                                                                     console.log("field1 setup");
-                                                                    
-                                                                    $('##field1').on("select", function(event) { 
-                                                                        handleFieldSelection('field1',1);
+
+                                                                    $('##field1').on('select', function(event) { 
+                                                                        handleFieldSelection('field1', 1);
                                                                     });
+
                                                                     var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
-                                                                    if (selectedIndex<1) {
-                                                                        // hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
-                                                                        // forcing clearSelection so that first action on field1 will triggers select event.
+                                                                    if (selectedIndex < 1) {
+                                                                        // hack, if initial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
+                                                                        // forcing clearSelection so that first action on field1 will trigger select event.
                                                                         $('##field1').jqxComboBox('clearSelection');
-                                                                        $("##dropdownlistArrowfield1").attr("aria-label", "Open collection list");
-                                                                        $("##dropdownlistArrowfield1 .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
                                                                     }
                                                                 });
                                                             </script>
