@@ -1876,39 +1876,40 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="input-group mt-1">
 												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
-													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
-													<div name="collection_cde" 
-                                                         id="keywordCollection" 
-                                                         class="w-100 data-entry-select"
-                                                         role="combobox"
-                                                         aria-labelledby="fixedCollectionLabel"
-                                                         aria-haspopup="listbox">
-                                                    </div>
-													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
-													<cfset collection_array = ListToArray(collection_cde)>
-													<script>
-														function setKeywordCollectionValues() {
-															$('##keywordCollection').jqxComboBox('clearSelection');
-															<cfloop query="ctCollection">
-																<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
-																	$("##keywordCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
-																</cfif>
-															</cfloop>
-														};
-														$(document).ready(function () {
-															var collectionsource = [
-																<cfset comma="">
-																<cfloop query="ctCollection">
-																	#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
-																	<cfset comma=",">
-																</cfloop>
-															];
-															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '24px', width: '100%' });
-                                                            $("##dropdownlistContentkeywordCollection").attr("aria-label", "Open collection list");
-                                                            $("##dropdownlistArrowkeywordCollection .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
-															setKeywordCollectionValues();
-														});
-													</script> 
+													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)
+                                                        <div name="collection_cde" 
+                                                             id="keywordCollection" 
+                                                             class="w-100 data-entry-select"
+                                                             role="combobox"
+                                                             aria-labelledby="fixedCollectionLabel"
+                                                             aria-haspopup="listbox">
+                                                        </div>
+                                                        <cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
+                                                        <cfset collection_array = ListToArray(collection_cde)>
+                                                        <script>
+                                                            function setKeywordCollectionValues() {
+                                                                $('##keywordCollection').jqxComboBox('clearSelection');
+                                                                <cfloop query="ctCollection">
+                                                                    <cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+                                                                        $("##keywordCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
+                                                                    </cfif>
+                                                                </cfloop>
+                                                            };
+                                                            $(document).ready(function () {
+                                                                var collectionsource = [
+                                                                    <cfset comma="">
+                                                                    <cfloop query="ctCollection">
+                                                                        #comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+                                                                        <cfset comma=",">
+                                                                    </cfloop>
+                                                                ];
+                                                                $("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '24px', width: '100%' });
+                                                                $("##dropdownlistContentkeywordCollection").attr("aria-label", "Open collection list");
+                                                                $("##dropdownlistArrowkeywordCollection .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
+                                                                setKeywordCollectionValues();
+                                                            });
+                                                        </script> 
+                                                    </label>
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<cfset searchCollClasses = "col-sm-5 col-md-5 col-xl-7">
