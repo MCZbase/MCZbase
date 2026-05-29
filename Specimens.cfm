@@ -1604,7 +1604,7 @@ limitations under the License.
 									<div class="row">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2" role="columnheader">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
@@ -2623,7 +2623,7 @@ Target JSON:
 													</cfif>
 													<span id="builderremoveButtonDiv" class=""></span>
 													<div id="builderresultBMMapLinkContainer"></div>
-													<div id="builderselectModeContainer" class="ml-3" style="display: none;" >
+													<div id="builderselectModeContainer" class="ml-3 my-1" style="display: none;" >
 														<script>
 															function builderchangeSelectMode(){
 																var selmode = $("##builderselectMode").val();
@@ -2635,19 +2635,20 @@ Target JSON:
 																}
 															};
 														</script>
-														<label class="data-entry-label d-inline w-auto mt-1" for="builderselectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="builderchangeSelectMode();">
-															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="none">Text</option>
-															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="singlecell">Single Cell</option>
-															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="singlerow">Single Row</option>
-															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
-															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
-														</select>
+														<label class="data-entry-label d-inline w-auto mt-1" id="builderselectModeLabel" for="builderselectMode">Grid Select:
+                                                            <select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="builderchangeSelectMode();" aria-labelledby="builderselectModeLabel">
+                                                                <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option #selected# value="none">Text</option>
+                                                                <cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option #selected# value="singlecell">Single Cell</option>
+                                                                <cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option #selected# value="singlerow">Single Row</option>
+                                                                <cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+                                                                <cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+                                                            </select>
+                                                        </label>
 													</div>
 													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output> 
 												</div>
