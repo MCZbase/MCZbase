@@ -2288,22 +2288,23 @@ Target JSON:
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<div class="col-12 col-md-1">
-														<label class="data-entry-label" for="closeParens1">&nbsp;</label>
-														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
-														<select name="closeParens1" id="closeParens1" class="data-entry-select">
-															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option value="0" #selected#></option>
-															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option value="1" #selected#>)</option>
-															<cfif closeParens1 EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option value="2" #selected#>))</option>
-															<cfif closeParens1 EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option value="3" #selected#>)))</option>
-															<cfif closeParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option value="4" ##>))))</option>
-															<cfif closeParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option value="5" ##>)))))</option>
-														</select>
+														<label for="closeParens1" id="closeParens1Label" class="data-entry-label"><span class="sr-only">Number of closing parentheses</span>&nbsp;
+                                                            <cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
+                                                            <select name="closeParens1" id="closeParens1" class="data-entry-select">
+                                                                <cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option value="0" #selected#></option>
+                                                                <cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option value="1" #selected#>)</option>
+                                                                <cfif closeParens1 EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option value="2" #selected#>))</option>
+                                                                <cfif closeParens1 EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option value="3" #selected#>)))</option>
+                                                                <cfif closeParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option value="4" ##>))))</option>
+                                                                <cfif closeParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                <option value="5" ##>)))))</option>
+                                                            </select>
+                                                        </label>
 													</div>
 													<script> 
 														$(document).ready(function(){
@@ -2349,7 +2350,7 @@ Target JSON:
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-                                                                    <label id="openParensLabel#row#" class="data-entry-label" for="closeParens1">
+                                                                    <label id="openParensLabel#row#" class="data-entry-label" for="openParens1">
                                                                         <select id="openParens#row#" aria-labelledby="openParensLabel#row#" name="openParens#row#" class="data-entry-select">
                                                                             <cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
                                                                             <option value="0" #selected#></option>
