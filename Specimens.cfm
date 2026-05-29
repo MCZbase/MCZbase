@@ -2181,9 +2181,9 @@ Target JSON:
 														<output id="nestingFeedback"></output>
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="openParens1" class="data-entry-label">&nbsp;
+														<label for="openParens1" id="openParens1Label" class="data-entry-label">&nbsp;
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
-														<select id="openParens1" name="openParens1" class="data-entry-select">
+														<select id="openParens1" aria-labbelledby="openParens1Label" name="openParens1" class="data-entry-select">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif openParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
