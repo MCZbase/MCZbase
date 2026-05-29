@@ -2266,9 +2266,14 @@ Target JSON:
                                                                         .attr('role', 'combobox')
                                                                         .attr('aria-label', 'Select field to search')   // or aria-labelledby="field1Label"
                                                                         .attr('aria-haspopup', 'listbox');
+                                                                    
+                                                                    $('##dropdownlistArrowfield1')
+                                                                        .attr('aria-label', 'Open field list')
+                                                                        .removeAttr('aria-hidden');
                                                                     // bind an autocomplete, if one applies
                                                                     handleFieldSetup('field1',1);
                                                                     console.log("field1 setup");
+                                                                    
                                                                     $('##field1').on("select", function(event) { 
                                                                         handleFieldSelection('field1',1);
                                                                     });
