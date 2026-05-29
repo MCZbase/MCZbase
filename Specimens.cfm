@@ -2063,6 +2063,22 @@ Target JSON:
 								</div>
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
+                                            function fixBuilderGridHeaders() {
+  // In CFML, ## becomes # in the rendered JS
+  $('##buildersearchResultsGrid .jqx-grid-column-header[role="columnheader"]').each(function () {
+    var $th = $(this);
+    var hasText       = $th.text().trim().length > 0;
+    var hasAriaLabel  = !!$th.attr("aria-label");
+    var hasLabelledBy = !!$th.attr("aria-labelledby");
+
+    if (!hasText && !hasAriaLabel && !hasLabelledBy) {
+      // If this header is just for spacing/row-details, hide it from AT:
+      $th.attr("aria-hidden", "true").removeAttr("role");
+      // If you decide it *is* meaningful, instead of hiding it, do:
+      // $th.attr("aria-label", "Select rows");
+    }
+  });
+}
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
@@ -4160,7 +4176,7 @@ Target JSON:
 						loadColumnOrder('buildersearchResultsGrid');
 					}
                     
-                    
+                    fixBuilderGridHeaders();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<cfset addedIDs =  "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
