@@ -442,7 +442,7 @@ limitations under the License.
             <cfoutput>
                 <div id="wikiDrawer" class="wiki-drawer border">
                     <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-                        <h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
+                        <div class="mb-0 h5" id="wiki-content-title">Wiki Article</div>
                         <button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
                             <span aria-hidden="true">&times;</span>
                         </button>
