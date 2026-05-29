@@ -441,7 +441,8 @@ limitations under the License.
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" id="fixedCollectionLabel" class="data-entry-label small">Collection
-														    <div id="fixedCollection" 
+														    <div name="collection" 
+                                                                 id="fixedCollection" 
                                                                  class="w-100" 
                                                                  role="combobox"
                                                                  aria-labelledby="fixedCollectionLabel"
@@ -487,8 +488,14 @@ limitations under the License.
 													</cfif>
 													<div class="col-12 mb-1 #other_id_type_cols#">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label small">Other ID Type
-                                                            <div name="other_id_type" id="other_id_type" class="w-100"></div>
+														<label for="otherID" id="otherIDLabel" class="data-entry-label small">Other ID Type
+                                                            <div name="other_id_type" 
+                                                                 id="other_id_type" 
+                                                                 class="w-100"
+                                                                 role="combobox"
+                                                                 aria-labelledby="otherIDLabel"
+                                                                 aria-haspopup="listbox">
+                                                            </div>
                                                             <cfset otheridtype_array = ListToArray(other_id_type)>
                                                             <script>
                                                                 function setOtherIdTypeValues() {
