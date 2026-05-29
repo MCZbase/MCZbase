@@ -2264,7 +2264,8 @@ Target JSON:
                                                                     
                                                                      $('##field1')
                                                                         .attr('role', 'combobox')
-                                                                        .attr('aria-label', 'Select field to search')   // or aria-labelledby="field1Label"
+                                                                        .attr('aria-labelledby', 'field1Label')
+                                                                        //.attr('aria-label', 'Select field to search')   // or aria-labelledby="field1Label"
                                                                         .attr('aria-haspopup', 'listbox');
                                                                     
                                                 
