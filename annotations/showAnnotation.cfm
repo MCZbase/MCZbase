@@ -235,7 +235,7 @@ limitations under the License.
 	<cfset variables.targetType = UCASE(rootAnn.target_table)>
 	<cfset variables.targetId = rootAnn.target_primary_key>
 	<cfswitch expression="#variables.targetType#">
-		<cfcase value="COLLECTION_OBJECT">
+		<cfcase value="COLL_OBJECT">
 			<cfquery name="targetRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 				SELECT collection.institution_acronym, collection.collection_cde, cataloged_item.cat_num,
 					mczbase.get_scientific_name_auths(cataloged_item.collection_object_id) display_name
