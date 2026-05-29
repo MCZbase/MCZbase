@@ -259,6 +259,7 @@ limitations under the License.
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
+            <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 			<div class="row mr-0 mr-md-3 ml-xl-5 mr-xl-5">
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-5">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -4600,5 +4601,5 @@ Target JSON:
 <cfset action = "search">
 <cfset targetWikiPage = "Search_Operators">
 
-<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+
 <cfinclude template="/shared/_footer.cfm">
