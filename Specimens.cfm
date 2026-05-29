@@ -2211,53 +2211,54 @@ Target JSON:
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" class="data-entry-label">Search Field</label>
-														<cfif not isDefined("field1")><cfset field1=""></cfif>
-														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
-															<cfif len(field1) EQ 0>
-																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
-															</cfif>
-															<cfset category = "">
-															<cfset optgroupOpen = false>
-															<cfloop query="fields">
-																<cfif category NEQ fields.search_category>
-																	<cfif optgroupOpen>
-																		</optgroup>
-																		<cfset optgroupOpen = false>
-																	</cfif>
-																	<optgroup label="#fields.search_category#">
-																	<cfset optgroupOpen = true>
-																	<cfset category = fields.search_category>
-																</cfif>
-																<cfif field1 EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#) #fields.comments#</option>
-															</cfloop>
-															<cfif optgroupOpen>
-																</optgroup>
-															</cfif>
-														</select>
-														<script>
-															$(document).ready(function() { 
-																$('##field1').jqxComboBox({
-																	autoComplete: true,
-																	searchMode: 'containsignorecase',
-																	width: '100%',
-																	dropDownHeight: 400
-																});
-																// bind an autocomplete, if one applies
-																handleFieldSetup('field1',1);
-																console.log("field1 setup");
-																$('##field1').on("select", function(event) { 
-																	handleFieldSelection('field1',1);
-																});
-																var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
-																if (selectedIndex<1) {
-																	// hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
-																	// forcing clearSelection so that first action on field1 will triggers select event.
-																	$('##field1').jqxComboBox('clearSelection');
-																}
-															});
-														</script>
+														<label for="field1" class="data-entry-label">Search Field
+                                                            <cfif not isDefined("field1")><cfset field1=""></cfif>
+                                                            <select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
+                                                                <cfif len(field1) EQ 0>
+                                                                    <optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
+                                                                </cfif>
+                                                                <cfset category = "">
+                                                                <cfset optgroupOpen = false>
+                                                                <cfloop query="fields">
+                                                                    <cfif category NEQ fields.search_category>
+                                                                        <cfif optgroupOpen>
+                                                                            </optgroup>
+                                                                            <cfset optgroupOpen = false>
+                                                                        </cfif>
+                                                                        <optgroup label="#fields.search_category#">
+                                                                        <cfset optgroupOpen = true>
+                                                                        <cfset category = fields.search_category>
+                                                                    </cfif>
+                                                                    <cfif field1 EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                    <option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#) #fields.comments#</option>
+                                                                </cfloop>
+                                                                <cfif optgroupOpen>
+                                                                    </optgroup>
+                                                                </cfif>
+                                                            </select>
+                                                            <script>
+                                                                $(document).ready(function() { 
+                                                                    $('##field1').jqxComboBox({
+                                                                        autoComplete: true,
+                                                                        searchMode: 'containsignorecase',
+                                                                        width: '100%',
+                                                                        dropDownHeight: 400
+                                                                    });
+                                                                    // bind an autocomplete, if one applies
+                                                                    handleFieldSetup('field1',1);
+                                                                    console.log("field1 setup");
+                                                                    $('##field1').on("select", function(event) { 
+                                                                        handleFieldSelection('field1',1);
+                                                                    });
+                                                                    var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
+                                                                    if (selectedIndex<1) {
+                                                                        // hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
+                                                                        // forcing clearSelection so that first action on field1 will triggers select event.
+                                                                        $('##field1').jqxComboBox('clearSelection');
+                                                                    }
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 col-md-3">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
