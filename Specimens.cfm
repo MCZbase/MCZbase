@@ -2228,9 +2228,9 @@ Target JSON:
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" id="field1" class="data-entry-label">Search Field
+														<label for="field1" id="field1Label" class="data-entry-label">Search Field
                                                             <cfif not isDefined("field1")><cfset field1=""></cfif>
-                                                            <select title="Select Field to search..." aria-labelledby="field1" name="field1" id="field1" class="data-entry-select" required>
+                                                            <select title="Select Field to search..." aria-labelledby="field1Label" name="field1" id="field1" class="data-entry-select" required>
                                                                 <cfif len(field1) EQ 0>
                                                                     <optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
                                                                 </cfif>
