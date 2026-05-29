@@ -2272,6 +2272,8 @@ Target JSON:
                                                                         // hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
                                                                         // forcing clearSelection so that first action on field1 will triggers select event.
                                                                         $('##field1').jqxComboBox('clearSelection');
+                                                                        $("##dropdownlistArrowfield1").attr("aria-label", "Open collection list");
+                                                                        $("##dropdownlistArrowfield1 .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
                                                                     }
                                                                 });
                                                             </script>
