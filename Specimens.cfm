@@ -446,7 +446,7 @@ limitations under the License.
                                                                  class="w-100" 
                                                                  role="combobox"
                                                                  aria-haspopup="listbox"
-                                                                 aria_expanded="false"></div>
+                                                                 aria-expanded="false"></div>
 														    <cfif not isdefined("collection")><cfset collection=""></cfif>
 														    <cfset collection_array = ListToArray(collection)>
                                                             <script>
