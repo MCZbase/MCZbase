@@ -2230,7 +2230,7 @@ Target JSON:
 														</script>
 														<label for="field1" id="field1Label" class="data-entry-label">Search Field
                                                             <cfif not isDefined("field1")><cfset field1=""></cfif>
-                                                            <select title="Select Field to search..." aria-labelledby="field1Label" name="field1" id="field1" class="data-entry-select" required>
+                                                            <select title="Select Field to search..." aria-labelledby="field1Label" id="field1" class="data-entry-select" required>
                                                                 <cfif len(field1) EQ 0>
                                                                     <optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
                                                                 </cfif>
@@ -2347,20 +2347,22 @@ Target JSON:
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#" class="data-entry-select">
-																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="0" #selected#></option>
-																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="1" #selected#>(</option>
-																		<cfif openParens EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="2" #selected#>((</option>
-																		<cfif openParens EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="3" #selected#>(((</option>
-																		<cfif openParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="4" #selected#>((((</option>
-																		<cfif openParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value=5" #selected#>(((((</option>
-																	</select>
+                                                                    <label id="openParensLabel#row#" class="data-entry-label" for="closeParens1">
+                                                                        <select id="openParens#row#" aria-labelledby="openParensLabel#row#" name="openParens#row#" class="data-entry-select">
+                                                                            <cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                            <option value="0" #selected#></option>
+                                                                            <cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                            <option value="1" #selected#>(</option>
+                                                                            <cfif openParens EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                            <option value="2" #selected#>((</option>
+                                                                            <cfif openParens EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                            <option value="3" #selected#>(((</option>
+                                                                            <cfif openParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                            <option value="4" #selected#>((((</option>
+                                                                            <cfif openParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                                                            <option value=5" #selected#>(((((</option>
+                                                                        </select>
+                                                                    </label>
 																</div>
 																<!--- " --->
 																<div class="col-12 col-md-4">
