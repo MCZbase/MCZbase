@@ -148,7 +148,7 @@ limitations under the License.
 </cffunction>
 
 <!--- Given an entity and id to annotate, return the HTML for a dialog to view existing annotations and add a new annotation for the specified record. The dialog HTML is returned as a string to be placed into a jQuery UI dialog by the calling function.
-  * @param target_type the entity to be annotated (e.g. collection_object, taxonomy, publication, permit, annotation)
+  * @param target_type the entity to be annotated (e.g. coll_object, taxonomy, publication, permit, annotation)
   * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
   * @param dialogId the html id value for the dialog to contain the returned HTML; used to set the id attribute of the form within the dialog and for callback functions to close the dialog after saving an annotation.
   * @return HTML string for a dialog to view existing annotations and add a new annotation for the specified record.
@@ -204,7 +204,7 @@ limitations under the License.
 					<cfset ctresolution = getAnnotationCtResolution()>
 				</cfif>
 				<cfswitch expression="#variables.target_type#">
-					<cfcase value="COLLECTION_OBJECT">
+					<cfcase value="COLL_OBJECT">
 						<cfset collection_object_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							SELECT 
@@ -434,12 +434,15 @@ limitations under the License.
 							from annotation_textualbody
 						) atb on annotations.annotation_id = atb.annotation_id and atb.rn = 1
 					WHERE
-					<cfif variables.target_type EQ "COLLECTION_OBJECT">
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					<cfif variables.target_type EQ "COLL_OBJECT">
+						target_table = 'COLL_OBJECT'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					<cfelseif variables.target_type EQ "TAXONOMY">
-						taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+						target_table = 'TAXONOMY'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					<cfelseif variables.target_type EQ "PROJECT">
-						project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+						target_table = 'PROJECT'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 					<cfelseif variables.target_type EQ "PUBLICATION">
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 					<cfelseif variables.target_type EQ "AGENT">
@@ -657,7 +660,7 @@ limitations under the License.
 
 <!--- function addAnnotation Given an entity and id to annotate and the text of an annotation, 
  * save the annotation of the data record.
- * @param target_type the entity to be annotated (e.g. COLLECTION_OBJECT, TAXONOMY, PUBLICATION, PERMIT, ANNOTATIONS)
+ * @param target_type the entity to be annotated (e.g. COLL_OBJECT, TAXONOMY, PUBLICATION, PERMIT, ANNOTATIONS)
  * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
  * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
  * @param motivation the motivation for the annotation (optional, defaults to commenting).
@@ -698,7 +701,7 @@ limitations under the License.
 	<cfset setRootResolutionNull = false>
 	<cftry>
 		<cfswitch expression="#variables.target_type#">
-			<cfcase value="COLLECTION_OBJECT">
+			<cfcase value="COLL_OBJECT">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT guid as annorecord
@@ -1029,7 +1032,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset var generatedDialogId = "reviewAnnotationsDialog_" & val(arguments.collection_object_id)>
 	<cfreturn getAnnotationDialogHtml(
-		target_type = "COLLECTION_OBJECT",
+		target_type = "COLL_OBJECT",
 		target_id = val(arguments.collection_object_id),
 		dialogId = generatedDialogId
 	)>
@@ -2336,7 +2339,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						AND UCASE(trim(rootAnnTarget.target_table)) NEQ 'ANNOTATIONS'>
 					<cfset rtTable = UCASE(trim(rootAnnTarget.target_table))>
 					<cfset rtKey = rootAnnTarget.target_primary_key>
-					<cfif rtTable EQ "COLLECTION_OBJECT">
+					<cfif rtTable EQ "COLL_OBJECT">
 						<cfquery name="rtData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							SELECT collection.collection, collection.collection_cde, cat_num,
 								mczbase.get_scientific_name_auths(cataloged_item.collection_object_id) display_name

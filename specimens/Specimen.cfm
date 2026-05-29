@@ -1016,7 +1016,7 @@ limitations under the License.
 								FROM 
 									annotations
 								WHERE
-									target_table = 'COLLECTION_OBJECT'
+									target_table = 'COLL_OBJECT'
 									AND target_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 									<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
 										AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
@@ -1043,7 +1043,7 @@ limitations under the License.
 										</a>
  									<cfelseif isdefined("session.username") AND len(session.username) gt 0>
 										<!--- anyone with a username can create annotations --->
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','COLLECTION_OBJECT',#collection_object_id#,reloadAnnotations);">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','COLL_OBJECT',#collection_object_id#,reloadAnnotations);">
 											Annotate
 										</a>
 									</cfif>

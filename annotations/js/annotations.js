@@ -217,7 +217,7 @@ function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
 		type: "post",
 		data: postData,
 		success: function(data) {
-			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
+			messageDialog("<p>Your Annotation has been saved. Thank you for helping improve MCZbase!</p><p>"+data+"</p>","Annotation Saved");
 			setFeedbackControlState(feedbackDiv,"saved");
 			if (typeof callback === "function") {
 				callback();
@@ -232,7 +232,7 @@ function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
 
 /** Create and open a dialog to list existing annotations and annotate a data object.
  * @param dialogid the id of a div in the dom which is to contain the dialog, without a leading # selector.
- * @param target_type the type of entity which is to be annotated (collection_object, taxon_name, publication, project).
+ * @param target_type the type of entity which is to be annotated (coll_object, taxonomy, publication, project).
  * @param target_id the surrogate numeric primary key for the target_type table identifying the row to be annotated.
  * @param callback function to execute on closing the dialog.
  */

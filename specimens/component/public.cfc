@@ -3858,7 +3858,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<!--- Query root annotations (target_table = COLLECTION_OBJECT, not replies to other annotations) --->
+				<!--- Query root annotations (target_table = COLL_OBJECT, not replies to other annotations) --->
 				<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						annotations.annotation_id,
@@ -3880,7 +3880,7 @@ limitations under the License.
 							FROM annotation_textualbody
 						) atb ON annotations.annotation_id = atb.annotation_id AND atb.rn = 1
 					WHERE
-						upper(annotations.target_table) = 'COLLECTION_OBJECT'
+						upper(annotations.target_table) = 'COLL_OBJECT'
 						AND annotations.target_primary_key = <cfqueryparam value="#attributes.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
 							AND (annotations.mask_annotation_fg = 0 OR annotations.cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
