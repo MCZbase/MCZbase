@@ -4158,6 +4158,8 @@ Target JSON:
 						builderSearchLoaded = 1;
 						loadColumnOrder('buildersearchResultsGrid');
 					}
+                    
+                    
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<cfset addedIDs =  "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
