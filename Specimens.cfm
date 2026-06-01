@@ -611,7 +611,7 @@ limitations under the License.
 															<div class="col-3">
 																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 																<label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search
-                                                                    <select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight text-dark px-0">
+                                                                    <select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small95 px-0" style="color: rgba(0, 0, 0, .8);">
                                                                         <cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
                                                                         <cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
                                                                         <option value="any" #any_selected#>Any Id</option>
