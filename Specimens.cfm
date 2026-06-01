@@ -440,13 +440,8 @@ limitations under the License.
 												</div>	
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
-														<label for="fixedCollection" id="fixedCollectionLabel" class="data-entry-label small">Collection
-														    <div name="collection" 
-                                                                 id="fixedCollection" 
-                                                                 class="w-100" 
-                                                                 role="combobox"
-                                                                 aria-labelledby="fixedCollectionLabel"
-                                                                 aria-haspopup="listbox"></div>
+														<label for="fixedCollection" class="data-entry-label small">Collection
+														    <div name="collection" id="fixedCollection" class="w-100"></div>
 														    <cfif not isdefined("collection")><cfset collection=""></cfif>
 														    <cfset collection_array = ListToArray(collection)>
                                                             <script>
@@ -467,8 +462,6 @@ limitations under the License.
                                                                         </cfloop>
                                                                     ];
                                                                     $("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
-                                                                    $("##dropdownlistArrowfixedCollection").attr("aria-label", "Open collection list");
-                                                                    $("##dropdownlistArrowfixedCollection .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
                                                                     setFixedCollectionValues();
                                                                 });
                                                             </script> 
@@ -489,14 +482,8 @@ limitations under the License.
 													</cfif>
 													<div class="col-12 mb-1 #other_id_type_cols#">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" id="otherIDLabel" class="data-entry-label small">Other ID Type
-                                                            <div name="other_id_type" 
-                                                                 id="other_id_type" 
-                                                                 class="w-100"
-                                                                 role="combobox"
-                                                                 aria-labelledby="otherIDLabel"
-                                                                 aria-haspopup="listbox">
-                                                            </div>
+														<label for="otherID" class="data-entry-label small">Other ID Type
+                                                            <div name="other_id_type" id="other_id_type" class="w-100"></div>
                                                             <cfset otheridtype_array = ListToArray(other_id_type)>
                                                             <script>
                                                                 function setOtherIdTypeValues() {
@@ -516,8 +503,6 @@ limitations under the License.
                                                                         </cfloop>
                                                                     ];
                                                                     $("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
-                                                                    $("##dropdownlistArrowother_id_type").attr("aria-label", "Open collection list");
-                                                                    $("##dropdownlistArrowother_id_type .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
                                                                     setOtherIdTypeValues();
                                                                 });
                                                             </script> 
@@ -1604,7 +1589,7 @@ limitations under the License.
 									<div class="row">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2"
+												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
@@ -1876,48 +1861,31 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="input-group mt-1">
 												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
-													<label for="keywordCollection" id="keywordCollectionLabel" class="data-entry-label">Limit to Collection(s)
-                                                        <div name="collection_cde" 
-                                                             id="keywordCollection" 
-                                                             class="w-100 data-entry-select"
-                                                             role="combobox"
-                                                             aria-labelledby="keywordCollectionLabel"
-                                                             aria-haspopup="listbox">
-                                                        </div>
-                                                        <cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
-                                                        <cfset collection_array = ListToArray(collection_cde)>
-                                                        <script>
-                                                            function setKeywordCollectionValues() {
-                                                                $('##keywordCollection').jqxComboBox('clearSelection');
-                                                                <cfloop query="ctCollection">
-                                                                    <cfif ArrayContains(collection_array, ctCollection.collection_cde)>
-                                                                        $("##keywordCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
-                                                                    </cfif>
-                                                                </cfloop>
-                                                            };
-                                                            $(document).ready(function () {
-                                                                var collectionsource = [
-                                                                    <cfset comma="">
-                                                                    <cfloop query="ctCollection">
-                                                                        #comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
-                                                                        <cfset comma=",">
-                                                                    </cfloop>
-                                                                ];
-                                                                $("##keywordCollection").jqxComboBox({ 
-                                                                    source: collectionsource, 
-                                                                    displayMember:"name", 
-                                                                    valueMember:"cde", 
-                                                                    multiSelect: true, 
-                                                                    height: '24px', 
-                                                                    width: '100%' 
-                                                                });
-                                                                $("##dropdownlistArrowkeywordCollection").attr("aria-label", "Open collection list");
-                                                                $("##dropdownlistArrowkeywordCollection .jqx-icon-arrow-down .jqx-icon")
-                                                                    .attr("aria-hidden","true");
-                                                                setKeywordCollectionValues();
-                                                            });
-                                                        </script> 
-                                                    </label>
+													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
+													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
+													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
+													<cfset collection_array = ListToArray(collection_cde)>
+													<script>
+														function setKeywordCollectionValues() {
+															$('##keywordCollection').jqxComboBox('clearSelection');
+															<cfloop query="ctCollection">
+																<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+																	$("##keywordCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
+																</cfif>
+															</cfloop>
+														};
+														$(document).ready(function () {
+															var collectionsource = [
+																<cfset comma="">
+																<cfloop query="ctCollection">
+																	#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+																	<cfset comma=",">
+																</cfloop>
+															];
+															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '24px', width: '100%' });
+															setKeywordCollectionValues();
+														});
+													</script> 
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<cfset searchCollClasses = "col-sm-5 col-md-5 col-xl-7">
@@ -2063,22 +2031,6 @@ Target JSON:
 								</div>
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
-                                            function fixBuilderGridHeaders() {
-  // In CFML, ## becomes ## in the rendered JS
-  $('##buildersearchResultsGrid .jqx-grid-column-header[role="columnheader"]').each(function () {
-    var $th = $(this);
-    var hasText       = $th.text().trim().length > 0;
-    var hasAriaLabel  = !!$th.attr("aria-label");
-    var hasLabelledBy = !!$th.attr("aria-labelledby");
-
-    if (!hasText && !hasAriaLabel && !hasLabelledBy) {
-      // If this header is just for spacing/row-details, hide it from AT:
-      $th.attr("aria-hidden", "true").removeAttr("role");
-      // If you decide it *is* meaningful, instead of hiding it, do:
-      // $th.attr("aria-label", "Select rows");
-    }
-  });
-}
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
@@ -2181,9 +2133,9 @@ Target JSON:
 														<output id="nestingFeedback"></output>
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
+														<label for="openParens1" class="data-entry-label">&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
-														<select id="openParens1" aria-labelledby="openParens1Label" name="openParens1" class="data-entry-select">
+														<select id="openParens1" name="openParens1" class="data-entry-select">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif openParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2197,7 +2149,6 @@ Target JSON:
 															<cfif openParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="5" #selected#>(((((</option>
 														</select>
-                                                        </label>
 													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="fields_result">
@@ -2228,61 +2179,53 @@ Target JSON:
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" id="field1Label" class="data-entry-label">Search Field
-                                                            <cfif not isDefined("field1")><cfset field1=""></cfif>
-                                                            <select title="Select Field to search..." aria-labelledby="field1Label" id="field1" class="data-entry-select" required>
-                                                                <cfif len(field1) EQ 0>
-                                                                    <optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
-                                                                </cfif>
-                                                                <cfset category = "">
-                                                                <cfset optgroupOpen = false>
-                                                                <cfloop query="fields">
-                                                                    <cfif category NEQ fields.search_category>
-                                                                        <cfif optgroupOpen>
-                                                                            </optgroup>
-                                                                            <cfset optgroupOpen = false>
-                                                                        </cfif>
-                                                                        <optgroup label="#fields.search_category#">
-                                                                        <cfset optgroupOpen = true>
-                                                                        <cfset category = fields.search_category>
-                                                                    </cfif>
-                                                                    <cfif field1 EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                    <option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#) #fields.comments#</option>
-                                                                </cfloop>
-                                                                <cfif optgroupOpen>
-                                                                    </optgroup>
-                                                                </cfif>
-                                                            </select>
-                                                            <script>
-                                                                $(document).ready(function() { 
-                                                                    $('##field1').jqxComboBox({
-                                                                        autoComplete: true,
-                                                                        searchMode: 'containsignorecase',
-                                                                        width: '100%',
-                                                                        dropDownHeight: 400
-                                                                    });
-                                                                     $('##field1')
-                                                                        .attr('role', 'combobox')
-                                                                       // .attr('aria','')
-                                                                        .attr('aria-haspopup', 'listbox');
-                                                                    // bind an autocomplete, if one applies
-                                                                    handleFieldSetup('field1',1);
-                                                                    console.log("field1 setup");
-                                                                    $('##field1').on("select", function(event) { 
-                                                                        handleFieldSelection('field1',1);
-                                                                    });
-                                                                    $("##dropdownlistArrowfield1").attr("aria-label", "Open collection list");
-                                                                    $("##dropdownlistArrowfield1 .jqx-icon-arrow-down .jqx-icon").attr("aria-hidden","true");
-                                                                    var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
-                                                                    if (selectedIndex<1) {
-                                                                        // hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
-                                                                        // forcing clearSelection so that first action on field1 will triggers select event.
-                                                                        $('##field1').jqxComboBox('clearSelection');
-                                                                        
-                                                                    }
-                                                                });
-                                                            </script>
-                                                        </label>
+														<label for="field1" class="data-entry-label">Search Field</label>
+														<cfif not isDefined("field1")><cfset field1=""></cfif>
+														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
+															<cfif len(field1) EQ 0>
+																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
+															</cfif>
+															<cfset category = "">
+															<cfset optgroupOpen = false>
+															<cfloop query="fields">
+																<cfif category NEQ fields.search_category>
+																	<cfif optgroupOpen>
+																		</optgroup>
+																		<cfset optgroupOpen = false>
+																	</cfif>
+																	<optgroup label="#fields.search_category#">
+																	<cfset optgroupOpen = true>
+																	<cfset category = fields.search_category>
+																</cfif>
+																<cfif field1 EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#) #fields.comments#</option>
+															</cfloop>
+															<cfif optgroupOpen>
+																</optgroup>
+															</cfif>
+														</select>
+														<script>
+															$(document).ready(function() { 
+																$('##field1').jqxComboBox({
+																	autoComplete: true,
+																	searchMode: 'containsignorecase',
+																	width: '100%',
+																	dropDownHeight: 400
+																});
+																// bind an autocomplete, if one applies
+																handleFieldSetup('field1',1);
+																console.log("field1 setup");
+																$('##field1').on("select", function(event) { 
+																	handleFieldSelection('field1',1);
+																});
+																var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
+																if (selectedIndex<1) {
+																	// hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
+																	// forcing clearSelection so that first action on field1 will triggers select event.
+																	$('##field1').jqxComboBox('clearSelection');
+																}
+															});
+														</script>
 													</div>
 													<div class="col-12 col-md-3">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
@@ -2293,23 +2236,22 @@ Target JSON:
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="closeParens1" id="closeParens1Label" class="data-entry-label"><span class="sr-only">Number of closing parentheses</span>&nbsp;
-                                                            <cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
-                                                            <select name="closeParens1" id="closeParens1" class="data-entry-select">
-                                                                <cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option value="0" #selected#></option>
-                                                                <cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option value="1" #selected#>)</option>
-                                                                <cfif closeParens1 EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option value="2" #selected#>))</option>
-                                                                <cfif closeParens1 EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option value="3" #selected#>)))</option>
-                                                                <cfif closeParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option value="4" ##>))))</option>
-                                                                <cfif closeParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option value="5" ##>)))))</option>
-                                                            </select>
-                                                        </label>
+														<label class="data-entry-label" for="closeParens1">&nbsp;</label>
+														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
+														<select name="closeParens1" id="closeParens1" class="data-entry-select">
+															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="0" #selected#></option>
+															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="1" #selected#>)</option>
+															<cfif closeParens1 EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="2" #selected#>))</option>
+															<cfif closeParens1 EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="3" #selected#>)))</option>
+															<cfif closeParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="4" ##>))))</option>
+															<cfif closeParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="5" ##>)))))</option>
+														</select>
 													</div>
 													<script> 
 														$(document).ready(function(){
@@ -2355,22 +2297,20 @@ Target JSON:
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-                                                                    <label id="openParensLabel#row#" class="data-entry-label" for="openParens1">
-                                                                        <select id="openParens#row#" aria-labelledby="openParensLabel#row#" name="openParens#row#" class="data-entry-select">
-                                                                            <cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                            <option value="0" #selected#></option>
-                                                                            <cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                            <option value="1" #selected#>(</option>
-                                                                            <cfif openParens EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                            <option value="2" #selected#>((</option>
-                                                                            <cfif openParens EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                            <option value="3" #selected#>(((</option>
-                                                                            <cfif openParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                            <option value="4" #selected#>((((</option>
-                                                                            <cfif openParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                            <option value=5" #selected#>(((((</option>
-                                                                        </select>
-                                                                    </label>
+																	<select id="openParens#row#" name="openParens#row#" class="data-entry-select">
+																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="0" #selected#></option>
+																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="1" #selected#>(</option>
+																		<cfif openParens EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="2" #selected#>((</option>
+																		<cfif openParens EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="3" #selected#>(((</option>
+																		<cfif openParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="4" #selected#>((((</option>
+																		<cfif openParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value=5" #selected#>(((((</option>
+																	</select>
 																</div>
 																<!--- " --->
 																<div class="col-12 col-md-4">
@@ -2651,7 +2591,7 @@ Target JSON:
 													</cfif>
 													<span id="builderremoveButtonDiv" class=""></span>
 													<div id="builderresultBMMapLinkContainer"></div>
-													<div id="builderselectModeContainer" class="ml-3 my-1" style="display: none;" >
+													<div id="builderselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function builderchangeSelectMode(){
 																var selmode = $("##builderselectMode").val();
@@ -2663,20 +2603,19 @@ Target JSON:
 																}
 															};
 														</script>
-														<label class="data-entry-label d-inline w-auto mt-1" id="builderselectModeLabel" for="builderselectMode">Grid Select:
-                                                            <select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="builderchangeSelectMode();" aria-labelledby="builderselectModeLabel">
-                                                                <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option #selected# value="none">Text</option>
-                                                                <cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option #selected# value="singlecell">Single Cell</option>
-                                                                <cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option #selected# value="singlerow">Single Row</option>
-                                                                <cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
-                                                                <cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                                                <option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
-                                                            </select>
-                                                        </label>
+														<label class="data-entry-label d-inline w-auto mt-1" for="builderselectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="builderchangeSelectMode();">
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
+															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlecell">Single Cell</option>
+															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlerow">Single Row</option>
+															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+														</select>
 													</div>
 													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output> 
 												</div>
@@ -4005,9 +3944,7 @@ Target JSON:
 
 				$("##overlay").show();
 		
-				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" role="grid" aria-label="Specimen search results"'+
-                ' style="z-index: 1;"></div>'
-                );
+				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##builderresultCount").html("");
 				$("##builderresultLink").html("");
 				$("##buildershowhide").html("");
@@ -4117,13 +4054,9 @@ Target JSON:
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
-						 $("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
-                        $("##buildersearchResultsGrid").jqxGrid('focus');
-
-                        // Correct jQuery chain (no braces):
-                        $('.jqx-grid-column-header[role="columnheader"]').eq(0)
-                          .attr('aria-label', 'Select rows');
-                    },
+						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
+						$("##buildersearchResultsGrid").jqxGrid('focus');
+					},
 					rendergridrows: function () {
 						return dataAdapter.records;
 					},
@@ -4186,8 +4119,6 @@ Target JSON:
 						builderSearchLoaded = 1;
 						loadColumnOrder('buildersearchResultsGrid');
 					}
-                    
-                    fixBuilderGridHeaders();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<cfset addedIDs =  "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
