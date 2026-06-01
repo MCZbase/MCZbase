@@ -440,7 +440,7 @@ limitations under the License.
 												</div>	
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
-														<label for="fixedCollection" class="data-entry-label small">Collection
+														<label for="fixedCollection" class="data-entry-label smaller font-weight-bold">Collection
 														    <div name="collection" id="fixedCollection" class="w-100"></div>
 														    <cfif not isdefined("collection")><cfset collection=""></cfif>
 														    <cfset collection_array = ListToArray(collection)>
@@ -469,7 +469,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-														<label for="catalogNum" class="data-entry-label small">Catalog Number</label>
+														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number</label>
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -482,7 +482,7 @@ limitations under the License.
 													</cfif>
 													<div class="col-12 mb-1 #other_id_type_cols#">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label small">Other ID Type
+														<label for="otherID" class="data-entry-label smaller font-weight-bold">Other ID Type
                                                             <div name="other_id_type" id="other_id_type" class="w-100"></div>
                                                             <cfset otheridtype_array = ListToArray(other_id_type)>
                                                             <script>
@@ -592,7 +592,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-1 text-left text-dark mb-0">
-														<h2 class="small mb-0 mx-0 px-2 px-xl-0 mx-xl-0 d-block text-black bg-teal border-top border-right border-left border-bottom font-weight-bold">Taxonomy</h2>
+														<h2 class="small mb-0 mx-0 px-2 px-xl-2 mx-xl-0 d-block text-black bg-teal border-top border-right border-left border-bottom font-weight-bold">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -601,12 +601,12 @@ limitations under the License.
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
-																<label for="any_taxa_term" class="data-entry-label small">Any Taxonomic Element</label>
+																<label for="any_taxa_term" class="data-entry-label smaller font-weight-bold">Any Taxonomic Element</label>
 																<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 															</div>
 															<div class="col-3">
 																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
-																<label for="current_id_only" class="data-entry-label small">Search</label>
+																<label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search</label>
 																<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small px-0">
 																	<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 																	<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
@@ -617,7 +617,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div class="col-12 mb-1 col-md-3">
-														<label for="scientific_name" class="data-entry-label small">Scientific Name</label>
+														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
 														<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
@@ -641,7 +641,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 mb-1 col-md-3">
-														<label for="author_text" class="data-entry-label small">Authorship</label>
+														<label for="author_text" class="data-entry-label smaller font-weight-bold">Authorship</label>
 														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
 														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
 														<script>
@@ -651,7 +651,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 mb-1 col-md-2">
-														<label for="type_status" class="data-entry-label small">Type Status/Citation
+														<label for="type_status" class="data-entry-label smaller font-weight-bold">Type Status/Citation
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
 														<cfif not isdefined("type_status")><cfset type_status=""></cfif>
@@ -667,7 +667,7 @@ limitations under the License.
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
-																<label for="phylum" class="data-entry-label small">Phylum
+																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
