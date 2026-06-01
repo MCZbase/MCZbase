@@ -469,7 +469,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number</label>
+														<label for="catalogNum" class="data-entry-label pb-1 smaller font-weight-bold">Catalog Number</label>
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -482,7 +482,7 @@ limitations under the License.
 													</cfif>
 													<div class="col-12 mb-1 #other_id_type_cols#">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label smaller font-weight-bold">Other ID Type
+														<label for="otherID" class="data-entry-label smaller pb-1 font-weight-bold">Other ID Type
                                                             <div name="other_id_type" id="other_id_type" class="w-100"></div>
                                                             <cfset otheridtype_array = ListToArray(other_id_type)>
                                                             <script>
@@ -510,7 +510,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 #other_id_number_cols#">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
-														<label for="other_id_number" class="data-entry-label small">Other ID Numbers</label>
+														<label for="other_id_number" class="data-entry-label smaller font-weight-bold">Other ID Numbers</label>
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -679,7 +679,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="phylclass" class="data-entry-label small">Class</label>
+																<label for="phylclass" class="data-entry-label smaller font-weight-bold">Class</label>
 																<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
 																<input id="phylclass" name="phylclass" class="data-entry-input inputHeight" value="#encodeForHtml(phylclass)#" >
 																<script>
@@ -689,7 +689,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="phylorder" class="data-entry-label small">Order</label>
+																<label for="phylorder" class="data-entry-label smaller font-weight-bold">Order</label>
 																<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
 																<input id="phylorder" name="phylorder" class="data-entry-input inputHeight" value="#encodeForHtml(phylorder)#" >
 																<script>
@@ -699,7 +699,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="family" class="data-entry-label small">Family</label>
+																<label for="family" class="data-entry-label smaller font-weight-bold">Family</label>
 																<cfif not isdefined("family")><cfset family=""></cfif>
 																<input type="text" id="family" name="family" class="data-entry-input inputHeight" value="#encodeForHtml(family)#" >
 																<script>
@@ -709,7 +709,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="genus" class="data-entry-label small">Genus</label>
+																<label for="genus" class="data-entry-label smaller font-weight-bold">Genus</label>
 																<cfif not isdefined("genus")><cfset genus=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
 																<script>
