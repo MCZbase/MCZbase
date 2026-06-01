@@ -2465,9 +2465,9 @@ Target JSON:
 													var row = $("##builderMaxRows").val();
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
-													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
+													newControls = newControls + '<div class="col-6 col-md-1">&nbsp;(&nbsp;)';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<div class="col-6 col-md-1">';
 													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
@@ -2504,7 +2504,7 @@ Target JSON:
 													newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<div class="col-6 col-md-1">';
 													newControls = newControls + '<select name="closeParens'+row+'" id="closeParens'+row+'" class="data-entry-select">';
 													newControls = newControls + '<option value="0"></option><option value="1">)</option>';
 													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
