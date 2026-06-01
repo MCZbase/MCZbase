@@ -63,7 +63,7 @@
 								</cfloop>
 							</tbody>
 						</table>
-						<form name="go" method="post" action="/Admin/killBadAgentDups.cfm">
+						<form name="go" method="post" action="killBadAgentDups.cfm">
 							<input type="hidden" name="action" value="doIt">
 							<input type="submit" value="Make the Changes" class="btn btn-danger">
 						</form>
