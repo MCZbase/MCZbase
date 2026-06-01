@@ -28,7 +28,7 @@
 			JOIN agent on agent_name.agent_id = agent.agent_id 
 			LEFT JOIN person on agent.agent_id = person.person_id 
 		WHERE
-			<cfif isDefined("url.formName") AND url.formName EQ "DataEntry" and isdefined("url.agentName") and REMatch("^[0-9]+$",url.agentName)>
+			<cfif isDefined("url.formName") AND ucase(url.formName) EQ "DATAENTRY" and isdefined("url.agentName") and REMatch("^[0-9]+$",url.agentName)>
 				preferred_agent_name.agent_id = <cfqueryparam value="#url.agentName#" cfsqltype="CF_SQL_DECIMAL">
 			<cfelse>
 				UPPER(agent_name.agent_name) LIKE <cfqueryparam value="%#ucase(agent_name)#%" cfsqltype="CF_SQL_VARCHAR">
@@ -42,7 +42,7 @@
 
 	<cfif #getAgentId.recordcount# is 1>
 		<cfoutput>
-			<cfif isDefined("url.formName") AND url.formName EQ "DataEntry" and isdefined("url.agentName") AND REMatch("^[0-9]+$",url.agentName)>
+			<cfif isDefined("url.formName") AND ucase(url.formName) EQ "DATAENTRY" and isdefined("url.agentName") AND REMatch("^[0-9]+$",url.agentName)>
 				<cfset thisName = #replace(getAgentId.agent_id,"'","\'","all")#>
 			<cfelse>
 				<cfset thisName = #replace(getAgentId.agent_name,"'","\'","all")#>
