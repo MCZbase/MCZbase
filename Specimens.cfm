@@ -2329,7 +2329,8 @@ Target JSON:
 													</div>
                                                     <div class="col-12 col-md-1">&nbsp;</div>
 												</div>
-												<cfif builderMaxRows GT 1>
+												<cfif builderMaxRows GT 1> 
+                                                <div class="form-row mx-0 mb-1">
 													<cfset parenOpen = 0>
                                                     <div class="col-md-auto">&nbsp;</div>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
@@ -2450,6 +2451,7 @@ Target JSON:
 															</div>
 														</cfif>
 													</cfloop>
+                                                </div>
 												</cfif>
 							
 											</div><!--- end customFields: new form rows get appended here --->
