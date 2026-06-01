@@ -2172,11 +2172,13 @@ Target JSON:
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
-												<div class="form-row mx-3 ml-auto mb-2">
+												<div class="form-row mx-3 mb-2">
 													<div class="col-12 py-3">
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-1 mx-2 col-12 col-md-1 float-left" target="_self" href="javascript:void(0);">Add</a>
                                                         <div class="col-12 col-md-9 float-left"><output id="nestingFeedback"></output></div>
 													</div>
+                                                </div>
+                                                <div class="form-row mx-3 mb-2">
                                                     <div class="col-12 col-md-1">&nbsp;</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
@@ -2328,7 +2330,7 @@ Target JSON:
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfset parenOpen = 0>
-													<cfloop index="row" from="1" to="#builderMaxRows#">
+													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mx-3 mb-2" id="builderRow#row#">
 															
