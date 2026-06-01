@@ -2178,7 +2178,8 @@ Target JSON:
                                                         <div class="col-12 col-md-9 float-left"><output id="nestingFeedback"></output></div>
 													</div>
                                                 </div>
-                                                <div class="form-row mx-0 mb-2">
+                                             </div>
+                                            <div class="form-row mx-0 mb-2">
                                                     <div class="col-12 col-md-1 px-3">&nbsp;</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
@@ -2451,7 +2452,6 @@ Target JSON:
 													</cfloop>
                                                 </div>
 												</cfif>
-							
 											</div><!--- end customFields: new form rows get appended here --->
                                             <script>
                                                 function removeBuilderRow(row) {
