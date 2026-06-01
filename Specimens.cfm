@@ -2064,21 +2064,20 @@ Target JSON:
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
                                             function fixBuilderGridHeaders() {
-  // In CFML, ## becomes ## in the rendered JS
-  $('##buildersearchResultsGrid .jqx-grid-column-header[role="columnheader"]').each(function () {
-    var $th = $(this);
-    var hasText       = $th.text().trim().length > 0;
-    var hasAriaLabel  = !!$th.attr("aria-label");
-    var hasLabelledBy = !!$th.attr("aria-labelledby");
+                                              $('##buildersearchResultsGrid .jqx-grid-column-header[role="columnheader"]').each(function () {
+                                                var $th = $(this);
+                                                var hasText       = $th.text().trim().length > 0;
+                                                var hasAriaLabel  = !!$th.attr("aria-label");
+                                                var hasLabelledBy = !!$th.attr("aria-labelledby");
 
-    if (!hasText && !hasAriaLabel && !hasLabelledBy) {
-      // If this header is just for spacing/row-details, hide it from AT:
-      $th.attr("aria-hidden", "true").removeAttr("role");
-      // If you decide it *is* meaningful, instead of hiding it, do:
-      // $th.attr("aria-label", "Select rows");
-    }
-  });
-}
+                                                if (!hasText && !hasAriaLabel && !hasLabelledBy) {
+                                                  // If this header is just for spacing/row-details, hide it from AT:
+                                                  $th.attr("aria-hidden", "true").removeAttr("role");
+                                                  // If you decide it *is* meaningful, instead of hiding it, do:
+                                                  // $th.attr("aria-label", "Select rows");
+                                                }
+                                              });
+                                            }
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
@@ -2174,8 +2173,8 @@ Target JSON:
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mx-3 mb-2">
-													<div class="col-12 col-md-1 pt-3">
-														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+													<div class="col-12 pt-3">
+														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mx-2 col-12 col-md-1" target="_self" href="javascript:void(0);">Add</a>
                                                         <span class="col-12 col-md-11"><output id="nestingFeedback"></output></span>
 													</div>
 													<div class="col-12 col-md-1">
@@ -2452,162 +2451,160 @@ Target JSON:
 												</cfif>
 							
 											</div><!--- end customFields: new form rows get appended here --->
-											<script>
-												function removeBuilderRow(row) {
-													$("##builderRow"+row).remove();
-													isNestingOk(); 
-												} 
-												function isNestingOk() { 
-													$('##nestingFeedback').html("");		
-													$('##nestingFeedback').removeClass('text-danger');
-													var result = false;
-													var countOpen = 0;
-													var countClose = 0;
-													var rows = $("##builderMaxRows").val();
-													rows = parseInt(rows);
-													for (row=1; row<=rows; row++) { 
-														if (row && $('##openParens'+row).length) { 
-															countOpen = countOpen + parseInt($('##openParens'+row).val());
-															countClose = countClose + parseInt($('##closeParens'+row).val());
-														}
-													}
-													if (countOpen==countClose) { 
-														console.log("Parenthesies counts match.");
-														const parens = new Array();
-														var nestOrderOk = true;
-														var errorText = "";
-														for (row=1; row<=rows; row++) { 
-															var open = parseInt($('##openParens'+row).val());
-															var close = parseInt($('##closeParens'+row).val());
-															if (open>0) { 
-																for (i=1; i<= open; i++) { 
-																	parens.push("(");
-																}
-															}
-															if (close>0) {
-																for (i=1; i<= close; i++) { 
-																	if (parens.length > 0) { 
-																		parens.pop();
-																	} else { 
-																		console.log("Error in nesting of parenthesies, all opens consumed.");
-																		errorText = "( without )";
-																		nestOrderOk = false;
-																	}
-																}  
-															}  
-														} 
-														if (parens.length > 0) { 
-															console.log("Error in nesting of parenthesies, remaining open.");
-															errorText = ") without (";
-															nestOrderOk = false;
-														}
-														if (nestOrderOk) { 
-															console.log("Parenthesies nest.");
-															result = true;
-															$('##searchbuilder-search').prop("disabled",false);
-														}  else { 
-															$('##nestingFeedback').html("nesting error "+errorText);		
-															$('##nestingFeedback').addClass('text-danger');
-															$('##searchbuilder-search').prop("disabled",true);
-															result=false;
-														} 
-													} else { 
-														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
-														$('##nestingFeedback').html("open " + countOpen + " ( but close " + countClose + " )");		
-														$('##nestingFeedback').addClass('text-danger');
-														$('##searchbuilder-search').prop("disabled",true);
-													} 
-													return result;
-												}
-												function addBuilderRow() { 
-													var row = $("##builderMaxRows").val();
-													row = parseInt(row) + 1;
-													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
-													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
-													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
-													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
-													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
-													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
-													newControls = newControls + '<option value="4">((((</option>';
-													newControls = newControls + '<option value="5">(((((</option>';
-													newControls = newControls + '</select>';
-													newControls = newControls + '</div>';
-													newControls= newControls + '<div class="col-12 col-md-4">';
-													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
-													newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
-													<cfset category = "">
-													<cfset optgroupOpen = false>
-													<cfloop query="fields">
-														<cfif category NEQ fields.search_category>
-															<cfif optgroupOpen>
-																newControls = newControls + '</optgroup>';
-																<cfset optgroupOpen = false>
-															</cfif>
-															newControls = newControls + '<optgroup label="#fields.search_category#">';
-															<cfset optgroupOpen = true>
-															<cfset category = fields.search_category>
-														</cfif>
-														newControls = newControls + '<option value="#fields.table_name#:#fields.column_alias#">#fields.label# (#fields.search_category#:#fields.table_name#)</option>';
-													</cfloop>
-													<cfif optgroupOpen>
-														newControls = newControls + '</optgroup>';
-													</cfif>
-													newControls = newControls + '</select>';
-													newControls= newControls + '</div>';
-													newControls= newControls + '<div class="col-12 col-md-3">';
-													newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
-													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
-													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<select name="closeParens'+row+'" id="closeParens'+row+'" class="data-entry-select">';
-													newControls = newControls + '<option value="0"></option><option value="1">)</option>';
-													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
-													newControls = newControls + '<option value="4">))))</option>';
-													newControls = newControls + '<option value="5">)))))</option>';
-													newControls = newControls + '</select>';
-													newControls= newControls + '</div>';
-													newControls= newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<button type="button" onclick=" removeBuilderRow(' + row + ');" arial-label="remove this row from the builder" class="btn btn-xs px-3 btn-warning mr-auto">Remove</button>';
-													newControls = newControls + '</div>';
-													newControls = newControls + '</div>';
-													$("##customFields").append(newControls);
-													$("##builderMaxRows").val(row);
-													$('##field' + row).jqxComboBox({
-														autoComplete: true,
-														searchMode: 'containsignorecase',
-														width: '100%',
-														dropDownHeight: 400
-													});
-													var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
-													$('##field'+row).on("change", function(event) { 
-														var handleSelect = new Function(handleSelectString);
-														handleSelect();
-													});
-													$('##openParens'+row).on("change", function(event) { isNestingOk(); } )
-													$('##closeParens'+row).on("change", function(event) { isNestingOk(); } )
-												};
-												$(document).ready(function(){
-													$("##addRowButton").click(function(){
-													   addBuilderRow();
-													});
-												});
-											</script>
-										</div>
-										<div class="form-row mx-3 mb-3">
-											<div class="col-12">
-												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
-												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
-												
-											</div>
-										</div>
-									</form>
+                                            <script>
+                                                function removeBuilderRow(row) {
+                                                    $("##builderRow"+row).remove();
+                                                    isNestingOk(); 
+                                                } 
+                                                function isNestingOk() { 
+                                                    $('##nestingFeedback').html("");		
+                                                    $('##nestingFeedback').removeClass('text-danger');
+                                                    var result = false;
+                                                    var countOpen = 0;
+                                                    var countClose = 0;
+                                                    var rows = $("##builderMaxRows").val();
+                                                    rows = parseInt(rows);
+                                                    for (row=1; row<=rows; row++) { 
+                                                        if (row && $('##openParens'+row).length) { 
+                                                            countOpen = countOpen + parseInt($('##openParens'+row).val());
+                                                            countClose = countClose + parseInt($('##closeParens'+row).val());
+                                                        }
+                                                    }
+                                                    if (countOpen==countClose) { 
+                                                        console.log("Parenthesies counts match.");
+                                                        const parens = new Array();
+                                                        var nestOrderOk = true;
+                                                        var errorText = "";
+                                                        for (row=1; row<=rows; row++) { 
+                                                            var open = parseInt($('##openParens'+row).val());
+                                                            var close = parseInt($('##closeParens'+row).val());
+                                                            if (open>0) { 
+                                                                for (i=1; i<= open; i++) { 
+                                                                    parens.push("(");
+                                                                }
+                                                            }
+                                                            if (close>0) {
+                                                                for (i=1; i<= close; i++) { 
+                                                                    if (parens.length > 0) { 
+                                                                        parens.pop();
+                                                                    } else { 
+                                                                        console.log("Error in nesting of parenthesies, all opens consumed.");
+                                                                        errorText = "( without )";
+                                                                        nestOrderOk = false;
+                                                                    }
+                                                                }  
+                                                            }  
+                                                        } 
+                                                        if (parens.length > 0) { 
+                                                            console.log("Error in nesting of parenthesies, remaining open.");
+                                                            errorText = ") without (";
+                                                            nestOrderOk = false;
+                                                        }
+                                                        if (nestOrderOk) { 
+                                                            console.log("Parenthesies nest.");
+                                                            result = true;
+                                                            $('##searchbuilder-search').prop("disabled",false);
+                                                        }  else { 
+                                                            $('##nestingFeedback').html("nesting error "+errorText);		
+                                                            $('##nestingFeedback').addClass('text-danger');
+                                                            $('##searchbuilder-search').prop("disabled",true);
+                                                            result=false;
+                                                        } 
+                                                    } else { 
+                                                        console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
+                                                        $('##nestingFeedback').html("open " + countOpen + " ( but close " + countClose + " )");		
+                                                        $('##nestingFeedback').addClass('text-danger');
+                                                        $('##searchbuilder-search').prop("disabled",true);
+                                                    } 
+                                                    return result;
+                                                }
+                                                function addBuilderRow() { 
+                                                    var row = $("##builderMaxRows").val();
+                                                    row = parseInt(row) + 1;
+                                                    var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
+                                                    newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
+                                                    newControls = newControls + '</div>';
+                                                    newControls = newControls + '<div class="col-12 col-md-1">';
+                                                    newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
+                                                    newControls = newControls + '</div>';
+                                                    newControls = newControls + '<div class="col-12 col-md-1">';
+                                                    newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
+                                                    newControls = newControls + '<option value="0"></option><option value="1">(</option>';
+                                                    newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
+                                                    newControls = newControls + '<option value="4">((((</option>';
+                                                    newControls = newControls + '<option value="5">(((((</option>';
+                                                    newControls = newControls + '</select>';
+                                                    newControls = newControls + '</div>';
+                                                    newControls= newControls + '<div class="col-12 col-md-4">';
+                                                    newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
+                                                    newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
+                                                    <cfset category = "">
+                                                    <cfset optgroupOpen = false>
+                                                    <cfloop query="fields">
+                                                        <cfif category NEQ fields.search_category>
+                                                            <cfif optgroupOpen>
+                                                                newControls = newControls + '</optgroup>';
+                                                                <cfset optgroupOpen = false>
+                                                            </cfif>
+                                                            newControls = newControls + '<optgroup label="#fields.search_category#">';
+                                                            <cfset optgroupOpen = true>
+                                                            <cfset category = fields.search_category>
+                                                        </cfif>
+                                                        newControls = newControls + '<option value="#fields.table_name#:#fields.column_alias#">#fields.label# (#fields.search_category#:#fields.table_name#)</option>';
+                                                    </cfloop>
+                                                    <cfif optgroupOpen>
+                                                        newControls = newControls + '</optgroup>';
+                                                    </cfif>
+                                                    newControls = newControls + '</select>';
+                                                    newControls= newControls + '</div>';
+                                                    newControls= newControls + '<div class="col-12 col-md-3">';
+                                                    newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
+                                                    newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
+                                                    newControls = newControls + '</div>';
+                                                    newControls = newControls + '<div class="col-12 col-md-1">';
+                                                    newControls = newControls + '<select name="closeParens'+row+'" id="closeParens'+row+'" class="data-entry-select">';
+                                                    newControls = newControls + '<option value="0"></option><option value="1">)</option>';
+                                                    newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
+                                                    newControls = newControls + '<option value="4">))))</option>';
+                                                    newControls = newControls + '<option value="5">)))))</option>';
+                                                    newControls = newControls + '</select>';
+                                                    newControls= newControls + '</div>';
+                                                    newControls= newControls + '<div class="col-12 col-md-1">';
+                                                    newControls = newControls + '<button type="button" onclick=" removeBuilderRow(' + row + ');" arial-label="remove this row from the builder" class="btn btn-xs px-3 btn-warning mr-auto">Remove</button>';
+                                                    newControls = newControls + '</div>';
+                                                    newControls = newControls + '</div>';
+                                                    $("##customFields").append(newControls);
+                                                    $("##builderMaxRows").val(row);
+                                                    $('##field' + row).jqxComboBox({
+                                                        autoComplete: true,
+                                                        searchMode: 'containsignorecase',
+                                                        width: '100%',
+                                                        dropDownHeight: 400
+                                                    });
+                                                    var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
+                                                    $('##field'+row).on("change", function(event) { 
+                                                        var handleSelect = new Function(handleSelectString);
+                                                        handleSelect();
+                                                    });
+                                                    $('##openParens'+row).on("change", function(event) { isNestingOk(); } )
+                                                    $('##closeParens'+row).on("change", function(event) { isNestingOk(); } )
+                                                };
+                                                $(document).ready(function(){
+                                                    $("##addRowButton").click(function(){
+                                                       addBuilderRow();
+                                                    });
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="form-row mx-3 mb-3">
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+                                                <button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
+                                                <button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 
-
+                                            </div>
+                                        </div>
+                                    </form>
 								</div>
 								<!--- results for search builder search --->
 								<div class="container-fluid" id="builderSearchResultsSection" aria-live="polite">
