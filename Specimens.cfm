@@ -469,8 +469,9 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 px-1 col-md-3">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number</label>
+														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
+                                                        </label>
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<!--- reserve space for debug json control --->
@@ -482,7 +483,7 @@ limitations under the License.
 													</cfif>
 													<div class="col-12 mb-1 #other_id_type_cols#">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label smaller pb-1 font-weight-bold">Other ID Type
+														<label for="otherID" class="data-entry-label smaller font-weight-bold">Other ID Type
                                                             <div name="other_id_type" id="other_id_type" class="w-100"></div>
                                                             <cfset otheridtype_array = ListToArray(other_id_type)>
                                                             <script>
@@ -510,8 +511,9 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 #other_id_number_cols# px-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
-														<label for="other_id_number" class="data-entry-label smaller font-weight-bold">Other ID Numbers</label>
-														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+														<label for="other_id_number" class="data-entry-label smaller font-weight-bold">Other ID Numbers
+														    <input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+                                                        </label>
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
