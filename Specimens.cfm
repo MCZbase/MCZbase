@@ -2179,6 +2179,7 @@ Target JSON:
 													</div>
                                                 </div>
                                                 <div class="form-row mx-0 mb-2">
+                                                    <div class="col-12 col-md-1 mx-0">&nbsp;</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
