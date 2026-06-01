@@ -2176,9 +2176,10 @@ Target JSON:
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-1 pt-3">
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+                                                        <span class="col-12 col-md-11"><output id="nestingFeedback"></output></span>
 													</div>
 													<div class="col-12 small">
-														<output id="nestingFeedback"></output>
+														
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
