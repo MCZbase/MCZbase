@@ -2177,7 +2177,7 @@ Target JSON:
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-1 mx-2 col-12 col-md-1 float-left" target="_self" href="javascript:void(0);">Add</a>
                                                         <div class="col-12 col-md-9 float-left"><output id="nestingFeedback"></output></div>
 													</div>
-                                                    <div class="col-12 col-md-1"></div>
+                                                    <div class="col-12 col-md-1">&nbsp;</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
@@ -2331,9 +2331,7 @@ Target JSON:
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mx-3 mb-2" id="builderRow#row#">
-																<div class="col-12 col-md-1">
-																	&nbsp;
-																</div>
+															
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
