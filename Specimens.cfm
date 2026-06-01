@@ -2177,9 +2177,11 @@ Target JSON:
 													<div class="col-12 col-md-1 pt-3">
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
-											
+													<div class="col-12 small">
+														<output id="nestingFeedback"></output>
+													</div>
 													<div class="col-12 col-md-1">
-														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class=""><output id="nestingFeedback"></output></span>&nbsp;
+														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
 														<select id="openParens1" aria-labelledby="openParens1Label" name="openParens1" class="data-entry-select">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
