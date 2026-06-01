@@ -518,7 +518,7 @@ limitations under the License.
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
 															<label class="data-entry-label smaller font-weight-bold" for="debug1">Debug JSON
-                                                                <select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
+                                                                <select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
                                                                     <option value=""></option>
                                                                     <cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
                                                                     <option value="true" #selected#>Debug JSON</option>
@@ -604,54 +604,59 @@ limitations under the License.
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
-																<label for="any_taxa_term" class="data-entry-label smaller font-weight-bold">Any Taxonomic Element</label>
-																<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
+																<label for="any_taxa_term" class="data-entry-label smaller font-weight-bold">Any Taxonomic Element
+																    <input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
+                                                                </label>
 															</div>
 															<div class="col-3">
 																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
-																<label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search</label>
-																<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small px-0">
-																	<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
-																	<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
-																	<option value="any" #any_selected#>Any Id</option>
-																	<option value="current" #current_selected#>Current Id Only</option>
-																</select>
+																<label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search
+                                                                    <select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small px-0">
+                                                                        <cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
+                                                                        <cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
+                                                                        <option value="any" #any_selected#>Any Id</option>
+                                                                        <option value="current" #current_selected#>Current Id Only</option>
+                                                                    </select>
+                                                                </label>
+                                                    
 															</div>
 														</div>
 													</div>
 													<div class="col-12 mb-1 col-md-3">
-														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name</label>
-														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
-														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
-														<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
-															<!--- lookup scientific name --->
-															<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupTaxon_result">
-																SELECT scientific_name as sciname
-																FROM taxonomy
-																WHERE
-																	taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-															</cfquery>
-															<cfif lookupTaxon.recordcount EQ 1>
-																<cfset scientific_name = "=#lookupTaxon.sciname#">
-															</cfif>
-														</cfif>
-														<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input inputHeight" value="#encodeForHtml(scientific_name)#" >
-														<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#encodeForHtml(taxon_name_id)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
-															});
-														</script>
+														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name
+                                                            <cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
+                                                            <cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
+                                                            <cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
+                                                                <!--- lookup scientific name --->
+                                                                <cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupTaxon_result">
+                                                                    SELECT scientific_name as sciname
+                                                                    FROM taxonomy
+                                                                    WHERE
+                                                                        taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+                                                                </cfquery>
+                                                                <cfif lookupTaxon.recordcount EQ 1>
+                                                                    <cfset scientific_name = "=#lookupTaxon.sciname#">
+                                                                </cfif>
+                                                            </cfif>
+                                                            <input type="text" id="scientific_name" name="scientific_name" class="data-entry-input inputHeight" value="#encodeForHtml(scientific_name)#" >
+                                                            <input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#encodeForHtml(taxon_name_id)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 mb-1 col-md-3">
-														<label for="author_text" class="data-entry-label smaller font-weight-bold">Authorship</label>
-														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makeTaxonSearchAutocomplete('author_text','author_text');
-															});
-														</script>
+														<label for="author_text" class="data-entry-label smaller font-weight-bold">Authorship
+                                                            <cfif not isdefined("author_text")><cfset author_text=""></cfif>
+                                                            <input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeTaxonSearchAutocomplete('author_text','author_text');
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 mb-1 col-md-2">
 														<label for="type_status" class="data-entry-label smaller font-weight-bold">Type Status/Citation
