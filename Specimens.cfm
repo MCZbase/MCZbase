@@ -672,7 +672,7 @@ limitations under the License.
 													</div>
 													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 														
-													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-12 px-0 pt-2" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
