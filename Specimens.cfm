@@ -2173,7 +2173,7 @@ Target JSON:
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mx-3 mb-2">
-													<div class="col-12 py-3">
+													<div class="col-12 py-2">
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-1 mx-2 col-12 col-md-1 float-left" target="_self" href="javascript:void(0);">Add</a>
                                                         <div class="col-12 col-md-9 float-left"><output id="nestingFeedback"></output></div>
 													</div>
@@ -2332,7 +2332,7 @@ Target JSON:
 													<cfset parenOpen = 0>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
-															<div class="form-row mx-3 mb-2" id="builderRow#row#">
+															<div class="form-row mx-2 mb-2" id="builderRow#row#">
 															
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
