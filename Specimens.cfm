@@ -2171,7 +2171,7 @@ Target JSON:
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row mx-0">
-											<div class="mt-1 col-12 p-0 my-2" id="customFields">
+											<div class="mt-1 col-12 px-2 my-2" id="customFields">
 												<div class="form-row mx-0 mb-2">
 													<div class="col-12 py-2">
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-1 mx-2 col-12 col-md-1 float-left" target="_self" href="javascript:void(0);">Add</a>
