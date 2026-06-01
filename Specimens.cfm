@@ -2173,9 +2173,9 @@ Target JSON:
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mx-3 mb-2">
-													<div class="col-12 pt-3">
-														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mx-2 col-12 col-md-1 float-left" target="_self" href="javascript:void(0);">Add</a>
-                                                        <div class="col-12 col-md-11 float-left"><output id="nestingFeedback"></output></div>
+													<div class="col-12 py-3">
+														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-1 mx-2 col-12 col-md-1 float-left" target="_self" href="javascript:void(0);">Add</a>
+                                                        <div class="col-12 col-md-9 float-left"><output id="nestingFeedback"></output></div>
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
