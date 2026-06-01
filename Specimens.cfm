@@ -439,7 +439,7 @@ limitations under the License.
 													</div>
 												</div>	
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 mb-1 col-md-3 px-1">
 														<label for="fixedCollection" class="data-entry-label smaller font-weight-bold">Collection
 														    <div name="collection" id="fixedCollection" class="w-100"></div>
 														    <cfif not isdefined("collection")><cfset collection=""></cfif>
@@ -467,9 +467,9 @@ limitations under the License.
                                                             </script> 
                                                         </label>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 mb-1 px-1 col-md-3">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-														<label for="catalogNum" class="data-entry-label pb-1 smaller font-weight-bold">Catalog Number</label>
+														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number</label>
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -508,7 +508,7 @@ limitations under the License.
                                                             </script> 
                                                         </label>
 													</div>
-													<div class="col-12 mb-1 #other_id_number_cols#">
+													<div class="col-12 mb-1 #other_id_number_cols# px-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number" class="data-entry-label smaller font-weight-bold">Other ID Numbers</label>
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
