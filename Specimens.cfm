@@ -2173,13 +2173,10 @@ Target JSON:
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
-												<div class="form-row mb-2">
+												<div class="form-row mx-3 mb-2">
 													<div class="col-12 col-md-1 pt-3">
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
                                                         <span class="col-12 col-md-11"><output id="nestingFeedback"></output></span>
-													</div>
-													<div class="col-12 small">
-														
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
@@ -2333,7 +2330,7 @@ Target JSON:
 													<cfset parenOpen = 0>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
-															<div class="form-row mb-2" id="builderRow#row#">
+															<div class="form-row mx-3 mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
 																	&nbsp;
 																</div>
@@ -2509,14 +2506,14 @@ Target JSON:
 															result = true;
 															$('##searchbuilder-search').prop("disabled",false);
 														}  else { 
-															$('##nestingFeedback').html("nesting error<br>"+errorText);		
+															$('##nestingFeedback').html("nesting error "+errorText);		
 															$('##nestingFeedback').addClass('text-danger');
 															$('##searchbuilder-search').prop("disabled",true);
 															result=false;
 														} 
 													} else { 
 														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
-														$('##nestingFeedback').html("open " + countOpen + " ( but <br>close " + countClose + " )");		
+														$('##nestingFeedback').html("open " + countOpen + " ( but close " + countClose + " )");		
 														$('##nestingFeedback').addClass('text-danger');
 														$('##searchbuilder-search').prop("disabled",true);
 													} 
@@ -2600,7 +2597,7 @@ Target JSON:
 												});
 											</script>
 										</div>
-										<div class="form-row mb-3">
+										<div class="form-row mx-3 mb-3">
 											<div class="col-12">
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
 												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
