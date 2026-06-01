@@ -2179,7 +2179,7 @@ Target JSON:
 													</div>
                                                 </div>
                                                 <div class="form-row mx-0 mb-2">
-                                                    <div class="col-auto px-0">&nbsp;</div>
+                                                    <div class="col-12 col-md-1 px-0">&nbsp;</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
@@ -2333,7 +2333,7 @@ Target JSON:
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mx-0 mb-2" id="builderRow#row#">
-															
+															    <div class="col-12 col-md-auto px-0">&nbsp;</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
