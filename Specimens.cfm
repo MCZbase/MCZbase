@@ -2331,7 +2331,7 @@ Target JSON:
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfset parenOpen = 0>
-                                                    <div class="col-md-1">&nbsp;</div>
+                                                    <div class="col-md-auto">&nbsp;</div>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mx-0 mb-2" id="builderRow#row#">
