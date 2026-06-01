@@ -2327,6 +2327,7 @@ Target JSON:
 															</select>
 														</cfif>
 													</div>
+                                                    <div class="col-12 col-md-1">&nbsp;</div>
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfset parenOpen = 0>
