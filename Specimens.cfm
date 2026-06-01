@@ -2276,7 +2276,7 @@ Target JSON:
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
-																	&nbsp;
+																	&nbsp;(&nbsp;
 																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
