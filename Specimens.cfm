@@ -2179,7 +2179,6 @@ Target JSON:
 													</div>
                                                 </div>
                                                 <div class="form-row mx-0 mb-2">
-                                                    <div class="col-12 col-md-1 px-0">&nbsp;</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" id="openParens1Label" class="data-entry-label"><span class="sr-only">Number of opening parentheses</span>&nbsp;
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
@@ -2327,12 +2326,10 @@ Target JSON:
 															</select>
 														</cfif>
 													</div>
-                                                    <div class="col-12 col-md-1">&nbsp;</div>
 												</div>
 												<cfif builderMaxRows GT 1> 
                                                 <div class="form-row mx-0 mb-1">
 													<cfset parenOpen = 0>
-                                                    <div class="col-md-auto">&nbsp;</div>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mx-0 mb-2" id="builderRow#row#">
