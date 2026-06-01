@@ -2371,7 +2371,7 @@ Target JSON:
                                                                     </label>
 																</div>
 																<!--- " --->
-																<div class="col-12 col-md-4">
+																<div class="col-12 pr-0 col-md-4">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
@@ -2410,7 +2410,7 @@ Target JSON:
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3">
+																<div class="col-12 pl-0 col-md-3">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
