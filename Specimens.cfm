@@ -1897,7 +1897,7 @@ limitations under the License.
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pl-2">
+													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0">
 														<label class="data-entry-label" for="debug2">Debug</label>
 														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
 															<option value=""></option>
@@ -2133,7 +2133,7 @@ Target JSON:
 														<output id="nestingFeedback"></output>
 													</div>
 													<div class="col-6 col-md-1">
-														<label for="openParens1" class="data-entry-label">&nbsp;</label>
+														<label for="openParens1" class="data-entry-label">&nbsp;(&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
 														<select id="openParens1" name="openParens1" class="data-entry-select">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2235,8 +2235,8 @@ Target JSON:
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
-													<div class="col-12 col-md-1">
-														<label class="data-entry-label" for="closeParens1">&nbsp;</label>
+													<div class="col-6 col-md-1">
+														<label class="data-entry-label" for="closeParens1">&nbsp;)&nbsp;</label>
 														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
 														<select name="closeParens1" id="closeParens1" class="data-entry-select">
 															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
