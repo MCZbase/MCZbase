@@ -469,8 +469,8 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 px-1 col-md-3">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number
-														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
+														<label for="catalogNum" class="data-entry-label font-weight-bold">Catalog Number
+														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
                                                         </label>
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -517,12 +517,13 @@ limitations under the License.
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
-															<label class="data-entry-label small" for="debug1">Debug JSON</label>
-															<select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
-																<option value=""></option>
-																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-																<option value="true" #selected#>Debug JSON</option>
-															</select>
+															<label class="data-entry-label small" for="debug1">Debug JSON
+                                                                <select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
+                                                                    <option value=""></option>
+                                                                    <cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+                                                                    <option value="true" #selected#>Debug JSON</option>
+                                                                </select>
+                                                            </label>
 														</div>
 													</cfif>
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
