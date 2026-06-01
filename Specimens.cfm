@@ -2278,7 +2278,7 @@ Target JSON:
 																<div class="col-12 col-md-1">
 																	&nbsp;(&nbsp;
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-6 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
@@ -2291,7 +2291,7 @@ Target JSON:
 																		<option value="or" #orSel# >or</option>
 																	</select>
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-6 col-md-1">
 																	<cfif isDefined("openParens#row#")>
 																		<cfset openParens = Evaluate("openParens#row#")>
 																	<cfelse>
@@ -2313,7 +2313,7 @@ Target JSON:
 																	</select>
 																</div>
 																<!--- " --->
-																<div class="col-12 col-md-4">
+																<div class="col-6 col-md-4">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
@@ -2358,7 +2358,7 @@ Target JSON:
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-6 col-md-1">
 																	<cfif isDefined("closeParens#row#")>
 																		<cfset closeParens = Evaluate("closeParens#row#")>
 																	<cfelse>
