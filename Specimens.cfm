@@ -836,7 +836,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 border-top border-bottom border-right border-left d-block text-black bg-teal font-weight-bold">Geography</h2>
+														<h2 class="small mb-0 mx-0 px-2 mt-1 py-1 border-top border-bottom border-right border-left d-block text-black bg-teal font-weight-bold">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -1396,7 +1396,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mx-1 mx-xl-0 px-0 py-2 px-xl-2 text-left text-xl-right border-top border-right border-bottom border-left text-black bg-teal font-weight-bold">
+														<h2 class="small mx-1 mx-xl-0 px-0 mt-1 py-1 px-xl-2 text-left text-xl-right border-top border-right border-bottom border-left text-black bg-teal font-weight-bold">
 															General
 														</h2>
 													</div>
@@ -1494,7 +1494,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mx-1 mx-xl-0 px-0 py-2 px-xl-2 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
+														<h2 class="small mx-1 mx-xl-0 px-0 mt-1 py-1 px-xl-2 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
 															Transactions
 														</h2>
 													</div>
