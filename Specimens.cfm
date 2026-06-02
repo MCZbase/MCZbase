@@ -1393,7 +1393,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mb-0 mx-1 mx-xl-0 px-0 pt-2 px-2 bg-teal text-left text-xl-right text-black font-weight-bold">
+														<h2 class="small mb-0 mx-1 mx-xl-0 px-0 border-top border-right border-bottom border-left px-2 bg-teal text-left text-xl-right text-black font-weight-bold">
 															General
 														</h2>
 													</div>
