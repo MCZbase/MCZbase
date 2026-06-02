@@ -609,7 +609,7 @@ limitations under the License.
 																    <input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
                                                                 </label>
 															</div>
-															<div class="col-3">
+															<div class="col-3 px-1">
 																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 																<label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search
                                                                     <select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small95 px-0" style="color: rgba(0, 0, 0, .8);">
