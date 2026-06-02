@@ -526,7 +526,7 @@ limitations under the License.
                                                             </label>
 														</div>
 													</cfif>
-													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
@@ -670,7 +670,9 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none w-100 py-1 btn-link text-center btn small" onclick="toggleTaxaDetail(1)">
+                                                        <span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
+                                                    </button>
 														
 													<div id="TaxaDetail" class="col-12 px-0 pt-2" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
@@ -1224,7 +1226,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="SpecDetail" class="col-12 px-0" style="#SpecDetailStyle#">
