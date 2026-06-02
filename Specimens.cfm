@@ -432,7 +432,7 @@ limitations under the License.
 														
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 px-xl-2 d-block text-black bg-teal border-right border-top border-bottom border-left font-weight-bold">Identifiers</h2>
+														<h2 class="small mx-0 py-2 px-2 mx-xl-0 px-xl-2 d-block text-black bg-teal border-right border-top border-bottom border-left font-weight-bold">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -596,7 +596,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
+														<h2 class="small mx-0 py-2 px-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -1171,7 +1171,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Specimen</h2>
+														<h2 class="small mx-0 py-2 px-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
@@ -1396,7 +1396,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mb-0 mx-1 mx-xl-0 px-0 pt-2 px-xl-2 text-left text-xl-right text-black bg-teal font-weight-bold">
+														<h2 class="small mx-1 mx-xl-0 px-0 py-2 px-xl-2 text-left text-xl-right text-black bg-teal font-weight-bold">
 															General
 														</h2>
 													</div>
@@ -1494,7 +1494,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mb-0 mx-1 mx-xl-0 px-0 pt-2 px-xl-2 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
+														<h2 class="small mx-1 mx-xl-0 px-0 py-2 px-xl-2 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
 															Transactions
 														</h2>
 													</div>
