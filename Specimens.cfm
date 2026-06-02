@@ -833,7 +833,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 border-top border-bottom border-right border-left mx-xl-0 d-block text-black bg-teal font-weight-bold">Geography</h2>
+														<h2 class="small mb-0 mx-0 px-2 border-top border-bottom border-right border-left d-block text-black bg-teal font-weight-bold">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -1044,7 +1044,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 d-block border-right border-top border-left border-bottom text-black bg-teal font-weight-bold">Coll. Event</h2>
+														<h2 class="small mb-0 mx-0 px-2 d-block border-right border-top border-left border-bottom text-black bg-teal font-weight-bold">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
@@ -1168,7 +1168,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Specimen</h2>
+														<h2 class="small mb-0 mx-0 px-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
@@ -1393,7 +1393,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mb-0 mx-1 mx-xl-0 px-0 border-top border-right border-bottom border-left px-2 bg-teal text-left text-xl-right text-black font-weight-bold">
+														<h2 class="small mb-0 mx-1 border-top border-right border-bottom border-left px-2 bg-teal text-left text-xl-right text-black font-weight-bold">
 															General
 														</h2>
 													</div>
