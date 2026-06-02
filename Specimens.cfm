@@ -623,7 +623,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 mb-1 col-md-3 px-1">
 														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name
                                                             <cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
                                                             <cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
@@ -648,7 +648,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 mb-1 col-md-2 px-1">
 														<label for="author_text" class="data-entry-label smaller font-weight-bold">Authorship
                                                             <cfif not isdefined("author_text")><cfset author_text=""></cfif>
                                                             <input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
@@ -659,7 +659,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-1 col-md-3 px-1">
 														<label for="type_status" class="data-entry-label smaller font-weight-bold">Type Status/Citation
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
