@@ -1,13 +1,34 @@
+<!---
+/Admin/killBadAgentDups.cfm
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfset pageTitle = "Agent Merge">
 <cfinclude template="/shared/_header.cfm">
 
 <cfif isDefined("url.action")><cfset local.action = url.action></cfif>
 <cfif isDefined("form.action")><cfset local.action = form.action></cfif>
-<cfif NOT isDefined("local.action") OR len(local.action) EQ 0><cfset local.action = "entryPoint"></cfif>
+<cfif NOT isDefined("local.action") OR len(local.action) EQ 0>
+	<cfset local.action = "entryPoint">
+</cfif>
 
 <main class="container py-3" id="content">
 	<cfswitch expression="#local.action#">
-		<cfcase value="entryPoint,nothing">
+		<cfcase value="entryPoint">
 			<section class="row my-2">
 				<div class="col-12">
 					<h1 class="h2 px-4">Merge Bad Duplicate Agents</h1>
