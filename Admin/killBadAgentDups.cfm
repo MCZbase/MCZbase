@@ -70,6 +70,7 @@ limitations under the License.
 							agent_relationship = 'bad duplicate of'
 							AND agent_relations.agent_id = badname.agent_id
 							AND agent_relations.related_agent_id = goodname.agent_id
+							AND date_to_merge < SYSDATE
 						ORDER BY
 							date_to_merge DESC
 					</cfquery>
