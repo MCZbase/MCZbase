@@ -73,7 +73,26 @@ limitations under the License.
 						ORDER BY
 							date_to_merge DESC
 					</cfquery>
+					<!--- count the agents available to be merged (not on hold) in a query on bads and display that count in the heading --->
+					<cfquery name="mergeCount" dbtype="query">
+						SELECT
+							COUNT(*) AS cnt
+						FROM
+							bads
+						WHERE
+							on_hold = ''
+					</cfquery>
+					<!--- count the agents on hold for merge in a query on bads and display that count in the heading --->
+					<cfquery name="holdCount" dbtype="query">
+						SELECT
+							COUNT(*) AS cnt
+						FROM
+							bads
+						WHERE
+							on_hold = 'X'
+					</cfquery>
 					<cfoutput>
+						<h2 class="h4 px-4">Agents Eligible for Merge: #encodeForHtml(mergeCount.cnt)# | Agents on Hold: #encodeForHtml(holdCount.cnt)#</h2>
 						<table class="table table-responsive d-lg-table">
 							<thead class="thead-light">
 								<tr>
