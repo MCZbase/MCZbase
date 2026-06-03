@@ -1014,24 +1014,27 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="min_depth_in_m" class="data-entry-label smaller font-weight-bold">Miniumum Depth (m)</label>
+																<label for="min_depth_in_m" class="data-entry-label smaller font-weight-bold">Miniumum Depth (m)
 																<cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="max_depth_in_m" class="data-entry-label smaller font-weight-bold">Maximum Depth (m)</label>
-																<cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
+																<label for="max_depth_in_m" class="data-entry-label smaller font-weight-bold">Maximum Depth (m)
+																    <cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="min_elev_in_m" class="data-entry-label smaller font-weight-bold">Miniumum Elevation (m)</label>
-																<cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
+																<label for="min_elev_in_m" class="data-entry-label smaller font-weight-bold">Miniumum Elevation (m)
+																    <cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="max_elev_in_m" class="data-entry-label smaller font-weight-bold">Maximum Elevation (m)</label>
-																<cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
+																<label for="max_elev_in_m" class="data-entry-label smaller font-weight-bold">Maximum Elevation (m)
+																    <cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
+                                                                </label>
 															</div>
 														</div>
 													</div>
@@ -1060,7 +1063,7 @@ limitations under the License.
 													</div>
 												</div>				
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-2 mb-0 mx-0">
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 col-md-3">
 														<label for="collector" class="data-entry-label smaller font-weight-bold">Collector
                                                             <cfif not isdefined("collector")>
                                                                 <cfset collector="">
@@ -1104,7 +1107,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 mb-1 col-md-3 px-1">
+													<div class="col-12 col-md-3 px-1">
 														<cfif not isdefined("collecting_source")>
 															<cfset collecting_source="">
 														</cfif>
@@ -1118,7 +1121,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 col-md-3">
 														<cfif not isdefined("date_collected")>
 															<cfset date_collected="">
 														</cfif>
@@ -1126,7 +1129,7 @@ limitations under the License.
 														    <input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
                                                         </label>
 													</div>
-													<div class="col-12 mb-1 col-md-3 px-0">
+													<div class="col-12 col-md-3 px-0">
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 														<label class="data-entry-label smaller font-weight-bold" for="verbatim_date">Verbatim Date
                                                             <!---<label class="data-entry-label small" for="when">--->  
@@ -1138,7 +1141,7 @@ limitations under the License.
 														</button>
 													<div id="CollDetail" class="col-12 px-0 py-3 py-xl-1" style="#CollDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 col-md-3">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
 																</cfif>
@@ -1146,7 +1149,7 @@ limitations under the License.
 																    <input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
                                                                 </label>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 col-md-3">
 																<cfif not isdefined("date_ended_date")>
 																	<cfset date_ended_date="">
 																</cfif>
@@ -1154,7 +1157,7 @@ limitations under the License.
 																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
                                                                 </label>
 															</div>
-															<div class="col-12 mb-1 col-md-4">
+															<div class="col-12 col-md-4">
 																<label for="verbatim_locality" class="data-entry-label smaller font-weight-bold">Verbatim Locality
 																    <cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
