@@ -1687,12 +1687,12 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
-									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray border">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray border">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
-									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link bg-lt-gray border">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
+									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link bg-lt-gray border">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
