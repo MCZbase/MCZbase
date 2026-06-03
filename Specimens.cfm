@@ -1055,47 +1055,48 @@ limitations under the License.
 												</div>				
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-2 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
-														<label for="collector" class="data-entry-label smaller font-weight-bold">Collector</label>
-														<cfif not isdefined("collector")>
-															<cfset collector="">
-														</cfif>
-														<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
-															<cfif len(collector) EQ 0>
-																<cfset collector_agent_id ="">
-															<cfelse>
-																<cfset collector_agent_id ="">
-																<!--- lookup collector's agent_id --->
-																<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																	SELECT agent_id 
-																	FROM preferred_agent_name 
-																	WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
-																		AND rownum < 2
-																</cfquery>
-																<cfloop query="collectorLookup">
-																	<cfset collector_agent_id = collectorLookup.agent_id>
-																</cfloop>
-															</cfif>
-														<cfelse>
-															<!--- lookup collector --->
-															<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																SELECT agent_name 
-																FROM preferred_agent_name 
-																WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
-																	AND rownum < 2
-															</cfquery>
-															<cfif collectorLookup.recordcount GT 0>
-																<cfloop query="collectorLookup">
-																	<cfset collector = collectorLookup.agent_name>
-																</cfloop>
-															</cfif>
-														</cfif>
-														<input type="text" id="collector" name="collector" class="data-entry-input inputHeight" value="#encodeForHtml(collector)#">
-														<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
-														<script>
-															jQuery(document).ready(function() {
-																makeConstrainedAgentPicker('collector','collector_agent_id','collector');
-															});
-														</script>
+														<label for="collector" class="data-entry-label smaller font-weight-bold">Collector
+                                                            <cfif not isdefined("collector")>
+                                                                <cfset collector="">
+                                                            </cfif>
+                                                            <cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
+                                                                <cfif len(collector) EQ 0>
+                                                                    <cfset collector_agent_id ="">
+                                                                <cfelse>
+                                                                    <cfset collector_agent_id ="">
+                                                                    <!--- lookup collector's agent_id --->
+                                                                    <cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+                                                                        SELECT agent_id 
+                                                                        FROM preferred_agent_name 
+                                                                        WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
+                                                                            AND rownum < 2
+                                                                    </cfquery>
+                                                                    <cfloop query="collectorLookup">
+                                                                        <cfset collector_agent_id = collectorLookup.agent_id>
+                                                                    </cfloop>
+                                                                </cfif>
+                                                            <cfelse>
+                                                                <!--- lookup collector --->
+                                                                <cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+                                                                    SELECT agent_name 
+                                                                    FROM preferred_agent_name 
+                                                                    WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+                                                                        AND rownum < 2
+                                                                </cfquery>
+                                                                <cfif collectorLookup.recordcount GT 0>
+                                                                    <cfloop query="collectorLookup">
+                                                                        <cfset collector = collectorLookup.agent_name>
+                                                                    </cfloop>
+                                                                </cfif>
+                                                            </cfif>
+                                                            <input type="text" id="collector" name="collector" class="data-entry-input inputHeight" value="#encodeForHtml(collector)#">
+                                                            <input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeConstrainedAgentPicker('collector','collector_agent_id','collector');
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("collecting_source")>
@@ -1103,22 +1104,23 @@ limitations under the License.
 														</cfif>
 														<label for="collecting_source" class="data-entry-label smaller font-weight-bold">Collecting Source
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-														</label>
-														<input type="text" name="collecting_source" class="data-entry-input inputHeight" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
-															});
-														</script>
+                                                            <input type="text" name="collecting_source" class="data-entry-input inputHeight" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("date_collected")>
 															<cfset date_collected="">
 														</cfif>
-														<label for="date_collected" class="data-entry-label smaller font-weight-bold">Date Collected</label>
-														<input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
+														<label for="date_collected" class="data-entry-label smaller font-weight-bold">Date Collected
+														    <input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
+                                                        </label>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 mb-1 col-md-3 px-0">
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 														<label class="data-entry-label smaller font-weight-bold" for="verbatim_date">Verbatim Date
                                                             <!---<label class="data-entry-label small" for="when">--->  
@@ -1134,20 +1136,23 @@ limitations under the License.
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
 																</cfif>
-																<label for="date_began_date" class="data-entry-label smaller font-weight-bold">Date Began</label>
-																<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+																<label for="date_began_date" class="data-entry-label smaller font-weight-bold">Date Began
+																    <input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("date_ended_date")>
 																	<cfset date_ended_date="">
 																</cfif>
-																<label for="date_ended_date" class="data-entry-label smaller font-weight-bold">Date Ended</label>
+																<label for="date_ended_date" class="data-entry-label smaller font-weight-bold">Date Ended
 																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-4">
-																<label for="verbatim_locality" class="data-entry-label smaller font-weight-bold">Verbatim Locality</label>
-																<cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
+																<label for="verbatim_locality" class="data-entry-label smaller font-weight-bold">Verbatim Locality
+																    <cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
+                                                                </label>
 															</div>
 														</div>
 													</div>
