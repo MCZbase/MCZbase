@@ -581,8 +581,7 @@ limitations under the License.
 													OR (isDefined("citation") and len(citation) GT 0)
 													OR (isDefined("identification_remarks") and len(identification_remarks) GT 0)
 													OR (isDefined("common_name") and len(common_name) GT 0)
-													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)
-												>
+													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
@@ -619,7 +618,6 @@ limitations under the License.
                                                                         <option value="current" #current_selected#>Current Id Only</option>
                                                                     </select>
                                                                 </label>
-                                                    
 															</div>
 														</div>
 													</div>
@@ -681,66 +679,70 @@ limitations under the License.
 															<div class="col-12 mb-1 col-md-2">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
-																<input id="phylum" name="phylum" class="data-entry-input inputHeight" value="#encodeForHtml(phylum)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('phylum','phylum');
-																	});
-																</script>
+                                                                    <cfif not isdefined("phylum")><cfset phylum=""></cfif>
+                                                                    <input id="phylum" name="phylum" class="data-entry-input inputHeight" value="#encodeForHtml(phylum)#" >
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeTaxonSearchAutocomplete('phylum','phylum');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="phylclass" class="data-entry-label smaller font-weight-bold">Class</label>
-																<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
-																<input id="phylclass" name="phylclass" class="data-entry-input inputHeight" value="#encodeForHtml(phylclass)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('phylclass','class');
-																	});
-																</script>
+																<label for="phylclass" class="data-entry-label smaller font-weight-bold">Class
+                                                                    <cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
+                                                                    <input id="phylclass" name="phylclass" class="data-entry-input inputHeight" value="#encodeForHtml(phylclass)#" >
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeTaxonSearchAutocomplete('phylclass','class');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="phylorder" class="data-entry-label smaller font-weight-bold">Order</label>
-																<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
-																<input id="phylorder" name="phylorder" class="data-entry-input inputHeight" value="#encodeForHtml(phylorder)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('phylorder','order');
-																	});
-																</script>
+																<label for="phylorder" class="data-entry-label smaller font-weight-bold">Order
+                                                                    <cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
+                                                                    <input id="phylorder" name="phylorder" class="data-entry-input inputHeight" value="#encodeForHtml(phylorder)#" >
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeTaxonSearchAutocomplete('phylorder','order');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="family" class="data-entry-label smaller font-weight-bold">Family</label>
-																<cfif not isdefined("family")><cfset family=""></cfif>
-																<input type="text" id="family" name="family" class="data-entry-input inputHeight" value="#encodeForHtml(family)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('family','family');
-																	});
-																</script>
+																<label for="family" class="data-entry-label smaller font-weight-bold">Family
+                                                                    <cfif not isdefined("family")><cfset family=""></cfif>
+                                                                    <input type="text" id="family" name="family" class="data-entry-input inputHeight" value="#encodeForHtml(family)#" >
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeTaxonSearchAutocomplete('family','family');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="genus" class="data-entry-label smaller font-weight-bold">Genus</label>
-																<cfif not isdefined("genus")><cfset genus=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('genus','genus');
-																	});
-																</script>
+																<label for="genus" class="data-entry-label smaller font-weight-bold">Genus
+                                                                    <cfif not isdefined("genus")><cfset genus=""></cfif>
+                                                                    <input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeTaxonSearchAutocomplete('genus','genus');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="species" class="data-entry-label small">Specific Name</label>
-																<cfif not isdefined("species")><cfset species=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="species" name="species" value="#encodeForHtml(species)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('species','species');
-																	});
-																</script>
+																<label for="species" class="data-entry-label small">Specific Name
+                                                                    <cfif not isdefined("species")><cfset species=""></cfif>
+                                                                    <input type="text" class="data-entry-input inputHeight" id="species" name="species" value="#encodeForHtml(species)#">
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeTaxonSearchAutocomplete('species','species');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
-															
 														</div>
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
@@ -769,31 +771,33 @@ limitations under the License.
                                                                 </label>
 															</div>
 															<div class="col-12 mb-1 col-md-4">
-																<label for="publication_id" class="data-entry-label small">Cited In</label>
-																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
-																<cfif not isdefined("citation")><cfset citation=""></cfif>
-																<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input inputHeight" value="#encodeForHtml(publication_id)#" >
-																<input type="text" id="citation" name="citation" class="data-entry-input inputHeight" value="#encodeForHtml(citation)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makePublicationPicker('citation','publication_id');
-																	});
-																</script>
+																<label for="publication_id" class="data-entry-label small">Cited In
+                                                                    <cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
+                                                                    <cfif not isdefined("citation")><cfset citation=""></cfif>
+                                                                    <input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input inputHeight" value="#encodeForHtml(publication_id)#" >
+                                                                    <input type="text" id="citation" name="citation" class="data-entry-input inputHeight" value="#encodeForHtml(citation)#" >
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makePublicationPicker('citation','publication_id');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="nature_of_id" class="data-entry-label small">Nature Of Id</label>
-																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
-																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
-																	<option value=""></option>
-																	<cfset nid = nature_of_id>
-																	<cfloop query="ctnature_of_id">
-																		<cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
-																		<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
-																	</cfloop>
-																</select>
+																<label for="nature_of_id" class="data-entry-label small">Nature of ID
+                                                                    <cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
+                                                                    <select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
+                                                                        <option value=""></option>
+                                                                        <cfset nid = nature_of_id>
+                                                                        <cfloop query="ctnature_of_id">
+                                                                            <cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+                                                                            <option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
+                                                                        </cfloop>
+                                                                    </select>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="identification_remarks" class="data-entry-label small">Id Remarks</label>
+																<label for="identification_remarks" class="data-entry-label small">ID Remarks</label>
 																<cfif not isdefined("identification_remarks")><cfset identification_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
 															</div>
