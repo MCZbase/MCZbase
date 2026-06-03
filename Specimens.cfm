@@ -1426,30 +1426,30 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-0">
-													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
-														<h2 class="small mx-0 mx-xl-0 px-3 my-0 py-1 text-left text-xl-right border-top border-right border-bottom border-left text-black bg-teal font-weight-bold">
-															General
-														</h2>
-													</div>
-													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-1 pt-2 mb-0">
-													<div class="col-12 col-md-2">
-														<cfif not isdefined("keyword")>
-															<cfset keyword="">
-														</cfif>
-														<label for="keyword" class="data-entry-label smaller font-weight-bold">Keyword Search
-														    <input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#">
+                                                <div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+                                                    <h2 class="small mx-0 mx-xl-0 px-3 my-0 py-1 text-left text-xl-right border-top border-right border-bottom border-left text-black bg-teal font-weight-bold">
+                                                        General
+                                                    </h2>
+                                                </div>
+                                                <div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-0 pt-2 mb-0">
+                                                    <div class="col-12 col-md-2">
+                                                        <cfif not isdefined("keyword")>
+                                                            <cfset keyword="">
+                                                        </cfif>
+                                                        <label for="keyword" class="data-entry-label smaller font-weight-bold">Keyword Search
+                                                            <input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#">
                                                         </label>
-													</div>
-													<div class="col-12 col-md-2">
-														<cfif not isdefined("coll_object_entered_date")>
-															<cfset coll_object_entered_date="">
-														</cfif>
-														<label for="coll_object_entered_date" class="data-entry-label smaller font-weight-bold">Date Entered
-														    <input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
+                                                    </div>
+                                                    <div class="col-12 col-md-2">
+                                                        <cfif not isdefined("coll_object_entered_date")>
+                                                            <cfset coll_object_entered_date="">
+                                                        </cfif>
+                                                        <label for="coll_object_entered_date" class="data-entry-label smaller font-weight-bold">Date Entered
+                                                            <input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
                                                         </label>
-													</div>
-													<div class="col-12 col-md-2">
-														<label for="entered_by" class="data-entry-label smaller font-weight-bold">Entered By
+                                                    </div>
+                                                    <div class="col-12 col-md-2">
+                                                        <label for="entered_by" class="data-entry-label smaller font-weight-bold">Entered By
                                                             <cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
                                                             <cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
                                                             <!--- lookup agent name --->
@@ -1474,17 +1474,17 @@ limitations under the License.
                                                                 });
                                                             </script>
                                                         </label>
-													</div>
-													<div class="col-12 col-md-2">
-														<cfif not isdefined("last_edit_date")>
-															<cfset last_edit_date="">
-														</cfif>
-														<label for="last_edit_date" class="data-entry-label smaller font-weight-bold">Last Updated on
-														    <input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
+                                                    </div>
+                                                    <div class="col-12 col-md-2">
+                                                        <cfif not isdefined("last_edit_date")>
+                                                            <cfset last_edit_date="">
+                                                        </cfif>
+                                                        <label for="last_edit_date" class="data-entry-label smaller font-weight-bold">Last Updated on
+                                                            <input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
                                                         </label>
-													</div>
-													<div class="col-12 col-md-2">
-														<label for="last_edited_person" class="data-entry-label smaller font-weight-bold">Last Updated By
+                                                    </div>
+                                                    <div class="col-12 col-md-2">
+                                                        <label for="last_edited_person" class="data-entry-label smaller font-weight-bold">Last Updated By
                                                             <cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
                                                             <cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
                                                             <!--- lookup agent name --->
@@ -1508,10 +1508,10 @@ limitations under the License.
                                                                 });
                                                             </script>
                                                         </label>
-													</div>
-													<div class="col-12 col-md-2">
-														<label for="underscore_collection" class="data-entry-label smaller font-weight-bold">Named Group
-															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
+                                                    </div>
+                                                    <div class="col-12 col-md-2">
+                                                        <label for="underscore_collection" class="data-entry-label smaller font-weight-bold">Named Group
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
                                                             <cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
                                                             <cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
                                                             <input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
@@ -1522,8 +1522,8 @@ limitations under the License.
                                                                 });
                                                             </script>
                                                         </label>
-													</div>
-												</div>
+                                                    </div>
+                                                </div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-md-1 px-0">
@@ -1532,7 +1532,7 @@ limitations under the License.
 															Transactions
 														</h2>
 													</div>
-													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-1 pt-2  mb-0">
+													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-0 pt-2 mb-0">
 														<div class="col-12 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
@@ -1595,7 +1595,7 @@ limitations under the License.
                                                                 </script>
                                                             </label>
 														</div>
-														<div class="col-12 mb-0 col-md-2">
+														<div class="col-12 col-md-2">
 															<cfif not isdefined("accn_type")>
 																<cfset accn_type="">
 															</cfif>
@@ -1609,7 +1609,7 @@ limitations under the License.
                                                                 </script>
                                                             </label>
 														</div>
-														<div class="col-12 mb-0 col-md-2">
+														<div class="col-12 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
