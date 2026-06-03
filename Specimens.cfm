@@ -1687,8 +1687,8 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
-									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##IDDetail").show();
 									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
