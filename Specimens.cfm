@@ -528,7 +528,7 @@ limitations under the License.
 													</cfif>
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
-													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-12 px-0 py-3 py-xl-1" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
                                                             <div class="col-12 mb-1 col-md-3">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -671,11 +671,11 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none w-100 py-1 btn-link text-center btn small" onclick="toggleTaxaDetail(1)">
+													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none w-100 py-0 btn-link text-center btn small" onclick="toggleTaxaDetail(1)">
                                                         <span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
                                                     </button>
 														
-													<div id="TaxaDetail" class="col-12 px-0 pt-2" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-12 px-0 py-3 py-xl-1" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
@@ -862,7 +862,7 @@ limitations under the License.
 														</script>
 													</div>
 													<button type="button" id="GeogDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-1 btn-link text-center btn small" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
+													<div id="GeogDetail" class="col-12 px-0 py-3 py-xl-1" style="#GeogDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
@@ -1123,10 +1123,10 @@ limitations under the License.
 														    <input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
                                                         </label>
 													</div>
-														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
+														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none m-1 d-xl-none py-0 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
-													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-12 px-0 py-3 py-xl-1" style="#CollDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("date_began_date")>
@@ -1233,7 +1233,7 @@ limitations under the License.
 													<div id="SpecDetail" class="col-12 px-0 py-3 py-xl-1" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
-																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block d-xl-block">ection</span> Object Remarks</label>
+																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks</label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
