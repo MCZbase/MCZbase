@@ -1408,7 +1408,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-1 pt-1 mb-0">
-													<div class="col-12 mb-0 col-md-2">
+													<div class="col-12 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
 														</cfif>
@@ -1416,7 +1416,7 @@ limitations under the License.
 														    <input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#">
                                                         </label>
 													</div>
-													<div class="col-12 mb-0 col-md-2">
+													<div class="col-12 col-md-2">
 														<cfif not isdefined("coll_object_entered_date")>
 															<cfset coll_object_entered_date="">
 														</cfif>
@@ -1424,7 +1424,7 @@ limitations under the License.
 														    <input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
                                                         </label>
 													</div>
-													<div class="col-12 mb-0 col-md-2">
+													<div class="col-12 col-md-2">
 														<label for="entered_by" class="data-entry-label smaller font-weight-bold">Entered By
                                                             <cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
                                                             <cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
@@ -1451,7 +1451,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 mb-0 col-md-2">
+													<div class="col-12 col-md-2">
 														<cfif not isdefined("last_edit_date")>
 															<cfset last_edit_date="">
 														</cfif>
@@ -1459,7 +1459,7 @@ limitations under the License.
 														    <input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
                                                         </label>
 													</div>
-													<div class="col-12 mb-0 col-md-2">
+													<div class="col-12 col-md-2">
 														<label for="last_edited_person" class="data-entry-label smaller font-weight-bold">Last Updated By
                                                             <cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
                                                             <cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
@@ -1485,7 +1485,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 mb-0 col-md-2">
+													<div class="col-12 col-md-2">
 														<label for="underscore_collection" class="data-entry-label smaller font-weight-bold">Named Group
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
                                                             <cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
@@ -1509,7 +1509,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-1 pt-1  mb-0">
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
 															</cfif>
@@ -1529,7 +1529,7 @@ limitations under the License.
 															    <input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
                                                             </label>
 														</div>
-														<div class="col-12 mb-0 col-md-2">
+														<div class="col-12 col-md-2">
 															<cfif not isdefined("accn_number")>
 																<cfset accn_number="">
 															</cfif>
@@ -1549,7 +1549,7 @@ limitations under the License.
 															    <input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
                                                             </label>
 														</div>
-														<div class="col-12 mb-0 col-md-2">
+														<div class="col-12 col-md-2">
 															<cfif not isdefined("received_date")>
 																<cfset received_date="">
 															</cfif>
@@ -1557,19 +1557,19 @@ limitations under the License.
 															    <input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
                                                             </label>
 														</div>
-														<div class="col-12 mb-0 col-md-2">
+														<div class="col-12 col-md-2">
 															<cfif not isdefined("accn_status")>
 																<cfset accn_status="">
 															</cfif>
 															<label for="accn_status" class="data-entry-label smaller font-weight-bold">Accession Status
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-															</label>
-															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
-															<script>
-																jQuery(document).ready(function() {
-																	makeCTFieldSearchAutocomplete("accn_status","ACCN_STATUS");
-																});
-															</script>
+                                                                <input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
+                                                                <script>
+                                                                    jQuery(document).ready(function() {
+                                                                        makeCTFieldSearchAutocomplete("accn_status","ACCN_STATUS");
+                                                                    });
+                                                                </script>
+                                                            </label>
 														</div>
 														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_type")>
