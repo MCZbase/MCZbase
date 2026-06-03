@@ -1027,25 +1027,25 @@ limitations under the License.
 															</div>
                                                         </div>
                                                          <div class="form-row col-12 col-md-12 px-0 mb-1 mx-0">
-															<div class="col-12 col-md-2">
+															<div class="col-12 col-md-3">
 																<label for="min_depth_in_m" class="data-entry-label smaller font-weight-bold">Miniumum Depth (m)
 																    <cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2">
+															<div class="col-12 col-md-3">
 																<label for="max_depth_in_m" class="data-entry-label smaller font-weight-bold">Maximum Depth (m)
 																    <cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2">
+															<div class="col-12 col-md-3">
 																<label for="min_elev_in_m" class="data-entry-label smaller font-weight-bold">Miniumum Elevation (m)
 																    <cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2">
+															<div class="col-12 col-md-3">
 																<label for="max_elev_in_m" class="data-entry-label smaller font-weight-bold">Maximum Elevation (m)
 																    <cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
