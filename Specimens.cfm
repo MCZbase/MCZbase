@@ -600,7 +600,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 px-1 mx-0 mb-0">
-													<div class="col-12 mb-1 col-md-4 px-1">
+												
 														
 															<div class="col-9">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
@@ -620,7 +620,7 @@ limitations under the License.
                                                                 </label>
 															</div>
 														
-													</div>
+										
 													<div class="col-12 col-md-3">
 														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name
                                                             <cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
