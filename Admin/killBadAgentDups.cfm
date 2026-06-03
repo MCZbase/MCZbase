@@ -1,6 +1,8 @@
 <!---
 /Admin/killBadAgentDups.cfm
 
+Merge Bad Duplicate Agents, which are identified in the agent_relations table with the relationship "bad duplicate of". This is a destructive operation that will change agent IDs in many tables and will delete records from others. It should only be used after careful review of the records to be merged and should be followed by review of the output for any skipped records and follow-up actions.  This process should not be automated or used without review.
+
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
 
@@ -33,9 +35,9 @@ limitations under the License.
 				<div class="col-12">
 					<h1 class="h2 px-4">Merge Bad Duplicate Agents</h1>
 					<p class="alert alert-danger px-4" role="alert">
-						Before you even THINK about pushing this button, read through the list below, inspect individual
-						agent records for anything ambiguous, then do it again. This will change agent IDs in many tables.
-						Make sure you really want to proceed.
+						Before you even THINK about pushing the <strong>Merge Agents</strong> button, read through the list below, inspect individual
+						agent records for anything ambiguous, then do it again.  The merge operation will change agent IDs in many tables,
+						and will delete records from others (agent_relations, agent_name, person, agent).  Make sure you really want to proceed.
 					</p>
 				</div>
 				<div class="col-12">
@@ -86,7 +88,7 @@ limitations under the License.
 						</table>
 						<form name="go" method="post" action="killBadAgentDups.cfm">
 							<input type="hidden" name="action" value="doIt">
-							<input type="submit" value="Make the Changes" class="btn btn-danger">
+							<input type="submit" value="Merge Agents" class="btn btn-danger">
 						</form>
 					</cfoutput>
 				</div>
