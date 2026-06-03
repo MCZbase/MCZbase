@@ -1229,7 +1229,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-0 btn-link text-center btn small bg-lt-gray border" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-0 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="SpecDetail" class="col-12 px-0 py-3 py-xl-1" style="#SpecDetailStyle#">
@@ -1688,11 +1688,11 @@ limitations under the License.
 								if (onOff==0) {
 									$("##IDDetail").hide();
 									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
-									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray border">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link bg-lt-gray border">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
-									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link bg-lt-gray border">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
+									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1714,12 +1714,12 @@ limitations under the License.
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1741,12 +1741,12 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1768,12 +1768,12 @@ limitations under the License.
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1795,12 +1795,12 @@ limitations under the License.
 							function toggleSpecDetail(onOff) {
 								if (onOff==0) {
 									$("##SpecDetail").hide();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link bg-lt-gray">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##SpecDetail").show();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link bg-lt-gray">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
