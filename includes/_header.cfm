@@ -399,7 +399,7 @@
 									<div style="float:left;width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
-										<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
+										<a class="dropdown-item" target="_top" href="/Admin/AdminUsers.cfm">MCZbase Users</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
 										<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
 										<!---

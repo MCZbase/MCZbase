@@ -51,7 +51,6 @@ Disallow: /users/
 Disallow: /vocabularies/component/
 Disallow: /.gitignore
 Disallow: /.vimrc
-Disallow: /AdminUsers.cfm
 Disallow: /agents/editAgent.cfm
 Disallow: /containers/allContainerLeafNodes.cfm
 Disallow: /Application.cfc

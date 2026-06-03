@@ -18,7 +18,7 @@
 		<cfoutput>
 			<div class="col-12">
 				<h2 class="h3">Find Users</h2>
-				<form action="/AdminUsers.cfm" method="get">
+				<form action="/Admin/AdminUsers.cfm" method="get">
 					<div class="form-row">
 						<input type="hidden" name="Action" value="list">
 						<div class="col-12 col-md-4">
@@ -186,7 +186,7 @@
 					<cfset operator = "[no]">
 				</cfif>
 				<tr>
-			 		<td><a class="btn btn-xs btn-primary" href="/AdminUsers.cfm?action=edit&username=#encodeForUrl(username)#">Edit</a></td>
+			 		<td><a class="btn btn-xs btn-primary" href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(username)#">Edit</a></td>
 			 		<td>#encodeForHtml(username)#</td>
 			 		<td>#hasProfile#</td>
 					<td>
@@ -210,7 +210,7 @@
 		<cfquery name="g" datasource="uam_god">
 			grant #role_name# to #username#
 		</cfquery>
-		<cflocation url="/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">		
+		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">		
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------->
@@ -219,7 +219,7 @@
 		<cfquery name="t" datasource="uam_god">
 			revoke #role_name# from #username#
 		</cfquery>
-		<cflocation url="/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">
+		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------->
@@ -256,7 +256,7 @@
 	</cfquery>
 	
 	<cfoutput>
-	<form action="/AdminUsers.cfm" method="post">
+	<form action="/Admin/AdminUsers.cfm" method="post">
 		<input type="hidden" name="Action" value="runUpdate">
 		<input type="hidden" name="orig_username" value="#getUsers.username#">
 <table>
@@ -358,7 +358,7 @@
 						Invited, <span class="text-warning">Awaiting User Action</span>
 					<cfelse>
 						<cfif getAgent.recordcount GT 0 AND len(getUsers.EMAIL) GT 0>
-							<a href="/AdminUsers.cfm?action=makeNewDbUser&username=#username#&user_id=#getUsers.user_id#">Invite</a> 
+							<a href="/Admin/AdminUsers.cfm?action=makeNewDbUser&username=#username#&user_id=#getUsers.user_id#">Invite</a> 
 						<cfelseif len(getUsers.EMAIL) EQ 0>
 							User must add an email to their profile to be invited.
 						<cfelse>
@@ -372,7 +372,7 @@
 					<td>
 						<cfif len(isDbUser.username) gt 0>
 							Is User
-							<a href="/AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
+							<a href="/Admin/AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
 							<!---  check if user_search_table exists for this user --->
 							<cftry>
 								<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -407,7 +407,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">Roles <a href="/AdminUsers.cfm?username=#username#&action=dbRole"><img src="/images/info.gif" border="0" /></a></td>
+					<td colspan="2">Roles <a href="/Admin/AdminUsers.cfm?username=#username#&action=dbRole"><img src="/images/info.gif" border="0" /></a></td>
 				</tr>
 				<cfquery name="roles" datasource="uam_god">
 					SELECT granted_role role_name
@@ -430,7 +430,7 @@
 								#role_name# 
 							</td>
 							<td>
-								<a class="btn btn-xs btn-warning" href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
+								<a class="btn btn-xs btn-warning" href="/Admin/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
 							</td>
 						</tr>
 					</cfloop>
@@ -438,7 +438,7 @@
 				<tr class="newRec">
 					<td colspan="2">Add Roles For This User</td>
 				</tr>
-				<form name="ar" method="post" action="/AdminUsers.cfm">
+				<form name="ar" method="post" action="/Admin/AdminUsers.cfm">
 					<tr class="newRec">
 						<td>
 							<input type="hidden" name="action" value="addRole" />
@@ -520,7 +520,7 @@
 						<tr>
 							<td>#role_name#</td>
 							<td>
-								<a class="btn btn-warning btn-xs" href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
+								<a class="btn btn-warning btn-xs" href="/Admin/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
 							</td>
 						</tr>
 					</cfloop>					
@@ -528,7 +528,7 @@
 						<td colspan="2">Grant access to collections</td>
 					</tr>
 					
-					<form name="ar" method="post" action="/AdminUsers.cfm">
+					<form name="ar" method="post" action="/Admin/AdminUsers.cfm">
 						<input type="hidden" name="action" value="addRole" />
 						<input type="hidden" name="username" value="#getUsers.username#" />
 						<tr>
@@ -565,7 +565,7 @@
 		</cfquery>
 		
 		The account for #username# is now locked. Contact a DBA to unlock it.
-		<a href="/AdminUsers.cfm?username=#username#&action=edit">Continue</a>
+		<a href="/Admin/AdminUsers.cfm?username=#username#&action=edit">Continue</a>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
@@ -575,7 +575,7 @@
 			DELETE FROM temp_allow_cf_user 
 			WHERE user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 		</cfquery>
-		<cflocation url="/AdminUsers.cfm?Action=edit&username=#username#">
+		<cflocation url="/Admin/AdminUsers.cfm?Action=edit&username=#username#">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
@@ -651,16 +651,16 @@
 				Please email #getMyEmail.EMAIL# if you have any questions, or 
 				#Application.PageProblemEmail# if you believe you have received this message in error.
 			</cfmail0--->
-			An invitation has been sent. <a href="/AdminUsers.cfm?Action=edit&username=#username#">continue</a>			
+			An invitation has been sent. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#username#">continue</a>			
 		<cfelse>
-			<div>User not invited. <a href="/AdminUsers.cfm?Action=edit&username=#username#">Return to edit user</a>.</div>	
+			<div>User not invited. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#username#">Return to edit user</a>.</div>	
 		</cfif>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
 <cfif action is "dbRole">
 	<cfoutput>
-	<a href="/AdminUsers.cfm?action=edit&username=#username#">back</a>
+	<a href="/Admin/AdminUsers.cfm?action=edit&username=#username#">back</a>
 	<br />
 		<cfquery name="rd" datasource="uam_god">
 			select
@@ -717,7 +717,7 @@
 			<cfabort>
 		</cfcatch>
 		</cftry>
-		<cflocation url="/AdminUsers.cfm">
+		<cflocation url="/Admin/AdminUsers.cfm">
 	<cfelse>
 		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE cf_users SET
@@ -745,7 +745,7 @@
                 </cfcatch>
 	        </cftry>
         </cfif>
-		<cflocation url="/AdminUsers.cfm?Action=edit&username=#username#">
+		<cflocation url="/Admin/AdminUsers.cfm?Action=edit&username=#username#">
 	</cfif>
 	</cfoutput>
 </cfif>

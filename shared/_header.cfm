@@ -573,15 +573,11 @@ limitations under the License.
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
+												<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Storage Location/Create Container</a>
 											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Create Container Series</a>
-											</cfif>
+											<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
 										</cfif>
 									</div>
 									</cfif>
@@ -623,12 +619,6 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
 											</cfif>
-											<!---[Bug 5212] Moved to Bulkloaders.cfm link found under Data Entry menu--->
-											<!---<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Bulk Edit Container</a> 
-											</cfif>--->
 										</div>
 									</cfif>
 									</cfif>
@@ -721,11 +711,7 @@ limitations under the License.
 											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
 											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<cfelse>
-												<a class="dropdown-item"  href="">Scheduled Tasks</a>
-											</cfif>
+											<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/tools/imageList.cfm">Image List</a>
 											<cfelse>
@@ -746,21 +732,13 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Audit SQL</a>
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/AdminUsers.cfm">MCZbase User Access</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">MCZbase User Access</a>
-										</cfif>
+										<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">User Role Report</a>
 										</cfif>
-										<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Database Role Definitions</a>
-										</cfif>	
+										<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 <!---											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
@@ -823,10 +801,8 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="https://github.com/MCZbase/MCZbase/blob/master/documentation/README.md">Developer&##39;guide</a>
 							</cfif>
-							<cfif targetMenu EQ "production">
-								<a class="dropdown-item" href="/info/api.cfm">API</a>
-							<cfelse>
-								<a class="dropdown-item bg-warning" href="">API</a>
+							<a class="dropdown-item" href="/info/api.cfm">API</a>
+							<cfif targetMenu NEQ "production">
 								<a class="dropdown-item bg-warning" href="">Technical Details</a>
 							</cfif>
 						</ul>
