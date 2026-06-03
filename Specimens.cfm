@@ -1425,7 +1425,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-1 px-0">
+											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
                                                 <div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
                                                     <h2 class="small mx-0 mx-xl-0 px-3 my-0 py-1 text-left text-xl-right border-top border-right border-bottom border-left text-black bg-teal font-weight-bold">
                                                         General
@@ -1526,7 +1526,7 @@ limitations under the License.
                                                 </div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-md-1 px-0">
+												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
 														<h2 class="small mx-0 mx-xl-0 px-3 py-1 mb-0 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
 															Transactions
