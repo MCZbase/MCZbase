@@ -27,6 +27,14 @@ limitations under the License.
 <cfif NOT isDefined("local.action") OR len(local.action) EQ 0>
 	<cfset local.action = "entryPoint">
 </cfif>
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"merge_agents")>
+	<!--- user has permissions to merge agents --->
+<cfelse>
+	<cfif local.action EQ "doIt">
+	   <!--- user does not have permissions to merge agents, switch to the default list action instead --->
+		<cfset local.action = "entryPoint">
+	</cfif>
+</cfif>
 
 <main class="container py-3" id="content">
 	<cfswitch expression="#local.action#">
@@ -34,11 +42,15 @@ limitations under the License.
 			<section class="row my-2">
 				<div class="col-12">
 					<h1 class="h2 px-4">Merge Bad Duplicate Agents</h1>
-					<p class="alert alert-danger px-4" role="alert">
-						Before you even THINK about pushing the <strong>Merge Agents</strong> button, read through the list below, inspect individual
-						agent records for anything ambiguous, then do it again.  The merge operation will change agent IDs in many tables,
-						and will delete records from others (agent_relations, agent_name, person, agent).  Make sure you really want to proceed.
-					</p>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"merge_agents")>
+						<p class="alert alert-danger px-4" role="alert">
+							Before you even THINK about pushing the <strong>Merge Agents</strong> button, read through the list below, inspect individual
+							agent records for anything ambiguous, then do it again.  The merge operation will change agent IDs in many tables,
+							and will delete records from others (agent_relations, agent_name, person, agent).  Make sure you really want to proceed.
+						</p>
+					<cfelse>
+						<p class="alert alert-warning px-4" role="alert">You do not have permissions to merge agents, this is the list of agents that are currently eligible for merge.<p>
+					</cfif>
 				</div>
 				<div class="col-12">
 					<cfquery name="bads" datasource="uam_god">
@@ -85,11 +97,15 @@ limitations under the License.
 									</tr>
 								</cfloop>
 							</tbody>
-						</table>
-						<form name="go" method="post" action="killBadAgentDups.cfm">
-							<input type="hidden" name="action" value="doIt">
-							<input type="submit" value="Merge Agents" class="btn btn-danger">
-						</form>
+				 		</table>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"merge_agents")>
+							<form name="go" method="post" action="killBadAgentDups.cfm">
+								<input type="hidden" name="action" value="doIt">
+								<input type="submit" value="Merge Agents" class="btn btn-danger">
+							</form>
+						<cfelse>
+							<p class="alert alert-warning" role="alert">You do not have permissions to merge agents, you must have been granted the <i>merge_agent</i> role.<p>
+						</cfif>
 					</cfoutput>
 				</div>
 			</section>
