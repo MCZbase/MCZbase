@@ -1233,7 +1233,7 @@ limitations under the License.
 													<div id="SpecDetail" class="col-12 px-0 pt-2" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
-																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Collection Object Remarks</label>
+																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-xl-none">.</span><span class="d-none d-xl-block">ection</span> Object Remarks</label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
