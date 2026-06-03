@@ -432,7 +432,7 @@ limitations under the License.
 														
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mx-0 py-1 mt-0 px-3 mx-xl-0 px-xl-2 d-block text-black bg-teal border-right border-top border-bottom border-left font-weight-bold">Identifiers</h2>
+														<h2 class="small mx-0 mb-0 py-1 mt-0 px-3 mx-xl-0 px-xl-2 d-block text-black bg-teal border-right border-top border-bottom border-left font-weight-bold">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -595,31 +595,28 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mx-0 mt-0 py-1 px-3 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
+														<h2 class="small mx-0 mt-0 mb-0 py-1 px-3 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 px-1 mx-0 mb-0">
-												
-														
-															<div class="col-9 col-md-3">
-																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
-																<label for="any_taxa_term" class="data-entry-label smaller font-weight-bold">Any Taxonomic Element
-																    <input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
-                                                                </label>
-															</div>
-															<div class="col-3 col-md-1">
-																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
-																<label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search
-                                                                    <select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small95 px-0" style="color: rgba(0, 0, 0, .8);">
-                                                                        <cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
-                                                                        <cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
-                                                                        <option value="any" #any_selected#>Any Id</option>
-                                                                        <option value="current" #current_selected#>Current Id Only</option>
-                                                                    </select>
-                                                                </label>
-															</div>
-														
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 px-1 mx-0 mb-0">	
+                                                    <div class="col-9 col-md-3">
+                                                        <cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
+                                                        <label for="any_taxa_term" class="data-entry-label smaller font-weight-bold">Any Taxonomic Element
+                                                            <input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-3 col-md-1">
+                                                        <cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
+                                                        <label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search
+                                                            <select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small95 px-0" style="color: rgba(0, 0, 0, .8);">
+                                                                <cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
+                                                                <cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
+                                                                <option value="any" #any_selected#>Any Id</option>
+                                                                <option value="current" #current_selected#>Current Id Only</option>
+                                                            </select>
+                                                        </label>
+                                                    </div>	
 										
 													<div class="col-12 col-md-3">
 														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name
@@ -1058,7 +1055,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mx-0 px-3 py-1 d-block border-right border-top border-left border-bottom text-black bg-teal font-weight-bold">Coll. Event</h2>
+														<h2 class="small mx-0 mb-0 px-3 py-1 d-block border-right border-top border-left border-bottom text-black bg-teal font-weight-bold">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
@@ -1513,7 +1510,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-md-1 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
-														<h2 class="small mx-0 mx-xl-0 px-3 py-1 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
+														<h2 class="small mx-0 mx-xl-0 px-3 py-1 mb-0 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
 															Transactions
 														</h2>
 													</div>
