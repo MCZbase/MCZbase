@@ -744,7 +744,7 @@ limitations under the License.
 														</div>
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
-																<label for="determiner" class="data-entry-label small">Determiner
+																<label for="determiner" class="data-entry-label smaller font-weight-bold">Determiner
                                                                     <cfif not isdefined("determiner")><cfset determiner=""></cfif>
                                                                     <cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
                                                                     <!--- lookup agent name --->
@@ -1495,7 +1495,7 @@ limitations under the License.
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-0">
-													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
 														<h2 class="small mx-0 mx-xl-0 px-3 py-1 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
 															Transactions
 														</h2>
