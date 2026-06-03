@@ -1412,15 +1412,17 @@ limitations under the License.
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
 														</cfif>
-														<label for="keyword" class="data-entry-label smaller font-weight-bold">Keyword Search</label>
-														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#" >
+														<label for="keyword" class="data-entry-label smaller font-weight-bold">Keyword Search
+														    <input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#">
+                                                        </label>
 													</div>
 													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("coll_object_entered_date")>
 															<cfset coll_object_entered_date="">
 														</cfif>
-														<label for="coll_object_entered_date" class="data-entry-label smaller font-weight-bold">Date Entered</label>
-														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
+														<label for="coll_object_entered_date" class="data-entry-label smaller font-weight-bold">Date Entered
+														    <input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
+                                                        </label>
 													</div>
 													<div class="col-12 mb-0 col-md-2">
 														<label for="entered_by" class="data-entry-label smaller font-weight-bold">Entered By
@@ -1453,8 +1455,9 @@ limitations under the License.
 														<cfif not isdefined("last_edit_date")>
 															<cfset last_edit_date="">
 														</cfif>
-														<label for="last_edit_date" class="data-entry-label smaller font-weight-bold">Last Updated on</label>
-														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
+														<label for="last_edit_date" class="data-entry-label smaller font-weight-bold">Last Updated on
+														    <input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
+                                                        </label>
 													</div>
 													<div class="col-12 mb-0 col-md-2">
 														<label for="last_edited_person" class="data-entry-label smaller font-weight-bold">Last Updated By
@@ -1485,16 +1488,16 @@ limitations under the License.
 													<div class="col-12 mb-0 col-md-2">
 														<label for="underscore_collection" class="data-entry-label smaller font-weight-bold">Named Group
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
-														</label>
-														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
-														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
-														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
-														<input type="text" id="underscore_collection" name="underscore_collection" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makeNamedCollectionPicker('underscore_collection','underscore_collection_id',false);
-															});
-														</script>
+                                                            <cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
+                                                            <cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
+                                                            <input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
+                                                            <input type="text" id="underscore_collection" name="underscore_collection" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeNamedCollectionPicker('underscore_collection','underscore_collection_id',false);
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 												</div>
 											</div>
@@ -1522,8 +1525,9 @@ limitations under the License.
 																	<cfset loan_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
-															<label for="loan_number" class="data-entry-label smaller font-weight-bold">Loan ##</label>
-															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+															<label for="loan_number" class="data-entry-label smaller font-weight-bold">Loan ##
+															    <input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+                                                            </label>
 														</div>
 														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_number")>
@@ -1541,15 +1545,17 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
 															</cfif>
-															<label for="accn_number" class="data-entry-label smaller font-weight-bold">Accession ##</label>
-															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
+															<label for="accn_number" class="data-entry-label smaller font-weight-bold">Accession ##
+															    <input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
+                                                            </label>
 														</div>
 														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("received_date")>
 																<cfset received_date="">
 															</cfif>
-															<label for="received_date" class="data-entry-label smaller font-weight-bold">Date Received</label>
-															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#" >
+															<label for="received_date" class="data-entry-label smaller font-weight-bold">Date Received
+															    <input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
+                                                            </label>
 														</div>
 														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_status")>
@@ -1571,20 +1577,21 @@ limitations under the License.
 															</cfif>
 															<label for="accn_type" class="data-entry-label smaller font-weight-bold">Accession Type
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-															</label>
-															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
-															<script>
-																jQuery(document).ready(function() {
-																	makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
-																});
-															</script>
+                                                                <input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
+                                                                <script>
+                                                                    jQuery(document).ready(function() {
+                                                                        makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
+                                                                    });
+                                                                </script>
+                                                            </label>
 														</div>
 														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
-															<label for="deaccession_number" class="data-entry-label smaller font-weight-bold">Deaccession ##</label>
-															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
+															<label for="deaccession_number" class="data-entry-label smaller font-weight-bold">Deaccession ##
+															    <input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
+                                                            </label>
 														</div>
 													</div>
 												</div>
