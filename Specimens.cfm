@@ -733,7 +733,7 @@ limitations under the License.
                                                                 </label>
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="species" class="data-entry-label small">Specific Name
+																<label for="species" class="data-entry-label smaller font-weight-bold">Specific Name
                                                                     <cfif not isdefined("species")><cfset species=""></cfif>
                                                                     <input type="text" class="data-entry-input inputHeight" id="species" name="species" value="#encodeForHtml(species)#">
                                                                     <script>
@@ -771,7 +771,7 @@ limitations under the License.
                                                                 </label>
 															</div>
 															<div class="col-12 col-md-4">
-																<label for="publication_id" class="data-entry-label small">Cited In
+																<label for="publication_id" class="data-entry-label smaller font-weight-bold">Cited In
                                                                     <cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
                                                                     <cfif not isdefined("citation")><cfset citation=""></cfif>
                                                                     <input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input inputHeight" value="#encodeForHtml(publication_id)#" >
@@ -784,7 +784,7 @@ limitations under the License.
                                                                 </label>
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="nature_of_id" class="data-entry-label small">Nature of ID
+																<label for="nature_of_id" class="data-entry-label smaller font-weight-bold">Nature of ID
                                                                     <cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
                                                                     <select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
                                                                         <option value=""></option>
@@ -797,13 +797,13 @@ limitations under the License.
                                                                 </label>
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="identification_remarks" class="data-entry-label small">ID Remarks
+																<label for="identification_remarks" class="data-entry-label smaller font-weight-bold">ID Remarks
 																    <cfif not isdefined("identification_remarks")><cfset identification_remarks=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
                                                                 </label>
 															</div>
 															<div class="col-12 col-md-2">
-																<label for="common_name" class="data-entry-label small">Common Name
+																<label for="common_name" class="data-entry-label smaller font-weight-bold">Common Name
 																    <cfif not isdefined("common_name")><cfset common_name=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
                                                                 </label>
