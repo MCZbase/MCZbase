@@ -205,11 +205,11 @@ limitations under the License.
                                     <input type="hidden" name="action" value="search">
                                     <div class="col-12 px-2">
                                         <fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-1 mt-3 mx-2">
-                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">General Taxonomy Search</legend>
+                                            <legend class="h6 mb-0 px-3 border field-set-legend py-1 w-auto bg-teal">General Taxonomy Search</legend>
                                             <div class="form-row mb-0">
                                                 <div class="form-group mb-0 col-12 col-md-4 px-0">
-                                                    <label for="scientific_name" class="data-entry-label align-left small">Scientific Name 
-                                                        <span class="small90">
+                                                    <label for="scientific_name" class="data-entry-label align-left smaller font-weight-bold">Scientific Name 
+                                                        <span class="h6">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
                                                         </span>
@@ -217,15 +217,15 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group mb-0 col-12 col-md-4 px-0">
-                                                    <label for="full_taxon_name" class="data-entry-label align-left small">Any part of name or classification
+                                                    <label for="full_taxon_name" class="data-entry-label align-left smaller font-weight-bold">Any part of name or classification
                                                         <span class="small90">
-                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set h6" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
                                                         </span>
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
                                                     </label>
                                                 </div>
                                                 <div class="form-group mb-0 col-12 col-md-4 px-0">
-                                                    <label for="common_name" class="data-entry-label align-left small"> Common Name 
+                                                    <label for="common_name" class="data-entry-label align-left smaller font-weight-bold">Common Name 
                                                         <span class="small90">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
                                                         </span>
@@ -235,10 +235,10 @@ limitations under the License.
                                             </div>
                                         </fieldset>
                                         <fieldset class="bg-light border-right border-left border-top border-bottom field-set rounded px-2 pt-1 pb-1 mt-2 mx-2">
-                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">Scientific Name Search</legend>
+                                            <legend class="h6 mb-0 px-3 border field-set-legend w-auto py-1 bg-teal">Scientific Name Search</legend>
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-sm-6 col-md-2 px-0 mb-0 pb-0">
-                                                    <label for="genus" class="data-entry-label align-left small">Genus 
+                                                    <label for="genus" class="data-entry-label align-left smaller font-weight-bold">Genus 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('genus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -247,7 +247,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-sm-6 col-md-2 px-0 mb-0 pb-0">
-                                                    <label for="subgenus" class="data-entry-label align-left small">Subgenus 
+                                                    <label for="subgenus" class="data-entry-label align-left smaller font-weight-bold">Subgenus 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -256,7 +256,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-sm-6 col-md-2 mb-0 pb-0 px-0">
-                                                    <label for="species" class="data-entry-label align-left small">Species 
+                                                    <label for="species" class="data-entry-label align-left smaller font-weight-bold">Species 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('species');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('species');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
