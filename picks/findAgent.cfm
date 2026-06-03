@@ -19,38 +19,46 @@
 		<cfabort>
 	</cfif>
 
-		<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT
-				preferred_agent_name.agent_name, agent.agent_id, agent.edited
-			from
-				preferred_agent_name,agent_name, agent, person
-			where
-				preferred_agent_name.agent_id = agent_name.agent_id AND
-				agent_name.agent_id = agent.agent_id AND
-				person.person_id(+)=agent.agent_id AND
-				UPPER(agent_name.agent_name) LIKE '%#ucase(agent_name)#%'
-				<cfif not isdefined("allowCreation") OR  #allowCreation# is not "true">
-					AND agent_type != 'verbatim agent'
-				</cfif>
-				group by preferred_agent_name.agent_name, agent.agent_id, agent.edited
-				order by preferred_agent_name.agent_name
-		</cfquery>
+	<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			preferred_agent_name.agent_name, agent.agent_id, agent.edited
+		FROM
+			preferred_agent_name
+			JOIN agent_name on preferred_agent_name.agent_id = agent_name.agent_id
+			JOIN agent on agent_name.agent_id = agent.agent_id 
+			LEFT JOIN person on agent.agent_id = person.person_id 
+		WHERE
+			<cfif isDefined("url.formName") AND ucase(url.formName) EQ "DATAENTRY" and isdefined("url.agent_name") and REFind("^[0-9]+$",url.agent_name)>
+				preferred_agent_name.agent_id = <cfqueryparam value="#url.agent_name#" cfsqltype="CF_SQL_DECIMAL">
+			<cfelse>
+				UPPER(agent_name.agent_name) LIKE <cfqueryparam value="%#ucase(agent_name)#%" cfsqltype="CF_SQL_VARCHAR">
+			</cfif>
+			<cfif not isdefined("allowCreation") OR  #allowCreation# is not "true">
+				AND agent_type != 'verbatim agent'
+			</cfif>
+		GROUP BY preferred_agent_name.agent_name, agent.agent_id, agent.edited
+		ORDER BY preferred_agent_name.agent_name
+	</cfquery>
 
 	<cfif #getAgentId.recordcount# is 1>
-	<cfoutput>
-		<cfset thisName = #replace(getAgentId.agent_name,"'","\'","all")#>
-		<script>
-                        var form = opener.document.#formName#;
-                        if (form==null) { 
-                            form = opener.document.getElementById('#formName#');
-                        }
-			form.#agentIdFld#.value='#getAgentId.agent_id#';
-			form.#agentNameFld#.value='#thisName#';
-			form.#agentNameFld#.style.background='##8BFEB9';
-			window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
-			self.close();
-		</script>
-	 </cfoutput>
+		<cfoutput>
+			<cfif isDefined("url.formName") AND ucase(url.formName) EQ "DATAENTRY" and isdefined("url.agent_name") AND REFind("^[0-9]+$",url.agent_name)>
+				<cfset thisName = #replace(getAgentId.agent_id,"'","\'","all")#>
+			<cfelse>
+				<cfset thisName = #replace(getAgentId.agent_name,"'","\'","all")#>
+			</cfif>
+			<script>
+  		      var form = opener.document.#formName#;
+      	   if (form==null) { 
+        		    form = opener.document.getElementById('#formName#');
+	     	   }
+				form.#agentIdFld#.value='#getAgentId.agent_id#';
+				form.#agentNameFld#.value='#thisName#';
+				form.#agentNameFld#.style.background='##8BFEB9';
+				window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
+				self.close();
+			</script>
+		</cfoutput>
 	<cfelseif #getAgentId.recordcount# is 0>
 		<cfoutput>
 			Nothing matched <strong>#agent_name#</strong>.
@@ -62,7 +70,7 @@
 					following conditions are met:
 				</p>
 				<ul>
-					<li>You are sure you haven't mis-spelled the agent name.</li>
+					<li>You are sure you haven&apos;t mis-spelled the agent name.</li>
 					<li>You have searched for variants.</li>
 					<li>You are authorized to create agents.</li>
 					<li>The agent will not have any roles other than Collector.</li>
@@ -77,28 +85,25 @@
 					<input type="text" name="newName" id="newName" value="#agent_name#">
 					<input type="submit" value="Create Verbatim Agent" class="insBtn"
 					   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"/>
-
 				</form>
 			</cfif>
-
 		</cfoutput>
-
 	<cfelse>
 		<cfoutput query="getAgentId">
-		<br>
-		<cfset thisName = #replace(agent_name,"'","\'","all")#>
-		<a href="##" onClick="javascript: 
-                    var form = opener.document.#formName#;
-                    if (form==null) { 
-                        form = opener.document.getElementById('#formName#');
-                    }
-                    form.#agentIdFld#.value='#agent_id#';
-                    form.#agentNameFld#.value='#thisName#';
-                    form.#agentNameFld#.style.background='##8BFEB9';
-		    window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
-                    self.close();
-               ">#agent_name# (#agent_id#)</a> <cfif #edited# EQ 1>*</cfif>
-	</cfoutput>
+			<br>
+			<cfset thisName = #replace(agent_name,"'","\'","all")#>
+			<a href="##" onClick="javascript: 
+				var form = opener.document.#formName#;
+				if (form==null) { 
+					form = opener.document.getElementById('#formName#');
+				}
+				form.#agentIdFld#.value='#agent_id#';
+				form.#agentNameFld#.value='#thisName#';
+				form.#agentNameFld#.style.background='##8BFEB9';
+				window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
+				self.close();
+			">#agent_name# (#agent_id#)</a> <cfif #edited# EQ 1>*</cfif>
+		</cfoutput>
 	</cfif>
 </cfif>
 <cfif #action# is "createAgent">
@@ -113,10 +118,11 @@
 				AGENT_REMARKS,
 				PREFERRED_AGENT_NAME_ID
 			) values (
-				#aid.agent_id#,
+				<cfqueryparam value="#aid.agent_id#" cfsqltype="CF_SQL_DECIMAL">,
 				'verbatim agent',
-				'Created #dateformat(now(),"dd-mmm-yyyy")# by login #session.username#.',
-				#anid.agent_name_id#)
+				<cfqueryparam value='Created #dateformat(now(),"dd-mmm-yyyy")# by login #session.username#.' cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value="#anid.agent_name_id#" cfsqltype="CF_SQL_DECIMAL">
+			)
 		</cfquery>
 		<cfquery name="newAgntName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO agent_name (
@@ -126,23 +132,24 @@
 				AGENT_NAME
 			) values (
 				sq_agent_name_id.nextval,
-				#aid.agent_id#,
+				<cfqueryparam value="#aid.agent_id#" cfsqltype="CF_SQL_DECIMAL">,
 				'preferred',
-				'#replace(newName,"'","''","all")#')
+				<cfqueryparam value='#replace(newName,"'","''","all")#' cfsqltype="CF_SQL_VARCHAR">
+			)
 		</cfquery>
 	</cftransaction>
 	<cfoutput>
-	<script>
-                var form = opener.document.#formName#;
-                if (form==null) { 
-                	form = opener.document.getElementById('#formName#');
-		}
-		form.#agentIdFld#.value='#aid.agent_id#';
-		form.#agentNameFld#.value='#replace(newName,"'","\'","all")#';
-		form.#agentNameFld#.style.background='##8BFEB9';
-		window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
-		self.close();
-	</script>
+		<script>
+	      var form = opener.document.#formName#;
+   	   if (form==null) { 
+      	    form = opener.document.getElementById('#formName#');
+			}
+			form.#agentIdFld#.value='#aid.agent_id#';
+			form.#agentNameFld#.value='#replace(newName,"'","\'","all")#';
+			form.#agentNameFld#.style.background='##8BFEB9';
+			window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
+			self.close();
+		</script>
 	</cfoutput>
 </cfif>
 <cfinclude template="/includes/_pickFooter.cfm">

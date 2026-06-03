@@ -513,17 +513,9 @@ limitations under the License.
 												</cfif>
 												<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 											</cfif>
-											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-												<cfif targetMenu EQ "production">
-													<a class="dropdown-item" href="/Admin/agentMergeReview.cfm">Review Pending Merges</a>
-												<cfelse>
-													<a class="dropdown-item bg-warning" href="">Review Pending Agent Merges</a>
-												</cfif>	
-												<cfif targetMenu EQ "production">
-													<a class="dropdown-item" href="/Admin/killBadAgentDups.cfm">Merge bad duplicate agents</a>
-												<cfelse>
-													<a class="dropdown-item bg-warning" href="">Merge bad duplicate agents</a>
-												</cfif>
+											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING ") OR listcontainsnocase(session.roles,"merge_agents") )>
+												<a class="dropdown-item" href="/Admin/agentMergeReview.cfm">Review Pending Merges</a>
+												<a class="dropdown-item" href="/Admin/killBadAgentDups.cfm">Merge bad duplicate agents</a>
 											</cfif>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 												<cfif targetMenu EQ "production">
