@@ -594,7 +594,7 @@ limitations under the License.
 													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
+													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-0 mb-md-0 pt-0">
 														<h2 class="small mx-0 mt-0 mb-0 py-1 px-3 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
