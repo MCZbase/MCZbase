@@ -1122,7 +1122,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3 px-1">
+													<div class="col-12 col-md-3">
 														<cfif not isdefined("collecting_source")>
 															<cfset collecting_source="">
 														</cfif>
@@ -1144,7 +1144,7 @@ limitations under the License.
 														    <input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3 px-0">
+													<div class="col-12 col-md-3">
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 														<label class="data-entry-label smaller font-weight-bold" for="verbatim_date">Verbatim Date
                                                             <!---<label class="data-entry-label small" for="when">--->  
