@@ -662,14 +662,15 @@ limitations under the License.
 													<div class="col-12 mb-1 col-md-3 px-1">
 														<label for="type_status" class="data-entry-label smaller font-weight-bold">Type Status/Citation
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-														</label>
-														<cfif not isdefined("type_status")><cfset type_status=""></cfif>
-														<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
-														<script>
-															jQuery(document).ready(function() {
-																makeTypeStatusSearchAutocomplete('type_status');
-															});
-														</script>
+
+                                                            <cfif not isdefined("type_status")><cfset type_status=""></cfif>
+                                                            <input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeTypeStatusSearchAutocomplete('type_status');
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none w-100 py-0 btn-link text-center btn small" onclick="toggleTaxaDetail(1)">
                                                         <span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
@@ -743,28 +744,29 @@ limitations under the License.
 														</div>
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
-																<label for="determiner" class="data-entry-label small">Determiner</label>
-																<cfif not isdefined("determiner")><cfset determiner=""></cfif>
-																<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
-																<!--- lookup agent name --->
-																<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
-																	<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
-																		SELECT agent_name
-																		FROM preferred_agent_name
-																		WHERE
-																			agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
-																	</cfquery>
-																	<cfif lookupDeterminer.recordcount EQ 1>
-																		<cfset determiner = "=#lookupDeterminer.agent_name#">
-																	</cfif>
-																</cfif>
-																<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#encodeForHtml(determiner_id)#" >
-																<input type="text" id="determiner" name="determiner" class="data-entry-input inputHeight" value="#encodeForHtml(determiner)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
-																	});
-																</script>
+																<label for="determiner" class="data-entry-label small">Determiner
+                                                                    <cfif not isdefined("determiner")><cfset determiner=""></cfif>
+                                                                    <cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
+                                                                    <!--- lookup agent name --->
+                                                                    <cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
+                                                                        <cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
+                                                                            SELECT agent_name
+                                                                            FROM preferred_agent_name
+                                                                            WHERE
+                                                                                agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
+                                                                        </cfquery>
+                                                                        <cfif lookupDeterminer.recordcount EQ 1>
+                                                                            <cfset determiner = "=#lookupDeterminer.agent_name#">
+                                                                        </cfif>
+                                                                    </cfif>
+                                                                    <input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#encodeForHtml(determiner_id)#" >
+                                                                    <input type="text" id="determiner" name="determiner" class="data-entry-input inputHeight" value="#encodeForHtml(determiner)#" >
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 mb-1 col-md-4">
 																<label for="publication_id" class="data-entry-label small">Cited In</label>
@@ -840,7 +842,7 @@ limitations under the License.
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label smaller font-weight-bold">Any Geography (keywords)</label>
@@ -1051,7 +1053,7 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mb-0 mx-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-2 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label smaller font-weight-bold">Collector</label>
 														<cfif not isdefined("collector")>
@@ -1178,7 +1180,7 @@ limitations under the License.
 													</div>
 												</div>
 													
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mb-0 mx-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 px-1 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label smaller font-weight-bold">Part Name</label>
