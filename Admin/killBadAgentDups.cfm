@@ -143,6 +143,8 @@ limitations under the License.
 								AND (on_hold IS NULL OR on_hold <> 1)
 								AND date_to_merge < SYSDATE
 						</cfquery>
+						<cfif bads.recordCount EQ 0>
+							<p class="alert alert-info" role="alert">There are no agents eligible for merge. You can only merge agents that are not on hold and have a merge date in the past.</p>						</cfif>
 
 						<cfloop query="bads">
 							<div class="border rounded p-2 my-2 bg-light">
