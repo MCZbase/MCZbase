@@ -2750,8 +2750,8 @@ html,body {
 .wiki-drawer {
 	position: fixed;
 	top: 0;
-	left: -330px;
-	width: 330px;
+	left: -390px;
+	width: 390px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
