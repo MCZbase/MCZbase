@@ -1230,7 +1230,7 @@ limitations under the License.
 														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-0 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
-													<div id="SpecDetail" class="col-12 px-0" style="#SpecDetailStyle#">
+													<div id="SpecDetail" class="col-12 px-0 pt-2" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
 																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Collection Object Remarks</label>
