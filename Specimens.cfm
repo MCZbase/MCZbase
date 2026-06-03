@@ -1494,13 +1494,13 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-0">
+												<div class="col-12 form-row mx-0 search-form-basic-odd pb-1 pb-xl-1 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
 														<h2 class="small mx-0 mx-xl-0 px-3 py-1 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
 															Transactions
 														</h2>
 													</div>
-													<div class="form-row col-12 col-xxl-eleven  col-xxl-11 ml-0 px-0 pt-0 mb-0">
+													<div class="form-row col-12 col-xxl-eleven col-xxl-11 ml-0 px-0 pt-0 mb-0">
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
