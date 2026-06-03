@@ -529,7 +529,7 @@ limitations under the License.
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
 													<div id="IDDetail" class="col-12 px-0 py-3 py-xl-1" style="#IDDetailStyle#">
-                                                        <div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
+                                                        <div class="form-row col-12 px-0 mx-0 mb-1">
                                                             <div class="col-12 col-md-3">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
                                                                 <label for="otherID" class="data-entry-label smaller font-weight-bold">or Other ID Type
@@ -601,7 +601,7 @@ limitations under the License.
 												</div>
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4 px-1">
-														<div class="form-row mx-0 mb-0">
+														
 															<div class="col-9">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 																<label for="any_taxa_term" class="data-entry-label smaller font-weight-bold">Any Taxonomic Element
@@ -619,7 +619,7 @@ limitations under the License.
                                                                     </select>
                                                                 </label>
 															</div>
-														</div>
+														
 													</div>
 													<div class="col-12 col-md-3">
 														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name
