@@ -1155,7 +1155,7 @@ limitations under the License.
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="CollDetail" class="col-12 px-0 py-3 py-xl-1" style="#CollDetailStyle#">
-														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
+                                                        <div class="form-row col-12 col-md-12 px-0 mb-1 mx-0">
 															<div class="col-12 col-md-3">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
@@ -1431,7 +1431,7 @@ limitations under the License.
 															General
 														</h2>
 													</div>
-													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-1 pt-1 mb-0">
+													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-1 pt-21 mb-0">
 													<div class="col-12 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
