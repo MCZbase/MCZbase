@@ -1229,7 +1229,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-0 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-0 btn-link text-center btn small bg-lt-gray border" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="SpecDetail" class="col-12 px-0 py-3 py-xl-1" style="#SpecDetailStyle#">
@@ -1687,7 +1687,7 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray border">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link bg-lt-gray border">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##IDDetail").show();
