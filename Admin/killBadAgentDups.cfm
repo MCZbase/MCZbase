@@ -74,25 +74,13 @@ limitations under the License.
 							date_to_merge DESC
 					</cfquery>
 					<!--- count the agents available to be merged (not on hold) in a query on bads and display that count in the heading --->
-					<cfquery name="mergeCount" dbtype="query">
-						SELECT
-							COUNT(*) AS cnt
-						FROM
-							bads
-						WHERE
-							on_hold IS NULL OR on_hold <> 'X'
-					</cfquery>
+					<cfset mergeableBads = queryFilter(bads, function(row) {	return row.on_hold NEQ "X";})>
+					<cfset mergeCount = mergeableBads.recordCount>
 					<!--- count the agents on hold for merge in a query on bads and display that count in the heading --->
-					<cfquery name="holdCount" dbtype="query">
-						SELECT
-							COUNT(*) AS cnt
-						FROM
-							bads
-						WHERE
-							on_hold = 'X'
-					</cfquery>
+					<cfset heldBads = queryFilter(bads, function(row) {	return row.on_hold EQ "X";})>
+					<cfset holdCount = heldBads.recordCount>
 					<cfoutput>
-						<h2 class="h4 px-4">Agents Eligible for Merge: #encodeForHtml(mergeCount.cnt)#; Agents on Hold: #encodeForHtml(holdCount.cnt)#</h2>
+						<h2 class="h4 px-4">Agents Eligible for Merge: #encodeForHtml(mergeCount)#; Agents on Hold: #encodeForHtml(holdCount)#</h2>
 						<table class="table table-responsive d-lg-table">
 							<thead class="thead-light">
 								<tr>
@@ -118,7 +106,7 @@ limitations under the License.
 							</tbody>
 				 		</table>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"merge_agents")>
-							<cfif mergeCount.cnt EQ 0>
+							<cfif mergeCount EQ 0>
 								<p class="alert alert-info" role="alert">There are no agents eligible for merge. You can only merge agents that are not on hold and have a merge date in the past.</p>
 							<cfelse>
 								<form name="go" method="post" action="killBadAgentDups.cfm">
