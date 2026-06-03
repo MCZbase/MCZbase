@@ -1123,7 +1123,7 @@ limitations under the License.
 														    <input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
                                                         </label>
 													</div>
-														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
+														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
