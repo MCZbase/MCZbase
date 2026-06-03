@@ -80,7 +80,7 @@ limitations under the License.
 						FROM
 							bads
 						WHERE
-							on_hold = ''
+							on_hold IS NULL OR on_hold <> 'X'
 					</cfquery>
 					<!--- count the agents on hold for merge in a query on bads and display that count in the heading --->
 					<cfquery name="holdCount" dbtype="query">
@@ -92,7 +92,7 @@ limitations under the License.
 							on_hold = 'X'
 					</cfquery>
 					<cfoutput>
-						<h2 class="h4 px-4">Agents Eligible for Merge: #encodeForHtml(mergeCount.cnt)# | Agents on Hold: #encodeForHtml(holdCount.cnt)#</h2>
+						<h2 class="h4 px-4">Agents Eligible for Merge: #encodeForHtml(mergeCount.cnt)#; Agents on Hold: #encodeForHtml(holdCount.cnt)#</h2>
 						<table class="table table-responsive d-lg-table">
 							<thead class="thead-light">
 								<tr>
@@ -118,10 +118,14 @@ limitations under the License.
 							</tbody>
 				 		</table>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"merge_agents")>
-							<form name="go" method="post" action="killBadAgentDups.cfm">
-								<input type="hidden" name="action" value="doIt">
-								<input type="submit" value="Merge Agents" class="btn btn-danger">
-							</form>
+							<cfif mergeCount.cnt EQ 0>
+								<p class="alert alert-info" role="alert">There are no agents eligible for merge. You can only merge agents that are not on hold and have a merge date in the past.</p>
+							<cfelse>
+								<form name="go" method="post" action="killBadAgentDups.cfm">
+									<input type="hidden" name="action" value="doIt">
+									<input type="submit" value="Merge Agents" class="btn btn-danger">
+								</form>
+							</cfif>
 						<cfelse>
 							<p class="alert alert-warning" role="alert">You do not have permissions to merge agents, you must have been granted the <i>merge_agent</i> role.<p>
 						</cfif>
