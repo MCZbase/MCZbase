@@ -3,6 +3,7 @@
 body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
+    overflow-x: hidden;
 }
 /*a {
 	color: #0460c1;
