@@ -653,7 +653,7 @@ limitations under the License.
 			<section class="container-fluid">
 				<div class="row">
 					<div class="col-12 mb-5">
-						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border px-2 mx-0">
+						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border p-2 mx-0">
 							<h1 class="h4 my-0 ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
@@ -692,7 +692,7 @@ limitations under the License.
 										}
 									};
 								</script>
-								<label class="data-entry-label d-inline w-auto mb-1 mb-xl-0" for="selectMode">Grid Select:
+								<label class="data-entry-label d-inline w-auto" for="selectMode">Grid Select:
                                     <select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
                                         <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
                                         <option #selected# value="none">Text</option>
