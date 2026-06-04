@@ -2756,11 +2756,12 @@ html,body {
 	background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
 	z-index: 1051;
-	transition: left 0.3s;
+	transition: transform 0.3s ease;
 	overflow-y: auto;
+    transform: translateX(-385px);
 }
 .wiki-drawer.open {
-	left: 0;
+	transform: translateX(0);
 }
 #content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
