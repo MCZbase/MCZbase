@@ -284,7 +284,10 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-sm-6 col-md-2 px-0 mb-0 pb-0">
                                                     <label for="infraspecific_author" class="data-entry-label align-left smaller font-weight-bold">Infrasp.&thinsp;Author
-                                                        <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
+                                                        <span class="h6">
+                                                            (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">=</button>
+                                                            )
+                                                        </span>
                                                         <input type="text" class="data-entry-input mb-0 py-0" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
                                                     </label>
                                                 </div>
