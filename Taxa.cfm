@@ -296,7 +296,7 @@ limitations under the License.
                                             <legend class="h6 mb-0 px-3 border field-set-legend w-auto bg-teal">Classification and Other Filters </legend>     
                                             <div class="form-row mt-0">
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="kingdom" class="data-entry-label align-left small">Kingdom 
+                                                    <label for="kingdom" class="data-entry-label align-left smaller font-weight-bold">Kingdom 
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                         <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 smaller p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
                                                         <input type="text" class="data-entry-input py-0" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
@@ -322,7 +322,7 @@ limitations under the License.
                                                         <input type="small" class="data-entry-input py-0 mb-0" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="superclass" class="data-entry-label align-left smaller font-weight-bold">Superclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
@@ -331,7 +331,7 @@ limitations under the License.
                                                         <input type="small" class="data-entry-input py-0 mb-0" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="phylclass" class="data-entry-label align-left smaller font-weight-bold">Class 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
@@ -340,7 +340,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" placeholder="class">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="subclass" class="data-entry-label align-left smaller font-weight-bold">Subclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
@@ -358,7 +358,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="superorder" class="data-entry-label align-left smaller font-weight-bold">Superorder 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
@@ -367,7 +367,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="phylorder" class="data-entry-label align-left smaller font-weight-bold">Order 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -376,7 +376,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" placeholder="order">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="suborder" class="data-entry-label align-left smaller font-weight-bold">Suborder
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -385,7 +385,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="infraorder" class="data-entry-label align-left smaller font-weight-bold">Infraorder 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -394,7 +394,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
                                                     </label>  
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="superfamily" class="data-entry-label align-left smaller font-weight-bold">Superfamily 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -403,7 +403,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
                                                     </label>
                                                 </div> 
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="family" class="data-entry-label align-left smaller font-weight-bold">Family 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -412,7 +412,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="subfamily" class="data-entry-label align-left smaller font-weight-bold">Subfamily 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -421,7 +421,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="tribe" class="data-entry-label align-left smaller font-weight-bold">Tribe 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
@@ -430,7 +430,7 @@ limitations under the License.
                                                         <input type="text" class="data-entry-input py-0" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="nomenclatural_code" class="data-entry-label align-left smaller font-weight-bold">Nomenclatural Code
                                                         <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
                                                             <option></option>
@@ -441,7 +441,7 @@ limitations under the License.
                                                         </select>
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 px-0 mb-0 pb-0">
+                                                <div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="taxon_status" class="data-entry-label py-0 align-left smaller font-weight-bold">Nomenclatural Status
                                                         <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
                                                             <option></option>
@@ -458,8 +458,8 @@ limitations under the License.
                                     <div class="col-12 px-2">     
                                         <fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-1 pb-1 mt-0 mx-2">         
                                             <div class="form-row mt-0">             
-                                                    <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="taxon_habitat" class="data-entry-label align-left small">Habitat
+                                                    <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-1 pb-0">
+                                                        <label for="taxon_habitat" class="data-entry-label align-left smaller font-weight-bold">Habitat
                                                             <select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_habitat_null">
@@ -474,7 +474,7 @@ limitations under the License.
                                                         </label>
                                                     </div>
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="taxon_category" class="data-entry-label align-left small">Category
+                                                        <label for="taxon_category" class="data-entry-label align-left smaller font-weight-bold">Category
                                                             <select name="taxon_category" class="data-entry-select py-0" id="taxon_category">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_category">
@@ -490,7 +490,7 @@ limitations under the License.
                                                     </div>
                                                   
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="relationship" class="data-entry-label align-left small">Has Relationship
+                                                        <label for="relationship" class="data-entry-label align-left smaller font-weight-bold">Has Relationship
                                                             <select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
                                                                 <option></option>
                                                                 <cfloop query="cttaxon_relation">
@@ -505,7 +505,7 @@ limitations under the License.
 
 
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="source_authority" class="data-entry-label align-left small">Source Authority
+                                                        <label for="source_authority" class="data-entry-label align-left smaller font-weight-bold">Source Authority
                                                             <select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
                                                                 <option></option>
                                                                 <cfloop query="CTTAXONOMIC_AUTHORITY">
@@ -527,7 +527,7 @@ limitations under the License.
                                                             <cfset selectedCollection = lookupCollection.collection >
                                                         </cfif>
                                                         <div class="d-flex flex-wrap col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                            <label for="collection_cde" class="data-entry-label align-left small">Used by Coll.
+                                                            <label for="collection_cde" class="data-entry-label align-left smaller font-weight-bold">Used by Coll.
                                                                 <select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
                                                                     <option value="" class="text-dark">any collection</option>
                                                                     <cfloop query="ctcollection">
@@ -543,7 +543,7 @@ limitations under the License.
                                                         </div>
                                                     </cfif>
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="taxon_remarks" class="data-entry-label align-left small">Remarks
+                                                        <label for="taxon_remarks" class="data-entry-label align-left smaller font-weight">Remarks
                                                             <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
                                                         </label>
                                                     </div>
