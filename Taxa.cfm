@@ -353,7 +353,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
                                                     <label for="infraclass" class="data-entry-label align-left smaller font-weight-bold">Infraclass 
-                                                        <span class="small">
+                                                        <span class="h6">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
