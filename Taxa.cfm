@@ -543,7 +543,7 @@ limitations under the License.
                                                         </div>
                                                     </cfif>
                                                     <div class="form-group col-12 col-sm-4 col-xl-2 px-0 mb-0 pb-0">
-                                                        <label for="taxon_remarks" class="data-entry-label align-left smaller font-weight">Remarks
+                                                        <label for="taxon_remarks" class="data-entry-label align-left smaller font-weight-bold">Remarks
                                                             <input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
                                                         </label>
                                                     </div>
