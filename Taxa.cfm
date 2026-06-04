@@ -1197,7 +1197,7 @@ limitations under the License.
 						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary mx-1"  style="padding-top: 1px;padding-bottom:2px;">Scientific Name</button>
 					</div>`
 				);
-                $("#pinTaxonButton").html(`
+                $("##pinTaxonButton").html(`
                   <button id="pinTaxonToggle"
                           onclick="togglePinTaxonColumn();"
                           class="btn btn-xs btn-secondary mx-1">
