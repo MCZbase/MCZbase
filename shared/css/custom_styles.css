@@ -2236,7 +2236,7 @@ button.help-btnSp-SearchWiki {
     padding-bottom: .35rem; 
     font-size: 13.5px;
     margin-top: 0;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
@@ -2254,7 +2254,7 @@ button.help-btnA-SearchWiki {
     padding-bottom: .35rem; 
     font-size: 13.5px;
     margin-top: 0;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
@@ -2281,7 +2281,7 @@ button.help-btnSearchWiki {
     padding-bottom: .15rem; 
     font-size: 13.5px;
     margin-top: 0;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
@@ -3765,6 +3765,7 @@ and also iPads specifically.
 	}
      button.help-btnA-SearchWiki {
         background-color: #1b1b1b;
+         position: fixed;
         color: white;
         float: right;
         -webkit-backface-visibility: hidden;
