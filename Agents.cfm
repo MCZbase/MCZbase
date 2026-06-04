@@ -473,7 +473,7 @@ limitations under the License.
 					<div class="col-12">
 						<div class="mb-5">
 							<div class="row mb-0 pt-2 jqx-widget-header border px-2">
-								<h1 class="h4 ml-2 ml-md-1">
+								<h1 class="h4 mb-0 ml-2 ml-md-1">
 									<span tabindex="0">Results: </span>
 									<span class="pr-2 font-weight-normal" id="resultCount"></span>
 									<span id="resultLink" class="pr-2 font-weight-normal"></span>
