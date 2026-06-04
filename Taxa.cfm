@@ -423,7 +423,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="tribe" class="data-entry-label align-left smaller font-weight-bold">Tribe 
-                                                        <span class="small">
+                                                        <span class="h6">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
@@ -652,7 +652,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 mt-3 ml-2 ml-md-1">
+							<h1 class="h4 mb-1 ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" aria-label="search results"></a>
@@ -661,7 +661,7 @@ limitations under the License.
 							</h1>
 						
 							<div id="showhide"></div>
-							<div id="saveDialogButton" class="py-1"></div>
+							<div id="saveDialogButton"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -675,9 +675,9 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div id="columnPickDialogButton" class="pb-1"></div>
-							<div id="resultDownloadButtonContainer" class="py-0 py-md-1"></div>
-							<div id="selectModeContainer" class="ml-3 my-1" style="display: none;" >
+							<div id="columnPickDialogButton" class=""></div>
+							<div id="resultDownloadButtonContainer" class="py-0"></div>
+							<div id="selectModeContainer" class="ml-3" style="display: none;" >
 								<script>
 									function changeSelectMode(){
 										var selmode = $("##selectMode").val();
@@ -689,8 +689,8 @@ limitations under the License.
 										}
 									};
 								</script>
-								<label class="data-entry-label d-inline w-auto my-2" for="selectMode">Grid Select:</label>
-								<select class="data-entry-select d-inline w-auto my-2" id="selectMode" onChange="changeSelectMode();">
+								<label class="data-entry-label d-inline w-auto" for="selectMode">Grid Select:</label>
+								<select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
 									<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option #selected# value="none">Text</option>
 									<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -703,7 +703,7 @@ limitations under the License.
 									<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 								</select>
 							</div>
-							<output id="actionFeedback" class="mx-1 my-0 my-md-2 p-2 h5"></output>
+							<output id="actionFeedback" class="mx-1 my-0  h5"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
