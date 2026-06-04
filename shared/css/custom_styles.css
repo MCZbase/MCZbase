@@ -2768,14 +2768,9 @@ html,body {
     
 }
 #content {
-/*	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);*/
 	width: 100%;
 	box-sizing: border-box;
 }
-/*#content.pushed {
-	margin-left: 355px;
-	width: calc(100% - 355px);
-}*/
 
 div.mw-parser-output h1 {
 	font-size: 20px;
