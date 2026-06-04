@@ -1,6 +1,7 @@
 <cfset local = structNew()>
 <cfset pageTitle = "Manage Collections">
 <cfset local.allowedActions = "nothing,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
+<cfset local.actionsRequiringCollectionId = "findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
 <cfset local.findCollectionBaseUrl = "/Admin/Collection.cfm?action=findColl&collection_id=">
 
 <cfparam name="url.action" default="">
@@ -24,7 +25,7 @@
 <cfelseif len(trim(url.collection_id)) GT 0>
 	<cfset local.collection_id = trim(url.collection_id)>
 </cfif>
-<cfif listFindNoCase(local.allowedActions, local.action) GT 1 AND (len(local.collection_id) EQ 0 OR NOT isValid("integer", local.collection_id))>
+<cfif listFindNoCase(local.actionsRequiringCollectionId, local.action) AND (len(local.collection_id) EQ 0 OR NOT isValid("integer", local.collection_id))>
 	<cfset local.action = "nothing">
 	<cfset local.collection_id = "">
 </cfif>
@@ -357,7 +358,7 @@
 										</div>
 										<div class="col-12 col-lg-3 mt-3 mt-lg-0">
 											<div class="d-flex flex-wrap">
-												<input type="submit" value="Save" class="btn btn-primary btn-xs mr-2 mb-2" onclick="document.getElementById('action_contact_#contact.currentRow#').value='updateContact';">
+												<input type="submit" value="Save" class="btn btn-primary btn-xs mr-2 mb-2">
 												<input type="button" value="Delete" class="btn btn-xs btn-danger mb-2" onclick="document.getElementById('action_contact_#contact.currentRow#').value='deleteContact';confirmDelete('contact#contact.currentRow#');">
 											</div>
 										</div>
