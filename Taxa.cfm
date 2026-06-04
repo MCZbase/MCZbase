@@ -1239,7 +1239,7 @@ limitations under the License.
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
 							class="btn btn-xs btn-secondary mx-1">Save Search</button>
 					`);
-                    $("##saveDialogButton").html(
+                    $("##pinTaxonToggle").html(
 					`<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1" >Pin Taxon Column</button>
 					`);
 				</cfif>
