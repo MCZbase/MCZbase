@@ -2768,14 +2768,14 @@ html,body {
     
 }
 #content {
-	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+/*	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);*/
 	width: 100%;
 	box-sizing: border-box;
 }
-#content.pushed {
+/*#content.pushed {
 	margin-left: 355px;
 	width: calc(100% - 355px);
-}
+}*/
 
 div.mw-parser-output h1 {
 	font-size: 20px;
@@ -2834,8 +2834,8 @@ an overlay that prevents interaction with them.
 /* Desktop / large screens: push content */
 @media (min-width: 768px) {
     #content.pushed {
-        margin-left: 330px;
-        width: calc(100% - 330px);
+        margin-left: 355px;
+        width: calc(100% - 355px);
     }
 }
 /****************end all screen styles*********************/
