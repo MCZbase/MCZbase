@@ -361,7 +361,7 @@
 										<div class="col-12 col-lg-3 mt-3 mt-lg-0">
 											<div class="d-flex flex-wrap">
 												<input type="submit" value="Save" class="btn btn-primary btn-xs mr-2 mb-2">
-												<input type="button" value="Delete" class="btn btn-xs btn-danger mb-2" onclick="document.getElementById('action_contact_#contact.currentRow#').value='deleteContact';confirmDelete('contact#contact.currentRow#');">
+												<input type="button" value="Delete" class="btn btn-xs btn-danger mb-2" onclick="if (confirm('Delete this collection contact?')) { document.getElementById('action_contact_#contact.currentRow#').value='deleteContact'; document.getElementById('contact#contact.currentRow#').submit(); } else { document.getElementById('action_contact_#contact.currentRow#').value='updateContact'; }">
 											</div>
 										</div>
 									</div>
