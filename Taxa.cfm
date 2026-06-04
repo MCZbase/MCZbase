@@ -1189,7 +1189,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<div class="border d-inline-block bg-white rounded px-1 pb-1 pb-sm-0 m-1"><span class="h5 px-2">Show/Hide </span>
+					`<div class="border d-inline-block bg-white rounded px-1 pb-1 pb-sm-0" style="margin-top:-2px;margin-bottom: 2px;"><span class="h5 px-2">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary mx-1">Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary mx-1" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary  mx-1" >Super/Sub/Infra</button>
