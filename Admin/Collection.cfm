@@ -1,5 +1,7 @@
 <cfset local = structNew()>
 <cfset pageTitle = "Manage Collections">
+<cfset local.allowedActions = "nothing,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
+<cfset local.findCollectionBaseUrl = "/Admin/Collection.cfm?action=findColl&collection_id=">
 
 <cfparam name="url.action" default="">
 <cfparam name="form.action" default="">
@@ -12,7 +14,7 @@
 <cfelseif len(trim(url.action)) GT 0>
 	<cfset local.action = trim(url.action)>
 </cfif>
-<cfif NOT listFindNoCase("nothing,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection", local.action)>
+<cfif NOT listFindNoCase(local.allowedActions, local.action)>
 	<cfset local.action = "nothing">
 </cfif>
 
@@ -22,7 +24,7 @@
 <cfelseif len(trim(url.collection_id)) GT 0>
 	<cfset local.collection_id = trim(url.collection_id)>
 </cfif>
-<cfif listFindNoCase("findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection", local.action) AND (len(local.collection_id) EQ 0 OR NOT isValid("integer", local.collection_id))>
+<cfif listFindNoCase(local.allowedActions, local.action) GT 1 AND (len(local.collection_id) EQ 0 OR NOT isValid("integer", local.collection_id))>
 	<cfset local.action = "nothing">
 	<cfset local.collection_id = "">
 </cfif>
@@ -40,7 +42,7 @@
 			WHERE
 				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
 		</cfquery>
-		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="deleteContact">
 		<cfparam name="form.collection_contact_id" default="">
@@ -49,7 +51,7 @@
 			WHERE
 				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
 		</cfquery>
-		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="changeAppearance">
 		<cfparam name="form.HEADER_COLOR" default="">
@@ -78,7 +80,7 @@
 			WHERE
 				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
 		</cfquery>
-		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="newContact">
 		<cfparam name="form.contact_role" default="">
@@ -98,7 +100,7 @@
 				)
 			</cfquery>
 		</cftransaction>
-		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="modifyCollection">
 		<cfparam name="form.collection_cde" default="">
@@ -127,7 +129,7 @@
 					COLLECTION_ID = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
 			</cfquery>
 		</cftransaction>
-		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 </cfswitch>
 
