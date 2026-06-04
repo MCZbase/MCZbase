@@ -676,6 +676,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="columnPickDialogButton" class=""></div>
+                            <div id="pinTaxonButton"></div>
 							<div id="resultDownloadButtonContainer" class="py-0"></div>
 							<div id="selectModeContainer" class="ml-3" style="display: none;" >
 								<script>
@@ -1194,10 +1195,15 @@ limitations under the License.
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary mx-1" style="padding-top: 1px;padding-bottom:2px;" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary  mx-1"  style="padding-top: 1px;padding-bottom:2px;">Super/Sub/Infra</button>
 						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary mx-1"  style="padding-top: 1px;padding-bottom:2px;">Scientific Name</button>
-					</div>
-					   <button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1" >Pin Taxon Column</button>
-					`
+					</div>`
 				);
+                $("#pinTaxonButton").html(`
+                  <button id="pinTaxonToggle"
+                          onclick="togglePinTaxonColumn();"
+                          class="btn btn-xs btn-secondary mx-1">
+                    Pin Taxon Column
+                  </button>
+                `);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
 						height: 'auto',
