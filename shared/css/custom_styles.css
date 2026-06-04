@@ -2749,19 +2749,21 @@ html,body {
 .wiki-drawer {
 	position: fixed;
 	top: 0;
-	left: -385px;
+	left: 0;
 	width: 385px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
 	z-index: 1051;
-	transition: transform 0.3s ease;
 	overflow-y: auto;
+    
     transform: translateX(-385px);
+    transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
 	transform: translateX(0);
+    
 }
 #content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
