@@ -1195,7 +1195,7 @@ limitations under the License.
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary  mx-1" >Super/Sub/Infra</button>
 						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary mx-1" >Scientific Name</button>
 					</span>
-					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1" >Pin Taxon Column</button>
+					
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -1238,6 +1238,9 @@ limitations under the License.
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
 							class="btn btn-xs btn-secondary mx-1">Save Search</button>
+					`);
+                    $("##saveDialogButton").html(
+					`<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1" >Pin Taxon Column</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
