@@ -198,7 +198,7 @@
 				</td>
 				<td>
 					<label for="HEADER_IMAGE">
-						<a href="/tools/imageList.cfm" target="_blank">HEADER_IMAGE</a>
+						<a href="/tools/listImages.cfm" target="_blank">HEADER_IMAGE</a>
 					</label>
 					<input type="text" name="HEADER_IMAGE" id="HEADER_IMAGE" class="reqdClr" value="#app.HEADER_IMAGE#">
 				</td>
@@ -218,7 +218,7 @@
 				</td>
 				<td>
 					<label for="COLLECTION_LINK_TEXT">COLLECTION_LINK_TEXT</label>
-					<input type="text" name="COLLECTION_LINK_TEXT" id="COLLECTION_LINK_TEXT" class="reqdClr" value="#app.COLLECTION_LINK_TEXT#">
+					<input type="text" name="COLLECTION_LINK_TEXT" id="COLLECTION_LINK_TEXT" class="reqdClr" value="#encodeForHtml(app.COLLECTION_LINK_TEXT)#">
 				</td>
 			</tr>
 			<tr>

@@ -348,6 +348,15 @@ When declaring a result within each named query, use the name of the query with 
 
 	<cfquery name=”getCounts” .... result=”getCounts_result”>
 
+### CFQuery and credentials
+
+When passing user credentials into a cfquery, use the user_login datasource and obtain the credentials from the session directly, do not store locally, that is, use:
+
+    <cfquery name="permitExp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+
+When necessary (as in a transaction where a trigger needs to be disabled and all cfqueries need to use the same datasource, use the datasource attribute of cfquery to specify the datasource to use for the query, for a datasource where the credentials are stored in the ColdFusion administrator.
+
+    <cfquery name="checkMedia" datasource="uam_god">
 
 ### Javascript Organization.
 
