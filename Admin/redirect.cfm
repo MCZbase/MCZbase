@@ -36,14 +36,13 @@
 <cfelseif structKeyExists(url, "new")>
 	<cfset local.new = trim(url.new)>
 </cfif>
-<cfset local.queryPassword = decrypt(session.epw,cookie.cfid)>
-<cfquery name="totalRedirects" datasource="user_login" username="#session.dbuser#" password="#local.queryPassword#">
+<cfquery name="totalRedirects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT COUNT(*) AS ct
 	FROM redirect
 </cfquery>
 
 <cfif local.action IS "new">
-	<cfquery name="insertRedirect" datasource="user_login" username="#session.dbuser#" password="#local.queryPassword#">
+	<cfquery name="insertRedirect" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO redirect (old_path, new_path)
 		VALUES (
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.old#">,
@@ -54,7 +53,7 @@
 </cfif>
 
 <cfif local.action IS "search">
-	<cfquery name="matchedRedirects" datasource="user_login" username="#session.dbuser#" password="#local.queryPassword#">
+	<cfquery name="matchedRedirects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			old_path,
 			new_path
