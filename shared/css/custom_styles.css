@@ -2774,7 +2774,7 @@ html,body {
 }
 #content.pushed {
 	margin-left: 355px;
-	width: calc(100% - 255px);
+	width: calc(100% - 355px);
 }
 
 div.mw-parser-output h1 {
