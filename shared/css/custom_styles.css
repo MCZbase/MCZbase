@@ -2750,7 +2750,7 @@ html,body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 385px;
+	width: 355px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
@@ -2758,7 +2758,7 @@ html,body {
 	z-index: 1051;
 	overflow-y: auto;
     
-    transform: translateX(-385px);
+    transform: translateX(-355px);
     transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
