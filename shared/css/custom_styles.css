@@ -2772,10 +2772,10 @@ html,body {
 	width: 100%;
 	box-sizing: border-box;
 }
-/*#content.pushed {
-	margin-left: 400px;
-	width: calc(100% - 400px);
-}*/
+#content.pushed {
+	margin-left: 355px;
+	width: calc(100% - 255px);
+}
 
 div.mw-parser-output h1 {
 	font-size: 20px;
