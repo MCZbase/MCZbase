@@ -265,7 +265,7 @@ limitations under the License.
                                                      </label>
                                                 </div>
                                                 <div class="form-group col-12 col-sm-6 col-md-2 mb-0 pb-0 px-0">
-                                                    <label for="subspecies" class="data-entry-label align-left small">Subspecies 
+                                                    <label for="subspecies" class="data-entry-label align-left smaller font-weight-bold">Subspecies 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -274,7 +274,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-sm-6 col-md-2 px-0 mb-0 pb-0">
-                                                    <label for="author_text" class="data-entry-label align-left small">Authorship 
+                                                    <label for="author_text" class="data-entry-label align-left smaller font-weight-bold">Authorship 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -283,7 +283,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-sm-6 col-md-2 px-0 mb-0 pb-0">
-                                                    <label for="infraspecific_author" class="data-entry-label align-left small">Infrasp.&thinsp;Author
+                                                    <label for="infraspecific_author" class="data-entry-label align-left smaller font-weight-bold">Infrasp.&thinsp;Author
                                                         <button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
                                                         <input type="text" class="data-entry-input mb-0 py-0" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
                                                     </label>
@@ -303,7 +303,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="phylum" class="data-entry-label align-left small">Phylum 
+                                                    <label for="phylum" class="data-entry-label align-left smaller font-weight-bold">Phylum 
                                                         <span class="small">
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
@@ -314,7 +314,7 @@ limitations under the License.
 
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="subphylum" class="data-entry-label align-left small">Subphylum 
+                                                    <label for="subphylum" class="data-entry-label align-left smaller font-weight-bold">Subphylum 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -323,7 +323,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="superclass" class="data-entry-label align-left small">Superclass 
+                                                    <label for="superclass" class="data-entry-label align-left smaller font-weight-bold">Superclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -332,7 +332,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="phylclass" class="data-entry-label align-left small">Class 
+                                                    <label for="phylclass" class="data-entry-label align-left smaller font-weight-bold">Class 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -341,7 +341,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="subclass" class="data-entry-label align-left small">Subclass 
+                                                    <label for="subclass" class="data-entry-label align-left smaller font-weight-bold">Subclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -350,7 +350,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="infraclass" class="data-entry-label align-left small">Infraclass 
+                                                    <label for="infraclass" class="data-entry-label align-left smaller font-weight-bold">Infraclass 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -359,7 +359,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="superorder" class="data-entry-label align-left small">Superorder 
+                                                    <label for="superorder" class="data-entry-label align-left smaller font-weight-bold">Superorder 
                                                         <span class="small">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -368,7 +368,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="phylorder" class="data-entry-label align-left small">Order 
+                                                    <label for="phylorder" class="data-entry-label align-left smaller font-weight-bold">Order 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -377,7 +377,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="suborder" class="data-entry-label align-left small">Suborder
+                                                    <label for="suborder" class="data-entry-label align-left smaller font-weight-bold">Suborder
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -386,7 +386,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="infraorder" class="data-entry-label align-left small">Infraorder 
+                                                    <label for="infraorder" class="data-entry-label align-left smaller font-weight-bold">Infraorder 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -395,7 +395,7 @@ limitations under the License.
                                                     </label>  
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="superfamily" class="data-entry-label align-left small">Superfamily 
+                                                    <label for="superfamily" class="data-entry-label align-left smaller font-weight-bold">Superfamily 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -404,7 +404,7 @@ limitations under the License.
                                                     </label>
                                                 </div> 
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="family" class="data-entry-label align-left small">Family 
+                                                    <label for="family" class="data-entry-label align-left smaller font-weight-bold">Family 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -413,7 +413,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="subfamily" class="data-entry-label align-left small">Subfamily 
+                                                    <label for="subfamily" class="data-entry-label align-left smaller font-weight-bold">Subfamily 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -422,7 +422,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="tribe" class="data-entry-label align-left small">Tribe 
+                                                    <label for="tribe" class="data-entry-label align-left smaller font-weight-bold">Tribe 
                                                         <span class="small">
                                                             (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
@@ -431,7 +431,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="nomenclatural_code" class="data-entry-label align-left small">Nomenclatural Code
+                                                    <label for="nomenclatural_code" class="data-entry-label align-left smaller font-weight-bold">Nomenclatural Code
                                                         <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
                                                             <option></option>
                                                             <cfloop query="ctnomenclatural_code">
@@ -442,7 +442,7 @@ limitations under the License.
                                                     </label>
                                                 </div>
                                                 <div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 px-0 mb-0 pb-0">
-                                                    <label for="taxon_status" class="data-entry-label py-0 align-left small">Nomenclatural Status
+                                                    <label for="taxon_status" class="data-entry-label py-0 align-left smaller font-weight-bold">Nomenclatural Status
                                                         <select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
                                                             <option></option>
                                                             <cfloop query="cttaxon_status">
