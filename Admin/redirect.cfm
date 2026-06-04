@@ -23,6 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 
+<!--- Determine action and parameters from form or URL variables, with form variables taking precedence --->
 <cfset local.action = "">
 <cfif structKeyExists(form, "action")>
 	<cfset local.action = form.action>
@@ -57,12 +58,14 @@ limitations under the License.
 <cfelseif structKeyExists(url, "new")>
 	<cfset local.new = trim(url.new)>
 </cfif>
+
+<!--- Get total number of redirects for display purposes --->
 <cfquery name="totalRedirects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT COUNT(*) AS ct
 	FROM redirect
 </cfquery>
 
-<cfif local.action IS "new">
+<cfif local.action IS "new" AND len(local.old) GT 0 AND len(local.new) GT 0>
 	<cfquery name="insertRedirect" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO redirect (old_path, new_path)
 		VALUES (
@@ -105,7 +108,7 @@ limitations under the License.
 <main class="container py-3" id="content">
 	<section class="row g-3">
 		<div class="col-12">
-			<h1 class="h2">Manage Redirects</h1>
+			<h1 class="h2">Manage Redirects handled by MCZbase</h1>
 			<cfoutput>
 				<p class="mb-0">Total redirects: <strong>#encodeForHtml(totalRedirects.ct)#</strong></p>
 				<cfif local.action IS "search">

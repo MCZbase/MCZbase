@@ -23,6 +23,8 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 
+<!--- obtain list of images from both /images and /shared/images and place them into a query object --->
+
 <cfdirectory sort="name" directory="#Application.webDirectory#/images" name="imagesRoot">
 <cfdirectory sort="name" directory="#Application.webDirectory#/shared/images" name="imagesShared">
 
