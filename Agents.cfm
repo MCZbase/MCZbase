@@ -472,7 +472,7 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12">
 						<div class="mb-5">
-							<div class="row mb-0 pb-1 jqx-widget-header border px-2">
+							<div class="row mb-0 pt-2 jqx-widget-header border px-2">
 								<h1 class="h4 ml-2 ml-md-1">
 									<span tabindex="0">Results: </span>
 									<span class="pr-2 font-weight-normal" id="resultCount"></span>
@@ -507,7 +507,7 @@ limitations under the License.
 											}
 										};
 									</script>
-									<label class="data-entry-label d-inline w-auto my-1" for="selectMode">Grid Select:
+									<label class="data-entry-label d-inline w-auto my-0" for="selectMode">Grid Select:
                                         <select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
                                             <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
                                             <option #selected# value="none">Text</option>
@@ -522,7 +522,7 @@ limitations under the License.
                                         </select>
                                     </label>
 								</div>
-								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-1 pt-1 px-2 mx-1 border-0"></output>
+								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-0 pt-1 px-2 mx-1 border-0"></output>
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
