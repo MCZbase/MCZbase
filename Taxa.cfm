@@ -324,7 +324,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="superclass" class="data-entry-label align-left smaller font-weight-bold">Superclass 
-                                                        <span class="small">
+                                                        <span class="h6">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
@@ -333,7 +333,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="phylclass" class="data-entry-label align-left smaller font-weight-bold">Class 
-                                                        <span class="small">
+                                                        <span class="h6">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
@@ -342,7 +342,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="subclass" class="data-entry-label align-left smaller font-weight-bold">Subclass 
-                                                        <span class="small">
+                                                        <span class="h6">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
@@ -360,7 +360,7 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 px-0 mb-1 pb-0">
                                                     <label for="superorder" class="data-entry-label align-left smaller font-weight-bold">Superorder 
-                                                        <span class="small">
+                                                        <span class="h6">
                                                             (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
                                                             <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
                                                         </span>
