@@ -652,7 +652,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 mb-1 ml-2 ml-md-1">
+							<h1 class="h4 my-0 ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" aria-label="search results"></a>
@@ -1017,7 +1017,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-						$('##showhide').html('<button class="mb-2 border rounded" style="margin-top: .8rem;" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+						$('##showhide').html('<button class="my-0 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','taxon record');
 						loadColumnOrder('searchResultsGrid');
 					});
