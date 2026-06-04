@@ -2285,6 +2285,7 @@ button.help-btnSearchWiki {
     overflow: hidden;
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
 }
 #wikiDrawer h2.headerSm {
 	font-size: 1.25rem;
