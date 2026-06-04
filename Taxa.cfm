@@ -218,8 +218,8 @@ limitations under the License.
                                                 </div>
                                                 <div class="form-group mb-0 col-12 col-md-4 px-0">
                                                     <label for="full_taxon_name" class="data-entry-label align-left smaller font-weight-bold">Any part of name or classification
-                                                        <span class="font-weight bold">
-                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set h6" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
+                                                        <span class="h6">
+                                                            (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
                                                         </span>
                                                         <input type="text" class="data-entry-input py-0 mb-0" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
                                                     </label>
