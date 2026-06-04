@@ -140,7 +140,7 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="col-12 col-lg-6">
-			<div class="border rounded p-3 h-100">
+			<div class="p-3 border bg-light rounded h-100">
 				<h2 class="h4">Create Redirect</h2>
 				<form name="new" method="post" action="/Admin/redirect.cfm">
 					<input type="hidden" name="action" value="new">
