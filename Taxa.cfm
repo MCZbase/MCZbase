@@ -1189,13 +1189,13 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded px-1 pb-1 pb-sm-0 m-1"><span class="h5 px-2">Show/Hide </span>
+					`<div class="border d-inline-block bg-white rounded px-1 pb-1 pb-sm-0 m-1"><span class="h5 px-2">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary mx-1">Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary mx-1" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary  mx-1" >Super/Sub/Infra</button>
 						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary mx-1" >Scientific Name</button>
-					</span>
-					
+					</div>
+					   <button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1" >Pin Taxon Column</button>
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -1238,9 +1238,6 @@ limitations under the License.
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
 							class="btn btn-xs btn-secondary mx-1">Save Search</button>
-					`);
-                    $("##pinTaxonToggle").html(
-					`<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1" >Pin Taxon Column</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
