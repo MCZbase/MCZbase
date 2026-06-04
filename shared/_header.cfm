@@ -712,11 +712,7 @@ limitations under the License.
 											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item"  href="/tools/imageList.cfm">Image List</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Image List</a>
-											</cfif>
+											<a class="dropdown-item"  href="/tools/listImages.cfm">Image List</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 											<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
@@ -766,11 +762,7 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Manage Collection</a>
 											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/redirect.cfm">Redirects</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Redirects</a>
-											</cfif> 
+											<a class="dropdown-item" href="/Admin/manageRedirects.cfm">Redirects</a>
 											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 										</div>
 									</cfif>

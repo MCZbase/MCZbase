@@ -388,7 +388,7 @@
 											<a class="dropdown-item" target="_top" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" target="_top" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<a class="dropdown-item" target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
+											<a class="dropdown-item" target="_top" href="/tools/listImages.cfm">Image List</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 											<a class="dropdown-item" target="_top" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
@@ -414,7 +414,7 @@
 									<div style="float:left;width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Application</div>
 										<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
-										<a class="dropdown-item" target="_top" href="/Admin/redirect.cfm">Redirects</a>
+										<a class="dropdown-item" target="_top" href="/Admin/manageRedirects.cfm">Redirects</a>
 										<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
 									</div>
 								</cfif>
