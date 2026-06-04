@@ -1,5 +1,5 @@
 <cfset pageTitle = "Manage Collections">
-<cfset variables.allowedActions = "nothing,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
+<cfset variables.allowedActions = "entryPoint,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
 <cfset variables.actionsRequiringCollectionId = "findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
 <cfset variables.findCollectionBaseUrl = "/Admin/Collection.cfm?action=findColl&collection_id=">
 
@@ -8,14 +8,14 @@
 <cfparam name="url.collection_id" default="">
 <cfparam name="form.collection_id" default="">
 
-<cfset variables.action = "nothing">
+<cfset variables.action = "entryPoint">
 <cfif len(trim(form.action)) GT 0>
 	<cfset variables.action = trim(form.action)>
 <cfelseif len(trim(url.action)) GT 0>
 	<cfset variables.action = trim(url.action)>
 </cfif>
 <cfif NOT listFindNoCase(variables.allowedActions, variables.action)>
-	<cfset variables.action = "nothing">
+	<cfset variables.action = "entryPoint">
 </cfif>
 
 <cfset variables.collection_id = "">
@@ -26,7 +26,7 @@
 </cfif>
 <cfset variables.hasValidCollectionId = len(variables.collection_id) GT 0 AND isValid("integer", variables.collection_id)>
 <cfif listFindNoCase(variables.actionsRequiringCollectionId, variables.action) AND NOT variables.hasValidCollectionId>
-	<cfset variables.action = "nothing">
+	<cfset variables.action = "entryPoint">
 	<cfset variables.collection_id = "">
 	<cfset variables.hasValidCollectionId = false>
 </cfif>
@@ -186,7 +186,7 @@
 		</cfquery>
 		<cfdirectory action="list" directory="#Application.webDirectory#/includes/css" name="sheets" filter="*.css">
 	<cfelse>
-		<cfset variables.action = "nothing">
+		<cfset variables.action = "entryPoint">
 		<cfset variables.collection_id = "">
 	</cfif>
 </cfif>
