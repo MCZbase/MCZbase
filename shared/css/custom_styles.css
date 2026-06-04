@@ -2237,7 +2237,7 @@ button.help-btnSp-SearchWiki {
     padding-bottom: .35rem; 
     font-size: 13.5px;
     margin-top: 0;
-    position: fixed;
+    position: absolute;
     overflow: hidden;
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
@@ -2255,7 +2255,7 @@ button.help-btnA-SearchWiki {
     padding-bottom: .35rem; 
     font-size: 13.5px;
     margin-top: 0;
-    position: fixed;
+    position: absolute;
     overflow: hidden;
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
@@ -2281,7 +2281,7 @@ button.help-btnSearchWiki {
     padding-bottom: .15rem; 
     font-size: 13.5px;
     margin-top: 0;
-    position: fixed;
+    position: absolute;
     overflow: hidden;
     /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
