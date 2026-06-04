@@ -1,38 +1,38 @@
-<cfset local = structNew()>
+<cfset pageContext = structNew()>
 <cfset pageTitle = "Manage Collections">
-<cfset local.allowedActions = "nothing,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
-<cfset local.actionsRequiringCollectionId = "findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
-<cfset local.findCollectionBaseUrl = "/Admin/Collection.cfm?action=findColl&collection_id=">
+<cfset pageContext.allowedActions = "nothing,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
+<cfset pageContext.actionsRequiringCollectionId = "findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
+<cfset pageContext.findCollectionBaseUrl = "/Admin/Collection.cfm?action=findColl&collection_id=">
 
 <cfparam name="url.action" default="">
 <cfparam name="form.action" default="">
 <cfparam name="url.collection_id" default="">
 <cfparam name="form.collection_id" default="">
 
-<cfset local.action = "nothing">
+<cfset pageContext.action = "nothing">
 <cfif len(trim(form.action)) GT 0>
-	<cfset local.action = trim(form.action)>
+	<cfset pageContext.action = trim(form.action)>
 <cfelseif len(trim(url.action)) GT 0>
-	<cfset local.action = trim(url.action)>
+	<cfset pageContext.action = trim(url.action)>
 </cfif>
-<cfif NOT listFindNoCase(local.allowedActions, local.action)>
-	<cfset local.action = "nothing">
+<cfif NOT listFindNoCase(pageContext.allowedActions, pageContext.action)>
+	<cfset pageContext.action = "nothing">
 </cfif>
 
-<cfset local.collection_id = "">
+<cfset pageContext.collection_id = "">
 <cfif len(trim(form.collection_id)) GT 0>
-	<cfset local.collection_id = trim(form.collection_id)>
+	<cfset pageContext.collection_id = trim(form.collection_id)>
 <cfelseif len(trim(url.collection_id)) GT 0>
-	<cfset local.collection_id = trim(url.collection_id)>
+	<cfset pageContext.collection_id = trim(url.collection_id)>
 </cfif>
-<cfset local.hasValidCollectionId = len(local.collection_id) GT 0 AND isValid("integer", local.collection_id)>
-<cfif listFindNoCase(local.actionsRequiringCollectionId, local.action) AND NOT local.hasValidCollectionId>
-	<cfset local.action = "nothing">
-	<cfset local.collection_id = "">
-	<cfset local.hasValidCollectionId = false>
+<cfset pageContext.hasValidCollectionId = len(pageContext.collection_id) GT 0 AND isValid("integer", pageContext.collection_id)>
+<cfif listFindNoCase(pageContext.actionsRequiringCollectionId, pageContext.action) AND NOT pageContext.hasValidCollectionId>
+	<cfset pageContext.action = "nothing">
+	<cfset pageContext.collection_id = "">
+	<cfset pageContext.hasValidCollectionId = false>
 </cfif>
 
-<cfswitch expression="#local.action#">
+<cfswitch expression="#pageContext.action#">
 	<cfcase value="updateContact">
 		<cfparam name="form.contact_role" default="">
 		<cfparam name="form.contact_agent_id" default="">
@@ -45,7 +45,7 @@
 			WHERE
 				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
 		</cfquery>
-		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#pageContext.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="deleteContact">
 		<cfparam name="form.collection_contact_id" default="">
@@ -54,7 +54,7 @@
 			WHERE
 				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
 		</cfquery>
-		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#pageContext.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="changeAppearance">
 		<cfparam name="form.HEADER_COLOR" default="">
@@ -83,7 +83,7 @@
 			WHERE
 				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
 		</cfquery>
-		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#pageContext.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="newContact">
 		<cfparam name="form.contact_role" default="">
@@ -103,7 +103,7 @@
 				)
 			</cfquery>
 		</cftransaction>
-		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#pageContext.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="modifyCollection">
 		<cfparam name="form.collection_cde" default="">
@@ -132,11 +132,11 @@
 					COLLECTION_ID = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
 			</cfquery>
 		</cftransaction>
-		<cflocation url="#local.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
+		<cflocation url="#pageContext.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 </cfswitch>
 
-<cfif local.action EQ "findColl" AND local.hasValidCollectionId>
+<cfif pageContext.action EQ "findColl" AND pageContext.hasValidCollectionId>
 	<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			COLLECTION_CDE,
@@ -151,7 +151,7 @@
 			allow_prefix_suffix
 		FROM collection
 		WHERE
-			collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.collection_id#">
+			collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#pageContext.collection_id#">
 	</cfquery>
 	<cfif colls.recordCount EQ 1>
 		<cfset pageTitle = "Manage Collection: #colls.collection#">
@@ -159,7 +159,7 @@
 			SELECT *
 			FROM cf_collection
 			WHERE
-				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.collection_id#">
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#pageContext.collection_id#">
 		</cfquery>
 		<cfquery name="ctCollCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_cde
@@ -176,7 +176,7 @@
 				JOIN preferred_agent_name
 					ON contact_agent_id = agent_id
 			WHERE
-				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.collection_id#">
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#pageContext.collection_id#">
 			ORDER BY
 				contact_name,
 				contact_role
@@ -187,8 +187,8 @@
 		</cfquery>
 		<cfdirectory action="list" directory="#Application.webDirectory#/includes/css" name="sheets" filter="*.css">
 	<cfelse>
-		<cfset local.action = "nothing">
-		<cfset local.collection_id = "">
+		<cfset pageContext.action = "nothing">
+		<cfset pageContext.collection_id = "">
 	</cfif>
 </cfif>
 
@@ -212,7 +212,7 @@
 							<h1 class="h2 mb-2">Manage Collections</h1>
 							<p class="mb-3 mb-md-0">Select a collection to review collection metadata, contacts, and portal appearance settings.</p>
 						</div>
-						<cfif local.action EQ "findColl">
+						<cfif pageContext.action EQ "findColl">
 							<a class="btn btn-xs btn-secondary mt-2 mt-md-0" href="/Admin/Collection.cfm">Choose Another Collection</a>
 						</cfif>
 					</div>
@@ -224,7 +224,7 @@
 								<select name="collection_id" id="collection_id" size="1" class="data-entry-select reqdClr" required>
 									<option value=""></option>
 									<cfloop query="ctcoll">
-										<option value="#encodeForHtmlAttribute(ctcoll.collection_id)#"<cfif local.collection_id EQ ctcoll.collection_id> selected="selected"</cfif>>#encodeForHtml(ctcoll.collection)#</option>
+										<option value="#encodeForHtmlAttribute(ctcoll.collection_id)#"<cfif pageContext.collection_id EQ ctcoll.collection_id> selected="selected"</cfif>>#encodeForHtml(ctcoll.collection)#</option>
 									</cfloop>
 								</select>
 							</div>
@@ -238,28 +238,28 @@
 		</div>
 	</section>
 
-	<cfif local.action EQ "findColl">
-		<cfset local.HEADER_COLOR = "">
-		<cfset local.HEADER_IMAGE = "">
-		<cfset local.HEADER_CREDIT = "">
-		<cfset local.COLLECTION_URL = "">
-		<cfset local.COLLECTION_LINK_TEXT = "">
-		<cfset local.INSTITUTION_URL = "">
-		<cfset local.INSTITUTION_LINK_TEXT = "">
-		<cfset local.META_DESCRIPTION = "">
-		<cfset local.META_KEYWORDS = "">
-		<cfset local.STYLESHEET = "">
+	<cfif pageContext.action EQ "findColl">
+		<cfset pageContext.HEADER_COLOR = "">
+		<cfset pageContext.HEADER_IMAGE = "">
+		<cfset pageContext.HEADER_CREDIT = "">
+		<cfset pageContext.COLLECTION_URL = "">
+		<cfset pageContext.COLLECTION_LINK_TEXT = "">
+		<cfset pageContext.INSTITUTION_URL = "">
+		<cfset pageContext.INSTITUTION_LINK_TEXT = "">
+		<cfset pageContext.META_DESCRIPTION = "">
+		<cfset pageContext.META_KEYWORDS = "">
+		<cfset pageContext.STYLESHEET = "">
 		<cfif app.recordCount GT 0>
-			<cfset local.HEADER_COLOR = app.HEADER_COLOR>
-			<cfset local.HEADER_IMAGE = app.HEADER_IMAGE>
-			<cfset local.HEADER_CREDIT = app.HEADER_CREDIT>
-			<cfset local.COLLECTION_URL = app.COLLECTION_URL>
-			<cfset local.COLLECTION_LINK_TEXT = app.COLLECTION_LINK_TEXT>
-			<cfset local.INSTITUTION_URL = app.INSTITUTION_URL>
-			<cfset local.INSTITUTION_LINK_TEXT = app.INSTITUTION_LINK_TEXT>
-			<cfset local.META_DESCRIPTION = app.META_DESCRIPTION>
-			<cfset local.META_KEYWORDS = app.META_KEYWORDS>
-			<cfset local.STYLESHEET = app.STYLESHEET>
+			<cfset pageContext.HEADER_COLOR = app.HEADER_COLOR>
+			<cfset pageContext.HEADER_IMAGE = app.HEADER_IMAGE>
+			<cfset pageContext.HEADER_CREDIT = app.HEADER_CREDIT>
+			<cfset pageContext.COLLECTION_URL = app.COLLECTION_URL>
+			<cfset pageContext.COLLECTION_LINK_TEXT = app.COLLECTION_LINK_TEXT>
+			<cfset pageContext.INSTITUTION_URL = app.INSTITUTION_URL>
+			<cfset pageContext.INSTITUTION_LINK_TEXT = app.INSTITUTION_LINK_TEXT>
+			<cfset pageContext.META_DESCRIPTION = app.META_DESCRIPTION>
+			<cfset pageContext.META_KEYWORDS = app.META_KEYWORDS>
+			<cfset pageContext.STYLESHEET = app.STYLESHEET>
 		</cfif>
 
 		<cfoutput>
@@ -414,24 +414,24 @@
 							<div class="form-row">
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="HEADER_COLOR" class="data-entry-label">Header Color</label>
-									<input type="text" name="HEADER_COLOR" id="HEADER_COLOR" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.HEADER_COLOR)#">
+									<input type="text" name="HEADER_COLOR" id="HEADER_COLOR" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.HEADER_COLOR)#">
 									<p class="small mb-0"><a href="https://www.google.com/search?q=html+color+picker" target="_blank" rel="noopener noreferrer">Find a color value</a></p>
 								</div>
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="HEADER_IMAGE" class="data-entry-label">Header Image</label>
-									<input type="text" name="HEADER_IMAGE" id="HEADER_IMAGE" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.HEADER_IMAGE)#">
+									<input type="text" name="HEADER_IMAGE" id="HEADER_IMAGE" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.HEADER_IMAGE)#">
 									<p class="small mb-0"><a href="/tools/listImages.cfm" target="_blank" rel="noopener noreferrer">Browse available images</a></p>
 								</div>
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="HEADER_CREDIT" class="data-entry-label">Header Credit</label>
-									<input type="text" name="HEADER_CREDIT" id="HEADER_CREDIT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.HEADER_CREDIT)#">
+									<input type="text" name="HEADER_CREDIT" id="HEADER_CREDIT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.HEADER_CREDIT)#">
 								</div>
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="STYLESHEET" class="data-entry-label">Stylesheet</label>
 									<select name="STYLESHEET" id="STYLESHEET" size="1" class="data-entry-select">
-										<option value=" "<cfif len(trim(local.STYLESHEET)) EQ 0> selected="selected"</cfif>>none</option>
+										<option value=" "<cfif len(trim(pageContext.STYLESHEET)) EQ 0> selected="selected"</cfif>>none</option>
 										<cfloop query="sheets">
-											<option value="#encodeForHtmlAttribute(sheets.name)#"<cfif sheets.name EQ local.STYLESHEET> selected="selected"</cfif>>#encodeForHtml(sheets.name)#</option>
+											<option value="#encodeForHtmlAttribute(sheets.name)#"<cfif sheets.name EQ pageContext.STYLESHEET> selected="selected"</cfif>>#encodeForHtml(sheets.name)#</option>
 										</cfloop>
 									</select>
 								</div>
@@ -439,29 +439,29 @@
 							<div class="form-row">
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="COLLECTION_URL" class="data-entry-label">Collection URL</label>
-									<input type="text" name="COLLECTION_URL" id="COLLECTION_URL" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.COLLECTION_URL)#">
+									<input type="text" name="COLLECTION_URL" id="COLLECTION_URL" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.COLLECTION_URL)#">
 								</div>
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="COLLECTION_LINK_TEXT" class="data-entry-label">Collection Link Text</label>
-									<input type="text" name="COLLECTION_LINK_TEXT" id="COLLECTION_LINK_TEXT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.COLLECTION_LINK_TEXT)#">
+									<input type="text" name="COLLECTION_LINK_TEXT" id="COLLECTION_LINK_TEXT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.COLLECTION_LINK_TEXT)#">
 								</div>
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="INSTITUTION_URL" class="data-entry-label">Institution URL</label>
-									<input type="text" name="INSTITUTION_URL" id="INSTITUTION_URL" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.INSTITUTION_URL)#">
+									<input type="text" name="INSTITUTION_URL" id="INSTITUTION_URL" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.INSTITUTION_URL)#">
 								</div>
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="INSTITUTION_LINK_TEXT" class="data-entry-label">Institution Link Text</label>
-									<input type="text" name="INSTITUTION_LINK_TEXT" id="INSTITUTION_LINK_TEXT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.INSTITUTION_LINK_TEXT)#">
+									<input type="text" name="INSTITUTION_LINK_TEXT" id="INSTITUTION_LINK_TEXT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.INSTITUTION_LINK_TEXT)#">
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="col-12 col-lg-6">
 									<label for="META_DESCRIPTION" class="data-entry-label">Meta Description</label>
-									<input type="text" name="META_DESCRIPTION" id="META_DESCRIPTION" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.META_DESCRIPTION)#">
+									<input type="text" name="META_DESCRIPTION" id="META_DESCRIPTION" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.META_DESCRIPTION)#">
 								</div>
 								<div class="col-12 col-lg-6">
 									<label for="META_KEYWORDS" class="data-entry-label">Meta Keywords</label>
-									<input type="text" name="META_KEYWORDS" id="META_KEYWORDS" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.META_KEYWORDS)#">
+									<input type="text" name="META_KEYWORDS" id="META_KEYWORDS" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(pageContext.META_KEYWORDS)#">
 								</div>
 							</div>
 							<div class="form-row mt-3">
