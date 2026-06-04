@@ -1,5 +1,5 @@
 <!---
-/tools/imageList.cfm
+/tools/listImages.cfm
 
 Displays a list of all images in the /images and /shared/images directories, along with their file size, last modified date, and a preview thumbnail.
 

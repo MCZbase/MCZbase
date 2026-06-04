@@ -1,5 +1,5 @@
 <!---
-/Admin/redirect.cfm
+/Admin/manageRedirects.cfm
 
 Manage URL redirects handled by MCZbase, rather than by Apache. Redirects are applied in the order they are listed, so more specific redirects should be listed before more general ones. For example, a redirect for "/collection/1" should be listed before a redirect for "/collection/%".
 
@@ -73,7 +73,7 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.new#">
 		)
 	</cfquery>
-	<cflocation url="/Admin/redirect.cfm?old_path=#encodeForUrl(local.old)#&new_path=#encodeForUrl(local.new)#&action=search" addtoken="false">
+	<cflocation url="/Admin/manageRedirects.cfm?old_path=#encodeForUrl(local.old)#&new_path=#encodeForUrl(local.new)#&action=search" addtoken="false">
 </cfif>
 
 <cfif local.action IS "search">
@@ -123,7 +123,7 @@ limitations under the License.
 			<div class="border rounded p-3 h-100">
 				<h2 class="h4">Find redirects</h2>
 				<cfoutput>
-				<form name="srch" method="post" action="/Admin/redirect.cfm">
+				<form name="srch" method="post" action="/Admin/manageRedirects.cfm">
 					<input type="hidden" name="action" value="search">
 					<div class="form-group">
 						<label for="old_path" class="data-entry-label">old_path</label>
@@ -142,7 +142,7 @@ limitations under the License.
 		<div class="col-12 col-lg-6">
 			<div class="p-3 border bg-light rounded h-100">
 				<h2 class="h4">Create Redirect</h2>
-				<form name="new" method="post" action="/Admin/redirect.cfm">
+				<form name="new" method="post" action="/Admin/manageRedirects.cfm">
 					<input type="hidden" name="action" value="new">
 					<div class="form-group">
 						<label for="old" class="data-entry-label">old (enter everything after the domain name, including a leading slash)</label>
