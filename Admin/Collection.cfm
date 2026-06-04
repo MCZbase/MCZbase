@@ -25,9 +25,11 @@
 <cfelseif len(trim(url.collection_id)) GT 0>
 	<cfset local.collection_id = trim(url.collection_id)>
 </cfif>
-<cfif listFindNoCase(local.actionsRequiringCollectionId, local.action) AND (len(local.collection_id) EQ 0 OR NOT isValid("integer", local.collection_id))>
+<cfset local.hasValidCollectionId = len(local.collection_id) GT 0 AND isValid("integer", local.collection_id)>
+<cfif listFindNoCase(local.actionsRequiringCollectionId, local.action) AND NOT local.hasValidCollectionId>
 	<cfset local.action = "nothing">
 	<cfset local.collection_id = "">
+	<cfset local.hasValidCollectionId = false>
 </cfif>
 
 <cfswitch expression="#local.action#">
@@ -134,7 +136,7 @@
 	</cfcase>
 </cfswitch>
 
-<cfif local.action EQ "findColl" AND len(local.collection_id) GT 0>
+<cfif local.action EQ "findColl" AND local.hasValidCollectionId>
 	<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			COLLECTION_CDE,
