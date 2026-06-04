@@ -1,31 +1,139 @@
-<cfinclude template="/includes/_header.cfm">
-<cfset title="Manage Collections">
-<cfif action is "nothing">
-<cfoutput>
-	Find Collection:
-	<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from collection order by collection
-	</cfquery>
-	<form name="coll" method="post" action="Collection.cfm">
-		<input type="hidden" name="action" value="findColl">
-		<select name="collection_id" size="1">
-			<option value=""></option>
-			<cfloop query="ctcoll">
-				<option value="#collection_id#">#collection#</option>
-			</cfloop>
-		</select>
-		<input type="button" value="Submit" class="lnkBtn" onclick="coll.action.value='findColl';submit();">	
-	</form>
-</cfoutput>
+<cfset local = structNew()>
+<cfset pageTitle = "Manage Collections">
+
+<cfparam name="url.action" default="">
+<cfparam name="form.action" default="">
+<cfparam name="url.collection_id" default="">
+<cfparam name="form.collection_id" default="">
+
+<cfset local.action = "nothing">
+<cfif len(trim(form.action)) GT 0>
+	<cfset local.action = trim(form.action)>
+<cfelseif len(trim(url.action)) GT 0>
+	<cfset local.action = trim(url.action)>
 </cfif>
-<!------------------------------------------------------------------------------------->
-<cfif action is "findColl">
-<cfoutput>
-	<cfquery name="app" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from cf_collection where collection_id=#collection_id#
-	</cfquery>
+<cfif NOT listFindNoCase("nothing,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection", local.action)>
+	<cfset local.action = "nothing">
+</cfif>
+
+<cfset local.collection_id = "">
+<cfif len(trim(form.collection_id)) GT 0>
+	<cfset local.collection_id = trim(form.collection_id)>
+<cfelseif len(trim(url.collection_id)) GT 0>
+	<cfset local.collection_id = trim(url.collection_id)>
+</cfif>
+<cfif listFindNoCase("findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection", local.action) AND (len(local.collection_id) EQ 0 OR NOT isValid("integer", local.collection_id))>
+	<cfset local.action = "nothing">
+	<cfset local.collection_id = "">
+</cfif>
+
+<cfswitch expression="#local.action#">
+	<cfcase value="updateContact">
+		<cfparam name="form.contact_role" default="">
+		<cfparam name="form.contact_agent_id" default="">
+		<cfparam name="form.collection_contact_id" default="">
+		<cfquery name="changeContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE collection_contacts
+			SET
+				contact_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.contact_role#">,
+				contact_agent_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.contact_agent_id#">
+			WHERE
+				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
+		</cfquery>
+		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+	</cfcase>
+	<cfcase value="deleteContact">
+		<cfparam name="form.collection_contact_id" default="">
+		<cfquery name="killContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM collection_contacts
+			WHERE
+				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
+		</cfquery>
+		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+	</cfcase>
+	<cfcase value="changeAppearance">
+		<cfparam name="form.HEADER_COLOR" default="">
+		<cfparam name="form.HEADER_IMAGE" default="">
+		<cfparam name="form.COLLECTION_URL" default="">
+		<cfparam name="form.COLLECTION_LINK_TEXT" default="">
+		<cfparam name="form.INSTITUTION_URL" default="">
+		<cfparam name="form.INSTITUTION_LINK_TEXT" default="">
+		<cfparam name="form.META_DESCRIPTION" default="">
+		<cfparam name="form.META_KEYWORDS" default="">
+		<cfparam name="form.STYLESHEET" default="">
+		<cfparam name="form.HEADER_CREDIT" default="">
+		<cfquery name="insApp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE cf_collection
+			SET
+				HEADER_COLOR = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.HEADER_COLOR#">,
+				HEADER_IMAGE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.HEADER_IMAGE#">,
+				COLLECTION_URL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.COLLECTION_URL#">,
+				COLLECTION_LINK_TEXT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.COLLECTION_LINK_TEXT#">,
+				INSTITUTION_URL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.INSTITUTION_URL#">,
+				INSTITUTION_LINK_TEXT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.INSTITUTION_LINK_TEXT#">,
+				META_DESCRIPTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.META_DESCRIPTION#">,
+				META_KEYWORDS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.META_KEYWORDS#">,
+				STYLESHEET = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.STYLESHEET#">,
+				HEADER_CREDIT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.HEADER_CREDIT#">
+			WHERE
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
+		</cfquery>
+		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+	</cfcase>
+	<cfcase value="newContact">
+		<cfparam name="form.contact_role" default="">
+		<cfparam name="form.contact_agent_id" default="">
+		<cftransaction>
+			<cfquery name="newContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				INSERT INTO collection_contacts (
+					collection_contact_id,
+					collection_id,
+					contact_role,
+					contact_agent_id
+				) VALUES (
+					sq_collection_contact_id.nextval,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.contact_role#">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.contact_agent_id#">
+				)
+			</cfquery>
+		</cftransaction>
+		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+	</cfcase>
+	<cfcase value="modifyCollection">
+		<cfparam name="form.collection_cde" default="">
+		<cfparam name="form.guid_prefix" default="">
+		<cfparam name="form.collection" default="">
+		<cfparam name="form.institution_acronym" default="">
+		<cfparam name="form.descr" default="">
+		<cfparam name="form.web_link" default="">
+		<cfparam name="form.web_link_text" default="">
+		<cfparam name="form.loan_policy_url" default="">
+		<cfparam name="form.allow_prefix_suffix" default="0">
+		<cftransaction>
+			<cfquery name="modColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE collection
+				SET
+					COLLECTION_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.collection_cde#">,
+					guid_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.guid_prefix#">,
+					COLLECTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.collection#">,
+					INSTITUTION_ACRONYM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.institution_acronym#">,
+					DESCR = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.descr#">,
+					web_link = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.web_link#">,
+					web_link_text = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.web_link_text#">,
+					loan_policy_url = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.loan_policy_url#">,
+					allow_prefix_suffix = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.allow_prefix_suffix#">
+				WHERE
+					COLLECTION_ID = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
+			</cfquery>
+		</cftransaction>
+		<cflocation url="/Admin/Collection.cfm?action=findColl&collection_id=#encodeForUrl(form.collection_id)#" addtoken="false">
+	</cfcase>
+</cfswitch>
+
+<cfif local.action EQ "findColl" AND len(local.collection_id) GT 0>
 	<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select  
+		SELECT
 			COLLECTION_CDE,
 			INSTITUTION_ACRONYM,
 			DESCR,
@@ -36,326 +144,332 @@
 			loan_policy_url,
 			guid_prefix,
 			allow_prefix_suffix
- 		from collection
-  		where
-   		collection_id = #collection_id#
+		FROM collection
+		WHERE
+			collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.collection_id#">
 	</cfquery>
-	<cfquery name="ctCollCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select collection_cde from ctcollection_cde
-	</cfquery>
-	<table border>
-		<tr>
-			<td valign="top">
-				<form name="editCollection" method="post" action="Collection.cfm">
-					<input type="hidden" name="action" value="modifyCollection">
-					<input type="hidden" name="collection_id" value="#collection_id#">
-					<label for="collection_cde">Collection Type</label>
-					<select name="collection_cde" id="collection_cde" size="1">
-						<cfloop query="ctCollCde">
-							<option 
-								<cfif ctCollCde.collection_cde is colls.collection_cde> selected </cfif>
-							value="#ctCollCde.collection_cde#">#ctCollCde.collection_cde#</option>
-						</cfloop>
-					</select>
-					<label for="institution_acronym">Institution Acronym</label>
-					<input type="text" name="institution_acronym" id="institution_acronym" value="#colls.institution_acronym#" class="reqdClr">
-					<label for="collection">Collection</label>
-					<input type="text" name="collection" id="collection" value="#colls.collection#" size="50" class="reqdClr">
-					<label for="guid_prefix">GUID Prefix</label>					
-					<input type="text" name="guid_prefix" id="guid_prefix" value="#colls.guid_prefix#">
-					<label for="descr">Description</label>
-					<input type="text" name="descr" id="descr" value="#colls.descr#" size="50">
-					<label for="web_link">Web Link</label>
-					<cfset thisWebLink = replace(colls.web_link,"'","''",'all')>
-					<input type="text" name="web_link" id="web_link" value="#colls.web_link#" size="50">
-					<label for="web_link_text">Link Text</label>
-					<input type="text" name="web_link_text" id="web_link_text" value='#colls.web_link_text#' size="50">
-					<label for="descr">Loan Policy URL</label>
-					<input type="text" name="loan_policy_url" id="loan_policy_url" value='#colls.loan_policy_url#' size="50">
-					<label for="allow_prefix_suffix">Allow catnum prefix/suffix?</label>
-					<select name="allow_prefix_suffix" id="allow_prefix_suffix">
-						<option <cfif colls.allow_prefix_suffix is 0>selected="selected" </cfif>value="0">no</option>
-						<option <cfif colls.allow_prefix_suffix is 1>selected="selected" </cfif>value="1">yes</option>
-					</select>
-					<br><input type="submit" value="Save Changes" class="savBtn">	
-					<input type="button" value="Quit" class="qutBtn" onClick="document.location='/Admin/Collection.cfm';">	
-				</form>
-			</td>
-<td valign="top">
-	<cfquery name="contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select 
-			collection_contact_id,
-			contact_role,
-			contact_agent_id,
-			agent_name contact_name
-		from
-			collection_contacts,
-			preferred_agent_name
-		where
-			contact_agent_id = agent_id AND
-			collection_id = #collection_id#
-		ORDER BY contact_name,contact_role
-	</cfquery>
-	<cfquery name="ctContactRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select contact_role from ctcoll_contact_role
-	</cfquery>
-	<cfset i=1>
-	<table>
-		<cfif #contact.recordcount# gt 0>
-		<tr>
-			<td><strong>Contact Name</strong></td>
-			<td><strong>Contact Role</strong></td>
-		</tr>
+	<cfif colls.recordCount EQ 1>
+		<cfset pageTitle = "Manage Collection: #colls.collection#">
+		<cfquery name="app" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT *
+			FROM cf_collection
+			WHERE
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.collection_id#">
+		</cfquery>
+		<cfquery name="ctCollCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT collection_cde
+			FROM ctcollection_cde
+		</cfquery>
+		<cfquery name="contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				collection_contact_id,
+				contact_role,
+				contact_agent_id,
+				agent_name AS contact_name
+			FROM
+				collection_contacts
+				JOIN preferred_agent_name
+					ON contact_agent_id = agent_id
+			WHERE
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.collection_id#">
+			ORDER BY
+				contact_name,
+				contact_role
+		</cfquery>
+		<cfquery name="ctContactRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT contact_role
+			FROM ctcoll_contact_role
+		</cfquery>
+		<cfdirectory action="list" directory="#Application.webDirectory#/includes/css" name="sheets" filter="*.css">
+	<cfelse>
+		<cfset local.action = "nothing">
+		<cfset local.collection_id = "">
+	</cfif>
+</cfif>
+
+<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT
+		collection_id,
+		collection
+	FROM collection
+	ORDER BY collection
+</cfquery>
+
+<cfinclude template="/shared/_header.cfm">
+
+<main class="container py-3" id="content">
+	<section class="row my-2">
+		<div class="col-12">
+			<div class="border rounded bg-light p-3">
+				<cfoutput>
+					<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end">
+						<div>
+							<h1 class="h2 mb-2">Manage Collections</h1>
+							<p class="mb-3 mb-md-0">Select a collection to review collection metadata, contacts, and portal appearance settings.</p>
+						</div>
+						<cfif local.action EQ "findColl">
+							<a class="btn btn-xs btn-secondary mt-2 mt-md-0" href="/Admin/Collection.cfm">Choose Another Collection</a>
+						</cfif>
+					</div>
+					<form name="coll" method="post" action="/Admin/Collection.cfm" class="mt-3">
+						<input type="hidden" name="action" value="findColl">
+						<div class="form-row align-items-end">
+							<div class="col-12 col-md-8 col-lg-6">
+								<label for="collection_id" class="data-entry-label">Collection</label>
+								<select name="collection_id" id="collection_id" size="1" class="data-entry-select reqdClr" required>
+									<option value=""></option>
+									<cfloop query="ctcoll">
+										<option value="#encodeForHtmlAttribute(ctcoll.collection_id)#"<cfif local.collection_id EQ ctcoll.collection_id> selected="selected"</cfif>>#encodeForHtml(ctcoll.collection)#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-auto mt-3 mt-md-0">
+								<input type="submit" value="Open Collection" class="btn btn-primary btn-xs">
+							</div>
+						</div>
+					</form>
+				</cfoutput>
+			</div>
+		</div>
+	</section>
+
+	<cfif local.action EQ "findColl">
+		<cfset local.HEADER_COLOR = "">
+		<cfset local.HEADER_IMAGE = "">
+		<cfset local.HEADER_CREDIT = "">
+		<cfset local.COLLECTION_URL = "">
+		<cfset local.COLLECTION_LINK_TEXT = "">
+		<cfset local.INSTITUTION_URL = "">
+		<cfset local.INSTITUTION_LINK_TEXT = "">
+		<cfset local.META_DESCRIPTION = "">
+		<cfset local.META_KEYWORDS = "">
+		<cfset local.STYLESHEET = "">
+		<cfif app.recordCount GT 0>
+			<cfset local.HEADER_COLOR = app.HEADER_COLOR>
+			<cfset local.HEADER_IMAGE = app.HEADER_IMAGE>
+			<cfset local.HEADER_CREDIT = app.HEADER_CREDIT>
+			<cfset local.COLLECTION_URL = app.COLLECTION_URL>
+			<cfset local.COLLECTION_LINK_TEXT = app.COLLECTION_LINK_TEXT>
+			<cfset local.INSTITUTION_URL = app.INSTITUTION_URL>
+			<cfset local.INSTITUTION_LINK_TEXT = app.INSTITUTION_LINK_TEXT>
+			<cfset local.META_DESCRIPTION = app.META_DESCRIPTION>
+			<cfset local.META_KEYWORDS = app.META_KEYWORDS>
+			<cfset local.STYLESHEET = app.STYLESHEET>
 		</cfif>
-	<cfloop query="contact">
-		<form name="contact#i#" method="post" action="Collection.cfm">
-			<input type="hidden" name="action" value="">
-			<input type="hidden" name="collection_id" value="#collection_id#">
-			<input type="hidden" name="collection_contact_id" value="#collection_contact_id#">
-			<tr>
-			<td>
-				<input type="hidden" name="contact_agent_id" value="#contact_agent_id#">
-				<input type="text" name="contact" class="reqdClr" value="#contact_name#"
-					onchange="getAgent('contact_agent_id','contact','contact#i#',this.value); return false;"
-			 		onKeyPress="return noenter(event);">
-			</td>
-		
-			<td>
-				<select name="contact_role" size="1" class="reqdClr">
-					<cfset thisContactRole = #contact_role#>
-					<cfloop query="ctContactRole">
-						<option 
-							<cfif #thisContactRole# is #contact_role#> selected </cfif>
-							value="#contact_role#">#contact_role#</option>
-					</cfloop>
-				</select>
-			</td>
-			<td colspan="2" align="center" nowrap>
-				<input type="button" value="Save" class="savBtn"
-   					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'"
-					onClick="contact#i#.action.value='updateContact';submit();">	
-				<input type="button" value="Delete" class="delBtn"
-   					onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
-					onClick="contact#i#.action.value='deleteContact';confirmDelete('contact#i#');">
-			</td>
-		</tr>
-		</form>
-		<cfset i=#i#+1>
-	</cfloop>
-	</table>
-	<form name="newContact" method="post" action="Collection.cfm">
-		<input type="hidden" name="action" value="newContact">
-		<input type="hidden" name="collection_id" value="#collection_id#">
-	<table class="newRec">
-	<tr>
-		<td colspan="3">
-			<strong>New Contact</strong>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<label for ="contact_agent_id">Contact Name</label>
-			<input type="hidden" name="contact_agent_id" id="contact_agent_id">
-			<input type="text" name="contact" class="reqdClr"
-				onchange="getAgent('contact_agent_id','contact','newContact',this.value); return false;"
-	 			onKeyPress="return noenter(event);">
-		</td>
-		<td>
-			<label for="contact_role">Contact Role</label>
-			<select name="contact_role" id="contact_role" size="1" class="reqdClr">
-				<cfloop query="ctContactRole">
-					<option value="#contact_role#">#contact_role#</option>
-				</cfloop>
-			</select>
-		</td>
-		<td>
-			<label for="">&nbsp;</label>
-			<input type="submit" value="Create Contact" class="insBtn"
-   				onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">	
-		</td>
-	</tr>
-		
-	</table>
-	</form>
-	<form name="appearance" method="post" action="Collection.cfm">
-		<input type="hidden" name="action" value="changeAppearance">
-		<input type="hidden" name="collection_id" value="#collection_id#">
-		<table border>
-			<tr>
-				<td colspan="2">Portal 
-					<span style="font-size:smaller">(You may need DBA help to set this up properly for new collections. 
-					Your settings will be ignored if you don't include enough information. With the help of a DBA, you may also create "portals"
-					for things other than collections - e.g., all mammal collections, or all collections within an institution, or whatever)
-					</span>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="HEADER_COLOR">
-						<a href="http://www.google.com/search?q=html+color+picker" target="_blank">HEADER_COLOR</a>
-					</label>
-					<input type="text" name="HEADER_COLOR" id="HEADER_COLOR" class="reqdClr" value="#app.HEADER_COLOR#">
-				</td>
-				<td>
-					<label for="HEADER_IMAGE">
-						<a href="/tools/listImages.cfm" target="_blank">HEADER_IMAGE</a>
-					</label>
-					<input type="text" name="HEADER_IMAGE" id="HEADER_IMAGE" class="reqdClr" value="#app.HEADER_IMAGE#">
-				</td>
-			</tr>
-			<td>
-				<td>
-					<label for="HEADER_CREDIT">
-						HEADER_CREDIT
-					</label>
-					<input type="text" name="HEADER_CREDIT" id="HEADER_CREDIT" class="reqdClr" value="#app.HEADER_CREDIT#">
-				</td>
-			</td>
-			<tr>
-				<td>
-					<label for="COLLECTION_URL">COLLECTION_URL</label>
-					<input type="text" name="COLLECTION_URL" id="COLLECTION_URL" class="reqdClr" value="#app.COLLECTION_URL#">
-				</td>
-				<td>
-					<label for="COLLECTION_LINK_TEXT">COLLECTION_LINK_TEXT</label>
-					<input type="text" name="COLLECTION_LINK_TEXT" id="COLLECTION_LINK_TEXT" class="reqdClr" value="#encodeForHtml(app.COLLECTION_LINK_TEXT)#">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="INSTITUTION_URL">INSTITUTION_URL</label>
-					<input type="text" name="INSTITUTION_URL" id="INSTITUTION_URL" class="reqdClr" value="#app.INSTITUTION_URL#">
-				</td>
-				<td>
-					<label for="INSTITUTION_LINK_TEXT">INSTITUTION_LINK_TEXT</label>
-					<input type="text" name="INSTITUTION_LINK_TEXT" id="INSTITUTION_LINK_TEXT" class="reqdClr" value="#app.INSTITUTION_LINK_TEXT#">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="META_DESCRIPTION">META_DESCRIPTION</label>
-					<input type="text" name="META_DESCRIPTION" id="META_DESCRIPTION" class="reqdClr" value="#app.META_DESCRIPTION#">
-				</td>
-				<td>
-					<label for="META_KEYWORDS">META_KEYWORDS</label>
-					<input type="text" name="META_KEYWORDS" id="META_KEYWORDS" class="reqdClr" value="#app.META_KEYWORDS#">
-				</td>
-			</tr>
-			<cfdirectory action="list" directory="#Application.webDirectory#/includes/css" name="sheets" filter="*.css">
-			<tr>
-				<td>
-					<label for="STYLESHEET">STYLESHEET</label>
-					<select name="STYLESHEET" size="1">
-						<option value=" ">none</option>
-						<cfloop query="sheets">
-							<option <cfif #name# is #app.STYLESHEET#> selected="selected" </cfif>value="#name#">#name#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					&nbsp;
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="submit" value="Save" class="savBtn"
-   					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
-				</td>
-			</tr>
-		</table>
-	</form>
-</td>
-		</tr>
-	</table>
-</cfoutput>
-</cfif>
-<!------------------------------------------------------------------------------------->
-<cfif #action# is "updateContact">
-	<cfoutput>
-		<cfquery name="changeContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		UPDATE collection_contacts SET
-			contact_role = '#contact_role#',
-			contact_agent_id = #contact_agent_id#
-		WHERE
-			collection_contact_id = #collection_contact_id#
-		</cfquery>
-		<cflocation url="Collection.cfm?action=findColl&collection_id=#collection_id#">
-	</cfoutput>
-</cfif>
-<!------------------------------------------------------------------------------------->
-<cfif #action# is "deleteContact">
-	<cfoutput>
-		<cfquery name="killContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			DELETE FROM collection_contacts
-		WHERE
-			collection_contact_id = #collection_contact_id#
-		</cfquery>
-		<cflocation url="Collection.cfm?action=findColl&collection_id=#collection_id#">
-	</cfoutput>
-</cfif>
-<!------------------------------------------------------------------------------------->
-<cfif #action# is "changeAppearance">
-<cfoutput>
 
-	 <cfquery name="insApp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
- 		update cf_collection set
- 			HEADER_COLOR='#HEADER_COLOR#',
- 			HEADER_IMAGE='#HEADER_IMAGE#',
- 			COLLECTION_URL='#COLLECTION_URL#',
- 			COLLECTION_LINK_TEXT='#COLLECTION_LINK_TEXT#',
- 			INSTITUTION_URL='#INSTITUTION_URL#',
- 			INSTITUTION_LINK_TEXT='#INSTITUTION_LINK_TEXT#',
- 			META_DESCRIPTION='#META_DESCRIPTION#',
- 			META_KEYWORDS='#META_KEYWORDS#',
-			STYLESHEET='#STYLESHEET#',
-			header_credit='#header_credit#'
- 		where collection_id=#collection_id#
- 	</cfquery>
-	<cflocation url="Collection.cfm?action=findColl&collection_id=#collection_id#">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------------------------------------->
-<cfif #action# is "newContact">
-	<cfoutput>
-	<cftransaction>
-	<cfquery name="newContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		INSERT INTO collection_contacts (
-			collection_contact_id,
-			collection_id,
-			contact_role,
-			contact_agent_id)
-		VALUES (
-			sq_collection_contact_id.nextval,
-			#collection_id#,
-			'#contact_role#',
-			#contact_agent_id#)
-	</cfquery>
-	</cftransaction>
-	<cflocation url="Collection.cfm?action=findColl&collection_id=#collection_id#">
-	</cfoutput>
-</cfif>
-<!------------------------------------------------------------------------------------->
-<cfif #action# is "modifyCollection">
-<cfoutput>
-	<cftransaction>
-	
-	<cfquery name="modColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		UPDATE collection SET 
-			COLLECTION_CDE = '#collection_cde#',
-			guid_prefix = '#guid_prefix#',
-			COLLECTION = '#collection#',
-			INSTITUTION_ACRONYM='#institution_acronym#',
-			DESCR='#descr#',
-			web_link='#web_link#',
-			web_link_text='#web_link_text#',
-			loan_policy_url='#loan_policy_url#',
-			allow_prefix_suffix=#allow_prefix_suffix#		
-		WHERE COLLECTION_ID = #collection_id#
-	</cfquery>
-	</cftransaction>
-	<cflocation url="Collection.cfm?action=findColl&collection_id=#collection_id#">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------------------------------------->
+		<cfoutput>
+			<section class="row my-2">
+				<div class="col-12">
+					<div class="border rounded p-3 h-100">
+						<h2 class="h3 mb-3">Collection Details</h2>
+						<form name="editCollection" method="post" action="/Admin/Collection.cfm">
+							<input type="hidden" name="action" value="modifyCollection">
+							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
+							<div class="form-row">
+								<div class="col-12 col-md-4 col-lg-3">
+									<label for="collection_cde" class="data-entry-label">Collection Type</label>
+									<select name="collection_cde" id="collection_cde" size="1" class="data-entry-select reqdClr">
+										<cfloop query="ctCollCde">
+											<option value="#encodeForHtmlAttribute(ctCollCde.collection_cde)#"<cfif ctCollCde.collection_cde EQ colls.collection_cde> selected="selected"</cfif>>#encodeForHtml(ctCollCde.collection_cde)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-lg-3">
+									<label for="institution_acronym" class="data-entry-label">Institution Acronym</label>
+									<input type="text" name="institution_acronym" id="institution_acronym" value="#encodeForHtmlAttribute(colls.institution_acronym)#" class="data-entry-input reqdClr">
+								</div>
+								<div class="col-12 col-md-4 col-lg-6">
+									<label for="collection" class="data-entry-label">Collection</label>
+									<input type="text" name="collection" id="collection" value="#encodeForHtmlAttribute(colls.collection)#" class="data-entry-input reqdClr">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-12 col-md-6 col-lg-4">
+									<label for="guid_prefix" class="data-entry-label">GUID Prefix</label>
+									<input type="text" name="guid_prefix" id="guid_prefix" value="#encodeForHtmlAttribute(colls.guid_prefix)#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-6 col-lg-4">
+									<label for="allow_prefix_suffix" class="data-entry-label">Allow catnum prefix/suffix?</label>
+									<select name="allow_prefix_suffix" id="allow_prefix_suffix" class="data-entry-select">
+										<option value="0"<cfif colls.allow_prefix_suffix EQ 0> selected="selected"</cfif>>No</option>
+										<option value="1"<cfif colls.allow_prefix_suffix EQ 1> selected="selected"</cfif>>Yes</option>
+									</select>
+								</div>
+								<div class="col-12 col-lg-4">
+									<label for="loan_policy_url" class="data-entry-label">Loan Policy URL</label>
+									<input type="text" name="loan_policy_url" id="loan_policy_url" value="#encodeForHtmlAttribute(colls.loan_policy_url)#" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-12">
+									<label for="descr" class="data-entry-label">Description</label>
+									<input type="text" name="descr" id="descr" value="#encodeForHtmlAttribute(colls.descr)#" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-12 col-lg-6">
+									<label for="web_link" class="data-entry-label">Web Link</label>
+									<input type="text" name="web_link" id="web_link" value="#encodeForHtmlAttribute(colls.web_link)#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-lg-6">
+									<label for="web_link_text" class="data-entry-label">Link Text</label>
+									<input type="text" name="web_link_text" id="web_link_text" value="#encodeForHtmlAttribute(colls.web_link_text)#" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mt-3">
+								<div class="col-12">
+									<input type="submit" value="Save Collection Details" class="btn btn-primary btn-xs">
+									<a class="btn btn-xs btn-secondary" href="/Admin/Collection.cfm">Done</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
 
-<cfinclude template="/includes/_footer.cfm">
+			<section class="row my-2">
+				<div class="col-12 col-xl-8">
+					<div class="border rounded p-3 h-100">
+						<h2 class="h3 mb-3">Collection Contacts</h2>
+						<cfif contact.recordCount EQ 0>
+							<p class="text-muted mb-0">No contacts are currently configured for this collection.</p>
+						<cfelse>
+							<cfloop query="contact">
+								<form name="contact#contact.currentRow#" id="contact#contact.currentRow#" method="post" action="/Admin/Collection.cfm" class="border rounded bg-light p-3 mb-3">
+									<input type="hidden" name="action" id="action_contact_#contact.currentRow#" value="updateContact">
+									<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
+									<input type="hidden" name="collection_contact_id" value="#encodeForHtmlAttribute(contact.collection_contact_id)#">
+									<input type="hidden" name="contact_agent_id" id="contact_agent_id_#contact.currentRow#" value="#encodeForHtmlAttribute(contact.contact_agent_id)#">
+									<div class="form-row align-items-end">
+										<div class="col-12 col-lg-5">
+											<label for="contact_#contact.currentRow#" class="data-entry-label">Contact Name</label>
+											<input type="text" name="contact" id="contact_#contact.currentRow#" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(contact.contact_name)#" onchange="getAgent('contact_agent_id_#contact.currentRow#','contact_#contact.currentRow#','contact#contact.currentRow#',this.value); return false;" onKeyPress="return noenter(event);">
+										</div>
+										<div class="col-12 col-lg-4">
+											<label for="contact_role_#contact.currentRow#" class="data-entry-label">Contact Role</label>
+											<select name="contact_role" id="contact_role_#contact.currentRow#" size="1" class="data-entry-select reqdClr">
+												<cfloop query="ctContactRole">
+													<option value="#encodeForHtmlAttribute(ctContactRole.contact_role)#"<cfif ctContactRole.contact_role EQ contact.contact_role> selected="selected"</cfif>>#encodeForHtml(ctContactRole.contact_role)#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-lg-3 mt-3 mt-lg-0">
+											<div class="d-flex flex-wrap">
+												<input type="submit" value="Save" class="btn btn-primary btn-xs mr-2 mb-2" onclick="document.getElementById('action_contact_#contact.currentRow#').value='updateContact';">
+												<input type="button" value="Delete" class="btn btn-xs btn-danger mb-2" onclick="document.getElementById('action_contact_#contact.currentRow#').value='deleteContact';confirmDelete('contact#contact.currentRow#');">
+											</div>
+										</div>
+									</div>
+								</form>
+							</cfloop>
+						</cfif>
+					</div>
+				</div>
+				<div class="col-12 col-xl-4 mt-3 mt-xl-0">
+					<div class="border rounded p-3 h-100">
+						<h2 class="h3 mb-3">Add Contact</h2>
+						<form name="newContact" id="newContact" method="post" action="/Admin/Collection.cfm">
+							<input type="hidden" name="action" value="newContact">
+							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
+							<input type="hidden" name="contact_agent_id" id="new_contact_agent_id">
+							<div class="form-row">
+								<div class="col-12">
+									<label for="new_contact" class="data-entry-label">Contact Name</label>
+									<input type="text" name="contact" id="new_contact" class="data-entry-input reqdClr" onchange="getAgent('new_contact_agent_id','new_contact','newContact',this.value); return false;" onKeyPress="return noenter(event);">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-12">
+									<label for="new_contact_role" class="data-entry-label">Contact Role</label>
+									<select name="contact_role" id="new_contact_role" size="1" class="data-entry-select reqdClr">
+										<cfloop query="ctContactRole">
+											<option value="#encodeForHtmlAttribute(ctContactRole.contact_role)#">#encodeForHtml(ctContactRole.contact_role)#</option>
+										</cfloop>
+									</select>
+								</div>
+							</div>
+							<div class="form-row mt-3">
+								<div class="col-12">
+									<input type="submit" value="Create Contact" class="btn btn-primary btn-xs">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+
+			<section class="row my-2">
+				<div class="col-12">
+					<div class="border rounded p-3 h-100">
+						<h2 class="h3 mb-2">Portal Appearance</h2>
+						<p class="small text-muted">You may need DBA help to set this up properly for new collections. Settings may be ignored if the related portal configuration is incomplete.</p>
+						<form name="appearance" method="post" action="/Admin/Collection.cfm">
+							<input type="hidden" name="action" value="changeAppearance">
+							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
+							<div class="form-row">
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="HEADER_COLOR" class="data-entry-label">Header Color</label>
+									<input type="text" name="HEADER_COLOR" id="HEADER_COLOR" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.HEADER_COLOR)#">
+									<p class="small mb-0"><a href="https://www.google.com/search?q=html+color+picker" target="_blank" rel="noopener noreferrer">Find a color value</a></p>
+								</div>
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="HEADER_IMAGE" class="data-entry-label">Header Image</label>
+									<input type="text" name="HEADER_IMAGE" id="HEADER_IMAGE" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.HEADER_IMAGE)#">
+									<p class="small mb-0"><a href="/tools/listImages.cfm" target="_blank" rel="noopener noreferrer">Browse available images</a></p>
+								</div>
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="HEADER_CREDIT" class="data-entry-label">Header Credit</label>
+									<input type="text" name="HEADER_CREDIT" id="HEADER_CREDIT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.HEADER_CREDIT)#">
+								</div>
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="STYLESHEET" class="data-entry-label">Stylesheet</label>
+									<select name="STYLESHEET" id="STYLESHEET" size="1" class="data-entry-select">
+										<option value=" "<cfif len(trim(local.STYLESHEET)) EQ 0> selected="selected"</cfif>>none</option>
+										<cfloop query="sheets">
+											<option value="#encodeForHtmlAttribute(sheets.name)#"<cfif sheets.name EQ local.STYLESHEET> selected="selected"</cfif>>#encodeForHtml(sheets.name)#</option>
+										</cfloop>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="COLLECTION_URL" class="data-entry-label">Collection URL</label>
+									<input type="text" name="COLLECTION_URL" id="COLLECTION_URL" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.COLLECTION_URL)#">
+								</div>
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="COLLECTION_LINK_TEXT" class="data-entry-label">Collection Link Text</label>
+									<input type="text" name="COLLECTION_LINK_TEXT" id="COLLECTION_LINK_TEXT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.COLLECTION_LINK_TEXT)#">
+								</div>
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="INSTITUTION_URL" class="data-entry-label">Institution URL</label>
+									<input type="text" name="INSTITUTION_URL" id="INSTITUTION_URL" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.INSTITUTION_URL)#">
+								</div>
+								<div class="col-12 col-md-6 col-lg-3">
+									<label for="INSTITUTION_LINK_TEXT" class="data-entry-label">Institution Link Text</label>
+									<input type="text" name="INSTITUTION_LINK_TEXT" id="INSTITUTION_LINK_TEXT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.INSTITUTION_LINK_TEXT)#">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-12 col-lg-6">
+									<label for="META_DESCRIPTION" class="data-entry-label">Meta Description</label>
+									<input type="text" name="META_DESCRIPTION" id="META_DESCRIPTION" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.META_DESCRIPTION)#">
+								</div>
+								<div class="col-12 col-lg-6">
+									<label for="META_KEYWORDS" class="data-entry-label">Meta Keywords</label>
+									<input type="text" name="META_KEYWORDS" id="META_KEYWORDS" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(local.META_KEYWORDS)#">
+								</div>
+							</div>
+							<div class="form-row mt-3">
+								<div class="col-12">
+									<input type="submit" value="Save Portal Settings" class="btn btn-primary btn-xs">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</cfoutput>
+	</cfif>
+</main>
+
+<cfinclude template="/shared/_footer.cfm">
