@@ -396,13 +396,12 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="col-12 col-xl-4 mt-3 mt-xl-0">
-					<div class="border rounded p-3 h-100">
+					<div class="border rounded bg-light p-3 h-100">
 						<h2 class="h3 mb-3">Add Contact</h2>
-						<form name="newContact" id="newContact" method="post" action="/Admin/Collection.cfm" class="border rounded bg-light p-3 mb-0">
+						<form name="newContact" id="newContact" method="post" action="/Admin/Collection.cfm" class="mb-0">
 							<input type="hidden" name="action" value="newContact">
 							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
 							<input type="hidden" name="contact_agent_id" id="new_contact_agent_id">
-							<h3 class="h4 mb-2">New Contact</h3>
 							<p class="small text-muted mb-3">Add a role assignment for a new collection contact.</p>
 							<div class="form-row">
 								<div class="col-12">
