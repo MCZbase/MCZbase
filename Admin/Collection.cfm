@@ -292,12 +292,13 @@ limitations under the License.
 				<div class="col-12">
 					<div class="border rounded p-3 h-100">
 						<h2 class="h3 mb-3">Collection Details</h2>
+						<p class="mb-3 mb-md-0">These settings should not normally be changed.  Loan Policy URL and Web Link are shown on the <a href="/collections/index.cfm" target="_blank">Holdings page</a>.</p>
 						<form name="editCollection" method="post" action="/Admin/Collection.cfm">
 							<input type="hidden" name="action" value="modifyCollection">
 							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
 							<div class="form-row">
 								<div class="col-12 col-md-4 col-lg-3">
-									<label for="collection_cde" class="data-entry-label">Collection Type</label>
+									<label for="collection_cde" class="data-entry-label">Collection Code (from <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLLECTION_CDE" target="_blank">Controlled Vocabulary</a>)</label>
 									<select name="collection_cde" id="collection_cde" size="1" class="data-entry-select reqdClr">
 										<cfloop query="ctCollCde">
 											<option value="#encodeForHtmlAttribute(ctCollCde.collection_cde)#"<cfif ctCollCde.collection_cde EQ colls.collection_cde> selected="selected"</cfif>>#encodeForHtml(ctCollCde.collection_cde)#</option>
@@ -467,17 +468,18 @@ limitations under the License.
 							<input type="hidden" name="action" value="changeAppearance">
 							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
 							<div class="form-row">
-								<div class="col-12 col-md-6 col-lg-3">
+								<div class="col-12 col-md-6 col-lg-2">
 									<label for="HEADER_COLOR" class="data-entry-label">Header Color</label>
 									<input type="text" name="HEADER_COLOR" id="HEADER_COLOR" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(variables.HEADER_COLOR)#">
-									<p class="small mb-0"><a href="https://www.google.com/search?q=html+color+picker" target="_blank" rel="noopener noreferrer">Find a color value</a></p>
 								</div>
 								<div class="col-12 col-md-6 col-lg-3">
 									<label for="HEADER_IMAGE" class="data-entry-label">Header Image</label>
 									<input type="text" name="HEADER_IMAGE" id="HEADER_IMAGE" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(variables.HEADER_IMAGE)#">
+								</div>
+								<div class="col-12 col-md-6 col-lg-2">
 									<p class="small mb-0"><a href="/tools/listImages.cfm" target="_blank" rel="noopener noreferrer">Browse available images</a></p>
 								</div>
-								<div class="col-12 col-md-6 col-lg-3">
+								<div class="col-12 col-md-6 col-lg-2">
 									<label for="HEADER_CREDIT" class="data-entry-label">Header Credit</label>
 									<input type="text" name="HEADER_CREDIT" id="HEADER_CREDIT" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(variables.HEADER_CREDIT)#">
 								</div>
