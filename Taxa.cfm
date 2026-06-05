@@ -599,7 +599,7 @@ limitations under the License.
                                   
                                     <div class="col-12 col-xl-6 pl-xl-0 pr-xl-2">
                                         <fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-                                            <legend class="h6 px-3 mb-0 border field-set-legend w-auto bg-teal">Search taxa used on specimen records:</legend>
+                                            <legend class="h6 px-3 mb-0 border-top border-bottom border-right border-left field-set-legend w-auto bg-teal">Search taxa used on specimen records:</legend>
                                             <div class="form-group mb-0 pb-0">
                                                 <ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
                                                     <cfif we_have_some EQ 1>
