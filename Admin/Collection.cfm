@@ -1,6 +1,7 @@
-<cfset pageTitle = "Manage Collections">
 <!---
 /Admin/Collection.cfm
+
+Display and manage collection metadata, contacts, and portal appearance settings.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
@@ -18,15 +19,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- Display and manage collection metadata, contacts, and portal appearance settings. --->
+<cfset pageTitle = "Manage Collections">
+<cfinclude template="/shared/_header.cfm">
+
 <cfset variables.allowedActions = "entryPoint,findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
 <cfset variables.actionsRequiringCollectionId = "findColl,updateContact,deleteContact,changeAppearance,newContact,modifyCollection">
 <cfset variables.findCollectionBaseUrl = "/Admin/Collection.cfm?action=findColl&collection_id=">
-
-<cfparam name="url.action" default="">
-<cfparam name="form.action" default="">
-<cfparam name="url.collection_id" default="">
-<cfparam name="form.collection_id" default="">
 
 <cfset variables.action = "entryPoint">
 <cfif len(trim(form.action)) GT 0>
@@ -51,8 +49,31 @@ limitations under the License.
 	<cfset variables.hasValidCollectionId = false>
 </cfif>
 
+<!--- Handle form submissions for collection contact management, portal appearance settings, and collection metadata updates --->
 <cfswitch expression="#variables.action#">
+	<cfcase value="newContact">
+		<!--- insert a new collection_contacts record --->
+		<cfparam name="form.contact_role" default="">
+		<cfparam name="form.contact_agent_id" default="">
+		<cftransaction>
+			<cfquery name="newContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				INSERT INTO collection_contacts (
+					collection_contact_id,
+					collection_id,
+					contact_role,
+					contact_agent_id
+				) VALUES (
+					sq_collection_contact_id.nextval,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.collection_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.contact_role#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.contact_agent_id#">
+				)
+			</cfquery>
+		</cftransaction>
+		<cflocation url="#variables.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
+	</cfcase>
 	<cfcase value="updateContact">
+		<!--- update an existing collection_contacts record --->
 		<cfparam name="form.contact_role" default="">
 		<cfparam name="form.contact_agent_id" default="">
 		<cfparam name="form.collection_contact_id" default="">
@@ -60,22 +81,24 @@ limitations under the License.
 			UPDATE collection_contacts
 			SET
 				contact_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.contact_role#">,
-				contact_agent_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.contact_agent_id#">
+				contact_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.contact_agent_id#">
 			WHERE
-				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
+				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.collection_contact_id#">
 		</cfquery>
 		<cflocation url="#variables.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="deleteContact">
+		<!--- delete a collection_contacts record --->
 		<cfparam name="form.collection_contact_id" default="">
 		<cfquery name="killContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM collection_contacts
 			WHERE
-				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_contact_id#">
+				collection_contact_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.collection_contact_id#">
 		</cfquery>
 		<cflocation url="#variables.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
 	<cfcase value="changeAppearance">
+		<!--- update the appearance related fields of the cf_collection record for this collection --->
 		<cfparam name="form.HEADER_COLOR" default="">
 		<cfparam name="form.HEADER_IMAGE" default="">
 		<cfparam name="form.COLLECTION_URL" default="">
@@ -100,31 +123,12 @@ limitations under the License.
 				STYLESHEET = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.STYLESHEET#">,
 				HEADER_CREDIT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.HEADER_CREDIT#">
 			WHERE
-				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.collection_id#">
 		</cfquery>
 		<cflocation url="#variables.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
 	</cfcase>
-	<cfcase value="newContact">
-		<cfparam name="form.contact_role" default="">
-		<cfparam name="form.contact_agent_id" default="">
-		<cftransaction>
-			<cfquery name="newContact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				INSERT INTO collection_contacts (
-					collection_contact_id,
-					collection_id,
-					contact_role,
-					contact_agent_id
-				) VALUES (
-					sq_collection_contact_id.nextval,
-					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.contact_role#">,
-					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.contact_agent_id#">
-				)
-			</cfquery>
-		</cftransaction>
-		<cflocation url="#variables.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
-	</cfcase>
 	<cfcase value="modifyCollection">
+		<!--- update the core metadata in the collection record for this collection --->
 		<cfparam name="form.collection_cde" default="">
 		<cfparam name="form.guid_prefix" default="">
 		<cfparam name="form.collection" default="">
@@ -146,9 +150,9 @@ limitations under the License.
 					web_link = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.web_link#">,
 					web_link_text = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.web_link_text#">,
 					loan_policy_url = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.loan_policy_url#">,
-					allow_prefix_suffix = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.allow_prefix_suffix#">
+					allow_prefix_suffix = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.allow_prefix_suffix#">
 				WHERE
-					COLLECTION_ID = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.collection_id#">
+					COLLECTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.collection_id#">
 			</cfquery>
 		</cftransaction>
 		<cflocation url="#variables.findCollectionBaseUrl##encodeForUrl(form.collection_id)#" addtoken="false">
@@ -156,6 +160,7 @@ limitations under the License.
 </cfswitch>
 
 <cfif variables.action EQ "findColl" AND variables.hasValidCollectionId>
+	<!--- retrieve collection metadata for the specified collection --->
 	<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			COLLECTION_CDE,
@@ -170,7 +175,7 @@ limitations under the License.
 			allow_prefix_suffix
 		FROM collection
 		WHERE
-			collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.collection_id#">
+			collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#">
 	</cfquery>
 	<cfif colls.recordCount EQ 1>
 		<cfset pageTitle = "Manage Collection: #colls.collection#">
@@ -178,7 +183,7 @@ limitations under the License.
 			SELECT *
 			FROM cf_collection
 			WHERE
-				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.collection_id#">
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#">
 		</cfquery>
 		<cfquery name="ctCollCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_cde
@@ -195,7 +200,7 @@ limitations under the License.
 				JOIN preferred_agent_name
 					ON contact_agent_id = agent_id
 			WHERE
-				collection_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.collection_id#">
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#">
 			ORDER BY
 				contact_name,
 				contact_role
@@ -219,8 +224,7 @@ limitations under the License.
 	ORDER BY collection
 </cfquery>
 
-<cfinclude template="/shared/_header.cfm">
-
+<!--- Display collection selection form if no valid collection_id provided, otherwise display collection details, contacts, and portal appearance settings --->
 <main class="container py-3" id="content">
 	<section class="row my-2">
 		<div class="col-12">
@@ -425,8 +429,8 @@ limitations under the License.
 			<section class="row my-2">
 				<div class="col-12">
 					<div class="border rounded p-3 h-100">
-						<h2 class="h3 mb-2">Portal Appearance</h2>
-						<p class="small text-muted">You may need DBA help to set this up properly for new collections. Settings may be ignored if the related portal configuration is incomplete.</p>
+						<h2 class="h3 mb-2">Collection Specific Appearance</h2>
+						<p class="small text-muted">These settings should not normally be changed.  You will need DBA help to set this up properly for new collections. Settings may be ignored if the related portal configuration is incomplete.</p>
 						<form name="appearance" method="post" action="/Admin/Collection.cfm">
 							<input type="hidden" name="action" value="changeAppearance">
 							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
