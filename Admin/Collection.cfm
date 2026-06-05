@@ -445,11 +445,8 @@ limitations under the License.
 			<script>
 				<cfif contact.recordCount GT 0>
 					<cfloop query="contact">
-						<cfset variables.contactPickerAgentId = "null">
-						<cfif len(contact.contact_agent_id) GT 0>
-							<cfset variables.contactPickerAgentId = val(contact.contact_agent_id)>
-						</cfif>
-						makeRichAgentPicker('contact_#contact.currentRow#', 'contact_agent_id_#contact.currentRow#', 'contact_name_icon_#contact.currentRow#', 'contact_view_#contact.currentRow#', #variables.contactPickerAgentId#);
+						const contactPickerAgentId_#contact.currentRow# = Number.parseInt(document.getElementById('contact_agent_id_#contact.currentRow#').value, 10);
+						makeRichAgentPicker('contact_#contact.currentRow#', 'contact_agent_id_#contact.currentRow#', 'contact_name_icon_#contact.currentRow#', 'contact_view_#contact.currentRow#', Number.isNaN(contactPickerAgentId_#contact.currentRow#) ? null : contactPickerAgentId_#contact.currentRow#);
 					</cfloop>
 				</cfif>
 				makeRichAgentPicker('new_contact', 'new_contact_agent_id', 'new_contact_name_icon', 'new_contact_view', null);
