@@ -399,7 +399,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makeRichAgentPicker('contact_#contact.currentRow#', 'contact_agent_id_#contact.currentRow#', 'contact_name_icon_#contact.currentRow#', 'contact_view_#contact.currentRow#', '#encodeForJavaScript(contact.contact_agent_id)#'));
+											makeRichAgentPicker('contact_#contact.currentRow#', 'contact_agent_id_#contact.currentRow#', 'contact_name_icon_#contact.currentRow#', 'contact_view_#contact.currentRow#', '#encodeForJavaScript(contact.contact_agent_id)#');
 										});
 									</script>
 								</form>
@@ -446,7 +446,7 @@ limitations under the License.
 						</form>
 						<script>
 							$(document).ready(function() {
-								$(makeRichAgentPicker('new_contact', 'new_contact_agent_id', 'new_contact_name_icon', 'new_contact_view', ''));
+								makeRichAgentPicker('new_contact', 'new_contact_agent_id', 'new_contact_name_icon', 'new_contact_view', '');
 							});
 						</script>
 					</div>
