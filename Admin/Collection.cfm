@@ -291,8 +291,8 @@ limitations under the License.
 			<section class="row my-2">
 				<div class="col-12">
 					<div class="border rounded p-3 h-100">
-						<h2 class="h3 mb-3">Collection Details</h2>
-						<p class="mb-3 mb-md-0">These settings should not normally be changed.  Loan Policy URL and Web Link are shown on the <a href="/collections/index.cfm" target="_blank">Holdings page</a>.</p>
+						<h2 class="h3 mb-1">Collection Details</h2>
+						<p class="mb-2">These settings should not normally be changed.  Loan Policy URL and Web Link are shown on the <a href="/collections/index.cfm" target="_blank">Holdings page</a>.</p>
 						<form name="editCollection" method="post" action="/Admin/Collection.cfm">
 							<input type="hidden" name="action" value="modifyCollection">
 							<input type="hidden" name="collection_id" value="#encodeForHtmlAttribute(colls.collection_id)#">
@@ -476,7 +476,7 @@ limitations under the License.
 									<label for="HEADER_IMAGE" class="data-entry-label">Header Image</label>
 									<input type="text" name="HEADER_IMAGE" id="HEADER_IMAGE" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(variables.HEADER_IMAGE)#">
 								</div>
-								<div class="col-12 col-md-6 col-lg-2">
+								<div class="col-12 col-md-6 col-lg-2 pt-3">
 									<p class="small mb-0"><a href="/tools/listImages.cfm" target="_blank" rel="noopener noreferrer">Browse available images</a></p>
 								</div>
 								<div class="col-12 col-md-6 col-lg-2">
