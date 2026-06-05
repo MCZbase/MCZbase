@@ -175,7 +175,7 @@ limitations under the License.
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
                                 <div class="border my-2">
                                     <fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
-                                    <legend class="h6 mb-1 px-3 border field-set-legend w-auto">Name / Identifier</legend>
+                                    <legend class="h6 mb-1 px-3 border field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 								    <div class="form-row pt-2">
                                         <div class="col-12 col-md-12 col-lg-4 col-xl-5 px-0 mx-0 mb-1 mt-0 pr-md-0 form-group">
                                             <label for="anyName" class="data-entry-label smaller font-weight-bold" id="anyName_label">
