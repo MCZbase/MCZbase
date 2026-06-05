@@ -397,9 +397,6 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<script>
-										makeRichAgentPicker('contact_#contact.currentRow#', 'contact_agent_id_#contact.currentRow#', 'contact_name_icon_#contact.currentRow#', 'contact_view_#contact.currentRow#', '#encodeForJavaScript(contact.contact_agent_id)#');
-									</script>
 								</form>
 							</cfloop>
 						</cfif>
@@ -442,12 +439,17 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
-						<script>
-							makeRichAgentPicker('new_contact', 'new_contact_agent_id', 'new_contact_name_icon', 'new_contact_view', '');
-						</script>
 					</div>
 				</div>
 			</section>
+			<script>
+				<cfif contact.recordCount GT 0>
+					<cfloop query="contact">
+						makeRichAgentPicker('contact_#contact.currentRow#', 'contact_agent_id_#contact.currentRow#', 'contact_name_icon_#contact.currentRow#', 'contact_view_#contact.currentRow#', <cfif len(contact.contact_agent_id) GT 0>#val(contact.contact_agent_id)#<cfelse>null</cfif>);
+					</cfloop>
+				</cfif>
+				makeRichAgentPicker('new_contact', 'new_contact_agent_id', 'new_contact_name_icon', 'new_contact_view', null);
+			</script>
 
 			<section class="row my-2">
 				<div class="col-12">
