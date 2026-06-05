@@ -27,9 +27,9 @@ limitations under the License.
 <cfset variables.findCollectionBaseUrl = "/Admin/Collection.cfm?action=findColl&collection_id=">
 
 <cfset variables.action = "entryPoint">
-<cfif len(trim(form.action)) GT 0>
+<cfif isDefined("form.action") AND len(trim(form.action)) GT 0>
 	<cfset variables.action = trim(form.action)>
-<cfelseif len(trim(url.action)) GT 0>
+<cfelseif isDefined("url.action") AND len(trim(url.action)) GT 0>
 	<cfset variables.action = trim(url.action)>
 </cfif>
 <cfif NOT listFindNoCase(variables.allowedActions, variables.action)>
@@ -37,12 +37,14 @@ limitations under the License.
 </cfif>
 
 <cfset variables.collection_id = "">
-<cfif len(trim(form.collection_id)) GT 0>
+<cfif isDefined("form.collection_id") AND len(trim(form.collection_id)) GT 0>
 	<cfset variables.collection_id = trim(form.collection_id)>
-<cfelseif len(trim(url.collection_id)) GT 0>
+<cfelseif isDefined("url.collection_id") AND len(trim(url.collection_id)) GT 0>
 	<cfset variables.collection_id = trim(url.collection_id)>
 </cfif>
+
 <cfset variables.hasValidCollectionId = len(variables.collection_id) GT 0 AND isValid("integer", variables.collection_id)>
+
 <cfif listFindNoCase(variables.actionsRequiringCollectionId, variables.action) AND NOT variables.hasValidCollectionId>
 	<cfset variables.action = "entryPoint">
 	<cfset variables.collection_id = "">
