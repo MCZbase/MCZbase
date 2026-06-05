@@ -413,7 +413,7 @@
 									</div>
 									<div style="float:left;width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Application</div>
-										<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
+										<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collections</a>
 										<a class="dropdown-item" target="_top" href="/Admin/manageRedirects.cfm">Redirects</a>
 										<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
 									</div>
