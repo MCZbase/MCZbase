@@ -372,8 +372,15 @@ limitations under the License.
 									<input type="hidden" name="contact_agent_id" id="contact_agent_id_#contact.currentRow#" value="#encodeForHtmlAttribute(contact.contact_agent_id)#">
 									<div class="form-row align-items-end">
 										<div class="col-12 col-lg-5">
-											<label for="contact_#contact.currentRow#" class="data-entry-label">Contact Name</label>
-											<input type="text" name="contact" id="contact_#contact.currentRow#" class="data-entry-input reqdClr" value="#encodeForHtmlAttribute(contact.contact_name)#" onchange="getAgent('contact_agent_id_#contact.currentRow#','contact_#contact.currentRow#','contact#contact.currentRow#',this.value); return false;" onKeyPress="return noenter(event);">
+											<label for="contact_#contact.currentRow#" class="data-entry-label mb-0">Contact Name
+												<span id="contact_view_#contact.currentRow#" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-light" id="contact_name_icon_#contact.currentRow#"><i class="fa fa-user" aria-hidden="true"></i></span>
+												</div>
+												<input type="text" name="contact" id="contact_#contact.currentRow#" class="data-entry-input reqdClr form-control rounded-right" aria-label="Contact Name" value="#encodeForHtmlAttribute(contact.contact_name)#" onKeyPress="return noenter(event);">
+											</div>
 										</div>
 										<div class="col-12 col-lg-4">
 											<label for="contact_role_#contact.currentRow#" class="data-entry-label">Contact Role</label>
@@ -390,6 +397,11 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('contact_#contact.currentRow#', 'contact_agent_id_#contact.currentRow#', 'contact_name_icon_#contact.currentRow#', 'contact_view_#contact.currentRow#', '#encodeForJavaScript(contact.contact_agent_id)#'));
+										});
+									</script>
 								</form>
 							</cfloop>
 						</cfif>
@@ -405,8 +417,15 @@ limitations under the License.
 							<p class="small text-muted mb-3">Add a role assignment for a new collection contact.</p>
 							<div class="form-row">
 								<div class="col-12">
-									<label for="new_contact" class="data-entry-label">Contact Name</label>
-									<input type="text" name="contact" id="new_contact" class="data-entry-input reqdClr" onchange="getAgent('new_contact_agent_id','new_contact','newContact',this.value); return false;" onKeyPress="return noenter(event);">
+									<label for="new_contact" class="data-entry-label mb-0">Contact Name
+										<span id="new_contact_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text smaller bg-light" id="new_contact_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+										</div>
+										<input type="text" name="contact" id="new_contact" class="data-entry-input reqdClr form-control rounded-right" aria-label="Contact Name" onKeyPress="return noenter(event);">
+									</div>
 								</div>
 							</div>
 							<div class="form-row">
@@ -425,6 +444,11 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
+						<script>
+							$(document).ready(function() {
+								$(makeRichAgentPicker('new_contact', 'new_contact_agent_id', 'new_contact_name_icon', 'new_contact_view', ''));
+							});
+						</script>
 					</div>
 				</div>
 			</section>
