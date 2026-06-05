@@ -445,13 +445,13 @@ limitations under the License.
 			<script>
 				<cfif contact.recordCount GT 0>
 					<cfloop query="contact">
-						const agentId_#contact.currentRow# = Number.parseInt(document.getElementById('contact_agent_id_#contact.currentRow#').value, 10);
+						const agentId#contact.currentRow# = Number.parseInt(document.getElementById('contact_agent_id_#contact.currentRow#').value, 10);
 						makeRichAgentPicker(
 							'contact_#contact.currentRow#',
 							'contact_agent_id_#contact.currentRow#',
 							'contact_name_icon_#contact.currentRow#',
 							'contact_view_#contact.currentRow#',
-							Number.isNaN(agentId_#contact.currentRow#) ? null : agentId_#contact.currentRow#
+							Number.isNaN(agentId#contact.currentRow#) ? null : agentId#contact.currentRow#
 						);
 					</cfloop>
 				</cfif>
