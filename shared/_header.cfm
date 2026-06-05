@@ -736,11 +736,13 @@ limitations under the License.
 										</cfif>
 										<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-<!---											<cfif targetMenu EQ "production">
+											<!---
+											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Form Permissions</a>
-											</cfif>--->
+											</cfif>
+											--->
 											<a class="dropdown-item" href="/Admin/blacklist.cfm">Manage Blocklist</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
@@ -757,11 +759,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"GLOBAL_ADMIN")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Application</div>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/Collection.cfm">Manage Collection</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Manage Collection</a>
-											</cfif>
+											<a class="dropdown-item" href="/Admin/Collection.cfm">Manage Collections</a>
 											<a class="dropdown-item" href="/Admin/manageRedirects.cfm">Redirects</a>
 											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 										</div>
