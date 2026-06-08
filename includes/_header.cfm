@@ -51,15 +51,17 @@
 	});
 </script>
 <style>
+/* ---------- BASE / SHARED ---------- */
 
-.sf-menu, .sf-menu * {
-    margin: 0;
-    /* padding: 0; */
-    list-style: none;
-    padding-left: .25rem;
+.sf-menu,
+.sf-menu * {
+  margin: 0;
+  list-style: none;
+  padding-left: .25rem;
 }
+
 .sf-sub-indicator {
-background:none;
+  background: none;
 }
 
 /* Overall nav wrapper under the header image */
@@ -68,9 +70,9 @@ background:none;
   border-bottom: 1px solid #ccc;
 }
 
-/* Hamburger button: base look (visibility controlled in media queries) */
+/* Hamburger button (visibility controlled by media queries) */
 #legacyMenuToggle {
-  display: none;                  /* default: hidden, enabled via media query */
+  display: none;                 /* shown only on mobile */
   align-items: center;
   justify-content: center;
   width: 32px;
@@ -108,204 +110,143 @@ background:none;
   top: 6px;
 }
 
-/* Hide menu by default in base; media queries will override as needed */
+/* Menu wrapper is hidden by default (hamburger will add .show on mobile) */
 #legacyMainNav .sf-mainMenuWrapper {
   display: none;
 }
 
-/* Utility class added by JS when menu is open */
 #legacyMainNav .sf-mainMenuWrapper.show {
   display: block;
 }
 
-/* Make sure our nav styles don't break other .sf-menu instances */
+/* Restrict nav-specific .sf-menu styling */
 #legacyMainNav .sf-menu {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* ====== MOBILE / SMALL SCREENS ====== */
-/* Needs <meta name="viewport" content="width=device-width, initial-scale=1"> in <head> */
+/* ---------- MOBILE / SMALL SCREENS ---------- */
+/* requires: <meta name="viewport" content="width=device-width, initial-scale=1"> */
 
 @media (max-width: 768px) {
 
-
-  /* ... your existing mobile rules (hamburger, top-level li, etc.) ... */
-
-  /* Dropdowns are part of the flow and full width */
-  #legacyMainNav .sf-menu .dropdown-menu {
-    display: none;                        /* shown when parent li has .open */
-    position: static !important;
-    z-index: auto !important;
-    float: none;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    border: 0;
-  }
-
-  #legacyMainNav .sf-menu li.open > .dropdown-menu {
-    display: block;
-  }
-
-  /* Each list item in the dropdown is block-level */
-  #legacyMainNav .sf-menu .dropdown-menu > li {
-    display: block;
-  }
-
-  /* ***** KEY PART: stack the "column" divs vertically ***** */
-  #legacyMainNav .sf-menu .dropdown-menu div {
-    float: none !important;      /* cancel float:left from inline style */
-    width: 100% !important;      /* each column takes full width */
-    box-sizing: border-box;
-    padding: 0.25rem 0.75rem;    /* optional padding so items don’t hug edges */
-  }
-
-  /* Links inside dropdown */
-  #legacyMainNav .sf-menu .dropdown-item {
-    display: block;
-    padding: 0.25rem 0;
-    white-space: normal;
-  }
-
-  /* Show the hamburger on small screens */
+  /* Show hamburger */
   #legacyMenuToggle {
     display: inline-flex;
   }
 
-  /* Show/hide whole menu */
+  /* Whole menu — hidden until hamburger clicked */
   #legacyMainNav .sf-mainMenuWrapper {
     display: none;
+    overflow: visible !important;
   }
+
   #legacyMainNav .sf-mainMenuWrapper.show {
     display: block !important;
   }
 
-  /* Stack top-level menu items vertically */
+  /* Top-level primary items (Search, Browse, Data Entry, etc.) */
   #legacyMainNav .sf-menu {
     display: block !important;
-      border-bottom: 1px solid #ccc;
+    clear: both !important;
   }
 
   #legacyMainNav .sf-menu > li {
     display: block !important;
-    float: none !important;
+    float: none !important;          /* no horizontal float */
+    width: 100% !important;
     margin: 0;
-    
+    border-bottom: 1px solid #ccc;
+    text-align: left;
   }
 
   #legacyMainNav .sf-menu > li > a,
   #legacyMainNav .sf-menu > li > a.nav-link {
     display: block;
     padding: 0.5rem 0.75rem;
+    text-align: left;
   }
 
-  /* ===== fix the dropdown columns on mobile ===== */
-
- #legacyMainNav .sf-menu .dropdown-menu {
-    display: none;                 /* hidden until parent li has .open */
-    position: static !important;   /* override desktop absolute positioning */
-    z-index: auto !important;
-    float: none;
-    box-shadow: none;
-    border: 0;
-    width: 100%;
-    padding-left: 0;
-    margin: 0;
-  }
-
-  /* Show submenu when parent <li> has .open (from JS) */
-  #legacyMainNav .sf-menu li.open > .dropdown-menu {
-    display: block;
-  }
-
-  /* Cancel column floats so items stack vertically */
-  #legacyMainNav .sf-menu .dropdown-menu > li {
-    display: block;
-  }
-  #legacyMainNav .sf-menu .dropdown-menu div {
-    float: none !important;
-    width: 100% !important;
-    padding: .5rem 1rem 0 1rem;
-  }
+  /* DROPDOWNS on mobile:
+     - part of normal flow
+     - full width
+     - shown only when parent <li> has .open (set by JS)
+  */
   #legacyMainNav .sf-menu .dropdown-menu {
+    display: none;
     position: static !important;
     top: auto !important;
-    left: 0 !important;
+    left: auto !important;
     z-index: auto !important;
-    display: none;          /* hidden until parent <li> has .open */
-    width: 100%;
+    width: 100% !important;
     margin: 0;
-    padding-left: 0;
-    float: none;
+    padding: 0;
+    float: none !important;
+    clear: both !important;
     box-shadow: none;
     border: 0;
   }
 
-  /* Explicitly hit the Search dropdown (first li) as well */
-  #legacyMainNav .sf-menu > li.nav-item.dropdown:first-child > .dropdown-menu {
-    position: static !important;
-    top: auto !important;
-    left: 0 !important;
-    z-index: auto !important;
-  }
-
-  /* Show submenu when its parent <li> has .open */
   #legacyMainNav .sf-menu li.open > .dropdown-menu {
     display: block;
   }
 
-  /* Stack inner “column” divs vertically */
+  /* Each <li> inside dropdown is full-width */
   #legacyMainNav .sf-menu .dropdown-menu > li {
     display: block;
-  }
-  #legacyMainNav .sf-menu .dropdown-menu div {
     float: none !important;
     width: 100% !important;
+  }
+
+  /* Stack the "column" divs vertically inside dropdowns */
+  #legacyMainNav .sf-menu .dropdown-menu div {
+    float: none !important;          /* override inline float:left */
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0.25rem 0.75rem !important;
+    box-sizing: border-box;
   }
 
   #legacyMainNav .sf-menu .dropdown-item {
     display: block;
-    padding: 0.3rem 0.75rem;
+    padding: 0.25rem 0;
     white-space: normal;
   }
 
-  /* Ensure wrapper doesn't clip contents */
-  #legacyMainNav .sf-mainMenuWrapper {
-    overflow: visible !important;
+  /* Login / header links below menu */
+  #legacyMainNav #headerLinks {
+    padding: 0.5rem 0.75rem;
   }
 }
 
-/* ====== DESKTOP / LARGE SCREENS ====== */
+/* ---------- DESKTOP / LARGE SCREENS ---------- */
 
 @media (min-width: 769px) {
-   .nav-item {
-	flex:  1 1 auto;
-	text-align:left;
-}
-  /* Put button + menu on a single row, but hide the button */
+
+  .nav-item {
+    flex: 1 1 auto;
+    text-align: left;
+  }
+
   #legacyMainNav {
     display: flex;
-    align-items: left!important;
+    align-items: center;
   }
 
   #legacyMenuToggle {
-    display: none !important;
+    display: none !important;       /* no hamburger on desktop */
   }
 
-  /* Always show menu wrapper on desktop */
   #legacyMainNav .sf-mainMenuWrapper {
     display: flex !important;
-    align-items: left!important;
+    align-items: center;
     padding: .25rem 1rem 0 1rem;
   }
 
-  /* Horizontal main menu */
   #legacyMainNav .sf-menu {
     display: flex !important;
-    align-items: left !important;
+    align-items: center;
     flex-wrap: nowrap;
   }
 
@@ -324,17 +265,17 @@ background:none;
     padding: 0.25rem 0;
   }
 
-  /* Keep dropdown menus looking close to existing behavior */
+  /* Let your existing desktop dropdown styles (from older CSS)
+     control appearance; this just ensures they are visible. */
   #legacyMainNav .sf-menu .dropdown-menu {
-    position: absolute;
-    z-index: 1000;
+    /* no special overrides needed here; desktop superfish/legacy
+       styling can apply */
   }
 
-  /* Header links (login/logout) to the right */
   #legacyMainNav #headerLinks {
     margin-left: auto;
+    padding: 0.5rem 0.75rem;
   }
-
 }
 </style>
 <cfif not isdefined("Session.gitBranch")>
