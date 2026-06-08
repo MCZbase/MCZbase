@@ -371,9 +371,9 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:15em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:13em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 90%;">
+								<div style="float:left; width: 93%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findAccessions">Accession</a>
@@ -383,7 +383,7 @@
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
 									<a class="dropdown-item" target="_top" href="/transactions/ShipmentReport.cfm">Shipment Report</a> 
 								</div>
-								<div style="float:left; width: 90%;">
+								<div style="float:left; width: 93%;">
 									<div class="h5 dropdown-header px-3 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/transactions/Accession.cfm?action=new">Accession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
