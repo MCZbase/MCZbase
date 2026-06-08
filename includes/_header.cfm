@@ -844,5 +844,5 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-<div id="pg_container">
+<div id="pg_container" style="float:left;">
 <div class="content_box">
