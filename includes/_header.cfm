@@ -51,6 +51,74 @@
 	});
 </script>
 <style>
+
+
+/* Overall nav wrapper under the header image */
+#legacyMainNav {
+  background-color: #ddd;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Hamburger button: base look (visibility controlled in media queries) */
+#legacyMenuToggle {
+  display: none;                  /* default: hidden, enabled via media query */
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 4px 8px;
+  padding: 0;
+  border: 1px solid #007bff;
+  background-color: #007bff;
+  cursor: pointer;
+}
+
+/* Three-bar icon */
+#legacyMenuToggle .legacy-menu-icon,
+#legacyMenuToggle .legacy-menu-icon::before,
+#legacyMenuToggle .legacy-menu-icon::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: #ffffff;
+  content: "";
+  border-radius: 1px;
+}
+
+#legacyMenuToggle .legacy-menu-icon {
+  position: relative;
+}
+
+#legacyMenuToggle .legacy-menu-icon::before {
+  position: absolute;
+  top: -6px;
+}
+
+#legacyMenuToggle .legacy-menu-icon::after {
+  position: absolute;
+  top: 6px;
+}
+
+/* Hide menu by default in base; media queries will override as needed */
+#legacyMainNav .sf-mainMenuWrapper {
+  display: none;
+}
+
+/* Utility class added by JS when menu is open */
+#legacyMainNav .sf-mainMenuWrapper.show {
+  display: block;
+}
+
+/* Make sure our nav styles don't break other .sf-menu instances */
+#legacyMainNav .sf-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ====== MOBILE / SMALL SCREENS ====== */
+/* Needs <meta name="viewport" content="width=device-width, initial-scale=1"> in <head> */
+
 @media (max-width: 768px) {
 
   /* Show the hamburger on small screens */
@@ -116,6 +184,61 @@
   /* Put login / headerLinks block below the menu items */
   #legacyMainNav #headerLinks {
     padding: 0.5rem 0.75rem;
+  }
+}
+
+/* ====== DESKTOP / LARGE SCREENS ====== */
+
+@media (min-width: 769px) {
+
+  /* Put button + menu on a single row, but hide the button */
+  #legacyMainNav {
+    display: flex;
+    align-items: center;
+  }
+
+  #legacyMenuToggle {
+    display: none !important;
+  }
+
+  /* Always show menu wrapper on desktop */
+  #legacyMainNav .sf-mainMenuWrapper {
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Horizontal main menu */
+  #legacyMainNav .sf-menu {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  #legacyMainNav .sf-menu > li {
+    display: block;
+    margin-right: 1.5rem;
+  }
+
+  #legacyMainNav .sf-menu > li:last-child {
+    margin-right: 0;
+  }
+
+  #legacyMainNav .sf-menu > li > a,
+  #legacyMainNav .sf-menu > li > a.nav-link {
+    display: inline-block;
+    padding: 0.25rem 0;
+  }
+
+  /* Keep dropdown menus looking close to existing behavior */
+  #legacyMainNav .sf-menu .dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  /* Header links (login/logout) to the right */
+  #legacyMainNav #headerLinks {
+    margin-left: auto;
   }
 }
 </style>
