@@ -137,13 +137,14 @@
   /* Stack top-level menu items vertically */
   #legacyMainNav .sf-menu {
     display: block !important;
+      border-bottom: 1px solid #ccc;
   }
 
   #legacyMainNav .sf-menu > li {
     display: block !important;
     float: none !important;
     margin: 0;
-    border-bottom: 1px solid #ccc;
+    
   }
 
   #legacyMainNav .sf-menu > li > a,
