@@ -190,7 +190,10 @@
 /* ====== DESKTOP / LARGE SCREENS ====== */
 
 @media (min-width: 769px) {
-
+   .nav-item {
+	flex:  1 1 auto;
+	text-align:left;
+}
   /* Put button + menu on a single row, but hide the button */
   #legacyMainNav {
     display: flex;
@@ -240,6 +243,7 @@
   #legacyMainNav #headerLinks {
     margin-left: auto;
   }
+
 }
 </style>
 <cfif not isdefined("Session.gitBranch")>
