@@ -324,9 +324,9 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 20em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 18em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 90%;">
+								<div style="float:left; width: 93%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Group</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
@@ -339,7 +339,7 @@
 									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<div style="float:left; width: 90%;">
+									<div style="float:left; width: 93%;">
 										<div class="h5 dropdown-header px-3 text-danger">Create</div>
 										<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
@@ -350,7 +350,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-									<div style="float:left; width: 90%;">
+									<div style="float:left; width: 93%;">
 										<div class="h5 dropdown-header px-3 text-danger">Manage</div>
 										<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
 										<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a>
