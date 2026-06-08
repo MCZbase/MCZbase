@@ -188,8 +188,10 @@ limitations under the License.
 		<main id="content">
           <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <cftry>
+                    <div aria-label="Wiki Help">
                       <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnA-SearchWiki border-0")#</cfoutput>
                       <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+                    </div>
                 </cftry>
             </cfif>
 			<section class="container-fluid" role="search">
