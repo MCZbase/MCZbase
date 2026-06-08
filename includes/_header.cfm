@@ -180,6 +180,52 @@
     float: none !important;
     width: 100% !important;
   }
+#legacyMainNav .sf-menu .dropdown-menu {
+    position: static !important;
+    top: auto !important;
+    left: 0 !important;
+    z-index: auto !important;
+    display: none;          /* hidden until parent <li> has .open */
+    width: 100%;
+    margin: 0;
+    padding-left: 0;
+    float: none;
+    box-shadow: none;
+    border: 0;
+  }
+
+  /* Explicitly hit the Search dropdown (first li) as well */
+  #legacyMainNav .sf-menu > li.nav-item.dropdown:first-child > .dropdown-menu {
+    position: static !important;
+    top: auto !important;
+    left: 0 !important;
+    z-index: auto !important;
+  }
+
+  /* Show submenu when its parent <li> has .open */
+  #legacyMainNav .sf-menu li.open > .dropdown-menu {
+    display: block;
+  }
+
+  /* Stack inner “column” divs vertically */
+  #legacyMainNav .sf-menu .dropdown-menu > li {
+    display: block;
+  }
+  #legacyMainNav .sf-menu .dropdown-menu div {
+    float: none !important;
+    width: 100% !important;
+  }
+
+  #legacyMainNav .sf-menu .dropdown-item {
+    display: block;
+    padding: 0.3rem 0.75rem;
+    white-space: normal;
+  }
+
+  /* Ensure wrapper doesn't clip contents */
+  #legacyMainNav .sf-mainMenuWrapper {
+    overflow: visible !important;
+  }
 }
 
 /* ====== DESKTOP / LARGE SCREENS ====== */
