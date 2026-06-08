@@ -324,9 +324,9 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 24em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 20em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 33.2%;">
+								<div style="float:left; width: 90%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Group</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
@@ -339,7 +339,7 @@
 									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<div style="float:left; width: 33.2%;">
+									<div style="float:left; width: 90%;">
 										<div class="h5 dropdown-header px-3 text-danger">Create</div>
 										<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
@@ -350,7 +350,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-									<div style="float:left; width: 33.2%;">
+									<div style="float:left; width: 90%;">
 										<div class="h5 dropdown-header px-3 text-danger">Manage</div>
 										<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
 										<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a>
@@ -371,9 +371,9 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:12em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:20em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 49%;">
+								<div style="float:left; width: 90%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findAccessions">Accession</a>
@@ -383,7 +383,7 @@
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
 									<a class="dropdown-item" target="_top" href="/transactions/ShipmentReport.cfm">Shipment Report</a> 
 								</div>
-								<div style="float:left; width: 49%;">
+								<div style="float:left; width: 90%;">
 									<div class="h5 dropdown-header px-3 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/transactions/Accession.cfm?action=new">Accession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
@@ -401,7 +401,7 @@
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
 					<ul class="dropdown-menu border-0 shadow" style="min-width:12em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
-							<div style="float:left; width: 49%;">
+							<div style="float:left; width: 90%;">
 								<div class="h5 dropdown-header px-3 text-danger">Reports &amp; Statistics</div>
 								<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
 								<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
@@ -410,7 +410,7 @@
 									<a class="dropdown-item" href="/metrics/AgentRoles.cfm">Visualize Data</a>
 								</cfif>
 							</div>
-							<div style="float:left;width: 49%;">
+							<div style="float:left;width: 90%;">
 								<div class="h5 dropdown-header px-3 text-danger">Aggregators</div>
 								<a class="dropdown-item"  target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
 								<a class="dropdown-item"  target="_blank" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
