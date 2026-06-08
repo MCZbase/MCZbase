@@ -159,6 +159,9 @@
     padding: 0.25rem 0;
   }
 }
+#legacyMenuToggle { display: inline-flex !important; }
+#legacyMainNav .sf-mainMenuWrapper { display: none; }
+#legacyMainNav .sf-mainMenuWrapper.show { display: block !important; }
 </style>
 <cfif not isdefined("Session.gitBranch")>
 	<!--- determine which git branch is currently checked out --->
