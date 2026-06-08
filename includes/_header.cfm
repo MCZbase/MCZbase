@@ -324,7 +324,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 30em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 27em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div style="float:left; width: 33.2%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -371,7 +371,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:14em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:12em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -423,7 +423,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:28rem;border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:17rem;border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 									<div style="float:left; width: 33.2%;">
@@ -478,7 +478,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item account, for logged in users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width:13rem;border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/users/UserProfile.cfm">User Profile</a>
