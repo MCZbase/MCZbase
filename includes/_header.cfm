@@ -180,7 +180,7 @@
     float: none !important;
     width: 100% !important;
   }
-#legacyMainNav .sf-menu .dropdown-menu {
+  #legacyMainNav .sf-menu .dropdown-menu {
     position: static !important;
     top: auto !important;
     left: 0 !important;
