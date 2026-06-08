@@ -315,7 +315,7 @@
             aria-expanded="false">
         <span class="legacy-menu-icon"></span>
     </button>
-	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
+	<div class="sf-mainMenuWrapper" style="font-size: 14px;">
 
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
