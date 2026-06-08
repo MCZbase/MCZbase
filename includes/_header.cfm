@@ -50,6 +50,73 @@
 		}
 	});
 </script>
+<style>
+/* Layout of the header area */
+#legacyMainNav {
+  background-color: #ddd;  /* matches your sf-mainMenuWrapper */
+  border-bottom: 1px solid #ccc;
+}
+
+/* Hamburger button */
+#legacyMenuToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 4px 8px;
+  padding: 0;
+  border: 1px solid #007bff;
+  background-color: #007bff;
+  cursor: pointer;
+}
+
+/* The three bars */
+#legacyMenuToggle .legacy-menu-icon,
+#legacyMenuToggle .legacy-menu-icon::before,
+#legacyMenuToggle .legacy-menu-icon::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: #ffffff;
+  content: "";
+  border-radius: 1px;
+}
+
+#legacyMenuToggle .legacy-menu-icon {
+  position: relative;
+}
+
+#legacyMenuToggle .legacy-menu-icon::before {
+  position: absolute;
+  top: -6px;
+}
+
+#legacyMenuToggle .legacy-menu-icon::after {
+  position: absolute;
+  top: 6px;
+}
+
+/* By default on narrow screens, hide the menu, show button */
+@media (max-width: 768px) {
+  #legacyMainNav .sf-mainMenuWrapper {
+    display: none;
+  }
+  #legacyMainNav .sf-mainMenuWrapper.show {
+    display: block;
+  }
+}
+
+/* On wider screens, always show menu and (optionally) hide button */
+@media (min-width: 769px) {
+  #legacyMainNav .sf-mainMenuWrapper {
+    display: block;
+  }
+  #legacyMenuToggle {
+    display: none;  /* comment out if you want the button even on desktop */
+  }
+}
+</style>
 <cfif not isdefined("Session.gitBranch")>
 	<!--- determine which git branch is currently checked out --->
 	<!--- TODO: Move to initSession --->
@@ -110,6 +177,14 @@
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
+<div id="legacyMainNav">
+     <!-- Hamburger button -->
+    <button id="legacyMenuToggle"
+            type="button"
+            aria-label="Toggle navigation"
+            aria-expanded="false">
+        <span class="legacy-menu-icon"></span>
+    </button>
 	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
 
 		<ul class="sf-menu">
@@ -515,9 +590,24 @@
 			</cfif>
 		</div><!---end headerLinks--->
 	</div><!--- end sf-mainMenuWrapper--->
+</div>
 
 	<cf_rolecheck>
 
 </cfoutput>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var toggle = document.getElementById('legacyMenuToggle');
+  var wrapper = document.querySelector('#legacyMainNav .sf-mainMenuWrapper');
+
+  if (!toggle || !wrapper) return;
+
+  toggle.addEventListener('click', function () {
+    wrapper.classList.toggle('show');
+    var expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+  });
+});
+</script>
 <div id="pg_container">
 <div class="content_box">
