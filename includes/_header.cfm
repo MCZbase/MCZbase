@@ -260,9 +260,9 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 27em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 25em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 33.2%;">
+								<div style="float:left; width: 50%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										<a class="dropdown-item" target="_top" href="/localities/HigherGeographies.cfm">Geography</a> 
@@ -279,7 +279,7 @@
 									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<div style="float:left; width: 33.2%;">
+									<div style="float:left; width: 50%;">
 										<div class="h5 dropdown-header px-3 text-danger">Create</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 											<a class="dropdown-item" target="_top" href="/localities/HigherGeography.cfm?action=new">Geography</a>
