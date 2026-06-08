@@ -6,6 +6,9 @@
 <!--- --->
 <cfset MAXTEMPLATE="14">
 <cfset title="Enter Data">
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/shared/css/custom_styles.css">
+<link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" type="text/css" href="/includes/_DEstyle.css">
 <!---
 <script type='text/javascript' src='/includes/jquery/suggest.js'></script>
