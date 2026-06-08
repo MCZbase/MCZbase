@@ -1673,7 +1673,7 @@ limitations under the License.
 													</cfif>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
+													<div id="fixedselectModeContainer" class="ml-3 mt-1" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val();
