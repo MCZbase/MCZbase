@@ -371,7 +371,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:20em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:18em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div style="float:left; width: 90%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
