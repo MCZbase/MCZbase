@@ -51,6 +51,12 @@
 	});
 </script>
 <style>
+.basic_box {
+	width: fit-content;
+	margin: 0 auto;
+    padding: 2em .2rem 3em .2rem;
+
+}
 .sf-menu, .sf-menu * {
     margin: 0;
     /* padding: 0; */
