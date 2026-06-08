@@ -89,7 +89,7 @@
   padding: 0;
   list-style: none;
 }
-
+    .dropdown-menu {margin-left: -2rem;}
 </style>
 <cfif not isdefined("Session.gitBranch")>
 	<!--- determine which git branch is currently checked out --->
