@@ -277,6 +277,12 @@
     padding: 0.5rem 0.75rem;
   }
 }
+@media (min-width: 1024px) {
+  html,
+  body {
+    font-size: 13px;   /* try 14px; if still too big, 13px */
+  }
+}
 @media (max-width: 768px) {
   html, body {
     font-size: 11px;      /* try 12px; adjust to taste (11–13px) */
