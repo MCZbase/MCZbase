@@ -60,7 +60,8 @@
 	height:			10px;
 	text-indent: 	-999em;
 	overflow:		hidden;
-	background:		url('/images/css/arrows-000000.png') no-repeat -10px -60px; /* 8-bit indexed alpha png. IE6 gets solid image only */
+    background-color: black;
+	background:		url('/images/css/arrows-ffffff.png') no-repeat -10px -60px; /* 8-bit indexed alpha png. IE6 gets solid image only */
 }
 
 /* Overall nav wrapper under the header image */
