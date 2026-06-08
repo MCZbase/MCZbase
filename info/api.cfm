@@ -13,7 +13,7 @@
         
 <cfif action is "entryPoint">
  
-	<h2 class="h2">
+	<h2 class="h2 mt-3">
 		Partial list of ways to talk to MCZbase
 	</h2>
 	<!--- p>
