@@ -777,43 +777,66 @@ background:none;
 </cfoutput>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var nav = document.getElementById('legacyMainNav');
-  if (!nav) return;
+  console.log('menu script starting');
 
-  // Top-level dropdown links (Search, Browse, Data Entry, etc.)
-  var toggles = nav.querySelectorAll('.sf-menu > li.nav-item.dropdown > a.dropdown-toggle');
+  var nav        = document.getElementById('legacyMainNav');
+  var toggleBtn  = document.getElementById('legacyMenuToggle');
+  var menuWrap   = nav ? nav.querySelector('.sf-mainMenuWrapper') : null;
 
-  toggles.forEach(function (link) {
+  console.log('nav:', nav, 'toggleBtn:', toggleBtn, 'menuWrap:', menuWrap);
+
+  if (!nav || !toggleBtn || !menuWrap) {
+    console.warn('Menu elements not found');
+    return;
+  }
+
+  /* ========== HAMBURGER: open/close whole menu ========== */
+  toggleBtn.addEventListener('click', function () {
+    console.log('hamburger clicked');
+    menuWrap.classList.toggle('show');
+    var expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+    toggleBtn.setAttribute('aria-expanded', String(!expanded));
+  });
+
+  /* ========== DROPDOWNS: open/close primary items on click (mobile only) ========== */
+
+  // Top‑level items like Search, Browse, Data Entry, ...
+  var topLinks = nav.querySelectorAll('.sf-menu > li.nav-item.dropdown > a.dropdown-toggle');
+  console.log('found topLinks:', topLinks.length);
+
+  topLinks.forEach(function (link) {
     link.addEventListener('click', function (e) {
-      // Only use click-to-open behavior on small screens
-      if (window.matchMedia('(max-width: 768px)').matches) {
-        e.preventDefault();   // don’t follow the href
+      // only use this behavior on small screens
+      if (!window.matchMedia('(max-width: 768px)').matches) {
+        return; // desktop: let existing behavior (hover) work
+      }
 
-        var li = this.parentElement;
-        var isOpen = li.classList.contains('open');
+      e.preventDefault();  // don't follow the "##" href
+      console.log('top-level clicked:', this.textContent.trim());
 
-        // First close any other open dropdowns
-        nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
-          if (openLi !== li) {
-            openLi.classList.remove('open');
-          }
-        });
+      var li     = this.parentElement;
+      var isOpen = li.classList.contains('open');
 
-        // Then toggle this one:
-        // - if it was open, close it
-        // - if it was closed, open it
-        if (isOpen) {
-          li.classList.remove('open');
-        } else {
-          li.classList.add('open');
+      // close others
+      nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
+        if (openLi !== li) {
+          openLi.classList.remove('open');
         }
+      });
+
+      // toggle this one
+      if (isOpen) {
+        li.classList.remove('open');   // close if open
+      } else {
+        li.classList.add('open');      // open if closed
       }
     });
   });
 
-  // Optional: close any open dropdowns if user taps outside the menu
+  // optional: close any open dropdowns when clicking outside the nav (mobile only)
   document.addEventListener('click', function (e) {
-    if (!nav.contains(e.target) && window.matchMedia('(max-width: 768px)').matches) {
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    if (!nav.contains(e.target)) {
       nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
         openLi.classList.remove('open');
       });
