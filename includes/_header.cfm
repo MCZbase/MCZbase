@@ -371,7 +371,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:16em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:14em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -399,7 +399,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item review date, available to all with coldfusion_users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width:23.5em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width:12em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div style="float:left; width: 49%;">
 								<div class="h5 dropdown-header px-3 text-danger">Reports &amp; Statistics</div>
@@ -423,7 +423,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:28rem;border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 									<div style="float:left; width: 33.2%;">
