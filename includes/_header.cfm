@@ -399,7 +399,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item review date, available to all with coldfusion_users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width:12em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width:14em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div style="float:left; width: 90%;">
 								<div class="h5 dropdown-header px-3 text-danger">Reports &amp; Statistics</div>
@@ -426,7 +426,7 @@
 						<ul class="dropdown-menu border-0 shadow" style="min-width:17rem;border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-									<div style="float:left; width: 33.2%;">
+									<div style="float:left; width: 90%;">
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
 										<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 										<a class="dropdown-item" target="_top" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attribute Heirarchies</a>
@@ -445,7 +445,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-									<div style="float:left;width: 33.2%;">
+									<div style="float:left;width: 90%;">
 										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 										<a class="dropdown-item" target="_top" href="/Admin/AdminUsers.cfm">MCZbase Users</a>
@@ -460,7 +460,7 @@
 										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">List of All Users</a>
 										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 									</div>
-									<div style="float:left;width: 33.2%;">
+									<div style="float:left;width: 90%;">
 										<div class="h5 dropdown-header px-4 text-danger">Application</div>
 										<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collections</a>
 										<a class="dropdown-item" target="_top" href="/Admin/manageRedirects.cfm">Redirects</a>
