@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <cfset headerPath = "includes"><!--- Identify which header has been included --->
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!--= Global site tag (gtag.js) - Google Analytics --->
 <script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script><!--- " --->
 <script>
