@@ -51,6 +51,12 @@
 	});
 </script>
 <style>
+.sf-menu, .sf-menu * {
+    margin: 0;
+    /* padding: 0; */
+    list-style: none;
+    padding-left: .25rem;
+}
 .sf-sub-indicator {
 background:none;
 }
