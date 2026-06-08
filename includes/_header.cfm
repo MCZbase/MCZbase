@@ -220,9 +220,9 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item data entry --->
 						<a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 15em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-							<div style="float:left; width: 77%;">
+							<div style="float:left; width: 90%;">
 								<div class="h5 dropdown-header px-3 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
