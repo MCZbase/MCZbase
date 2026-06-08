@@ -51,7 +51,17 @@
 	});
 </script>
 <style>
-
+.sf-sub-indicator {
+	position:		absolute;
+	display:		block;
+	right:			.25em;
+	top:			1.05em; /* IE6 only */
+	width:			10px;
+	height:			10px;
+	text-indent: 	-999em;
+	overflow:		hidden;
+	background:		url('/images/css/arrows-000000.png') no-repeat -10px -60px; /* 8-bit indexed alpha png. IE6 gets solid image only */
+}
 
 /* Overall nav wrapper under the header image */
 #legacyMainNav {
