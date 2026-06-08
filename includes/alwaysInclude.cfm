@@ -8,6 +8,7 @@
 
 <cfif isdefined("jquery11")>
 <!--- Use jquery 1.11.x --->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.css">
