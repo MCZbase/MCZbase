@@ -110,7 +110,8 @@
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
-	<h1 class="h2 text-center text-danger mt-5 mt-md-3">MCZbase requires Javascript to function.</h1>
+    <noscript>
+	    <h1 class="h2 text-center text-danger mt-5 mt-md-3">MCZbase requires Javascript to function.</h1>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="log out username (Last login: date)">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
