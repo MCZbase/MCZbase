@@ -166,7 +166,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
 					<a href="##" class="nav-link dropdown-toggle text-left">Search</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 11em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens</a>
@@ -191,7 +191,7 @@
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
-					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown" style="min-width: 14em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown" style="min-width: 13em; border-radius: .2rem;">
 						<li> 	
 							<a class="dropdown-item" href="/specimens/browseSpecimens.cfm">Browse Specimens</a>
 							<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
@@ -260,9 +260,9 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 18em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 16em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 90%;">
+								<div style="float:left; width: 92%;">
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										<a class="dropdown-item" target="_top" href="/localities/HigherGeographies.cfm">Geography</a> 
@@ -279,7 +279,7 @@
 									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<div style="float:left; width: 90%;">
+									<div style="float:left; width: 92%;">
 										<div class="h5 dropdown-header px-3 text-danger">Create</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 											<a class="dropdown-item" target="_top" href="/localities/HigherGeography.cfm?action=new">Geography</a>
@@ -298,7 +298,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") and listcontainsnocase(session.roles,"manage_collection")>
-									<div style="float:left; width: 90%;">
+									<div style="float:left; width: 92%;">
 										<div class="h5 dropdown-header px-3 text-danger">Manage</div>
 											<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
 											<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
