@@ -280,7 +280,7 @@
 @media (min-width: 1024px) {
   html,
   body {
-    font-size: 13px;   /* try 14px; if still too big, 13px */
+    font-size: 8px;   /* try 14px; if still too big, 13px */
   }
 }
 @media (max-width: 768px) {
