@@ -155,36 +155,30 @@
 
   /* ===== fix the dropdown columns on mobile ===== */
 
-  /* Make each dropdown list item block-level */
-  #legacyMainNav .sf-menu .dropdown-menu > li {
-    display: block;
-  }
-
-  /* Cancel the float-based column layout inside dropdowns */
-  #legacyMainNav .sf-menu .dropdown-menu div {
-    float: none !important;
-    width: 100% !important;
-  }
-
-  /* Ensure dropdown menu itself is full-width, stacked */
-  #legacyMainNav .sf-menu .dropdown-menu {
-    position: static;
+ #legacyMainNav .sf-menu .dropdown-menu {
+    display: none;                 /* hidden until parent li has .open */
+    position: static !important;   /* override desktop absolute positioning */
+    z-index: auto !important;
     float: none;
     box-shadow: none;
     border: 0;
     width: 100%;
     padding-left: 0;
+    margin: 0;
   }
 
-  #legacyMainNav .sf-menu .dropdown-item {
+  /* Show submenu when parent <li> has .open (from JS) */
+  #legacyMainNav .sf-menu li.open > .dropdown-menu {
     display: block;
-    padding: 0.3rem 0.75rem;
-    white-space: normal;
   }
 
-  /* Put login / headerLinks block below the menu items */
-  #legacyMainNav #headerLinks {
-    padding: 0.5rem 0.75rem;
+  /* Cancel column floats so items stack vertically */
+  #legacyMainNav .sf-menu .dropdown-menu > li {
+    display: block;
+  }
+  #legacyMainNav .sf-menu .dropdown-menu div {
+    float: none !important;
+    width: 100% !important;
   }
 }
 
