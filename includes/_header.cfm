@@ -51,15 +51,23 @@
 	});
 </script>
 <style>
-/* Layout of the header area */
+/* ==== GENERAL WRAPPER ==== */
 #legacyMainNav {
-  background-color: #ddd;  /* matches your sf-mainMenuWrapper */
+  background-color: #ddd;
   border-bottom: 1px solid #ccc;
 }
 
-/* Hamburger button */
+/* Put button and menu on same row on larger screens */
+@media (min-width: 769px) {
+  #legacyMainNav {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ==== HAMBURGER BUTTON ==== */
 #legacyMenuToggle {
-  display: inline-flex;
+  display: none;              /* hidden by default, shown on small screens below */
   align-items: center;
   justify-content: center;
   width: 32px;
@@ -71,7 +79,7 @@
   cursor: pointer;
 }
 
-/* The three bars */
+/* three bars */
 #legacyMenuToggle .legacy-menu-icon,
 #legacyMenuToggle .legacy-menu-icon::before,
 #legacyMenuToggle .legacy-menu-icon::after {
@@ -97,23 +105,58 @@
   top: 6px;
 }
 
-/* By default on narrow screens, hide the menu, show button */
+/* ==== MENU VISIBILITY RULES ==== */
+
+/* On phones/tablets: show the button, hide menu until opened */
 @media (max-width: 768px) {
+  #legacyMenuToggle {
+    display: inline-flex;
+  }
+
   #legacyMainNav .sf-mainMenuWrapper {
     display: none;
   }
+
   #legacyMainNav .sf-mainMenuWrapper.show {
+    display: block;
+  }
+
+  /* stack menu items vertically on small screens */
+  #legacyMainNav .sf-menu {
+    padding-left: 0;
+  }
+  #legacyMainNav .sf-menu > li {
     display: block;
   }
 }
 
-/* On wider screens, always show menu and (optionally) hide button */
+/* On desktop: always show menu, hide hamburger */
 @media (min-width: 769px) {
   #legacyMainNav .sf-mainMenuWrapper {
     display: block;
+    flex: 1 1 auto;
   }
+
   #legacyMenuToggle {
-    display: none;  /* comment out if you want the button even on desktop */
+    display: none;
+  }
+
+  /* keep existing horizontal layout for your sf-menu */
+  #legacyMainNav .sf-menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+
+  #legacyMainNav .sf-menu > li {
+    margin-right: 1.5rem;
+  }
+
+  #legacyMainNav .sf-menu > li > a.nav-link {
+    display: inline-block;
+    padding: 0.25rem 0;
   }
 }
 </style>
@@ -597,7 +640,7 @@
 </cfoutput>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var toggle = document.getElementById('legacyMenuToggle');
+  var toggle  = document.getElementById('legacyMenuToggle');
   var wrapper = document.querySelector('#legacyMainNav .sf-mainMenuWrapper');
 
   if (!toggle || !wrapper) return;
