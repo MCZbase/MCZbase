@@ -278,9 +278,9 @@
   }
 }
 @media (max-width: 768px) {
-  body {
-    min-width: 980px;
-    overflow-x: auto;
+  #pg_container {
+    float: none !important;   /* stop it hugging the side */
+    width: 100%;              /* let it fill the viewport width */
   }
 }
 </style>
@@ -831,5 +831,5 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-<div id="pg_container" style="float:left;">
+<div id="pg_container">
 <div class="content_box">
