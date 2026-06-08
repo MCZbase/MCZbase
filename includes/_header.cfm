@@ -278,9 +278,8 @@
   }
 }
 @media (max-width: 768px) {
-  #pg_container {
-    float: none !important;   /* stop it hugging the side */
-    width: 100%;              /* let it fill the viewport width */
+  html, body {
+    font-size: 12px;      /* try 12px; adjust to taste (11–13px) */
   }
 }
 </style>
