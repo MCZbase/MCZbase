@@ -112,7 +112,7 @@
 
 /* Menu wrapper is hidden by default (hamburger will add .show on mobile) */
 #legacyMainNav .sf-mainMenuWrapper {
-  display: none;
+/*  display: none;*/
 }
 
 #legacyMainNav .sf-mainMenuWrapper.show {
