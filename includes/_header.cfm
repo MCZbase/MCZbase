@@ -194,7 +194,7 @@
   /* Put button + menu on a single row, but hide the button */
   #legacyMainNav {
     display: flex;
-    align-items: center;
+    align-items: left!important;
   }
 
   #legacyMenuToggle {
@@ -204,14 +204,14 @@
   /* Always show menu wrapper on desktop */
   #legacyMainNav .sf-mainMenuWrapper {
     display: flex !important;
-    align-items: center;
+    align-items: left!important;
     width: 100%;
   }
 
   /* Horizontal main menu */
   #legacyMainNav .sf-menu {
     display: flex !important;
-    align-items: center;
+    align-items: left !important;
     flex-wrap: nowrap;
   }
 
