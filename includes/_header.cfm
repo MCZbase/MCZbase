@@ -277,6 +277,12 @@
     padding: 0.5rem 0.75rem;
   }
 }
+@media (max-width: 768px) {
+  body {
+    min-width: 980px;
+    overflow-x: auto;
+  }
+}
 </style>
 <cfif not isdefined("Session.gitBranch")>
 	<!--- determine which git branch is currently checked out --->
