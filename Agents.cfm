@@ -175,7 +175,7 @@ limitations under the License.
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
                                 <div class="">
                                     <fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
-                                    <legend class="h6 mb-1 px-3 border field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
+                                    <legend class="h6 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 								    <div class="form-row pt-2">
                                         <div class="col-12 col-md-12 col-lg-4 col-xl-5 px-0 mx-0 mb-1 mt-0 pr-md-0 form-group">
                                             <label for="anyName" class="data-entry-label smaller font-weight-bold" id="anyName_label">
@@ -331,7 +331,7 @@ limitations under the License.
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
                                 <fieldset class="my-2 px-3 border pb-1 field-set">
-                                    <legend class="h6 mt-0 mb-1 px-3 border field-set-legend w-auto bg-teal">Dates</legend>
+                                    <legend class="h6 mt-0 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 px-0 mt-0">
 				                            <!-- Death range, always shown -->
@@ -379,7 +379,7 @@ limitations under the License.
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                    <fieldset class="my-2 px-3 pb-2 field-set border">
-                                    <legend class="h6 mt-1 mb-1 px-3 field-set-legend border w-auto bg-teal">Internal Role</legend>
+                                    <legend class="h6 mt-1 mb-1 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Internal Role</legend>
                                         <div class="form-row mt-2">
                                             <div class="col-12 col-md-3 col-xl-3 pr-md-0 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
