@@ -130,7 +130,6 @@ background:none;
 
 @media (max-width: 768px) {
 
- @media (max-width: 768px) {
 
   /* ... your existing mobile rules (hamburger, top-level li, etc.) ... */
 
@@ -170,7 +169,115 @@ background:none;
     padding: 0.25rem 0;
     white-space: normal;
   }
+
+  /* Show the hamburger on small screens */
+  #legacyMenuToggle {
+    display: inline-flex;
+  }
+
+  /* Show/hide whole menu */
+  #legacyMainNav .sf-mainMenuWrapper {
+    display: none;
+  }
+  #legacyMainNav .sf-mainMenuWrapper.show {
+    display: block !important;
+  }
+
+  /* Stack top-level menu items vertically */
+  #legacyMainNav .sf-menu {
+    display: block !important;
+      border-bottom: 1px solid #ccc;
+  }
+
+  #legacyMainNav .sf-menu > li {
+    display: block !important;
+    float: none !important;
+    margin: 0;
+    
+  }
+
+  #legacyMainNav .sf-menu > li > a,
+  #legacyMainNav .sf-menu > li > a.nav-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* ===== fix the dropdown columns on mobile ===== */
+
+ #legacyMainNav .sf-menu .dropdown-menu {
+    display: none;                 /* hidden until parent li has .open */
+    position: static !important;   /* override desktop absolute positioning */
+    z-index: auto !important;
+    float: none;
+    box-shadow: none;
+    border: 0;
+    width: 100%;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  /* Show submenu when parent <li> has .open (from JS) */
+  #legacyMainNav .sf-menu li.open > .dropdown-menu {
+    display: block;
+  }
+
+  /* Cancel column floats so items stack vertically */
+  #legacyMainNav .sf-menu .dropdown-menu > li {
+    display: block;
+  }
+  #legacyMainNav .sf-menu .dropdown-menu div {
+    float: none !important;
+    width: 100% !important;
+    padding: .5rem 1rem 0 1rem;
+  }
+  #legacyMainNav .sf-menu .dropdown-menu {
+    position: static !important;
+    top: auto !important;
+    left: 0 !important;
+    z-index: auto !important;
+    display: none;          /* hidden until parent <li> has .open */
+    width: 100%;
+    margin: 0;
+    padding-left: 0;
+    float: none;
+    box-shadow: none;
+    border: 0;
+  }
+
+  /* Explicitly hit the Search dropdown (first li) as well */
+  #legacyMainNav .sf-menu > li.nav-item.dropdown:first-child > .dropdown-menu {
+    position: static !important;
+    top: auto !important;
+    left: 0 !important;
+    z-index: auto !important;
+  }
+
+  /* Show submenu when its parent <li> has .open */
+  #legacyMainNav .sf-menu li.open > .dropdown-menu {
+    display: block;
+  }
+
+  /* Stack inner “column” divs vertically */
+  #legacyMainNav .sf-menu .dropdown-menu > li {
+    display: block;
+  }
+  #legacyMainNav .sf-menu .dropdown-menu div {
+    float: none !important;
+    width: 100% !important;
+  }
+
+  #legacyMainNav .sf-menu .dropdown-item {
+    display: block;
+    padding: 0.3rem 0.75rem;
+    white-space: normal;
+  }
+
+  /* Ensure wrapper doesn't clip contents */
+  #legacyMainNav .sf-mainMenuWrapper {
+    overflow: visible !important;
+  }
 }
+
 /* ====== DESKTOP / LARGE SCREENS ====== */
 
 @media (min-width: 769px) {
