@@ -83,42 +83,6 @@
   background-color: #007bff;
   cursor: pointer;
 }
-
-/* Three-bar icon */
-#legacyMenuToggle .legacy-menu-icon,
-#legacyMenuToggle .legacy-menu-icon::before,
-#legacyMenuToggle .legacy-menu-icon::after {
-  display: block;
-  width: 18px;
-  height: 2px;
-  background-color: #ffffff;
-  content: "";
-  border-radius: 1px;
-}
-
-#legacyMenuToggle .legacy-menu-icon {
-  position: relative;
-}
-
-#legacyMenuToggle .legacy-menu-icon::before {
-  position: absolute;
-  top: -6px;
-}
-
-#legacyMenuToggle .legacy-menu-icon::after {
-  position: absolute;
-  top: 6px;
-}
-
-/* Menu wrapper is hidden by default (hamburger will add .show on mobile) */
-#legacyMainNav .sf-mainMenuWrapper {
-/*  display: none;*/
-}
-
-#legacyMainNav .sf-mainMenuWrapper.show {
-  display: block;
-}
-
 /* Restrict nav-specific .sf-menu styling */
 #legacyMainNav .sf-menu {
   margin: 0;
