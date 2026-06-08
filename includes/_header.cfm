@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <cfset headerPath = "includes"><!--- Identify which header has been included --->
 <head>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--= Global site tag (gtag.js) - Google Analytics --->
 <script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script><!--- " --->
 <script>
@@ -52,22 +52,17 @@
 </script>
 <style>
 /* ==== GENERAL WRAPPER ==== */
+/* ====== BASE STYLES (APPLY EVERYWHERE) ====== */
+
+/* Overall nav wrapper under the header image */
 #legacyMainNav {
   background-color: #ddd;
   border-bottom: 1px solid #ccc;
 }
 
-/* Put button and menu on same row on larger screens */
-@media (min-width: 769px) {
-  #legacyMainNav {
-    display: flex;
-    align-items: center;
-  }
-}
-
-/* ==== HAMBURGER BUTTON ==== */
+/* Hamburger button: base look (visibility controlled in media queries) */
 #legacyMenuToggle {
-  display: none;              /* hidden by default, shown on small screens below */
+  display: none;                  /* default: hidden, enabled via media query */
   align-items: center;
   justify-content: center;
   width: 32px;
@@ -79,7 +74,7 @@
   cursor: pointer;
 }
 
-/* three bars */
+/* Three-bar icon */
 #legacyMenuToggle .legacy-menu-icon,
 #legacyMenuToggle .legacy-menu-icon::before,
 #legacyMenuToggle .legacy-menu-icon::after {
@@ -105,63 +100,132 @@
   top: 6px;
 }
 
-/* ==== MENU VISIBILITY RULES ==== */
+/* Hide menu by default in base; media queries will override as needed */
+#legacyMainNav .sf-mainMenuWrapper {
+  display: none;
+}
 
-/* On phones/tablets: show the button, hide menu until opened */
+/* Utility class added by JS when menu is open */
+#legacyMainNav .sf-mainMenuWrapper.show {
+  display: block;
+}
+
+/* Make sure our nav styles don't break other .sf-menu instances */
+#legacyMainNav .sf-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ====== MOBILE / SMALL SCREENS ====== */
+/* Needs <meta name="viewport" content="width=device-width, initial-scale=1"> in <head> */
+
 @media (max-width: 768px) {
+
+  /* Show the hamburger on small screens */
   #legacyMenuToggle {
     display: inline-flex;
   }
 
+  /* When .show is added (by JS), menu wrapper becomes visible */
   #legacyMainNav .sf-mainMenuWrapper {
     display: none;
   }
-
   #legacyMainNav .sf-mainMenuWrapper.show {
-    display: block;
+    display: block !important;
   }
 
-  /* stack menu items vertically on small screens */
+  /* Stack the main menu items vertically */
   #legacyMainNav .sf-menu {
-    padding-left: 0;
+    display: block !important;    /* override any flex/inline styles */
   }
+
   #legacyMainNav .sf-menu > li {
+    display: block !important;
+    float: none !important;       /* cancel legacy floats if present */
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+  }
+
+  #legacyMainNav .sf-menu > li > a,
+  #legacyMainNav .sf-menu > li > a.nav-link {
     display: block;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Optional: make dropdown submenus full-width and stacked too */
+  #legacyMainNav .sf-menu .dropdown-menu {
+    position: static;             /* no absolute positioning on mobile */
+    float: none;
+    box-shadow: none;
+    border: 0;
+    width: 100%;
+  }
+
+  #legacyMainNav .sf-menu .dropdown-item {
+    white-space: normal;
+  }
+
+  /* Put login / headerLinks block below the menu items */
+  #legacyMainNav #headerLinks {
+    padding: 0.5rem 0.75rem;
   }
 }
 
-/* On desktop: always show menu, hide hamburger */
+/* ====== DESKTOP / LARGE SCREENS ====== */
+
 @media (min-width: 769px) {
-  #legacyMainNav .sf-mainMenuWrapper {
-    display: block;
-    flex: 1 1 auto;
-  }
 
-  #legacyMenuToggle {
-    display: none;
-  }
-
-  /* keep existing horizontal layout for your sf-menu */
-  #legacyMainNav .sf-menu {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  /* Put button + menu on a single row, but hide the button */
+  #legacyMainNav {
     display: flex;
     align-items: center;
   }
 
+  #legacyMenuToggle {
+    display: none !important;
+  }
+
+  /* Always show menu wrapper on desktop */
+  #legacyMainNav .sf-mainMenuWrapper {
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Horizontal main menu */
+  #legacyMainNav .sf-menu {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
   #legacyMainNav .sf-menu > li {
+    display: block;
     margin-right: 1.5rem;
   }
 
+  #legacyMainNav .sf-menu > li:last-child {
+    margin-right: 0;
+  }
+
+  #legacyMainNav .sf-menu > li > a,
   #legacyMainNav .sf-menu > li > a.nav-link {
     display: inline-block;
     padding: 0.25rem 0;
   }
+
+  /* Keep dropdown menus looking close to existing behavior */
+  #legacyMainNav .sf-menu .dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  /* Header links (login/logout) to the right */
+  #legacyMainNav #headerLinks {
+    margin-left: auto;
+  }
 }
-#legacyMenuToggle { display: inline-flex !important; }
-#legacyMainNav .sf-mainMenuWrapper { display: none; }
-#legacyMainNav .sf-mainMenuWrapper.show { display: block !important; }
 </style>
 <cfif not isdefined("Session.gitBranch")>
 	<!--- determine which git branch is currently checked out --->
@@ -645,7 +709,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   var toggle  = document.getElementById('legacyMenuToggle');
   var wrapper = document.querySelector('#legacyMainNav .sf-mainMenuWrapper');
-
   if (!toggle || !wrapper) return;
 
   toggle.addEventListener('click', function () {
