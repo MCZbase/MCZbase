@@ -51,12 +51,7 @@
 	});
 </script>
 <style>
-.basic_box {
-	width: fit-content;
-	margin: 0 auto;
-    padding: 2em .2rem 3em .2rem;
 
-}
 .sf-menu, .sf-menu * {
     margin: 0;
     /* padding: 0; */
@@ -782,14 +777,47 @@ background:none;
 </cfoutput>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var toggle  = document.getElementById('legacyMenuToggle');
-  var wrapper = document.querySelector('#legacyMainNav .sf-mainMenuWrapper');
-  if (!toggle || !wrapper) return;
+  var nav = document.getElementById('legacyMainNav');
+  if (!nav) return;
 
-  toggle.addEventListener('click', function () {
-    wrapper.classList.toggle('show');
-    var expanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!expanded));
+  // Top-level dropdown links (Search, Browse, Data Entry, etc.)
+  var toggles = nav.querySelectorAll('.sf-menu > li.nav-item.dropdown > a.dropdown-toggle');
+
+  toggles.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      // Only use click-to-open behavior on small screens
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        e.preventDefault();   // don’t follow the href
+
+        var li = this.parentElement;
+        var isOpen = li.classList.contains('open');
+
+        // First close any other open dropdowns
+        nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
+          if (openLi !== li) {
+            openLi.classList.remove('open');
+          }
+        });
+
+        // Then toggle this one:
+        // - if it was open, close it
+        // - if it was closed, open it
+        if (isOpen) {
+          li.classList.remove('open');
+        } else {
+          li.classList.add('open');
+        }
+      }
+    });
+  });
+
+  // Optional: close any open dropdowns if user taps outside the menu
+  document.addEventListener('click', function (e) {
+    if (!nav.contains(e.target) && window.matchMedia('(max-width: 768px)').matches) {
+      nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
+        openLi.classList.remove('open');
+      });
+    }
   });
 });
 </script>
