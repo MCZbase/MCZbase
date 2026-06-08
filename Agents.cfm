@@ -240,7 +240,7 @@ limitations under the License.
                                 </fieldset>
 							
                                 <!-- ========== SECTION 2: Name components ========== -->
-                                    <fieldset class="mb-0 px-3 pb-0 border-top border-right border-bottom border-left field-set">
+                                    <fieldset class="mb-0 px-3 pb-0 border-right border-bottom border-left field-set">
                                     <legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
                                     <div class="form-row mb-0 pt-2">
                                         <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 px-md-0 mb-0 mb-md-1 mt-0">
