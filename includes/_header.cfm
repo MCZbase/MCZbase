@@ -66,9 +66,9 @@
 	Test for redesign checkout is required for continued integration, as the production menu
 	must point to files present on production while the redesign menu points at their replacements in redesign
 --->
-<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+<cfif findNoCase('style_work',Session.gitBranch) GT 0>
 	<!--- checkout is redesign, redesign2, or similar --->
-	<cfset targetMenu = "redesign">
+	<cfset targetMenu = "style_work">
 <cfelse>
 	<!--- checkout is master, integration, test, and other non-redesign branches --->
 	<cfset targetMenu = "production">
@@ -89,6 +89,10 @@
 		<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	</head>
+<script src="/lib/jquery/jquery-3.5.1.min.js"></script>
+<script src="/shared/js/popper.js"></script>
+<script src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+<script src="/shared/js/internal-scripts.js"></script>          <!-- your site JS, if any -->
 	<body>
 	<noscript>
 		<div class="browserCheck">
