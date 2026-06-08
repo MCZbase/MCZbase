@@ -250,7 +250,7 @@
   #legacyMainNav .sf-mainMenuWrapper {
     display: flex !important;
     align-items: left!important;
-    width: 100%;
+    padding: .5rem 1rem 0 1rem;
   }
 
   /* Horizontal main menu */
