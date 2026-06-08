@@ -661,7 +661,7 @@ limitations under the License.
 							<h1 class="h4 my-0 ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
-									<a class="messageResults" aria-label="search results"></a>
+									<a class="messageResults" aria-label="search results" role="button"></a>
 								</span> 
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
