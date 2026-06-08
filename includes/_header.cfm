@@ -179,6 +179,7 @@
   #legacyMainNav .sf-menu .dropdown-menu div {
     float: none !important;
     width: 100% !important;
+    padding: .5rem 1rem 0 1rem;
   }
   #legacyMainNav .sf-menu .dropdown-menu {
     position: static !important;
