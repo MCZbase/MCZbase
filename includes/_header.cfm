@@ -279,7 +279,7 @@
 }
 @media (max-width: 768px) {
   html, body {
-    font-size: 12px;      /* try 12px; adjust to taste (11–13px) */
+    font-size: 11px;      /* try 12px; adjust to taste (11–13px) */
   }
 }
 </style>
