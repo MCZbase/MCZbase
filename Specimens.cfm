@@ -1229,13 +1229,14 @@ limitations under the License.
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 pb-2 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-														<label for="part_name" class="data-entry-label smaller font-weight-bold">Part Name</label>
-														<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makePartNameAutocompleteMeta('part_name');
-															});
-														</script>
+														<label for="part_name" class="data-entry-label smaller font-weight-bold">Part Name
+														    <input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makePartNameAutocompleteMeta('part_name');
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 col-md-3">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
@@ -1337,9 +1338,10 @@ limitations under the License.
                                                                 </label>
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
-																<label for="lot_count" class="data-entry-label smaller font-weight-bold">Lot Count</label>
-																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
+																<label for="lot_count" class="data-entry-label smaller font-weight-bold">Lot Count
+																    <cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_obj_disposition" class="data-entry-label smaller font-weight-bold">
