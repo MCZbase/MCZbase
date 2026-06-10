@@ -1263,19 +1263,19 @@ limitations under the License.
 														</button>
 													<div id="SpecDetail" class="col-12 px-0 py-3 py-xl-1" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks
 																    <cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															    </label>
                                                             </div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="part_remarks" class="data-entry-label smaller font-weight-bold">Part Remarks
 																    <cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="preparator" class="data-entry-label smaller font-weight-bold">Preparator
                                                                     <cfif not isdefined("preparator")>
                                                                         <cfset preparator="">
@@ -1319,12 +1319,12 @@ limitations under the License.
                                                                     </script>
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="lot_count" class="data-entry-label smaller font-weight-bold">Lot Count</label>
 																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 															</div>
-															<div class="col-12 col-md-2">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_obj_disposition" class="data-entry-label smaller font-weight-bold">
 																	Disposition
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -1337,13 +1337,13 @@ limitations under the License.
                                                                     </script>
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="disposition_remarks" class="data-entry-label smaller font-weight-bold">Disposition Remarks
 																    <cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															    </label>
                                                             </div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="part_attribute_type" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Type
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
@@ -1357,7 +1357,7 @@ limitations under the License.
                                                                     </script>
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="part_attribute_value" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Value
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span></a>
@@ -1366,7 +1366,7 @@ limitations under the License.
 																    <input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="part_attribute_units" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Units
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
@@ -1380,7 +1380,7 @@ limitations under the License.
                                                                     </script>
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="part_attribute_remarks" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Remarks
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span></a>
@@ -1389,7 +1389,7 @@ limitations under the License.
 																    <input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<!--- TODO: Add an autocomplete when controlled --->
 																<label for="condition" class="data-entry-label smaller font-weight-bold">Condition
 																    <cfif not isdefined("condition")><cfset condition=""></cfif>
@@ -1398,7 +1398,7 @@ limitations under the License.
 															</div>
 															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 																<!--- TODO: Add when popluated --->
-																<div class="col-12 col-md-2 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="condition_remarks" class="data-entry-label smaller font-weight-bold">Condition Remarks
 																	    <cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
 																	    <input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
@@ -1406,19 +1406,19 @@ limitations under the License.
                                                                 </div>
 															</cfif>
 															<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="root_container_label" class="data-entry-label smaller font-weight-bold">In Container Labeled
                                                                         <cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
                                                                         <input type="text" class="data-entry-input inputHeight" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
                                                                     </label>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="root_container_barcode" class="data-entry-label smaller font-weight-bold">In Container Barcoded
                                                                         <cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
                                                                         <input type="text" class="data-entry-input inputHeight" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
                                                                     </label>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="root_container_type" class="data-entry-label smaller font-weight-bold">In Container of Type
                                                                         <cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
                                                                         <select title="root_container_type" name="root_container_type" id="root_container_type" class="data-entry-select inputHeight col-sm-12 pl-2">
