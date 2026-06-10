@@ -1544,7 +1544,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 px-0 py-2 mb-0">
-														<div class="col-12 col-md-2">
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
 															</cfif>
