@@ -1170,7 +1170,7 @@ limitations under the License.
 												</button>
 													<div id="CollDetail" class="col-9 mt-1 py-1 float-left" style="#CollDetailStyle#">
                                                         <div class="form-row col-12 mb-1 px-0 mx-0">
-															<div class="col-12 col-md-3 px-1">
+															<div class="col-12 col-md-3 px-1 px-xl-0">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
 																</cfif>
