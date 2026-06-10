@@ -1275,11 +1275,11 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="col-2 col-xl-1 px-0 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
-													<div id="SpecDetail" class="col-12 px-0 pt-2 pb-1 py-xl-1" style="#SpecDetailStyle#">
-														<div class="form-row col-12 col-md-12 mx-0 mb-0">
+													<div id="SpecDetail" class="col-9 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
+														<div class="form-row col-12 col-md-12 mx-0 mb-0 px-0">
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks
 																    <cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
