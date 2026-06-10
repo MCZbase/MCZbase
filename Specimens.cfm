@@ -519,8 +519,8 @@ limitations under the License.
 													
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
-													<div id="IDDetail" class="col-12 px-0 py-2" style="#IDDetailStyle#">
-                                                        <div class="form-row col-12 mx-0 mb-1">
+													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
+                                                        <div class="form-row col-12 mx-0">
                                                             <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
                                                                 <label for="otherID" class="data-entry-label smaller font-weight-bold">or Other ID Type
@@ -556,7 +556,7 @@ limitations under the License.
                                                                 </label>
                                                             </div>
                                                             <cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-                                                                <div class="col-12 col-md-2">
+                                                                <div class="col-12 col-md-4 mb-1">
                                                                     <label class="data-entry-label smaller font-weight-bold" for="debug1">Debug JSON
                                                                         <select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
                                                                             <option value=""></option>
