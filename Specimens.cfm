@@ -876,10 +876,10 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="col-2 col-xl-1 d-block d-xl-none my-1 btn-link text-center btn small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
+													<button type="button" id="GeogDetailCtl1" class="col-2 col-md-1 d-block d-xl-none my-1 btn-link text-center btn small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
                                                     </button>
                                                         
-													<div id="GeogDetail" class="col-9 mt-1 px-0 py-1 float-left" style="#GeogDetailStyle#">
+													<div id="GeogDetail" class="col-10 col-md-11 mt-1 px-0 py-1 float-left" style="#GeogDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
