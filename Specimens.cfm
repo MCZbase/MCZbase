@@ -530,7 +530,7 @@ limitations under the License.
 																
 													<div id="IDDetail" class="col-12 px-0 py-3 py-xl-1" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 px-0 mx-0 mb-1">
-                                                            <div class="col-12 col-md-3">
+                                                            <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
                                                                 <label for="otherID" class="data-entry-label smaller font-weight-bold">or Other ID Type
                                                                     <div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
@@ -558,7 +558,7 @@ limitations under the License.
                                                                     </script> 
                                                                 </label>
                                                             </div>
-                                                            <div class="col-12 col-md-3">
+                                                            <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
                                                                 <label for="other_id_number_1" class="data-entry-label smaller font-weight-bold">Other ID Numbers
                                                                     <input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
