@@ -2603,6 +2603,10 @@ input[disabled] {
 .pt2px {
 	padding-top:2px!important;
 }
+.py2px {
+	padding-top:2px!important;
+    padding-bottom:2px!important;
+}
 .pt3px {
 	padding-top:3px!important;
 }
