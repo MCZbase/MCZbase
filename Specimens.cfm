@@ -1237,26 +1237,26 @@ limitations under the License.
 														<label for="biol_indiv_relationship" class="data-entry-label smaller font-weight-bold">Has Relationship
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-														</label>
-														<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
-															});
-														</script>
+                                                            <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 													<div class="col-12 col-md-3">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 														<label for="media_type" class="data-entry-label smaller font-weight-bold">Media Type
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-														</label>
-														<input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
-															});
-														</script>
+                                                            <input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
+                                                            <script>
+                                                                jQuery(document).ready(function() {
+                                                                    makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
+                                                                });
+                                                            </script>
+                                                        </label>
 													</div>
 														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-0 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
@@ -1264,57 +1264,60 @@ limitations under the License.
 													<div id="SpecDetail" class="col-12 px-0 py-3 py-xl-1" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 col-md-2 mb-1">
-																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks</label>
-																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
+																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks
+																    <cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
+															    </label>
+                                                            </div>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="part_remarks" class="data-entry-label smaller font-weight-bold">Part Remarks
+																    <cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
-																<label for="part_remarks" class="data-entry-label smaller font-weight-bold">Part Remarks</label>
-																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
-															</div>
-															<div class="col-12 col-md-2 mb-1">
-																<label for="preparator" class="data-entry-label smaller font-weight-bold">Preparator</label>
-																<cfif not isdefined("preparator")>
-																	<cfset preparator="">
-																</cfif>
-																<cfif not isdefined("preparator_agent_id") OR len(preparator_agent_id) EQ 0>
-																	<cfif len(preparator) EQ 0>
-																		<cfset preparator_agent_id ="">
-																	<cfelse>
-																		<cfset preparator_agent_id ="">
-																		<!--- lookup preparator's agent_id --->
-																		<cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																			SELECT agent_id 
-																			FROM preferred_agent_name 
-																			WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preparator#"> 
-																				AND rownum < 2
-																		</cfquery>
-																		<cfloop query="preparatorLookup">
-																			<cfset preparator_agent_id = preparatorLookup.agent_id>
-																		</cfloop>
-																	</cfif>
-																<cfelse>
-																	<!--- lookup preparator --->
-																	<cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																		SELECT agent_name 
-																		FROM preferred_agent_name 
-																		WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#preparator_agent_id#">
-																			AND rownum < 2
-																	</cfquery>
-																	<cfif preparatorLookup.recordcount GT 0>
-																		<cfloop query="preparatorLookup">
-																			<cfset preparator = preparatorLookup.agent_name>
-																		</cfloop>
-																	</cfif>
-																</cfif>
-																<input type="text" id="preparator" name="preparator" class="data-entry-input inputHeight" value="#encodeForHtml(preparator)#">
-																<input type="hidden" id="preparator_agent_id" name="preparator_agent_id" value="#encodeForHtml(preparator_agent_id)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeConstrainedAgentPicker('preparator','preparator_agent_id','preparator');
-																	});
-																</script>
+																<label for="preparator" class="data-entry-label smaller font-weight-bold">Preparator
+                                                                    <cfif not isdefined("preparator")>
+                                                                        <cfset preparator="">
+                                                                    </cfif>
+                                                                    <cfif not isdefined("preparator_agent_id") OR len(preparator_agent_id) EQ 0>
+                                                                        <cfif len(preparator) EQ 0>
+                                                                            <cfset preparator_agent_id ="">
+                                                                        <cfelse>
+                                                                            <cfset preparator_agent_id ="">
+                                                                            <!--- lookup preparator's agent_id --->
+                                                                            <cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+                                                                                SELECT agent_id 
+                                                                                FROM preferred_agent_name 
+                                                                                WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preparator#"> 
+                                                                                    AND rownum < 2
+                                                                            </cfquery>
+                                                                            <cfloop query="preparatorLookup">
+                                                                                <cfset preparator_agent_id = preparatorLookup.agent_id>
+                                                                            </cfloop>
+                                                                        </cfif>
+                                                                    <cfelse>
+                                                                        <!--- lookup preparator --->
+                                                                        <cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+                                                                            SELECT agent_name 
+                                                                            FROM preferred_agent_name 
+                                                                            WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#preparator_agent_id#">
+                                                                                AND rownum < 2
+                                                                        </cfquery>
+                                                                        <cfif preparatorLookup.recordcount GT 0>
+                                                                            <cfloop query="preparatorLookup">
+                                                                                <cfset preparator = preparatorLookup.agent_name>
+                                                                            </cfloop>
+                                                                        </cfif>
+                                                                    </cfif>
+                                                                    <input type="text" id="preparator" name="preparator" class="data-entry-input inputHeight" value="#encodeForHtml(preparator)#">
+                                                                    <input type="hidden" id="preparator_agent_id" name="preparator_agent_id" value="#encodeForHtml(preparator_agent_id)#">
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeConstrainedAgentPicker('preparator','preparator_agent_id','preparator');
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
 																<label for="lot_count" class="data-entry-label smaller font-weight-bold">Lot Count</label>
@@ -1325,100 +1328,108 @@ limitations under the License.
 																<label for="coll_obj_disposition" class="data-entry-label smaller font-weight-bold">
 																	Disposition
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeCTFieldSearchAutocomplete("coll_obj_disposition","COLL_OBJ_DISP");
-																	});
-																</script>
+                                                                    <cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
+                                                                    <input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeCTFieldSearchAutocomplete("coll_obj_disposition","COLL_OBJ_DISP");
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
-																<label for="disposition_remarks" class="data-entry-label smaller font-weight-bold">Disposition Remarks</label>
-																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
-															</div>
+																<label for="disposition_remarks" class="data-entry-label smaller font-weight-bold">Disposition Remarks
+																    <cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
+															    </label>
+                                                            </div>
 															<div class="col-12 col-md-2 mb-1">
 																<label for="part_attribute_type" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Type
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                                    <cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
+                                                                    <input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makeCTFieldSearchAutocomplete("part_attribute_type","SPECPART_ATTRIBUTE_TYPE");
+                                                                        });
+                                                                    </script>
                                                                 </label>
-																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeCTFieldSearchAutocomplete("part_attribute_type","SPECPART_ATTRIBUTE_TYPE");
-																	});
-																</script>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
 																<label for="part_attribute_value" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Value
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span></a>
-																</label>
-																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
+																
+																    <cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
 																<label for="part_attribute_units" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Units
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makePartsAtrributeUnitSearchPicker("part_attribute_units");
-																	});
-																</script>
+                                                                    <cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
+                                                                    <input type="text" class="data-entry-input inputHeight" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
+                                                                    <script>
+                                                                        jQuery(document).ready(function() {
+                                                                            makePartsAtrributeUnitSearchPicker("part_attribute_units");
+                                                                        });
+                                                                    </script>
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
 																<label for="part_attribute_remarks" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Remarks
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span></a>
-																</label>
-																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span></a>
+																
+																    <cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
+                                                                </label>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
 																<!--- TODO: Add an autocomplete when controlled --->
-																<label for="condition" class="data-entry-label smaller font-weight-bold">Condition</label>
-																<cfif not isdefined("condition")><cfset condition=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="condition" name="condition" value="#encodeForHtml(condition)#">
+																<label for="condition" class="data-entry-label smaller font-weight-bold">Condition
+																    <cfif not isdefined("condition")><cfset condition=""></cfif>
+																    <input type="text" class="data-entry-input inputHeight" id="condition" name="condition" value="#encodeForHtml(condition)#">
+                                                                </label>
 															</div>
 															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 																<!--- TODO: Add when popluated --->
 																<div class="col-12 col-md-2 mb-1">
-																	<label for="condition_remarks" class="data-entry-label smaller font-weight-bold">Condition Remarks</label>
-																	<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
-																	<input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
-																</div>
+																	<label for="condition_remarks" class="data-entry-label smaller font-weight-bold">Condition Remarks
+																	    <cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
+																	    <input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
+																    </label>
+                                                                </div>
 															</cfif>
 															<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 																<div class="col-12 col-md-3 mb-1">
-																	<label for="root_container_label" class="data-entry-label smaller font-weight-bold">In Container Labeled</label>
-																	<cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
-																	<input type="text" class="data-entry-input inputHeight" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
+																	<label for="root_container_label" class="data-entry-label smaller font-weight-bold">In Container Labeled
+                                                                        <cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
+                                                                        <input type="text" class="data-entry-input inputHeight" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
+                                                                    </label>
 																</div>
 																<div class="col-12 col-md-3 mb-1">
-																	<label for="root_container_barcode" class="data-entry-label smaller font-weight-bold">In Container Barcoded</label>
-																	<cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
-																	<input type="text" class="data-entry-input inputHeight" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
+																	<label for="root_container_barcode" class="data-entry-label smaller font-weight-bold">In Container Barcoded
+                                                                        <cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
+                                                                        <input type="text" class="data-entry-input inputHeight" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
+                                                                    </label>
 																</div>
 																<div class="col-12 col-md-3 mb-1">
-																	<label for="root_container_type" class="data-entry-label smaller font-weight-bold">In Container of Type</label>
-																	<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
-																	<select title="root_container_type" name="root_container_type" id="root_container_type" class="data-entry-select inputHeight col-sm-12 pl-2">
-																		<option value=""></option>
-																		<cfset nid = root_container_type>
-																		<cfloop query="ctcontainer_type">
-																			<cfif nid EQ "=#ctcontainer_type.container_type#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
-																			<option value="=#ctcontainer_type.container_type#" #selected#>#ctcontainer_type.container_type#</option>
-																		</cfloop>
-																	</select>
+																	<label for="root_container_type" class="data-entry-label smaller font-weight-bold">In Container of Type
+                                                                        <cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
+                                                                        <select title="root_container_type" name="root_container_type" id="root_container_type" class="data-entry-select inputHeight col-sm-12 pl-2">
+                                                                            <option value=""></option>
+                                                                            <cfset nid = root_container_type>
+                                                                            <cfloop query="ctcontainer_type">
+                                                                                <cfif nid EQ "=#ctcontainer_type.container_type#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+                                                                                <option value="=#ctcontainer_type.container_type#" #selected#>#ctcontainer_type.container_type#</option>
+                                                                            </cfloop>
+                                                                        </select>
+                                                                    </label>
 																</div>
 															</cfif>
 														</div>
