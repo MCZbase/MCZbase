@@ -519,7 +519,7 @@ limitations under the License.
 													
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
-													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-12 py-2" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 mx-0">
                                                             <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -668,11 +668,11 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none w-100 py-0 btn-link text-center btn small" onclick="toggleTaxaDetail(1)">
+													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleTaxaDetail(1)">
                                                         <span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
                                                     </button>
 														
-													<div id="TaxaDetail" class="col-12 px-0 py-3 py-xl-1" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-12 py-2" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mx-0 mb-1">
 															<div class="col-12 col-md-2 mb-1">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
@@ -1151,7 +1151,7 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none m-1 d-xl-none py-0 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
-													<div id="CollDetail" class="col-12 px-0 pt-2 pb-1 py-xl-1" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-12 py-2" style="#CollDetailStyle#">
                                                         <div class="form-row col-12 col-md-12 mb-1 mx-0">
 															<div class="col-12 col-md-3">
 																<cfif not isdefined("date_began_date")>
