@@ -439,7 +439,7 @@ limitations under the License.
 													</div>
 												</div>		
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
-													<div class="col-12 col-md-3">
+													<div class="col-12 col-md-3 px-1">
 														<label for="fixedCollection" class="data-entry-label smaller font-weight-bold">Collection
 														    <div name="collection" id="fixedCollection" class="w-100"></div>
 														    <cfif not isdefined("collection")><cfset collection=""></cfif>
@@ -467,7 +467,7 @@ limitations under the License.
                                                             </script> 
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3">
+													<div class="col-12 col-md-3 px-1">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number
 														    <input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
@@ -509,23 +509,13 @@ limitations under the License.
                                                             </script> 
                                                         </label>
 													</div>
-													<div class="col-12 #other_id_number_cols#">
+													<div class="col-12 col-md-3 col-xl-2">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number" class="data-entry-label smaller font-weight-bold">Other ID Numbers
 														    <input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
                                                         </label>
 													</div>
-													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-														<div class="col-12 col-md-2">
-															<label class="data-entry-label smaller font-weight-bold" for="debug1">Debug JSON
-                                                                <select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
-                                                                    <option value=""></option>
-                                                                    <cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-                                                                    <option value="true" #selected#>Debug JSON</option>
-                                                                </select>
-                                                            </label>
-														</div>
-													</cfif>
+													
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
 													<div id="IDDetail" class="col-12 px-0 py-3 py-xl-1" style="#IDDetailStyle#">
@@ -564,7 +554,17 @@ limitations under the License.
                                                                     <input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
                                                                 </label>
                                                             </div>
-                                                            <div class="col-12 col-md-6"></div>
+                                                            <cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+                                                                <div class="col-12 col-md-2">
+                                                                    <label class="data-entry-label smaller font-weight-bold" for="debug1">Debug JSON
+                                                                        <select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
+                                                                            <option value=""></option>
+                                                                            <cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+                                                                            <option value="true" #selected#>Debug JSON</option>
+                                                                        </select>
+                                                                    </label>
+                                                                </div>
+                                                            </cfif>
                                                         </div>
 													</div>
 												</div>
