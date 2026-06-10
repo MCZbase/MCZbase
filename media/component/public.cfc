@@ -22,6 +22,10 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+<!--- Constant to enable/disable delivery of images from MCZ image / IIIF servers.
+      Set to false to temporarily disable direct use of these image servers without
+      changing any calling code. --->
+<cfset MCZ_IMAGE_SERVERS_ENABLED = true>
 
 <!--- function getMediaBlockHtml safely (with use of is_media_encumbered) display an html block
  serving as an arbitrary media display widget on any MCZbase page in a conistent manner.
@@ -294,6 +298,18 @@ include this function and use it.
 					<cfif media_type EQ '3D model'>
 						<cfset isDisplayable = false>
 					</cfif>
+					<!--- If MCZ image/IIIF servers are disabled, do not attempt to display
+					      images that are hosted on those services; fall back to existing
+					      placeholder logic instead of broken thumbnails. --->
+					<cfif NOT MCZ_IMAGE_SERVERS_ENABLED>
+						<cfif findNoCase("https://mczbase.mcz.harvard.edu/specimen_images", media_uri)
+							OR findNoCase("https://iiif.mcz.harvard.edu/", media_uri)>
+							<!--- Treat as non-displayable and suppress use of preview_uri so that
+							      the generic icon / placeholder logic below takes over. --->
+							<cfset isDisplayable = false>
+							<cfset preview_uri = "">
+						</cfif>
+					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 					<cfset hw = 'height="auto"'>
 					<cfif isDisplayable>
@@ -395,6 +411,15 @@ include this function and use it.
 					</cfif>
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
+					</cfif>
+					<!--- When image/IIIF servers are disabled, never send users directly to
+					      those URLs; instead, always send them to the media metadata record,
+					      where rights and other essential metadata are available. --->
+					<cfif NOT MCZ_IMAGE_SERVERS_ENABLED>
+						<cfif findNoCase("https://mczbase.mcz.harvard.edu/specimen_images", linkTarget)
+							OR findNoCase("https://iiif.mcz.harvard.edu/", linkTarget)>
+							<cfset linkTarget = "/media/#media.media_id#">
+						</cfif>
 					</cfif>
 					<cfset unique = REReplace(CreateUUID(), "[-]", "", "all") >
 					<cfset elementID = "MID_#media.media_id#_#unique#">
