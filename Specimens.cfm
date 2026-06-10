@@ -432,7 +432,7 @@ limitations under the License.
 										<!---IDENTIFIER SECTION--->	
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block text-black bg-teal border-right border-top border-bottom border-left font-weight-bold">Identifiers</h2>
+														<h2 class="small mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -597,7 +597,7 @@ limitations under the License.
                                            <!---TAXONOMY SECTION--->	 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
-														<h2 class="small mx-0 mt-0 mb-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
+														<h2 class="small m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -816,7 +816,7 @@ limitations under the License.
                                         <!---END TAXONOMY SECTION--->
                                                                         
                                                                         
-                                        <!---GEOGRAPHY SECTION--->
+                                        
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
@@ -847,9 +847,10 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'>
 												</cfif>
+                                         <!---GEOGRAPHY SECTION--->
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mb-0 mx-0 px-3 px-xl-2 mt-0 py2px border-top border-bottom border-right border-left d-block text-black bg-teal font-weight-bold">Geography</h2>
+														<h2 class="small m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -1064,7 +1065,7 @@ limitations under the License.
 											</div>
                                         <!---END GEOGRAPHY SECTION--->
                                                                 
-                                        <!---COLLECTING EVENT SECTION--->
+                                    
 											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
@@ -1081,9 +1082,10 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
 												</cfif> 
+                                        <!---COLLECTING EVENT SECTION--->
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mx-0 mb-0 px-3 px-xl-2 py2px d-block border-right border-top border-left border-bottom text-black bg-teal font-weight-bold">Coll. Event</h2>
+														<h2 class="small m-0 px-3 px-xl-2 py2px d-block border-right border-top border-left border-bottom bg-teal">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
@@ -1195,7 +1197,7 @@ limitations under the License.
                                         <!---END COLLECTING EVENT SECTION--->    
                                                         
                                                         
-                                         <!---SPECIMEN SECTION--->          
+                                                 
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = "false">
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
@@ -1214,9 +1216,10 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'>
 												</cfif> 
+                                            <!---SPECIMEN SECTION--->  
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mx-0 my-0 py2px px-3 px-xl-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Specimen</h2>
+													<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
+														<h2 class="small m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
@@ -1455,7 +1458,7 @@ limitations under the License.
                                          <!---GENERAL SECTION---> 
 											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
                                                 <div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
-                                                    <h2 class="small mx-0 mx-xl-0 px-3 px-xl-2 my-0 py2px text-left text-xl-right border-top border-right border-bottom border-left text-black bg-teal font-weight-bold">
+                                                    <h2 class="small m-0 px-3 px-xl-2 py2px text-left text-xl-right border-top border-right border-bottom border-left bg-teal">
                                                         General
                                                     </h2>
                                                 </div>
@@ -1557,9 +1560,9 @@ limitations under the License.
                                                                 
                                          <!---TRANSACTION SECTION--->
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-md-0 px-0">
+												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
-														<h2 class="small mx-0 mx-xl-0 px-3 px-xl-2 py2px mb-0 text-left text-xl-right d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">
+														<h2 class="small mx-xl-0 px-3 px-xl-2 py2px m-0 text-left text-xl-right d-block border-top border-right border-bottom border-left bg-teal">
 															Transactions
 														</h2>
 													</div>
