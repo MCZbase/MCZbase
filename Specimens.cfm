@@ -438,7 +438,7 @@ limitations under the License.
 														</cfif>
 													</div>
 												</div>		
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 mx-0 mb-0">
 													<div class="col-12 col-md-3 px-0">
 														<label for="fixedCollection" class="data-entry-label smaller font-weight-bold">Collection
 														    <div name="collection" id="fixedCollection" class="w-100"></div>
