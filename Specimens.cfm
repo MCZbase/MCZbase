@@ -430,7 +430,6 @@ limitations under the License.
 														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif> 
 										<!---IDENTIFIER SECTION--->	
-                                       
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block text-black bg-teal border-right border-top border-bottom border-left font-weight-bold">Identifiers</h2>
@@ -569,8 +568,8 @@ limitations under the License.
                                         <!---END IDENTIFIER SECTION--->	
                                                                     
                                                                     
-                                        <!---TAXONOMY SECTION--->	
-											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
+                                        
+											<div class="col-12 form-row mx-0 px-0 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -595,9 +594,9 @@ limitations under the License.
 													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
                                                         
-                                            
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-0 mb-md-0 pt-0">
+                                           <!---TAXONOMY SECTION--->	 
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
 														<h2 class="small mx-0 mt-0 mb-0 py2px px-3 px-xl-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
