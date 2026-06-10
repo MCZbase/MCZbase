@@ -508,10 +508,10 @@ limitations under the License.
                                                         </label>
 													</div>
 													
-													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="col-2 col-md-1 px-0 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
                                         <!---IDENTIFIER DETAIL--->	
                                         <!---IDENTIFIER DETAIL--->		
-													<div id="IDDetail" class="col-12 py-2" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-10 col-md-11 px-0 py-2" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 mx-0">
                                                             <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -669,10 +669,10 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="col-2 col-xl-1 px-0 d-block d-xl-none py-0 my-1 btn-link text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="TaxaDetailCtl1" class="col-2 col-md-1 px-0 d-block d-xl-none py-0 my-1 btn-link text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 												<!---TAXONOMY DETAIL--->
                                                 <!---TAXONOMY DETAIL--->
-													<div id="TaxaDetail" class="col-9 px-0 mt-1 py-1 float-left" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-10 col-md-11 px-0 mt-1 py-1 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-2 mb-1">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
