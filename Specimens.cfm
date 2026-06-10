@@ -429,7 +429,8 @@ limitations under the License.
 													<cfset toggleTo = "1">
 														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif> 
-														
+										<!---IDENTIFIER SECTION--->	
+                                       
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block text-black bg-teal border-right border-top border-bottom border-left font-weight-bold">Identifiers</h2>
@@ -473,15 +474,6 @@ limitations under the License.
 														    <input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
                                                         </label>
 													</div>
-                                    <!--- reserve space for debug json control --->
-									<!---				<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-											
-														<cfset other_id_type_cols="col-md-2">
-														<cfset other_id_number_cols="col-md-2">
-													<cfelse>
-														<cfset other_id_type_cols="col-md-3">
-														<cfset other_id_number_cols="col-md-3">
-													</cfif>--->
 													<div class="col-12 col-md-3 px-1">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 														<label for="otherID" class="data-entry-label smaller font-weight-bold">Other ID Type
@@ -518,7 +510,8 @@ limitations under the License.
 													</div>
 													
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-																
+                                        <!---IDENTIFIER DETAIL--->	
+                                        <!---IDENTIFIER DETAIL--->		
 													<div id="IDDetail" class="col-12 py-2" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 mx-0">
                                                             <div class="col-12 col-md-3 mb-1">
@@ -568,8 +561,15 @@ limitations under the License.
                                                             </cfif>
                                                         </div>
 													</div>
+                                        <!---END IDENTIFIER DETAIL--->	
+                                        <!---END IDENTIFIER DETAIL--->	
 												</div>
 											</div>
+                                       
+                                        <!---END IDENTIFIER SECTION--->	
+                                                                    
+                                                                    
+                                        <!---TAXONOMY SECTION--->	
 											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
@@ -594,6 +594,8 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
+                                                        
+                                            
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-0 mb-md-0 pt-0">
 														<h2 class="small mx-0 mt-0 mb-0 py2px px-3 px-xl-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
@@ -671,8 +673,9 @@ limitations under the License.
 													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleTaxaDetail(1)">
                                                         <span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
                                                     </button>
-														
-													<div id="TaxaDetail" class="col-12 py-2" style="#TaxaDetailStyle#">
+												<!---TAXONOMY DETAIL--->
+                                                <!---TAXONOMY DETAIL--->
+													<div id="TaxaDetail" class="col-12 pt-2" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mx-0 mb-1">
 															<div class="col-12 col-md-2 mb-1">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
@@ -807,8 +810,14 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
+                                                <!---END TAXONOMY DETAIL--->
+                                                <!---END TAXONOMY DETAIL--->
 												</div>
 											</div> 
+                                        <!---END TAXONOMY SECTION--->
+                                                                        
+                                                                        
+                                        <!---GEOGRAPHY SECTION--->
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
@@ -872,8 +881,8 @@ limitations under the License.
 													<button type="button" id="GeogDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
                                                     </button>
                                                         
-													<div id="GeogDetail" class="col-12 px-0 py-2" style="#GeogDetailStyle#">
-														<div class="form-row col-12 col-md-12 mb-1 mx-0">
+													<div id="GeogDetail" class="col-12 px-0 pt-2" style="#GeogDetailStyle#">
+														<div class="form-row col-12 col-md-12 mb-1">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label font-weight-bold smaller">Continent/Ocean
@@ -1054,6 +1063,9 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
+                                        <!---END GEOGRAPHY SECTION--->
+                                                                
+                                        <!---COLLECTING EVENT SECTION--->
 											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
@@ -1181,6 +1193,10 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
+                                        <!---END COLLECTING EVENT SECTION--->    
+                                                        
+                                                        
+                                         <!---SPECIMEN SECTION--->          
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = "false">
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
@@ -1435,6 +1451,9 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
+                                         <!---END SPECIMEN SECTION--->                           
+                                           
+                                         <!---GENERAL SECTION---> 
 											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
                                                 <div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
                                                     <h2 class="small mx-0 mx-xl-0 px-3 px-xl-2 my-0 py2px text-left text-xl-right border-top border-right border-bottom border-left text-black bg-teal font-weight-bold">
@@ -1535,6 +1554,9 @@ limitations under the License.
                                                     </div>
                                                 </div>
 											</div>
+                                         <!---END GENERAL SECTION--->
+                                                                
+                                         <!---TRANSACTION SECTION--->
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
@@ -1630,6 +1652,8 @@ limitations under the License.
 													</div>
 												</div>
 											</cfif>
+                                         <!---END TRANSACTION SECTION--->                
+                                            
 											<div id="searchButtons">
 												<div class="form-row mx-0 px-4 my-1 pb-1">
 													<div class="col-12 px-2 py-2 py-sm-0">
