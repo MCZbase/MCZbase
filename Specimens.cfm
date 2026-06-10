@@ -1564,7 +1564,7 @@ limitations under the License.
 															    <input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
                                                             </label>
 														</div>
-														<div class="col-12 col-md-2">
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")>
 																<cfset accn_number="">
 															</cfif>
@@ -1584,7 +1584,7 @@ limitations under the License.
 															    <input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
                                                             </label>
 														</div>
-														<div class="col-12 col-md-2">
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")>
 																<cfset received_date="">
 															</cfif>
@@ -1592,7 +1592,7 @@ limitations under the License.
 															    <input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
                                                             </label>
 														</div>
-														<div class="col-12 col-md-2">
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")>
 																<cfset accn_status="">
 															</cfif>
@@ -1606,7 +1606,7 @@ limitations under the License.
                                                                 </script>
                                                             </label>
 														</div>
-														<div class="col-12 col-md-2">
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")>
 																<cfset accn_type="">
 															</cfif>
@@ -1620,7 +1620,7 @@ limitations under the License.
                                                                 </script>
                                                             </label>
 														</div>
-														<div class="col-12 col-md-2">
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
