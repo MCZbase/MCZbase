@@ -379,7 +379,7 @@ limitations under the License.
                                 <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                    <fieldset class="my-2 px-3 pb-2 field-set border-top border-bottom border-right border-left">
-                                    <legend class="h6 mt-1 mb-1 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Internal Role</legend>
+                                    <legend class="h6 mt-1 mb-1 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
                                         <div class="form-row mt-2">
                                             <div class="col-12 col-md-3 col-xl-3 pr-md-0 px-0 mt-0 mb-md-1 mb-xl-0">
                                                 <div class="form-group mb-1 pb-0">
