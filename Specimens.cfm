@@ -1226,7 +1226,7 @@ limitations under the License.
 													</div>
 												</div>
 													
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 pb-2 px-0 mb-0 mx-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 pb-2 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label smaller font-weight-bold">Part Name</label>
@@ -1275,7 +1275,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-                                                    <button type="button" id="SpecDetailCtl1" class="col-2 col-md-1 px-0 mx-1 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+                                                    <button type="button" id="SpecDetailCtl1" class="col-2 col-md-1 px-0 mx-1 d-block d-xl-none py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
                                                         show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
                                                     </button>
 													<div id="SpecDetail" class="col-10 col-md-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
