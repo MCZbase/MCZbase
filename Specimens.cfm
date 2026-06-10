@@ -876,7 +876,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-1 d-block d-xl-none my-1 btn-link text-center btn small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
+													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
                                                     </button>
                                                         
 													<div id="GeogDetail" class="col-9 col-md-11 mt-1 px-0 py-1 float-left" style="#GeogDetailStyle#">
@@ -1163,7 +1163,7 @@ limitations under the License.
 													</div>
                                                         
                                                         
-												<button type="button" id="CollDetailCtl1" class="col-3 col-md-1 d-block d-xl-none my-1 btn-link text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
+												<button type="button" id="CollDetailCtl1" class="col-3 col-md-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
 													show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 												</button>
 													<div id="CollDetail" class="col-9 col-md-11 mt-1 py-1 float-left" style="#CollDetailStyle#">
