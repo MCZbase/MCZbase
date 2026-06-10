@@ -601,13 +601,13 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 px-1 mx-0 mb-1">	
-                                                    <div class="col-9 col-md-9 col-xl-3">
+                                                    <div class="col-9 col-md-9 col-xl-3 mb-1">
                                                         <cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
                                                         <label for="any_taxa_term" class="data-entry-label smaller font-weight-bold">Any Taxonomic Element
                                                             <input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
                                                         </label>
                                                     </div>
-                                                    <div class="col-3 col-md-3 col-xl-1">
+                                                    <div class="col-3 col-md-3 col-xl-1 mb-1">
                                                         <cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
                                                         <label for="current_id_only" class="data-entry-label smaller font-weight-bold">Search
                                                             <select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small95 px-0" style="color: rgba(0, 0, 0, .8);">
@@ -619,7 +619,7 @@ limitations under the License.
                                                         </label>
                                                     </div>	
 										
-													<div class="col-12 col-md-3 col-xl-2">
+													<div class="col-12 col-md-4 col-xl-3">
 														<label for="scientific_name" class="data-entry-label smaller font-weight-bold">Scientific Name
                                                             <cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
                                                             <cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
@@ -644,7 +644,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3 col-xl-2">
+													<div class="col-12 col-md-4 col-xl-3">
 														<label for="author_text" class="data-entry-label smaller font-weight-bold">Authorship
                                                             <cfif not isdefined("author_text")><cfset author_text=""></cfif>
                                                             <input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
@@ -655,7 +655,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3 col-xl-2">
+													<div class="col-12 col-md-4 col-xl-3">
 														<label for="type_status" class="data-entry-label smaller font-weight-bold">Type Status/Citation
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 
