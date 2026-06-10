@@ -1163,10 +1163,10 @@ limitations under the License.
 													</div>
                                                         
                                                         
-												<button type="button" id="CollDetailCtl1" class="col-2 d-block d-xl-none my-1 btn-link text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
+												<button type="button" id="CollDetailCtl1" class="col-2 col-md-1 d-block d-xl-none my-1 btn-link text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
 													show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 												</button>
-													<div id="CollDetail" class="col-9 mt-1 py-1 float-left" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-10 col-md-11 mt-1 py-1 float-left" style="#CollDetailStyle#">
                                                         <div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 px-1 px-xl-0">
 																<cfif not isdefined("date_began_date")>
@@ -1275,10 +1275,10 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="col-2 col-xl-1 px-0 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="col-2 col-md-1 px-0 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
-													<div id="SpecDetail" class="col-9 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
+													<div id="SpecDetail" class="col-10 col-md-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mx-0 mb-0 px-0">
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks
