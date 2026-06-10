@@ -1168,7 +1168,7 @@ limitations under the License.
 												<button type="button" id="CollDetailCtl1" class="col-2 d-block d-xl-none my-1 btn-link text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
 													show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 												</button>
-													<div id="CollDetail" class="col-9 px-0 mt-1 py-1 float-left" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-9 mt-1 py-1 float-left" style="#CollDetailStyle#">
                                                         <div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 px-1">
 																<cfif not isdefined("date_began_date")>
