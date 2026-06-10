@@ -1169,8 +1169,8 @@ limitations under the License.
 													show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 												</button>
 													<div id="CollDetail" class="col-9 px-0 py-1 float-left" style="#CollDetailStyle#">
-                                                        <div class="form-row col-12 col-md-12 mb-1 px-0 mx-0">
-															<div class="col-12 col-md-3">
+                                                        <div class="form-row col-12 mb-1 px-0 mx-0">
+															<div class="col-12 col-md-3 px-1">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
 																</cfif>
@@ -1178,7 +1178,7 @@ limitations under the License.
 																    <input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-3">
+															<div class="col-12 col-md-3 px-1">
 																<cfif not isdefined("date_ended_date")>
 																	<cfset date_ended_date="">
 																</cfif>
@@ -1186,7 +1186,7 @@ limitations under the License.
 																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
                                                                 </label>
 															</div>
-															<div class="col-12 col-md-6">
+															<div class="col-12 col-md-6 px-1">
 																<label for="verbatim_locality" class="data-entry-label smaller font-weight-bold">Verbatim Locality
 																    <cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
 																    <input type="text" class="data-entry-input inputHeight" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
