@@ -916,8 +916,7 @@ limitations under the License.
                                                                     </script>
                                                                 </label>
 															</div>
-														</div>
-														<div class="form-row col-12 col-md-12 px-0 mb-1 mx-0">
+													
 															<div class="col-12 col-md-2">
 																<label for="ocean_region" class="data-entry-label smaller font-weight-bold">Ocean Region
                                                                     <cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
@@ -974,8 +973,7 @@ limitations under the License.
                                                                     </script>
                                                                 </label>
 															</div>
-                                                        </div>
-                                                        <div class="form-row col-12 col-md-12 px-0 mb-1 mx-0">
+                                                       
 															<div class="col-12 col-md-3">
 																<label for="feature" class="data-entry-label smaller font-weight-bold">Land Feature
                                                                     <cfif not isdefined("feature")><cfset feature=""></cfif>
@@ -1025,8 +1023,7 @@ limitations under the License.
                                                                     </script>
                                                                 </label>
 															</div>
-                                                        </div>
-                                                         <div class="form-row col-12 col-md-12 px-0 mb-1 mx-0">
+                                                        
 															<div class="col-12 col-md-3">
 																<label for="min_depth_in_m" class="data-entry-label smaller font-weight-bold">Miniumum Depth (m)
 																    <cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
