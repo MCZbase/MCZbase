@@ -1151,7 +1151,7 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none m-1 d-xl-none py-0 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
-													<div id="CollDetail" class="col-12 px-0 py-3 py-xl-1" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-12 px-0 pt-2 pb-1 py-xl-1" style="#CollDetailStyle#">
                                                         <div class="form-row col-12 col-md-12 mb-1 mx-0">
 															<div class="col-12 col-md-3">
 																<cfif not isdefined("date_began_date")>
@@ -1258,7 +1258,7 @@ limitations under the License.
 														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-0 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
-													<div id="SpecDetail" class="col-12 px-0 py-3 py-xl-1" style="#SpecDetailStyle#">
+													<div id="SpecDetail" class="col-12 px-0 pt-2 pb-1 py-xl-1" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mx-0 mb-0">
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks
