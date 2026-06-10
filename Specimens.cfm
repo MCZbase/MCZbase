@@ -519,7 +519,7 @@ limitations under the License.
 													
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
-													<div id="IDDetail" class="col-12 px-0 py-3 py-xl-1" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-12 px-0 py-2" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 mx-0 mb-1">
                                                             <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -870,7 +870,7 @@ limitations under the License.
                                                         </label>
 													</div>
 													<button type="button" id="GeogDetailCtl1" class="d-block d-xl-none w-100 py-0 mb-1 btn-link text-center btn small" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-													<div id="GeogDetail" class="col-12 px-0 py-3 py-xl-1" style="#GeogDetailStyle#">
+													<div id="GeogDetail" class="col-12 px-0 py-2" style="#GeogDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
