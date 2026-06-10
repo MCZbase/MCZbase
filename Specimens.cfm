@@ -473,15 +473,16 @@ limitations under the License.
 														    <input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
                                                         </label>
 													</div>
-													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-														<!--- reserve space for debug json control --->
+                                                        			<!--- reserve space for debug json control --->
+									<!---				<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+											
 														<cfset other_id_type_cols="col-md-2">
 														<cfset other_id_number_cols="col-md-2">
 													<cfelse>
 														<cfset other_id_type_cols="col-md-3">
 														<cfset other_id_number_cols="col-md-3">
-													</cfif>
-													<div class="col-12 #other_id_type_cols#">
+													</cfif>--->
+													<div class="col-12 col-md-3 col-xl-2">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 														<label for="otherID" class="data-entry-label smaller font-weight-bold">Other ID Type
                                                             <div name="other_id_type" id="other_id_type" class="w-100"></div>
