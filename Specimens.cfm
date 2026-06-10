@@ -1275,7 +1275,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-                                                    <button type="button" id="SpecDetailCtl1" class="col-2 col-md-1 px-0 mx-1 d-block d-xl-none py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+                                                    <button type="button" id="SpecDetailCtl1" class="col-2 col-md-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
                                                         show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
                                                     </button>
 													<div id="SpecDetail" class="col-10 col-md-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
