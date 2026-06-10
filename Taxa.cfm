@@ -646,7 +646,7 @@ limitations under the License.
                                         <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
                                             <button type="button" class="btn btn-xs btn-warning my-1" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
                                         </cfif>
-                                        <p class="w-100 mb-0 float-right">Search Taxonomies in MCZbase. Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</p>
+                                        <p class="w-100 mb-0 float-right smaller">Search Taxonomies in MCZbase. Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</p>
                                     </div>
                                 </form>
                             </div>
