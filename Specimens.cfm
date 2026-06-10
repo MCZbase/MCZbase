@@ -432,7 +432,7 @@ limitations under the License.
 										<!---IDENTIFIER SECTION--->	
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
+														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -508,11 +508,11 @@ limitations under the License.
                                                         </label>
 													</div>
 													
-													<button type="button" id="IDDetailCtl1" class="col-2 col-md-1 px-0 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="col-2 col-md-1 px-0 d-block d-xl-none py-0 my-1 btn-link text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
                                         <!---IDENTIFIER DETAIL--->	
                                         <!---IDENTIFIER DETAIL--->		
 													<div id="IDDetail" class="col-10 col-md-11 px-0 py-2" style="#IDDetailStyle#">
-                                                        <div class="form-row col-12 mx-0">
+                                                        <div class="form-row col-12 px-0 mx-0">
                                                             <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
                                                                 <label for="otherID" class="data-entry-label smaller font-weight-bold">or Other ID Type
@@ -597,7 +597,7 @@ limitations under the License.
                                            <!---TAXONOMY SECTION--->	 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
-														<h2 class="small m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
+														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -645,7 +645,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 col-md-4 col-xl-3">
+													<div class="col-12 col-md-4 col-xl-2">
 														<label for="author_text" class="data-entry-label smaller font-weight-bold">Authorship
                                                             <cfif not isdefined("author_text")><cfset author_text=""></cfif>
                                                             <input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
@@ -848,7 +848,7 @@ limitations under the License.
                                          <!---GEOGRAPHY SECTION--->
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -1083,7 +1083,7 @@ limitations under the License.
                                         <!---COLLECTING EVENT SECTION--->
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small m-0 px-3 px-xl-2 py2px d-block border-right border-top border-left border-bottom bg-teal">Coll. Event</h2>
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px d-block border-right border-top border-left border-bottom bg-teal">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
@@ -1219,7 +1219,7 @@ limitations under the License.
                                             <!---SPECIMEN SECTION--->  
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
-														<h2 class="small m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Specimen</h2>
+														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
@@ -1275,7 +1275,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="col-2 col-md-1 px-0 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="col-2 col-md-1 px-0 mx-1 d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="SpecDetail" class="col-10 col-md-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
@@ -1458,7 +1458,7 @@ limitations under the License.
                                          <!---GENERAL SECTION---> 
 											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
                                                 <div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
-                                                    <h2 class="small m-0 px-3 px-xl-2 py2px text-left text-xl-right border-top border-right border-bottom border-left bg-teal">
+                                                    <h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px text-left text-xl-right border-top border-right border-bottom border-left bg-teal">
                                                         General
                                                     </h2>
                                                 </div>
@@ -1562,7 +1562,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
-														<h2 class="small mx-xl-0 px-3 px-xl-2 py2px m-0 text-left text-xl-right d-block border-top border-right border-bottom border-left bg-teal">
+														<h2 class="small font-weight-bold mx-xl-0 px-3 px-xl-2 py2px m-0 text-left text-xl-right d-block border-top border-right border-bottom border-left bg-teal">
 															Transactions
 														</h2>
 													</div>
