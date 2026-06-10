@@ -597,7 +597,7 @@ limitations under the License.
                                            <!---TAXONOMY SECTION--->	 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
-														<h2 class="small mx-0 mt-0 mb-0 py2px px-3 px-xl-2 d-block text-black border-top border-right border-bottom border-left font-weight-bold bg-teal">Taxonomy</h2>
+														<h2 class="small mx-0 mt-0 mb-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
