@@ -1165,7 +1165,7 @@ limitations under the License.
 													</div>
                                                         
                                                         
-												<button type="button" id="CollDetailCtl1" class="d-block d-xl-none w-100 py-0 my-1 btn-link text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
+												<button type="button" id="CollDetailCtl1" class="d-block d-xl-none py-0 my-1 btn-link text-left btn small" onclick="toggleCollDetail(#toggleTo#);">
 													show more collecting event fields <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 												</button>
 													<div id="CollDetail" class="col-12 px-0 py-2" style="#CollDetailStyle#">
