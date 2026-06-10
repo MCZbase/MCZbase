@@ -414,7 +414,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex" style="display: block;">
-											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
+											<div class="col-12 form-row mx-0 search-form-basic-odd px-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
