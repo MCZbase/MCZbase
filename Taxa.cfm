@@ -186,7 +186,7 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
 		<main id="content">
-          <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+          <cfif isdefined("session.roles") and listfindnocase(session.roles,"")>
                 <cftry>
                     
                       <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnA-SearchWiki border-0")#</cfoutput>
