@@ -672,7 +672,7 @@ limitations under the License.
                                                     </button>
 														
 													<div id="TaxaDetail" class="col-12 px-0 py-3 py-xl-1" style="#TaxaDetailStyle#">
-														<div class="form-row col-12 px-0 mx-0 mb-1">
+														<div class="form-row col-12 mx-0 mb-1">
 															<div class="col-12 col-md-2">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
