@@ -1165,10 +1165,10 @@ limitations under the License.
 													</div>
                                                         
                                                         
-												<button type="button" id="CollDetailCtl1" class="d-block d-xl-none py-0 my-1 btn-link text-left btn small float-left" onclick="toggleCollDetail(#toggleTo#);">
-													show more collecting event fields <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+												<button type="button" id="CollDetailCtl1" class="col-2 d-block d-xl-none my-1 btn-link text-left btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
+													show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 												</button>
-													<div id="CollDetail" class="col-12 px-0 py-2 float-left" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-9 px-0 py-2 float-left" style="#CollDetailStyle#">
                                                         <div class="form-row col-12 col-md-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3">
 																<cfif not isdefined("date_began_date")>
