@@ -512,8 +512,8 @@ limitations under the License.
                                         <!---IDENTIFIER DETAIL--->	
                                         <!---IDENTIFIER DETAIL--->		
 													<div id="IDDetail" class="col-9 col-md-10 col-lg-11 px-0 py-2" style="#IDDetailStyle#">
-                                                        <div class="form-row col-12 px-0 mx-0">
-                                                            <div class="col-12 col-md-3 mb-1">
+                                                        <div class="form-row col-12 px-1 mx-0">
+                                                            <div class="col-12 col-md-3 px-0 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
                                                                 <label for="otherID" class="data-entry-label smaller font-weight-bold">or Other ID Type
                                                                     <div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
@@ -541,14 +541,14 @@ limitations under the License.
                                                                     </script> 
                                                                 </label>
                                                             </div>
-                                                            <div class="col-12 col-md-3 mb-1">
+                                                            <div class="col-12 col-md-3 px-0 mb-1">
                                                                 <cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
                                                                 <label for="other_id_number_1" class="data-entry-label smaller font-weight-bold">Other ID Numbers
                                                                     <input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
                                                                 </label>
                                                             </div>
                                                             <cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-                                                                <div class="col-12 col-md-4 mb-1">
+                                                                <div class="col-12 col-md-4 px-0 mb-1">
                                                                     <label class="data-entry-label smaller font-weight-bold" for="debug1">Debug JSON
                                                                         <select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
                                                                             <option value=""></option>
