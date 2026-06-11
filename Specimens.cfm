@@ -938,9 +938,9 @@ limitations under the License.
                                                                 </label>
 															</div>
 															<div class="col-12 col-md-2 px-0 mb-1">
-																<label for="ocean_subregion" class="data-entry-label smaller font-weight-bold">Ocean Sub-Region
+																<label for="ocean_subregion" class="data-entry-label px-md-0 smaller font-weight-bold">Ocean Sub-Region
                                                                     <cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
-                                                                    <input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
+                                                                    <input type="text" class="data-entry-input inputHeight px-md-0" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
                                                                     <script>
                                                                         jQuery(document).ready(function() {
                                                                             makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
