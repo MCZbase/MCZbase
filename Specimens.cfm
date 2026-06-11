@@ -2474,7 +2474,7 @@ limitations under the License.
 																	</script> 
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type='button' onclick=' removeBuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
+																	<button type='button' onclick=' removeBuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-2 btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
 														</cfif>
