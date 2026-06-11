@@ -669,10 +669,10 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 												<!---TAXONOMY DETAIL--->
                                                 <!---TAXONOMY DETAIL--->
-													<div id="TaxaDetail" class="col-9 col-md-10 px-0 mt-1 py-1 float-left" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-2 mb-1">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
