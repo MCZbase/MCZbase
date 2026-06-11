@@ -1226,8 +1226,8 @@ limitations under the License.
 													</div>
 												</div>
 													
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 pb-2 mb-0 mx-0">
-													<div class="col-12 mb-1 col-md-3">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 mx-0">
+													<div class="col-12 mb-1 col-md-3 mb-1">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label smaller font-weight-bold">Part Name
 														    <input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
@@ -1238,7 +1238,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method" class="data-entry-label smaller font-weight-bold">Preserve Method
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -1251,7 +1251,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
 														<label for="biol_indiv_relationship" class="data-entry-label smaller font-weight-bold">Has Relationship
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
@@ -1264,7 +1264,7 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<div class="col-12 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 														<label for="media_type" class="data-entry-label smaller font-weight-bold">Media Type
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
