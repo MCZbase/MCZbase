@@ -2555,10 +2555,10 @@ limitations under the License.
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-6 col-md-1">';
+													newControls = newControls + '<div class="col-7 col-md-1">';
 													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<div class="col-6 col-md-1">';
 													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
 													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
 													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
