@@ -1418,7 +1418,7 @@ limitations under the License.
 				<cfelse>
 					<cfset isMixedCollection = false>
 				</cfif>
-				<table class="table px-0 table-responsive w-100 tablesection my-0">
+				<table class="table px-0 table-responsive-md w-100 tablesection my-0">
 					<thead class="thead-light">
 						<tr>
 							<th class="py-0"><span>Part</span></th>
