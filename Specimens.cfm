@@ -508,10 +508,10 @@ limitations under the License.
                                                         </label>
 													</div>
 													
-													<button type="button" id="IDDetailCtl1" class="col-3 col-md-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
                                         <!---IDENTIFIER DETAIL--->	
                                         <!---IDENTIFIER DETAIL--->		
-													<div id="IDDetail" class="col-9 col-md-11 px-0 py-2" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-9 col-md-10 px-0 py-2" style="#IDDetailStyle#">
                                                         <div class="form-row col-12 px-0 mx-0">
                                                             <div class="col-12 col-md-3 mb-1">
                                                                 <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -669,10 +669,10 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 												<!---TAXONOMY DETAIL--->
                                                 <!---TAXONOMY DETAIL--->
-													<div id="TaxaDetail" class="col-9 col-md-11 px-0 mt-1 py-1 float-left" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-9 col-md-10 px-0 mt-1 py-1 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-2 mb-1">
 																<label for="phylum" class="data-entry-label smaller font-weight-bold">Phylum
@@ -876,10 +876,10 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
+													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>
                                                     </button>
                                                         
-													<div id="GeogDetail" class="col-9 col-md-11 mt-1 px-0 py-1 float-left" style="#GeogDetailStyle#">
+													<div id="GeogDetail" class="col-9 col-md-10 col-lg-11 mt-1 px-0 py-1 float-left" style="#GeogDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
@@ -1163,10 +1163,10 @@ limitations under the License.
 													</div>
                                                         
                                                         
-												<button type="button" id="CollDetailCtl1" class="col-3 col-md-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
+												<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
 													show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 												</button>
-													<div id="CollDetail" class="col-9 col-md-11 px-0 mt-1 py-1 float-left" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#CollDetailStyle#">
                                                         <div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("date_began_date")>
@@ -1277,10 +1277,10 @@ limitations under the License.
                                                             </script>
                                                         </label>
 													</div>
-                                                    <button type="button" id="SpecDetailCtl1" class="col-3 col-md-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+                                                    <button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
                                                         show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
                                                     </button>
-													<div id="SpecDetail" class="col-9 col-md-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
+													<div id="SpecDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mx-0 mb-0 px-0">
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks
@@ -2089,15 +2089,15 @@ limitations under the License.
 								</div>
 							</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
-<!--- 
-Query:
-country = France
-and (family = 'Mustelidae' or family = 'Lophiidae')
-and collector = 'Brendan Haley'
+                                <!--- 
+                                Query:
+                                country = France
+                                and (family = 'Mustelidae' or family = 'Lophiidae')
+                                and collector = 'Brendan Haley'
 
-Target JSON:
- [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
---->
+                                Target JSON:
+                                 [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
+                                --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
 									<div class="d-flex justify-content-end px-0"> 
