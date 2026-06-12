@@ -1029,6 +1029,17 @@ limitations under the License.
 						$('##showhide').html('<button class="my-0 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','taxon record');
 						loadColumnOrder('searchResultsGrid');
+                        
+                        <!--- scroll to results after grid is loaded --->
+                        <cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+                            if ($(window).width() <= 900) {
+                                // small screens: scroll a bit less
+                                $('html, body').scrollTop($('##searchResultsGrid').offset().top - 50);
+                            } else {
+                                // larger screens: scroll a bit more
+                                $('html, body').scrollTop($('##searchResultsGrid').offset().top - 120);
+                            }
+                        </cfif>
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
