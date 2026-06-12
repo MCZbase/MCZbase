@@ -3790,53 +3790,35 @@ and also iPads specifically.
         margin-top: 0;
         position: absolute;
         overflow: hidden;
-        /* Only bottom-left and bottom-right rounded */
-        border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+        border-radius: 0 0 6px 6px; 
     }
     button.help-btnSp-SearchWiki {
       background-color: #1b1b1b;
       color: white;
       float: right;
-
       box-sizing: border-box;
       border: none;
       -webkit-appearance: none;
       -moz-appearance: none;
-
-
       -webkit-backface-visibility: hidden;
       transform: translateX(-98%) rotate(90deg);
       transform-origin: right top;
-
       -webkit-transform: translateX(-98%) rotate(90deg);
       -webkit-transform-origin: right top;
       -moz-transform: translateX(-98%) rotate(90deg);
       -moz-transform-origin: right top;
       -o-transform: translateX(-98%) rotate(90deg);
       -o-transform-origin: right top;
-
       position: absolute;
       top: 11.5rem;
       right: -111px;
       z-index: 1;
-
       padding: 0.5rem 0.75rem;
       line-height: 1;         
-
       font-size: 13.5px;
       margin: 0;
       overflow: hidden;
       border-radius: 0 0 6px 6px;
-    }
-    /* Firefox-only override */
-    @-moz-document url-prefix() {
-        button.help-btnSp-SearchWiki {
-          position: fixed;       /* instead of absolute inside the scroll area */
-          right: 0;              /* stick to viewport edge, not in scrollbar lane */
-          top: 11.5rem;
-          transform: translateX(50%) rotate(90deg);
-          transform-origin: right top;
-       }
     }
 }
 @media screen and (max-width: 480px) {
