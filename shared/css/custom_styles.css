@@ -3831,6 +3831,13 @@ and also iPads specifically.
       overflow: hidden;
       border-radius: 0 0 6px 6px;
     }
+    @supports (-moz-appearance: none) {
+      button.help-btnSp-SearchWiki {
+      right: -105px;        /* move it a bit more right in Firefox */
+      /* or also adjust padding if needed */
+      padding-right: 1rem;
+      }
+    }
 }
 @media screen and (max-width: 480px) {
 	#map {
