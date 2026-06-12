@@ -3794,7 +3794,7 @@ and also iPads specifically.
         border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     }
     button.help-btnSp-SearchWiki {
-/*      background-color: #1b1b1b;
+      background-color: #1b1b1b;
       color: white;
       float: right;
 
@@ -3826,7 +3826,7 @@ and also iPads specifically.
       font-size: 13.5px;
       margin: 0;
       overflow: hidden;
-      border-radius: 0 0 6px 6px;*/
+      border-radius: 0 0 6px 6px;
     }
     button.help-btnSp-SearchWiki {
       position: fixed;       /* instead of absolute inside the scroll area */
