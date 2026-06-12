@@ -540,7 +540,13 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				lookupColumnVisibilities ('#cgi.script_name#','Default');
 			</cfif>
-
+            <cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+                if (document <= 900){
+                    $(document).scrollTop(200);
+                } else {
+                    $(document).scrollTop(480);
+                }
+            </cfif>
 			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
 			var columnOrderLoading = 0
 	
@@ -1036,13 +1042,7 @@ limitations under the License.
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-0 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 				$('##selectModeContainer').show();
 			}
-            <cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-                if (document <= 900){
-                    $(document).scrollTop(200);
-                } else {
-                    $(document).scrollTop(480);
-                }
-            </cfif>
+        
 		</script> 
         
 	</cfoutput>
