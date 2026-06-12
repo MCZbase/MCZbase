@@ -3831,11 +3831,10 @@ and also iPads specifically.
       overflow: hidden;
       border-radius: 0 0 6px 6px;
     }
-    @supports (-moz-appearance: none) {
+    @-moz-document url-prefix() {
       button.help-btnSp-SearchWiki {
       right: -105px;        /* move it a bit more right in Firefox */
-      /* or also adjust padding if needed */
-          background-color: red;
+      background-color: red;
       }
     }
 }
