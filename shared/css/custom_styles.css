@@ -3794,22 +3794,20 @@ and also iPads specifically.
         border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     }
     button.help-btnSp-SearchWiki {
-      background-color: #1b1b1b;
+/*      background-color: #1b1b1b;
       color: white;
       float: right;
 
-      /* Normalize box/appearance */
       box-sizing: border-box;
       border: none;
       -webkit-appearance: none;
       -moz-appearance: none;
 
-      /* Transform */
+
       -webkit-backface-visibility: hidden;
       transform: translateX(-98%) rotate(90deg);
       transform-origin: right top;
 
-      /* Older vendor prefixes (optional if you still support very old browsers) */
       -webkit-transform: translateX(-98%) rotate(90deg);
       -webkit-transform-origin: right top;
       -moz-transform: translateX(-98%) rotate(90deg);
@@ -3822,20 +3820,20 @@ and also iPads specifically.
       right: -111px;
       z-index: 1;
 
-      /* Use symmetric padding + fixed line-height for more consistent size */
       padding: 0.5rem 0.75rem;
-      line-height: 1;          /* important for cross‑browser consistency */
+      line-height: 1;         
 
       font-size: 13.5px;
       margin: 0;
       overflow: hidden;
-      border-radius: 0 0 6px 6px;
+      border-radius: 0 0 6px 6px;*/
     }
-    @-moz-document url-prefix() {
-      button.help-btnSp-SearchWiki {
-      right: -105px;        /* move it a bit more right in Firefox */
-      background-color: red;
-      }
+    button.help-btnSp-SearchWiki {
+      position: fixed;       /* instead of absolute inside the scroll area */
+      right: 0;              /* stick to viewport edge, not in scrollbar lane */
+      top: 11.5rem;
+      transform: translateX(50%) rotate(90deg);
+      transform-origin: right top;
     }
 }
 @media screen and (max-width: 480px) {
