@@ -3828,12 +3828,15 @@ and also iPads specifically.
       overflow: hidden;
       border-radius: 0 0 6px 6px;
     }
-    button.help-btnSp-SearchWiki {
-      position: fixed;       /* instead of absolute inside the scroll area */
-      right: 0;              /* stick to viewport edge, not in scrollbar lane */
-      top: 11.5rem;
-      transform: translateX(50%) rotate(90deg);
-      transform-origin: right top;
+    /* Firefox-only override */
+    @-moz-document url-prefix() {
+        button.help-btnSp-SearchWiki {
+          position: fixed;       /* instead of absolute inside the scroll area */
+          right: 0;              /* stick to viewport edge, not in scrollbar lane */
+          top: 11.5rem;
+          transform: translateX(50%) rotate(90deg);
+          transform-origin: right top;
+       }
     }
 }
 @media screen and (max-width: 480px) {
