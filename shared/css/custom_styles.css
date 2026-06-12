@@ -3835,7 +3835,7 @@ and also iPads specifically.
       button.help-btnSp-SearchWiki {
       right: -105px;        /* move it a bit more right in Firefox */
       /* or also adjust padding if needed */
-      padding-right: 1rem;
+          background-color: red;
       }
     }
 }
