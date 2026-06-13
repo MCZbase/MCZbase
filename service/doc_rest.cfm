@@ -8,7 +8,7 @@
 			search_hint
 		from 
 			documentation 
-		where lower(colname) = ( '#lcase(fld)#' )
+		where lower(colname) = <cfqueryparam value="#lcase(fld)#" cfsqltype="cf_sql_varchar">
 	</cfquery>
 	<cfoutput>
 		<cfsavecontent variable="response"><div position="relative"><cfif #addCtl# is "1"><span class="docControl" onclick="removeHelpDiv()">X</span></cfif><cfif data.recordcount is 1><div class="docTitle">#data.display_name#</div><div class="docDef">#data.definition#</div><div class="docSrchTip">#data.search_hint#</div><cfif len(#data.more_info#) gt 0><a class="docMoreInfo" href="#data.more_info#" <cfif #addCtl# is "1">target="_docMoreWin" onclick="removeHelpDiv()"</cfif>>More Information</div></cfif><cfelse><div class="docTitle">No documentation is available for #fld#.</div></cfif></div></cfsavecontent>
