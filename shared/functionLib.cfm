@@ -395,3 +395,47 @@ limitations under the License.
 	<cfreturn LOCAL.Return />
 
 </cffunction>
+                
+                
+                
+<cffunction name="getOrCreateStaticMapForLocality" access="public" returntype="string">
+  <cfargument name="locality_id"  type="numeric" required="true">
+  <cfargument name="lat"          type="numeric" required="true">
+  <cfargument name="lng"          type="numeric" required="true">
+  <cfargument name="forceRefresh" type="boolean" required="false" default="false">
+
+  <cfset var mapWidth    = 400>
+  <cfset var mapHeight   = 300>
+  <cfset var zoom        = 10>
+  <cfset var mapDir      = expandPath("/cache/static_maps/")>
+  <cfset var mapFileName = "locality-#arguments.locality_id#.jpg">
+  <cfset var mapFilePath = mapDir & mapFileName>
+  <cfset var mapUrl      = "/cache/static_maps/#mapFileName#">
+  <cfset var apiKey      = application.gmap_api_key>
+  <cfset var staticUrl   = "">
+  <cfset var httpRes     = "">
+
+  <!-- If map already exists and no refresh requested, use it -->
+  <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
+    <cfreturn mapUrl>
+  </cfif>
+
+  <!-- Build Google static maps URL -->
+  <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
+      & "?center=#arguments.lat#,#arguments.lng#"
+      & "&zoom=#zoom#"
+      & "&size=#mapWidth#x#mapHeight#"
+      & "&maptype=terrain"
+      & "&markers=color:red|#arguments.lat#,#arguments.lng#"
+      & "&key=#apiKey#">
+
+  <!-- Fetch image -->
+  <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
+
+  <cfif httpRes.statusCode CONTAINS "200">
+    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
+    <cfreturn mapUrl>
+  <cfelse>
+    <cfreturn "/shared/images/map-placeholder.jpg">
+  </cfif>
+</cffunction>
