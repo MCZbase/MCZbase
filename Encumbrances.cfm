@@ -181,6 +181,36 @@ from this file.
 
 <cfoutput>
 <main class="#variables.mainClass#" id="content">
+	<!--- Page-level JS helpers that are not provided by /shared/_header.cfm.
+	     These replace legacy functions previously supplied by includes/ajax.js. --->
+	<script>
+		/**
+		 * Opens the MCZbase / Arctos documentation for the given page and anchor.
+		 * Replaces the legacy getDocs() function from includes/ajax.js.
+		 * @param {string} docPage  Documentation page name (e.g. 'encumbrance').
+		 * @param {string} anchor   Optional anchor within the page (e.g. 'encumbrancer').
+		 */
+		function getDocs(docPage, anchor) {
+			var url = "http://g-arctos.appspot.com/arctosdoc/" + docPage + ".html";
+			if (anchor) { url += "##" + anchor; }
+			window.open(url, "HelpWin", "width=700,height=400,resizable,scrollbars,location,toolbar");
+		}
+
+		/**
+		 * Removes a single specimen from an encumbrance by opening the legacy
+		 * pick popup.  Replaces the legacy deleteEncumbrance() from includes/ajax.js.
+		 * After the popup completes the user clicks the reload link inside the popup
+		 * to refresh this page.
+		 * @param {number} encumbranceId       The encumbrance_id to remove.
+		 * @param {number} collectionObjectId  The collection_object_id to remove from the encumbrance.
+		 */
+		function deleteEncumbranceFromSpecimen(encumbranceId, collectionObjectId) {
+			var url = "/picks/DeleteEncumbrance.cfm?encumbrance_id=" + encumbranceId
+				+ "&collection_object_id=" + collectionObjectId;
+			window.open(url, "deleteEncumbranceWin",
+				"width=400,height=338,toolbar,location,status,menubar,resizable,scrollbars");
+		}
+	</script>
 	<cfswitch expression="#variables.action#">
 
 		<!--- ================================================================
@@ -233,12 +263,12 @@ from this file.
 											<option value=""></option>
 											<cfloop query="ctEncAct">
 												<cfif variables.encumbrance_action EQ ctEncAct.encumbrance_action>
-													<cfset local.selected = "selected">
+													<cfset variables.encActSelected = "selected">
 												<cfelse>
-													<cfset local.selected = "">
+													<cfset variables.encActSelected = "">
 												</cfif>
 												<option value="#encodeForHTML(ctEncAct.encumbrance_action)#"
-													#local.selected#>
+													#variables.encActSelected#>
 													#encodeForHTML(ctEncAct.encumbrance_action)#
 												</option>
 											</cfloop>
@@ -299,7 +329,7 @@ from this file.
 									<div class="col-12">
 										<button type="submit" class="btn btn-xs btn-primary">Search</button>
 										<a href="/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Reset</a>
-										<a href="/Encumbrances.cfm?action=create"
+										<a href="/Encumbrances.cfm?action=create<cfif len(variables.collection_object_id) GT 0>&amp;collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>"
 											class="btn btn-xs btn-secondary ml-1">
 											Create New Encumbrance
 										</a>
@@ -342,10 +372,14 @@ from this file.
 						value="#encodeForHTML(variables.collection_object_id)#">
 					<div class="form-row">
 						<div class="col-12 col-md-6 mb-2">
-							<label for="encumberingAgent" class="data-entry-label">
-								Encumbering Agent
-								<span class="text-danger" aria-hidden="true">*</span>
-							</label>
+							<span class="d-block">
+								<label for="encumberingAgent" class="data-entry-label w-auto d-inline">
+									Encumbering Agent
+									<span class="text-danger" aria-hidden="true">*</span>
+									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								</label>
+								<span id="agentViewCreate" class="d-inline ml-1"></span>
+							</span>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text smaller" id="agentIconCreate">
@@ -357,11 +391,13 @@ from this file.
 									required
 									aria-required="true"
 									class="form-control data-entry-input"
-									onchange="getAgent('encumberingAgentId','encumberingAgent','encumberCreateForm',this.value); return false;"
-									onKeyPress="return noenter(event);"
-									autocomplete="off"
 									aria-describedby="agentIconCreate">
 							</div>
+							<script>
+								$(document).ready(function() {
+									makeRichAgentPicker('encumberingAgent', 'encumberingAgentId', 'agentIconCreate', 'agentViewCreate', '');
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-3 mb-2">
 							<label for="made_date" class="data-entry-label">
@@ -378,6 +414,7 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_date" class="data-entry-label">
 								Expiration Date
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_date" id="expiration_date"
 								class="data-entry-input col-12">
@@ -385,6 +422,7 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_event" class="data-entry-label">
 								Expiration Event
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_event" id="expiration_event"
 								class="data-entry-input col-12">
@@ -395,6 +433,7 @@ from this file.
 							<label for="encumbranceNameCreate" class="data-entry-label">
 								Encumbrance Name
 								<span class="text-danger" aria-hidden="true">*</span>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="encumbrance" id="encumbranceNameCreate"
 								required
@@ -432,7 +471,8 @@ from this file.
 								onclick="return validateCreateEncumbranceForm();">
 								Create Encumbrance
 							</button>
-							<a href="/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">
+							<a href="/Encumbrances.cfm<cfif len(variables.collection_object_id) GT 0>?action=entryPoint&amp;collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>"
+								class="btn btn-xs btn-warning ml-1">
 								Cancel
 							</a>
 						</div>
@@ -520,7 +560,7 @@ from this file.
 					</cfif>
 				)
 			</cfquery>
-			<cflocation url="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#nextEncumbrance.nextEncumbrance#" addtoken="false">
+			<cflocation url="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#nextEncumbrance.nextEncumbrance#<cfif len(variables.collection_object_id) GT 0>&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
@@ -597,7 +637,7 @@ from this file.
 			<section class="row mx-0 mt-2 mb-2">
 				<div class="col-12">
 					<h1 class="h3 mb-2">Encumbrance Search Results</h1>
-					<a href="/Encumbrances.cfm" class="btn btn-xs btn-secondary mb-3">
+					<a href="/Encumbrances.cfm<cfif len(variables.collection_object_id) GT 0>?action=entryPoint&amp;collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>" class="btn btn-xs btn-secondary mb-3">
 						<i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Search
 					</a>
 					<cfif getEnc.recordcount EQ 0>
@@ -623,10 +663,10 @@ from this file.
 								</tr>
 							</thead>
 							<tbody>
-								<cfset local.rowNum = 1>
+								<cfset variables.rowNum = 1>
 								<cfloop query="getEnc">
 									<tr>
-										<td>#local.rowNum#</td>
+										<td>#variables.rowNum#</td>
 										<td>#encodeForHTML(getEnc.encumbrance)#</td>
 										<td>#encodeForHTML(getEnc.encumbrance_action)#</td>
 										<td>#encodeForHTML(getEnc.agent_name)#</td>
@@ -682,7 +722,7 @@ from this file.
 											</a>
 										</td>
 									</tr>
-									<cfset local.rowNum = local.rowNum + 1>
+									<cfset variables.rowNum = variables.rowNum + 1>
 								</cfloop>
 							</tbody>
 						</table>
@@ -794,13 +834,13 @@ from this file.
 				<cfabort>
 			</cfif>
 			<!--- Pre-format dates; isDate() guards against null database values. --->
-			<cfset local.editMadeDate = "">
+			<cfset variables.editMadeDate = "">
 			<cfif isDate(encDetails.made_date)>
-				<cfset local.editMadeDate = dateformat(encDetails.made_date,"yyyy-mm-dd")>
+				<cfset variables.editMadeDate = dateformat(encDetails.made_date,"yyyy-mm-dd")>
 			</cfif>
-			<cfset local.editExpDate = "">
+			<cfset variables.editExpDate = "">
 			<cfif isDate(encDetails.expiration_date)>
-				<cfset local.editExpDate = dateformat(encDetails.expiration_date,"yyyy-mm-dd")>
+				<cfset variables.editExpDate = dateformat(encDetails.expiration_date,"yyyy-mm-dd")>
 			</cfif>
 			<section class="row border rounded my-2 mx-1">
 				<div class="col-12">
@@ -822,10 +862,14 @@ from this file.
 						value="#encodeForHTML(variables.collection_object_id)#">
 					<div class="form-row">
 						<div class="col-12 col-md-6 mb-2">
-							<label for="encumberingAgentEdit" class="data-entry-label">
-								Encumbering Agent
-								<span class="text-danger" aria-hidden="true">*</span>
-							</label>
+							<span class="d-block">
+								<label for="encumberingAgentEdit" class="data-entry-label w-auto d-inline">
+									Encumbering Agent
+									<span class="text-danger" aria-hidden="true">*</span>
+									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								</label>
+								<span id="agentViewEdit" class="d-inline ml-1"></span>
+							</span>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text smaller" id="agentIconEdit">
@@ -837,31 +881,35 @@ from this file.
 								<input type="text" name="encumberingAgent" id="encumberingAgentEdit"
 									class="form-control data-entry-input"
 									value="#encodeForHTML(encDetails.agent_name)#"
-									onchange="getAgent('encumberingAgentId','encumberingAgentEdit','updateEncumbranceForm',this.value); return false;"
-									onKeyPress="return noenter(event);"
-									autocomplete="off"
 									aria-describedby="agentIconEdit">
 							</div>
+							<script>
+								$(document).ready(function() {
+									makeRichAgentPicker('encumberingAgentEdit', 'encumberingAgentId', 'agentIconEdit', 'agentViewEdit', '#val(encDetails.encumbering_agent_id)#');
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-3 mb-2">
 							<label for="made_date" class="data-entry-label">Made Date</label>
 							<input type="text" name="made_date" id="made_date"
-								value="#encodeForHTML(local.editMadeDate)#"
+								value="#encodeForHTML(variables.editMadeDate)#"
 								class="data-entry-input col-12">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-3 mb-2">
-							<label for="expiration_date" class="data-entry-label">
+						<label for="expiration_date" class="data-entry-label">
 								Expiration Date
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_date" id="expiration_date"
-								value="#encodeForHTML(local.editExpDate)#"
+								value="#encodeForHTML(variables.editExpDate)#"
 								class="data-entry-input col-12">
 						</div>
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_event" class="data-entry-label">
 								Expiration Event
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_event" id="expiration_event"
 								value="#encodeForHTML(encDetails.expiration_event)#"
@@ -873,6 +921,7 @@ from this file.
 							<label for="encumbranceNameEdit" class="data-entry-label">
 								Encumbrance Name
 								<span class="text-danger" aria-hidden="true">*</span>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="encumbrance" id="encumbranceNameEdit"
 								value="#encodeForHTML(encDetails.encumbrance)#"
@@ -887,12 +936,12 @@ from this file.
 								class="data-entry-select col-12">
 								<cfloop query="ctEncAct">
 									<cfif ctEncAct.encumbrance_action EQ encDetails.encumbrance_action>
-										<cfset local.editSelected = "selected">
+										<cfset variables.encActEditSelected = "selected">
 									<cfelse>
-										<cfset local.editSelected = "">
+										<cfset variables.encActEditSelected = "">
 									</cfif>
 									<option value="#encodeForHTML(ctEncAct.encumbrance_action)#"
-										#local.editSelected#>
+										#variables.encActEditSelected#>
 										#encodeForHTML(ctEncAct.encumbrance_action)#
 									</option>
 								</cfloop>
@@ -928,10 +977,16 @@ from this file.
 
 				/**
 				 * Validates the edit encumbrance form before submission.
-				 * Checks that expiration date and expiration event are not both specified.
+				 * Validates the edit encumbrance form before submission.
+				 * Checks that the encumbering agent has been resolved to a valid database id,
+				 * and that expiration date and expiration event are not both specified.
 				 * @return {boolean} false if validation fails, true otherwise.
 				 */
 				function validateEditEncumbranceForm() {
+					if ($('##encumberingAgentId').val() === "") {
+						alert("Error: You must pick an Encumbering Agent from the list.");
+						return false;
+					}
 					if ($('##expiration_date').val() !== "" && $('##expiration_event').val() !== "") {
 						alert("Error: You may specify an expiration event or an expiration date, but not both.");
 						return false;
@@ -1210,11 +1265,12 @@ from this file.
 												#encodeForHTML(encs.expiration_event)#
 												#encodeForHTML(encs.enc_remarks)#
 											</span>
-											<!--- deleteEncumbrance() is a framework JS function that removes a
-											     single specimen from an encumbrance. Parameters are passed as
+											<!--- deleteEncumbranceFromSpecimen() is a local JS function defined at the top
+											     of this page that removes a single specimen from an encumbrance
+											     by opening the legacy pick popup. Parameters are passed as
 											     numbers via val() to match the expected function signature. --->
 											<button type="button" class="btn btn-xs btn-warning mb-1"
-												onclick="deleteEncumbrance(#val(encs.encumbrance_id)#, #val(collection_object_id)#);">
+												onclick="deleteEncumbranceFromSpecimen(#val(encs.encumbrance_id)#, #val(collection_object_id)#);">
 												Remove This Encumbrance
 											</button>
 										<cfelse>
