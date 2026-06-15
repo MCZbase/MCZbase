@@ -2729,7 +2729,48 @@ limitations under the License.
 	<cfthread action="join" name="getTransactionsThread" />
 	<cfreturn getTransactionsThread.output>
 </cffunction>
-						
+
+                        
+                        
+<cffunction name="getOrCreateStaticMapForLocality"
+           access="public"
+           returntype="string"
+           output="false">
+  <cfargument name="locality_id"  type="numeric" required="true">
+  <cfargument name="lat"          type="numeric" required="true">
+  <cfargument name="lng"          type="numeric" required="true">
+  <cfargument name="forceRefresh" type="boolean" required="false" default="false">
+
+  <cfset var mapWidth  = 400>
+  <cfset var mapHeight = 300>
+  <cfset var zoom      = 10>
+
+  <cfset var mapDir      = expandPath("/cache/static_maps/")> <!-- or your final folder -->
+  <cfset var mapFileName = "locality-#arguments.locality_id#.jpg">
+  <cfset var mapFilePath = mapDir & mapFileName>
+  <cfset var mapUrl      = "/cache/static_maps/#mapFileName#">
+
+  <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
+    <cfreturn mapUrl>
+  </cfif>
+
+  <cfset var apiKey    = application.gmap_api_key>
+  <cfset var staticUrl = "https://maps.googleapis.com/maps/api/staticmap" &
+      "?center=#arguments.lat#,#arguments.lng#" &
+      "&zoom=#zoom#&size=#mapWidth#x#mapHeight#" &
+      "&maptype=terrain" &
+      "&markers=color:red|#arguments.lat#,#arguments.lng#" &
+      "&key=#apiKey#">
+
+  <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
+
+  <cfif httpRes.statusCode CONTAINS "200">
+    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
+    <cfreturn mapUrl>
+  <cfelse>
+    <cfreturn "/images/map-placeholder.jpg">
+  </cfif>
+</cffunction>
 <!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
  geography information for a specified cataloged item
  @param collection_object_id for the cataloged item for which to return spatial/temporal information.
@@ -3036,85 +3077,69 @@ limitations under the License.
 				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0 AND coordlookup.dec_lat NEQ "[Masked]">
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
-                         <!-- Get or create static thumbnail for this locality -->
-                            <cfset sharedFuncs  = createObject("component", "/shared/functions.cfc")>
-                            <cfset staticMapUrl = sharedFuncs.getOrCreateStaticMapForLocality(
-                                locality_id = loc_collevent.locality_id,
-                                lat         = coordlookup.dec_lat,
-                                lng         = coordlookup.dec_long
-                            )>
+                        <!-- call the helper function defined in this same CFC -->
+                    <cfset staticMapUrl = getOrCreateStaticMapForLocality(
+                        locality_id = loc_collevent.locality_id,
+                        lat         = coordlookup.dec_lat,
+                        lng         = coordlookup.dec_long
+                    )>
 
-                            <div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-                              <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;position:relative;">
-                                <!-- Static thumbnail always shown -->
-                                <img
-                                  id="static-map-#loc_collevent.locality_id#"
-                                  src="#encodeForHtmlAttribute(staticMapUrl)#"
-                                  alt="Map of specimen collection locality #loc_collevent.locality_id#"
-                                  style="width:100%;height:100%;object-fit:cover;cursor:pointer;"
-                                >
+                    <div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
+                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;position:relative;">
+                        <!-- Static thumbnail always shown -->
+                        <img
+                          id="static-map-#loc_collevent.locality_id#"
+                          src="#encodeForHtmlAttribute(staticMapUrl)#"
+                          alt="Map of specimen collection locality #loc_collevent.locality_id#"
+                          style="width:100%;height:100%;object-fit:cover;cursor:pointer;"
+                        >
 
-                                <!-- Interactive map, hidden until user interacts -->
-                                <div
-                                  id="mapdiv_#loc_collevent.locality_id#"
-                                  style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;"
-                                  aria-label="Google Map of specimen collection location">
-                                </div>
-                              </div>
+                        <!-- Interactive map, hidden until user interacts -->
+                        <div
+                          id="mapdiv_#loc_collevent.locality_id#"
+                          style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;"
+                          aria-label="Google Map of specimen collection location">
+                        </div>
+                      </div>
 
-                              <!-- Lazy-load interactive Google Map on hover/click -->
-                              <script>
-                              (function() {
-                                var localityId = "#loc_collevent.locality_id#";
-                                var lat        = #coordlookup.dec_lat#;
-                                var lng        = #coordlookup.dec_long#;
-                                var staticImg  = document.getElementById("static-map-" + localityId);
-                                var mapDiv     = document.getElementById("mapdiv_" + localityId);
-                                var loaded     = false;
+                      <!-- Lazy-load interactive Google Map on hover/click -->
+                      <script>
+                      (function() {
+                        var localityId = "#loc_collevent.locality_id#";
+                        var lat        = #coordlookup.dec_lat#;
+                        var lng        = #coordlookup.dec_long#;
+                        var staticImg  = document.getElementById("static-map-" + localityId);
+                        var mapDiv     = document.getElementById("mapdiv_" + localityId);
+                        var loaded     = false;
 
-                                function loadInteractiveMap() {
-                                  if (loaded) return;
-                                  loaded = true;
+                        function loadInteractiveMap() {
+                          if (loaded) return;
+                          loaded = true;
 
-                                  mapDiv.style.display = "block";
-                                  staticImg.style.opacity = "0.0"; // optional fade-out
+                          mapDiv.style.display = "block";
+                          staticImg.style.opacity = "0.0"; // optional fade-out
 
-                                  var script = document.createElement("script");
-                                  script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initLocalityMap_" + localityId;
-                                  script.async = true;
-                                  document.head.appendChild(script);
-                                }
+                          var script = document.createElement("script");
+                          script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initLocalityMap_" + localityId;
+                          script.async = true;
+                          document.head.appendChild(script);
+                        }
 
-                                window["initLocalityMap_" + localityId] = function() {
-                                  new google.maps.Map(mapDiv, {
-                                    center: { lat: lat, lng: lng },
-                                    zoom: 10
-                                  });
-                                };
+                        window["initLocalityMap_" + localityId] = function() {
+                          new google.maps.Map(mapDiv, {
+                            center: { lat: lat, lng: lng },
+                            zoom: 10
+                          });
+                        };
 
-                                staticImg.addEventListener("mouseenter", loadInteractiveMap);
-                                staticImg.addEventListener("click", loadInteractiveMap);
-                              })();
-                              </script>
-                            </div>
-                                
-					<!---
-                    REMOVED for STATIC mask test
-                    <script>
-						jQuery(document).ready(function() {
-							localityMapSetup();
-						});
-					</script>
-					<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-						<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
-						
-						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#loc_collevent.locality_id#" value="#coordlookup.coordinateuncertaintyinmeters#">
-						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;" aria-label="Google Map of specimen collection location"></div>
-					</div>--->
-				<cfelse>
-					<cfset leftOfMapClass = "col-12">
-				</cfif>
+                        staticImg.addEventListener("mouseenter", loadInteractiveMap);
+                        staticImg.addEventListener("click", loadInteractiveMap);
+                      })();
+                      </script>
+                    </div>
+                <cfelse>
+                    <cfset leftOfMapClass = "col-12">
+                </cfif>
 				<div class="#leftOfMapClass# px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
 						<cfif len(loc_collevent.continent_ocean) gt 0>
