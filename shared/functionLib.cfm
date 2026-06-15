@@ -438,4 +438,5 @@ limitations under the License.
   <cfelse>
     <cfreturn "/shared/images/map-placeholder.jpg">
   </cfif>
+      <cfdump var="#mapFilePath#" label="DEBUG mapFilePath">
 </cffunction>
