@@ -185,15 +185,17 @@ from this file.
 	     These replace legacy functions previously supplied by includes/ajax.js. --->
 	<script>
 		/**
-		 * Opens the MCZbase / Arctos documentation for the given page and anchor.
-		 * Replaces the legacy getDocs() function from includes/ajax.js.
-		 * @param {string} docPage  Documentation page name (e.g. 'encumbrance').
-		 * @param {string} anchor   Optional anchor within the page (e.g. 'encumbrancer').
+		 * Opens the MCZbase wiki documentation for the given page and anchor.
+		 * Uses the MCZbase wiki at code.mcz.harvard.edu, consistent with the
+		 * updated getDocs implementation in includes/alwaysInclude.cfm and
+		 * shared/js/internal-scripts.js.
+		 * @param {string} docPage  Wiki page name (e.g. 'encumbrance').
+		 * @param {string} anchor   Optional anchor/section within the page (e.g. 'encumbrancer').
 		 */
 		function getDocs(docPage, anchor) {
-			var url = "http://g-arctos.appspot.com/arctosdoc/" + docPage + ".html";
+			var url = "https://code.mcz.harvard.edu/wiki/index.php/" + docPage;
 			if (anchor) { url += "##" + anchor; }
-			window.open(url, "HelpWin", "width=700,height=400,resizable,scrollbars,location,toolbar");
+			window.open(url, "HelpWin", "width=1024,height=640,resizable,scrollbars,location,toolbar");
 		}
 
 		/**
