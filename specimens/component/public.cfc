@@ -3078,7 +3078,64 @@ limitations under the License.
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
                         <!-- call the helper function defined in this same CFC -->
-                   
+                    <cfset staticMapUrl = getOrCreateStaticMapForLocality(
+                        locality_id = loc_collevent.locality_id,
+                        lat         = coordlookup.dec_lat,
+                        lng         = coordlookup.dec_long
+                    )>
+
+                    <div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
+                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;position:relative;">
+                        <!-- Static thumbnail always shown -->
+                        <img
+                          id="static-map-#loc_collevent.locality_id#"
+                          src="#encodeForHtmlAttribute(staticMapUrl)#"
+                          alt="Map of specimen collection locality #loc_collevent.locality_id#"
+                          style="width:100%;height:100%;object-fit:cover;cursor:pointer;"
+                        >
+
+                        <!-- Interactive map, hidden until user interacts -->
+                        <div
+                          id="mapdiv_#loc_collevent.locality_id#"
+                          style="position:relative;top:0;left:0;width:100%;height:100%;display:none;"
+                          aria-label="Google Map of specimen collection location">
+                        </div>
+                      </div>
+
+                      <!-- Lazy-load interactive Google Map on hover/click -->
+                      <script>
+                      (function() {
+                        var localityId = "#loc_collevent.locality_id#";
+                        var lat        = #coordlookup.dec_lat#;
+                        var lng        = #coordlookup.dec_long#;
+                        var staticImg  = document.getElementById("static-map-" + localityId);
+                        var mapDiv     = document.getElementById("mapdiv_" + localityId);
+                        var loaded     = false;
+
+                        function loadInteractiveMap() {
+                          if (loaded) return;
+                          loaded = true;
+
+                          mapDiv.style.display = "block";
+                          staticImg.style.opacity = "0.0"; // optional fade-out
+
+                          var script = document.createElement("script");
+                          script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initLocalityMap_" + localityId;
+                          script.async = true;
+                          document.head.appendChild(script);
+                        }
+
+                        window["initLocalityMap_" + localityId] = function() {
+                          new google.maps.Map(mapDiv, {
+                            center: { lat: lat, lng: lng },
+                            zoom: 10
+                          });
+                        };
+
+                        staticImg.addEventListener("mouseenter", loadInteractiveMap);
+                        staticImg.addEventListener("click", loadInteractiveMap);
+                      })();
+                      </script>
                     </div>
                 <cfelse>
                     <cfset leftOfMapClass = "col-12">
