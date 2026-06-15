@@ -25,50 +25,7 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
     
-<cffunction name="getOrCreateStaticMapForLocality"
-           access="public"
-           returntype="string"
-           output="false">
-  <cfargument name="locality_id"  type="numeric" required="true">
-  <cfargument name="lat"          type="numeric" required="true">
-  <cfargument name="lng"          type="numeric" required="true">
-  <cfargument name="forceRefresh" type="boolean" required="false" default="false">
-
-  <cfset var mapWidth  = 400>
-  <cfset var mapHeight = 300>
-  <cfset var zoom      = 10>
-
-  <!-- Directory for thumbnails -->
-  <cfset var mapDir      = expandPath("/cache/static_maps/")>
-  <cfset var mapFileName = "locality-#arguments.locality_id#.jpg">
-  <cfset var mapFilePath = mapDir & mapFileName>
-  <cfset var mapUrl      = "/cache/static_maps/#mapFileName#">
-
-  <!-- If not forcing refresh and file exists, just return it -->
-  <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
-    <cfreturn mapUrl>
-  </cfif>
-
-
-  <cfset var staticUrl = "https://maps.googleapis.com/maps/api/staticmap" &
-      "?center=#arguments.lat#,#arguments.lng#" &
-      "&zoom=#zoom#&size=#mapWidth#x#mapHeight#" &
-      "&maptype=terrain" &
-      "&markers=color:red|#arguments.lat#,#arguments.lng#" &
-      "&key=#application.gmap_api_key#">
-
-<cfhttp url="#staticUrl#" method="get" getAsBinary="yes" result="httpRes" timeout="10" />
-
-  <cfif httpRes.statusCode CONTAINS "200">
-    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
-    <cfreturn mapUrl>
-  <cfelse>
-    <cfreturn "/shared/images/map-placeholder.jpg">
-  </cfif>
-</cffunction>
-        
-        
-        
+    
 <!---
 	linkMediaHtml create dialog content to link media to an object 
 	@see findMediaSearchResults 
@@ -877,34 +834,7 @@ limitations under the License.
 </cffunction>
 
                 
-<cffunction name="getOrCreateStaticMapForLocality" access="remote" returntype="string" returnformat="plain">
-  <cfargument name="locality_id"  type="numeric" required="true">
-  <cfargument name="lat"          type="numeric" required="true">
-  <cfargument name="lng"          type="numeric" required="true">
-  <cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-  <cfset var mapWidth  = 400>
-  <cfset var mapHeight = 300>
-  <cfset var zoom      = 10>
-  <cfset var mapDir      = expandPath("/cache/static_maps/")> <!-- or your final folder -->
-  <cfset var mapFileName = "locality-#arguments.locality_id#.jpg">
-  <cfset var mapFilePath = mapDir & mapFileName>
-  <cfset var mapUrl      = "/cache/static_maps/#mapFileName#">
-  <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
-    <cfreturn mapUrl>
-  </cfif>
-  <cfset var apiKey    = application.gmap_api_key>
-  <cfset var staticUrl = "https://maps.googleapis.com/maps/api/staticmap?center=#arguments.lat#,#arguments.lng#&zoom=#zoom#&size=#mapWidth#x#mapHeight#&maptype=terrain&markers=color:red|#arguments.lat#,#arguments.lng#&key=#apiKey#">
-
-  <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
-
-  <cfif httpRes.statusCode CONTAINS "200">
-    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
-    <cfreturn mapUrl>
-  <cfelse>
-    <cfreturn "/shared/images/map-placeholder.jpg">
-  </cfif>
-</cffunction>
 <!--- given a table and field return a comment on the field from the schema.
 
  @param table the name of the table the field is in 
