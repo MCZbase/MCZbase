@@ -3037,7 +3037,7 @@ limitations under the License.
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
                          <!-- Get or create static thumbnail for this locality -->
-                            <cfset sharedFuncs  = createObject("component", "shared.functions")>
+                            <cfset sharedFuncs  = createObject("component", "/shared/functions.cfc")>
                             <cfset staticMapUrl = sharedFuncs.getOrCreateStaticMapForLocality(
                                 locality_id = loc_collevent.locality_id,
                                 lat         = coordlookup.dec_lat,
