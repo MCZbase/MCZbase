@@ -900,7 +900,7 @@ from this file.
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-3 mb-2">
-						<label for="expiration_date" class="data-entry-label">
+							<label for="expiration_date" class="data-entry-label">
 								Expiration Date
 								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
@@ -978,7 +978,6 @@ from this file.
 				});
 
 				/**
-				 * Validates the edit encumbrance form before submission.
 				 * Validates the edit encumbrance form before submission.
 				 * Checks that the encumbering agent has been resolved to a valid database id,
 				 * and that expiration date and expiration event are not both specified.
