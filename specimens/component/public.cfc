@@ -16,9 +16,9 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <!---<cfinclude template="/media/component/search.cfc" runOnce="true">---><!--- ? unused ? remove ? --->
-<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
-<cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
-<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml() --->
+<!---<cfinclude template="/media/component/public.cfc" runOnce="true">---><!--- for getMediaBlockHtml --->
+<!---<cfinclude template = "/shared/component/functions.cfc" runOnce="true">---><!--- for getGuidLink() --->
+<!---<cfinclude template="/annotations/component/functions.cfc" runOnce="true">---><!--- for renderAnnotatorHtml() --->
 
 <!---<cfset variables.mediaSearch      = createObject("component", "media.component.search")>--->
 <cfset variables.sharedFunctions  = createObject("component", "shared.component.functions")><!--- for getGuidLink() --->
@@ -2739,34 +2739,7 @@ limitations under the License.
 
                         
                         
-<cffunction name="getOrCreateStaticMapForLocality" access="remote" returntype="string" returnformat="plain">
-  <cfargument name="locality_id"  type="numeric" required="true">
-  <cfargument name="lat"          type="numeric" required="true">
-  <cfargument name="lng"          type="numeric" required="true">
-  <cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-  <cfset var mapWidth  = 400>
-  <cfset var mapHeight = 300>
-  <cfset var zoom      = 10>
-  <cfset var mapDir      = expandPath("/cache/static_maps/")> <!-- or your final folder -->
-  <cfset var mapFileName = "locality-#arguments.locality_id#.jpg">
-  <cfset var mapFilePath = mapDir & mapFileName>
-  <cfset var mapUrl      = "/cache/static_maps/#mapFileName#">
-  <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
-    <cfreturn mapUrl>
-  </cfif>
-  <cfset var apiKey    = application.gmap_api_key>
-  <cfset var staticUrl = "https://maps.googleapis.com/maps/api/staticmap?center=#arguments.lat#,#arguments.lng#&zoom=#zoom#&size=#mapWidth#x#mapHeight#&maptype=terrain&markers=color:red|#arguments.lat#,#arguments.lng#&key=#apiKey#">
-
-  <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
-
-  <cfif httpRes.statusCode CONTAINS "200">
-    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
-    <cfreturn mapUrl>
-  <cfelse>
-    <cfreturn "/shared/images/map-placeholder.jpg">
-  </cfif>
-</cffunction>
 <!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
  geography information for a specified cataloged item
  @param collection_object_id for the cataloged item for which to return spatial/temporal information.
