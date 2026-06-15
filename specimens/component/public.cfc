@@ -2739,10 +2739,7 @@ limitations under the License.
 
                         
                         
-<cffunction name="getOrCreateStaticMapForLocality"
-           access="public"
-           returntype="string"
-           output="false">
+<cffunction name="getOrCreateStaticMapForLocality" access="public" returntype="string" returnformat="plain">
   <cfargument name="locality_id"  type="numeric" required="true">
   <cfargument name="lat"          type="numeric" required="true">
   <cfargument name="lng"          type="numeric" required="true">
