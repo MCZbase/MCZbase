@@ -59,16 +59,11 @@ limitations under the License.
 
 <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
 
-<!-- DEBUG: remove after testing -->
-<cfoutput>
-  <!-- static map status: #httpRes.statusCode# for locality #arguments.locality_id# -->
-</cfoutput>
-
   <cfif httpRes.statusCode CONTAINS "200">
-    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
+    <cffile action="writeBinary" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
     <cfreturn mapUrl>
   <cfelse>
-    <cfreturn "/images/map-placeholder.jpg">
+    <cfreturn "/shared/images/map-placeholder.jpg">
   </cfif>
 </cffunction>
         
