@@ -2748,23 +2748,15 @@ limitations under the License.
   <cfset var mapWidth  = 400>
   <cfset var mapHeight = 300>
   <cfset var zoom      = 10>
-
   <cfset var mapDir      = expandPath("/cache/static_maps/")> <!-- or your final folder -->
   <cfset var mapFileName = "locality-#arguments.locality_id#.jpg">
   <cfset var mapFilePath = mapDir & mapFileName>
   <cfset var mapUrl      = "/cache/static_maps/#mapFileName#">
-
   <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
     <cfreturn mapUrl>
   </cfif>
-
   <cfset var apiKey    = application.gmap_api_key>
-  <cfset var staticUrl = "https://maps.googleapis.com/maps/api/staticmap" &
-      "?center=#arguments.lat#,#arguments.lng#" &
-      "&zoom=#zoom#&size=#mapWidth#x#mapHeight#" &
-      "&maptype=terrain" &
-      "&markers=color:red|#arguments.lat#,#arguments.lng#" &
-      "&key=#apiKey#">
+  <cfset var staticUrl = "https://maps.googleapis.com/maps/api/staticmap?center=#arguments.lat#,#arguments.lng#&zoom=#zoom#&size=#mapWidth#x#mapHeight#&maptype=terrain&markers=color:red|#arguments.lat#,#arguments.lng#&key=#apiKey#">
 
   <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
 
@@ -2772,7 +2764,7 @@ limitations under the License.
     <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
     <cfreturn mapUrl>
   <cfelse>
-    <cfreturn "shared/images/map-placeholder.jpg">
+    <cfreturn "/shared/images/map-placeholder.jpg">
   </cfif>
 </cffunction>
 <!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
