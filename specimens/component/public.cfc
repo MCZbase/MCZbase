@@ -2768,7 +2768,7 @@ limitations under the License.
     <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
     <cfreturn mapUrl>
   <cfelse>
-    <cfreturn "/shared/images/map-placeholder.jpg">
+    <cfreturn "shared/images/map-placeholder.jpg">
   </cfif>
 </cffunction>
 <!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
