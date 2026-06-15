@@ -57,10 +57,10 @@ limitations under the License.
       "&markers=color:red|#arguments.lat#,#arguments.lng#" &
       "&key=#application.gmap_api_key#">
 
-<cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
+<cfhttp url="#staticUrl#" method="get" getAsBinary="yes" result="httpRes" timeout="10" />
 
   <cfif httpRes.statusCode CONTAINS "200">
-    <cffile action="writeBinary" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
+    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
     <cfreturn mapUrl>
   <cfelse>
     <cfreturn "/shared/images/map-placeholder.jpg">
