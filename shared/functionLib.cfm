@@ -411,7 +411,7 @@ limitations under the License.
   <cfset var mapFileName = "locality-#arguments.locality_id#.jpg">
   <cfset var mapFilePath = mapDir & mapFileName>
   <cfset var mapUrl      = "/cache/static_maps/#mapFileName#">
-  <cfset var apiKey      = application.gmap_api_key>
+  <cfset var apiKey      = #application.gmap_api_key#>
   <cfset var staticUrl   = "">
   <cfset var httpRes     = "">
 
