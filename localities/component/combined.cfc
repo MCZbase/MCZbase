@@ -311,6 +311,31 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="Unknown action #encodeForHtml(arguments.action)#">
 			</cfif>
+                
+             <!-- NEW: refresh static map thumbnail for this locality, if it has an accepted georef -->
+            <cfquery name="qLatLongForStatic" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+                SELECT
+                    dec_lat,
+                    dec_long
+                FROM
+                    lat_long
+                WHERE
+                    locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
+                    AND accepted_lat_long_fg = 1
+                    AND dec_lat IS NOT NULL
+                    AND dec_long IS NOT NULL
+            </cfquery>
+
+            <cfif qLatLongForStatic.recordcount GT 0>
+                <cfset sharedFuncs = createObject("component", "shared.functions")>
+                <cfset mapUrl      = sharedFuncs.getOrCreateStaticMapForLocality(
+                    locality_id  = arguments.locality_id,
+                    lat          = qLatLongForStatic.dec_lat,
+                    lng          = qLatLongForStatic.dec_long,
+                    forceRefresh = true
+                )>
+            </cfif>
+
 
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
