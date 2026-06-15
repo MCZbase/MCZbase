@@ -16,9 +16,9 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <!---<cfinclude template="/media/component/search.cfc" runOnce="true">---><!--- ? unused ? remove ? --->
-<!---<cfinclude template="/media/component/public.cfc" runOnce="true">---><!--- for getMediaBlockHtml --->
-<!---<cfinclude template = "/shared/component/functions.cfc" runOnce="true">---><!--- for getGuidLink() --->
-<!---<cfinclude template="/annotations/component/functions.cfc" runOnce="true">---><!--- for renderAnnotatorHtml() --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
+<cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml() --->
 
 <!---<cfset variables.mediaSearch      = createObject("component", "media.component.search")>--->
 <cfset variables.sharedFunctions  = createObject("component", "shared.component.functions")><!--- for getGuidLink() --->
@@ -2738,8 +2738,6 @@ limitations under the License.
 </cffunction>
 
                         
-                        
-
 <!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
  geography information for a specified cataloged item
  @param collection_object_id for the cataloged item for which to return spatial/temporal information.
