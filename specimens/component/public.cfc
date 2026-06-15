@@ -15,13 +15,20 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
+<!---<cfinclude template="/media/component/search.cfc" runOnce="true">---><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 <cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml() --->
+
+<!---<cfset variables.mediaSearch      = createObject("component", "media.component.search")>--->
+<cfset variables.sharedFunctions  = createObject("component", "shared.component.functions")><!--- for getGuidLink() --->
+<cfset variables.mediaPublic      = createObject("component", "media.component.public")><!--- for getMediaBlockHtml --->
+<cfset variables.annotationFuncs  = createObject("component", "annotations.component.functions")><!--- for renderAnnotatorHtml() --->
+
 <cfif NOT isDefined("reportError")>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
+    
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
