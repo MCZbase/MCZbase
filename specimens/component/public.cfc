@@ -3097,7 +3097,7 @@ limitations under the License.
                         <!-- Interactive map, hidden until user interacts -->
                         <div
                           id="mapdiv_#loc_collevent.locality_id#"
-                          style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;"
+                          style="position:relative;top:0;left:0;width:100%;height:100%;display:none;"
                           aria-label="Google Map of specimen collection location">
                         </div>
                       </div>
