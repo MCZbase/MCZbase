@@ -219,15 +219,15 @@ from this file.
 								<input type="hidden" name="collection_object_id"
 									value="#encodeForHTML(variables.collection_object_id)#">
 								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-3 mb-2">
+									<div class="col-12 col-md-3 col-xl-3 mb-2">
 										<label for="encumberingAgent" class="data-entry-label">Encumbering Agent</label>
 										<input type="text" name="encumberingAgent" id="encumberingAgent" value="#encodeForHTML(variables.encumberingAgent)#" class="data-entry-input col-12">
 									</div>
-									<div class="col-12 col-md-6 col-xl-3 mb-2">
+									<div class="col-12 col-md-4 col-xl-3 mb-2">
 										<label for="encumbrance" class="data-entry-label">Encumbrance Name</label>
 										<input type="text" name="encumbrance" id="encumbrance" value="#encodeForHTML(variables.encumbranceName)#" class="data-entry-input col-12">
 									</div>
-									<div class="col-12 col-md-6 col-xl-3 mb-2">
+									<div class="col-12 col-md-2 col-xl-3 mb-2">
 										<label for="encumbrance_action" class="data-entry-label">Encumbrance Action</label>
 										<select name="encumbrance_action" id="encumbrance_action" class="data-entry-select col-12">
 											<option value=""></option>
@@ -243,20 +243,12 @@ from this file.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-6 col-xl-3 mb-2">
+									<div class="col-12 col-md-3 col-xl-3 mb-2">
 										<label for="expiration_event" class="data-entry-label">Expiration Event</label>
 										<input type="text" name="expiration_event" id="expiration_event" value="#encodeForHTML(variables.expiration_event)#" class="data-entry-input col-12">
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-3 mb-2">
-										<label for="made_date_after" class="data-entry-label">Made Date After</label>
-										<input type="text" name="made_date_after" id="made_date_after" value="#encodeForHTML(variables.made_date_after)#" class="data-entry-input col-12">
-									</div>
-									<div class="col-12 col-md-6 col-xl-3 mb-2">
-										<label for="made_date_before" class="data-entry-label">Made Date Before</label>
-										<input type="text" name="made_date_before" id="made_date_before" value="#encodeForHTML(variables.made_date_before)#" class="data-entry-input col-12">
-									</div>
 									<div class="col-12 col-md-6 col-xl-3 mb-2">
 										<label for="expiration_date_after" class="data-entry-label">Expiration Date After</label>
 										<input type="text" name="expiration_date_after" id="expiration_date_after" value="#encodeForHTML(variables.expiration_date_after)#" class="data-entry-input col-12">
@@ -264,6 +256,14 @@ from this file.
 									<div class="col-12 col-md-6 col-xl-3 mb-2">
 										<label for="expiration_date_before" class="data-entry-label">Expiration Date Before</label>
 										<input type="text" name="expiration_date_before" id="expiration_date_before" value="#encodeForHTML(variables.expiration_date_before)#" class="data-entry-input col-12">
+									</div>
+									<div class="col-12 col-md-6 col-xl-3 mb-2">
+										<label for="made_date_after" class="data-entry-label">Made Date After</label>
+										<input type="text" name="made_date_after" id="made_date_after" value="#encodeForHTML(variables.made_date_after)#" class="data-entry-input col-12">
+									</div>
+									<div class="col-12 col-md-6 col-xl-3 mb-2">
+										<label for="made_date_before" class="data-entry-label">Made Date Before</label>
+										<input type="text" name="made_date_before" id="made_date_before" value="#encodeForHTML(variables.made_date_before)#" class="data-entry-input col-12">
 									</div>
 								</div>
 								<div class="form-row">
