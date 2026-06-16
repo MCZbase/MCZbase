@@ -1255,6 +1255,22 @@ limitations under the License.
 			</section><!-- end QCSection --->
 		</div>
 	</cfif>
+    
+    <!--- TEMP DEBUG: test if the generated JPEG is a valid image --->
+<cfset debugImgPath = expandPath("/cache/static_maps/locality-#loc_collevent.locality_id#.jpg")>
+
+<cftry>
+    <cfimage action="info" source="#debugImgPath#" structName="imgInfo">
+    <cfdump var="#debugImgPath#" label="DEBUG map file path">
+    <cfdump var="#imgInfo#" label="DEBUG cfimage info (should show width/height)">
+<cfcatch>
+    <cfdump var="#debugImgPath#" label="DEBUG map file path (error)">
+    <cfdump var="#cfcatch#" label="DEBUG cfimage error (not a valid image?)">
+</cfcatch>
+</cftry>
+<!--- END TEMP DEBUG --->
+    
+    
 </cfoutput>
 </div><!--- end of specimenDetailsPageContent --->
 
