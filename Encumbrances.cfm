@@ -176,7 +176,7 @@ from this file.
 
 <!--- Load the encumbrance action controlled vocabulary for use in all forms on this page. --->
 <cfquery name="getCtEncumbranceAction" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT ctecumbrance_action.encumbrance_action, count(encumbrance.encumbrance_id) ct
+	SELECT ctencumbrance_action.encumbrance_action, count(encumbrance.encumbrance_id) ct
 	FROM ctencumbrance_action
 		left join encumbrance on ctencumbrance_action.encumbrance_action = encumbrance.encumbrance_action
 	GROUP BY ctencumbrance_action.encumbrance_action
