@@ -429,7 +429,7 @@ limitations under the License.
       & "&markers=color:red|#arguments.lat#,#arguments.lng#"
       & "&key=#apiKey#">
 
-    <cfdump var="staticUrl" label="DEBUG status">  
+    <cfdump var="#staticUrl#" label="DEBUG status">  
     <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
 
     <cfdump var="#httpRes.statusCode#" label="DEBUG status">
