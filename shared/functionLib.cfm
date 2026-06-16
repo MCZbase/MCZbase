@@ -429,9 +429,15 @@ limitations under the License.
       & "&markers=color:red|#arguments.lat#,#arguments.lng#"
       & "&key=#apiKey#">
 
-  <!-- Fetch image -->
-  <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
-  <cfdump var="#staticUrl#" label="DEBUG staticUrl"><cfabort>
+      
+    <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
+
+    <cfdump var="#httpRes.statusCode#" label="DEBUG status">
+    <cfdump var="#httpRes.responseHeader#" label="DEBUG headers">
+    <cfdump var="#left(httpRes.fileContent,500)#" label="DEBUG first 500 chars of body">
+    <cfabort>
+
+
   <cfif httpRes.statusCode CONTAINS "200">
     <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
     <cfreturn mapUrl>
