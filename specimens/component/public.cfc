@@ -3053,20 +3053,18 @@ limitations under the License.
 
                     <div class="col-12 col-md-5 pl-md-0 mb-1 float-right mr-0 pr-2">
                       <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap">
-                          <div class="tinymap-inner">
-                            <!-- Static thumbnail always shown -->
-                                <img
-                                  id="static-map-#loc_collevent.locality_id#"
-                                  src="#encodeForHtmlAttribute(staticMapUrl)#"
-                                  alt="Map of specimen collection locality #loc_collevent.locality_id#">
+                        <!-- Static thumbnail always shown -->
+                        <img
+                          id="static-map-#loc_collevent.locality_id#"
+                          src="#encodeForHtmlAttribute(staticMapUrl)#"
+                          alt="Map of specimen collection locality #loc_collevent.locality_id#">
 
-                                <!-- Interactive map, hidden until user interacts -->
-                                <div
-                                  id="mapdiv_#loc_collevent.locality_id#"
-                                  class="interactive-map"
-                                  aria-label="Google Map of specimen collection location">
-                                </div>
-                          </div>
+                        <!-- Interactive map, hidden until user interacts -->
+                        <div
+                          id="mapdiv_#loc_collevent.locality_id#"
+                          class="interactive-map"
+                          aria-label="Google Map of specimen collection location">
+                        </div>
                       </div>
 
                       <!-- Lazy-load interactive Google Map on hover/click -->
