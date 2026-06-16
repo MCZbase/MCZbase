@@ -185,20 +185,6 @@ from this file.
 	     These replace legacy functions previously supplied by includes/ajax.js. --->
 	<script>
 		/**
-		 * Opens the MCZbase wiki documentation for the given page and anchor.
-		 * Uses the MCZbase wiki at code.mcz.harvard.edu, consistent with the
-		 * updated getDocs implementation in includes/alwaysInclude.cfm and
-		 * shared/js/internal-scripts.js.
-		 * @param {string} docPage  Wiki page name (e.g. 'encumbrance').
-		 * @param {string} anchor   Optional anchor/section within the page (e.g. 'encumbrancer').
-		 */
-		function getDocs(docPage, anchor) {
-			var url = "https://code.mcz.harvard.edu/wiki/index.php/" + docPage;
-			if (anchor) { url += "##" + anchor; }
-			window.open(url, "HelpWin", "width=1024,height=640,resizable,scrollbars,location,toolbar");
-		}
-
-		/**
 		 * Removes a single specimen from an encumbrance by opening the legacy
 		 * pick popup.  Replaces the legacy deleteEncumbrance() from includes/ajax.js.
 		 * After the popup completes the user clicks the reload link inside the popup
@@ -378,7 +364,7 @@ from this file.
 								<label for="encumberingAgent" class="data-entry-label w-auto d-inline">
 									Encumbering Agent
 									<span class="text-danger" aria-hidden="true">*</span>
-									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 								</label>
 								<span id="agentViewCreate" class="d-inline ml-1"></span>
 							</span>
@@ -416,7 +402,7 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_date" class="data-entry-label">
 								Expiration Date
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_date" id="expiration_date"
 								class="data-entry-input col-12">
@@ -424,7 +410,7 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_event" class="data-entry-label">
 								Expiration Event
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_event" id="expiration_event"
 								class="data-entry-input col-12">
@@ -435,7 +421,7 @@ from this file.
 							<label for="encumbranceNameCreate" class="data-entry-label">
 								Encumbrance Name
 								<span class="text-danger" aria-hidden="true">*</span>
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="encumbrance" id="encumbranceNameCreate"
 								required
@@ -868,7 +854,7 @@ from this file.
 								<label for="encumberingAgentEdit" class="data-entry-label w-auto d-inline">
 									Encumbering Agent
 									<span class="text-danger" aria-hidden="true">*</span>
-									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 								</label>
 								<span id="agentViewEdit" class="d-inline ml-1"></span>
 							</span>
@@ -902,7 +888,7 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_date" class="data-entry-label">
 								Expiration Date
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_date" id="expiration_date"
 								value="#encodeForHTML(variables.editExpDate)#"
@@ -911,7 +897,7 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_event" class="data-entry-label">
 								Expiration Event
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_event" id="expiration_event"
 								value="#encodeForHTML(encDetails.expiration_event)#"
@@ -923,7 +909,7 @@ from this file.
 							<label for="encumbranceNameEdit" class="data-entry-label">
 								Encumbrance Name
 								<span class="text-danger" aria-hidden="true">*</span>
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="encumbrance" id="encumbranceNameEdit"
 								value="#encodeForHTML(encDetails.encumbrance)#"
