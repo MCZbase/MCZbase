@@ -2881,7 +2881,34 @@ an overlay that prevents interaction with them.
 .mw-toc-heading {
 	margin-bottom: 0;
 }
+.tinymap {
+  position: relative;
+  width: 100%;
+  height: 180px;
+}
 
+/* Static thumbnail */
+.tinymap .static-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Interactive Google Map */
+.tinymap .interactive-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;   /* hidden until hover/click */
+  z-index: 2;      /* above the static image */
+}
 
 /****************end all screen styles*********************/
 /**********************************************************/
