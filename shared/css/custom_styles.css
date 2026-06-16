@@ -2906,10 +2906,7 @@ an overlay that prevents interaction with them.
 .tinymap .static-map,
 .tinymap .interactive-map {
     position: absolute;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
+
 }
 /* Static thumbnail */
 .tinymap .static-map {
