@@ -3655,22 +3655,6 @@ limitations under the License.
 						AND MEDIA_RELATIONSHIP like '% locality'
 						AND MCZBASE.is_media_encumbered(media_id) < 1 
 				</cfquery>
-                    
-                   
-    <!--- TEMP DEBUG: test if the generated JPEG is a valid image --->
-<cfset debugImgPath = expandPath("/cache/static_maps/locality-#loc_collevent.locality_id#.jpg")>
-
-<cftry>
-    <cfimage action="info" source="#debugImgPath#" structName="imgInfo">
-    <cfdump var="#debugImgPath#" label="DEBUG map file path">
-    <cfdump var="#imgInfo#" label="DEBUG cfimage info (should show width/height)">
-<cfcatch>
-    <cfdump var="#debugImgPath#" label="DEBUG map file path (error)">
-    <cfdump var="#cfcatch#" label="DEBUG cfimage error (not a valid image?)">
-</cfcatch>
-</cftry>
-<!--- END TEMP DEBUG --->
-    
 				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						media_id

@@ -431,7 +431,7 @@ limitations under the License.
 
   <!-- Fetch image -->
   <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
-
+  <cfdump var="#staticUrl#" label="DEBUG staticUrl"><cfabort>
   <cfif httpRes.statusCode CONTAINS "200">
     <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
     <cfreturn mapUrl>
