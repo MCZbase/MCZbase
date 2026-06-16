@@ -3059,7 +3059,7 @@ limitations under the License.
     <!-- Static thumbnail always shown -->
     <img
       id="static-map-#loc_collevent.locality_id#"
-      class="static-map"   <!-- IMPORTANT -->
+      class="static-map"  
       src="#encodeForHtmlAttribute(staticMapUrl)#"
       alt="Map of specimen collection locality #loc_collevent.locality_id#">
 
