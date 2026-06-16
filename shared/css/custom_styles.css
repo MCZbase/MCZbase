@@ -2897,6 +2897,7 @@ an overlay that prevents interaction with them.
   object-fit: cover;
   cursor: pointer;
   z-index: 1;
+    height: 180px;
 }
 
 /* Interactive Google Map */
