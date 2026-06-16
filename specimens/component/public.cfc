@@ -3052,7 +3052,7 @@ limitations under the License.
                     )>
 
                     <div class="col-12 col-md-5 pl-md-0 mb-1 float-right mr-0">
-                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap">
+                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap tinymap-2cold">
                         <!-- Static thumbnail always shown -->
                         <img
                           id="static-map-#loc_collevent.locality_id#"
