@@ -434,7 +434,8 @@ limitations under the License.
     method="get"
     timeout="10"
     path="#GetDirectoryFromPath(mapFilePath)#"
-    file="#GetFileFromPath(mapFilePath)#">
+    file="#GetFileFromPath(mapFilePath)#"
+    result="httpRes">
 
   <cfif httpRes.statusCode CONTAINS "200">
        <cfreturn mapUrl>
