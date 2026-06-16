@@ -293,10 +293,10 @@ from this file.
 			</section>
 			<script>
 				$(document).ready(function() {
-					$('##made_date_after').datepicker();
-					$('##made_date_before').datepicker();
-					$('##expiration_date_after').datepicker();
-					$('##expiration_date_before').datepicker();
+					$('##made_date_after').datepicker( { dateFormat: 'yy-mm-dd' } );
+					$('##made_date_before').datepicker( { dateFormat: 'yy-mm-dd' } );
+					$('##expiration_date_after').datepicker( { dateFormat: 'yy-mm-dd' } );
+					$('##expiration_date_before').datepicker( { dateFormat: 'yy-mm-dd' } );
 				});
 			</script>
 		</cfcase>
@@ -382,8 +382,8 @@ from this file.
 			</section>
 			<script>
 				$(document).ready(function() {
-					$('##made_date').datepicker();
-					$('##expiration_date').datepicker();
+					$('##made_date').datepicker({ dateFormat: 'yy-mm-dd' });
+					$('##expiration_date').datepicker( dateFormat: 'yy-mm-dd' );
 				});
 
 				/**
@@ -836,8 +836,8 @@ from this file.
 			</section>
 			<script>
 				$(document).ready(function() {
-					$('##made_date').datepicker();
-					$('##expiration_date').datepicker();
+					$('##made_date').datepicker( { dateFormat: 'yy-mm-dd' } );
+					$('##expiration_date').datepicker( { dateFormat: 'yy-mm-dd' } );
 				});
 
 				/**
