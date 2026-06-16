@@ -3091,11 +3091,13 @@ limitations under the License.
                         }
 
                         window["initLocalityMap_" + localityId] = function() {
-                          new google.maps.Map(mapDiv, {
-                            center: { lat: lat, lng: lng },
-                           zoom: 10,
-                              mapTypeId: google.maps.MapTypeId.TERRAIN,
-                              mapTypeControlOptions: {
+                          var center = { lat: lat, lng: lng };
+                            
+                          var map = new google.maps.Map(mapDiv, {
+                              center: center,
+                              zoom: 10,
+                              mapTypeId: google.map.MapTypeId.TERRAIN,
+                               mapTypeControlOptions: {
                                 mapTypeIds: [
                                   google.maps.MapTypeId.TERRAIN,
                                   google.maps.MapTypeId.ROADMAP,
