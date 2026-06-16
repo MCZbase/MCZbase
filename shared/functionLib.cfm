@@ -404,7 +404,7 @@ limitations under the License.
   <cfargument name="lng"          type="numeric" required="true">
   <cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-  <cfset var mapWidth    = 300>
+  <cfset var mapWidth    = 280>
   <cfset var mapHeight   = 240>
   <cfset var zoom        = 10>
   <cfset var mapDir      = expandPath("/cache/static_maps/")>
