@@ -2888,12 +2888,14 @@ an overlay that prevents interaction with them.
 }
 /* 3‑column layout: shorter map */
 .tinymap-3col {
-  height: 180px;      /* adjust as needed */
+  height: 180px; 
+    width: 180px;/* adjust as needed */
 }
 
 /* 2‑column layout: taller/wider map */
 .tinymap-2col {
-  height: 240px;      /* adjust as needed */
+  height: 180px;
+    width: 240px;/* adjust as needed */
 }
 .tinymap .static-map,
 .tinymap .interactive-map {
