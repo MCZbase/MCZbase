@@ -428,14 +428,15 @@ limitations under the License.
       & "&maptype=terrain"
       & "&markers=color:red|#arguments.lat#,#arguments.lng#"
       & "&key=#apiKey#">
- 
-    <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
-
- 
-
+   <cfhttp 
+        url="#staticUrl#" 
+        method="get" 
+        result="httpRes" 
+        timeout="10"
+        getAsBinary="yes" />
 
   <cfif httpRes.statusCode CONTAINS "200">
-    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
+     <cfset fileWriteBinary(mapFilePath, httpRes.fileContent)>
     <cfreturn mapUrl>
   <cfelse>
     <cfreturn "/shared/images/map-placeholder.jpg">
