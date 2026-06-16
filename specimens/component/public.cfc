@@ -3093,7 +3093,16 @@ limitations under the License.
                         window["initLocalityMap_" + localityId] = function() {
                           new google.maps.Map(mapDiv, {
                             center: { lat: lat, lng: lng },
-                            zoom: 10
+                            zoom: 10,
+                            mapTypeId:google.maps.MapTypeId.TERRAIN,
+                              mapTypeControlOptions: {
+                                  mapTypeIds: [
+                                      google.maps.MapTypeId.TERRAIN,
+                                      google.maps.MapTypeId.ROADMAP,
+                                      google.maps.MapTypeId.SATELLITE,
+                                      google.maps.MapTypeId.HYBRID
+                                  ]
+                              }
                           });
                         };
 
