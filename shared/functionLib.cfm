@@ -429,16 +429,17 @@ limitations under the License.
       & "&markers=color:red|#arguments.lat#,#arguments.lng#"
       & "&key=#apiKey#">
  
-    <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
-
- 
-
+   <cfhttp 
+    url="#staticUrl#" 
+    method="get"
+    timeout="10"
+    path="#GetDirectoryFromPath(mapFilePath)#"
+    file="#GetFileFromPath(mapFilePath)#">
 
   <cfif httpRes.statusCode CONTAINS "200">
-    <cffile action="write" file="#mapFilePath#" output="#httpRes.fileContent#" mode="644">
-    <cfreturn mapUrl>
+       <cfreturn mapUrl>
   <cfelse>
     <cfreturn "/shared/images/map-placeholder.jpg">
   </cfif>
-      <cfdump var="#mapFilePath#" label="DEBUG mapFilePath">
+      
 </cffunction>
