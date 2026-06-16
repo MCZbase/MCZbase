@@ -2886,6 +2886,15 @@ an overlay that prevents interaction with them.
   width: 100%;
   margin-right: 1rem;
 }
+/* 3‑column layout: shorter map */
+.tinymap-3col {
+  height: 180px;      /* adjust as needed */
+}
+
+/* 2‑column layout: taller/wider map */
+.tinymap-2col {
+  height: 240px;      /* adjust as needed */
+}
 
 /* Static thumbnail */
 .tinymap .static-map {
