@@ -428,14 +428,10 @@ limitations under the License.
       & "&maptype=terrain"
       & "&markers=color:red|#arguments.lat#,#arguments.lng#"
       & "&key=#apiKey#">
-
-    <cfdump var="#staticUrl#" label="DEBUG status">  
+ 
     <cfhttp url="#staticUrl#" method="get" result="httpRes" timeout="10" />
 
-    <cfdump var="#httpRes.statusCode#" label="DEBUG status">
-    <cfdump var="#httpRes.responseHeader#" label="DEBUG headers">
-    <cfdump var="#left(httpRes.fileContent,500)#" label="DEBUG first 500 chars of body">
-    <cfabort>
+ 
 
 
   <cfif httpRes.statusCode CONTAINS "200">
