@@ -2895,25 +2895,23 @@ an overlay that prevents interaction with them.
 .tinymap-2col {
   height: 240px;      /* adjust as needed */
 }
-
+.tinymap .static-map,
+.tinymap .interactive-map {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+}
 /* Static thumbnail */
 .tinymap .static-map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+
   cursor: pointer;
   z-index: 1;
 }
 
 /* Interactive Google Map */
 .tinymap .interactive-map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   display: none;   /* hidden until hover/click */
   z-index: 2;      /* above the static image */
 }
