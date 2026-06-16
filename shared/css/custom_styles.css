@@ -2882,7 +2882,7 @@ an overlay that prevents interaction with them.
 	margin-bottom: 0;
 }
 .tinymap {
-  position: relative;
+  position: absolute;
   width: 100%;
     margin-right: 1rem;
 }
