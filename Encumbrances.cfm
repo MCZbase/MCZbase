@@ -181,24 +181,6 @@ from this file.
 
 <cfoutput>
 <main class="#variables.mainClass#" id="content">
-	<!--- Page-level JS helpers that are not provided by /shared/_header.cfm.
-	     These replace legacy functions previously supplied by includes/ajax.js. --->
-	<script>
-		/**
-		 * Removes a single specimen from an encumbrance by opening the legacy
-		 * pick popup.  Replaces the legacy deleteEncumbrance() from includes/ajax.js.
-		 * After the popup completes the user clicks the reload link inside the popup
-		 * to refresh this page.
-		 * @param {number} encumbranceId       The encumbrance_id to remove.
-		 * @param {number} collectionObjectId  The collection_object_id to remove from the encumbrance.
-		 */
-		function deleteEncumbranceFromSpecimen(encumbranceId, collectionObjectId) {
-			var url = "/picks/DeleteEncumbrance.cfm?encumbrance_id=" + encumbranceId
-				+ "&collection_object_id=" + collectionObjectId;
-			window.open(url, "deleteEncumbranceWin",
-				"width=400,height=338,toolbar,location,status,menubar,resizable,scrollbars");
-		}
-	</script>
 	<cfswitch expression="#variables.action#">
 
 		<!--- ================================================================
@@ -1252,12 +1234,8 @@ from this file.
 												#encodeForHTML(encs.expiration_event)#
 												#encodeForHTML(encs.enc_remarks)#
 											</span>
-											<!--- deleteEncumbranceFromSpecimen() is a local JS function defined at the top
-											     of this page that removes a single specimen from an encumbrance
-											     by opening the legacy pick popup. Parameters are passed as
-											     numbers via val() to match the expected function signature. --->
 											<button type="button" class="btn btn-xs btn-warning mb-1"
-												onclick="deleteEncumbranceFromSpecimen(#val(encs.encumbrance_id)#, #val(collection_object_id)#);">
+												onclick="submitEncumbranceAction('remListedItems','#val(encs.encumbrance_id)#','#val(collection_object_id)#');">
 												Remove This Encumbrance
 											</button>
 										<cfelse>
