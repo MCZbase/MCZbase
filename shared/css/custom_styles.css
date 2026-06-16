@@ -2908,6 +2908,7 @@ an overlay that prevents interaction with them.
   height: 100%;
   display: none;   /* hidden until hover/click */
   z-index: 2;      /* above the static image */
+    height: 180px;
 }
 
 /****************end all screen styles*********************/
