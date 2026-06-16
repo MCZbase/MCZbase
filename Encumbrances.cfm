@@ -761,12 +761,10 @@ from this file.
 				<form class="col-12" name="updateEncumbranceForm" id="updateEncumbranceForm"
 					method="post" action="/Encumbrances.cfm">
 					<input type="hidden" name="action" value="updateEncumbrance2">
-					<input type="hidden" name="encumbrance_id"
-						value="#encodeForHTML(variables.encumbrance_id)#">
-					<input type="hidden" name="collection_object_id"
-						value="#encodeForHTML(variables.collection_object_id)#">
+					<input type="hidden" name="encumbrance_id" value="#encodeForHTML(variables.encumbrance_id)#">
+					<input type="hidden" name="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 					<div class="form-row">
-						<div class="col-12 col-md-6 mb-2">
+						<div class="col-12 col-md-4 mb-2">
 							<span class="d-block">
 								<label for="encumberingAgentEdit" class="data-entry-label w-auto d-inline">Encumbering Agent</label>
 								<span id="agentViewEdit" class="d-inline ml-1"></span>
@@ -786,6 +784,10 @@ from this file.
 								});
 							</script>
 						</div>
+						<div class="col-12 col-md-4 mb-2">
+							<label for="encumbranceNameEdit" class="data-entry-label">Encumbrance Name</label>
+							<input type="text" name="encumbrance" id="encumbranceNameEdit" value="#encodeForHTML(encDetails.encumbrance)#" class="data-entry-input col-12 reqdClr">
+						</div>
 						<div class="col-12 col-md-3 mb-2">
 							<label for="made_date" class="data-entry-label">Made Date</label>
 							<input type="text" name="made_date" id="made_date" value="#encodeForHTML(variables.editMadeDate)#" class="data-entry-input col-12">
@@ -799,12 +801,6 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_event" class="data-entry-label">Expiration Event</label>
 							<input type="text" name="expiration_event" id="expiration_event" value="#encodeForHTML(encDetails.expiration_event)#" class="data-entry-input col-12">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12 col-md-6 mb-2">
-							<label for="encumbranceNameEdit" class="data-entry-label">Encumbrance Name</label>
-							<input type="text" name="encumbrance" id="encumbranceNameEdit" value="#encodeForHTML(encDetails.encumbrance)#" class="data-entry-input col-12 reqdClr">
 						</div>
 						<div class="col-12 col-md-3 mb-2">
 							<label for="encumbrance_action_edit" class="data-entry-label">Encumbrance Action</label>
@@ -823,7 +819,7 @@ from this file.
 						</div>
 					</div>
 					<div class="form-row">
-						<div class="col-12 col-md-9 mb-2">
+						<div class="col-12 mb-2">
 							<label for="remarks" class="data-entry-label">Remarks</label>
 							<textarea name="remarks" id="remarks" rows="3" class="data-entry-input col-12">#encodeForHTML(encDetails.remarks)#</textarea>
 						</div>
