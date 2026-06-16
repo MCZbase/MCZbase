@@ -3102,6 +3102,7 @@ limitations under the License.
                                   google.maps.MapTypeId.SATELLITE,
                                   google.maps.MapTypeId.HYBRID
                                 ]
+                              }
                           });
                         };
 
