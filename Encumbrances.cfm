@@ -340,12 +340,10 @@ from this file.
 		     create: new encumbrance form
 		     ================================================================ --->
 		<cfcase value="create">
-			<section class="row border rounded my-2 mx-1">
-				<div class="col-12">
-					<h1 class="h2 mt-3 mb-2">Create Encumbrance
-						<a href="javascript:void(0);" class="ml-1 text-muted fs-6" onclick="getMCZDocs('encumbrance','encumbrance');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-					</h1>
-				</div>
+			<h1 class="h2 ml-3 mb-1">Create Encumbrance
+				<i class="fas fa-info-circle" onClick="getMCZDocs('encumbrance','encumbrance')" aria-label="help link"></i>
+			</h1>
+			<section class="row mx-0 border rounded my-2 pt-2">
 				<form class="col-12" name="encumberCreateForm" id="encumberCreateForm"
 					method="post" action="/Encumbrances.cfm">
 					<input type="hidden" name="action" value="createEncumbrance">
@@ -823,16 +821,16 @@ from this file.
 			<cfif isDate(encDetails.expiration_date)>
 				<cfset variables.editExpDate = dateformat(encDetails.expiration_date,"yyyy-mm-dd")>
 			</cfif>
-			<section class="row border rounded my-2 mx-1">
-				<div class="col-12">
-					<h1 class="h2 mt-3 mb-1">Edit Encumbrance
-						<a href="javascript:void(0);" class="ml-1 text-muted fs-6" onclick="getMCZDocs('encumbrance','encumbrance');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-					</h1>
-					<p class="text-muted mb-2">
+			<h1 class="h2 ml-3 mb-1">Edit Encumbrance
+				<i class="fas fa-info-circle" onClick="getMCZDocs('encumbrance','encumbrance')" aria-label="help link"></i>
+			</h1>
+			<section class="row mx-0 border rounded my-2 pt-2">
+				<div class="col-12 pb-2">
+					<p class="text-muted mb-1">
 						<small>Encumbrance ID: #encodeForHTML(variables.encumbrance_id)#</small>
 					</p>
 					<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encodeForHTML(variables.encumbrance_id)#"
-						class="btn btn-xs btn-secondary mb-3">
+						class="btn btn-xs btn-secondary mb-2">
 						<i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Encumbrance
 					</a>
 				</div>
