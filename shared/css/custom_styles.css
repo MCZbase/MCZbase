@@ -2905,7 +2905,6 @@ an overlay that prevents interaction with them.
 }
 /* Static thumbnail */
 .tinymap .static-map {
-
   cursor: pointer;
   z-index: 1;
 }
