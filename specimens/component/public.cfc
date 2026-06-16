@@ -3096,7 +3096,7 @@ limitations under the License.
                           var map = new google.maps.Map(mapDiv, {
                               center: center,
                               zoom: 10,
-                              mapTypeId: google.map.MapTypeId.TERRAIN,
+                              mapTypeId: google.maps.MapTypeId.TERRAIN,
                                mapTypeControlOptions: {
                                 mapTypeIds: [
                                   google.maps.MapTypeId.TERRAIN,
