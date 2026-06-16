@@ -383,7 +383,7 @@ from this file.
 			<script>
 				$(document).ready(function() {
 					$('##made_date').datepicker({ dateFormat: 'yy-mm-dd' });
-					$('##expiration_date').datepicker( dateFormat: 'yy-mm-dd' );
+					$('##expiration_date').datepicker({ dateFormat: 'yy-mm-dd' } );
 				});
 
 				/**
