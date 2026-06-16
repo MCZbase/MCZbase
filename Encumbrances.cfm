@@ -72,6 +72,15 @@ from this file.
 	<cfset variables.collection_object_id = "">
 </cfif>
 
+<!--- Pre-compute context-aware URLs for reuse in links throughout the page. --->
+<cfif len(variables.collection_object_id) GT 0>
+	<cfset variables.createEncUrl = "/Encumbrances.cfm?action=create&collection_object_id=" & URLEncodedFormat(variables.collection_object_id)>
+	<cfset variables.backToSearchUrl = "/Encumbrances.cfm?action=entryPoint&collection_object_id=" & URLEncodedFormat(variables.collection_object_id)>
+<cfelse>
+	<cfset variables.createEncUrl = "/Encumbrances.cfm?action=create">
+	<cfset variables.backToSearchUrl = "/Encumbrances.cfm">
+</cfif>
+
 <!--- Resolve encumbrance_id: form (POST) takes priority over url (GET). --->
 <cfif isDefined("form.encumbrance_id") AND len(trim(form.encumbrance_id)) GT 0>
 	<cfset variables.encumbrance_id = trim(form.encumbrance_id)>
@@ -299,8 +308,8 @@ from this file.
 									<div class="col-12">
 										<button type="submit" class="btn btn-xs btn-primary">Search</button>
 										<a href="/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Reset</a>
-										<a href="/Encumbrances.cfm?action=create<cfif len(variables.collection_object_id) GT 0>&amp;collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>"
-											class="btn btn-xs btn-secondary ml-1"><!--- " --->
+										<a href="#variables.createEncUrl#"
+											class="btn btn-xs btn-secondary ml-1">
 											Create New Encumbrance
 										</a>
 									</div>
@@ -333,7 +342,9 @@ from this file.
 		<cfcase value="create">
 			<section class="row border rounded my-2 mx-1">
 				<div class="col-12">
-					<h1 class="h2 mt-3 mb-2">Create Encumbrance</h1>
+					<h1 class="h2 mt-3 mb-2">Create Encumbrance
+						<a href="javascript:void(0);" class="ml-1 text-muted fs-6" onclick="getMCZDocs('encumbrance','encumbrance');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+					</h1>
 				</div>
 				<form class="col-12" name="encumberCreateForm" id="encumberCreateForm"
 					method="post" action="/Encumbrances.cfm">
@@ -346,7 +357,6 @@ from this file.
 								<label for="encumberingAgent" class="data-entry-label w-auto d-inline">
 									Encumbering Agent
 									<span class="text-danger" aria-hidden="true">*</span>
-									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 								</label>
 								<span id="agentViewCreate" class="d-inline ml-1"></span>
 							</span>
@@ -384,7 +394,6 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_date" class="data-entry-label">
 								Expiration Date
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_date" id="expiration_date"
 								class="data-entry-input col-12">
@@ -392,7 +401,6 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_event" class="data-entry-label">
 								Expiration Event
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_event" id="expiration_event"
 								class="data-entry-input col-12">
@@ -403,7 +411,6 @@ from this file.
 							<label for="encumbranceNameCreate" class="data-entry-label">
 								Encumbrance Name
 								<span class="text-danger" aria-hidden="true">*</span>
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="encumbrance" id="encumbranceNameCreate"
 								required
@@ -441,7 +448,7 @@ from this file.
 								onclick="return validateCreateEncumbranceForm();">
 								Create Encumbrance
 							</button>
-							<a href="/Encumbrances.cfm<cfif len(variables.collection_object_id) GT 0>?action=entryPoint&amp;collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>"
+							<a href="#variables.backToSearchUrl#"
 								class="btn btn-xs btn-warning ml-1">
 								Cancel
 							</a>
@@ -611,7 +618,7 @@ from this file.
 			<section class="row mx-0 mt-2 mb-2">
 				<div class="col-12">
 					<h1 class="h3 mb-2">Encumbrance Search Results</h1>
-					<a href="/Encumbrances.cfm<cfif len(variables.collection_object_id) GT 0>?action=entryPoint&amp;collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>" class="btn btn-xs btn-secondary mb-3">
+					<a href="#variables.backToSearchUrl#" class="btn btn-xs btn-secondary mb-3">
 						<i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Search
 					</a>
 					<cfif getEnc.recordcount EQ 0>
@@ -818,7 +825,9 @@ from this file.
 			</cfif>
 			<section class="row border rounded my-2 mx-1">
 				<div class="col-12">
-					<h1 class="h2 mt-3 mb-1">Edit Encumbrance</h1>
+					<h1 class="h2 mt-3 mb-1">Edit Encumbrance
+						<a href="javascript:void(0);" class="ml-1 text-muted fs-6" onclick="getMCZDocs('encumbrance','encumbrance');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+					</h1>
 					<p class="text-muted mb-2">
 						<small>Encumbrance ID: #encodeForHTML(variables.encumbrance_id)#</small>
 					</p>
@@ -838,10 +847,9 @@ from this file.
 						<div class="col-12 col-md-6 mb-2">
 							<span class="d-block">
 								<label for="encumberingAgentEdit" class="data-entry-label w-auto d-inline">
-									Encumbering Agent
-									<span class="text-danger" aria-hidden="true">*</span>
-									<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrancer');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-								</label>
+										Encumbering Agent
+										<span class="text-danger" aria-hidden="true">*</span>
+									</label>
 								<span id="agentViewEdit" class="d-inline ml-1"></span>
 							</span>
 							<div class="input-group">
@@ -874,7 +882,6 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_date" class="data-entry-label">
 								Expiration Date
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_date" id="expiration_date"
 								value="#encodeForHTML(variables.editExpDate)#"
@@ -883,7 +890,6 @@ from this file.
 						<div class="col-12 col-md-3 mb-2">
 							<label for="expiration_event" class="data-entry-label">
 								Expiration Event
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','expiration');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="expiration_event" id="expiration_event"
 								value="#encodeForHTML(encDetails.expiration_event)#"
@@ -895,7 +901,6 @@ from this file.
 							<label for="encumbranceNameEdit" class="data-entry-label">
 								Encumbrance Name
 								<span class="text-danger" aria-hidden="true">*</span>
-								<a href="javascript:void(0);" class="ml-1 text-muted" onclick="getMCZDocs('encumbrance','encumbrance_name');" title="Documentation"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</label>
 							<input type="text" name="encumbrance" id="encumbranceNameEdit"
 								value="#encodeForHTML(encDetails.encumbrance)#"
