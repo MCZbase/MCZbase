@@ -3051,66 +3051,69 @@ limitations under the License.
                         lng         = coordlookup.dec_long
                     )>
 
-                    <div class="col-12 col-md-5 pl-md-0 mb-1 float-right mr-0">
-                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap tinymap-2cold">
-                        <!-- Static thumbnail always shown -->
-                        <img
-                          id="static-map-#loc_collevent.locality_id#"
-                          src="#encodeForHtmlAttribute(staticMapUrl)#"
-                          alt="Map of specimen collection locality #loc_collevent.locality_id#">
+                   <div class="col-12 col-md-5 pl-md-0 mb-1 float-right mr-0">
+  <!-- this is the 3‑column layout, so use tinymap-3col -->
+  <div id="map-wrapper-#loc_collevent.locality_id#" 
+       class="tinymap tinymap-3col">
 
-                        <!-- Interactive map, hidden until user interacts -->
-                        <div
-                          id="mapdiv_#loc_collevent.locality_id#"
-                          class="interactive-map"
-                          aria-label="Google Map of specimen collection location">
-                        </div>
-                      </div>
+    <!-- Static thumbnail always shown -->
+    <img
+      id="static-map-#loc_collevent.locality_id#"
+      class="static-map"   <!-- IMPORTANT -->
+      src="#encodeForHtmlAttribute(staticMapUrl)#"
+      alt="Map of specimen collection locality #loc_collevent.locality_id#">
 
-                      <!-- Lazy-load interactive Google Map on hover/click -->
-                      <script>
-                      (function() {
-                        var localityId = "#loc_collevent.locality_id#";
-                        var lat        = #coordlookup.dec_lat#;
-                        var lng        = #coordlookup.dec_long#;
-                        var staticImg  = document.getElementById("static-map-" + localityId);
-                        var mapDiv     = document.getElementById("mapdiv_" + localityId);
-                        var loaded     = false;
+    <!-- Interactive map, hidden until user interacts -->
+    <div
+      id="mapdiv_#loc_collevent.locality_id#"
+      class="interactive-map"
+      aria-label="Google Map of specimen collection location">
+    </div>
+  </div>
 
-                        function loadInteractiveMap() {
-                          if (loaded) return;
-                          loaded = true;
+  <script>
+  (function() {
+    var localityId = "#loc_collevent.locality_id#";
+    var lat        = #coordlookup.dec_lat#;
+    var lng        = #coordlookup.dec_long#;
+    var staticImg  = document.getElementById("static-map-" + localityId);
+    var mapDiv     = document.getElementById("mapdiv_" + localityId);
+    var loaded     = false;
 
-                          mapDiv.style.display = "block";
-                          staticImg.style.opacity = "0.0"; // optional fade-out
+    function loadInteractiveMap() {
+      if (loaded) return;
+      loaded = true;
 
-                          var script = document.createElement("script");
-                          script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initLocalityMap_" + localityId;
-                          script.async = true;
-                          document.head.appendChild(script);
-                        }
+      mapDiv.style.display = "block";
+      staticImg.style.opacity = "0.0";
 
-                        window["initLocalityMap_" + localityId] = function() {
-                          new google.maps.Map(mapDiv, {
-                            center: { lat: lat, lng: lng },
-                            zoom: 10,
-                            mapTypeId:google.maps.MapTypeId.TERRAIN,
-                              mapTypeControlOptions: {
-                                  mapTypeIds: [
-                                      google.maps.MapTypeId.TERRAIN,
-                                      google.maps.MapTypeId.ROADMAP,
-                                      google.maps.MapTypeId.SATELLITE,
-                                      google.maps.MapTypeId.HYBRID
-                                  ]
-                              }
-                          });
-                        };
+      var script = document.createElement("script");
+      script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initLocalityMap_" + localityId;
+      script.async = true;
+      document.head.appendChild(script);
+    }
 
-                        staticImg.addEventListener("mouseenter", loadInteractiveMap);
-                        staticImg.addEventListener("click", loadInteractiveMap);
-                      })();
-                      </script>
-                    </div>
+    window["initLocalityMap_" + localityId] = function() {
+      new google.maps.Map(mapDiv, {
+        center: { lat: lat, lng: lng },
+        zoom: 10,
+        mapTypeId: google.maps.MapTypeId.TERRAIN,
+        mapTypeControlOptions: {
+          mapTypeIds: [
+            google.maps.MapTypeId.TERRAIN,
+            google.maps.MapTypeId.ROADMAP,
+            google.maps.MapTypeId.SATELLITE,
+            google.maps.MapTypeId.HYBRID
+          ]
+        }
+      });
+    };
+
+    staticImg.addEventListener("mouseenter", loadInteractiveMap);
+    staticImg.addEventListener("click", loadInteractiveMap);
+  })();
+  </script>
+</div>
                 <cfelse>
                     <cfset leftOfMapClass = "col-12">
                 </cfif>
