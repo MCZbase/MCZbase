@@ -3104,6 +3104,10 @@ limitations under the License.
                                 ]
                               }
                           });
+                          new google.maps.Marker({
+                            position: center,
+                            map: map
+                            });
                         };
 
                         staticImg.addEventListener("mouseenter", loadInteractiveMap);
