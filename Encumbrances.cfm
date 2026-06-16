@@ -238,7 +238,7 @@ from this file.
 													<cfset variables.encActSelected = "">
 												</cfif>
 												<option value="#encodeForHTML(getCtEncumbranceAction.encumbrance_action)#" #variables.encActSelected#>
-													#encodeForHTML(getCtEncumbranceAction.encumbrance_action)# (#getEncumbranceAction.ct#)
+													#encodeForHTML(getCtEncumbranceAction.encumbrance_action)# (#getCtEncumbranceAction.ct#)
 												</option>
 											</cfloop>
 										</select>
