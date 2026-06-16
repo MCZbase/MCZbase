@@ -300,7 +300,7 @@ from this file.
 										<button type="submit" class="btn btn-xs btn-primary">Search</button>
 										<a href="/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Reset</a>
 										<a href="/Encumbrances.cfm?action=create<cfif len(variables.collection_object_id) GT 0>&amp;collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>"
-											class="btn btn-xs btn-secondary ml-1">
+											class="btn btn-xs btn-secondary ml-1"><!--- " --->
 											Create New Encumbrance
 										</a>
 									</div>
@@ -530,7 +530,11 @@ from this file.
 					</cfif>
 				)
 			</cfquery>
-			<cflocation url="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#nextEncumbrance.nextEncumbrance#<cfif len(variables.collection_object_id) GT 0>&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>" addtoken="false">
+			<cfset additional="">
+			<cfif len(variables.collection_object_id) GT 0>
+				<cfset additional="&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#">
+			</cfif>
+			<cflocation url="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#nextEncumbrance.nextEncumbrance##additional#" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
@@ -985,7 +989,11 @@ from this file.
 				WHERE
 					encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.encumbrance_id#">
 			</cfquery>
-			<cflocation url="/Encumbrances.cfm?action=updateEncumbrance&encumbrance_id=#variables.encumbrance_id#<cfif len(variables.collection_object_id) GT 0>&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#</cfif>" addtoken="false">
+			<cfset additional="">
+			<cfif len(variables.collection_object_id) GT 0>
+				<cfset additional="&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#">
+			</cfif>
+			<cflocation url="/Encumbrances.cfm?action=updateEncumbrance&encumbrance_id=#variables.encumbrance_id##additional#" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
