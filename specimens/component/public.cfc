@@ -3043,9 +3043,9 @@ limitations under the License.
 				</cfquery>
 				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0 AND coordlookup.dec_lat NEQ "[Masked]">
                     <cfif #twoThreeColumnClasses# IS "col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
-                       <cfset twocol = "style='height: 220px;'">
+                       <cfset twocol = "tinymap-2col">
                     <cfelse>
-                        <cfset twocol = "style='height:220px;'">
+                        <cfset twocol = "tinymap-3col">
                     </cfif>
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
@@ -3056,8 +3056,8 @@ limitations under the License.
                         lng         = coordlookup.dec_long
                     )>
                     
-                    <div class="col-12 col-md-5 pl-md-0 mb-1 float-right pr-0" #twocol#>
-                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap">
+                    <div class="col-12 col-md-5 pl-md-0 mb-1 float-right pr-0">
+                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap twocol">
                         <!-- Static thumbnail always shown -->
                         <img
                           id="static-map-#loc_collevent.locality_id#"
@@ -3102,15 +3102,7 @@ limitations under the License.
                           var map = new google.maps.Map(mapDiv, {
                               center: center,
                               zoom: 10,
-                              mapTypeId: google.maps.MapTypeId.TERRAIN,
-                               mapTypeControlOptions: {
-                                mapTypeIds: [
-                                  google.maps.MapTypeId.TERRAIN,
-                                  google.maps.MapTypeId.ROADMAP,
-                                  google.maps.MapTypeId.SATELLITE,
-                                  google.maps.MapTypeId.HYBRID
-                                ]
-                              }
+                              mapTypeId: google.maps.MapTypeId.TERRAIN
                           });
                           new google.maps.Marker({
                             position: center,
