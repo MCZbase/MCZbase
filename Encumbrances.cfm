@@ -322,7 +322,9 @@ from this file.
 		     in the URL continue to work.
 		     ================================================================ --->
 		<cfcase value="create">
-			<cflocation url="/encumbrances/Encumbrance.cfm?action=new<cfif len(variables.collection_object_id) GT 0>&collection_object_id=#encodeForURL(variables.collection_object_id)#</cfif>" addtoken="false">
+			<cfset urlParameter = "">
+			<cfif len(variables.collection_object_id) GT 0><cfset urlParameter = "&collection_object_id=#encodeForURL(variables.collection_object_id)#"></cfif>
+			<cflocation url="/encumbrances/Encumbrance.cfm?action=new#urlParameter#" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
@@ -659,7 +661,9 @@ from this file.
 				</div>
 				<cfabort>
 			</cfif>
-			<cflocation url="/encumbrances/Encumbrance.cfm?action=edit&encumbrance_id=#encodeForURL(variables.encumbrance_id)#<cfif len(variables.collection_object_id) GT 0>&collection_object_id=#encodeForURL(variables.collection_object_id)#</cfif>" addtoken="false">
+			<cfset urlParameter = "">
+			<cfif len(variables.collection_object_id) GT 0><cfset urlParameter = "&collection_object_id=#encodeForURL(variables.collection_object_id)#"></cfif>
+			<cflocation url="/encumbrances/Encumbrance.cfm?action=edit&encumbrance_id=#encodeForURL(variables.encumbrance_id)##urlParameter#" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
