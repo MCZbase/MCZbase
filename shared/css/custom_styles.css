@@ -2897,21 +2897,26 @@ an overlay that prevents interaction with them.
   width: 100%;
   height: 100%;
 }
+.tinymap-3col {
 
+}
+
+.tinymap-2col {
+
+}
 .tinymap .static-map {
   object-fit: contain;
   cursor: pointer;
   z-index: 1;
-
-  margin: 0;
+  margin: 8px;
   padding: 0;
-  border: 0;
+  border: 2px solid blue;/* testing */
 }
 .tinymap-2col .static-map {
-  object-position: 48% 50%;   
+ /* object-position: 48% 50%;  */ 
 }
 .tinymap-2col .static-map {
-  object-position: 48% 45%;   
+ /* object-position: 48% 45%;   */
 }
 /* Interactive Google Map */
 .tinymap .interactive-map {
