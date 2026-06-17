@@ -3042,6 +3042,7 @@ limitations under the License.
 						ctgeology_attributes.type, ctgeology_attributes.ordinal
 				</cfquery>
 				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0 AND coordlookup.dec_lat NEQ "[Masked]">
+                    <p> #twoThreeColumnClasses#</p>
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
                         <!-- call the helper function defined in this same CFC -->
@@ -3050,7 +3051,7 @@ limitations under the License.
                         lat         = coordlookup.dec_lat,
                         lng         = coordlookup.dec_long
                     )>
-
+                    
                     <div class="col-12 col-md-5 pl-md-0 mb-1 float-right pr-0">
                       <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap">
                         <!-- Static thumbnail always shown -->
