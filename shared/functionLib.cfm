@@ -406,8 +406,8 @@ limitations under the License.
   <cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
   <cfif arguments.layout EQ "2col">
-    <cfset var mapWidth  = 500>
-    <cfset var mapHeight = 375> <!-- e.g. taller/wider -->
+    <cfset var mapWidth  = 480>
+    <cfset var mapHeight = 320> <!-- e.g. taller/wider -->
   <cfelse>
     <cfset var mapWidth  = 480>
     <cfset var mapHeight = 320>
