@@ -2885,6 +2885,7 @@ an overlay that prevents interaction with them.
   position: relative;
   width: 100%;
   overflow: hidden;
+    height:180px;
 }
 
 /* Static thumbnail */
