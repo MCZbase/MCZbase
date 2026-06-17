@@ -3042,7 +3042,7 @@ limitations under the License.
 						ctgeology_attributes.type, ctgeology_attributes.ordinal
 				</cfquery>
 				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0 AND coordlookup.dec_lat NEQ "[Masked]">
-                    <cfif #twoThreeColumnClasses# = "col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
+                    <cfif #twoThreeColumnClasses# IS "col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
                         <p>Hello</p>
                     </cfif>
 					<!--- include map --->
