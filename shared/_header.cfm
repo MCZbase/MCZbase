@@ -506,11 +506,7 @@ limitations under the License.
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-												<cfif targetMenu EQ "production">
-													<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
-												<cfelse>
-													<a class="dropdown-item bg-warning" href="">Encumbrances</a>
-												</cfif>
+												<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
 												<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 											</cfif>
 											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING ") OR listcontainsnocase(session.roles,"merge_agents") )>
