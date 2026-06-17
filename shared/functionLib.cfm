@@ -113,23 +113,25 @@ limitations under the License.
 </cffunction>
 		
 <!------------------------------------------------------------------------------------->
+
 <cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
-	<cfargument name="sql" required="true" type="string">
-	<!--- NOTE: Limited use, poor approach to sanitizing sql, it is well understood that methods that "exclude bad" can be evaded in ways that "allow only good" cannot. --->
-	<cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,declare,all_tables,v$session,all_users">
-	<cfset dels="';','|',">
-	<cfset unsafeFound=0>
-	<cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#">
-		<cfif ListFindNoCase(nono, i)>
-			<cfset unsafeFound=1>
-		</cfif>
-	</cfloop>
-	<cfif unsafeFound gt 0>
-		<cfreturn true>
-	<cfelse>
-		<cfreturn false>
-	</cfif>
+    <cfargument name="sql" required="true" type="string">
+    <!--- NOTE: Limited use, poor approach to sanitizing sql, it is well understood that methods that "exclude bad" can be evaded in ways that "allow only good" cannot. --->
+    <cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,declare,all_tables,v$session,all_users">
+    <cfset dels="';','|',">
+    <cfset unsafeFound=0>
+    <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#">
+        <cfif ListFindNoCase(nono, i)>
+            <cfset unsafeFound=1>
+        </cfif>
+    </cfloop>
+    <cfif unsafeFound gt 0>
+        <cfreturn true>
+    <cfelse>
+        <cfreturn false>
+    </cfif>
 </cffunction>
+
 <!----------------------------------------------------->
 <!----------------------------------------------------->
 <cffunction name="getMediaRelations" access="public" output="false" returntype="Query">
@@ -394,4 +396,70 @@ limitations under the License.
 	</cfloop>
 	<cfreturn LOCAL.Return />
 
+</cffunction>
+
+<!----------------------------------------------------->               
+
+<cffunction name="renderWikiButtons"
+           access="public"
+           returntype="string"
+           output="false">
+    <cfargument name="buttonClass" type="string" required="false" default="btn btn-xs btn-info">
+
+    <cfset var html = "">
+
+    <cfsavecontent variable="html">
+        <cfoutput>
+            <button id="show-wiki" class="#arguments.buttonClass#">Show Wiki Article</button>
+            <button id="hide-wiki" class="#arguments.buttonClass#">Hide Wiki Article</button>
+      
+        </cfoutput>
+    </cfsavecontent>
+
+    <cfreturn html>
+</cffunction>
+
+
+        
+<cffunction name="renderWikiDrawer"
+           access="public"
+           returntype="string"
+           output="false">
+    <cfargument name="action" type="string" required="true">
+    <cfargument name="targetWikiPage" type="string" required="true">
+
+    <cfset var html   = "">
+    <cfset var canEdit = false>-
+
+    <!--- Determine if user can edit --->
+    <cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+        <cfset canEdit = true>
+    </cfif>
+
+    <!-- Only show drawer for new/edit actions, like your original code -->
+   <cfif arguments.action EQ "new" OR arguments.action EQ "edit" OR arguments.action EQ "search">
+        <cfsavecontent variable="html">
+            <cfoutput>
+                <div id="wikiDrawer" class="wiki-drawer border">
+                    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                        <div class="mb-0 h5" id="wiki-content-title">Wiki Article</div>
+                        <button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="wiki-content" class="p-3 overflow-hidden"></div>
+                </div>
+
+                <!-- Initialize the drawer behavior using the shared JS function -->
+                <script>
+                    initWikiDrawer({
+                        targetWikiPage: "#encodeForJavaScript(arguments.targetWikiPage)#",
+                        canEdit: #canEdit ? "true" : "false"#
+                    });
+                </script>
+            </cfoutput>
+        </cfsavecontent>
+    </cfif>
+
+    <cfreturn html>
 </cffunction>

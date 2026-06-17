@@ -47,6 +47,7 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
+
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -180,10 +181,12 @@ limitations under the License.
 					</div>
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
-							<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+                            <cfoutput>#renderWikiButtons()#</cfoutput>
+                           
+							<!---<cfif findNoCase('redesign',Session.gitBranch) GT 0>
 								<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 								<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
-							</cfif>
+							</cfif>--->
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
 								function runTests() {
@@ -265,8 +268,12 @@ limitations under the License.
 									#blockform#
 								</form>
 							</div>
-							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
+                           <cftry>
+                                <cfoutput>#renderWikiButtons()#</cfoutput>
+                                <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+                            </cftry>
+							<!---<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>--->
 						</div>
 					</section>
 				</main>
@@ -674,46 +681,9 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-<!--- wiki drawer outside of main --->
-<cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
-	<cfoutput>
-		<cfset targetWikiPage = "Locality">
-		<cfif action EQ "edit">
-			<cfset targetWikiPage = "Edit_Locality">
-		</cfif>
-		<div id="wikiDrawer" class="wiki-drawer border">
-			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-				<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
-				<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div id="wiki-content" class="p-3"></div>
-		</div>
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 
-		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
-		<script>
-			$('##show-wiki').on('click', function(e) {
-				e.preventDefault();
-				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-				<cfelse>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-				</cfif>
-				$("##show-wiki").hide();
-				$("##hide-wiki").show();
-			});
-			$('##hide-wiki').on('click', function(e) {
-				e.preventDefault();
-				closeWikiDrawer();
-			});
-			$(document).ready(function() {
-				$("##hide-wiki").hide();
-			});
-			
-		
-		</script>
-	</cfoutput>
-</cfif>
 
 <cfinclude template = "/shared/_footer.cfm">
