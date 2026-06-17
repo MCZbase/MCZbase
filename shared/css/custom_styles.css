@@ -2917,7 +2917,7 @@ an overlay that prevents interaction with them.
   object-position: 48% 50%;   
 }
 .tinymap-2col .static-map {
-  object-position: 48% 48%;   
+  object-position: 48% 45%;   
 }
 /* Interactive Google Map */
 .tinymap .interactive-map {
