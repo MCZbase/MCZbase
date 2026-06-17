@@ -3045,7 +3045,7 @@ limitations under the License.
                     <cfif #twoThreeColumnClasses# IS "col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
                        <cfset twocol = "style='height: 240px;'">
                     <cfelse>
-                        <cfset twocol = "style='height:180px;'">
+                        <cfset twocol = "style='height:240px;'">
                     </cfif>
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
