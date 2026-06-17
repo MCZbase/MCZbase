@@ -212,10 +212,10 @@ viewEncumbrance.cfm.
 					ENCUMBERING_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumberingAgentId#">,
 					ENCUMBRANCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(encumbrance)#">,
 					ENCUMBRANCE_ACTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(encumbrance_action)#">,
-					EXPIRATION_DATE = <cfif len(trim(expiration_date)) GT 0><cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(trim(expiration_date),'yyyy-mm-dd')#"><cfelse>NULL</cfif>,
-					EXPIRATION_EVENT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(expiration_event)#">,
-					MADE_DATE = <cfif len(trim(made_date)) GT 0><cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(trim(made_date),'yyyy-mm-dd')#"><cfelse>NULL</cfif>,
-					REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(remarks)#">
+					EXPIRATION_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#trim(expiration_date)#" null="#len(trim(expiration_date)) EQ 0#">,
+					EXPIRATION_EVENT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(expiration_event)#" null="#len(trim(expiration_event)) EQ 0#">,
+					MADE_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#trim(made_date)#" null="#len(trim(made_date)) EQ 0#">,
+					REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(remarks)#" null="#len(trim(remarks)) EQ 0#">
 				WHERE
 					encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 			</cfquery>
