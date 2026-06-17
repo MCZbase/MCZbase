@@ -305,6 +305,8 @@ from this file.
 					$('##made_date_before').datepicker( { dateFormat: 'yy-mm-dd' } );
 					$('##expiration_date_after').datepicker( { dateFormat: 'yy-mm-dd' } );
 					$('##expiration_date_before').datepicker( { dateFormat: 'yy-mm-dd' } );
+					makeEncumbranceNameAutocomplete('encumbrance');
+					makeExpirationEventAutocomplete('expiration_event');
 					<!--- If url.execute=true is set, auto-submit the search on page load. --->
 					<cfif url.execute EQ "true">
 					loadEncumbranceResults();

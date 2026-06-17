@@ -93,31 +93,30 @@ function submitEncumbranceAction(actionValue, encumbranceId, collectionObjectId)
  * @param {string} collectionObjectId - the collection_object_id context; may be empty.
  */
 function confirmDeleteEncumbranceResult(encumbranceId, collectionObjectId) {
-	if (!confirm('Are you sure you want to delete this encumbrance? This cannot be undone.')) {
-		return;
-	}
-	$.ajax({
-		url: '/encumbrances/component/functions.cfc',
-		data: {
-			method: 'deleteEncumbrance',
-			returnformat: 'json',
-			encumbrance_id: encumbranceId
-		},
-		type: 'post',
-		dataType: 'json',
-		success: function (resp) {
-			if (resp.STATUS === 'ok' || resp.status === 'ok') {
-				loadEncumbranceResults();
-			} else if (resp.STATUS === 'blocked' || resp.status === 'blocked') {
-				alert('Cannot delete: ' + (resp.MESSAGE || resp.message));
-			} else {
-				alert('Error deleting encumbrance: ' + (resp.MESSAGE || resp.message || 'Unknown error.'));
+	confirmDialog('Are you sure you want to delete this encumbrance? This cannot be undone.', 'Delete Encumbrance?', function() {
+		$.ajax({
+			url: '/encumbrances/component/functions.cfc',
+			data: {
+				method: 'deleteEncumbrance',
+				returnformat: 'json',
+				encumbrance_id: encumbranceId
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function (resp) {
+				if (resp.STATUS === 'ok' || resp.status === 'ok') {
+					loadEncumbranceResults();
+				} else if (resp.STATUS === 'blocked' || resp.status === 'blocked') {
+					messageDialog('Cannot delete: ' + (resp.MESSAGE || resp.message), 'Cannot Delete');
+				} else {
+					messageDialog('Error deleting encumbrance: ' + (resp.MESSAGE || resp.message || 'Unknown error.'), 'Error');
+				}
+			},
+			error: function (jqXHR, textStatus, error) {
+				console.error('Delete encumbrance error:', error);
+				messageDialog('Error deleting encumbrance. Please try again.', 'Error');
 			}
-		},
-		error: function (jqXHR, textStatus, error) {
-			console.error('Delete encumbrance error:', error);
-			alert('Error deleting encumbrance. Please try again.');
-		}
+		});
 	});
 }
 
@@ -137,12 +136,12 @@ function confirmDeleteEncumbranceResult(encumbranceId, collectionObjectId) {
  */
 function validateEncumbranceForm(agentIdFieldId, expDateFieldId, expEventFieldId) {
 	if ($.trim($('#' + agentIdFieldId).val()).length === 0) {
-		alert('Error: You must pick an Encumbering Agent from the list.');
+		messageDialog('You must pick an Encumbering Agent from the list.', 'Validation Error');
 		return false;
 	}
 	if ($.trim($('#' + expDateFieldId).val()).length > 0 &&
 		$.trim($('#' + expEventFieldId).val()).length > 0) {
-		alert('Error: You may specify an expiration date or an expiration event, but not both.');
+		messageDialog('You may specify an expiration date or an expiration event, but not both.', 'Validation Error');
 		return false;
 	}
 	return true;
@@ -242,5 +241,106 @@ function loadEncumberedObjects(encumbranceId, targetType) {
 				'<p class="text-danger">Unable to load ' + targetType + ' list. Please try again.</p>'
 			);
 		}
+	});
+}
+
+/* ============================================================
+ * Edit page (/encumbrances/Encumbrance.cfm?action=edit)
+ * ============================================================ */
+
+/**
+ * Asks the user to confirm deletion of the currently-displayed encumbrance,
+ * then calls deleteEncumbrance on encumbrances/component/functions.cfc via AJAX.
+ * On success, redirects to the encumbrance search page.
+ *
+ * @param {string} encumbranceId - the ID of the encumbrance to delete.
+ */
+function confirmDeleteEncumbranceFromEditPage(encumbranceId) {
+	confirmDialog('Delete this encumbrance? This cannot be undone.', 'Delete Encumbrance?', function() {
+		$.ajax({
+			url: '/encumbrances/component/functions.cfc',
+			data: {
+				method: 'deleteEncumbrance',
+				returnformat: 'json',
+				encumbrance_id: encumbranceId
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function (resp) {
+				if (resp.STATUS === 'ok' || resp.status === 'ok') {
+					window.location.href = '/Encumbrances.cfm';
+				} else if (resp.STATUS === 'blocked' || resp.status === 'blocked') {
+					messageDialog('Cannot delete: ' + (resp.MESSAGE || resp.message), 'Cannot Delete');
+				} else {
+					messageDialog('Error deleting encumbrance: ' + (resp.MESSAGE || resp.message || 'Unknown error.'), 'Error');
+				}
+			},
+			error: function (jqXHR, textStatus, error) {
+				console.error('Delete encumbrance (edit page) error:', error);
+				messageDialog('Error deleting encumbrance. Please try again.', 'Error');
+			}
+		});
+	});
+}
+
+/* ============================================================
+ * Search form autocompletes (/Encumbrances.cfm)
+ * ============================================================ */
+
+/**
+ * Attaches a jQuery UI autocomplete to the encumbrance-name search input.
+ * Queries getEncumbranceNameAutocomplete in encumbrances/component/search.cfc.
+ *
+ * @param {string} fieldId - the id of the text input (without leading #).
+ */
+function makeEncumbranceNameAutocomplete(fieldId) {
+	$('#' + fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: '/encumbrances/component/search.cfc',
+				data: { term: request.term, method: 'getEncumbranceNameAutocomplete' },
+				dataType: 'json',
+				success: function (data) { response(data); },
+				error: function (jqXHR, textStatus, error) {
+					messageDialog('Error loading encumbrance name suggestions: ' + jqXHR.responseText, 'Error');
+				}
+			});
+		},
+		minLength: 2
+	});
+}
+
+/**
+ * Attaches a jQuery UI autocomplete to the expiration-event search input.
+ * Queries getExpirationEventAutocomplete in encumbrances/component/search.cfc.
+ * Includes a special "by date (no event)" option that sets the field value to
+ * "__by_date__"; the search CFC translates this sentinel to IS NULL in the query.
+ *
+ * @param {string} fieldId - the id of the text input (without leading #).
+ */
+function makeExpirationEventAutocomplete(fieldId) {
+	$('#' + fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: '/encumbrances/component/search.cfc',
+				data: { term: request.term, method: 'getExpirationEventAutocomplete' },
+				dataType: 'json',
+				success: function (data) { response(data); },
+				error: function (jqXHR, textStatus, error) {
+					messageDialog('Error loading expiration event suggestions: ' + jqXHR.responseText, 'Error');
+				}
+			});
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#' + fieldId).val(result.item.value);
+		},
+		minLength: 0
+	}).autocomplete('instance')._renderItem = function (ul, item) {
+		return $('<li>').append('<span>' + item.label + '</span>').appendTo(ul);
+	};
+	// Open the autocomplete on focus to show all options (including "by date")
+	$('#' + fieldId).on('focus', function () {
+		$(this).autocomplete('search', $(this).val());
 	});
 }

@@ -123,7 +123,13 @@ limitations under the License.
 				AND encumbrance.encumbrance_action = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(encumbrance_action)#">
 			</cfif>
 			<cfif len(trim(expiration_event)) GT 0>
-				AND upper(encumbrance.expiration_event) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(expiration_event))#%">
+				<!--- "__by_date__" is a sentinel value from the expiration-event autocomplete
+				     that means "search for encumbrances with no expiration event (by date only)". --->
+				<cfif trim(expiration_event) EQ "__by_date__">
+					AND encumbrance.expiration_event IS NULL
+				<cfelse>
+					AND upper(encumbrance.expiration_event) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(expiration_event))#%">
+				</cfif>
 			</cfif>
 			<cfif len(trim(remarks)) GT 0>
 				AND upper(encumbrance.remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(remarks))#%">
@@ -270,6 +276,82 @@ limitations under the License.
 			<h2 class="h3">Error in #function_called#:</h2>
 			<div>#error_message#</div>
 		</cfoutput>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+	getEncumbranceNameAutocomplete
+	Returns a JSON array of {value, label} objects matching the given term
+	against encumbrance.encumbrance, for use by the jQuery UI autocomplete on
+	the encumbrance search form.
+--->
+<cffunction name="getEncumbranceNameAutocomplete"
+	access="remote"
+	returntype="array"
+	returnformat="json"
+	output="false">
+
+	<cfargument name="term" type="string" required="false" default="">
+
+	<cftry>
+		<cfquery name="qryNames" datasource="user_login" username="#session.dbuser#" ******>
+			SELECT DISTINCT encumbrance
+			FROM encumbrance
+			<cfif len(trim(arguments.term)) GT 0>
+				WHERE upper(encumbrance) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.term))#%">
+			</cfif>
+			ORDER BY encumbrance
+			FETCH FIRST 30 ROWS ONLY
+		</cfquery>
+
+		<cfset variables.result = []>
+		<cfloop query="qryNames">
+			<cfset arrayAppend(variables.result, {"value"=qryNames.encumbrance, "label"=qryNames.encumbrance})>
+		</cfloop>
+		<cfreturn variables.result>
+
+	<cfcatch>
+		<cfreturn []>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+	getExpirationEventAutocomplete
+	Returns a JSON array of {value, label} objects for the expiration-event
+	autocomplete on the encumbrance search form.  Always includes a sentinel
+	option {value:"__by_date__", label:"by date (no event)"} as the first item,
+	followed by distinct non-null expiration_event values matching the term.
+--->
+<cffunction name="getExpirationEventAutocomplete"
+	access="remote"
+	returntype="array"
+	returnformat="json"
+	output="false">
+
+	<cfargument name="term" type="string" required="false" default="">
+
+	<cftry>
+		<cfquery name="qryEvents" datasource="user_login" username="#session.dbuser#" ******>
+			SELECT DISTINCT expiration_event
+			FROM encumbrance
+			WHERE expiration_event IS NOT NULL
+			<cfif len(trim(arguments.term)) GT 0 AND trim(arguments.term) NEQ "__by_date__">
+				AND upper(expiration_event) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.term))#%">
+			</cfif>
+			ORDER BY expiration_event
+			FETCH FIRST 30 ROWS ONLY
+		</cfquery>
+
+		<cfset variables.result = [{"value"="__by_date__", "label"="by date (no event)"}]>
+		<cfloop query="qryEvents">
+			<cfset arrayAppend(variables.result, {"value"=qryEvents.expiration_event, "label"=qryEvents.expiration_event})>
+		</cfloop>
+		<cfreturn variables.result>
+
+	<cfcatch>
+		<cfreturn [{"value"="__by_date__", "label"="by date (no event)"}]>
 	</cfcatch>
 	</cftry>
 </cffunction>

@@ -71,7 +71,7 @@ limitations under the License.
 
 <!--- For edit mode, load the existing encumbrance record --->
 <cfif variables.action EQ "edit">
-	<cfquery name="encDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="encDetails" datasource="user_login" username="#session.dbuser#" ******>
 		SELECT
 			encumbrance.encumbrance_id,
 			encumbrance.encumbering_agent_id,
@@ -81,13 +81,26 @@ limitations under the License.
 			encumbrance.expiration_date,
 			encumbrance.expiration_event,
 			encumbrance.remarks,
-			preferred_agent_name.agent_name
+			preferred_agent_name.agent_name,
+			count(coll_object_encumbrance.collection_object_id) AS specimen_count
 		FROM
 			encumbrance
 			JOIN preferred_agent_name
 				ON encumbrance.encumbering_agent_id = preferred_agent_name.agent_id
+			LEFT JOIN coll_object_encumbrance
+				ON encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
 		WHERE
 			encumbrance.encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.encumbrance_id#">
+		GROUP BY
+			encumbrance.encumbrance_id,
+			encumbrance.encumbering_agent_id,
+			encumbrance.encumbrance,
+			encumbrance.encumbrance_action,
+			encumbrance.made_date,
+			encumbrance.expiration_date,
+			encumbrance.expiration_event,
+			encumbrance.remarks,
+			preferred_agent_name.agent_name
 	</cfquery>
 	<cfif encDetails.recordcount EQ 0>
 		<cfinclude template="/errors/404.cfm">
@@ -102,6 +115,18 @@ limitations under the License.
 	<cfif isDate(encDetails.expiration_date)>
 		<cfset variables.editExpDate = dateformat(encDetails.expiration_date,"yyyy-mm-dd")>
 	</cfif>
+	<!--- Deletability: mirrors the rule used in renderEncumbranceSearchResults (search.cfc).
+	     An encumbrance is deletable when remarks does not contain "DO NOT DELETE" AND at least
+	     one of: no specimens linked, has an expiration event, or has an expiration date.
+	     TODO: locality_encumbrance - also require locality count EQ 0 when that table exists. --->
+	<cfset variables.isDeletable = false>
+	<cfif NOT findNoCase("DO NOT DELETE", encDetails.remarks)>
+		<cfif encDetails.specimen_count EQ 0
+				OR len(trim(encDetails.expiration_event)) GT 0
+				OR (len(variables.editExpDate) GT 0 AND dateCompare(parseDateTime(variables.editExpDate),now(),"d"))>
+			<cfset variables.isDeletable = true>
+		</cfif>
+	</cfif>
 </cfif>
 
 <cfinclude template="/encumbrances/component/functions.cfc" runOnce="true">
@@ -110,7 +135,8 @@ limitations under the License.
 <main class="container py-3" id="content">
 
 	<cfif variables.action EQ "edit">
-		<h1 class="h2 ml-3 mb-1">Edit Encumbrance
+		<h1 class="h2 ml-3 mb-1">Edit Encumbrance:
+			<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(variables.encumbrance_id)#"><span id="headingEncumbranceName">#encodeForHTML(encDetails.encumbrance)#</span></a>
 			<i class="fas fa-info-circle" onClick="getMCZDocs('encumbrance','encumbrance')" aria-label="help link"></i>
 		</h1>
 	<cfelse>
@@ -123,27 +149,6 @@ limitations under the License.
 	<div id="encumbranceSaveStatus" class="mb-2" role="status" aria-live="polite"></div>
 
 	<section class="row mx-0 border rounded my-2 pt-2" aria-labelledby="encFormHeading">
-		<cfif variables.action EQ "edit">
-			<div class="col-12 pb-2">
-				<p class="text-muted mb-1">
-					<small>Encumbrance ID: #encodeForHTML(variables.encumbrance_id)#</small>
-				</p>
-				<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(variables.encumbrance_id)#"
-					class="btn btn-xs btn-secondary mb-2">
-					<i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Encumbrance Details
-				</a>
-				<a href="/Encumbrances.cfm" class="btn btn-xs btn-secondary mb-2 ml-1">
-					Find Encumbrances
-				</a>
-			</div>
-		<cfelse>
-			<div class="col-12 pb-2">
-				<a href="/Encumbrances.cfm" class="btn btn-xs btn-secondary mb-2">
-					<i class="fa fa-arrow-left" aria-hidden="true"></i> Find Encumbrances
-				</a>
-			</div>
-		</cfif>
-
 		<form class="col-12" id="encumbranceForm"
 			name="encumbranceForm" method="post" novalidate>
 			<input type="hidden" name="encumbrance_id"
@@ -246,6 +251,13 @@ limitations under the License.
 						</button>
 						<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(variables.encumbrance_id)#"
 							class="btn btn-xs btn-warning ml-1">Cancel</a>
+						<cfif variables.isDeletable>
+							<button type="button" class="btn btn-xs btn-danger ml-2"
+								onclick="confirmDeleteEncumbranceFromEditPage('#encodeForHTML(variables.encumbrance_id)#');">
+								Delete
+							</button>
+						</cfif>
+						<output id="saveResultDiv" class="ml-2">&nbsp;</output>
 					<cfelse>
 						<button type="button" class="btn btn-xs btn-primary"
 							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','createEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id={encumbrance_id}'); }">
@@ -272,6 +284,18 @@ limitations under the License.
 			'agentViewEnc',
 			'<cfoutput><cfif variables.action EQ "edit">#val(encDetails.encumbering_agent_id)#</cfif></cfoutput>'
 		);
+		// Unsaved changes monitor — only active in edit mode (the indicator is not present for create)
+		if ($('#saveResultDiv').length) {
+			function changed() {
+				$('#saveResultDiv').html('Unsaved changes.');
+				$('#saveResultDiv').addClass('text-danger');
+				$('#saveResultDiv').removeClass('text-success');
+				$('#saveResultDiv').removeClass('text-warning');
+			}
+			$('#encumbranceForm input[type=text]').on('change', changed);
+			$('#encumbranceForm select').on('change', changed);
+			$('#encumbranceForm textarea').on('change', changed);
+		}
 	});
 </script>
 <script src="/encumbrances/js/encumbrances.js"></script>
