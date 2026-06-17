@@ -206,15 +206,17 @@ viewEncumbrance.cfm.
 			<cfif len(trim(expiration_date)) GT 0 AND len(trim(expiration_event)) GT 0>
 				<cfthrow message="You may specify an expiration date or an expiration event, but not both.">
 			</cfif>
+			<cfset variables.fmt_expiration_date = len(trim(expiration_date)) GT 0 ? dateformat(trim(expiration_date),'yyyy-mm-dd') : ''>
+			<cfset variables.fmt_made_date = len(trim(made_date)) GT 0 ? dateformat(trim(made_date),'yyyy-mm-dd') : ''>
 			<cfquery name="updateEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE encumbrance
 				SET
 					ENCUMBERING_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumberingAgentId#">,
 					ENCUMBRANCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(encumbrance)#">,
 					ENCUMBRANCE_ACTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(encumbrance_action)#">,
-					EXPIRATION_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#trim(expiration_date)#" null="#len(trim(expiration_date)) EQ 0#">,
+					EXPIRATION_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.fmt_expiration_date#" null="#len(variables.fmt_expiration_date) EQ 0#">,
 					EXPIRATION_EVENT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(expiration_event)#" null="#len(trim(expiration_event)) EQ 0#">,
-					MADE_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#trim(made_date)#" null="#len(trim(made_date)) EQ 0#">,
+					MADE_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.fmt_made_date#" null="#len(variables.fmt_made_date) EQ 0#">,
 					REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(remarks)#" null="#len(trim(remarks)) EQ 0#">
 				WHERE
 					encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
