@@ -611,18 +611,23 @@ from this file.
 												onclick="submitEncumbranceAction('updateEncumbrance','#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
 												Edit
 											</button>
-											<button type="button" class="btn btn-xs btn-danger mb-1"
-												onclick="confirmDeleteEncumbrance('#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
-												Delete
-											</button>
-											<a href="/SpecimenResults.cfm?encumbrance_id=#getEnc.encumbrance_id#"
-												class="btn btn-xs btn-info mb-1">
-												See Specimens
-											</a>
-											<a href="/Admin/deleteSpecByEncumbrance.cfm?encumbrance_id=#getEnc.encumbrance_id#"
-												class="btn btn-xs btn-danger mb-1">
-												Delete Encumbered Specimens
-											</a>
+											<!--- enable delete if no items are in the encumbrance and remarks does not containt 'DO NOT DELETE' --->
+											<cfif getEnc.object_count EQ 0 AND NOT findNoCase("DO NOT DELETE", getEnc.remarks)>
+												<button type="button" class="btn btn-xs btn-danger mb-1"
+													onclick="confirmDeleteEncumbrance('#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
+													Delete
+												</button>
+											</cfif>
+											<cfif getEnc.object_count GT 0>
+												<a href="/SpecimenResults.cfm?encumbrance_id=#getEnc.encumbrance_id#" class="btn btn-xs btn-info mb-1">See Specimens</a>
+											</cfif>
+											<!--- enable delete specimens if items are in the encumbrance and action is delete records --->
+											<cfif getEnc.object_count GT 0 AND getEnc.encumbrance_action EQ "delete records">
+												<a href="/Admin/deleteSpecByEncumbrance.cfm?encumbrance_id=#getEnc.encumbrance_id#"
+													class="btn btn-xs btn-danger mb-1">
+													Delete Encumbered Specimens
+												</a>
+											</cfif>
 										</td>
 									</tr>
 									<cfset variables.rowNum = variables.rowNum + 1>
