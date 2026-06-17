@@ -71,7 +71,7 @@ limitations under the License.
 
 <!--- For edit mode, load the existing encumbrance record --->
 <cfif variables.action EQ "edit">
-	<cfquery name="encDetails" datasource="user_login" username="#session.dbuser#" ******>
+	<cfquery name="encDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			encumbrance.encumbrance_id,
 			encumbrance.encumbering_agent_id,
