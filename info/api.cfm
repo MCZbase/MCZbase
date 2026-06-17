@@ -118,7 +118,7 @@
 		<h3 class="h3">Media</h3>
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
 	</div>
-	<div class="col-12">
+	<div class="col-12 mt-1">
 		<h3 class="h3">Download</h3>
 		<p>
 			You may download the complete public MCZ data set from 
