@@ -228,6 +228,12 @@ from this file.
 									<div class="col-12 col-md-3 col-xl-3 mb-2">
 										<label for="encumberingAgent" class="data-entry-label">Encumbering Agent</label>
 										<input type="text" name="encumberingAgent" id="encumberingAgent" value="#encodeForHTML(variables.encumberingAgent)#" class="data-entry-input col-12">
+										<input type="hidden" name="encumberingAgentId" id="encumberingAgentId" value="#encodeForHTML(variables.encumberingAgentId)#"><!--- unused --->
+										<script>
+											$(document).ready(function() {
+												makeConstrainedAgentPicker("encumberingAgent", "encumberingAgentId","encumbering_agent",false);
+											});
+										</script>
 									</div>
 									<div class="col-12 col-md-4 col-xl-3 mb-2">
 										<label for="encumbrance" class="data-entry-label">Encumbrance Name</label>
