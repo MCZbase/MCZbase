@@ -2892,8 +2892,8 @@ an overlay that prevents interaction with them.
 .tinymap .static-map, 
 .tinymap .interactive-map {
   position: absolute;
-    top: 50%;
-    left: 50%;
+    top: -50%;
+    left: -50%;
   width: 100%;
   height: 100%;
 }
@@ -2912,11 +2912,11 @@ an overlay that prevents interaction with them.
   padding: 0;
   border: 2px solid blue;/* testing */
 }
-.tinymap-2col .static-map {
- /* object-position: 48% 50%;  */ 
+.tinymap-3col .static-map {
+  object-position: 48% 50%;   
 }
 .tinymap-2col .static-map {
- /* object-position: 48% 45%;   */
+  object-position: 48% 45%;   
 }
 /* Interactive Google Map */
 .tinymap .interactive-map {
