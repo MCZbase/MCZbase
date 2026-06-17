@@ -72,12 +72,14 @@ from this file.
 	<cfset variables.collection_object_id = "">
 </cfif>
 
-<!--- Pre-compute context-aware URLs for reuse in links throughout the page. --->
+<!--- Pre-compute context-aware URLs for reuse in links throughout the page.
+     Create/edit now live in the encumbrances/ sub-directory; the collection_object_id
+     is carried through for the legacy cataloged-items section that follows search results. --->
 <cfif len(variables.collection_object_id) GT 0>
-	<cfset variables.createEncUrl = "/Encumbrances.cfm?action=create&collection_object_id=" & URLEncodedFormat(variables.collection_object_id)>
-	<cfset variables.backToSearchUrl = "/Encumbrances.cfm?action=entryPoint&collection_object_id=" & URLEncodedFormat(variables.collection_object_id)>
+	<cfset variables.createEncUrl = "/encumbrances/Encumbrance.cfm?action=new&collection_object_id=" & encodeForURL(variables.collection_object_id)>
+	<cfset variables.backToSearchUrl = "/Encumbrances.cfm?collection_object_id=" & encodeForURL(variables.collection_object_id)>
 <cfelse>
-	<cfset variables.createEncUrl = "/Encumbrances.cfm?action=create">
+	<cfset variables.createEncUrl = "/encumbrances/Encumbrance.cfm?action=new">
 	<cfset variables.backToSearchUrl = "/Encumbrances.cfm">
 </cfif>
 
@@ -195,7 +197,11 @@ from this file.
 	<cfswitch expression="#variables.action#">
 
 		<!--- ================================================================
-		     entryPoint: encumbrance search form
+		     entryPoint: encumbrance search form with AJAX results loading.
+		     The form no longer submits as a GET to listEncumbrances; instead it
+		     calls loadEncumbranceResults() which fetches rendered HTML from
+		     encumbrances/component/search.cfc and injects it into the results
+		     container below the form.
 		     ================================================================ --->
 		<cfcase value="entryPoint">
 			<section role="search">
@@ -209,13 +215,13 @@ from this file.
 								<p class="mb-2">
 									Now find an encumbrance to apply to the specimens below.
 									If you need a new encumbrance,
-									<a href="/Encumbrances.cfm?action=create&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#">create it first</a>
+									<a href="/encumbrances/Encumbrance.cfm?action=new&collection_object_id=#encodeForURL(variables.collection_object_id)#">create it first</a>
 									then come back here.
 								</p>
 							</cfif>
+							<!--- Search form — submit is intercepted by JS; results load via AJAX. --->
 							<form id="encumbranceSearchForm" name="encumbranceSearch"
-								method="get" action="/Encumbrances.cfm">
-								<input type="hidden" name="action" value="listEncumbrances">
+								method="get" onsubmit="loadEncumbranceResults(); return false;">
 								<input type="hidden" name="collection_object_id"
 									value="#encodeForHTML(variables.collection_object_id)#">
 								<div class="form-row">
@@ -284,124 +290,37 @@ from this file.
 					</div>
 				</div>
 			</section>
+			<!--- AJAX results container — populated by loadEncumbranceResults() --->
 			<section class="row mx-0 mb-4">
-				<div class="col-12">
+				<div class="col-12" id="encumbranceSearchResultsContainer">
 					<p class="mt-3 text-muted pl-1">
 						Enter search criteria above and click Search to find encumbrances.
 					</p>
 				</div>
 			</section>
+			<script src="/encumbrances/js/encumbrances.js"></script>
 			<script>
 				$(document).ready(function() {
 					$('##made_date_after').datepicker( { dateFormat: 'yy-mm-dd' } );
 					$('##made_date_before').datepicker( { dateFormat: 'yy-mm-dd' } );
 					$('##expiration_date_after').datepicker( { dateFormat: 'yy-mm-dd' } );
 					$('##expiration_date_before').datepicker( { dateFormat: 'yy-mm-dd' } );
+					<!--- If url.execute=true is set, auto-submit the search on page load. --->
+					<cfif url.execute EQ "true">
+					loadEncumbranceResults();
+					</cfif>
 				});
 			</script>
 		</cfcase>
 
 		<!--- ================================================================
-		     create: new encumbrance form
+		     create: redirect to the new create/edit page.
+		     The create form now lives in /encumbrances/Encumbrance.cfm.
+		     collection_object_id is forwarded so that callers that include it
+		     in the URL continue to work.
 		     ================================================================ --->
 		<cfcase value="create">
-			<h1 class="h2 ml-3 mb-1">Create Encumbrance
-				<i class="fas fa-info-circle" onClick="getMCZDocs('encumbrance','encumbrance')" aria-label="help link"></i>
-			</h1>
-			<section class="row mx-0 border rounded my-2 pt-2">
-				<form class="col-12" name="encumberCreateForm" id="encumberCreateForm"
-					method="post" action="/Encumbrances.cfm">
-					<input type="hidden" name="action" value="createEncumbrance">
-					<input type="hidden" name="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
-					<div class="form-row">
-						<div class="col-12 col-md-4 mb-2">
-							<span class="d-block">
-								<label for="encumberingAgent" class="data-entry-label w-auto d-inline">Encumbering Agent</label>
-								<span id="agentViewCreate" class="d-inline ml-1"></span>
-							</span>
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text smaller" id="agentIconCreate">
-										<i class="fa fa-user" aria-hidden="true"></i>
-									</span>
-								</div>
-								<input type="hidden" name="encumberingAgentId" id="encumberingAgentId">
-								<input type="text" name="encumberingAgent" id="encumberingAgent" required aria-required="true" class="form-control data-entry-input reqdClr" aria-describedby="agentIconCreate">
-							</div>
-							<script>
-								$(document).ready(function() {
-									makeRichAgentPicker('encumberingAgent', 'encumberingAgentId', 'agentIconCreate', 'agentViewCreate', '');
-								});
-							</script>
-						</div>
-						<div class="col-12 col-md-5 mb-2">
-							<label for="encumbranceNameCreate" class="data-entry-label">Encumbrance Name</label>
-							<input type="text" name="encumbrance" id="encumbranceNameCreate" required aria-required="true" class="data-entry-input col-12 reqdClr">
-						</div>
-						<div class="col-12 col-md-3 mb-2">
-							<label for="made_date" class="data-entry-label">Made Date</label>
-							<input type="text" name="made_date" id="made_date" required aria-required="true" class="data-entry-input col-12 reqdClr">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12 col-md-3 mb-2">
-							<label for="expiration_date" class="data-entry-label">Expiration Date</label>
-							<input type="text" name="expiration_date" id="expiration_date" class="data-entry-input col-12">
-						</div>
-						<div class="col-12 col-md-3 mb-2">
-							<label for="expiration_event" class="data-entry-label">Expiration Event</label>
-							<input type="text" name="expiration_event" id="expiration_event" class="data-entry-input col-12">
-						</div>
-						<div class="col-12 col-md-3 mb-2">
-							<label for="encumbrance_action_create" class="data-entry-label">Encumbrance Action</label>
-							<select name="encumbrance_action" id="encumbrance_action_create" required aria-required="true" class="data-entry-select col-12 reqdClr">
-								<option value=""></option>
-								<cfloop query="getCtEncumbranceAction">
-									<option value="#encodeForHTML(getCtEncumbranceAction.encumbrance_action)#">
-										#encodeForHTML(getCtEncumbranceAction.encumbrance_action)#
-									</option>
-								</cfloop>
-							</select>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12 mb-2">
-							<label for="remarks" class="data-entry-label">Remarks</label>
-							<textarea name="remarks" id="remarks" rows="3" class="data-entry-input col-12"></textarea>
-						</div>
-					</div>
-					<div class="form-row mb-4 mt-1">
-						<div class="col-12">
-							<button type="submit" class="btn btn-xs btn-primary" onclick="return validateCreateEncumbranceForm();">Create Encumbrance</button>
-							<a href="#variables.backToSearchUrl#" class="btn btn-xs btn-warning ml-1">Cancel</a>
-						</div>
-					</div>
-				</form>
-			</section>
-			<script>
-				$(document).ready(function() {
-					$('##made_date').datepicker({ dateFormat: 'yy-mm-dd' });
-					$('##expiration_date').datepicker({ dateFormat: 'yy-mm-dd' } );
-				});
-
-				/**
-				 * Validates the create encumbrance form before submission.
-				 * Checks that an agent has been resolved to a database record and that
-				 * expiration date and expiration event are not both specified.
-				 * @return {boolean} false if validation fails, true otherwise.
-				 */
-				function validateCreateEncumbranceForm() {
-					if ($('##encumberingAgentId').val() === "") {
-						alert("Error: You must pick an Encumbering Agent from the list.");
-						return false;
-					}
-					if ($('##expiration_date').val() !== "" && $('##expiration_event').val() !== "") {
-						alert("Error: You may specify an expiration event or an expiration date, but not both.");
-						return false;
-					}
-					return true;
-				}
-			</script>
+			<cflocation url="/encumbrances/Encumbrance.cfm?action=new<cfif len(variables.collection_object_id) GT 0>&collection_object_id=#encodeForURL(variables.collection_object_id)#</cfif>" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
@@ -570,55 +489,60 @@ from this file.
 								<cfloop query="getEnc">
 									<tr>
 										<td>#variables.rowNum#</td>
-										<td>#encodeForHTML(getEnc.encumbrance)#</td>
-										<td>#encodeForHTML(getEnc.encumbrance_action)#</td>
-										<td>#encodeForHTML(getEnc.agent_name)#</td>
-										<td>
-											<cfif isDate(getEnc.made_date)>
-												#dateformat(getEnc.made_date,"yyyy-mm-dd")#
-											</cfif>
-										</td>
-										<td>
-											<cfif isDate(getEnc.expiration_date)>
-												#dateformat(getEnc.expiration_date,"yyyy-mm-dd")#
-											</cfif>
-											<cfif len(trim(getEnc.expiration_event)) GT 0>
-												<span class="d-block">
-													#encodeForHTML(getEnc.expiration_event)#
-												</span>
-											</cfif>
-										</td>
-										<td>
-											<cfif len(trim(getEnc.remarks)) GT 0>
-												<small class="text-muted">
-													#encodeForHTML(getEnc.remarks)#
-												</small>
-											</cfif>
-										</td>
-										<td>#getEnc.object_count#</td>
-										<td>
-											<cfif len(variables.collection_object_id) GT 0>
-												<button type="button" class="btn btn-xs btn-secondary mb-1"
-													onclick="submitEncumbranceAction('saveEncumbrances','#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
-													Add Items to This Encumbrance
+											<td>
+												<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(getEnc.encumbrance_id)#">
+													#encodeForHTML(getEnc.encumbrance)#
+												</a>
+											</td>
+											<td>#encodeForHTML(getEnc.encumbrance_action)#</td>
+											<td>#encodeForHTML(getEnc.agent_name)#</td>
+											<td>
+												<cfif isDate(getEnc.made_date)>
+													#dateformat(getEnc.made_date,"yyyy-mm-dd")#
+												</cfif>
+											</td>
+											<td>
+												<cfif isDate(getEnc.expiration_date)>
+													#dateformat(getEnc.expiration_date,"yyyy-mm-dd")#
+												</cfif>
+												<cfif len(trim(getEnc.expiration_event)) GT 0>
+													<span class="d-block">
+														#encodeForHTML(getEnc.expiration_event)#
+													</span>
+												</cfif>
+											</td>
+											<td>
+												<cfif len(trim(getEnc.remarks)) GT 0>
+													<small class="text-muted">
+														#encodeForHTML(getEnc.remarks)#
+													</small>
+												</cfif>
+											</td>
+											<td>#getEnc.object_count#</td>
+											<td>
+												<cfif len(variables.collection_object_id) GT 0>
+													<button type="button" class="btn btn-xs btn-secondary mb-1"
+														onclick="submitEncumbranceAction('saveEncumbrances','#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
+														Add Items to This Encumbrance
 												</button>
-												<button type="button" class="btn btn-xs btn-warning mb-1"
-													onclick="submitEncumbranceAction('remListedItems','#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
-													Remove Listed Items
-												</button>
-											</cfif>
-											<button type="button" class="btn btn-xs btn-secondary mb-1"
-												onclick="submitEncumbranceAction('updateEncumbrance','#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
-												Edit
-											</button>
-											<!--- enable delete if remarks does not containt 'DO NOT DELETE' --->
-											<cfif NOT findNoCase("DO NOT DELETE", getEnc.remarks)>
-												<!--- enable delete if no items are in the encumbrance or if there is a value in expiration event or the expiration date is in the past --->
-												<cfif getEnc.object_count EQ 0 OR len(trim(getEnc.expiration_event)) GT 0 OR (len(getEnc.expiration_date) GT 0 AND ( dateCompare(parseDateTime(getEnc.expiration_date),now(),"d") ))>
-													<button type="button" class="btn btn-xs btn-danger mb-1"
-														onclick="confirmDeleteEncumbrance('#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
-														Delete
+													<button type="button" class="btn btn-xs btn-warning mb-1"
+														onclick="submitEncumbranceAction('remListedItems','#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
+														Remove Listed Items
 													</button>
+												</cfif>
+												<!--- Edit button links directly to the new edit page --->
+												<a href="/encumbrances/Encumbrance.cfm?action=edit&encumbrance_id=#encodeForURL(getEnc.encumbrance_id)#"
+													class="btn btn-xs btn-secondary mb-1">
+													Edit
+												</a>
+												<!--- enable delete if remarks does not containt 'DO NOT DELETE' --->
+												<cfif NOT findNoCase("DO NOT DELETE", getEnc.remarks)>
+													<!--- enable delete if no items are in the encumbrance or if there is a value in expiration event or the expiration date is in the past --->
+													<cfif getEnc.object_count EQ 0 OR len(trim(getEnc.expiration_event)) GT 0 OR (len(getEnc.expiration_date) GT 0 AND ( dateCompare(parseDateTime(getEnc.expiration_date),now(),"d") ))>
+														<button type="button" class="btn btn-xs btn-danger mb-1"
+															onclick="confirmDeleteEncumbrance('#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
+															Delete
+														</button>
 												</cfif>
 											</cfif>
 											<cfif getEnc.object_count GT 0>
@@ -722,148 +646,18 @@ from this file.
 		</cfcase>
 
 		<!--- ================================================================
-		     updateEncumbrance: display the encumbrance edit form
+		     updateEncumbrance: redirect to the new create/edit page.
+		     The edit form now lives in /encumbrances/Encumbrance.cfm.
+		     collection_object_id is forwarded for callers that include it.
 		     ================================================================ --->
 		<cfcase value="updateEncumbrance">
-			<cfquery name="encDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT
-					encumbrance.*,
-					preferred_agent_name.agent_name
-				FROM
-					encumbrance
-					JOIN preferred_agent_name
-						ON encumbrance.encumbering_agent_id = preferred_agent_name.agent_id
-				WHERE
-					encumbrance.encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.encumbrance_id#">
-			</cfquery>
-			<cfif encDetails.recordcount EQ 0>
+			<cfif len(variables.encumbrance_id) EQ 0>
 				<div class="alert alert-danger mt-2" role="alert">
-					Encumbrance not found (ID: #encodeForHTML(variables.encumbrance_id)#).
+					No encumbrance_id provided.
 				</div>
 				<cfabort>
 			</cfif>
-			<!--- Pre-format dates; isDate() guards against null database values. --->
-			<cfset variables.editMadeDate = "">
-			<cfif isDate(encDetails.made_date)>
-				<cfset variables.editMadeDate = dateformat(encDetails.made_date,"yyyy-mm-dd")>
-			</cfif>
-			<cfset variables.editExpDate = "">
-			<cfif isDate(encDetails.expiration_date)>
-				<cfset variables.editExpDate = dateformat(encDetails.expiration_date,"yyyy-mm-dd")>
-			</cfif>
-			<h1 class="h2 ml-3 mb-1">Edit Encumbrance
-				<i class="fas fa-info-circle" onClick="getMCZDocs('encumbrance','encumbrance')" aria-label="help link"></i>
-			</h1>
-			<section class="row mx-0 border rounded my-2 pt-2">
-				<div class="col-12 pb-2">
-					<p class="text-muted mb-1">
-						<small>Encumbrance ID: #encodeForHTML(variables.encumbrance_id)#</small>
-					</p>
-					<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encodeForHTML(variables.encumbrance_id)#"
-						class="btn btn-xs btn-secondary mb-2">
-						<i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Encumbrance
-					</a>
-				</div>
-				<form class="col-12" name="updateEncumbranceForm" id="updateEncumbranceForm"
-					method="post" action="/Encumbrances.cfm">
-					<input type="hidden" name="action" value="updateEncumbrance2">
-					<input type="hidden" name="encumbrance_id" value="#encodeForHTML(variables.encumbrance_id)#">
-					<input type="hidden" name="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
-					<div class="form-row">
-						<div class="col-12 col-md-4 mb-2">
-							<span class="d-block">
-								<label for="encumberingAgentEdit" class="data-entry-label w-auto d-inline">Encumbering Agent</label>
-								<span id="agentViewEdit" class="d-inline ml-1"></span>
-							</span>
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text smaller" id="agentIconEdit">
-										<i class="fa fa-user" aria-hidden="true"></i>
-									</span>
-								</div>
-								<input type="hidden" name="encumberingAgentId" id="encumberingAgentId" value="#encodeForHTML(encDetails.encumbering_agent_id)#">
-								<input type="text" name="encumberingAgent" id="encumberingAgentEdit" class="form-control data-entry-input reqdClr" value="#encodeForHTML(encDetails.agent_name)#" aria-describedby="agentIconEdit">
-							</div>
-							<script>
-								$(document).ready(function() {
-									makeRichAgentPicker('encumberingAgentEdit', 'encumberingAgentId', 'agentIconEdit', 'agentViewEdit', '#val(encDetails.encumbering_agent_id)#');
-								});
-							</script>
-						</div>
-						<div class="col-12 col-md-5 mb-2">
-							<label for="encumbranceNameEdit" class="data-entry-label">Encumbrance Name</label>
-							<input type="text" name="encumbrance" id="encumbranceNameEdit" value="#encodeForHTML(encDetails.encumbrance)#" class="data-entry-input col-12 reqdClr">
-						</div>
-						<div class="col-12 col-md-3 mb-2">
-							<label for="made_date" class="data-entry-label">Made Date</label>
-							<input type="text" name="made_date" id="made_date" value="#encodeForHTML(variables.editMadeDate)#" class="data-entry-input col-12">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12 col-md-3 mb-2">
-							<label for="expiration_date" class="data-entry-label">Expiration Date</label>
-							<input type="text" name="expiration_date" id="expiration_date" value="#encodeForHTML(variables.editExpDate)#" class="data-entry-input col-12">
-						</div>
-						<div class="col-12 col-md-3 mb-2">
-							<label for="expiration_event" class="data-entry-label">Expiration Event</label>
-							<input type="text" name="expiration_event" id="expiration_event" value="#encodeForHTML(encDetails.expiration_event)#" class="data-entry-input col-12">
-						</div>
-						<div class="col-12 col-md-3 mb-2">
-							<label for="encumbrance_action_edit" class="data-entry-label">Encumbrance Action</label>
-							<select name="encumbrance_action" id="encumbrance_action_edit" class="data-entry-select col-12 reqdClr">
-								<cfloop query="getCtEncumbranceAction">
-									<cfif getCtEncumbranceAction.encumbrance_action EQ encDetails.encumbrance_action>
-										<cfset variables.encActEditSelected = "selected">
-									<cfelse>
-										<cfset variables.encActEditSelected = "">
-									</cfif>
-									<option value="#encodeForHTML(getCtEncumbranceAction.encumbrance_action)#" #variables.encActEditSelected#>
-										#encodeForHTML(getCtEncumbranceAction.encumbrance_action)#
-									</option>
-								</cfloop>
-							</select>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12 mb-2">
-							<label for="remarks" class="data-entry-label">Remarks</label>
-							<textarea name="remarks" id="remarks" rows="3" class="data-entry-input col-12">#encodeForHTML(encDetails.remarks)#</textarea>
-						</div>
-					</div>
-					<div class="form-row mb-4 mt-1">
-						<div class="col-12">
-							<button type="submit" class="btn btn-xs btn-primary" onclick="return validateEditEncumbranceForm();">Save Changes</button>
-							<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encodeForHTML(variables.encumbrance_id)#" class="btn btn-xs btn-warning ml-1">
-								Cancel
-							</a>
-						</div>
-					</div>
-				</form>
-			</section>
-			<script>
-				$(document).ready(function() {
-					$('##made_date').datepicker( { dateFormat: 'yy-mm-dd' } );
-					$('##expiration_date').datepicker( { dateFormat: 'yy-mm-dd' } );
-				});
-
-				/**
-				 * Validates the edit encumbrance form before submission.
-				 * Checks that the encumbering agent has been resolved to a valid database id,
-				 * and that expiration date and expiration event are not both specified.
-				 * @return {boolean} false if validation fails, true otherwise.
-				 */
-				function validateEditEncumbranceForm() {
-					if ($('##encumberingAgentId').val() === "") {
-						alert("Error: You must pick an Encumbering Agent from the list.");
-						return false;
-					}
-					if ($('##expiration_date').val() !== "" && $('##expiration_event').val() !== "") {
-						alert("Error: You may specify an expiration event or an expiration date, but not both.");
-						return false;
-					}
-					return true;
-				}
-			</script>
+			<cflocation url="/encumbrances/Encumbrance.cfm?action=edit&encumbrance_id=#encodeForURL(variables.encumbrance_id)#<cfif len(variables.collection_object_id) GT 0>&collection_object_id=#encodeForURL(variables.collection_object_id)#</cfif>" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
@@ -890,7 +684,8 @@ from this file.
 			<cfif len(variables.collection_object_id) GT 0>
 				<cfset additional="&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#">
 			</cfif>
-			<cflocation url="/Encumbrances.cfm?action=updateEncumbrance&encumbrance_id=#variables.encumbrance_id##additional#" addtoken="false">
+			<!--- After saving, redirect to the view page in the encumbrances sub-directory. --->
+			<cflocation url="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#variables.encumbrance_id#" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
