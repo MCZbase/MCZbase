@@ -2884,7 +2884,6 @@ an overlay that prevents interaction with them.
 .tinymap {
   position: relative;
   width: 100%;
-  height: 240px;
   overflow: hidden;
 }
 
@@ -2901,14 +2900,12 @@ an overlay that prevents interaction with them.
   object-fit: cover;
   cursor: pointer;
   z-index: 1;
-  height: 240px;
 }
 
 /* Interactive Google Map */
 .tinymap .interactive-map {
   display: none;   /* hidden until hover/click */
   z-index: 2;      /* above the static image */
-  height: 240px;
 }
 
 /****************end all screen styles*********************/
