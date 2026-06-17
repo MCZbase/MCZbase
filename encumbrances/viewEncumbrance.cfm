@@ -98,7 +98,7 @@ limitations under the License.
 			<a href="/Encumbrances.cfm" class="btn btn-xs btn-secondary">
 				<i class="fa fa-arrow-left" aria-hidden="true"></i> Find Encumbrances
 			</a>
-			<a href="/SpecimenResults.cfm?encumbrance_id=#encodeForURL(variables.encumbrance_id)#"
+			<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(encDetails.encumbrance)#&closeParens1=0#encodeForURL(variables.encumbrance_id)#"
 				class="btn btn-xs btn-secondary ml-1">
 				See Specimens
 			</a>

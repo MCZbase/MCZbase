@@ -237,7 +237,7 @@ limitations under the License.
 										</cfif>
 									</cfif>
 									<cfif getEnc.specimen_count GT 0>
-										<a href="Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(getEnc.encumbrance)#&closeParens1=0" class="btn btn-xs btn-info mb-1">See Specimens</a>
+										<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(getEnc.encumbrance)#&closeParens1=0" class="btn btn-xs btn-info mb-1">See Specimens</a>
 									</cfif>
 									<!--- Enable delete specimens if items are in the encumbrance and action is delete records. --->
 									<cfif getEnc.specimen_count GT 0 AND getEnc.encumbrance_action EQ "delete records">
