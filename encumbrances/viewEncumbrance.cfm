@@ -135,13 +135,13 @@ limitations under the License.
 				<dt class="col-5 data-entry-label">Made Date</dt>
 				<dd class="col-7">
 					<cfif isDate(encDetails.made_date)>
-						#dateformat(encDetails.made_date,"dd Mon yyyy")#
+						#dateformat(encDetails.made_date,"yyyy-mm-dd")#
 					</cfif>
 				</dd>
 				<dt class="col-5 data-entry-label">Expiration Date</dt>
 				<dd class="col-7">
 					<cfif isDate(encDetails.expiration_date)>
-						#dateformat(encDetails.expiration_date,"dd Mon yyyy")#
+						#dateformat(encDetails.expiration_date,"yyyy-mm-dd")#
 					</cfif>
 				</dd>
 				<dt class="col-5 data-entry-label">Expiration Event</dt>

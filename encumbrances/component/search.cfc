@@ -123,9 +123,9 @@ limitations under the License.
 				AND encumbrance.encumbrance_action = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(encumbrance_action)#">
 			</cfif>
 			<cfif len(trim(expiration_event)) GT 0>
-				<!--- "__by_date__" is a sentinel value from the expiration-event autocomplete
+				<!--- "NULL" is a sentinel value from the expiration-event autocomplete
 				     that means "search for encumbrances with no expiration event (by date only)". --->
-				<cfif trim(expiration_event) EQ "__by_date__">
+				<cfif trim(expiration_event) EQ "NULL">
 					AND encumbrance.expiration_event IS NULL
 				<cfelse>
 					AND upper(encumbrance.expiration_event) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(expiration_event))#%">
@@ -295,7 +295,7 @@ limitations under the License.
 	<cfargument name="term" type="string" required="false" default="">
 
 	<cftry>
-		<cfquery name="qryNames" datasource="user_login" username="#session.dbuser#" ******>
+		<cfquery name="qryNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT encumbrance
 			FROM encumbrance
 			<cfif len(trim(arguments.term)) GT 0>
@@ -321,7 +321,7 @@ limitations under the License.
 	getExpirationEventAutocomplete
 	Returns a JSON array of {value, label} objects for the expiration-event
 	autocomplete on the encumbrance search form.  Always includes a sentinel
-	option {value:"__by_date__", label:"by date (no event)"} as the first item,
+	option {value:"NULL", label:"by date (no event)"} as the first item,
 	followed by distinct non-null expiration_event values matching the term.
 --->
 <cffunction name="getExpirationEventAutocomplete"
@@ -333,25 +333,25 @@ limitations under the License.
 	<cfargument name="term" type="string" required="false" default="">
 
 	<cftry>
-		<cfquery name="qryEvents" datasource="user_login" username="#session.dbuser#" ******>
+		<cfquery name="qryEvents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT expiration_event
 			FROM encumbrance
 			WHERE expiration_event IS NOT NULL
-			<cfif len(trim(arguments.term)) GT 0 AND trim(arguments.term) NEQ "__by_date__">
+			<cfif len(trim(arguments.term)) GT 0 AND trim(arguments.term) NEQ "NULL">
 				AND upper(expiration_event) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.term))#%">
 			</cfif>
 			ORDER BY expiration_event
 			FETCH FIRST 30 ROWS ONLY
 		</cfquery>
 
-		<cfset variables.result = [{"value"="__by_date__", "label"="by date (no event)"}]>
+		<cfset variables.result = [{"value"="NULL", "label"="by date (no event)"}]>
 		<cfloop query="qryEvents">
 			<cfset arrayAppend(variables.result, {"value"=qryEvents.expiration_event, "label"=qryEvents.expiration_event})>
 		</cfloop>
 		<cfreturn variables.result>
 
 	<cfcatch>
-		<cfreturn [{"value"="__by_date__", "label"="by date (no event)"}]>
+		<cfreturn [{"value"="NULL", "label"="by date (no event)"}]>
 	</cfcatch>
 	</cftry>
 </cffunction>

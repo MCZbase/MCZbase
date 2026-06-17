@@ -315,7 +315,7 @@ function makeEncumbranceNameAutocomplete(fieldId) {
  * Attaches a jQuery UI autocomplete to the expiration-event search input.
  * Queries getExpirationEventAutocomplete in encumbrances/component/search.cfc.
  * Includes a special "by date (no event)" option that sets the field value to
- * "__by_date__"; the search CFC translates this sentinel to IS NULL in the query.
+ * "NULL"; the search CFC translates this sentinel to IS NULL in the query.
  *
  * @param {string} fieldId - the id of the text input (without leading #).
  */
