@@ -614,12 +614,12 @@ from this file.
 											<!--- enable delete if remarks does not containt 'DO NOT DELETE' --->
 											<cfif NOT findNoCase("DO NOT DELETE", getEnc.remarks)>
 												<!--- enable delete if no items are in the encumbrance or if there is a value in expiration event or the expiration date is in the past --->
-												<cfif getEnc.object_count EQ 0 OR len(trim(getEnc.expiration_event)) GT 0 OR (isDate(getEnc.expiration_date) AND getEnc.expiration_date LT date()))>
+												<cfif getEnc.object_count EQ 0 OR len(trim(getEnc.expiration_event)) GT 0 OR (len(getEnc.expiration_date) GT 0 AND parseDateTime(getEnc.expiration_date) LT date())>
 													<button type="button" class="btn btn-xs btn-danger mb-1"
 														onclick="confirmDeleteEncumbrance('#getEnc.encumbrance_id#','#encodeForHTML(variables.collection_object_id)#');">
 														Delete
 													</button>
-												<cfif>
+												</cfif>
 											</cfif>
 											<cfif getEnc.object_count GT 0>
 												<a href="/SpecimenResults.cfm?encumbrance_id=#getEnc.encumbrance_id#" class="btn btn-xs btn-info mb-1">See Specimens</a>
