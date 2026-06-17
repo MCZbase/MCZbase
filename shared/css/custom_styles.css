@@ -2897,13 +2897,7 @@ an overlay that prevents interaction with them.
   width: 100%;
   height: 100%;
 }
-.tinymap-3col {
-  height: 180px;
-}
 
-.tinymap-2col {
-  height: 210px;   /* instead of 240; adjust up/down as needed */
-}
 .tinymap .static-map {
   object-fit: contain;
   cursor: pointer;
