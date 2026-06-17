@@ -302,7 +302,8 @@ function makeEncumbranceNameAutocomplete(fieldId) {
 				dataType: 'json',
 				success: function (data) { response(data); },
 				error: function (jqXHR, textStatus, error) {
-					messageDialog('Error loading encumbrance name suggestions: ' + jqXHR.responseText, 'Error');
+					console.error('Encumbrance name autocomplete error:', error);
+					messageDialog('Unable to load encumbrance name suggestions. Please try again.', 'Error');
 				}
 			});
 		},
@@ -327,7 +328,8 @@ function makeExpirationEventAutocomplete(fieldId) {
 				dataType: 'json',
 				success: function (data) { response(data); },
 				error: function (jqXHR, textStatus, error) {
-					messageDialog('Error loading expiration event suggestions: ' + jqXHR.responseText, 'Error');
+					console.error('Expiration event autocomplete error:', error);
+					messageDialog('Unable to load expiration event suggestions. Please try again.', 'Error');
 				}
 			});
 		},
