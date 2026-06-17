@@ -152,9 +152,9 @@ limitations under the License.
 			<div class="form-row">
 				<!--- Encumbering Agent --->
 				<div class="col-12 col-md-4 mb-2">
-					<span class="d-block">
+					<span class="d-block" style="margin-top:-2px;">
 						<label for="encumberingAgent" class="data-entry-label w-auto d-inline">Encumbering Agent</label>
-						<span id="agentViewEnc" class="d-inline ml-1"></span>
+						<span id="agentViewEnc" class="d-inline ml-1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					</span>
 					<div class="input-group">
 						<div class="input-group-prepend">
@@ -162,13 +162,13 @@ limitations under the License.
 								<i class="fa fa-user" aria-hidden="true"></i>
 							</span>
 						</div>
-						<input type="hidden" name="encumberingAgentId" id="encumberingAgentId"
-							<cfif variables.action EQ "edit">value="#encodeForHTML(encDetails.encumbering_agent_id)#"</cfif>>
 						<input type="text" name="encumberingAgent" id="encumberingAgent"
 							required aria-required="true"
-							class="form-control data-entry-input reqdClr"
+							class="form-control form-control-sm data-entry-input reqdClr rounded-right"
 							aria-describedby="agentIconEnc"
 							<cfif variables.action EQ "edit">value="#encodeForHTML(encDetails.agent_name)#"</cfif>>
+						<input type="hidden" name="encumberingAgentId" id="encumberingAgentId"
+							<cfif variables.action EQ "edit">value="#encodeForHTML(encDetails.encumbering_agent_id)#"</cfif>>
 					</div>
 				</div>
 
