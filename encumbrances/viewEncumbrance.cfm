@@ -102,7 +102,7 @@ limitations under the License.
 				class="btn btn-xs btn-secondary ml-1">
 				See Specimens
 			</a>
-			<cfif isDefined("session.roles") AND listFind(session.roles,"manage_collection") GT 0>
+			<cfif isDefined("session.roles") AND listFindNoCase(session.roles,"manage_collection") GT 0>
 				<a href="/encumbrances/Encumbrance.cfm?action=edit&encumbrance_id=#encodeForURL(variables.encumbrance_id)#"
 					class="btn btn-xs btn-primary ml-1">
 					<i class="fa fa-pencil" aria-hidden="true"></i> Edit

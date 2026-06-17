@@ -263,8 +263,8 @@ limitations under the License.
 
 <script>
 	$(document).ready(function () {
-		$('##made_date').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('##expiration_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#made_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#expiration_date').datepicker({ dateFormat: 'yy-mm-dd' });
 		makeRichAgentPicker(
 			'encumberingAgent',
 			'encumberingAgentId',
