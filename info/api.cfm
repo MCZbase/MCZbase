@@ -101,7 +101,7 @@
 	<div class="col-12">
 		You may search taxonomy using the <a href="/api/taxsrch">Taxonomy API</a>. 
 	</div>
-	<div class="col-12">
+	<div class="col-12 mt-1">
 		<h3 class="h3">You may link to taxon detail pages with URLs of the format:</h3>
 		<ul class="labels">
 			<li>
