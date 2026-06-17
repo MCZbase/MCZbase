@@ -405,13 +405,9 @@ limitations under the License.
   <cfargument name="layout"       type="string"  required="false" default="3col">
   <cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-  <cfif arguments.layout EQ "2col">
     <cfset var mapWidth  = 480>
-    <cfset var mapHeight = 320> <!-- e.g. taller/wider -->
-  <cfelse>
-    <cfset var mapWidth  = 480>
-    <cfset var mapHeight = 320>
-  </cfif>
+    <cfset var mapHeight = 320> 
+
         
   <cfset var zoom        = 10>
   <cfset var mapDir      = expandPath("/cache/static_maps/")>
