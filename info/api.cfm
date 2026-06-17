@@ -115,11 +115,16 @@
 		</ul>		
 	</div>
 	<div class="col-12">
+		<h3 class="h3">Media</h3>
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
 	</div>
 	<div class="col-12">
-		You may download the complete public MCZ data set from 
-        our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
+		<h3 class="h3">Download</h3>
+		<p>
+			You may download the complete public MCZ data set from 
+			our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> 
+			DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
+		</p>
 	</div>
 	<!--- 
 	<p>
