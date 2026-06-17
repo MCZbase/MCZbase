@@ -3044,8 +3044,10 @@ limitations under the License.
 				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0 AND coordlookup.dec_lat NEQ "[Masked]">
                     <cfif #twoThreeColumnClasses# IS "col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
                        <cfset twocol = "tinymap-2col">
+                       <cfset layoutflag = "2col">
                     <cfelse>
                         <cfset twocol = "tinymap-3col">
+                        <cfset layoutflag = "3col">
                     </cfif>
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
@@ -3053,7 +3055,8 @@ limitations under the License.
                     <cfset staticMapUrl = getOrCreateStaticMapForLocality(
                         locality_id = loc_collevent.locality_id,
                         lat         = coordlookup.dec_lat,
-                        lng         = coordlookup.dec_long
+                        lng         = coordlookup.dec_long,
+                        layout      = layoutFlag
                     )>
                     
                     <div class="col-12 col-md-5 pl-md-0 mb-1 float-right pr-0">

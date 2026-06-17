@@ -402,10 +402,17 @@ limitations under the License.
   <cfargument name="locality_id"  type="numeric" required="true">
   <cfargument name="lat"          type="numeric" required="true">
   <cfargument name="lng"          type="numeric" required="true">
+  <cfargument name="layout"       type="string"  required="false" default="3col">
   <cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-  <cfset var mapWidth    = 640>
-  <cfset var mapHeight   = 400>
+  <cfif arguments.layout EQ "2col">
+    <cfset var mapWidth  = 640>
+    <cfset var mapHeight = 400> <!-- e.g. taller/wider -->
+  <cfelse>
+    <cfset var mapWidth  = 480>
+    <cfset var mapHeight = 320>
+  </cfif>
+        
   <cfset var zoom        = 10>
   <cfset var mapDir      = expandPath("/cache/static_maps/")>
   <cfset var mapFileName = "locality-#arguments.locality_id#.png">
