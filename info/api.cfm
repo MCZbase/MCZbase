@@ -114,7 +114,7 @@
 			</li>
 		</ul>		
 	</div>
-	<div class="col-12>
+	<div class="col-12">
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
 	</div>
 	<div class="col-12">
