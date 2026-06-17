@@ -2902,7 +2902,7 @@ an overlay that prevents interaction with them.
   object-fit: contain;
   cursor: pointer;
   z-index: 1;
-  object-position: 48% 45%;
+  object-position: 48% 50%;
      margin: 0;
   padding: 0;
   border: 0;
