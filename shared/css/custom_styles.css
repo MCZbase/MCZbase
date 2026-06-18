@@ -2810,46 +2810,31 @@ div.mw-parser-output dt {
 }
 div.toctitle {margin-bottom:0;}
 .thumbinner {display:none;}
-/*
-Can not do this, dialogs have z-index set dynamically and an overlay that should be 
-beneath modal dialogs may be higher than 9997, thus placing arbitrary dialogs beneath 
-an overlay that prevents interaction with them.
-.ui-dialog {
-	z-index: 9997 !important;
-}
-#wikiDrawer {
-	z-index: 9997 !important;
-}
-*/
+
 .mw-toc-heading {
 	margin-bottom: 0;
 }
-/* Fixed to right side of viewport */
-/*.wiki-tab-container {
-    position: fixed;
-    right: 0;
-    top: 30%;          
-    z-index: 1050;    
-}*/
+body.wiki-open .ui-dialog {
+    /* Override jQuery UI's inline width */
+    width: auto !important;
+    max-width: calc(100vw - 355px) !important;
 
-/* Rotate text so you read it by tilting your head to the right/search help button */
-/*.wiki-tab-button {
-    padding: 6px 12px;
-    transform: rotate(90deg);
-    transform-origin: right center;
-    white-space: nowrap;
-    border-radius: 4px 4px 0 0; 
-}*/
-/* Desktop / large screens: push content */
+    /* Keep the dialog entirely in the visible (non-wiki) area */
+    left: 355px !important;      /* start right after the drawer */
+    right: 0 !important;
+
+    /* Optional: ensure it stays within viewport */
+    box-sizing: border-box;
+}
 @media (min-width: 768px) {
-    #content.pushed {
+/*    #content.pushed {
         margin-left: 355px;
         width: calc(100% - 355px);
     }
-      /* Optional: tweak dialog sizing for desktop specifically */
+
     #content.pushed .ui-dialog {
         max-width: calc(100vw - 355px);
-    }
+    }*/
 }
 /****************end all screen styles*********************/
 /**********************************************************/
