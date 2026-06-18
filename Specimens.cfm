@@ -245,9 +245,9 @@ limitations under the License.
 		// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
 		// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
 		function getVersion4UUID() {
-		  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-	   	 (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-		  );
+			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			);
 		}
 	</script>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -265,7 +265,7 @@ limitations under the License.
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					
-					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
+					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
 						<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0 && isdefined("target_loan_number") and len(target_loan_number) GT 0>
 							to add to Loan #target_loan_number# (with manage)
 						</cfif>
@@ -577,14 +577,14 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset TaxaButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
+														<cfset TaxaButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
+													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
-                                                        
-                                           <!---TAXONOMY SECTION--->	 
+
+												<!---TAXONOMY SECTION--->	 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
 														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
@@ -1886,7 +1886,7 @@ limitations under the License.
 							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
 								<div class="d-flex justify-content-end px-0"> 
 									<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help" type="button" data-help-target="collapseKeywordHelp">
-				                        Search Help
+										Search Help
 									</button>
 									<aside id="collapseKeywordHelp" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3">
@@ -2075,16 +2075,17 @@ limitations under the License.
 									</div>
 								</div>
 							</section> <!--- end keyword search/results panel --->
-								<!---Query Builder tab panel--->
-                                <!--- 
-                                Query:
-                                country = France
-                                and (family = 'Mustelidae' or family = 'Lophiidae')
-                                and collector = 'Brendan Haley'
 
-                                Target JSON:
-                                 [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
-                                --->
+							<!---Query Builder tab panel--->
+							<!--- 
+								Query:
+									country = France
+									and (family = 'Mustelidae' or family = 'Lophiidae')
+									and collector = 'Brendan Haley'
+
+								Old Target JSON:
+									[{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
+							--->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
 									<div class="d-flex justify-content-end px-0"> 
@@ -2609,7 +2610,7 @@ limitations under the License.
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
-													   addBuilderRow();
+														addBuilderRow();
 													});
 												});
 											</script>
@@ -2711,10 +2712,10 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-            <script src="/shared/js/wikiDrawer.js"></script>
-            <cfset action = "search">
-            <cfset targetWikiPage = "Search_Operators">
-            <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+			<script src="/shared/js/wikiDrawer.js"></script>
+			<cfset action = "search">
+			<cfset targetWikiPage = "Search_Operators">
+			<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 		</main>
 		<!--- 
 		<div>
@@ -3331,12 +3332,12 @@ limitations under the License.
 		var columnOrderLoading = 0
 	
 		function serializeFormAsJSON(formID) {
-		  const array = $('##'+formID).serializeArray();
-		  const json = {};
-		  $.each(array, function () {
-		    json[this.name] = this.value || "";
-		  });
-		  return json;
+			const array = $('##'+formID).serializeArray();
+			const json = {};
+			$.each(array, function () {
+				json[this.name] = this.value || "";
+			});
+			return json;
 		}
 
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -3382,7 +3383,7 @@ limitations under the License.
 	
 			bc.onmessage = function (message) { 
 				console.log(message);
-				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
+				if (message.data.source == "manage" && message.data.result_id == $("##result_id_fixedSearch").val()) { 
 					$('##fixedresultCount').html('Modified from manage page.');
 					if (!fixedreloadlistenerbound) { 
 						$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
@@ -3392,7 +3393,7 @@ limitations under the License.
 					}
 					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 				} 
-				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
+				if (message.data.source == "manage" && message.data.result_id == $("##result_id_keywordSearch").val()) { 
 					$('##keywordresultCount').html('Modified from manage page.');
 					if (!keywordreloadlistenerbound) { 
 						$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
@@ -3402,7 +3403,7 @@ limitations under the License.
 					}
 					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 				} 
-				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
+				if (message.data.source == "manage" && message.data.result_id == $("##result_id_builderSearch").val()) { 
 					$('##builderresultCount').html('Modified from manage page.');
 					if (!builderreloadlistenerbound) { 
 						$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
@@ -3485,7 +3486,7 @@ limitations under the License.
 						url: '/specimens/component/search.cfc',
 						type: 'POST',
 						data: serializeFormAsJSON('fixedSearchForm'),
-						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+						timeout: #Application.ajax_timeout*2#000, // units not specified, miliseconds? Fixed
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
@@ -3495,24 +3496,24 @@ limitations under the License.
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-           					success : function (data) { 
+			 					success : function (data) { 
 									console.log(data);
 									commit(true);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
-            				}
-         				});
+								}
+							});
 						} 
 					};
 				} else { 
@@ -3544,7 +3545,7 @@ limitations under the License.
 						root: 'specimenRecord',
 						id: 'collection_object_id',
 						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+						timeout: #Application.ajax_timeout*2#000, // units not specified, miliseconds? Fixed
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
@@ -3554,24 +3555,24 @@ limitations under the License.
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-           					success : function (data) { 
+								success : function (data) { 
 									console.log(data);
 									commit(true);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
-            				}
-         				});
+								}
+							});
 						} 
 					};
 				};
@@ -3606,7 +3607,7 @@ limitations under the License.
 					columnsresize: true,
 					autoshowfiltericon: true,
 					autoshowcolumnsmenubutton: false,
-					autoshowloadelement: false,  // overlay acts as load element for form+results
+					autoshowloadelement: false, // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
@@ -3655,7 +3656,7 @@ limitations under the License.
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
+						rowdetailsheight: 1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
 				});
@@ -3725,7 +3726,7 @@ limitations under the License.
 					</cfif>
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
+					// Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
@@ -3765,7 +3766,7 @@ limitations under the License.
 				keywordSearchLoaded = 0;
 
 				$("##overlay").show();
-				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
+				$("##collapseKeyword").collapse("hide"); // hide the help text if it is visible.
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
 				$("##keywordresultLink").html("");
@@ -3811,7 +3812,7 @@ limitations under the License.
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
-					timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds?  Keyword
+					timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? Keyword
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -3821,24 +3822,24 @@ limitations under the License.
 						console.log($('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid));
 						var collobjtoremove = $('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
-	        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+						$.ajax({
+							url: "/specimens/component/search.cfc",
+							data: { 
 								method: 'removeItemFromResult', 
 								result_id: $('##result_id_keywordSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
-           					success : function (data) { 
+							success : function (data) { 
 								console.log(data);
 								commit(true);
 								$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 							},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+							error : function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"removing row from result set");
 								commit(false);
-            				}
-         			});
+							}
+						});
 					} 
 				};	
 	
@@ -3858,7 +3859,7 @@ limitations under the License.
 					width: '100%',
 					autoheight: 'true',
 					source: dataAdapter,
-					filterable: false,  // turned off, will be difficult to support with server side paging of resultset
+					filterable: false, // turned off, will be difficult to support with server side paging of resultset
 					sortable: true,
 					pageable: true,
 					editable: false,
@@ -3870,7 +3871,7 @@ limitations under the License.
 					columnsresize: true,
 					autoshowfiltericon: true,
 					autoshowcolumnsmenubutton: false,
-					autoshowloadelement: false,  // overlay acts as load element for form+results
+					autoshowloadelement: false, // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
@@ -3917,7 +3918,7 @@ limitations under the License.
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
+						rowdetailsheight: 1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
 				});
@@ -3980,7 +3981,7 @@ limitations under the License.
 				});
 	
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
+					// Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
@@ -4062,7 +4063,7 @@ limitations under the License.
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
-					timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds?  Builder
+					timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? Builder
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -4072,24 +4073,24 @@ limitations under the License.
 						console.log($('##buildersearchResultsGrid').jqxGrid('getRowData',rowid));
 						var collobjtoremove = $('##buildersearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
-	        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+						$.ajax({
+							url: "/specimens/component/search.cfc",
+							data: { 
 								method: 'removeItemFromResult', 
 								result_id: $('##result_id_builderSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
-           					success : function (data) { 
+							success : function (data) { 
 								console.log(data);
 								commit(true);
 								$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 							},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+							error : function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"removing row from result set");
 								commit(false);
-            				}
-         			});
+							}
+						});
 					} 
 				};	
 	
@@ -4121,7 +4122,7 @@ limitations under the License.
 					columnsresize: true,
 					autoshowfiltericon: true,
 					autoshowcolumnsmenubutton: false,
-					autoshowloadelement: false,  // overlay acts as load element for form+results
+					autoshowloadelement: false, // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
@@ -4169,7 +4170,7 @@ limitations under the License.
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
+						rowdetailsheight: 1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
 				});
@@ -4195,7 +4196,7 @@ limitations under the License.
 						loadColumnOrder('buildersearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfset addedIDs =  "">
+						<cfset addedIDs = "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
@@ -4230,7 +4231,7 @@ limitations under the License.
 					</cfif>
 				});
 				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
+					// Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
@@ -4271,8 +4272,8 @@ limitations under the License.
 		}); /* End document.ready */
 	
 		var columnCategoryPlacements = new Map(); // fieldname and category placement
-		var columnCategories = new Map();   // category and count 
-		var columnSections = new Map();   // category and array of list rows
+		var columnCategories = new Map(); // category and count 
+		var columnSections = new Map(); // category and array of list rows
 		<cfloop query="getFieldMetadata">
 			columnCategoryPlacements.set("#getFieldMetadata.column_name#","#getFieldMetadata.category#");
 			if (columnCategories.has("#getFieldMetadata.category#")) { 
@@ -4326,8 +4327,8 @@ limitations under the License.
 			console.log(columnSections);
 			$("##"+whichGrid+"columnPick_row").html("");
 			$('<div/>',{
-    			id: whichGrid +"columnPick_col",
-    			class: "col-12 mb-2 accordion"
+				id: whichGrid +"columnPick_col",
+ 				class: "col-12 mb-2 accordion"
 			}).appendTo("##"+whichGrid+"columnPick_row");
 			var firstAccord = true;
 			var bodyClass="";
@@ -4335,9 +4336,9 @@ limitations under the License.
 			for (let [key, value] of columnCategories) { 
 				// TODO: use value (number of fields in category) to subdivide long categories.
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord",
-    				class: "card bg-light accordion-item",
-    				title: key
+					id: whichGrid + "_" + key + "_accord",
+					class: "card bg-light accordion-item",
+					title: key
 				}).appendTo("##"+whichGrid+"columnPick_col");
 				if (firstAccord) { 
 					bodyClass = "show";
@@ -4348,21 +4349,21 @@ limitations under the License.
 					ariaExpanded = "false";
 				}
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord_head",
-    				class: "card-header accordion-header"
+					id: whichGrid + "_" + key + "_accord_head",
+ 					class: "card-header accordion-header"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$('<h2/>',{
-    				id: whichGrid + "_" + key + "_accord_head_h2",
-    				class: "h4 my-0"
+					id: whichGrid + "_" + key + "_accord_head_h2",
+					class: "h4 my-0"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord_head");
 				$("##"+whichGrid+"_"+ key +"_accord_head_h2").html('<button class="accordion-button headerLnk text-left w-100" data-toggle="collapse" data-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord_body",
-    				class: "card-body accordion-collapse collapse " + bodyClass 
+					id: whichGrid + "_" + key + "_accord_body",
+					class: "card-body accordion-collapse collapse " + bodyClass 
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord_list",
-    				class: ""
+					id: whichGrid + "_" + key + "_accord_list",
+					class: ""
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
 				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: columnSections.get(key), autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"_"+key+"_accord_list").on('checkChange', function (event) {
@@ -4565,9 +4566,9 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'border-color': '##aaa'});
 			} catch (error) { 
 				console.log(error);
-				console.log("See BugID: 6152, Error seen by Stevie running chrome full screen on a second monitor.");  
-				console.log("Appears to result from jquery selector on the jqx-grid-cell class exceding the stack size.");  
-				console.log("Expected consequence is that the sort menus on the grid are not visible.");  
+				console.log("See BugID: 6152, Error seen by Stevie running chrome full screen on a second monitor.");
+				console.log("Appears to result from jquery selector on the jqx-grid-cell class exceding the stack size.");
+				console.log("Expected consequence is that the sort menus on the grid are not visible.");
 			}
 			try { 
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
@@ -4627,7 +4628,7 @@ limitations under the License.
 	// class helper functions from bonzo https://github.com/ded/bonzo
 	
 	function classReg( className ) {
-	  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+		return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
 	}
 	
 	// classList support for class management
@@ -4635,46 +4636,45 @@ limitations under the License.
 	var hasClass, addClass, removeClass;
 	
 	if ( 'classList' in document.documentElement ) {
-	  hasClass = function( elem, c ) {
-	    return elem.classList.contains( c );
-	  };
-	  addClass = function( elem, c ) {
-	    elem.classList.add( c );
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.classList.remove( c );
-	  };
-	}
-	else {
-	  hasClass = function( elem, c ) {
-	    return classReg( c ).test( elem.className );
-	  };
-	  addClass = function( elem, c ) {
-	    if ( !hasClass( elem, c ) ) {
-	      elem.className = elem.className + ' ' + c;
-	    }
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.className = elem.className.replace( classReg( c ), ' ' );
-	  };
+		hasClass = function( elem, c ) {
+			return elem.classList.contains( c );
+		};
+		addClass = function( elem, c ) {
+			elem.classList.add( c );
+		};
+		removeClass = function( elem, c ) {
+			elem.classList.remove( c );
+		};
+	} else {
+		hasClass = function( elem, c ) {
+			return classReg( c ).test( elem.className );
+		};
+		addClass = function( elem, c ) {
+			if ( !hasClass( elem, c ) ) {
+				elem.className = elem.className + ' ' + c;
+			}
+		};
+		removeClass = function( elem, c ) {
+			elem.className = elem.className.replace( classReg( c ), ' ' );
+		};
 	}
 	
 	function toggleClass( elem, c ) {
-	  var fn = hasClass( elem, c ) ? removeClass : addClass;
-	  fn( elem, c );
+		var fn = hasClass( elem, c ) ? removeClass : addClass;
+		fn( elem, c );
 	}
 	
 	window.classie = {
-	  // full names
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass,
-	  toggleClass: toggleClass,
-	  // short names
-	  has: hasClass,
-	  add: addClass,
-	  remove: removeClass,
-	  toggle: toggleClass
+		// full names
+		hasClass: hasClass,
+		addClass: addClass,
+		removeClass: removeClass,
+		toggleClass: toggleClass,
+		// short names
+		has: hasClass,
+		add: addClass,
+		remove: removeClass,
+		toggle: toggleClass
 	};
 	
 	})( window );
