@@ -184,6 +184,11 @@ Nest <cftry><cfcatch> blocks at the same level of indentation.
 	</cfcatch>
 	</cftry>
 
+Do not nest inputs within labels, instead use the for attribute of the label to link it to the input.
+
+	<label for="inputId">Label Text</label>
+	<input id="inputId" type="text" name="inputName">
+
 ### Variable Naming
 
 For variables declared in coldfusion or javascript that are not references to fields in the database, use camel case: localVariableName
