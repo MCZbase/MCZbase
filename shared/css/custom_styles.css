@@ -2771,9 +2771,15 @@ html,body {
 	transform: translateX(0);
     
 }
+
 #content {
+	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
 	width: 100%;
 	box-sizing: border-box;
+}
+#content.pushed {
+	margin-left: 400px;
+	width: calc(100% - 400px);
 }
 
 div.mw-parser-output h1 {
