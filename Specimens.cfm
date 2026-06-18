@@ -1559,9 +1559,9 @@ limitations under the License.
                                                     </div>
                                                 </div>
 											</div>
-                                         <!---END GENERAL SECTION--->
-                                                                
-                                         <!---TRANSACTION SECTION--->
+											<!---END GENERAL SECTION--->
+
+											<!---TRANSACTION SECTION--->
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
@@ -1586,9 +1586,8 @@ limitations under the License.
 																	<cfset loan_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
-															<label for="loan_number" class="data-entry-label smaller font-weight-bold">Loan ##
-															    <input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
-                                                            </label>
+															<label for="loan_number" class="data-entry-label smaller font-weight-bold">Loan ##</label>
+															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")>
@@ -1606,31 +1605,30 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
 															</cfif>
-															<label for="accn_number" class="data-entry-label smaller font-weight-bold">Accession ##
-															    <input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
-                                                            </label>
+															<label for="accn_number" class="data-entry-label smaller font-weight-bold">Accession ##</label>
+															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")>
 																<cfset received_date="">
 															</cfif>
-															<label for="received_date" class="data-entry-label smaller font-weight-bold">Date Received
-															    <input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
-                                                            </label>
+															<label for="received_date" class="data-entry-label smaller font-weight-bold">Date Received</label>
+															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")>
 																<cfset accn_status="">
 															</cfif>
-															<label for="accn_status" class="data-entry-label smaller font-weight-bold">Accession Status
+															<label for="accn_status" class="data-entry-label smaller font-weight-bold">
+																Accession Status
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                                <input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
-                                                                <script>
-                                                                    jQuery(document).ready(function() {
-                                                                        makeCTFieldSearchAutocomplete("accn_status","ACCN_STATUS");
-                                                                    });
-                                                                </script>
-                                                            </label>
+															</label>
+															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete("accn_status","ACCN_STATUS");
+																});
+															</script>
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")>
@@ -1638,27 +1636,26 @@ limitations under the License.
 															</cfif>
 															<label for="accn_type" class="data-entry-label smaller font-weight-bold">Accession Type
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                                <input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
-                                                                <script>
-                                                                    jQuery(document).ready(function() {
-                                                                        makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
-                                                                    });
-                                                                </script>
-                                                            </label>
+															</label>
+															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
+																});
+															</script>
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
-															<label for="deaccession_number" class="data-entry-label smaller font-weight-bold">Deaccession ##
-															    <input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
-                                                            </label>
+															<label for="deaccession_number" class="data-entry-label smaller font-weight-bold">Deaccession ##</label>
+															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
 													</div>
 												</div>
 											</cfif>
-                                         <!---END TRANSACTION SECTION--->                
-                                            
+											<!---END TRANSACTION SECTION--->
+
 											<div id="searchButtons">
 												<div class="form-row mx-0 px-4 my-1 pb-1">
 													<div class="col-12 px-2 py-2 py-sm-0">
