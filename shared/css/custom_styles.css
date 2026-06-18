@@ -2896,7 +2896,7 @@ an overlay that prevents interaction with them.
 }
 /* Explicit heights per layout */
 .tinymap-3col {
-    height: 180px;   
+    height: 240px;   
     overflow: hidden;
     float:left;
     width: 100%;
