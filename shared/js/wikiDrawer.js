@@ -13,7 +13,31 @@
  * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
  */
 
+function recenterOpenDialogs() {
+    // For every visible jQuery UI dialog
+    $('.ui-dialog:visible').each(function () {
+        var $dlg = $(this);
 
+        // If needed, let jQuery UI compute the position again
+        var $widget = $dlg; // .ui-dialog wrapper
+        var $content = $widget.find('.ui-dialog-content');
+
+        if ($content.length && $content.data('ui-dialog')) {
+            $content.dialog('option', 'position', {
+                my: 'center',
+                at: 'center',
+                of: window
+            });
+        } else {
+            // Fallback: simple CSS recentering
+            $dlg.css({
+                left: '50%',
+                top:  '50%',
+                transform: 'translate(-50%, -50%)'
+            });
+        }
+    });
+}
 
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
@@ -36,6 +60,7 @@ function openWikiDrawer() {
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
     resizeAllGridsToContent();
+    recenterOpenDialogs();  
 }
 function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
@@ -44,6 +69,7 @@ function closeWikiDrawer() {
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
     resizeAllGridsToContent();
+    recenterOpenDialogs();  
 }
 
 
