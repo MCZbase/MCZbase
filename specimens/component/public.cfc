@@ -3066,7 +3066,7 @@ limitations under the License.
                           id="static-map-#loc_collevent.locality_id#"
                           src="#encodeForHtmlAttribute(staticMapUrl)#"
                           alt="Map of specimen collection locality #loc_collevent.locality_id#"
-                        class="pr-2">
+                        class="pr-2 static-map">
 
                         <!-- Interactive map, hidden until user interacts -->
                         <div
