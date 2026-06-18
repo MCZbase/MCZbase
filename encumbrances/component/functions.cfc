@@ -431,6 +431,10 @@ viewEncumbrance.cfm.
 <cffunction name="getEncumberedObjectsHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="encumbrance_id" type="string" required="yes">
 	<cfargument name="targetType" type="string" required="no" default="specimen">
+	<!--- When editMode is true, a Remove button column is added to the specimens table.
+	     The remove button calls removeSpecimenFromEncumbrance(encumbranceId, collectionObjectId)
+	     which is defined in encumbrances/js/encumbrances.js. --->
+	<cfargument name="editMode" type="boolean" required="no" default="false">
 
 	<cftry>
 		<cfif len(trim(encumbrance_id)) EQ 0 OR NOT isNumeric(encumbrance_id)>
@@ -489,6 +493,7 @@ viewEncumbrance.cfm.
 									<th scope="col">Country</th>
 									<th scope="col">State/Province</th>
 									<th scope="col">County</th>
+									<cfif editMode><th scope="col"></th></cfif>
 								</tr>
 							</thead>
 							<tbody>
@@ -503,6 +508,15 @@ viewEncumbrance.cfm.
 										<td>#encodeForHTML(encObjects.country)#</td>
 										<td>#encodeForHTML(encObjects.state_prov)#</td>
 										<td>#encodeForHTML(encObjects.county)#</td>
+										<cfif editMode>
+											<td>
+												<button type="button" class="btn btn-xs btn-warning"
+													aria-label="Remove this specimen from the encumbrance"
+													onclick="removeSpecimenFromEncumbrance('#encumbrance_id#','#encObjects.collection_object_id#')">
+													Remove
+												</button>
+											</td>
+										</cfif>
 									</tr>
 								</cfloop>
 							</tbody>
@@ -586,6 +600,108 @@ viewEncumbrance.cfm.
 		</cfoutput>
 	</cfcatch>
 	</cftry>
+</cffunction>
+
+<!---
+ addSpecimenToEncumbrance links a cataloged item to an encumbrance via coll_object_encumbrance.
+ If the item is already linked, returns status "duplicate" rather than raising an error.
+
+ @param encumbrance_id       required encumbrance_id to add the specimen to.
+ @param collection_object_id required collection_object_id of the cataloged item.
+ @return struct with keys: status ("ok"|"duplicate"|"error"), message.
+--->
+<cffunction name="addSpecimenToEncumbrance" access="remote" returntype="struct" returnformat="json">
+	<cfargument name="encumbrance_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = StructNew()>
+	<cftransaction>
+		<cftry>
+			<cfif len(trim(encumbrance_id)) EQ 0 OR NOT isNumeric(encumbrance_id)>
+				<cfthrow message="Invalid or missing encumbrance_id.">
+			</cfif>
+			<cfif len(trim(collection_object_id)) EQ 0 OR NOT isNumeric(collection_object_id)>
+				<cfthrow message="Invalid or missing collection_object_id. Please select a cataloged item from the autocomplete list.">
+			</cfif>
+			<!--- Check whether the pairing already exists to avoid a duplicate key error. --->
+			<cfquery name="checkExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(*) AS cnt
+				FROM coll_object_encumbrance
+				WHERE encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
+				  AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
+			<cfif checkExists.cnt GT 0>
+				<cftransaction action="rollback">
+				<cfset data["status"] = "duplicate">
+				<cfset data["message"] = "This cataloged item is already linked to this encumbrance.">
+			<cfelse>
+				<cfquery name="insertLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					INSERT INTO coll_object_encumbrance (
+						encumbrance_id,
+						collection_object_id
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					)
+				</cfquery>
+				<cftransaction action="commit">
+				<cfset data["status"] = "ok">
+				<cfset data["message"] = "Cataloged item added to encumbrance.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
+			<cfset data["status"] = "error">
+			<cfset data["message"] = error_message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn data>
+</cffunction>
+
+<!---
+ removeSpecimenFromEncumbrance removes a cataloged item from an encumbrance via coll_object_encumbrance.
+
+ @param encumbrance_id       required encumbrance_id to remove the specimen from.
+ @param collection_object_id required collection_object_id of the cataloged item to remove.
+ @return struct with keys: status ("ok"|"error"), message.
+--->
+<cffunction name="removeSpecimenFromEncumbrance" access="remote" returntype="struct" returnformat="json">
+	<cfargument name="encumbrance_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = StructNew()>
+	<cftransaction>
+		<cftry>
+			<cfif len(trim(encumbrance_id)) EQ 0 OR NOT isNumeric(encumbrance_id)>
+				<cfthrow message="Invalid or missing encumbrance_id.">
+			</cfif>
+			<cfif len(trim(collection_object_id)) EQ 0 OR NOT isNumeric(collection_object_id)>
+				<cfthrow message="Invalid or missing collection_object_id.">
+			</cfif>
+			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				DELETE FROM coll_object_encumbrance
+				WHERE encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
+				  AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
+			<cftransaction action="commit">
+			<cfset data["status"] = "ok">
+			<cfset data["message"] = "Cataloged item removed from encumbrance.">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
+			<cfset data["status"] = "error">
+			<cfset data["message"] = error_message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn data>
 </cffunction>
 
 </cfcomponent>

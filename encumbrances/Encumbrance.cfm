@@ -270,40 +270,42 @@ limitations under the License.
 		</form>
 	</section>
 
-	<section class="row m-1 pt-2" aria-labelledby="addByCatNumHeading">
-		<div class="col-12">
-			<div class="add-form mt-2">
-				<div class="add-form-header pt-1 px-2">
-					<h2 class="h4 mb-0 pb-0" id="addByCatNumHeading">Encumber Cataloged Items</h2>
-				</div>
-				<div class="card-body form-row my-1">
-					<div class="col-12 col-md-4">
-						<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
-						<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
-						<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+	<cfif variables.action EQ "edit">
+		<!--- ================================================================
+		     "Encumber Cataloged Items" section — edit mode only.
+		     Allows curators to add cataloged items to this encumbrance by
+		     catalog number (using the makeCatalogedItemAutocompleteMeta picker)
+		     and to remove existing items with a Remove button.
+		     ================================================================ --->
+		<section class="row m-1 pt-2" aria-labelledby="addByCatNumHeading">
+			<div class="col-12">
+				<div class="add-form mt-2">
+					<div class="add-form-header pt-1 px-2">
+						<h2 class="h4 mb-0 pb-0" id="addByCatNumHeading">Encumbered Specimens</h2>
 					</div>
-					<div class="col-12 col-md-8">
-						<label class="data-entry-label">&nbsp;</label>
-						<button id="encumberItembutton" class="btn btn-xs btn-secondary" 
-							aria-label="Add an item to this encumbrance by catalog number" >Add to Encumbrance</button>
-						<script>
-							$(document).ready(function() {
-								$('##encumberitembutton').click(function(evt) { 
-									evt.preventDefault();
-									// TOOD: Implement
-								});
-							});
-						</script>
-						<script>
-							$(document).ready(function() {
-								makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
-							});
-						</script>
+					<div class="card-body form-row my-1 align-items-end">
+						<div class="col-12 col-md-4">
+							<label class="data-entry-label" for="guid">Add by catalog number (MCZ:Dept:number)</label>
+							<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111">
+							<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+						</div>
+						<div class="col-12 col-md-8">
+							<label class="data-entry-label">&nbsp;</label>
+							<button type="button" class="btn btn-xs btn-secondary"
+								aria-label="Add the selected cataloged item to this encumbrance"
+								onclick="addSpecimenToEncumbrance('#encodeForHTML(variables.encumbrance_id)#')">Add to Encumbrance</button>
+							<span id="addToEncStatusDiv" class="ml-2"></span>
+						</div>
+					</div>
+					<div class="card-body pt-0">
+						<div id="encumbered-specimen-edit-container">
+							<p class="text-muted">Loading encumbered specimens&hellip;</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</cfif>
 
 </main>
 </cfoutput>
@@ -330,6 +332,11 @@ limitations under the License.
 			$('#encumbranceForm input[type=text]').on('change', changed);
 			$('#encumbranceForm select').on('change', changed);
 			$('#encumbranceForm textarea').on('change', changed);
+		}
+		// Catalog-number autocomplete and initial specimens list — edit mode only
+		if ($('#encumbered-specimen-edit-container').length) {
+			makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
+			loadEncumberedObjectsEdit('<cfoutput>#encodeForHTML(variables.encumbrance_id)#</cfoutput>');
 		}
 	});
 </script>
