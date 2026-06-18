@@ -1663,6 +1663,7 @@ limitations under the License.
 													<div id="TransactionDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#TransactionDetailStyle#">
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
+																<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
 																<label for="permit_num" class="data-entry-label small">Permit Number</label>
 																<input type="text" id="permit_num" name="permit_num" class="data-entry-input inputHeight" value="#encodeForHtml(permit_num)#">
 																<script>
@@ -1672,6 +1673,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
+																<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
 																<label for="permit_title" class="data-entry-label small">Document Title</label>
 																<input type="text" id="permit_title" name="permit_title" class="data-entry-input inputHeight" value="#encodeForHtml(permit_title)#">
 																<script>
@@ -1681,11 +1683,15 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
+																<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
+																<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
 																<label for="IssuedByAgent" class="data-entry-label small">Issued By</label>
 																<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedByAgent)#">
 																<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
 															</div>
 															<div class="col-12 col-md-3 mb-1">
+																<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
+																<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
 																<label for="IssuedToAgent" class="data-entry-label small">Issued To</label>
 																<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedToAgent)#">
 																<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#encodeForHtml(issued_to_agent_id)#">
@@ -1700,6 +1706,7 @@ limitations under the License.
 														
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
+																<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
 																<label for="permit_type" class="data-entry-label small">
 																	Document Category
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
@@ -1713,6 +1720,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
+																<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 																<label for="specific_type" class="data-entry-label small">
 																	Specific Document Type
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
