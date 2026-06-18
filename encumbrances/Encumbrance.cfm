@@ -270,6 +270,41 @@ limitations under the License.
 		</form>
 	</section>
 
+	<section class="row m-1 pt-2" aria-labelledby="addByCatNumHeading">
+		<div class="col-12">
+			<div class="add-form mt-2">
+				<div class="add-form-header pt-1 px-2">
+					<h2 class="h4 mb-0 pb-0" id="addByCatNumHeading">Encumber Cataloged Items</h2>
+				</div>
+				<div class="card-body form-row my-1">
+					<div class="col-12 col-md-4">
+						<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
+						<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
+						<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+					</div>
+					<div class="col-12 col-md-8">
+						<label class="data-entry-label">&nbsp;</label>
+						<button id="encumberItembutton" class="btn btn-xs btn-secondary" 
+							aria-label="Add an item to this encumbrance by catalog number" >Add to Encumbrance</button>
+						<script>
+							$(document).ready(function() {
+								$('##encumberitembutton').click(function(evt) { 
+									evt.preventDefault();
+									// TOOD: Implement
+								});
+							});
+						</script>
+						<script>
+							$(document).ready(function() {
+								makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 </main>
 </cfoutput>
 
