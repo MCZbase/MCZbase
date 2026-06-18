@@ -2289,13 +2289,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("permit_type") AND len(permit_type) GT 0>
-			<cfset field = '"field": "permit_type"'>
+			<cfset field = '"field": "permit_type"'><!--- in the code table --->
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#permit_type#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("specific_type") AND len(specific_type) GT 0>
-			<cfset field = '"field": "specific_type"'>
+			<cfset field = '"field": "permit_specific_type"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#specific_type#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
