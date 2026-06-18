@@ -1569,14 +1569,17 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TransactionButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
+
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
-														<h2 class="small font-weight-bold mx-xl-0 px-3 px-xl-2 py2px m-0 text-left text-xl-right d-block border-top border-right border-bottom border-left bg-teal">
-															Transactions
-														</h2>
-														<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
+														<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
+															<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">
+																Transactions
+															</h2>
+															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
+														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 py-2 mb-0">
+													<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 mx-0">
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
@@ -1662,7 +1665,7 @@ limitations under the License.
 													<!--- TRANSACTION DETAIL --->
 													<div id="TransactionDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#TransactionDetailStyle#">
 														<div class="form-row col-12 mb-1 px-1 mx-0">
-															<div class="col-12 col-md-3 mb-1">
+															<div class="col-12 col-md-2 mb-1">
 																<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
 																<label for="permit_num" class="data-entry-label small">Permit Number</label>
 																<input type="text" id="permit_num" name="permit_num" class="data-entry-input inputHeight" value="#encodeForHtml(permit_num)#">
@@ -1672,7 +1675,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-3 mb-1">
+															<div class="col-12 col-md-2 mb-1">
 																<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
 																<label for="permit_title" class="data-entry-label small">Document Title</label>
 																<input type="text" id="permit_title" name="permit_title" class="data-entry-input inputHeight" value="#encodeForHtml(permit_title)#">
@@ -1682,14 +1685,14 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-3 mb-1">
+															<div class="col-12 col-md-2 mb-1">
 																<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
 																<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
 																<label for="IssuedByAgent" class="data-entry-label small">Issued By</label>
 																<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedByAgent)#">
 																<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
 															</div>
-															<div class="col-12 col-md-3 mb-1">
+															<div class="col-12 col-md-2 mb-1">
 																<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
 																<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
 																<label for="IssuedToAgent" class="data-entry-label small">Issued To</label>
@@ -1704,35 +1707,33 @@ limitations under the License.
 															</script>
 														</div>
 														
-														<div class="form-row col-12 mb-1 px-1 mx-0">
-															<div class="col-12 col-md-3 mb-1">
-																<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
-																<label for="permit_type" class="data-entry-label small">
-																	Document Category
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
-																</label>
-																<input type="text" id="permit_type" name="permit_type" class="data-entry-input inputHeight" value="#encodeForHtml(permit_type)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeCTFieldSearchAutocomplete('permit_type','PERMIT_TYPE');
-																	});
-																</script>
-															</div>
-															<div class="col-12 col-md-3 mb-1">
-																<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
-																<label for="specific_type" class="data-entry-label small">
-																	Specific Document Type
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
-																</label>
-																<input type="text" id="specific_type" name="specific_type" class="data-entry-input inputHeight" value="#encodeForHtml(specific_type)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeCTFieldSearchAutocomplete('specific_type','SPECIFIC_TYPE');
-																	});
-																</script>
-															</div>
+														<div class="col-12 col-md-2 mb-1">
+															<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
+															<label for="permit_type" class="data-entry-label small">
+																Document Category
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
+															</label>
+															<input type="text" id="permit_type" name="permit_type" class="data-entry-input inputHeight" value="#encodeForHtml(permit_type)#">
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete('permit_type','PERMIT_TYPE');
+																});
+															</script>
+														</div>
+														<div class="col-12 col-md-2 mb-1">
+															<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
+															<label for="specific_type" class="data-entry-label small">
+																Specific Document Type
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
+															</label>
+															<input type="text" id="specific_type" name="specific_type" class="data-entry-input inputHeight" value="#encodeForHtml(specific_type)#">
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete('specific_type','SPECIFIC_TYPE');
+																});
+															</script>
 														</div>
 													</div>
 													<!--- END TRANSACTION DETAIL --->
