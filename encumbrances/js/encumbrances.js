@@ -151,18 +151,26 @@ function validateEncumbranceForm(agentIdFieldId, expDateFieldId, expEventFieldId
  * Submits the create or edit encumbrance form via AJAX to
  * encumbrances/component/functions.cfc and handles the response.
  *
+ * In edit mode (saveResultDiv is present in the DOM), the page stays on the
+ * edit form and uses setFeedbackControlState() on saveResultDiv to indicate
+ * saving / saved / error.  In create mode (saveResultDiv absent) the page is
+ * redirected to the new encumbrance's view page on success.
+ *
  * @param {string} formId      - the ID of the form element.
  * @param {string} method      - the CFC method: 'createEncumbrance' or 'saveEncumbrance'.
- * @param {string} redirectUrl - URL to redirect to on success (empty = stay on page).
+ * @param {string} redirectUrl - URL to redirect to on success in create mode.
  */
 function submitEncumbranceForm(formId, method, redirectUrl) {
 	var $form = $('#' + formId);
 	var params = $form.serializeArray();
 	params.push({ name: 'method', value: method });
 	params.push({ name: 'returnformat', value: 'json' });
-	$('#encumbranceSaveStatus').html(
-		'<span class="text-muted">Saving&hellip;</span>'
-	);
+	var inEditMode = $('#saveResultDiv').length > 0;
+	if (inEditMode) {
+		setFeedbackControlState('saveResultDiv', 'saving');
+	} else {
+		$('#encumbranceSaveStatus').html('<span class="text-muted">Saving&hellip;</span>');
+	}
 	$.ajax({
 		url: '/encumbrances/component/functions.cfc',
 		data: params,
@@ -170,7 +178,9 @@ function submitEncumbranceForm(formId, method, redirectUrl) {
 		dataType: 'json',
 		success: function (resp) {
 			if (resp.STATUS === 'ok' || resp.status === 'ok') {
-				if (redirectUrl) {
+				if (inEditMode) {
+					setFeedbackControlState('saveResultDiv', 'saved');
+				} else if (redirectUrl) {
 					window.location.href = redirectUrl.replace(
 						'{encumbrance_id}',
 						resp.ENCUMBRANCE_ID || resp.encumbrance_id || ''
@@ -181,18 +191,29 @@ function submitEncumbranceForm(formId, method, redirectUrl) {
 					);
 				}
 			} else {
-				$('#encumbranceSaveStatus').html(
-					'<span class="text-danger">Error: ' +
-					$('<div>').text(resp.MESSAGE || resp.message || 'Unknown error.').html() +
-					'</span>'
-				);
+				var errMsg = resp.MESSAGE || resp.message || 'Unknown error.';
+				if (inEditMode) {
+					setFeedbackControlState('saveResultDiv', 'error');
+					messageDialog('Error: ' + errMsg, 'Error Saving Encumbrance');
+				} else {
+					$('#encumbranceSaveStatus').html(
+						'<span class="text-danger">Error: ' +
+						$('<div>').text(errMsg).html() +
+						'</span>'
+					);
+				}
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
-			console.error('Save encumbrance error:', error);
-			$('#encumbranceSaveStatus').html(
-				'<span class="text-danger">Error saving encumbrance. Please try again.</span>'
-			);
+			if (inEditMode) {
+				setFeedbackControlState('saveResultDiv', 'error');
+				handleFail(jqXHR, textStatus, error, 'saving encumbrance');
+			} else {
+				console.error('Save encumbrance error:', error);
+				$('#encumbranceSaveStatus').html(
+					'<span class="text-danger">Error saving encumbrance. Please try again.</span>'
+				);
+			}
 		}
 	});
 }

@@ -245,7 +245,7 @@ limitations under the License.
 				<div class="col-12">
 					<cfif variables.action EQ "edit">
 						<button type="button" class="btn btn-xs btn-primary"
-							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','saveEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(encDetails.encumbrance_id)#'); }">
+							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','saveEncumbrance',''); }">
 							Save Changes
 						</button>
 						<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(encDetails.encumbrance)#&closeParens1=0#encodeForURL(encDetails.encumbrance_id)#" class="btn btn-xs btn-secondary ml-1" target="_blank">
@@ -310,6 +310,14 @@ limitations under the License.
 </cfoutput>
 
 <script>
+	// changed() is defined at top-level script scope so it is reliably reachable
+	// by the change event listeners bound in $(document).ready() below.
+	function changed() {
+		$('#saveResultDiv').html('Unsaved changes.');
+		$('#saveResultDiv').addClass('text-danger');
+		$('#saveResultDiv').removeClass('text-success');
+		$('#saveResultDiv').removeClass('text-warning');
+	}
 	$(document).ready(function () {
 		$('#made_date').datepicker({ dateFormat: 'yy-mm-dd' });
 		$('#expiration_date').datepicker({ dateFormat: 'yy-mm-dd' });
@@ -322,12 +330,6 @@ limitations under the License.
 		);
 		// Unsaved changes monitor — only active in edit mode (the indicator is not present for create)
 		if ($('#saveResultDiv').length) {
-			function changed() {
-				$('#saveResultDiv').html('Unsaved changes.');
-				$('#saveResultDiv').addClass('text-danger');
-				$('#saveResultDiv').removeClass('text-success');
-				$('#saveResultDiv').removeClass('text-warning');
-			}
 			$('#encumbranceForm input[type=text]').on('change', changed);
 			$('#encumbranceForm select').on('change', changed);
 			$('#encumbranceForm textarea').on('change', changed);
