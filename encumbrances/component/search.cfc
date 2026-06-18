@@ -123,10 +123,10 @@ limitations under the License.
 				AND encumbrance.encumbrance_action = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(encumbrance_action)#">
 			</cfif>
 			<cfif len(trim(expiration_event)) GT 0>
-				<!--- "NULL" is a sentinel value from the expiration-event autocomplete
-				     that means "search for encumbrances with no expiration event (by date only)". --->
 				<cfif trim(expiration_event) EQ "NULL">
 					AND encumbrance.expiration_event IS NULL
+				<cfelseif trim(expiration_event) EQ "NOT NULL">
+					AND encumbrance.expiration_event IS NOT NULL
 				<cfelse>
 					AND upper(encumbrance.expiration_event) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(expiration_event))#%">
 				</cfif>
@@ -345,6 +345,7 @@ limitations under the License.
 		</cfquery>
 
 		<cfset variables.result = [{"value"="NULL", "label"="by date (no event)"}]>
+		<cfset arrayAppend(variables.result, {"value"="NOT NULL", "label"="any event (no date)"})>
 		<cfloop query="qryEvents">
 			<cfset arrayAppend(variables.result, {"value"=qryEvents.expiration_event, "label"=qryEvents.expiration_event})>
 		</cfloop>
