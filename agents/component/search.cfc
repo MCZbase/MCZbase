@@ -716,7 +716,8 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 @param term agent name to search for.
 @param constraint limit agents to those agents where the constraint applies, supports:  permit_issued_by_agent,
 	permit_issued_to_agent, permit_contact_agent, transaction_agent, project_agent, media_agent, media_creator_agent, 
-	determiner, collector, preparator, author, editor, entered_by, annotated.
+	determiner, collector, preparator, author, editor, entered_by, annotated, encumbering_agent, georeference_determiner, 
+	georeference_verifier, ce_date_determiner.
 @param show_agent_id if no value provided, then do not include the agent_id in the meta, otherwise included the agent_id in the meta.
 @return a json structure containing id and value, with matching agents with matched name in value and agent_id in id, and matched name 
   with * and preferred name in meta.
@@ -795,6 +796,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'annotated'>
 					left join annotations agent_annotations on agent.agent_id = agent_annotations.target_primary_key and agent_annotations.target_table = 'AGENT'
 				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'encumbering_agent'>
+					left join encumbrance agent_encumbrances on agent.agent_id = agent_encumbrances.ENCUMBERING_AGENT_ID 
+				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_by_agent' or constraint EQ 'permit_contact_agent' )>
@@ -845,6 +849,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'annotated'>
 					and agent_annotations.annotation_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'encumbering_agent'>
+					and agent_encumbrances.encumbering_agent_id is not null
 				</cfif>
 			ORDER BY
 				searchname.agent_name

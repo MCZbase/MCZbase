@@ -300,7 +300,7 @@
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") and listcontainsnocase(session.roles,"manage_collection")>
 									<div style="float:left; width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Manage</div>
-											<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
+											<a class="dropdown-item" target="_top" href="/encumbrances/Encumbrances.cfm">Encumbrances</a>
 											<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 											<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
 											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING") OR listcontainsnocase(session.roles,"merge_agents"))>
