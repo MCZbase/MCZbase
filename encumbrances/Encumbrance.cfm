@@ -248,10 +248,7 @@ limitations under the License.
 							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','saveEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(encDetails.encumbrance_id)#'); }">
 							Save Changes
 						</button>
-						<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(encDetails.encumbrance_id)#" class="btn btn-xs btn-warning ml-1">
-							Cancel
-						</a>
-						<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(encDetails.encumbrance)#&closeParens1=0#encodeForURL(encDetails.encumbrance_id)#" class="btn btn-xs btn-secondary ml-1">
+						<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(encDetails.encumbrance)#&closeParens1=0#encodeForURL(encDetails.encumbrance_id)#" class="btn btn-xs btn-secondary ml-1" target="_blank">
 							See Specimens
 						</a>
 						<cfif variables.isDeletable>
