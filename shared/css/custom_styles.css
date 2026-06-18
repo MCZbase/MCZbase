@@ -2779,7 +2779,7 @@ html,body {
 	width: calc(100% - 355px);
 }
 /* 5. Dialog behavior when content is pushed */
-#content.pushed .ui-dialog {
+#content.wiki-open .ui-dialog {
     /* Adjust to taste */
     max-width: calc(100vw - 355px);
     width: auto !important;      /* override fixed widths if any */
