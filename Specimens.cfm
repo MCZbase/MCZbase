@@ -559,6 +559,7 @@ limitations under the License.
 											</div>
 											<!---END IDENTIFIER SECTION--->	
 
+											<!---TAXONOMY SECTION--->	 
 											<div class="col-12 form-row mx-0 px-0 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
@@ -583,8 +584,6 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
-
-												<!---TAXONOMY SECTION--->	 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
 														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
@@ -797,14 +796,11 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-                                                <!---END TAXONOMY DETAIL--->
-                                                <!---END TAXONOMY DETAIL--->
+													<!---END TAXONOMY DETAIL--->
 												</div>
 											</div> 
-                                        <!---END TAXONOMY SECTION--->
-                                                                        
-                                                                        
-                                        
+											<!---END TAXONOMY SECTION--->
+
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
@@ -1553,11 +1549,32 @@ limitations under the License.
 
 											<!---TRANSACTION SECTION--->
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("permit_num") and len(permit_num) GT 0)
+													OR (isDefined("permit_title") and len(permit_title) GT 0)
+													OR (isDefined("issued_by_agent_id") and len(issued_by_agent_id) GT 0)
+													OR (isDefined("IssuedByAgent") and len(IssuedByAgent) GT 0)
+													OR (isDefined("IssuedToAgent") and len(issued_to_agent) GT 0)
+													OR (isDefined("issued_to_agent_id") and len(issued_to_agent_id) GT 0)
+													OR (isDefined("permit_type") and len(permit_type) GT 0)
+													OR (isDefined("specific_type") and len(specific_type) GT 0)>
+													<cfset hiddenHaveValue = true>
+												</cfif>
+												<cfif listFind(searchPrefList,"TransactionDetail") GT 0 OR hiddenHaveValue>
+													<cfset TransactionDetailStyle="">
+													<cfset toggleTo = "0">
+														<cfset TransactionButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
+												<cfelse>
+													<cfset TransactionDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset TransactionButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
+												</cfif>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
 														<h2 class="small font-weight-bold mx-xl-0 px-3 px-xl-2 py2px m-0 text-left text-xl-right d-block border-top border-right border-bottom border-left bg-teal">
 															Transactions
 														</h2>
+														<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
 													</div>
 													<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 py-2 mb-0">
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
@@ -1642,6 +1659,75 @@ limitations under the License.
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
 													</div>
+													<!--- TRANSACTION DETAIL --->
+													<div id="TransactionDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#TransactionDetailStyle#">
+														<div class="form-row col-12 mb-1 px-1 mx-0">
+															<div class="col-12 col-md-3 mb-1">
+																<label for="permit_num" class="data-entry-label small">Permit Number</label>
+																<input type="text" id="permit_num" name="permit_num" class="data-entry-input inputHeight" value="#encodeForHtml(permit_num)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makePermitNumberAutocomplete("permit_num");
+																	});
+																</script>
+															</div>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="permit_title" class="data-entry-label small">Document Title</label>
+																<input type="text" id="permit_title" name="permit_title" class="data-entry-input inputHeight" value="#encodeForHtml(permit_title)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makePermitTitleAutocomplete("permit_title");
+																	});
+																</script>
+															</div>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="IssuedByAgent" class="data-entry-label small">Issued By</label>
+																<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedByAgent)#">
+																<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
+															</div>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="IssuedToAgent" class="data-entry-label small">Issued To</label>
+																<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedToAgent)#">
+																<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#encodeForHtml(issued_to_agent_id)#">
+															</div>
+															<script>
+																jQuery(document).ready(function() {
+																	makeConstrainedAgentPicker("IssuedByAgent", "issued_by_agent_id","permit_issued_by_agent");
+																	makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
+																});
+															</script>
+														</div>
+														
+														<div class="form-row col-12 mb-1 px-1 mx-0">
+															<div class="col-12 col-md-3 mb-1">
+																<label for="permit_type" class="data-entry-label small">
+																	Document Category
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
+																</label>
+																<input type="text" id="permit_type" name="permit_type" class="data-entry-input inputHeight" value="#encodeForHtml(permit_type)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete('permit_type','PERMIT_TYPE');
+																	});
+																</script>
+															</div>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="specific_type" class="data-entry-label small">
+																	Specific Document Type
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
+																</label>
+																<input type="text" id="specific_type" name="specific_type" class="data-entry-input inputHeight" value="#encodeForHtml(specific_type)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete('specific_type','SPECIFIC_TYPE');
+																	});
+																</script>
+															</div>
+														</div>
+													</div>
+													<!--- END TRANSACTION DETAIL --->
 												</div>
 											</cfif>
 											<!---END TRANSACTION SECTION--->
@@ -1878,6 +1964,33 @@ limitations under the License.
 										}
 									).fail(function(jqXHR,textStatus,error){
 										handleFail(jqXHR,textStatus,error,"persisting SpecDetail state");
+									});
+								</cfif>
+							}
+							function toggleTransactionDetail(onOff) {
+								if (onOff==0) {
+									$("##TransactionDetail").hide();
+									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+								} else {
+									$("##TransactionDetail").show();
+									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/specimens/component/search.cfc",
+										{
+											method : "saveBasicSrchPref",
+											id : 'TransactionDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting TransactionDetail state");
 									});
 								</cfif>
 							}
