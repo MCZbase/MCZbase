@@ -136,7 +136,7 @@ limitations under the License.
 
 	<cfif variables.action EQ "edit">
 		<h1 class="h2 ml-3 mb-1">Edit Encumbrance:
-			<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(variables.encumbrance_id)#"><span id="headingEncumbranceName">#encodeForHTML(encDetails.encumbrance)#</span></a>
+			<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(encDetails.encumbrance_id)#"><span id="headingEncumbranceName">#encodeForHTML(encDetails.encumbrance)#</span></a>
 			<i class="fas fa-info-circle" onClick="getMCZDocs('encumbrance','encumbrance')" aria-label="help link"></i>
 		</h1>
 	<cfelse>
@@ -151,8 +151,7 @@ limitations under the License.
 	<section class="row mx-0 border rounded my-2 pt-2" aria-labelledby="encFormHeading">
 		<form class="col-12" id="encumbranceForm"
 			name="encumbranceForm" method="post" novalidate>
-			<input type="hidden" name="encumbrance_id"
-				value="#encodeForHTML(variables.encumbrance_id)#">
+			<input type="hidden" name="encumbrance_id" value="#encodeForHTML(variables.encumbrance_id)#">
 
 			<div class="form-row">
 				<!--- Encumbering Agent --->
@@ -246,14 +245,17 @@ limitations under the License.
 				<div class="col-12">
 					<cfif variables.action EQ "edit">
 						<button type="button" class="btn btn-xs btn-primary"
-							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','saveEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(variables.encumbrance_id)#'); }">
+							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','saveEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(encDetails.encumbrance_id)#'); }">
 							Save Changes
 						</button>
-						<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(variables.encumbrance_id)#"
-							class="btn btn-xs btn-warning ml-1">Cancel</a>
+						<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(encDetails.encumbrance_id)#" class="btn btn-xs btn-warning ml-1">
+							Cancel
+						</a>
+						<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(encDetails.encumbrance)#&closeParens1=0#encodeForURL(encDetails.encumbrance_id)#" class="btn btn-xs btn-secondary ml-1">
+							See Specimens
+						</a>
 						<cfif variables.isDeletable>
-							<button type="button" class="btn btn-xs btn-danger ml-2"
-								onclick="confirmDeleteEncumbranceFromEditPage('#encodeForHTML(variables.encumbrance_id)#');">
+							<button type="button" class="btn btn-xs btn-danger ml-2" onclick="confirmDeleteEncumbranceFromEditPage('#encodeForHTML(encDetails.encumbrance_id)#');">
 								Delete
 							</button>
 						</cfif>
