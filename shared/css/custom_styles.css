@@ -2910,7 +2910,7 @@ an overlay that prevents interaction with them.
     left: 0.25rem;
 }
 .tinymap .static-map {
-    object-fit: contain;      /* keep whole map */
+    object-fit: cover;      /* keep whole map */
     object-position: 50% 50%; /* center it */
     margin: 0;
     padding: 0;
