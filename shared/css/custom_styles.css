@@ -2902,7 +2902,9 @@ an overlay that prevents interaction with them.
     width: 100%;
 }
 .tinymap-2col {
-    height: 280px;      
+    height: 280px;   
+    overflow: hidden;
+    float:left;
 }
 /* Both maps fill the wrapper box */
 .tinymap .static-map,
