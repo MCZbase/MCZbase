@@ -263,7 +263,7 @@ limitations under the License.
 							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','createEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id={encumbrance_id}'); }">
 							Create Encumbrance
 						</button>
-						<a href="/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Cancel</a>
+						<a href="/encumbrances/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Cancel</a>
 					</cfif>
 				</div>
 			</div>

@@ -262,7 +262,7 @@ limitations under the License.
 				     Buttons populate this form via JavaScript and submit it,
 				     avoiding the invalid HTML of nesting a form inside a table row. --->
 				<form id="encumbranceActionForm" name="encumbranceActionForm"
-					method="post" action="/Encumbrances.cfm">
+					method="post" action="/encumbrances/Encumbrances.cfm">
 					<input type="hidden" id="encActionValue" name="action" value="">
 					<input type="hidden" id="encIdValue" name="encumbrance_id" value="">
 					<input type="hidden" id="encCollObjValue" name="collection_object_id" value="">

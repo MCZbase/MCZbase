@@ -1,5 +1,5 @@
 <!---
-Encumbrances.cfm
+encumbrances/Encumbrances.cfm
 
 Search, create, edit, and delete encumbrances. Provides a search form for
 locating encumbrances, forms to create and edit encumbrance records, and
@@ -77,10 +77,10 @@ from this file.
      is carried through for the legacy cataloged-items section that follows search results. --->
 <cfif len(variables.collection_object_id) GT 0>
 	<cfset variables.createEncUrl = "/encumbrances/Encumbrance.cfm?action=new&collection_object_id=" & encodeForURL(variables.collection_object_id)>
-	<cfset variables.backToSearchUrl = "/Encumbrances.cfm?collection_object_id=" & encodeForURL(variables.collection_object_id)>
+	<cfset variables.backToSearchUrl = "/encumbrances/Encumbrances.cfm?collection_object_id=" & encodeForURL(variables.collection_object_id)>
 <cfelse>
 	<cfset variables.createEncUrl = "/encumbrances/Encumbrance.cfm?action=new">
-	<cfset variables.backToSearchUrl = "/Encumbrances.cfm">
+	<cfset variables.backToSearchUrl = "/encumbrances/Encumbrances.cfm">
 </cfif>
 
 <!--- Resolve encumbrance_id: form (POST) takes priority over url (GET). --->
@@ -287,7 +287,7 @@ from this file.
 								<div class="form-row mt-2 mb-1">
 									<div class="col-12">
 										<button type="submit" class="btn btn-xs btn-primary">Search</button>
-										<a href="/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Reset</a>
+										<a href="/encumbrances/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Reset</a>
 										<a href="#variables.createEncUrl#" class="btn btn-xs btn-secondary ml-1">Create New Encumbrance</a>
 									</div>
 								</div>
@@ -392,7 +392,7 @@ from this file.
 			<cfif len(variables.collection_object_id) GT 0>
 				<cfset additional="&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#">
 			</cfif>
-			<cflocation url="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#nextEncumbrance.nextEncumbrance##additional#" addtoken="false">
+			<cflocation url="/encumbrances/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#nextEncumbrance.nextEncumbrance##additional#" addtoken="false">
 		</cfcase>
 
 		<!--- ================================================================
@@ -575,7 +575,7 @@ from this file.
 						     Buttons populate this form via JavaScript and submit it,
 						     avoiding the invalid HTML of nesting a form inside a table row. --->
 						<form id="encumbranceActionForm" name="encumbranceActionForm"
-							method="post" action="/Encumbrances.cfm">
+							method="post" action="/encumbrances/Encumbrances.cfm">
 							<input type="hidden" id="encActionValue" name="action" value="">
 							<input type="hidden" id="encIdValue" name="encumbrance_id" value="">
 							<input type="hidden" id="encCollObjValue" name="collection_object_id" value="">
@@ -647,7 +647,7 @@ from this file.
 					<div class="alert alert-success" role="alert">
 						All listed items have been removed from this encumbrance.
 					</div>
-					<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#variables.encumbrance_id#&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#"
+					<a href="/encumbrances/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#variables.encumbrance_id#&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#"
 						class="btn btn-xs btn-secondary">
 						Return to Encumbrance
 					</a>
@@ -724,7 +724,7 @@ from this file.
 							#isUsed.cnt# specimen(s). Remove all specimens from this encumbrance
 							before deleting it.
 						</div>
-						<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#variables.encumbrance_id#"
+						<a href="/encumbrances/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#variables.encumbrance_id#"
 							class="btn btn-xs btn-secondary">
 							Return to Encumbrance
 						</a>
@@ -736,7 +736,7 @@ from this file.
 						<div class="alert alert-success" role="alert">
 							Encumbrance deleted successfully.
 						</div>
-						<a href="/Encumbrances.cfm" class="btn btn-xs btn-secondary">
+						<a href="/encumbrances/Encumbrances.cfm" class="btn btn-xs btn-secondary">
 							Return to Find Encumbrances
 						</a>
 					</cfif>
@@ -786,7 +786,7 @@ from this file.
 					<div class="alert alert-success" role="alert">
 						All listed items have been added to this encumbrance.
 					</div>
-					<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#variables.encumbrance_id#&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#"
+					<a href="/encumbrances/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#variables.encumbrance_id#&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#"
 						class="btn btn-xs btn-secondary">
 						Return to Encumbrance
 					</a>

@@ -95,7 +95,7 @@ limitations under the License.
 	<!--- Navigation and action buttons --->
 	<div class="row ml-0 mb-2">
 		<div class="col-12 pl-0">
-			<a href="/Encumbrances.cfm" class="btn btn-xs btn-secondary">
+			<a href="/encumbrances/Encumbrances.cfm" class="btn btn-xs btn-secondary">
 				<i class="fa fa-arrow-left" aria-hidden="true"></i> Find Encumbrances
 			</a>
 			<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(encDetails.encumbrance)#&closeParens1=0#encodeForURL(variables.encumbrance_id)#"

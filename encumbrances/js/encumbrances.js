@@ -20,7 +20,7 @@
  */
 
 /* ============================================================
- * Search page (/Encumbrances.cfm)
+ * Search page (/encumbrances/Encumbrances.cfm)
  * ============================================================ */
 
 /**
@@ -71,7 +71,7 @@ function loadEncumbranceResults() {
 /**
  * Populates and submits the shared encumbrance action form rendered inside
  * the search results table (returned by search.cfc).  The form targets
- * /Encumbrances.cfm so that the legacy saveEncumbrances / remListedItems
+ * /encumbrances/Encumbrances.cfm so that the legacy saveEncumbrances / remListedItems
  * actions continue to work while they remain on the root page.
  *
  * @param {string} actionValue      - the action name (e.g. 'saveEncumbrances').
@@ -268,7 +268,7 @@ function confirmDeleteEncumbranceFromEditPage(encumbranceId) {
 			dataType: 'json',
 			success: function (resp) {
 				if (resp.STATUS === 'ok' || resp.status === 'ok') {
-					window.location.href = '/Encumbrances.cfm';
+					window.location.href = '/encumbrances/Encumbrances.cfm';
 				} else if (resp.STATUS === 'blocked' || resp.status === 'blocked') {
 					messageDialog('Cannot delete: ' + (resp.MESSAGE || resp.message), 'Cannot Delete');
 				} else {
@@ -284,7 +284,7 @@ function confirmDeleteEncumbranceFromEditPage(encumbranceId) {
 }
 
 /* ============================================================
- * Search form autocompletes (/Encumbrances.cfm)
+ * Search form autocompletes (/encumbrances/Encumbrances.cfm)
  * ============================================================ */
 
 /**
