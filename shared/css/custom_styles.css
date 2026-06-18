@@ -2763,13 +2763,11 @@ html,body {
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
 	z-index: 1051;
 	overflow-y: auto;
-    
     transform: translateX(-355px);
     transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
 	transform: translateX(0);
-    
 }
 
 #content {
@@ -2778,9 +2776,18 @@ html,body {
 	box-sizing: border-box;
 }
 #content.pushed {
-	margin-left: 400px;
+	margin-left: 355px;
 	width: calc(100% - 400px);
 }
+/* 5. Dialog behavior when content is pushed */
+#content.pushed .ui-dialog {
+    /* Adjust to taste */
+    max-width: calc(100vw - 355px);
+    width: auto !important;      /* override fixed widths if any */
+    right: 0;                    /* keep it in the visible area */
+    left: auto !important;
+}
+
 
 div.mw-parser-output h1 {
 	font-size: 20px;
@@ -2841,6 +2848,10 @@ an overlay that prevents interaction with them.
     #content.pushed {
         margin-left: 355px;
         width: calc(100% - 355px);
+    }
+      /* Optional: tweak dialog sizing for desktop specifically */
+    #content.pushed .ui-dialog {
+        max-width: calc(100vw - 355px);
     }
 }
 /****************end all screen styles*********************/
