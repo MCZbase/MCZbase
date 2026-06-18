@@ -2749,43 +2749,6 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
-html,body {
-    overflow-x:hidden;
-}
-.wiki-drawer {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 355px;
-	max-width: 90vw;
-	height: 100vh;
-	background: #fff;
-	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-	z-index: 1051;
-	overflow-y: auto;
-    transform: translateX(-355px);
-    transition: transform 0.3s ease;
-}
-.wiki-drawer.open {
-	transform: translateX(0);
-}
-/*#content {
-	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-	width: 100%;
-	box-sizing: border-box;
-}
-#content.pushed {
-	margin-left: 355px;
-	width: calc(100% - 355px);
-}*/
-/* 5. Dialog behavior when content is pushed */
-body.wiki-open .ui-dialog {
-    /* Adjust to taste */
-    max-width: calc(100vw - 355px);
-    width: auto !important;      /* override fixed widths if any */
-    right: 0;                    /* keep it in the visible area */
-    left: auto !important;
-}
 div.mw-parser-output h1 {
 	font-size: 20px;
 	font-weight:bold;
@@ -2808,33 +2771,56 @@ div.mw-parser-output h4 {
 div.mw-parser-output dt {
 	font-weight:650;
 }
-div.toctitle {margin-bottom:0;}
-.thumbinner {display:none;}
-
+div.toctitle {
+    margin-bottom:0;
+}
+.thumbinner {
+    display:none;
+}
 .mw-toc-heading {
 	margin-bottom: 0;
 }
-body.wiki-open .ui-dialog {
-    /* Override jQuery UI's inline width */
-    width: auto !important;
-    max-width: calc(100vw - 355px) !important;
-
-    /* Keep the dialog entirely in the visible (non-wiki) area */
-    left: 355px !important;      /* start right after the drawer */
-    right: 0 !important;
-
-    /* Optional: ensure it stays within viewport */
+html,body {
+    overflow-x:hidden;
+}
+.wiki-drawer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 355px;
+	max-width: 90vw;
+	height: 100vh;
+	background: #fff;
+	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	z-index: 1051;
+	overflow-y: auto;
+    transform: translateX(-355px);
+    transition: transform 0.3s ease;
+}
+.wiki-drawer.open {
+	transform: translateX(0);
+}
+/* Main content pushed over by drawer */
+#content {
+    width: 100%;
     box-sizing: border-box;
 }
 @media (min-width: 768px) {
-/*    #content.pushed {
+    #content {
+        transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+    }
+    #content.pushed {
         margin-left: 355px;
         width: calc(100% - 355px);
     }
-
-    #content.pushed .ui-dialog {
-        max-width: calc(100vw - 355px);
-    }*/
+    /* Dialog behavior when wiki drawer is open */
+    body.wiki-open .ui-dialog {
+        width: auto !important;
+        max-width: calc(100vw - 355px) !important;
+        left: 355px !important;
+        right: 0 !important;
+        box-sizing: border-box;
+    }
 }
 /****************end all screen styles*********************/
 /**********************************************************/
