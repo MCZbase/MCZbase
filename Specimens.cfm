@@ -1136,6 +1136,7 @@ limitations under the License.
 											</div>
 											<!---END COLLECTING EVENT SECTION--->
 
+											<!---SPECIMEN SECTION--->  
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = "false">
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
@@ -1148,13 +1149,12 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset SpecButton = '<i class="fas fa-caret-right" style="vertical-align: middle;"></i>'>
+													<cfset SpecButton = '<i class="fas fa-caret-right" style="vertical-align: middle;"></i>'><!--- ' --->
 												<cfelse>
 													<cfset SpecDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'>
+													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'><!--- ' --->
 												</cfif> 
-                                            <!---SPECIMEN SECTION--->  
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
 														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Specimen</h2>
@@ -1167,145 +1167,145 @@ limitations under the License.
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-2 mx-0">
 													<div class="col-12 mb-1 col-md-3 mb-1">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-														<label for="part_name" class="data-entry-label smaller font-weight-bold">Part Name
-														    <input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
-                                                            <script>
-                                                                jQuery(document).ready(function() {
-                                                                    makePartNameAutocompleteMeta('part_name');
-                                                                });
-                                                            </script>
-                                                        </label>
+														<label for="part_name" class="data-entry-label smaller font-weight-bold">Part Name</label>
+														<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makePartNameAutocompleteMeta('part_name');
+															});
+														</script>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
-														<label for="preserve_method" class="data-entry-label smaller font-weight-bold">Preserve Method
+														<label for="preserve_method" class="data-entry-label smaller font-weight-bold">
+															Preserve Method
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-
-                                                            <input type="text" id="preserve_method" name="preserve_method" class="data-entry-input inputHeight" value="#encodeForHtml(preserve_method)#" >
-                                                            <script>
-                                                                jQuery(document).ready(function() {
-                                                                    makePreserveMethodAutocompleteMeta('preserve_method');
-                                                                });
-                                                            </script>
-                                                        </label>
+														</label>
+														<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input inputHeight" value="#encodeForHtml(preserve_method)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makePreserveMethodAutocompleteMeta('preserve_method');
+															});
+														</script>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-														<label for="biol_indiv_relationship" class="data-entry-label smaller font-weight-bold">Has Relationship
+														<label for="biol_indiv_relationship" class="data-entry-label smaller font-weight-bold">
+															Has Relationship
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                            <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
-                                                            <script>
-                                                                jQuery(document).ready(function() {
-                                                                    makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
-                                                                });
-                                                            </script>
-                                                        </label>
+														</label>
+														<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+															});
+														</script>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
-														<label for="media_type" class="data-entry-label smaller font-weight-bold">Media Type
+														<label for="media_type" class="data-entry-label smaller font-weight-bold">
+															Media Type
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                            <input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
-                                                            <script>
-                                                                jQuery(document).ready(function() {
-                                                                    makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
-                                                                });
-                                                            </script>
-                                                        </label>
+														</label>
+														<input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
+															});
+														</script>
 													</div>
-                                                    <button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
-                                                        show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
-                                                    </button>
+
+													<!--- SPECIMEN DETAILS --->
+													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+													</button>
 													<div id="SpecDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-0 px-1 mx-0">
-															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
-																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks
-																    <cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
-																    <input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
-															    </label>
-                                                            </div>
-															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
-																<label for="part_remarks" class="data-entry-label smaller font-weight-bold">Part Remarks
-																    <cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
-																    <input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
-                                                                </label>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="coll_object_remarks" class="data-entry-label smaller font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks</label>
+																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
-																<label for="preparator" class="data-entry-label smaller font-weight-bold">Preparator
-                                                                    <cfif not isdefined("preparator")>
-                                                                        <cfset preparator="">
-                                                                    </cfif>
-                                                                    <cfif not isdefined("preparator_agent_id") OR len(preparator_agent_id) EQ 0>
-                                                                        <cfif len(preparator) EQ 0>
-                                                                            <cfset preparator_agent_id ="">
-                                                                        <cfelse>
-                                                                            <cfset preparator_agent_id ="">
-                                                                            <!--- lookup preparator's agent_id --->
-                                                                            <cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                                                                                SELECT agent_id 
-                                                                                FROM preferred_agent_name 
-                                                                                WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preparator#"> 
-                                                                                    AND rownum < 2
-                                                                            </cfquery>
-                                                                            <cfloop query="preparatorLookup">
-                                                                                <cfset preparator_agent_id = preparatorLookup.agent_id>
-                                                                            </cfloop>
-                                                                        </cfif>
-                                                                    <cfelse>
-                                                                        <!--- lookup preparator --->
-                                                                        <cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                                                                            SELECT agent_name 
-                                                                            FROM preferred_agent_name 
-                                                                            WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#preparator_agent_id#">
-                                                                                AND rownum < 2
-                                                                        </cfquery>
-                                                                        <cfif preparatorLookup.recordcount GT 0>
-                                                                            <cfloop query="preparatorLookup">
-                                                                                <cfset preparator = preparatorLookup.agent_name>
-                                                                            </cfloop>
-                                                                        </cfif>
-                                                                    </cfif>
-                                                                    <input type="text" id="preparator" name="preparator" class="data-entry-input inputHeight" value="#encodeForHtml(preparator)#">
-                                                                    <input type="hidden" id="preparator_agent_id" name="preparator_agent_id" value="#encodeForHtml(preparator_agent_id)#">
-                                                                    <script>
-                                                                        jQuery(document).ready(function() {
-                                                                            makeConstrainedAgentPicker('preparator','preparator_agent_id','preparator');
-                                                                        });
-                                                                    </script>
-                                                                </label>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="part_remarks" class="data-entry-label smaller font-weight-bold">Part Remarks</label>
+																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
-																<label for="lot_count" class="data-entry-label smaller font-weight-bold">Lot Count
-																    <cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
-																    <input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
-                                                                </label>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="preparator" class="data-entry-label smaller font-weight-bold">Preparator</label>
+																<cfif not isdefined("preparator")>
+																	<cfset preparator="">
+																</cfif>
+																<cfif not isdefined("preparator_agent_id") OR len(preparator_agent_id) EQ 0>
+																	<cfif len(preparator) EQ 0>
+																		<cfset preparator_agent_id ="">
+																	<cfelse>
+																		<cfset preparator_agent_id ="">
+																		<!--- lookup preparator's agent_id --->
+																		<cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																			SELECT agent_id 
+																			FROM preferred_agent_name 
+																			WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preparator#"> 
+																				AND rownum < 2
+																		</cfquery>
+																		<cfloop query="preparatorLookup">
+																			<cfset preparator_agent_id = preparatorLookup.agent_id>
+																		</cfloop>
+																	</cfif>
+																<cfelse>
+																	<!--- lookup preparator --->
+																	<cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																		SELECT agent_name 
+																		FROM preferred_agent_name 
+																		WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#preparator_agent_id#">
+																			AND rownum < 2
+																	</cfquery>
+																	<cfif preparatorLookup.recordcount GT 0>
+																		<cfloop query="preparatorLookup">
+																			<cfset preparator = preparatorLookup.agent_name>
+																		</cfloop>
+																	</cfif>
+																</cfif>
+																<input type="text" id="preparator" name="preparator" class="data-entry-input inputHeight" value="#encodeForHtml(preparator)#">
+																<input type="hidden" id="preparator_agent_id" name="preparator_agent_id" value="#encodeForHtml(preparator_agent_id)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeConstrainedAgentPicker('preparator','preparator_agent_id','preparator');
+																	});
+																</script>
 															</div>
-															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="lot_count" class="data-entry-label smaller font-weight-bold">Lot Count</label>
+																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
+															</div>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_obj_disposition" class="data-entry-label smaller font-weight-bold">
 																	Disposition
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                                    <cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
-                                                                    <input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
-                                                                    <script>
-                                                                        jQuery(document).ready(function() {
-                                                                            makeCTFieldSearchAutocomplete("coll_obj_disposition","COLL_OBJ_DISP");
-                                                                        });
-                                                                    </script>
-                                                                </label>
+																</label>
+																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete("coll_obj_disposition","COLL_OBJ_DISP");
+																	});
+																</script>
 															</div>
-															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
-																<label for="disposition_remarks" class="data-entry-label smaller font-weight-bold">Disposition Remarks
-																    <cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
-																    <input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
-															    </label>
-                                                            </div>
-															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="disposition_remarks" class="data-entry-label smaller font-weight-bold">Disposition Remarks</label>
+																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
+															</div>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="part_attribute_type" class="data-entry-label smaller font-weight-bold">
 																	Part Attribute Type
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																	</label>
+TODO: Cleanup from here ****************
                                                                     <cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
                                                                     <input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
                                                                     <script>
@@ -1313,7 +1313,6 @@ limitations under the License.
                                                                             makeCTFieldSearchAutocomplete("part_attribute_type","SPECPART_ATTRIBUTE_TYPE");
                                                                         });
                                                                     </script>
-                                                                </label>
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 px-0 mb-1">
 																<label for="part_attribute_value" class="data-entry-label smaller font-weight-bold">
