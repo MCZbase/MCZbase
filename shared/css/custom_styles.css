@@ -2910,14 +2910,11 @@ an overlay that prevents interaction with them.
     left: -20px;
 }
 .tinymap .static-map {
-    object-fit: contain;
-    cursor: pointer;
-    z-index: 1;
-    margin: 8px;
+    object-fit: contain;      /* keep whole map */
+    object-position: 50% 50%; /* center it */
+    margin: 0;
     padding: 0;
-    border: 2px solid blue;/* testing */
-    left: 0;
-    overflow: hidden;
+    border: 0;
 }
 .tinymap-3col .static-map {
     object-position: 48% 50%;   
@@ -2931,7 +2928,56 @@ an overlay that prevents interaction with them.
     z-index: 2;      /* above the static image */
 }
 
+/* Base wrapper: fill the column */
+.tinymap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
 
+/* Explicit heights per layout */
+.tinymap-3col {
+    height: 180px;       /* adjust to taste */
+}
+
+.tinymap-2col {
+    height: 220px;       /* adjust to taste */
+}
+
+/* Both maps fill the wrapper box */
+.tinymap .static-map,
+.tinymap .interactive-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Static thumbnail: keep whole map and center it */
+.tinymap .static-map {
+    object-fit: contain;
+    object-position: 50% 50%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+}
+
+/* Optional tiny tweaks per layout if needed */
+.tinymap-3col .static-map {
+  /* object-position: 48% 50%; */  /* uncomment only if you need a small nudge */
+}
+
+.tinymap-2col .static-map {
+  /* object-position: 48% 45%; */  /* same here */
+}
+
+/* Interactive map: hidden until JS shows it */
+.tinymap .interactive-map {
+    display: none;
+    z-index: 2;
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 
