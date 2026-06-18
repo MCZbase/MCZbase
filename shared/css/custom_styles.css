@@ -2769,7 +2769,7 @@ html,body {
 .wiki-drawer.open {
 	transform: translateX(0);
 }
-#content {
+/*#content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
 	width: 100%;
 	box-sizing: border-box;
@@ -2777,9 +2777,9 @@ html,body {
 #content.pushed {
 	margin-left: 355px;
 	width: calc(100% - 355px);
-}
+}*/
 /* 5. Dialog behavior when content is pushed */
-#content.wiki-open .ui-dialog {
+body.wiki-open .ui-dialog {
     /* Adjust to taste */
     max-width: calc(100vw - 355px);
     width: auto !important;      /* override fixed widths if any */
