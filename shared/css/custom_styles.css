@@ -2916,11 +2916,10 @@ an overlay that prevents interaction with them.
     margin: 8px;
     padding: 0;
     border: 2px solid blue;/* testing */
-    left: -28px;
     overflow: hidden;
 }
 .tinymap-3col .static-map {
-    object-position: 48% 50%;   
+    object-position: 50% 50%;   
 }
 .tinymap-2col .static-map {
     object-position: 48% 45%;   
