@@ -229,10 +229,10 @@ limitations under the License.
 }
 /*for the */
 @media screen and (max-width: 678px) {
-       .animation-element {
-               width: 100%;
-               margin: 0px 0px 30px 0px;
-       }
+	.animation-element {
+		width: 100%;
+		margin: 0px 0px 30px 0px;
+	}
 }
 /* below is for the basic search width of form fields area inside teal box */
 @media screen and (min-width: 1200px) {
@@ -423,13 +423,14 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
+														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
+														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif> 
-										<!---IDENTIFIER SECTION--->	
+
+												<!---IDENTIFIER SECTION--->	
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
@@ -440,135 +441,124 @@ limitations under the License.
 												</div>		
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mx-0">
 													<div class="col-12 col-md-3 mb-1">
-														<label for="fixedCollection" class="data-entry-label smaller font-weight-bold">Collection
-														    <div name="collection" id="fixedCollection" class="w-100"></div>
-														    <cfif not isdefined("collection")><cfset collection=""></cfif>
-														    <cfset collection_array = ListToArray(collection)>
-                                                            <script>
-                                                                function setFixedCollectionValues() {
-                                                                    $('##fixedCollection').jqxComboBox('clearSelection');
-                                                                    <cfloop query="ctCollection">
-                                                                        <cfif ArrayContains(collection_array, ctCollection.collection_cde)>
-                                                                            $("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
-                                                                        </cfif>
-                                                                    </cfloop>
-                                                                };
-                                                                $(document).ready(function () {
-                                                                    var collectionsource = [
-                                                                        <cfset comma="">
-                                                                        <cfloop query="ctCollection">
-                                                                            #comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
-                                                                            <cfset comma=",">
-                                                                        </cfloop>
-                                                                    ];
-                                                                    $("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
-                                                                    setFixedCollectionValues();
-                                                                });
-                                                            </script> 
-                                                        </label>
+														<label for="fixedCollection" class="data-entry-label smaller font-weight-bold">Collection</label>
+														<div name="collection" id="fixedCollection" class="w-100"></div>
+														<cfif not isdefined("collection")><cfset collection=""></cfif>
+														<cfset collection_array = ListToArray(collection)>
+														<script>
+															function setFixedCollectionValues() {
+																$('##fixedCollection').jqxComboBox('clearSelection');
+																<cfloop query="ctCollection">
+																	<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+																		$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
+																	</cfif>
+																</cfloop>
+															};
+															$(document).ready(function () {
+																var collectionsource = [
+																	<cfset comma="">
+																	<cfloop query="ctCollection">
+																		#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+																		<cfset comma=",">
+																	</cfloop>
+																];
+																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
+																setFixedCollectionValues();
+															});
+														</script> 
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number
-														    <input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
-                                                        </label>
+														<label for="catalogNum" class="data-entry-label smaller font-weight-bold">Catalog Number</label>
+														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label smaller font-weight-bold">Other ID Type
-                                                            <div name="other_id_type" id="other_id_type" class="w-100"></div>
-                                                            <cfset otheridtype_array = ListToArray(other_id_type)>
-                                                            <script>
-                                                                function setOtherIdTypeValues() {
-                                                                    $('##other_id_type').jqxComboBox('clearSelection');
-                                                                    <cfloop query="ctother_id_type">
-                                                                        <cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-                                                                            $("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-                                                                        </cfif>
-                                                                    </cfloop>
-                                                                };
-                                                                $(document).ready(function () {
-                                                                    var otheridtypesource = [
-                                                                        <cfset comma="">
-                                                                        <cfloop query="ctother_id_type">
-                                                                            #comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-                                                                            <cfset comma=",">
-                                                                        </cfloop>
-                                                                    ];
-                                                                    $("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
-                                                                    setOtherIdTypeValues();
-                                                                });
-                                                            </script> 
-                                                        </label>
+														<label for="otherID" class="data-entry-label smaller font-weight-bold">Other ID Type</label>
+														<div name="other_id_type" id="other_id_type" class="w-100"></div>
+														<cfset otheridtype_array = ListToArray(other_id_type)>
+														<script>
+															function setOtherIdTypeValues() {
+																$('##other_id_type').jqxComboBox('clearSelection');
+																<cfloop query="ctother_id_type">
+																	<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																		$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																	</cfif>
+																</cfloop>
+															};
+															$(document).ready(function () {
+																var otheridtypesource = [
+																	<cfset comma="">
+																	<cfloop query="ctother_id_type">
+																		#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																		<cfset comma=",">
+																	</cfloop>
+																];
+																$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
+																setOtherIdTypeValues();
+															});
+														</script> 
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
-														<label for="other_id_number" class="data-entry-label smaller font-weight-bold">Other ID Numbers
-														    <input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
-                                                        </label>
+														<label for="other_id_number" class="data-entry-label smaller font-weight-bold">Other ID Numbers</label>
+														<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
 													
 													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-                                        <!---IDENTIFIER DETAIL--->	
-                                        <!---IDENTIFIER DETAIL--->		
+
+													<!---IDENTIFIER DETAIL--->		
 													<div id="IDDetail" class="col-9 col-md-10 col-lg-11 px-0 py-2" style="#IDDetailStyle#">
-                                                        <div class="form-row col-12 px-1 mx-0">
-                                                            <div class="col-12 col-md-3 px-0 mb-1">
-                                                                <cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
-                                                                <label for="otherID" class="data-entry-label smaller font-weight-bold">or Other ID Type
-                                                                    <div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
-                                                                    <cfset otheridtype_array = ListToArray(other_id_type_1)>
-                                                                    <script>
-                                                                        function setOtherIdType_1_Values() {
-                                                                            $('##other_id_type_1').jqxComboBox('clearSelection');
-                                                                            <cfloop query="ctother_id_type">
-                                                                                <cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-                                                                                    $("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-                                                                                </cfif>
-                                                                            </cfloop>
-                                                                        };
-                                                                        $(document).ready(function () {
-                                                                            var otheridtypesource = [
-                                                                                <cfset comma="">
-                                                                                <cfloop query="ctother_id_type">
-                                                                                    #comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-                                                                                    <cfset comma=",">
-                                                                                </cfloop>
-                                                                            ];
-                                                                            $("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
-                                                                            setOtherIdType_1_Values();
-                                                                        });
-                                                                    </script> 
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-12 col-md-3 px-0 mb-1">
-                                                                <cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
-                                                                <label for="other_id_number_1" class="data-entry-label smaller font-weight-bold">Other ID Numbers
-                                                                    <input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
-                                                                </label>
-                                                            </div>
-                                                            <cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-                                                                <div class="col-12 col-md-4 px-0 mb-1">
-                                                                    <label class="data-entry-label smaller font-weight-bold" for="debug1">Debug JSON
-                                                                        <select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
-                                                                            <option value=""></option>
-                                                                            <cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-                                                                            <option value="true" #selected#>Debug JSON</option>
-                                                                        </select>
-                                                                    </label>
-                                                                </div>
-                                                            </cfif>
-                                                        </div>
+														<div class="form-row col-12 px-1 mx-0">
+															<div class="col-12 col-md-3 px-0 mb-1">
+																<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
+																<label for="otherID" class="data-entry-label smaller font-weight-bold">or Other ID Type</label>
+																<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
+																<cfset otheridtype_array = ListToArray(other_id_type_1)>
+																<script>
+																	function setOtherIdType_1_Values() {
+																		$('##other_id_type_1').jqxComboBox('clearSelection');
+																		<cfloop query="ctother_id_type">
+																			<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																				$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																			</cfif>
+																		</cfloop>
+																	};
+																	$(document).ready(function () {
+																		var otheridtypesource = [
+																			<cfset comma="">
+																			<cfloop query="ctother_id_type">
+																				#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																				<cfset comma=",">
+																			</cfloop>
+																		];
+																		$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
+																		setOtherIdType_1_Values();
+																	});
+																</script> 
+															</div>
+															<div class="col-12 col-md-3 px-0 mb-1">
+																<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
+																<label for="other_id_number_1" class="data-entry-label smaller font-weight-bold">Other ID Numbers</label>
+																<input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
+															</div>
+															<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																<div class="col-12 col-md-4 px-0 mb-1">
+																	<label class="data-entry-label smaller font-weight-bold" for="debug1">Debug JSON</label>
+																	<select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
+																		<option value=""></option>
+																		<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																		<option value="true" #selected#>Debug JSON</option>
+																	</select>
+																</div>
+															</cfif>
+														</div>
 													</div>
-                                        <!---END IDENTIFIER DETAIL--->	
-                                        <!---END IDENTIFIER DETAIL--->	
+													<!---END IDENTIFIER DETAIL--->	
 												</div>
 											</div>
-                                       
-                                        <!---END IDENTIFIER SECTION--->	
-                                                                    
-                                                                    
-                                        
+											<!---END IDENTIFIER SECTION--->	
+
 											<div class="col-12 form-row mx-0 px-0 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
