@@ -1099,7 +1099,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<label for="date_collected" class="data-entry-label smaller font-weight-bold">Date Collected</label>
-														<cfif not isdefined("date_collected")><cfset date_collected="" </cfif>
+														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
 														<input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
 													</div>
 													<div class="col-12 col-md-3 mb-1">
