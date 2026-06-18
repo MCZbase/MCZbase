@@ -283,6 +283,128 @@ function confirmDeleteEncumbranceFromEditPage(encumbranceId) {
 	});
 }
 
+/**
+ * Adds a cataloged item to the current encumbrance (edit page only).
+ * Reads the resolved collection_object_id from the hidden input, calls
+ * addSpecimenToEncumbrance on encumbrances/component/functions.cfc, then
+ * reloads the specimens list.
+ *
+ * @param {string} encumbranceId - the encumbrance_id of the encumbrance being edited.
+ * @param {string} containerIdSuffix - suffix for the container element id (default 'edit').
+ */
+function addSpecimenToEncumbrance(encumbranceId, containerIdSuffix) {
+	containerIdSuffix = containerIdSuffix || 'edit';
+	var collObjId = $.trim($('#collection_object_id').val());
+	var guidVal   = $.trim($('#guid').val());
+	var $status   = $('#addToEncStatusDiv');
+
+	if (collObjId.length === 0 || !$.isNumeric(collObjId)) {
+		if (guidVal.length > 0) {
+			messageDialog('Please select a cataloged item from the dropdown list before clicking Add to Encumbrance.', 'Select an Item');
+		} else {
+			messageDialog('Please enter a catalog number and select a cataloged item from the dropdown list.', 'No Item Selected');
+		}
+		return;
+	}
+
+	$status.removeClass('text-success text-danger text-warning').html('<span class="text-muted">Adding&hellip;</span>');
+	$.ajax({
+		url: '/encumbrances/component/functions.cfc',
+		data: {
+			method: 'addSpecimenToEncumbrance',
+			returnformat: 'json',
+			encumbrance_id: encumbranceId,
+			collection_object_id: collObjId
+		},
+		type: 'post',
+		dataType: 'json',
+		success: function (resp) {
+			var status = resp.STATUS || resp.status;
+			var message = resp.MESSAGE || resp.message || '';
+			if (status === 'ok') {
+				$('#guid').val('');
+				$('#collection_object_id').val('');
+				$status.html('<span class="text-success">Added.</span>');
+				loadEncumberedObjectsEdit(encumbranceId);
+			} else if (status === 'duplicate') {
+				$status.html('<span class="text-warning">' + $('<div>').text(message).html() + '</span>');
+			} else {
+				$status.html('<span class="text-danger">Error: ' + $('<div>').text(message).html() + '</span>');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			console.error('addSpecimenToEncumbrance error:', error);
+			$status.html('<span class="text-danger">Error adding specimen. Please try again.</span>');
+		}
+	});
+}
+
+/**
+ * Removes a cataloged item from the current encumbrance (edit page only).
+ * Calls removeSpecimenFromEncumbrance on encumbrances/component/functions.cfc,
+ * then reloads the specimens list.
+ *
+ * @param {string} encumbranceId      - the encumbrance_id.
+ * @param {string} collectionObjectId - the collection_object_id to remove.
+ */
+function removeSpecimenFromEncumbrance(encumbranceId, collectionObjectId) {
+	confirmDialog('Remove this specimen from the encumbrance?', 'Remove Specimen?', function () {
+		$.ajax({
+			url: '/encumbrances/component/functions.cfc',
+			data: {
+				method: 'removeSpecimenFromEncumbrance',
+				returnformat: 'json',
+				encumbrance_id: encumbranceId,
+				collection_object_id: collectionObjectId
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function (resp) {
+				var status = resp.STATUS || resp.status;
+				var message = resp.MESSAGE || resp.message || '';
+				if (status === 'ok') {
+					loadEncumberedObjectsEdit(encumbranceId);
+				} else {
+					messageDialog('Error removing specimen: ' + message, 'Error');
+				}
+			},
+			error: function (jqXHR, textStatus, error) {
+				console.error('removeSpecimenFromEncumbrance error:', error);
+				messageDialog('Error removing specimen. Please try again.', 'Error');
+			}
+		});
+	});
+}
+
+/**
+ * Loads the edit-mode encumbered-specimens list by calling getEncumberedObjectsHtml
+ * with editMode=true, and injects the HTML into #encumbered-specimen-edit-container.
+ *
+ * @param {string} encumbranceId - the encumbrance_id.
+ */
+function loadEncumberedObjectsEdit(encumbranceId) {
+	var $container = $('#encumbered-specimen-edit-container');
+	$container.html('<p class="text-muted">Loading&hellip;</p>');
+	$.ajax({
+		url: '/encumbrances/component/functions.cfc',
+		data: {
+			method: 'getEncumberedObjectsHtml',
+			returnformat: 'plain',
+			encumbrance_id: encumbranceId,
+			targetType: 'specimen',
+			editMode: 'true'
+		},
+		type: 'get',
+		success: function (data) {
+			$container.html(data);
+		},
+		error: function (jqXHR, textStatus, error) {
+			console.error('loadEncumberedObjectsEdit error:', error);
+			$container.html('<p class="text-danger">Unable to load specimen list. Please try again.</p>');
+		}
+	});
+}
+
 /* ============================================================
  * Search form autocompletes (/encumbrances/Encumbrances.cfm)
  * ============================================================ */
