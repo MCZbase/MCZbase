@@ -2916,12 +2916,12 @@ an overlay that prevents interaction with them.
     padding: 0;
     border: 0;
 }
-.tinymap-3col .static-map {
+/*.tinymap-3col .static-map {
     object-position: 48% 50%;   
 }
 .tinymap-2col .static-map {
     object-position: 48% 45%;   
-}
+}*/
 /* Interactive Google Map */
 .tinymap .interactive-map {
     display: none;   /* hidden until hover/click */
