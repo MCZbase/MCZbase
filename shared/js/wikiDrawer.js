@@ -32,6 +32,7 @@ function resizeAllGridsToContent() {
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open');
 	$('#content').addClass('pushed');
+    $('body').addClass('wiki-open'); 
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
     resizeAllGridsToContent();
@@ -39,6 +40,7 @@ function openWikiDrawer() {
 function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
+    $('body').removeClass('wiki-open');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
     resizeAllGridsToContent();

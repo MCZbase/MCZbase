@@ -2769,7 +2769,6 @@ html,body {
 .wiki-drawer.open {
 	transform: translateX(0);
 }
-
 #content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
 	width: 100%;
@@ -2777,7 +2776,7 @@ html,body {
 }
 #content.pushed {
 	margin-left: 355px;
-	width: calc(100% - 400px);
+	width: calc(100% - 355px);
 }
 /* 5. Dialog behavior when content is pushed */
 #content.pushed .ui-dialog {
@@ -2787,8 +2786,6 @@ html,body {
     right: 0;                    /* keep it in the visible area */
     left: auto !important;
 }
-
-
 div.mw-parser-output h1 {
 	font-size: 20px;
 	font-weight:bold;
