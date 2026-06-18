@@ -163,7 +163,6 @@ limitations under the License.
 				<table class="table table-sm table-striped table-responsive d-xl-table">
 					<thead class="thead-light">
 						<tr>
-							<th scope="col">##</th>
 							<th scope="col">Encumbrance Name</th>
 							<th scope="col">Action</th>
 							<th scope="col">Encumbering Agent</th>
@@ -183,7 +182,6 @@ limitations under the License.
 						<cfset variables.rowNum = 1>
 						<cfloop query="getEnc">
 							<tr>
-								<td>#variables.rowNum#</td>
 								<td>
 									<a href="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#encodeForURL(getEnc.encumbrance_id)#">
 										#encodeForHTML(getEnc.encumbrance)#
