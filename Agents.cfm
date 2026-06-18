@@ -19,6 +19,7 @@ limitations under the License.
 
 --->
 <cfset pageTitle = "Search Agents">
+
 <cfinclude template = "/shared/_header.cfm">
 
 <cfset defaultSelectionMode = "none">
@@ -27,6 +28,7 @@ limitations under the License.
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
+
 
 <cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select distinct(prefix) as dist_prefix from person where prefix is not null
@@ -131,12 +133,25 @@ limitations under the License.
 		<cfset trans_agent_collection = "">
 		<cfset permit_agent_role = "">
 	</cfif>
+    <style>
+        .data-entry-input {
+            padding-top: 0.035rem !important;
+            padding-bottom: 0.035rem !important;
+        }
+        
+    </style>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
+         <!---   <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>--->
+                <cftry>
+                      <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnA-SearchWiki border-0")#</cfoutput>
+                      <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+                </cftry>
+     <!---       </cfif>--->
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
-				<div class="row mx-0 mb-3">
-					<div class="search-box">
+				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-3 ml-xl-3 mr-xl-4">
+					<div class="search-box mt-4">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
 						</div>
@@ -153,184 +168,161 @@ limitations under the License.
 								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
 							});
 						</script>
-						<div class="col-12 px-4 pt-3 pb-2" id="searchFormDiv">
+                                     
+						<div class="col-12 px-3 pt-2 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="getAgents">
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-5">
-										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name
-											<span class="small90">
-												(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
-												NULL, NOT NULL, or a comma separated list of names)
-											</span>
-										</label>
-										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
-									</div>
-									<!--- onblur, if field is emptied, clear the agent_id. --->
-									<script>
-										function specificagentBlurHandler() { 
-											if($('##specificagent').val()=='') { 
-												$('##agent_id').val('');
-											}
-										}
-									</script>
-									<div class="col-12 col-md-4">
-										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
-											onblur=" specificagentBlurHandler();"
-											>
-										<script>
-											$(document).ready(function() {
-												makeAgentPicker("specificagent", "agent_id");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-1">
-										<label for="specificagent" class="data-entry-label" id="specificagent_label">Agent ID</label>
-										<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
-										<select id="agent_type" name="agent_type" class="data-entry-select">
-											<option></option>
-											<cfloop query="ctagent_type">
-												<cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
-											</cfloop>
-											<cfloop query="ctagent_type">
-												<cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
-											</cfloop>
-										</select>
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-2">
-										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
-										<select id="prefix" name="prefix" class="data-entry-select">
-											<option></option>
-											<cfloop query="dist_prefix">
-												<cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
-											</cfloop>
-											<cfloop query="dist_prefix">
-												<cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
-											</cfloop>
-											<cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NULL" #sel# >NULL</option>
-											<cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NOT NULL" #sel#>NOT NULL</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
-											<span class="small">
-												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
-											<span class="small">
-												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
-											<span class="small">
-												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
-									</div>
-									<div class="col-12 col-md-1">
-										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
-										<select id="suffix" name="suffix" class="data-entry-select">
-											<option></option>
-											<cfloop query="dist_suffix">
-												<cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
-											</cfloop>
-											<cfloop query="dist_suffix">
-												<cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
-											</cfloop>
-											<cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NULL" #sel#>NULL</option>
-											<cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NOT NULL" #sel#>NOT NULL</option>
-										</select>
-									</div>
-								</div>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
-											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
-											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
-											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
-											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
-											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="email" class="data-entry-label" id="email_label">Email</label>
-											<input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
-											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
-										</div>
-										<cfif listcontainsnocase(session.roles,"manage_transactions")>
-											<cfset vcollmd = "col-md-1">
-										<cfelse>
-											<cfset vcollmd = "col-md-2">
-										</cfif>
-										<div class="col-12 #vcollmd#">
-											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
-											<select id="edited" name="edited" class="data-entry-select">
-												<option></option>
-												<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="1" #sel# >Yes *</option>
-												<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="0" #sel#>No</option>
-											</select>
-										</div>
-										<cfif listcontainsnocase(session.roles,"manage_transactions")>
-											<div class="col-12 col-md-1">
-												<label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
-												<select id="ranking" name="ranking" class="data-entry-select">
-													<option></option>
-													<cfif ranking EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="none" #sel# >None (A)</option>
-													<cfif ranking EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="any" #sel#>Any (B-F)</option>
-												</select>
-											</div>
-										</cfif>
-									</div>
-								</cfif>
+								<input type="hidden" name="method" value="getAgents">         
+                                <!-- ========== SECTION 1: Agent / Identifier ========== -->
+                                <div class="">
+                                    <fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
+                                    <legend class="h6 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
+								    <div class="form-row pt-2">
+                                        <div class="col-12 col-md-12 col-lg-4 col-xl-5 px-0 mx-0 mb-1 mt-0 pr-md-0 form-group">
+                                            <label for="anyName" class="data-entry-label smaller font-weight-bold" id="anyName_label">
+                                                Any part of any name
+                                                <input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+                                                <span class="text-dark-gray h6">
+                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
+                                                    NULL, NOT NULL, or a comma separated list of names)
+                                                </span>
+                                             </label>
+                                        </div>
+                                        <!--- onblur, if field is emptied, clear the agent_id. --->
+                                            <script>
+                                                function specificagentBlurHandler() { 
+                                                    if($('##specificagent').val()=='') { 
+                                                        $('##agent_id').val('');
+                                                    }
+                                                }
+                                                 $(document).ready(function() {
+                                                        makeAgentPicker("specificagent", "agent_id");
+                                                 });
+                                            </script>
+                                        <!-- Specific agent -->
+                                        <div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 px-0 mt-0">
+                                            <div class="form-row mb-0">
+                                                <!-- Specific Agent + ID + Type grouped on the right -->
+                                                <div class="col-12 col-md-7 col-xl-8  pr-md-0 form-group mb-0 pb-0">
+                                                    <label for="specificagent" class="data-entry-label smaller font-weight-bold" id="specificagent_label">
+                                                        Specific Agent
+                                                    <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
+                                                            onblur=" specificagentBlurHandler();">
+                                                    </label>
+                                                </div>
+                                                <!-- Agent ID -->
+                                                <div class="col-6 col-md-2 col-xl-2 mb-1 pr-0 px-md-0 form-group mb-0 pb-1 pb-md-1">
+                                                    <label for="specificagent" class="data-entry-label smaller font-weight-bold" id="specificagent_label">
+                                                        Agent ID
+                                                    <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
+                                                    </label>
+                                                </div>
+                                                <!-- Agent Type -->
+                                                <div class="col-6 col-md-3 col-xl-2 pl-0 pl-md-0 form-group mb-0 pb-1 pb-md-1">
+                                                    <label for="agent_type" class="data-entry-label smaller font-weight-bold" id="agent_type_label">
+                                                        Type
+                                                        <select id="agent_type" name="agent_type" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfloop query="ctagent_type">
+                                                                <cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
+                                                            </cfloop>
+                                                            <cfloop query="ctagent_type">
+                                                                <cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                                <option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+							
+                                <!-- ========== SECTION 2: Name components ========== -->
+                                    <fieldset class="mb-0 px-3 pb-0 border-right border-bottom border-left field-set">
+                                    <legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
+                                    <div class="form-row mb-0 pt-2">
+                                        <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 px-md-0 mb-0 mb-md-1 mt-0">
+                                            <div class="form-group mb-1 pb-0 mt-0">
+                                               <label for="prefix" class="data-entry-label mb-0 smaller font-weight-bold">Prefix
+                                                    <select id="prefix" name="prefix" class="data-entry-select py-0">
+                                                        <option></option>
+                                                        <cfloop query="dist_prefix">
+                                                            <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
+                                                        </cfloop>
+                                                        <cfloop query="dist_prefix">
+                                                            <cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
+                                                        </cfloop>
+                                                        <cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NULL" #sel# >NULL</option>
+                                                        <cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 px-md-0 mb-0 mb-md-1 pb-0 form-group">
+                                            <label for="first_name" class="data-entry-label mb-0 smaller font-weight-bold" id="first_name_label">First
+                                                <input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
+                                                <span class="h6 text-dark">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </label>
+                                        </div>	
+                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 px-md-0 mb-0 mb-md-1 form-group pb-0">
+                                            <label for="middle_name" class="data-entry-label mb-0 smaller font-weight-bold" id="middle_name_label">Middle
+                                                <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+                                                <span class="h6">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 px-md-0 form-group mb-0 mb-md-1 pb-0">
+                                            <label for="last_name" class="data-entry-label smaller font-weight-bold" id="last_name_label">Last 
+                                                <input type="text" id="last_name" name="last_name" class="data-entry-input py-0" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
+                                                <span class="h6">
+                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+                                                    NULL, NOT NULL)
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 px-md-0 px-1 mb-1 mb-md-0">
+                                            <div class="form-group mb-0 pb-2">
+                                                <label for="suffix" class="data-entry-label smaller font-weight-bold" id="suffix_label">Suffix
+                                                    <select id="suffix" name="suffix" class="data-entry-select py-0">
+                                                        <option></option>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfloop query="dist_suffix">
+                                                            <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                            <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
+                                                        </cfloop>
+                                                        <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NULL" #sel#>NULL</option>
+                                                        <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div><!---form row--->
+                                </fieldset>
+                                                        
+                                 </div>
+                                <!-- ========== SECTION 3: Dates ========== -->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset dateWord = "Date">
 									<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
@@ -338,105 +330,141 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-								<div class="form-row mb-2">
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="col-12 col-md-4">
-											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
-												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
-												<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
-											</div>
-										</div>
-									</cfif>
-									<div class="col-12 col-md-4">
-										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
-											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
-											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-											<label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>		
-											<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
-										</div>
-									</div>
-									<div class="col-12 col-md-4">
-										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
-											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
-											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-											<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
-											<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-										</div>
-									</div>
-								</div>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-3">
-											<label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
-											<select id="collector_collection" name="collector_collection" class="data-entry-select">
-												<option></option>
-												<cfloop query="collections">
-													<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
-											<select id="author_collection" name="author_collection" class="data-entry-select">
-												<option></option>
-												<cfloop query="collections">
-													<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-												</cfloop>
-											</select>
-										</div>
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-											<div class="col-12 col-md-3">
-												<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Transactions in Collection</label>
-												<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
-													<option></option>
-													<cfloop query="collections">
-														<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-														<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-3">
-												<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights Role</label>
-												<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
-													<option></option>
-													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="issued by" #sel# >Issued By</option>
-													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="issued to" #sel# >Issued To</option>
-													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="contact" #sel# >Contact Agent</option>
-													<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="any" #sel#>Any</option>
-												</select>
-											</div>
-										</cfif>
-									</div>
-								</cfif>
-								<div class="form-row my-2 mx-0">
-									<div class="col-12 px-0 pt-2">
-										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
-										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
+                                <fieldset class="my-2 px-3 border-right border-top border-bottom border-left pb-1 field-set">
+                                    <legend class="h6 mt-0 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
+                                    <div class="form-row">
+                                        <div class="col-12 col-md-4 px-0 mt-0">
+				                            <!-- Death range, always shown -->
+                                            <div class="form-group pt-2 pb-1 mb-0">
+                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 mx-0 rounded justify-content-center">
+                                                    <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 smaller font-weight-bold" for="death_date">#dateWord# Of Death</label>
+                                                    <input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input py-0 w-100 col-5 px-1" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
+                                                    <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+                                                    <label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>	
+                                                    <input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+                                                </div>
+									        </div>
+                                        </div>
+                                        <!-- Dates collected (always) -->
+                                        <div class="col-12 col-md-4 px-0 mt-0">
+                                              <div class="form-group pt-2 mb-0 pb-1">
+                                                <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
+                                                    <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 smaller font-weight-bold" for="collected_date">Dates Collected</label>
+                                                    <input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input py-0 w-100 col-5 px-1" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
+                                                    <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+                                                    <label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
+                                                    <input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4 px-0 mt-0">
+								        <!-- Birth range, internal users only -->
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                                <div class="form-group pt-2 pb-1 mb-0">
+                                                    <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 ml-md-1 pt-1 mx-0 rounded justify-content-center">
+                                                        <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 smaller font-weight-bold" for="birth_date">
+                                                          #dateWord# Of Birth
+                                                        </label>
+                                                        <input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+                                                        <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+                                                        <label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>
+                                                        <input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+                                                    </div>
+                                                </div>
+                                            </cfif>
+                                        </div>
+                                    </div><!---/form-row--->
+                                </fieldset>
+                                
+                                <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
+                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                   <fieldset class="my-2 px-3 pb-2 field-set border-top border-bottom border-right border-left">
+                                    <legend class="h6 mt-1 mb-1 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
+                                        <div class="form-row mt-2">
+                                            <div class="col-12 col-md-3 col-xl-3 pr-md-0 px-0 mt-0 mb-md-1 mb-xl-0">
+                                                <div class="form-group mb-1 pb-0">
+                                                    <label for="collector_collection" class="data-entry-label smaller font-weight-bold" id="edited_label">Collector in Collection
+                                                        <select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfloop query="collections">
+                                                                <cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 mb-md-1 mb-xl-0">
+                                                <div class="form-group mb-1 pb-0">
+                                                    <label for="author_collection" class="data-entry-label smaller font-weight-bold" id="edited_label">Author in Collection
+                                                        <select id="author_collection" name="author_collection" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfloop query="collections">
+                                                                <cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                            </cfloop>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+                                                <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pr-md-0 px-xl-0">
+                                                    <div class="form-group mb-1 pb-0">
+                                                        <label for="trans_agent_collection" class="data-entry-label smaller font-weight-bold" id="edited_label">Collection Transactions
+                                                            <select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
+                                                                <option></option>
+                                                                <cfloop query="collections">
+                                                                    <cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                                    <option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+                                                                </cfloop>
+                                                            </select>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pb-md-1 mb-md-0">
+                                                    <div class="form-group mb-1 pb-0">
+                                                        <label for="permit_agent_role" class="data-entry-label smaller font-weight-bold" id="edited_label">Permissions &amp; Rights
+                                                        <select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
+                                                            <option></option>
+                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="issued by" #sel# >Issued By</option>
+                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="issued to" #sel# >Issued To</option>
+                                                            <cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="contact" #sel# >Contact Agent</option>
+                                                            <cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="any" #sel#>Any</option>
+                                                        </select>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </cfif>
+                                        </div>
+                                    </fieldset>
+                                </cfif>
+                                
+                                <!-- ========== SECTION 5: Actions ========== -->
+                                <fieldset>
+                                    <legend class="sr-only h6">Search Actions</legend>
+                                    <div class="form-row my-0 mx-0">
+                                        <div class="col-12 px-0 pt-0">
+                                            <button class="btn-xs btn-primary px-2 my-1 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
+                                            <button type="reset" class="btn-xs btn-warning my-1 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+                                            <button type="button" class="btn-xs btn-warning my-1 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
 
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
-										</cfif>
-										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-											<a class="btn btn-xs btn-secondary my-2 text-decoration-none" aria-label="Review pending merges of agent records" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
-										</cfif>
-									</div>
-								</div>
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+                                                <a class="btn-xs btn-secondary my-1 mr-1 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
+                                            </cfif>
+                                            <cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+                                                <a class="btn btn-xs btn-secondary my-1 text-decoration-none" aria-label="Review pending merges of agent records" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
+                                            </cfif>
+                                        </div>
+                                    </div>
+                                </fieldset>
 							</form>
 						</div><!--- col --->
 					</div><!--- search box --->
-				</div><!--- row --->
+				</div><!--- row --->                                     
 			</section>
 		
 			<!--- Results table as a jqxGrid. --->
@@ -444,8 +472,8 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12">
 						<div class="mb-5">
-							<div class="row mt-1 mb-0 pt2px pb-0 jqx-widget-header border px-2">
-								<h1 class="h4 ml-2 ml-md-1 mt-2 pt3px">
+							<div class="row mb-0 py-2 jqx-widget-header border px-2">
+								<h1 class="h4 my-0 ml-2 ml-md-1">
 									<span tabindex="0">Results: </span>
 									<span class="pr-2 font-weight-normal" id="resultCount"></span>
 									<span id="resultLink" class="pr-2 font-weight-normal"></span>
@@ -467,7 +495,7 @@ limitations under the License.
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
-								<div id="selectModeContainer" class="ml-3" style="display: none;" >
+								<div id="selectModeContainer" class="mb-1 ml-3" style="display: none;" >
 									<script>
 										function changeSelectMode(){
 											var selmode = $("##selectMode").val();
@@ -479,21 +507,22 @@ limitations under the License.
 											}
 										};
 									</script>
-									<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
-									<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
-										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="none">Text</option>
-										<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="singlecell">Single Cell</option>
-										<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="singlerow">Single Row</option>
-										<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
-										<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
-									</select>
+									<label class="data-entry-label d-inline w-auto my-0" for="selectMode">Grid Select:
+                                        <select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
+                                            <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="none">Text</option>
+                                            <cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="singlecell">Single Cell</option>
+                                            <cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="singlerow">Single Row</option>
+                                            <cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+                                            <cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+                                            <option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+                                        </select>
+                                    </label>
 								</div>
-								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-2 pt-1 px-2 mx-1 border-0"></output>
+								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-0 pt-1 px-2 mx-1 border-0"></output>
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
@@ -511,7 +540,7 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				lookupColumnVisibilities ('#cgi.script_name#','Default');
 			</cfif>
-
+        
 			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
 			var columnOrderLoading = 0
 	
@@ -793,9 +822,20 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Agents.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-						$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+						$('##showhide').html('<button class="my-0 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','agent');
 						loadColumnOrder('searchResultsGrid');
+                        
+                            <!--- scroll to results after grid is loaded --->
+                        <cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+                            if ($(window).width() <= 900) {
+                                // small screens: scroll a bit less
+                                $('html, body').scrollTop($('##searchResultsGrid').offset().top - 50);
+                            } else {
+                                // larger screens: scroll a bit more
+                                $('html, body').scrollTop($('##searchResultsGrid').offset().top - 120);
+                            }
+                        </cfif>
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -954,7 +994,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 my-2 mx-1' >Show/Hide Columns</button>"
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 my-0 mx-1' >Show/Hide Columns</button>"
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
@@ -995,7 +1035,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary mx-1 my-2 px-2" >Save Search</button>
+							class="btn btn-xs btn-secondary mx-1 my-0 px-2" >Save Search</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1004,10 +1044,12 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-0 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 				$('##selectModeContainer').show();
 			}
+        
 		</script> 
+        
 	</cfoutput>
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
 		<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
@@ -1016,5 +1058,11 @@ limitations under the License.
 		</div>
 	</div>
 </div><!--- overlay container --->
-	
+    
+                                   
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Agent_Search">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+    
 <cfinclude template = "/shared/_footer.cfm">
