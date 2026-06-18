@@ -2265,25 +2265,25 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("IssuedByAgent") AND len(IssuedByAgent) GT 0>
-			<cfset field = '"field": "IssuedByAgent"'>
+			<cfset field = '"field": "PERMIT_ISSUED_BY_NAME"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#IssuedByAgent#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("issued_by_agent_id") AND len(issued_by_agent_id) GT 0>
-			<cfset field = '"field": "issued_by_agent_id"'>
+			<cfset field = '"field": "PERMIT_ISSUED_BY_AGENT_ID"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#issued_by_agent_id#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("IssuedToAgent") AND len(IssuedToAgent) GT 0>
-			<cfset field = '"field": "IssuedToAgent"'>
+			<cfset field = '"field": "PERMIT_ISSUED_TO_NAME"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#IssuedToAgent#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("issued_to_agent_id") AND len(issued_to_agent_id) GT 0>
-			<cfset field = '"field": "issued_to_agent_id"'>
+			<cfset field = '"field": "PERMIT_ISSUED_BY_AGENT_ID"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#issued_to_agent_id#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
