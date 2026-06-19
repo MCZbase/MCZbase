@@ -3,7 +3,7 @@
 
 Agent search/results 
 
-Copyright 2021-2022 President and Fellows of Harvard College
+Copyright 2021-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -133,22 +133,19 @@ limitations under the License.
 		<cfset trans_agent_collection = "">
 		<cfset permit_agent_role = "">
 	</cfif>
-    <style>
-        .data-entry-input {
-            padding-top: 0.035rem !important;
-            padding-bottom: 0.035rem !important;
-        }
-        
-    </style>
+	<style>
+		.data-entry-input {
+			padding-top: 0.035rem !important;
+			padding-bottom: 0.035rem !important;
+		}
+	</style>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
-         <!---   <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>--->
-                <cftry>
-                      <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnA-SearchWiki border-0")#</cfoutput>
-                      <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-                </cftry>
-     <!---       </cfif>--->
+			<cftry>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnA-SearchWiki border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-3 ml-xl-3 mr-xl-4">
 					<div class="search-box mt-4">
@@ -168,10 +165,9 @@ limitations under the License.
 								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
 							});
 						</script>
-                                     
 						<div class="col-12 px-3 pt-2 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="getAgents">         
+								<input type="hidden" name="method" value="getAgents">
                                 <!-- ========== SECTION 1: Agent / Identifier ========== -->
                                 <div class="">
                                     <fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
@@ -376,7 +372,7 @@ limitations under the License.
                                     </div><!---/form-row--->
                                 </fieldset>
                                 
-                                <!-- ========== SECTION 4: Internal Collections and Permissions ========== -->                                     
+                                <!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                    <fieldset class="my-2 px-3 pb-2 field-set border-top border-bottom border-right border-left">
                                     <legend class="h6 mt-1 mb-1 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
@@ -443,7 +439,7 @@ limitations under the License.
                                     </fieldset>
                                 </cfif>
                                 
-                                <!-- ========== SECTION 5: Actions ========== -->
+                                <!--- ========== SECTION 5: Actions ========== --->
                                 <fieldset>
                                     <legend class="sr-only h6">Search Actions</legend>
                                     <div class="form-row my-0 mx-0">
@@ -464,7 +460,7 @@ limitations under the License.
 							</form>
 						</div><!--- col --->
 					</div><!--- search box --->
-				</div><!--- row --->                                     
+				</div><!--- row --->
 			</section>
 		
 			<!--- Results table as a jqxGrid. --->
@@ -540,7 +536,7 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				lookupColumnVisibilities ('#cgi.script_name#','Default');
 			</cfif>
-        
+
 			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
 			var columnOrderLoading = 0
 	
@@ -825,17 +821,16 @@ limitations under the License.
 						$('##showhide').html('<button class="my-0 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','agent');
 						loadColumnOrder('searchResultsGrid');
-                        
-                            <!--- scroll to results after grid is loaded --->
-                        <cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-                            if ($(window).width() <= 900) {
-                                // small screens: scroll a bit less
-                                $('html, body').scrollTop($('##searchResultsGrid').offset().top - 50);
-                            } else {
-                                // larger screens: scroll a bit more
-                                $('html, body').scrollTop($('##searchResultsGrid').offset().top - 120);
-                            }
-                        </cfif>
+						<!--- scroll to results after grid is loaded --->
+						<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+							if ($(window).width() <= 900) {
+								// small screens: scroll a bit less
+								$('html, body').scrollTop($('##searchResultsGrid').offset().top - 50);
+							} else {
+								// larger screens: scroll a bit more
+								$('html, body').scrollTop($('##searchResultsGrid').offset().top - 120);
+							}
+						</cfif>
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1047,9 +1042,7 @@ limitations under the License.
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-0 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 				$('##selectModeContainer').show();
 			}
-        
 		</script> 
-        
 	</cfoutput>
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
 		<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
@@ -1058,11 +1051,10 @@ limitations under the License.
 		</div>
 	</div>
 </div><!--- overlay container --->
-    
-                                   
+
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
 <cfset targetWikiPage = "Agent_Search">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
-    
+
 <cfinclude template = "/shared/_footer.cfm">
