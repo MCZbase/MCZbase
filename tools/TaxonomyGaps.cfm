@@ -255,12 +255,12 @@ limitations under the License.
 		<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
 			<cfset variables.termCrashParams.collectionId = {value=variables.collection_id, cfsqltype="cf_sql_integer"}>
 		</cfif>
-		<!--- Conditional SQL fragments: author_text and taxon_name_id only included when lterm is SCIENTIFIC_NAME --->
+		<!--- Conditional SQL fragments: author_text and taxonid only included when lterm is SCIENTIFIC_NAME --->
 		<cfset variables.termCrashInnerExtra = "">
 		<cfset variables.termCrashOuterExtra = "">
 		<cfif variables.lterm EQ "SCIENTIFIC_NAME">
-			<cfset variables.termCrashInnerExtra = ", author_text, taxon_name_id">
-			<cfset variables.termCrashOuterExtra = ", a.author_text, a.taxon_name_id">
+			<cfset variables.termCrashInnerExtra = ", author_text, taxonid">
+			<cfset variables.termCrashOuterExtra = ", a.author_text, a.taxonid">
 		</cfif>
 		<!--- Count query: total rows without the row limit --->
 		<cfset variables.termCrashCountSql = "SELECT COUNT(*) AS total FROM (
@@ -312,12 +312,10 @@ limitations under the License.
 				<table class="sortable table table-responsive d-xl-table table-striped table-sm">
 					<thead class="thead-light">
 						<tr>
-							<cfif variables.lterm EQ "SCIENTIFIC_NAME">
-								<th scope="col">Taxon ID</th>
-							</cfif>
 							<th scope="col">#encodeForHtml(variables.taxaRankLabels[variables.lterm])#</th>
 							<cfif variables.lterm EQ "SCIENTIFIC_NAME">
 								<th scope="col">Authorship</th>
+								<th scope="col">Taxon ID</th>
 							</cfif>
 							<th scope="col">#encodeForHtml(variables.taxaRankLabels[variables.hterm])#</th>
 							<th scope="col">Nomenclatural Code</th>
@@ -326,12 +324,10 @@ limitations under the License.
 					<tbody>
 						<cfloop query="termCrash">
 							<tr>
-								<cfif variables.lterm EQ "SCIENTIFIC_NAME">
-									<td><a href="#encodeForHtmlAttribute(Application.ServerRootUrl)#/taxonomy/Taxonomy.cfm?action=edit&amp;taxon_name_id=#encodeForUrl(taxon_name_id)#">#encodeForHtml(taxon_name_id)#</a></td>
-								</cfif>
 								<td><a href="/Taxa.cfm?execute=true&amp;#encodeForUrl(variables.lterm)#=#encodeForUrl(l)#">#encodeForHtml(l)#</a></td>
 								<cfif variables.lterm EQ "SCIENTIFIC_NAME">
 									<td>#encodeForHtml(author_text)#</td>
+									<td>#encodeForHtml(taxonid)#</td>
 								</cfif>
 								<td><a href="/Taxa.cfm?execute=true&amp;#encodeForUrl(variables.hterm)#=#encodeForUrl(h)#&amp;#encodeForUrl(variables.lterm)#=#encodeForUrl(l)#">#encodeForHtml(h)#</a></td>
 								<td>#encodeForHtml(nomenclatural_code)#</td>
