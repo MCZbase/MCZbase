@@ -65,7 +65,6 @@ limitations under the License.
 			<h1 class="h2">Taxonomy Quality Control</h1>
 		</div>
 		<div class="col-12">
-			<cfoutput>
 			<script>
 				function showOptions(v) {
 					$('#gap').hide();
@@ -78,6 +77,7 @@ limitations under the License.
 					}
 				}
 			</script>
+			<cfoutput>
 			<form name="cf" method="get" action="TaxonomyGaps.cfm">
 				<div class="form-group mb-3">
 					<label for="action">Check Taxonomy records for</label>
