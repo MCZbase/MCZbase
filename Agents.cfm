@@ -168,8 +168,9 @@ limitations under the License.
 						<div class="col-12 px-3 pt-2 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
-								<!--- ========== SECTION 1: Agent / Identifier ========== --->
+
 								<div class="">
+									<!--- ========== SECTION 1: Agent / Identifier ========== --->
 									<fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
 									<legend class="h6 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
@@ -218,89 +219,90 @@ limitations under the License.
 									</div>
 								</fieldset>
 							
-                                <!--- ========== SECTION 2: Name components ========== --->
-                                    <fieldset class="mb-0 px-3 pb-0 border-right border-bottom border-left field-set">
-                                    <legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
-                                    <div class="form-row mb-0 pt-2">
-                                        <div class="col-12 col-md-3 col-lg-2 col-xl-2 px-1 px-md-0 mb-0 mb-md-1 mt-0">
-                                            <div class="form-group mb-1 pb-0 mt-0">
-                                               <label for="prefix" class="data-entry-label mb-0 smaller font-weight-bold">Prefix
-                                                    <select id="prefix" name="prefix" class="data-entry-select py-0">
-                                                        <option></option>
-                                                        <cfloop query="dist_prefix">
-                                                            <cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
-                                                        </cfloop>
-                                                        <cfloop query="dist_prefix">
-                                                            <cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
-                                                        </cfloop>
-                                                        <cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                        <option value="NULL" #sel# >NULL</option>
-                                                        <cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-5 col-lg-3 col-xl-3 px-1 px-md-0 mb-0 mb-md-1 pb-0 form-group">
-                                            <label for="first_name" class="data-entry-label mb-0 smaller font-weight-bold" id="first_name_label">First
-                                                <input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-                                                <span class="h6 text-dark">
-                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-                                                    NULL, NOT NULL)
-                                                </span>
-                                            </label>
-                                        </div>	
-                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-1 px-md-0 mb-0 mb-md-1 form-group pb-0">
-                                            <label for="middle_name" class="data-entry-label mb-0 smaller font-weight-bold" id="middle_name_label">Middle
-                                                <input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
-                                                <span class="h6">
-                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-                                                    NULL, NOT NULL)
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-8 col-lg-3 col-xl-3 px-1 px-md-0 form-group mb-0 mb-md-1 pb-0">
-                                            <label for="last_name" class="data-entry-label smaller font-weight-bold" id="last_name_label">Last 
-                                                <input type="text" id="last_name" name="last_name" class="data-entry-input py-0" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
-                                                <span class="h6">
-                                                    (accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-                                                    NULL, NOT NULL)
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 px-md-0 px-1 mb-1 mb-md-0">
-                                            <div class="form-group mb-0 pb-2">
-                                                <label for="suffix" class="data-entry-label smaller font-weight-bold" id="suffix_label">Suffix
-                                                    <select id="suffix" name="suffix" class="data-entry-select py-0">
-                                                        <option></option>
-                                                        <cfloop query="dist_suffix">
-                                                            <cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
-                                                        </cfloop>
-                                                        <cfloop query="dist_suffix">
-                                                            <cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
-                                                        </cfloop>
-                                                        <cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                        <option value="NULL" #sel#>NULL</option>
-                                                        <cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                        <option value="NOT NULL" #sel#>NOT NULL</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div><!---form row--->
-                                </fieldset>
-                                                        
-                                 </div>
+								<!--- ========== SECTION 2: Name components ========== --->
+								<fieldset class="mb-0 px-3 pb-0 border-right border-bottom border-left field-set">
+									<legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
+									<div class="form-row mb-0 pt-2">
+										<div class="col-12 col-md-3 col-lg-2 col-xl-2 mb-0 mb-md-1 mt-0">
+											<div class="form-group mb-1 pb-0 mt-0">
+												<label for="prefix" class="data-entry-label mb-0 small font-weight-bold">Prefix</label>
+												<select id="prefix" name="prefix" class="data-entry-select py-0">
+													<option></option>
+													<cfloop query="dist_prefix">
+														<cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
+													</cfloop>
+													<cfloop query="dist_prefix">
+														<cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
+													</cfloop>
+													<cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="NULL" #sel# >NULL</option>
+													<cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="NOT NULL" #sel#>NOT NULL</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
+											<label for="first_name" class="data-entry-label mb-0 smaller font-weight-bold" id="first_name_label">
+												First
+												<span class="h6 text-dark">
+													(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
+										</div>	
+										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
+											<label for="middle_name" class="data-entry-label mb-0 smaller font-weight-bold" id="middle_name_label">
+												Middle
+												<span class="h6">
+													(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+										</div>
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
+											<label for="last_name" class="data-entry-label smaller font-weight-bold" id="last_name_label">
+												Last 
+												<span class="h6">
+													(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<input type="text" id="last_name" name="last_name" class="data-entry-input py-0" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
+										</div>
+										<div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 mb-1 mb-md-0">
+											<div class="form-group mb-0 pb-2">
+												<label for="suffix" class="data-entry-label smaller font-weight-bold" id="suffix_label">Suffix</label>
+												<select id="suffix" name="suffix" class="data-entry-select py-0">
+													<option></option>
+													<cfloop query="dist_suffix">
+														<cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
+													</cfloop>
+													<cfloop query="dist_suffix">
+														<cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
+													</cfloop>
+													<cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="NULL" #sel#>NULL</option>
+													<cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="NOT NULL" #sel#>NOT NULL</option>
+												</select>
+											</div>
+										</div>
+									</div><!---form row--->
+								</fieldset>
+							</div><!--- END sections 1 and 2 --->
+
                                 <!--- ========== SECTION 3: Dates ========== --->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset dateWord = "Date">
