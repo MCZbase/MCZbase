@@ -304,6 +304,66 @@ limitations under the License.
 			variables.termCrashDataParams,
 			{datasource="user_login", username=session.dbuser, password=decrypt(session.epw,cookie.cfid)}
 		)>
+		<!--- Pre-compute interpretation for each scientific name group (only when lterm is SCIENTIFIC_NAME) --->
+		<cfset variables.termCrashInterpretations = {}>
+		<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+			<!--- First pass: collect unique taxonids and stripped authorships per scientific name --->
+			<cfset variables.termCrashGroups = {}>
+			<cfloop query="termCrash">
+				<cfif NOT structKeyExists(variables.termCrashGroups, l)>
+					<cfset variables.termCrashGroups[l] = {taxonids=[], authors=[]}>
+				</cfif>
+				<cfset variables.tcTid = trim(taxonid)>
+				<cfif NOT arrayFind(variables.termCrashGroups[l].taxonids, variables.tcTid)>
+					<cfset arrayAppend(variables.termCrashGroups[l].taxonids, variables.tcTid)>
+				</cfif>
+				<!--- Strip leading/trailing parentheses from authorship for comparison --->
+				<cfset variables.tcAuth = trim(reReplace(trim(author_text), "^\(|\)$", "", "ALL"))>
+				<cfif NOT arrayFind(variables.termCrashGroups[l].authors, variables.tcAuth)>
+					<cfset arrayAppend(variables.termCrashGroups[l].authors, variables.tcAuth)>
+				</cfif>
+			</cfloop>
+			<!--- Second pass: determine interpretation per group --->
+			<cfloop collection="#variables.termCrashGroups#" item="variables.tcName">
+				<cfset variables.tcGroup = variables.termCrashGroups[variables.tcName]>
+				<!--- Collect only non-empty taxonids --->
+				<cfset variables.tcNonEmptyIds = []>
+				<cfloop array="#variables.tcGroup.taxonids#" index="variables.tcTid">
+					<cfif len(variables.tcTid) GT 0>
+						<cfset arrayAppend(variables.tcNonEmptyIds, variables.tcTid)>
+					</cfif>
+				</cfloop>
+				<cfset variables.tcAllEmpty = (arrayLen(variables.tcNonEmptyIds) EQ 0)>
+				<cfset variables.tcAllNonEmpty = (arrayLen(variables.tcNonEmptyIds) EQ arrayLen(variables.tcGroup.taxonids))>
+				<cfif NOT variables.tcAllEmpty AND NOT variables.tcAllNonEmpty>
+					<!--- Mixed: some rows have taxonid, some do not --->
+					<cfset variables.termCrashInterpretations[variables.tcName] = "">
+				<cfelseif variables.tcAllNonEmpty AND arrayLen(variables.tcNonEmptyIds) GT 1>
+					<!--- Multiple distinct non-empty taxonids: distinct named entities (homonyms) --->
+					<cfset variables.termCrashInterpretations[variables.tcName] = "Homonyms">
+				<cfelseif variables.tcAllNonEmpty AND arrayLen(variables.tcNonEmptyIds) EQ 1>
+					<!--- All rows share the same non-empty taxonid: inconsistent higher placement --->
+					<cfset variables.termCrashInterpretations[variables.tcName] = "Inconsistent placement">
+				<cfelseif variables.tcAllEmpty>
+					<!--- All have empty taxonid: compare stripped authorships --->
+					<cfset variables.tcUniqueAuthors = []>
+					<cfloop array="#variables.tcGroup.authors#" index="variables.tcAuth">
+						<cfif len(variables.tcAuth) GT 0 AND NOT arrayFind(variables.tcUniqueAuthors, variables.tcAuth)>
+							<cfset arrayAppend(variables.tcUniqueAuthors, variables.tcAuth)>
+						</cfif>
+					</cfloop>
+					<cfif arrayLen(variables.tcUniqueAuthors) EQ 1>
+						<!--- Same authorship after stripping parens: likely a data entry error --->
+						<cfset variables.termCrashInterpretations[variables.tcName] = "Likely error">
+					<cfelse>
+						<!--- Different authorships, no taxonid: potential homonyms --->
+						<cfset variables.termCrashInterpretations[variables.tcName] = "Potential homonyms">
+					</cfif>
+				<cfelse>
+					<cfset variables.termCrashInterpretations[variables.tcName] = "">
+				</cfif>
+			</cfloop>
+		</cfif>
 		<section class="row my-2">
 			<div class="col-12">
 				<h2 class="h4">Lower Taxon Placed in Multiple Higher Taxa</h2>
@@ -319,6 +379,9 @@ limitations under the License.
 							</cfif>
 							<th scope="col">#encodeForHtml(variables.taxaRankLabels[variables.hterm])#</th>
 							<th scope="col">Nomenclatural Code</th>
+							<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+								<th scope="col">Interpretation</th>
+							</cfif>
 						</tr>
 					</thead>
 					<tbody>
@@ -331,6 +394,10 @@ limitations under the License.
 								</cfif>
 								<td><a href="/Taxa.cfm?execute=true&amp;#encodeForUrl(variables.hterm)#=#encodeForUrl(h)#&amp;#encodeForUrl(variables.lterm)#=#encodeForUrl(l)#">#encodeForHtml(h)#</a></td>
 								<td>#encodeForHtml(nomenclatural_code)#</td>
+								<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+									<cfset variables.tcRowInterp = structKeyExists(variables.termCrashInterpretations, l) ? variables.termCrashInterpretations[l] : "">
+									<td>#encodeForHtml(variables.tcRowInterp)#</td>
+								</cfif>
 							</tr>
 						</cfloop>
 					</tbody>
