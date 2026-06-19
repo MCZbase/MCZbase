@@ -245,7 +245,7 @@ limitations under the License.
 				</cfif>
 				WHERE
 					<cfloop query="ctINFRASPECIFIC_RANK">
-						regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, ' #INFRASPECIFIC_RANK# ', ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') AND
+						regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, <cfqueryparam value=" #INFRASPECIFIC_RANK# " cfsqltype="CF_SQL_VARCHAR">, ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') AND
 					</cfloop>
 					regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, chr(50071), ''),'[a-z]-[a-z]',''), '[^A-Za-z ]')
 					<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
@@ -304,41 +304,59 @@ limitations under the License.
 	</cfif>
 	<!--- gap results --->
 	<cfif variables.action EQ "gap">
-		<cfquery name="md" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT * FROM (
+		<!--- Build SQL string; taxaReturns and nullstuff are column names whitelisted above --->
+		<cfset variables.gapSql = "SELECT * FROM (
 				SELECT
 					taxonomy.taxon_name_id,
 					taxonomy.scientific_name,
-					#variables.taxaReturns#
-				FROM taxonomy
-				<cfif variables.collection_id EQ 0>
-					INNER JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
-				<cfelseif variables.collection_id EQ -1>
-					LEFT JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
-				<cfelseif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
-					INNER JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
-					INNER JOIN identification ON identification_taxonomy.identification_id = identification.identification_id
-					INNER JOIN cataloged_item ON identification.collection_object_id = cataloged_item.collection_object_id
-				</cfif>
-				WHERE (
-					<cfset variables.i = 1>
-					<cfloop list="#variables.nullstuff#" index="variables.n">
-						#variables.n# IS NULL<cfif variables.i LT listLen(variables.nullstuff)> OR</cfif>
-						<cfset variables.i = variables.i + 1>
-					</cfloop>
-				)
-				<cfif variables.collection_id EQ -1>
-					AND identification_taxonomy.identification_id IS NULL
-				<cfelseif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
-					AND cataloged_item.collection_id = <cfqueryparam value="#variables.collection_id#" cfsqltype="CF_SQL_INTEGER">
-				</cfif>
+					" & variables.taxaReturns & "
+				FROM taxonomy">
+		<cfif variables.collection_id EQ 0>
+			<cfset variables.gapSql = variables.gapSql & "
+				INNER JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id">
+		<cfelseif variables.collection_id EQ -1>
+			<cfset variables.gapSql = variables.gapSql & "
+				LEFT JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id">
+		<cfelseif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+			<cfset variables.gapSql = variables.gapSql & "
+				INNER JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+				INNER JOIN identification ON identification_taxonomy.identification_id = identification.identification_id
+				INNER JOIN cataloged_item ON identification.collection_object_id = cataloged_item.collection_object_id">
+		</cfif>
+		<cfset variables.gapSql = variables.gapSql & "
+				WHERE (">
+		<cfset variables.i = 1>
+		<cfloop list="#variables.nullstuff#" index="variables.n">
+			<cfset variables.gapSql = variables.gapSql & " " & variables.n & " IS NULL">
+			<cfif variables.i LT listLen(variables.nullstuff)>
+				<cfset variables.gapSql = variables.gapSql & " OR">
+			</cfif>
+			<cfset variables.i = variables.i + 1>
+		</cfloop>
+		<cfset variables.gapSql = variables.gapSql & "
+				)">
+		<cfif variables.collection_id EQ -1>
+			<cfset variables.gapSql = variables.gapSql & "
+				AND identification_taxonomy.identification_id IS NULL">
+		<cfelseif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+			<cfset variables.gapSql = variables.gapSql & "
+				AND cataloged_item.collection_id = :collectionId">
+		</cfif>
+		<cfset variables.gapSql = variables.gapSql & "
 				GROUP BY
 					taxonomy.taxon_name_id,
 					taxonomy.scientific_name,
-					#variables.taxaReturns#
+					" & variables.taxaReturns & "
 				ORDER BY taxonomy.scientific_name
-			) WHERE rownum < <cfqueryparam value="#variables.limit#" cfsqltype="CF_SQL_INTEGER">
-		</cfquery>
+			) WHERE rownum < :limitVal">
+		<cfset variables.gapParams = {limitVal = {value=variables.limit, cfsqltype="cf_sql_integer"}}>
+		<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+			<cfset variables.gapParams.collectionId = {value=variables.collection_id, cfsqltype="cf_sql_integer"}>
+		</cfif>
+		<cfset md = queryExecute(
+			variables.gapSql,
+			variables.gapParams,
+			{datasource="user_login", username=session.dbuser, ******		)>
 		<section class="row my-2">
 			<div class="col-12">
 				<h2 class="h4">Missing Higher Taxon Values</h2>
