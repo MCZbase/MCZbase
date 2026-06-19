@@ -2276,7 +2276,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("issued_to_agent_id") AND len(issued_to_agent_id) GT 0>
-			<cfset field = '"field": "PERMIT_ISSUED_BY_AGENT_ID"'>
+			<cfset field = '"field": "PERMIT_ISSUED_TO_AGENT_ID"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#issued_to_agent_id#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
