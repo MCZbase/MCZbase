@@ -408,7 +408,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-												<div class="col-12 col-md-3 col-xl-2 mt-0 pr-md-0 px-xl-0">
+												<div class="col-12 col-md-3 col-xl-2 mt-0">
 													<div class="form-group mb-1 pb-0">
 														<label for="trans_agent_collection" class="data-entry-label font-weight-bold" id="edited_label">Collection Transactions</label>
 														<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
@@ -424,7 +424,7 @@ limitations under the License.
 														</select>
 													</div>
 												</div>
-												<div class="col-12 col-md-3 col-xl-2 mt-0 pr-md-0 px-xl-0">
+												<div class="col-12 col-md-3 col-xl-3 mt-0">
 													<div class="form-group mb-1 pb-0">
 														<label for="trans_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Transaction Role</label>
 														<select id="trans_agent_role" name="trans_agent_role" class="data-entry-select py-0">
@@ -444,7 +444,7 @@ limitations under the License.
 														</select>
 													</div>
 												</div>
-												<div class="col-12 col-md-2 col-xl-3 mt-0 pb-md-1 mb-md-0">
+												<div class="col-12 col-md-2 col-xl-3 mt-0">
 													<div class="form-group mb-1 pb-0">
 														<label for="permit_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Permissions &amp; Rights</label>
 														<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
