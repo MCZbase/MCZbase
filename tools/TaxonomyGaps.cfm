@@ -176,8 +176,7 @@ limitations under the License.
 	</section>
 	<!--- higherCrash results --->
 	<cfif variables.action EQ "higherCrash">
-		<cfset termCrash = queryExecute(
-			"SELECT * FROM (
+		<cfset variables.termCrashSql = "SELECT * FROM (
 				SELECT
 					a.nomenclatural_code, a.#variables.lterm# l, a.#variables.hterm# h
 				FROM
@@ -190,7 +189,9 @@ limitations under the License.
 					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm#
 				ORDER BY
 					a.#variables.lterm#, a.#variables.hterm#, a.nomenclatural_code
-			) WHERE rownum <= :limitVal",
+			) WHERE rownum <= :limitVal">
+		<cfset termCrash = queryExecute(
+			variables.termCrashSql,
 			{limitVal = {value=variables.limit, cfsqltype="cf_sql_integer"}},
 			{datasource="user_login", username=session.dbuser, password=decrypt(session.epw,cookie.cfid)}
 		)>
