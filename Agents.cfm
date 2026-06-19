@@ -387,7 +387,7 @@ limitations under the License.
 														<option value="NOT NULL" #selected#>Collector (any collection)</option>
 														<cfloop query="collections">
 															<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="#collections.collection_id#" #sel# >#collections.instution_acronym#:#collections.collection#</option>
+															<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
 														</cfloop>
 													</select>
 												</div>
@@ -403,7 +403,7 @@ limitations under the License.
 														<option value="NOT NULL" #selected#>Author (any collection)</option>
 														<cfloop query="collections">
 															<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="#collections.collection_id#" #sel# >#collections.instution_acronym#:#collections.collection#</option>
+															<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
 														</cfloop>
 													</select>
 												</div>
@@ -420,7 +420,7 @@ limitations under the License.
 															<option value="NOT NULL" #selected#>Transaction in some collection</option>
 															<cfloop query="collections">
 																<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-																<option value="#collections.collection_id#" #sel# >#collections.instution_acronym#:#collections.collection#</option>
+																<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
 															</cfloop>
 														</select>
 													</div>
