@@ -40,7 +40,8 @@ limitations under the License.
 	select agent_type  from ctagent_type
 </cfquery>
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-	select collection_cde, collection_id from collection
+	SELECT institution_acronym, collection, collection_cde, collection_id 
+	FROM collection
 </cfquery>
 <cfquery name="ctTransAgentRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT trans_agent_role 
@@ -386,7 +387,7 @@ limitations under the License.
 														<option value="NOT NULL" #selected#>Collector (any collection)</option>
 														<cfloop query="collections">
 															<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+															<option value="#collections.collection_id#" #sel# >#collections.instution_acronym#:#collections.collection#</option>
 														</cfloop>
 													</select>
 												</div>
@@ -402,7 +403,7 @@ limitations under the License.
 														<option value="NOT NULL" #selected#>Author (any collection)</option>
 														<cfloop query="collections">
 															<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+															<option value="#collections.collection_id#" #sel# >#collections.instution_acronym#:#collections.collection#</option>
 														</cfloop>
 													</select>
 												</div>
@@ -419,7 +420,7 @@ limitations under the License.
 															<option value="NOT NULL" #selected#>Transaction in some collection</option>
 															<cfloop query="collections">
 																<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-																<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+																<option value="#collections.collection_id#" #sel# >#collections.instution_acronym#:#collections.collection#</option>
 															</cfloop>
 														</select>
 													</div>
