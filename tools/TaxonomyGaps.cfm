@@ -346,18 +346,29 @@ limitations under the License.
 					<cfset variables.termCrashInterpretations[variables.tcName] = "Inconsistent placement">
 				<cfelseif variables.tcAllEmpty>
 					<!--- All have empty taxonid: compare stripped authorships --->
-					<cfset variables.tcUniqueAuthors = []>
+					<!--- Only interpret if every row has a non-empty authorship; blank authorship makes the comparison ambiguous --->
+					<cfset variables.tcHasBlankAuthor = false>
 					<cfloop array="#variables.tcGroup.authors#" index="variables.tcAuth">
-						<cfif len(variables.tcAuth) GT 0 AND NOT arrayFind(variables.tcUniqueAuthors, variables.tcAuth)>
-							<cfset arrayAppend(variables.tcUniqueAuthors, variables.tcAuth)>
+						<cfif len(variables.tcAuth) EQ 0>
+							<cfset variables.tcHasBlankAuthor = true>
 						</cfif>
 					</cfloop>
-					<cfif arrayLen(variables.tcUniqueAuthors) EQ 1>
-						<!--- Same authorship after stripping parens: likely a data entry error --->
-						<cfset variables.termCrashInterpretations[variables.tcName] = "Likely error">
+					<cfif variables.tcHasBlankAuthor>
+						<cfset variables.termCrashInterpretations[variables.tcName] = "">
 					<cfelse>
-						<!--- Different authorships, no taxonid: potential homonyms --->
-						<cfset variables.termCrashInterpretations[variables.tcName] = "Potential homonyms">
+						<cfset variables.tcUniqueAuthors = []>
+						<cfloop array="#variables.tcGroup.authors#" index="variables.tcAuth">
+							<cfif NOT arrayFind(variables.tcUniqueAuthors, variables.tcAuth)>
+								<cfset arrayAppend(variables.tcUniqueAuthors, variables.tcAuth)>
+							</cfif>
+						</cfloop>
+						<cfif arrayLen(variables.tcUniqueAuthors) EQ 1>
+							<!--- Same authorship after stripping parens: likely a data entry error --->
+							<cfset variables.termCrashInterpretations[variables.tcName] = "Likely error">
+						<cfelse>
+							<!--- Different authorships, no taxonid: potential homonyms --->
+							<cfset variables.termCrashInterpretations[variables.tcName] = "Potential homonyms">
+						</cfif>
 					</cfif>
 				<cfelse>
 					<cfset variables.termCrashInterpretations[variables.tcName] = "">
