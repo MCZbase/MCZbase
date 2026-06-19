@@ -363,6 +363,22 @@ When necessary (as in a transaction where a trigger needs to be disabled and all
 
     <cfquery name="checkMedia" datasource="uam_god">
 
+### Comments
+
+Use comments to explain the purpose of blocks of code, and to provide documentation for functions. Avoid comments that explain what the code is doing line by line, instead, use comments to explain why the code is doing what it is doing, and to provide documentation for the function as a whole.
+
+Comments within the coldfusion code are intended for developers, and therefore should use `<!--- and --->` to avoid being rendered in the html output. 
+
+	<!--- This is a comment in coldfusion, it will not be rendered in the html output, always use this style of commeent. --->
+
+	<!-- This is a comment in coldfusion that will be rendered in the html output.  **Do Not Use this style of comment**  -->
+
+Comments within javascript code should be visible in the rendered javascript to aid developers, so use `//` for single line comments and `/* */` for block comments, do not embedd these in `<!--- and --->` when javascript is produced by coldfusion code as this will cause them to be hidden in the rendered javascript.
+
+	// This is a single line comment in javascript, it will be visible in the rendered javascript, use this for short comments.
+
+	/* This is a block comment in javascript, it will be visible in the rendered javascript, use this for longer comments. */
+
 ### Javascript Organization.
 
 Include short javascript function invocations in onClick elements of button and other html tags rather than binding them to clickEvents. (This practice makes generalization harder, but makes following the sequence of events from an event easier to trace out).
