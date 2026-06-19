@@ -130,15 +130,17 @@ limitations under the License.
 		<cfif not isdefined("trans_agent_collection")>
 			<cfset trans_agent_collection = "">
 		</cfif>
-		<cfif not isdefined("trans_agent_role")>
-			<cfset trans_agent_role = "">
+		<cfif not isdefined("url.trans_agent_role")>
+			<cfset variables.trans_agent_role = "">
+		<cfelse>
+			<cfset variables.trans_agent_role = url.trans_agent_role>
 		</cfif>
 		<cfif not isdefined("permit_agent_role")>
 			<cfset permit_agent_role = "">
 		</cfif>
 	<cfelse>
 		<cfset trans_agent_collection = "">
-		<cfset trans_agent_role = "">
+		<cfset variables.trans_agent_role = "">
 		<cfset permit_agent_role = "">
 	</cfif>
 	<style>
@@ -427,12 +429,12 @@ limitations under the License.
 														<label for="trans_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Transaction Role</label>
 														<select id="trans_agent_role" name="trans_agent_role" class="data-entry-select py-0">
 															<option></option>
-															<cfif trans_agent_role EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<cfif variables.trans_agent_role EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
 															<option value="NULL" #selected#>No Transaction Roles</option>
-															<cfif trans_agent_role EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<cfif variables.trans_agent_role EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
 															<option value="NOT NULL" #selected#>Some Transaction Role</option>
 															<cfloop query="ctTransAgentRole">
-																<cfif trans_agent_role EQ ctTransAgentRole.trans_agent_role >
+																<cfif variables.trans_agent_role EQ ctTransAgentRole.trans_agent_role >
 																	<cfset selected = "selected='true'">
 																<cfelse>
 																	<cfset selected = "">
