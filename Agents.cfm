@@ -191,7 +191,7 @@ limitations under the License.
 													<input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label">
 													<script>
 														$(document).ready(function() {
-															makeAgentAutocompleteMeta("specificagent", "agent_id", true) { 
+															makeAgentAutocompleteMeta("specificagent", "agent_id", true);
 														});
 													</script>
 												</div>
