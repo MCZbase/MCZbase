@@ -486,7 +486,7 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("arguments.trans_agent_role") AND len(#arguments.trans_agent_role#) gt 0>
 						AND agent.agent_id 
-						<cfif trans_agent_collection EQ "NULL">NOT</cfif>
+						<cfif trans_agent_role EQ "NULL">NOT</cfif>
 						IN (
 							SELECT agent_id 
 							FROM trans_agent
