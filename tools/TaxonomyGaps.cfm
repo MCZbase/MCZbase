@@ -50,13 +50,13 @@ limitations under the License.
 			<cfoutput>
 			<script>
 				function showOptions(v) {
-					document.getElementById('gapOptions').style.display = 'none';
-					document.getElementById('higherCrashOptions').style.display = 'none';
+					document.getElementById('gap').style.display = 'none';
+					document.getElementById('higherCrash').style.display = 'none';
 					if (v === 'gap') {
-						document.getElementById('gapOptions').style.display = 'block';
+						document.getElementById('gap').style.display = 'block';
 					}
 					if (v === 'higherCrash') {
-						document.getElementById('higherCrashOptions').style.display = 'block';
+						document.getElementById('higherCrash').style.display = 'block';
 					}
 				}
 			</script>
@@ -70,7 +70,7 @@ limitations under the License.
 						<option <cfif variables.action EQ "higherCrash">selected="selected"</cfif> value="higherCrash">Lower taxon placed in multiple higher taxa</option>
 					</select>
 				</div>
-				<div id="higherCrashOptions" style="display:none;" class="mb-3">
+				<div id="higherCrash" style="display:none;" class="mb-3">
 					<div class="form-group">
 						<label for="lterm" class="mr-2">Term</label>
 						<select name="lterm" id="lterm" class="data-entry-select mr-3">
@@ -86,7 +86,7 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<div id="gapOptions" style="display:none;" class="mb-3">
+				<div id="gap" style="display:none;" class="mb-3">
 					<table class="table table-sm table-bordered w-auto">
 						<thead class="thead-light">
 							<tr>
