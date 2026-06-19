@@ -514,7 +514,7 @@ limitations under the License.
 					<thead class="thead-light">
 						<tr>
 							<th scope="col">Scientific Name</th>
-							<th scope="col">NumIds</th>
+							<th scope="col">Number of Ids</th>
 						</tr>
 					</thead>
 					<tbody>
