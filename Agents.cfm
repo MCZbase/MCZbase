@@ -430,10 +430,14 @@ limitations under the License.
 															<cfif trans_agent_role EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
 															<option value="NULL" #selected#>No Transaction Roles</option>
 															<cfif trans_agent_role EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-															<option value="NOT NULL" #selected#>Transaction in some collection</option>
+															<option value="NOT NULL" #selected#>Some Transaction Role</option>
 															<cfloop query="ctTransAgentRole">
-																<cfif trans_agent_role EQ ctTransAgentRole.trans_agent_role ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-																<option value="#ctTransAgentRole.trans_agent_role#" #sel# >#ctTransAgentRole.trans_agent_role#</option>
+																<cfif trans_agent_role EQ ctTransAgentRole.trans_agent_role >
+																	<cfset selected = "selected='true'">
+																<cfelse>
+																	<cfset selected = "">
+																</cfif>
+																<option value="#ctTransAgentRole.trans_agent_role#" #selected# >#ctTransAgentRole.trans_agent_role#</option>
 															</cfloop>
 														</select>
 													</div>
