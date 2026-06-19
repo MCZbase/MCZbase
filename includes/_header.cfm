@@ -66,7 +66,7 @@
 
 /* Overall nav wrapper under the header image */
 #legacyMainNav {
-  background-color: #ddd;
+  /* background-color: #ddd;  runs into margins */
   border-bottom: 1px solid #ccc;
 }
 
@@ -159,7 +159,7 @@
             aria-expanded="false">
         <span class="legacy-menu-icon"></span>
     </button>
-	<div class="sf-mainMenuWrapper" style="font-size: 14px;">
+	<div class="sf-mainMenuWrapper" style="font-size: 14px; background-color: #ddd;">
 
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
