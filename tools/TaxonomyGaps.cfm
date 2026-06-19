@@ -79,12 +79,12 @@ limitations under the License.
 			<script>
 				function showOptions(v) {
 					$('#gap').hide();
-					$('#higherCrash').hide();
+					$('#lowMultipleHigher').hide();
 					if (v === 'gap') {
 						$('#gap').show();
 					}
-					if (v === 'higherCrash') {
-						$('#higherCrash').show();
+					if (v === 'lowMultipleHigher') {
+						$('#lowMultipleHigher').show();
 					}
 				}
 			</script>
@@ -94,13 +94,13 @@ limitations under the License.
 					<div class="col-auto">
 						<label for="action" class="d-block">Check Taxonomy records for</label>
 						<cfset variables.selActionGap = ""><cfif variables.action EQ "gap"><cfset variables.selActionGap = 'selected="selected"'></cfif>
-						<cfset variables.selActionFunkyChar = ""><cfif variables.action EQ "funkyChar"><cfset variables.selActionFunkyChar = 'selected="selected"'></cfif>
-						<cfset variables.selActionHigherCrash = ""><cfif variables.action EQ "higherCrash"><cfset variables.selActionHigherCrash = 'selected="selected"'></cfif>
+						<cfset variables.selActionFunkyChar = ""><cfif variables.action EQ "unexpectedChar"><cfset variables.selActionFunkyChar = 'selected="selected"'></cfif>
+						<cfset variables.selActionHigherCrash = ""><cfif variables.action EQ "lowMultipleHigher"><cfset variables.selActionHigherCrash = 'selected="selected"'></cfif>
 						<select name="action" id="action" class="data-entry-select" onchange="showOptions(this.value);">
 							<option value=""></option>
 							<option #variables.selActionGap# value="gap">Missing higher taxon values</option>
-							<option #variables.selActionFunkyChar# value="funkyChar">Scientific names containing unexpected characters</option>
-							<option #variables.selActionHigherCrash# value="higherCrash">Lower taxon placed in multiple higher taxa</option>
+							<option #variables.selActionFunkyChar# value="unexpectedChar">Scientific names containing unexpected characters</option>
+							<option #variables.selActionHigherCrash# value="lowMultipleHigher">Lower taxon placed in multiple higher taxa</option>
 						</select>
 					</div>
 					<div class="col-auto">
@@ -138,7 +138,7 @@ limitations under the License.
 						<input type="submit" value="Go" class="btn btn-primary btn-xs">
 					</div>
 				</div>
-				<div id="higherCrash" style="display:none;" class="mb-3">
+				<div id="lowMultipleHigher" style="display:none;" class="mb-3">
 					<div class="row g-2 align-items-end">
 						<div class="col-auto">
 							<label for="lterm" class="d-block">Term</label>
@@ -193,8 +193,8 @@ limitations under the License.
 			</cfoutput>
 		</div>
 	</section>
-	<!--- higherCrash results --->
-	<cfif variables.action EQ "higherCrash">
+	<!--- lowMultipleHigher results --->
+	<cfif variables.action EQ "lowMultipleHigher">
 		<!--- Count query: total rows without the row limit --->
 		<cfset variables.termCrashCountSql = "SELECT COUNT(*) AS total FROM (
 				SELECT
@@ -262,8 +262,8 @@ limitations under the License.
 			</div>
 		</section>
 	</cfif>
-		<!--- funkyChar results --->
-	<cfif variables.action EQ "funkyChar">
+		<!--- unexpectedChar results --->
+	<cfif variables.action EQ "unexpectedChar">
 		<cfquery name="ctINFRASPECIFIC_RANK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT INFRASPECIFIC_RANK FROM ctINFRASPECIFIC_RANK
 			WHERE infraspecific_rank IN ('forma','subsp.','var.','ab.','fo.')
