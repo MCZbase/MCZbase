@@ -168,74 +168,57 @@ limitations under the License.
 						<div class="col-12 px-3 pt-2 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
-                                <!-- ========== SECTION 1: Agent / Identifier ========== -->
-                                <div class="">
-                                    <fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
-                                    <legend class="h6 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
-								    <div class="form-row pt-2">
-                                        <div class="col-12 col-md-12 col-lg-4 col-xl-5 px-0 mx-0 mb-1 mt-0 pr-md-0 form-group">
-                                            <label for="anyName" class="data-entry-label smaller font-weight-bold" id="anyName_label">
-                                                Any part of any name
-                                                <input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
-                                                <span class="text-dark-gray h6">
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
-                                                    NULL, NOT NULL, or a comma separated list of names)
-                                                </span>
-                                             </label>
-                                        </div>
-                                        <!--- onblur, if field is emptied, clear the agent_id. --->
-                                            <script>
-                                                function specificagentBlurHandler() { 
-                                                    if($('##specificagent').val()=='') { 
-                                                        $('##agent_id').val('');
-                                                    }
-                                                }
-                                                 $(document).ready(function() {
-                                                        makeAgentPicker("specificagent", "agent_id");
-                                                 });
-                                            </script>
-                                        <!-- Specific agent -->
-                                        <div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 px-0 mt-0">
-                                            <div class="form-row mb-0">
-                                                <!-- Specific Agent + ID + Type grouped on the right -->
-                                                <div class="col-12 col-md-7 col-xl-8  pr-md-0 form-group mb-0 pb-0">
-                                                    <label for="specificagent" class="data-entry-label smaller font-weight-bold" id="specificagent_label">
-                                                        Specific Agent
-                                                    <input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
-                                                            onblur=" specificagentBlurHandler();">
-                                                    </label>
-                                                </div>
-                                                <!-- Agent ID -->
-                                                <div class="col-6 col-md-2 col-xl-2 mb-1 pr-0 px-md-0 form-group mb-0 pb-1 pb-md-1">
-                                                    <label for="specificagent" class="data-entry-label smaller font-weight-bold" id="specificagent_label">
-                                                        Agent ID
-                                                    <input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
-                                                    </label>
-                                                </div>
-                                                <!-- Agent Type -->
-                                                <div class="col-6 col-md-3 col-xl-2 pl-0 pl-md-0 form-group mb-0 pb-1 pb-md-1">
-                                                    <label for="agent_type" class="data-entry-label smaller font-weight-bold" id="agent_type_label">
-                                                        Type
-                                                        <select id="agent_type" name="agent_type" class="data-entry-select py-0">
-                                                            <option></option>
-                                                            <cfloop query="ctagent_type">
-                                                                <cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                                <option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
-                                                            </cfloop>
-                                                            <cfloop query="ctagent_type">
-                                                                <cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                                <option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
-                                                            </cfloop>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
+								<!--- ========== SECTION 1: Agent / Identifier ========== --->
+								<div class="">
+									<fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
+									<legend class="h6 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
+									<div class="form-row pt-2">
+										<div class="col-12 col-md-12 col-lg-4 col-xl-5 px-0 mx-0 mb-1 mt-0 pr-md-0 form-group">
+											<label for="anyName" class="data-entry-label smaller font-weight-bold" id="anyName_label">
+												Any part of any name
+												<span class="text-dark-gray h6">
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+										</div>
+										<div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 px-0 mt-0">
+											<div class="form-row mb-0">
+												<div class="col-12 col-md-7 col-xl-8  pr-md-0 form-group mb-0 pb-0">
+													<label for="specificagent" class="data-entry-label smaller font-weight-bold" id="specificagent_label">Specific Agent</label>
+													<input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label">
+													<script>
+														$(document).ready(function() {
+															makeAgentAutocompleteMeta("specificagent", "agent_id", true) { 
+														});
+													</script>
+												</div>
+												<div class="col-6 col-md-2 col-xl-2 mb-1 pr-0 px-md-0 form-group mb-0 pb-1 pb-md-1">
+													<label for="specificagent" class="data-entry-label smaller font-weight-bold" id="specificagent_label">Agent ID</label>
+													<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input py-0">
+												</div>
+												<div class="col-6 col-md-3 col-xl-2 pl-0 pl-md-0 form-group mb-0 pb-1 pb-md-1">
+													<label for="agent_type" class="data-entry-label smaller font-weight-bold" id="agent_type_label">Typ </label>
+													<select id="agent_type" name="agent_type" class="data-entry-select py-0">
+														<option></option>
+														<cfloop query="ctagent_type">
+															<cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
+														</cfloop>
+														<cfloop query="ctagent_type">
+															<cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
+														</cfloop>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</fieldset>
 							
-                                <!-- ========== SECTION 2: Name components ========== -->
+                                <!--- ========== SECTION 2: Name components ========== --->
                                     <fieldset class="mb-0 px-3 pb-0 border-right border-bottom border-left field-set">
                                     <legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
                                     <div class="form-row mb-0 pt-2">
@@ -318,7 +301,7 @@ limitations under the License.
                                 </fieldset>
                                                         
                                  </div>
-                                <!-- ========== SECTION 3: Dates ========== -->
+                                <!--- ========== SECTION 3: Dates ========== --->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset dateWord = "Date">
 									<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
@@ -330,7 +313,7 @@ limitations under the License.
                                     <legend class="h6 mt-0 mb-1 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 px-0 mt-0">
-				                            <!-- Death range, always shown -->
+				                            <!--- Death range, always shown --->
                                             <div class="form-group pt-2 pb-1 mb-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mr-md-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 smaller font-weight-bold" for="death_date">#dateWord# Of Death</label>
@@ -341,7 +324,7 @@ limitations under the License.
                                                 </div>
 									        </div>
                                         </div>
-                                        <!-- Dates collected (always) -->
+                                        <!--- Dates collected (always) --->
                                         <div class="col-12 col-md-4 px-0 mt-0">
                                               <div class="form-group pt-2 mb-0 pb-1">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
@@ -354,7 +337,7 @@ limitations under the License.
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4 px-0 mt-0">
-								        <!-- Birth range, internal users only -->
+								        <!--- Birth range, internal users only --->
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                 <div class="form-group pt-2 pb-1 mb-0">
                                                     <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 ml-md-1 pt-1 mx-0 rounded justify-content-center">
@@ -369,7 +352,7 @@ limitations under the License.
                                                 </div>
                                             </cfif>
                                         </div>
-                                    </div><!---/form-row--->
+                                    </div><!--- end form-row --->
                                 </fieldset>
                                 
                                 <!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
