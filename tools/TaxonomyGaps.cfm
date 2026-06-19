@@ -356,7 +356,8 @@ limitations under the License.
 		<cfset md = queryExecute(
 			variables.gapSql,
 			variables.gapParams,
-			{datasource="user_login", username=session.dbuser, ******		)>
+			{datasource="user_login", username=session.dbuser, password=decrypt(session.epw,cookie.cfid)}
+		)>
 		<section class="row my-2">
 			<div class="col-12">
 				<h2 class="h4">Missing Higher Taxon Values</h2>
