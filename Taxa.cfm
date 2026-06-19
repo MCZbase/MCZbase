@@ -327,8 +327,8 @@ limitations under the License.
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="superclass" class="data-entry-label align-left font-weight-bold">Superclass 
 														<span class="h6">
-															(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
-															<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+															(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">=</button>,
+															<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 														</span>
 													</label>
 													<input type="small" class="data-entry-input py-0 mb-0" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
@@ -443,7 +443,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 mb-1 pb-0">
-													<label for="taxon_status" class="data-entry-label py-0 align-left font-weight-bold">Nomenclatural Status</label>
+													<label for="taxon_status" class="data-entry-label align-left font-weight-bold">Nomenclatural Status</label>
 													<select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
 														<option></option>
 														<cfloop query="cttaxon_status">
