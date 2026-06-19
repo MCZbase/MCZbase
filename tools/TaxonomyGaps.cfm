@@ -195,6 +195,41 @@ limitations under the License.
 	</section>
 	<!--- lowMultipleHigher results --->
 	<cfif variables.action EQ "lowMultipleHigher">
+		<!--- Build collection filter clause: limit to lower taxa where at least one multiple is used (or not used) in the given collection --->
+		<cfset variables.termCrashCollectionSql = "">
+		<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+			<!--- Specific collection: at least one of the multiples must be used in an identification in this collection --->
+			<cfset variables.termCrashCollectionSql = "
+				AND EXISTS (
+					SELECT 1 FROM taxonomy t2
+					INNER JOIN identification_taxonomy it2 ON t2.taxon_name_id = it2.taxon_name_id
+					INNER JOIN identification i2 ON it2.identification_id = i2.identification_id
+					INNER JOIN cataloged_item ci2 ON i2.collection_object_id = ci2.collection_object_id
+					WHERE t2.#variables.lterm# = a.#variables.lterm#
+					AND ci2.collection_id = :collectionId
+				)">
+		<cfelseif variables.collection_id EQ 0>
+			<!--- Any collection: at least one of the multiples must be used in any identification --->
+			<cfset variables.termCrashCollectionSql = "
+				AND EXISTS (
+					SELECT 1 FROM taxonomy t2
+					INNER JOIN identification_taxonomy it2 ON t2.taxon_name_id = it2.taxon_name_id
+					WHERE t2.#variables.lterm# = a.#variables.lterm#
+				)">
+		<cfelseif variables.collection_id EQ -1>
+			<!--- Not used: none of the multiples appear in any identification --->
+			<cfset variables.termCrashCollectionSql = "
+				AND NOT EXISTS (
+					SELECT 1 FROM taxonomy t2
+					INNER JOIN identification_taxonomy it2 ON t2.taxon_name_id = it2.taxon_name_id
+					WHERE t2.#variables.lterm# = a.#variables.lterm#
+				)">
+		</cfif>
+		<!--- Base params struct; collectionId added only when filtering to a specific collection --->
+		<cfset variables.termCrashParams = {}>
+		<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+			<cfset variables.termCrashParams.collectionId = {value=variables.collection_id, cfsqltype="cf_sql_integer"}>
+		</cfif>
 		<!--- Count query: total rows without the row limit --->
 		<cfset variables.termCrashCountSql = "SELECT COUNT(*) AS total FROM (
 				SELECT
@@ -205,15 +240,18 @@ limitations under the License.
 				WHERE
 					a.#variables.lterm# = b.#variables.lterm# AND
 					a.#variables.hterm# != b.#variables.hterm#
+					#variables.termCrashCollectionSql#
 				GROUP BY
 					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm#, a.author_text
 			)">
 		<cfset termCrashCount = queryExecute(
 			variables.termCrashCountSql,
-			{},
+			variables.termCrashParams,
 			{datasource="user_login", username=session.dbuser, password=decrypt(session.epw,cookie.cfid)}
 		)>
 		<!--- Data query: limited by row limit; includes author_text for the lower taxon --->
+		<cfset variables.termCrashDataParams = duplicate(variables.termCrashParams)>
+		<cfset variables.termCrashDataParams.limitVal = {value=variables.limit, cfsqltype="cf_sql_integer"}>
 		<cfset variables.termCrashSql = "SELECT * FROM (
 				SELECT
 					a.nomenclatural_code, a.#variables.lterm# l, a.#variables.hterm# h, a.author_text
@@ -223,6 +261,7 @@ limitations under the License.
 				WHERE
 					a.#variables.lterm# = b.#variables.lterm# AND
 					a.#variables.hterm# != b.#variables.hterm#
+					#variables.termCrashCollectionSql#
 				GROUP BY
 					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm#, a.author_text
 				ORDER BY
@@ -230,7 +269,7 @@ limitations under the License.
 			) WHERE rownum <= :limitVal">
 		<cfset termCrash = queryExecute(
 			variables.termCrashSql,
-			{limitVal = {value=variables.limit, cfsqltype="cf_sql_integer"}},
+			variables.termCrashDataParams,
 			{datasource="user_login", username=session.dbuser, password=decrypt(session.epw,cookie.cfid)}
 		)>
 		<section class="row my-2">
