@@ -37,7 +37,9 @@ limitations under the License.
 <cfset variables.taxaRanks = "PHYLCLASS,PHYLORDER,SUBORDER,FAMILY,SUBFAMILY,GENUS,SUBGENUS,SPECIES,SUBSPECIES,SCIENTIFIC_NAME,TRIBE,INFRASPECIFIC_RANK,PHYLUM,KINGDOM,SUBCLASS,SUPERFAMILY">
 
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select collection_id,collection from collection order by collection
+	SELECT collection_id, collection 
+	FROM collection 
+	ORDER BY collection
 </cfquery>
 
 <main class="container-fluid py-3" id="content">
