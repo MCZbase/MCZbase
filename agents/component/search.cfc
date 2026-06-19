@@ -491,7 +491,7 @@ limitations under the License.
 							SELECT agent_id 
 							FROM trans_agent
 							<cfif left(arguments.trans_agent_role,1) EQ "!" >
-								WHERE trans_agent.trans_agent_role =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mid(arguments.trans_agent_role,2)#">
+								WHERE trans_agent.trans_agent_role =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mid(arguments.trans_agent_role,2,len(arguments.trans_agent_role))#">
 							<cfelse>
 								WHERE trans_agent.trans_agent_role =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.trans_agent_role#">
 							</cfif>
