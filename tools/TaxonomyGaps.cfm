@@ -35,6 +35,22 @@ limitations under the License.
 <cfset variables.taxaFields = "phylclass,phylorder,family,nomenclatural_code,kingdom">
 <cfif isDefined("url.taxaReturns")><cfset variables.taxaReturns = url.taxaReturns><cfelse><cfset variables.taxaReturns = variables.taxaFields></cfif>
 <cfset variables.taxaRanks = "PHYLCLASS,PHYLORDER,SUBORDER,FAMILY,SUBFAMILY,GENUS,SUBGENUS,SPECIES,SUBSPECIES,SCIENTIFIC_NAME,TRIBE,INFRASPECIFIC_RANK,PHYLUM,KINGDOM,SUBCLASS,SUPERFAMILY">
+<!--- Whitelist lterm and hterm against taxaRanks to prevent unsafe column-name injection --->
+<cfif NOT listFindNoCase(variables.taxaRanks, variables.lterm)><cfset variables.lterm = "GENUS"></cfif>
+<cfif NOT listFindNoCase(variables.taxaRanks, variables.hterm)><cfset variables.hterm = "FAMILY"></cfif>
+<!--- Whitelist each item in nullstuff and taxaReturns against taxaFields --->
+<cfset variables.safeNullstuff = "">
+<cfloop list="#variables.nullstuff#" index="variables.n">
+	<cfif listFindNoCase(variables.taxaFields, variables.n)><cfset variables.safeNullstuff = listAppend(variables.safeNullstuff, variables.n)></cfif>
+</cfloop>
+<cfif len(variables.safeNullstuff) EQ 0><cfset variables.safeNullstuff = "phylclass,phylorder,family"></cfif>
+<cfset variables.nullstuff = variables.safeNullstuff>
+<cfset variables.safeTaxaReturns = "">
+<cfloop list="#variables.taxaReturns#" index="variables.n">
+	<cfif listFindNoCase(variables.taxaFields, variables.n)><cfset variables.safeTaxaReturns = listAppend(variables.safeTaxaReturns, variables.n)></cfif>
+</cfloop>
+<cfif len(variables.safeTaxaReturns) EQ 0><cfset variables.safeTaxaReturns = variables.taxaFields></cfif>
+<cfset variables.taxaReturns = variables.safeTaxaReturns>
 
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT collection_id, collection 
@@ -160,24 +176,24 @@ limitations under the License.
 	</section>
 	<!--- higherCrash results --->
 	<cfif variables.action EQ "higherCrash">
-		<cfoutput>
-		<cfquery name="termCrash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from (
-				select
-					a.nomenclatural_code,a.#variables.lterm# l, a.#variables.hterm# h
-				from
-					(select nomenclatural_code, #variables.lterm#, #variables.hterm# from taxonomy group by nomenclatural_code, #variables.lterm#, #variables.hterm#) a,
-					(select nomenclatural_code, #variables.lterm#, #variables.hterm# from taxonomy group by nomenclatural_code, #variables.lterm#, #variables.hterm#) b
-				where
-					a.#variables.lterm# = b.#variables.lterm# and
+		<cfset termCrash = queryExecute(
+			"SELECT * FROM (
+				SELECT
+					a.nomenclatural_code, a.#variables.lterm# l, a.#variables.hterm# h
+				FROM
+					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm# FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm#) a,
+					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm# FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm#) b
+				WHERE
+					a.#variables.lterm# = b.#variables.lterm# AND
 					a.#variables.hterm# != b.#variables.hterm#
-				group by
+				GROUP BY
 					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm#
-				order by 
+				ORDER BY
 					a.#variables.lterm#, a.#variables.hterm#, a.nomenclatural_code
-			) where rownum <= #variables.limit#
-		</cfquery>
-		</cfoutput>
+			) WHERE rownum <= :limitVal",
+			{limitVal = {value=variables.limit, cfsqltype="cf_sql_integer"}},
+			{datasource="user_login", username=session.dbuser, password=decrypt(session.epw,cookie.cfid)}
+		)>
 		<section class="row my-2">
 			<div class="col-12">
 				<h2 class="h4">Lower Taxon Placed in Multiple Higher Taxa</h2>
@@ -206,49 +222,45 @@ limitations under the License.
 	</cfif>
 	<!--- funkyChar results --->
 	<cfif variables.action EQ "funkyChar">
-		<cfoutput>
 		<cfquery name="ctINFRASPECIFIC_RANK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select INFRASPECIFIC_RANK from ctINFRASPECIFIC_RANK
-			where infraspecific_rank in ('forma','subsp.','var.','ab.','fo.')
+			SELECT INFRASPECIFIC_RANK FROM ctINFRASPECIFIC_RANK
+			WHERE infraspecific_rank IN ('forma','subsp.','var.','ab.','fo.')
 		</cfquery>
-		<cfset variables.s = "select
-				taxonomy.taxon_name_id,
-				taxonomy.subgenus,
-				taxonomy.scientific_name,
-				regexp_replace(taxonomy.scientific_name, '([^a-zA-Z ])','<b>\1</b>') matches,
-				count(identification_taxonomy.identification_id) used">
-		<cfset variables.f = "from
-				taxonomy,
-				identification_taxonomy">
-		<cfif len(variables.collection_id) EQ 0 OR variables.collection_id EQ -1>
-			<cfset variables.w = "where taxonomy.taxon_name_id=identification_taxonomy.taxon_name_id (+) and">
-		<cfelse>
-			<cfset variables.w = "where taxonomy.taxon_name_id=identification_taxonomy.taxon_name_id and">
-		</cfif>
-		<cfloop query="ctINFRASPECIFIC_RANK">
-			<cfset variables.w = variables.w & " regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, ' #INFRASPECIFIC_RANK# ', ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') and">
-		</cfloop>
-		<cfset variables.w = variables.w & " regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, chr(50071), ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') ">
-		<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
-			<cfset variables.f = variables.f & ",identification,cataloged_item">
-			<cfset variables.w = variables.w & " and identification_taxonomy.identification_id=identification.identification_id and
-					identification.collection_object_id=cataloged_item.collection_object_id and
-					cataloged_item.collection_id=#variables.collection_id#">
-		<cfelseif variables.collection_id EQ -1>
-			<cfset variables.w = variables.w & " and identification_taxonomy.identification_id is null">
-		</cfif>
-		<cfset variables.sql = "select * from (" & variables.s & " " & variables.f & " " & variables.w & " group by
-				taxonomy.taxon_name_id,
-				taxonomy.scientific_name,
-				taxonomy.subgenus
-			order by taxonomy.scientific_name)
-			where
-				subgenus is null or (not scientific_name = replace(matches,'<b>(</b>'|| subgenus || '<b>)</b>','('||subgenus||')') )
-				and rownum < #variables.limit# ">
 		<cfquery name="md" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preserveSingleQuotes(variables.sql)#
+			SELECT * FROM (
+				SELECT
+					taxonomy.taxon_name_id,
+					taxonomy.subgenus,
+					taxonomy.scientific_name,
+					regexp_replace(taxonomy.scientific_name, '([^a-zA-Z ])','<b>\1</b>') matches,
+					count(identification_taxonomy.identification_id) used
+				FROM taxonomy
+				<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+					INNER JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+					INNER JOIN identification ON identification_taxonomy.identification_id = identification.identification_id
+					INNER JOIN cataloged_item ON identification.collection_object_id = cataloged_item.collection_object_id
+				<cfelse>
+					LEFT JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+				</cfif>
+				WHERE
+					<cfloop query="ctINFRASPECIFIC_RANK">
+						regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, ' #INFRASPECIFIC_RANK# ', ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') AND
+					</cfloop>
+					regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, chr(50071), ''),'[a-z]-[a-z]',''), '[^A-Za-z ]')
+					<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+						AND cataloged_item.collection_id = <cfqueryparam value="#variables.collection_id#" cfsqltype="CF_SQL_INTEGER">
+					<cfelseif variables.collection_id EQ -1>
+						AND identification_taxonomy.identification_id IS NULL
+					</cfif>
+				GROUP BY
+					taxonomy.taxon_name_id,
+					taxonomy.scientific_name,
+					taxonomy.subgenus
+				ORDER BY taxonomy.scientific_name
+			) WHERE
+				(subgenus IS NULL OR NOT scientific_name = replace(matches,'<b>(</b>'|| subgenus || '<b>)</b>','('||subgenus||')'))
+				AND rownum < <cfqueryparam value="#variables.limit#" cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
-		</cfoutput>
 		<section class="row my-2">
 			<div class="col-12">
 				<h2 class="h4">Scientific Names Containing Unexpected Characters</h2>
@@ -291,39 +303,41 @@ limitations under the License.
 	</cfif>
 	<!--- gap results --->
 	<cfif variables.action EQ "gap">
-		<cfoutput>
-		<cfset variables.s = "select taxonomy.taxon_name_id, taxonomy.scientific_name, #variables.taxaReturns#">
-		<cfset variables.f = " from taxonomy ">
-		<cfset variables.w = " where (">
-		<cfset variables.i = 1>
-		<cfloop list="#variables.nullstuff#" index="n">
-			<cfset variables.w = variables.w & " #n# is null ">
-			<cfif variables.i LT listLen(variables.nullstuff)>
-				<cfset variables.w = variables.w & " OR ">
-			</cfif>
-			<cfset variables.i = variables.i + 1>
-		</cfloop>
-		<cfset variables.w = variables.w & " ) ">
-		<cfif variables.collection_id EQ 0><!--- used by any collection --->
-			<cfset variables.f = variables.f & ",identification_taxonomy">
-			<cfset variables.w = variables.w & " AND taxonomy.taxon_name_id=identification_taxonomy.taxon_name_id ">
-		<cfelseif variables.collection_id EQ -1>
-			<cfset variables.f = variables.f & ",identification_taxonomy">
-			<cfset variables.w = variables.w & " AND taxonomy.taxon_name_id=identification_taxonomy.taxon_name_id (+)
-					and identification_taxonomy.identification_id is null ">
-		<cfelseif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
-			<cfset variables.f = variables.f & ",identification_taxonomy,identification,cataloged_item">
-			<cfset variables.w = variables.w & " and taxonomy.taxon_name_id=identification_taxonomy.taxon_name_id and
-					identification_taxonomy.identification_id=identification.identification_id and
-					identification.collection_object_id=cataloged_item.collection_object_id and
-					cataloged_item.collection_id=#variables.collection_id#">
-		</cfif>
-		<cfset variables.sql = "select * from ( " & variables.s & variables.f & variables.w & " group by taxonomy.taxon_name_id, taxonomy.scientific_name, #variables.taxaReturns#
-				order by taxonomy.scientific_name) where rownum < #variables.limit#">
 		<cfquery name="md" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preserveSingleQuotes(variables.sql)#
+			SELECT * FROM (
+				SELECT
+					taxonomy.taxon_name_id,
+					taxonomy.scientific_name,
+					#variables.taxaReturns#
+				FROM taxonomy
+				<cfif variables.collection_id EQ 0>
+					INNER JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+				<cfelseif variables.collection_id EQ -1>
+					LEFT JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+				<cfelseif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+					INNER JOIN identification_taxonomy ON taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+					INNER JOIN identification ON identification_taxonomy.identification_id = identification.identification_id
+					INNER JOIN cataloged_item ON identification.collection_object_id = cataloged_item.collection_object_id
+				</cfif>
+				WHERE (
+					<cfset variables.i = 1>
+					<cfloop list="#variables.nullstuff#" index="variables.n">
+						#variables.n# IS NULL<cfif variables.i LT listLen(variables.nullstuff)> OR</cfif>
+						<cfset variables.i = variables.i + 1>
+					</cfloop>
+				)
+				<cfif variables.collection_id EQ -1>
+					AND identification_taxonomy.identification_id IS NULL
+				<cfelseif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
+					AND cataloged_item.collection_id = <cfqueryparam value="#variables.collection_id#" cfsqltype="CF_SQL_INTEGER">
+				</cfif>
+				GROUP BY
+					taxonomy.taxon_name_id,
+					taxonomy.scientific_name,
+					#variables.taxaReturns#
+				ORDER BY taxonomy.scientific_name
+			) WHERE rownum < <cfqueryparam value="#variables.limit#" cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
-		</cfoutput>
 		<section class="row my-2">
 			<div class="col-12">
 				<h2 class="h4">Missing Higher Taxon Values</h2>
