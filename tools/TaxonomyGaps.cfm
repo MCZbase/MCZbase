@@ -119,7 +119,7 @@ limitations under the License.
 				<div class="form-group mb-3">
 					<label for="limit" class="mr-2">Row Limit</label>
 					<select name="limit" id="limit" class="data-entry-select mr-3">
-						<option <cfif variables.limit EQ 100>selected="selected"</cfif> value="1000">100</option>
+						<option <cfif variables.limit EQ 100>selected="selected"</cfif> value="100">100</option>
 						<option <cfif variables.limit EQ 1000>selected="selected"</cfif> value="1000">1000</option>
 						<option <cfif variables.limit EQ 2000>selected="selected"</cfif> value="2000">2000</option>
 						<option <cfif variables.limit EQ 5000>selected="selected"</cfif> value="5000">5000</option>
