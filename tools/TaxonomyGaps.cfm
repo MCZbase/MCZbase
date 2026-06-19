@@ -324,7 +324,7 @@ limitations under the License.
 								<cfif variables.lterm EQ "SCIENTIFIC_NAME">
 									<td><a href="#encodeForHtmlAttribute(Application.ServerRootUrl)#/taxonomy/Taxonomy.cfm?action=edit&amp;taxon_name_id=#encodeForUrl(taxon_name_id)#">#encodeForHtml(taxon_name_id)#</a></td>
 								</cfif>
-								<td>#encodeForHtml(l)#</td>
+								<td><a href="/Taxa.cfm?execute=true&amp;#encodeForUrl(variables.lterm)#=#encodeForUrl(l)#">#encodeForHtml(l)#</a></td>
 								<cfif variables.lterm EQ "SCIENTIFIC_NAME">
 									<td>#encodeForHtml(author_text)#</td>
 								</cfif>
