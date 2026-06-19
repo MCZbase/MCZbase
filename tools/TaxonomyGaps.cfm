@@ -65,11 +65,14 @@ limitations under the License.
 			<form name="cf" method="get" action="TaxonomyGaps.cfm">
 				<div class="form-group mb-3">
 					<label for="action">Check Taxonomy records for</label>
+					<cfset variables.selActionGap = ""><cfif variables.action EQ "gap"><cfset variables.selActionGap = 'selected="selected"'></cfif>
+					<cfset variables.selActionFunkyChar = ""><cfif variables.action EQ "funkyChar"><cfset variables.selActionFunkyChar = 'selected="selected"'></cfif>
+					<cfset variables.selActionHigherCrash = ""><cfif variables.action EQ "higherCrash"><cfset variables.selActionHigherCrash = 'selected="selected"'></cfif>
 					<select name="action" id="action" class="data-entry-select" onchange="showOptions(this.value);">
 						<option value=""></option>
-						<option <cfif variables.action EQ "gap">selected="selected"</cfif> value="gap">Missing higher taxon values</option>
-						<option <cfif variables.action EQ "funkyChar">selected="selected"</cfif> value="funkyChar">Scientific names containing unexpected characters</option>
-						<option <cfif variables.action EQ "higherCrash">selected="selected"</cfif> value="higherCrash">Lower taxon placed in multiple higher taxa</option>
+						<option #variables.selActionGap# value="gap">Missing higher taxon values</option>
+						<option #variables.selActionFunkyChar# value="funkyChar">Scientific names containing unexpected characters</option>
+						<option #variables.selActionHigherCrash# value="higherCrash">Lower taxon placed in multiple higher taxa</option>
 					</select>
 				</div>
 				<div id="higherCrash" style="display:none;" class="mb-3">
@@ -77,13 +80,15 @@ limitations under the License.
 						<label for="lterm" class="mr-2">Term</label>
 						<select name="lterm" id="lterm" class="data-entry-select mr-3">
 							<cfloop list="#variables.taxaRanks#" index="i">
-								<option value="#encodeForHtmlAttribute(i)#" <cfif variables.lterm EQ i>selected="selected"</cfif>>#encodeForHtml(i)#</option>
+								<cfset variables.selLterm = ""><cfif variables.lterm EQ i><cfset variables.selLterm = 'selected="selected"'></cfif>
+								<option value="#encodeForHtmlAttribute(i)#" #variables.selLterm#>#encodeForHtml(i)#</option>
 							</cfloop>
 						</select>
 						<label for="hterm" class="mr-2">has multiple values under</label>
 						<select name="hterm" id="hterm" class="data-entry-select">
 							<cfloop list="#variables.taxaRanks#" index="i">
-								<option value="#encodeForHtmlAttribute(i)#" <cfif variables.hterm EQ i>selected="selected"</cfif>>#encodeForHtml(i)#</option>
+								<cfset variables.selHterm = ""><cfif variables.hterm EQ i><cfset variables.selHterm = 'selected="selected"'></cfif>
+								<option value="#encodeForHtmlAttribute(i)#" #variables.selHterm#>#encodeForHtml(i)#</option>
 							</cfloop>
 						</select>
 					</div>
@@ -93,9 +98,10 @@ limitations under the License.
 						<div class="col-auto">
 							<div class="font-weight-bold mb-1">Require one of to be NULL</div>
 							<cfloop list="#variables.taxaFields#" index="i">
+							<cfset variables.checkedNullstuff = ""><cfif listFindNoCase(variables.nullstuff, i)><cfset variables.checkedNullstuff = 'checked="checked"'></cfif>
 							<div class="form-check">
 								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" name="nullstuff" value="#encodeForHtmlAttribute(i)#" <cfif listFindNoCase(variables.nullstuff, i)>checked="checked"</cfif>>
+									<input class="form-check-input" type="checkbox" name="nullstuff" value="#encodeForHtmlAttribute(i)#" #variables.checkedNullstuff#>
 									#encodeForHtml(i)#
 								</label>
 							</div>
@@ -104,9 +110,10 @@ limitations under the License.
 						<div class="col-auto">
 							<div class="font-weight-bold mb-1">Return</div>
 							<cfloop list="#variables.taxaFields#" index="i">
+							<cfset variables.checkedTaxaReturns = ""><cfif listFindNoCase(variables.taxaReturns, i)><cfset variables.checkedTaxaReturns = 'checked="checked"'></cfif>
 							<div class="form-check">
 								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" name="taxaReturns" value="#encodeForHtmlAttribute(i)#" <cfif listFindNoCase(variables.taxaReturns, i)>checked="checked"</cfif>>
+									<input class="form-check-input" type="checkbox" name="taxaReturns" value="#encodeForHtmlAttribute(i)#" #variables.checkedTaxaReturns#>
 									#encodeForHtml(i)#
 								</label>
 							</div>
@@ -116,21 +123,30 @@ limitations under the License.
 				</div>
 				<div class="form-group mb-3">
 					<label for="limit" class="mr-2">Row Limit</label>
+					<cfset variables.sel100 = ""><cfif variables.limit EQ 100><cfset variables.sel100 = 'selected="selected"'></cfif>
+					<cfset variables.sel1000 = ""><cfif variables.limit EQ 1000><cfset variables.sel1000 = 'selected="selected"'></cfif>
+					<cfset variables.sel2000 = ""><cfif variables.limit EQ 2000><cfset variables.sel2000 = 'selected="selected"'></cfif>
+					<cfset variables.sel5000 = ""><cfif variables.limit EQ 5000><cfset variables.sel5000 = 'selected="selected"'></cfif>
+					<cfset variables.sel10000 = ""><cfif variables.limit EQ 10000><cfset variables.sel10000 = 'selected="selected"'></cfif>
 					<select name="limit" id="limit" class="data-entry-select mr-3">
-						<option <cfif variables.limit EQ 100>selected="selected"</cfif> value="100">100</option>
-						<option <cfif variables.limit EQ 1000>selected="selected"</cfif> value="1000">1000</option>
-						<option <cfif variables.limit EQ 2000>selected="selected"</cfif> value="2000">2000</option>
-						<option <cfif variables.limit EQ 5000>selected="selected"</cfif> value="5000">5000</option>
-						<option <cfif variables.limit EQ 10000>selected="selected"</cfif> value="10000">10000</option>
+						<option #variables.sel100# value="100">100</option>
+						<option #variables.sel1000# value="1000">1000</option>
+						<option #variables.sel2000# value="2000">2000</option>
+						<option #variables.sel5000# value="5000">5000</option>
+						<option #variables.sel10000# value="10000">10000</option>
 					</select>
 					<label for="collection_id" class="mr-2">Collection</label>
+					<cfset variables.selCollIgnore = ""><cfif variables.collection_id EQ ""><cfset variables.selCollIgnore = 'selected="selected"'></cfif>
+					<cfset variables.selCollAny = ""><cfif variables.collection_id EQ "0"><cfset variables.selCollAny = 'selected="selected"'></cfif>
+					<cfset variables.selCollNone = ""><cfif variables.collection_id EQ "-1"><cfset variables.selCollNone = 'selected="selected"'></cfif>
+					<cfset variables.thisCID = variables.collection_id>
 					<select name="collection_id" id="collection_id" class="data-entry-select">
-						<option <cfif variables.collection_id EQ "">selected="selected"</cfif> value="">Ignore</option>
-						<option <cfif variables.collection_id EQ "0">selected="selected"</cfif> value="0">Used by any collection</option>
-						<option <cfif variables.collection_id EQ "-1">selected="selected"</cfif> value="-1">Not used by any collection</option>
-						<cfset variables.thisCID = variables.collection_id>
+						<option #variables.selCollIgnore# value="">Ignore</option>
+						<option #variables.selCollAny# value="0">Used by any collection</option>
+						<option #variables.selCollNone# value="-1">Not used by any collection</option>
 						<cfloop query="ctcollection">
-							<option <cfif variables.thisCID EQ ctcollection.collection_id>selected="selected"</cfif> value="#encodeForHtmlAttribute(collection_id)#">#encodeForHtml(collection)#</option>
+							<cfset variables.selColl = ""><cfif variables.thisCID EQ ctcollection.collection_id><cfset variables.selColl = 'selected="selected"'></cfif>
+							<option #variables.selColl# value="#encodeForHtmlAttribute(collection_id)#">#encodeForHtml(collection)#</option>
 						</cfloop>
 					</select>
 				</div>
