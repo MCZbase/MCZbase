@@ -177,7 +177,7 @@ limitations under the License.
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-1 mt-0 pr-md-0 form-group">
 											<label for="anyName" class="data-entry-label small font-weight-bold" id="anyName_label">
 												Any part of any name
-												<span class="text-dark-gray smaller h6">
+												<span class="text-dark-gray smaller">
 													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
 													NULL, NOT NULL)
@@ -244,9 +244,9 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
-											<label for="first_name" class="data-entry-label mb-0 smaller font-weight-bold" id="first_name_label">
+											<label for="first_name" class="data-entry-label mb-0 small font-weight-bold" id="first_name_label">
 												First
-												<span class="h6 text-dark">
+												<span class="text-dark-gray smaller">
 													(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
@@ -256,9 +256,9 @@ limitations under the License.
 											<input type="text" id="first_name" name="first_name" class="data-entry-input py-0" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 										</div>	
 										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
-											<label for="middle_name" class="data-entry-label mb-0 smaller font-weight-bold" id="middle_name_label">
+											<label for="middle_name" class="data-entry-label mb-0 small font-weight-bold" id="middle_name_label">
 												Middle
-												<span class="h6">
+												<span class="text-dark-gray smaller">
 													(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
@@ -268,9 +268,9 @@ limitations under the License.
 											<input type="text" id="middle_name" name="middle_name" class="data-entry-input py-0" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
 										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
-											<label for="last_name" class="data-entry-label smaller font-weight-bold" id="last_name_label">
+											<label for="last_name" class="data-entry-label small font-weight-bold" id="last_name_label">
 												Last 
-												<span class="h6">
+												<span class="text-dark-gray smaller">
 													(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 field-set" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 field-set p-0" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
@@ -281,7 +281,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 mb-1 mb-md-0">
 											<div class="form-group mb-0 pb-2">
-												<label for="suffix" class="data-entry-label smaller font-weight-bold" id="suffix_label">Suffix</label>
+												<label for="suffix" class="data-entry-label small font-weight-bold" id="suffix_label">Suffix</label>
 												<select id="suffix" name="suffix" class="data-entry-select py-0">
 													<option></option>
 													<cfloop query="dist_suffix">
