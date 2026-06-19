@@ -28,7 +28,7 @@ limitations under the License.
 <!--- Variable defaults --->
 <cfif isDefined("url.action")><cfset variables.action = url.action><cfelse><cfset variables.action = ""></cfif>
 <cfif isDefined("url.limit")><cfset variables.limit = url.limit><cfelse><cfset variables.limit = 1000></cfif>
-<cfif isDefined("url.lterm")><cfset variables.lterm = url.lterm><cfelse><cfset variables.lterm = "GENUS"></cfif>
+<cfif isDefined("url.lterm")><cfset variables.lterm = url.lterm><cfelse><cfset variables.lterm = "SCIENTIFIC_NAME"></cfif>
 <cfif isDefined("url.hterm")><cfset variables.hterm = url.hterm><cfelse><cfset variables.hterm = "FAMILY"></cfif>
 <cfif isDefined("url.collection_id")><cfset variables.collection_id = url.collection_id><cfelse><cfset variables.collection_id = ""></cfif>
 <!--- Ordered as: kingdom, phylum, class (phylclass), order (phylorder), family, genus --->
@@ -46,8 +46,28 @@ limitations under the License.
 <cfif isDefined("url.nullstuff")><cfset variables.nullstuff = url.nullstuff><cfelse><cfset variables.nullstuff = "phylum,phylclass,phylorder,family"></cfif>
 <cfif isDefined("url.taxaReturns")><cfset variables.taxaReturns = url.taxaReturns><cfelse><cfset variables.taxaReturns = variables.taxaFields></cfif>
 <cfset variables.taxaRanks = "PHYLCLASS,PHYLORDER,SUBORDER,FAMILY,SUBFAMILY,GENUS,SUBGENUS,SPECIES,SUBSPECIES,SCIENTIFIC_NAME,TRIBE,INFRASPECIFIC_RANK,PHYLUM,KINGDOM,SUBCLASS,SUPERFAMILY">
+<!--- Ordered list for lowMultipleHigher picklists: scientific_name first, then higher in taxonomic order, infraspecific_rank last --->
+<cfset variables.taxaRanksOrdered = "SCIENTIFIC_NAME,KINGDOM,PHYLUM,PHYLCLASS,SUBCLASS,PHYLORDER,SUBORDER,SUPERFAMILY,FAMILY,SUBFAMILY,TRIBE,GENUS,SUBGENUS,SPECIES,SUBSPECIES,INFRASPECIFIC_RANK">
+<cfset variables.taxaRankLabels = {
+	SCIENTIFIC_NAME = "Scientific Name",
+	KINGDOM = "Kingdom",
+	PHYLUM = "Phylum",
+	PHYLCLASS = "Class",
+	SUBCLASS = "Subclass",
+	PHYLORDER = "Order",
+	SUBORDER = "Suborder",
+	SUPERFAMILY = "Superfamily",
+	FAMILY = "Family",
+	SUBFAMILY = "Subfamily",
+	TRIBE = "Tribe",
+	GENUS = "Genus",
+	SUBGENUS = "Subgenus",
+	SPECIES = "Species",
+	SUBSPECIES = "Subspecies",
+	INFRASPECIFIC_RANK = "Infraspecific Rank"
+}>
 <!--- Whitelist lterm and hterm against taxaRanks to prevent unsafe column-name injection --->
-<cfif NOT listFindNoCase(variables.taxaRanks, variables.lterm)><cfset variables.lterm = "GENUS"></cfif>
+<cfif NOT listFindNoCase(variables.taxaRanks, variables.lterm)><cfset variables.lterm = "SCIENTIFIC_NAME"></cfif>
 <cfif NOT listFindNoCase(variables.taxaRanks, variables.hterm)><cfset variables.hterm = "FAMILY"></cfif>
 <!--- Whitelist each item in nullstuff and taxaReturns against taxaFields --->
 <cfset variables.safeNullstuff = "">
@@ -143,18 +163,18 @@ limitations under the License.
 						<div class="col-auto">
 							<label for="lterm" class="d-block">Term</label>
 							<select name="lterm" id="lterm" class="data-entry-select">
-								<cfloop list="#variables.taxaRanks#" index="i">
+								<cfloop list="#variables.taxaRanksOrdered#" index="i">
 									<cfset variables.selLterm = ""><cfif variables.lterm EQ i><cfset variables.selLterm = 'selected="selected"'></cfif>
-									<option value="#encodeForHtmlAttribute(i)#" #variables.selLterm#>#encodeForHtml(i)#</option>
+									<option value="#encodeForHtmlAttribute(i)#" #variables.selLterm#>#encodeForHtml(variables.taxaRankLabels[i])#</option>
 								</cfloop>
 							</select>
 						</div>
 						<div class="col-auto">
 							<label for="hterm" class="d-block">has multiple values under</label>
 							<select name="hterm" id="hterm" class="data-entry-select">
-								<cfloop list="#variables.taxaRanks#" index="i">
+								<cfloop list="#variables.taxaRanksOrdered#" index="i">
 									<cfset variables.selHterm = ""><cfif variables.hterm EQ i><cfset variables.selHterm = 'selected="selected"'></cfif>
-									<option value="#encodeForHtmlAttribute(i)#" #variables.selHterm#>#encodeForHtml(i)#</option>
+									<option value="#encodeForHtmlAttribute(i)#" #variables.selHterm#>#encodeForHtml(variables.taxaRankLabels[i])#</option>
 								</cfloop>
 							</select>
 						</div>
@@ -230,40 +250,47 @@ limitations under the License.
 		<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
 			<cfset variables.termCrashParams.collectionId = {value=variables.collection_id, cfsqltype="cf_sql_integer"}>
 		</cfif>
+		<!--- Conditional SQL fragments: author_text and taxon_name_id only included when lterm is SCIENTIFIC_NAME --->
+		<cfset variables.termCrashInnerExtra = "">
+		<cfset variables.termCrashOuterExtra = "">
+		<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+			<cfset variables.termCrashInnerExtra = ", author_text, taxon_name_id">
+			<cfset variables.termCrashOuterExtra = ", a.author_text, a.taxon_name_id">
+		</cfif>
 		<!--- Count query: total rows without the row limit --->
 		<cfset variables.termCrashCountSql = "SELECT COUNT(*) AS total FROM (
 				SELECT
-					a.nomenclatural_code, a.#variables.lterm# l, a.#variables.hterm# h, a.author_text
+					a.nomenclatural_code, a.#variables.lterm# l, a.#variables.hterm# h #variables.termCrashOuterExtra#
 				FROM
-					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm#, author_text FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm#, author_text) a,
+					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm# #variables.termCrashInnerExtra# FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm# #variables.termCrashInnerExtra#) a,
 					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm# FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm#) b
 				WHERE
 					a.#variables.lterm# = b.#variables.lterm# AND
 					a.#variables.hterm# != b.#variables.hterm#
 					#variables.termCrashCollectionSql#
 				GROUP BY
-					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm#, a.author_text
+					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm# #variables.termCrashOuterExtra#
 			)">
 		<cfset termCrashCount = queryExecute(
 			variables.termCrashCountSql,
 			variables.termCrashParams,
 			{datasource="user_login", username=session.dbuser, password=decrypt(session.epw,cookie.cfid)}
 		)>
-		<!--- Data query: limited by row limit; includes author_text for the lower taxon --->
+		<!--- Data query: limited by row limit --->
 		<cfset variables.termCrashDataParams = duplicate(variables.termCrashParams)>
 		<cfset variables.termCrashDataParams.limitVal = {value=variables.limit, cfsqltype="cf_sql_integer"}>
 		<cfset variables.termCrashSql = "SELECT * FROM (
 				SELECT
-					a.nomenclatural_code, a.#variables.lterm# l, a.#variables.hterm# h, a.author_text
+					a.nomenclatural_code, a.#variables.lterm# l, a.#variables.hterm# h #variables.termCrashOuterExtra#
 				FROM
-					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm#, author_text FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm#, author_text) a,
+					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm# #variables.termCrashInnerExtra# FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm# #variables.termCrashInnerExtra#) a,
 					(SELECT nomenclatural_code, #variables.lterm#, #variables.hterm# FROM taxonomy GROUP BY nomenclatural_code, #variables.lterm#, #variables.hterm#) b
 				WHERE
 					a.#variables.lterm# = b.#variables.lterm# AND
 					a.#variables.hterm# != b.#variables.hterm#
 					#variables.termCrashCollectionSql#
 				GROUP BY
-					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm#, a.author_text
+					a.nomenclatural_code, a.#variables.lterm#, a.#variables.hterm# #variables.termCrashOuterExtra#
 				ORDER BY
 					a.#variables.lterm#, a.#variables.hterm#, a.nomenclatural_code
 			) WHERE rownum <= :limitVal">
@@ -280,17 +307,27 @@ limitations under the License.
 				<table class="sortable table table-responsive d-xl-table table-striped table-sm">
 					<thead class="thead-light">
 						<tr>
-							<th scope="col">#encodeForHtml(variables.lterm)#</th>
-							<th scope="col">Authorship</th>
-							<th scope="col">#encodeForHtml(variables.hterm)#</th>
+							<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+								<th scope="col">Taxon ID</th>
+							</cfif>
+							<th scope="col">#encodeForHtml(variables.taxaRankLabels[variables.lterm])#</th>
+							<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+								<th scope="col">Authorship</th>
+							</cfif>
+							<th scope="col">#encodeForHtml(variables.taxaRankLabels[variables.hterm])#</th>
 							<th scope="col">Nomenclatural Code</th>
 						</tr>
 					</thead>
 					<tbody>
 						<cfloop query="termCrash">
 							<tr>
-								<td><a href="/Taxa.cfm?execute=true&amp;#encodeForUrl(variables.lterm)#=#encodeForUrl(l)#">#encodeForHtml(l)#</a></td>
-								<td>#encodeForHtml(author_text)#</td>
+								<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+									<td><a href="#encodeForHtmlAttribute(Application.ServerRootUrl)#/taxonomy/Taxonomy.cfm?action=edit&amp;taxon_name_id=#encodeForUrl(taxon_name_id)#">#encodeForHtml(taxon_name_id)#</a></td>
+								</cfif>
+								<td>#encodeForHtml(l)#</td>
+								<cfif variables.lterm EQ "SCIENTIFIC_NAME">
+									<td>#encodeForHtml(author_text)#</td>
+								</cfif>
 								<td><a href="/Taxa.cfm?execute=true&amp;#encodeForUrl(variables.hterm)#=#encodeForUrl(h)#&amp;#encodeForUrl(variables.lterm)#=#encodeForUrl(l)#">#encodeForHtml(h)#</a></td>
 								<td>#encodeForHtml(nomenclatural_code)#</td>
 							</tr>
