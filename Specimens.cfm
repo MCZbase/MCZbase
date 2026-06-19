@@ -508,7 +508,7 @@ limitations under the License.
 													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 
 													<!---IDENTIFIER DETAIL--->		
-													<div id="IDDetail" class="col-9 col-md-10 col-lg-11 px-0 py-2" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-9 col-md-10 col-lg-11 my-0 px-0 py-0" style="#IDDetailStyle#">
 														<div class="form-row col-12 px-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -657,7 +657,7 @@ limitations under the License.
 													</div>
 													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													<!---TAXONOMY DETAIL--->
-													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-2 mb-1">
 																<label for="phylum" class="data-entry-label small font-weight-bold">
@@ -849,7 +849,7 @@ limitations under the License.
 													</div>
 													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													<!---GEOGRAPHY DETAIL--->
-													<div id="GeogDetail" class="col-9 col-md-10 col-lg-11 mt-1 px-0 py-1 float-left" style="#GeogDetailStyle#">
+													<div id="GeogDetail" class="col-9 col-md-10 col-lg-11 my-0 px-0 py-0 float-left" style="#GeogDetailStyle#">
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
@@ -1112,7 +1112,7 @@ limitations under the License.
 													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
-													<div id="CollDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date" class="data-entry-label small font-weight-bold">Date Began</label>
@@ -1221,7 +1221,7 @@ limitations under the License.
 													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
-													<div id="SpecDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#SpecDetailStyle#">
+													<div id="SpecDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-0 px-1 mx-0">
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_object_remarks" class="data-entry-label small font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks</label>
@@ -1583,7 +1583,7 @@ limitations under the License.
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
 														<!--- TRANSACTION DETAIL --->
-														<div id="TransactionDetail" class="col-9 col-md-10 col-lg-11 px-0 mt-1 py-1 float-left" style="#TransactionDetailStyle#">
+														<div id="TransactionDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
 															<div class="form-row col-12 mb-1 px-1 mx-0">
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
