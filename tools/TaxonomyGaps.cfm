@@ -52,13 +52,13 @@ limitations under the License.
 			<cfoutput>
 			<script>
 				function showOptions(v) {
-					document.getElementById('gap').style.display = 'none';
-					document.getElementById('higherCrash').style.display = 'none';
+					$('#gap').hide();
+					$('#higherCrash').hide();
 					if (v === 'gap') {
-						document.getElementById('gap').style.display = 'block';
+						$('#gap').show();
 					}
 					if (v === 'higherCrash') {
-						document.getElementById('higherCrash').style.display = 'block';
+						$('#higherCrash').show();
 					}
 				}
 			</script>
