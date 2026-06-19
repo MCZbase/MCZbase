@@ -46,6 +46,7 @@ limitations under the License.
 	<cfargument name="collector_collection" type="string" required="no">
 	<cfargument name="author_collection" type="string" required="no">
 	<cfargument name="trans_agent_collection" type="string" required="no">
+	<cfargument name="trans_agent_role" type="string" required="no">
 	<cfargument name="permit_agent_role" type="string" required="no">
 
 	<!--- clear any arguments where only an operator is given without a search term --->
@@ -60,6 +61,7 @@ limitations under the License.
 	<cfif isdefined("last_name") AND last_name IS "$"><cfset last_name = ""></cfif>
 	<cfif isdefined("anyName") AND anyName IS "="><cfset anyName = ""></cfif>
 	<cfif isdefined("anyName") AND anyName IS "~"><cfset anyName = ""></cfif>
+	<cfif isdefined("trans_agent_role") AND trans_agent_role IS "!"><cfset trans_agent_role = ""></cfif>
 
 	<!--- if remarks_biography has a value, ignore remarks and biography --->
 	<cfif isdefined("remarks_biography") AND len(remarks_biography) GT 0 >
@@ -479,6 +481,19 @@ limitations under the License.
 								left join trans on trans_agent.transaction_id = trans.transaction_id
 							<cfif trans_agent_collection NEQ "NOT NULL" AND trans_agent_collection NEQ "NULL">
 								WHERE trans.collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_collection#">
+							</cfif>
+						)
+					</cfif>
+					<cfif isdefined("arguments.trans_agent_role") AND len(#arguments.trans_agent_role#) gt 0>
+						AND agent.agent_id 
+						<cfif trans_agent_collection EQ "NULL">NOT</cfif>
+						IN (
+							SELECT agent_id 
+							FROM trans_agent
+							<cfif left(arguments.trans_agent_role,1) EQ "!" >
+								WHERE trans_agent.trans_agent_role =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mid(arguments.trans_agent_role,2)#">
+							<cfelse>
+								WHERE trans_agent.trans_agent_role =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.trans_agent_role#">
 							</cfif>
 						)
 					</cfif>

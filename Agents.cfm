@@ -42,6 +42,10 @@ limitations under the License.
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select collection_cde, collection_id from collection
 </cfquery>
+<cfquery name="ctTransAgentRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+	SELECT trans_agent_role 
+	FROM cttrans_agent_role
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -126,11 +130,15 @@ limitations under the License.
 		<cfif not isdefined("trans_agent_collection")>
 			<cfset trans_agent_collection = "">
 		</cfif>
+		<cfif not isdefined("trans_agent_role")>
+			<cfset trans_agent_role = "">
+		</cfif>
 		<cfif not isdefined("permit_agent_role")>
 			<cfset permit_agent_role = "">
 		</cfif>
 	<cfelse>
 		<cfset trans_agent_collection = "">
+		<cfset trans_agent_role = "">
 		<cfset permit_agent_role = "">
 	</cfif>
 	<style>
@@ -365,7 +373,7 @@ limitations under the License.
 							   <fieldset class="my-2 px-3 pb-2 field-set border-top border-bottom border-right border-left">
 									<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
 										<div class="form-row mt-2">
-											<div class="col-12 col-md-3 col-xl-3 mt-0 mb-md-1 mb-xl-0">
+											<div class="col-12 col-md-2 col-xl-3 mt-0 mb-md-1 mb-xl-0">
 												<div class="form-group mb-1 pb-0">
 													<label for="collector_collection" class="data-entry-label font-weight-bold" id="edited_label">Collector in Collection</label>
 													<select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
@@ -381,7 +389,7 @@ limitations under the License.
 													</select>
 												</div>
 											</div>
-											<div class="col-12 col-md-3 col-xl-3 mt-0 mb-md-1 mb-xl-0">
+											<div class="col-12 col-md-2 col-xl-3 mt-0 mb-md-1 mb-xl-0">
 												<div class="form-group mb-1 pb-0">
 													<label for="author_collection" class="data-entry-label font-weight-bold" id="edited_label">Author in Collection </label>
 													<select id="author_collection" name="author_collection" class="data-entry-select py-0">
@@ -398,7 +406,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-												<div class="col-12 col-md-3 col-xl-3 mt-0 pr-md-0 px-xl-0">
+												<div class="col-12 col-md-2 col-xl-3 mt-0 pr-md-0 px-xl-0">
 													<div class="form-group mb-1 pb-0">
 														<label for="trans_agent_collection" class="data-entry-label font-weight-bold" id="edited_label">Collection Transactions</label>
 														<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
@@ -414,7 +422,23 @@ limitations under the License.
 														</select>
 													</div>
 												</div>
-												<div class="col-12 col-md-3 col-xl-3 mt-0 pb-md-1 mb-md-0">
+												<div class="col-12 col-md-2 col-xl-3 mt-0 pr-md-0 px-xl-0">
+													<div class="form-group mb-1 pb-0">
+														<label for="trans_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Transaction Role</label>
+														<select id="trans_agent_role" name="trans_agent_role" class="data-entry-select py-0">
+															<option></option>
+															<cfif trans_agent_role EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NULL" #selected#>No Transaction Roles</option>
+															<cfif trans_agent_role EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NOT NULL" #selected#>Transaction in some collection</option>
+															<cfloop query="ctTransAgentRole">
+																<cfif trans_agent_role EQ ctTransAgentRole.trans_agent_role ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																<option value="#ctTransAgentRole.trans_agent_role#" #sel# >#ctTransAgentRole.trans_agent_role#</option>
+															</cfloop>
+														</select>
+													</div>
+												</div>
+												<div class="col-12 col-md-2 col-xl-3 mt-0 pb-md-1 mb-md-0">
 													<div class="form-group mb-1 pb-0">
 														<label for="permit_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Permissions &amp; Rights</label>
 														<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
