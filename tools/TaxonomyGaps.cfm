@@ -207,6 +207,11 @@ limitations under the License.
 							</cfloop>
 						</div>
 					</div>
+					<div class="roow">
+						<div class="col-auto">
+				 			<p> You can also ask this question by searching Taxonomy using "NULL" in higher taxon using, for example: <a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> (Taxon records with no kingdom, phylumn, class, order, or family). </p>
+						</div>
+					</div>
 				</div>
 			</form>
 			<script>showOptions('#encodeForJavaScript(variables.action)#');</script>
