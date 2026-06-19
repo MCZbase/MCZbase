@@ -237,7 +237,7 @@ limitations under the License.
 			<div class="col-12">
 				<h2 class="h4">Lower Taxon Placed in Multiple Higher Taxa</h2>
 				<cfoutput>
-				<p>Showing #encodeForHtml(termCrash.recordCount)# of #encodeForHtml(termCrashCount.total)# total records.</p>
+				<p>Showing first #encodeForHtml(termCrash.recordCount)# of #encodeForHtml(termCrashCount.total)# total records.</p>
 				<table class="sortable table table-responsive d-xl-table table-striped table-sm">
 					<thead class="thead-light">
 						<tr>
@@ -340,7 +340,7 @@ limitations under the License.
 			<div class="col-12">
 				<h2 class="h4">Scientific Names Containing Unexpected Characters</h2>
 				<cfoutput>
-				<p>Showing #encodeForHtml(md.recordCount)# of #encodeForHtml(mdCount.total)# total records which have characters other than:</p>
+				<p>Showing first #encodeForHtml(md.recordCount)# of #encodeForHtml(mdCount.total)# total records which have characters other than:</p>
 				<ul>
 					<li>A-Za-z (upper or lower case Roman characters)</li>
 					<li>[a-z]-[a-z] (lower-case character followed by a dash followed by another lower-case character)</li>
@@ -484,7 +484,7 @@ limitations under the License.
 			<div class="col-12">
 				<h2 class="h4">Missing Higher Taxon Values</h2>
 				<cfoutput>
-				<p>Showing #encodeForHtml(md.recordCount)# of #encodeForHtml(gapCount.total)# total records.</p>
+				<p>Showing first #encodeForHtml(md.recordCount)# of #encodeForHtml(gapCount.total)# total records.</p>
 				<table class="sortable table table-responsive d-xl-table table-striped table-sm">
 					<thead class="thead-light">
 						<tr>
