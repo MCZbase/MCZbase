@@ -449,7 +449,7 @@ limitations under the License.
 						select agent_id 
 						from collector
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on collector.collection_object_id = flat.collection_object_id
-						<cfif collector_collection NEQ "NOT NULL">
+						<cfif collector_collection NEQ "NOT NULL" AND collector_collection NEQ "NULL">
 							where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_collection#">
 						</cfif>
 					)
@@ -464,7 +464,7 @@ limitations under the License.
 							left join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
 							left join citation on publication_author_name.publication_id = citation.PUBLICATION_ID
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on citation.collection_object_id = flat.collection_object_id
-						<cfif author_collection NEQ "NOT NULL">
+						<cfif author_collection NEQ "NOT NULL" AND author_collection NEQ "NULL">
 							where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_collection#">
 						</cfif>
 					)
@@ -477,7 +477,7 @@ limitations under the License.
 							SELECT agent_id 
 							FROM trans_agent
 								left join trans on trans_agent.transaction_id = trans.transaction_id
-							<cfif trans_agent_collection NEQ "NOT NULL">
+							<cfif trans_agent_collection NEQ "NOT NULL" AND trans_agent_collection NEQ "NULL">
 								WHERE trans.collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_collection#">
 							</cfif>
 						)
