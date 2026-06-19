@@ -2,14 +2,15 @@
 <cfset headerPath = "includes"><!--- Identify which header has been included --->
 <head>
 
-<!--= Global site tag (gtag.js) - Google Analytics --->
+<!--- Global site tag (gtag.js) - Google Analytics --->
 <script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script><!--- " --->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+	gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
 </script>
 
 <style>
@@ -67,7 +68,7 @@
 /* Overall nav wrapper under the header image */
 #legacyMainNav {
   /* background-color: #ddd;  runs into margins */
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; runs into margins */
 }
 
 /* Hamburger button (visibility controlled by media queries) */
@@ -138,28 +139,25 @@
 		</div>
 	</noscript>
 
-	<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc or user specific in setDbUser--->
+	<!--- WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc or user specific in setDbUser--->
 	<div id="headerContent" style="background-color: #Session.old_header_color#;">
 		<div id="image_headerWrap">
 			<div class="headerText">
 				<a href="#Session.institution_url#" target="_blank">
 					<img src="#Session.old_header_image#" alt="#Session.header_image_alt#">
 				</a>
-				<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc or user specific in setDbUser --->
+				<!--- WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc or user specific in setDbUser --->
 				<h1 style="color:#Session.old_collectionlinkcolor#;">#Session.old_collection_link_text#</h1>
 				<h2 style="color:#Session.old_institutionlinkcolor#;"><a href="#Session.institution_url#" target="_blank"><span style="color:#Session.old_institutionlinkcolor#" class="headerInstitutionText">#Session.old_institution_link_text#</span></a></h2>
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
-<div id="legacyMainNav">
-     <!-- Hamburger button -->
-    <button id="legacyMenuToggle"
-            type="button"
-            aria-label="Toggle navigation"
-            aria-expanded="false">
-        <span class="legacy-menu-icon"></span>
-    </button>
-	<div class="sf-mainMenuWrapper" style="font-size: 14px; background-color: ##ddd;">
+	<div id="legacyMainNav">
+	<!--- Hamburger button --->
+	<button id="legacyMenuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="legacy-menu-icon"></span>
+	</button>
+	<div class="sf-mainMenuWrapper" style="font-size: 14px; background-color: ##ddd; border-bottom: 1px solid #ccc;">
 
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
@@ -341,10 +339,10 @@
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div style="float:left; width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Create</div>
-										<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
+										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<a class="dropdown-item"  href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
-											<a class="dropdown-item"  href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
+											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
+											<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
 
 										</cfif>
 									</div>
@@ -352,14 +350,14 @@
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 									<div style="float:left; width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Manage</div>
-										<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
-										<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a>
-										<a class="dropdown-item"  href="/labels2containers.cfm" target="_top">Label &gt; Container</a>
-										<a class="dropdown-item"  href="/part2container.cfm" target="_top">Put Parts in Containers</a>
-										<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
-										<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
+										<a class="dropdown-item" href="/moveContainer.cfm" target="_top">Move Container</a>
+										<a class="dropdown-item" href="/batchScan.cfm" target="_top">Batch Scan</a>
+										<a class="dropdown-item" href="/labels2containers.cfm" target="_top">Label &gt; Container</a>
+										<a class="dropdown-item" href="/part2container.cfm" target="_top">Put Parts in Containers</a>
+										<a class="dropdown-item" href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
+										<a class="dropdown-item" href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
 										<!---[Bug 5212] Moved to Bulkloaders.cfm link found under Data Entry menu--->
-										<!---<a class="dropdown-item"  href="/tools/BulkloadContEditParent.cfm" target="_top">Bulk Edit Container</a>--->
+										<!---<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm" target="_top">Bulk Edit Container</a>--->
 									</div>
 								</cfif>
 							</li>
@@ -565,78 +563,76 @@
 		</div><!---end headerLinks--->
 	</div><!--- end sf-mainMenuWrapper--->
 </div>
-
-	<cf_rolecheck>
-
 </cfoutput>
+<!--- Support for menu behavior on mobile devices --->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('menu script starting');
+	document.addEventListener('DOMContentLoaded', function () {
+		console.log('menu script starting');
 
-  var nav        = document.getElementById('legacyMainNav');
-  var toggleBtn  = document.getElementById('legacyMenuToggle');
-  var menuWrap   = nav ? nav.querySelector('.sf-mainMenuWrapper') : null;
+		var nav        = document.getElementById('legacyMainNav');
+		var toggleBtn  = document.getElementById('legacyMenuToggle');
+		var menuWrap   = nav ? nav.querySelector('.sf-mainMenuWrapper') : null;
 
-  console.log('nav:', nav, 'toggleBtn:', toggleBtn, 'menuWrap:', menuWrap);
+		console.log('nav:', nav, 'toggleBtn:', toggleBtn, 'menuWrap:', menuWrap);
 
-  if (!nav || !toggleBtn || !menuWrap) {
-    console.warn('Menu elements not found');
-    return;
-  }
+		if (!nav || !toggleBtn || !menuWrap) {
+			console.warn('Menu elements not found');
+			return;
+		}
 
-  /* ========== HAMBURGER: open/close whole menu ========== */
-  toggleBtn.addEventListener('click', function () {
-    console.log('hamburger clicked');
-    menuWrap.classList.toggle('show');
-    var expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-    toggleBtn.setAttribute('aria-expanded', String(!expanded));
-  });
+		/* ========== HAMBURGER: open/close whole menu ========== */
+		toggleBtn.addEventListener('click', function () {
+			console.log('hamburger clicked');
+			menuWrap.classList.toggle('show');
+			var expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+			toggleBtn.setAttribute('aria-expanded', String(!expanded));
+		});
 
-  /* ========== DROPDOWNS: open/close primary items on click (mobile only) ========== */
+		/* ========== DROPDOWNS: open/close primary items on click (mobile only) ========== */
 
-  // Top‑level items like Search, Browse, Data Entry, ...
-  var topLinks = nav.querySelectorAll('.sf-menu > li.nav-item.dropdown > a.dropdown-toggle');
-  console.log('found topLinks:', topLinks.length);
+		// Top‑level items like Search, Browse, Data Entry, ...
+		var topLinks = nav.querySelectorAll('.sf-menu > li.nav-item.dropdown > a.dropdown-toggle');
+		console.log('found topLinks:', topLinks.length);
 
-  topLinks.forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      // only use this behavior on small screens
-      if (!window.matchMedia('(max-width: 768px)').matches) {
-        return; // desktop: let existing behavior (hover) work
-      }
+		topLinks.forEach(function (link) {
+			link.addEventListener('click', function (e) {
+				// only use this behavior on small screens
+				if (!window.matchMedia('(max-width: 768px)').matches) {
+					return; // desktop: let existing behavior (hover) work
+				}
+				e.preventDefault();  // don't follow the "##" href
+				console.log('top-level clicked:', this.textContent.trim());
+				var li     = this.parentElement;
+				var isOpen = li.classList.contains('open');
+				// close others
+				nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
+					if (openLi !== li) {
+						openLi.classList.remove('open');
+					}
+				});
+	
+				// toggle this one
+				if (isOpen) {
+					li.classList.remove('open');   // close if open
+				} else {
+					li.classList.add('open');      // open if closed
+				}
+			});
+		});
 
-      e.preventDefault();  // don't follow the "##" href
-      console.log('top-level clicked:', this.textContent.trim());
-
-      var li     = this.parentElement;
-      var isOpen = li.classList.contains('open');
-
-      // close others
-      nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
-        if (openLi !== li) {
-          openLi.classList.remove('open');
-        }
-      });
-
-      // toggle this one
-      if (isOpen) {
-        li.classList.remove('open');   // close if open
-      } else {
-        li.classList.add('open');      // open if closed
-      }
-    });
-  });
-
-  // optional: close any open dropdowns when clicking outside the nav (mobile only)
-  document.addEventListener('click', function (e) {
-    if (!window.matchMedia('(max-width: 768px)').matches) return;
-    if (!nav.contains(e.target)) {
-      nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
-        openLi.classList.remove('open');
-      });
-    }
-  });
-});
+		// close any open dropdowns when clicking outside the nav (mobile only)
+		document.addEventListener('click', function (e) {
+			if (!window.matchMedia('(max-width: 768px)').matches) return;
+				if (!nav.contains(e.target)) {
+					nav.querySelectorAll('.sf-menu li.open').forEach(function (openLi) {
+					openLi.classList.remove('open');
+				});
+			}
+		});
+	});
 </script>
+
+<cf_rolecheck>
+
 <div id="pg_container">
 <div class="content_box">
