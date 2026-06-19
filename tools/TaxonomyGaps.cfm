@@ -94,13 +94,13 @@ limitations under the License.
 					<div class="col-auto">
 						<label for="action" class="d-block">Check Taxonomy records for</label>
 						<cfset variables.selActionGap = ""><cfif variables.action EQ "gap"><cfset variables.selActionGap = 'selected="selected"'></cfif>
-						<cfset variables.selActionFunkyChar = ""><cfif variables.action EQ "unexpectedChar"><cfset variables.selActionFunkyChar = 'selected="selected"'></cfif>
-						<cfset variables.selActionHigherCrash = ""><cfif variables.action EQ "lowMultipleHigher"><cfset variables.selActionHigherCrash = 'selected="selected"'></cfif>
+						<cfset variables.selActionUnexpectedChar = ""><cfif variables.action EQ "unexpectedChar"><cfset variables.selActionUnexpectedChar = 'selected="selected"'></cfif>
+						<cfset variables.selActionLowMultipleHigher = ""><cfif variables.action EQ "lowMultipleHigher"><cfset variables.selActionLowMultipleHigher = 'selected="selected"'></cfif>
 						<select name="action" id="action" class="data-entry-select" onchange="showOptions(this.value);">
 							<option value=""></option>
 							<option #variables.selActionGap# value="gap">Missing higher taxon values</option>
-							<option #variables.selActionFunkyChar# value="unexpectedChar">Scientific names containing unexpected characters</option>
-							<option #variables.selActionHigherCrash# value="lowMultipleHigher">Lower taxon placed in multiple higher taxa</option>
+							<option #variables.selActionUnexpectedChar# value="unexpectedChar">Scientific names containing unexpected characters</option>
+							<option #variables.selActionLowMultipleHigher# value="lowMultipleHigher">Lower taxon placed in multiple higher taxa</option>
 						</select>
 					</div>
 					<div class="col-auto">
