@@ -89,32 +89,30 @@ limitations under the License.
 					</div>
 				</div>
 				<div id="gap" style="display:none;" class="mb-3">
-					<table class="table table-sm table-bordered w-auto">
-						<thead class="thead-light">
-							<tr>
-								<th scope="col">Require one of to be NULL</th>
-								<th scope="col">Return</th>
-							</tr>
-						</thead>
-						<tbody>
+					<div class="row">
+						<div class="col-auto">
+							<div class="font-weight-bold mb-1">Require one of to be NULL</div>
 							<cfloop list="#variables.taxaFields#" index="i">
-								<tr>
-									<td>
-										<label class="mb-0">
-											<input type="checkbox" name="nullstuff" value="#encodeForHtmlAttribute(i)#" <cfif listFindNoCase(variables.nullstuff, i)>checked="checked"</cfif>>
-											#encodeForHtml(i)#
-										</label>
-									</td>
-									<td>
-										<label class="mb-0">
-											<input type="checkbox" name="taxaReturns" value="#encodeForHtmlAttribute(i)#" <cfif listFindNoCase(variables.taxaReturns, i)>checked="checked"</cfif>>
-											#encodeForHtml(i)#
-										</label>
-									</td>
-								</tr>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input" type="checkbox" name="nullstuff" value="#encodeForHtmlAttribute(i)#" <cfif listFindNoCase(variables.nullstuff, i)>checked="checked"</cfif>>
+									#encodeForHtml(i)#
+								</label>
+							</div>
 							</cfloop>
-						</tbody>
-					</table>
+						</div>
+						<div class="col-auto">
+							<div class="font-weight-bold mb-1">Return</div>
+							<cfloop list="#variables.taxaFields#" index="i">
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input" type="checkbox" name="taxaReturns" value="#encodeForHtmlAttribute(i)#" <cfif listFindNoCase(variables.taxaReturns, i)>checked="checked"</cfif>>
+									#encodeForHtml(i)#
+								</label>
+							</div>
+							</cfloop>
+						</div>
+					</div>
 				</div>
 				<div class="form-group mb-3">
 					<label for="limit" class="mr-2">Row Limit</label>
