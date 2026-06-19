@@ -365,7 +365,7 @@ limitations under the License.
 							   <fieldset class="my-2 px-3 pb-2 field-set border-top border-bottom border-right border-left">
 									<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
 										<div class="form-row mt-2">
-											<div class="col-12 col-md-3 col-xl-3 pr-md-0 px-0 mt-0 mb-md-1 mb-xl-0">
+											<div class="col-12 col-md-3 col-xl-3 mt-0 mb-md-1 mb-xl-0">
 												<div class="form-group mb-1 pb-0">
 													<label for="collector_collection" class="data-entry-label font-weight-bold" id="edited_label">Collector in Collection</label>
 													<select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
@@ -377,7 +377,7 @@ limitations under the License.
 													</select>
 												</div>
 											</div>
-											<div class="col-12 col-md-3 col-xl-3 px-0 mt-0 mb-md-1 mb-xl-0">
+											<div class="col-12 col-md-3 col-xl-3 mt-0 mb-md-1 mb-xl-0">
 												<div class="form-group mb-1 pb-0">
 													<label for="author_collection" class="data-entry-label font-weight-bold" id="edited_label">Author in Collection </label>
 													<select id="author_collection" name="author_collection" class="data-entry-select py-0">
@@ -390,7 +390,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-												<div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pr-md-0 px-xl-0">
+												<div class="col-12 col-md-3 col-xl-3 mt-0 pr-md-0 px-xl-0">
 													<div class="form-group mb-1 pb-0">
 														<label for="trans_agent_collection" class="data-entry-label font-weight-bold" id="edited_label">Collection Transactions</label>
 														<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
@@ -402,7 +402,7 @@ limitations under the License.
 														</select>
 													</div>
 												</div>
-												<div class="col-12 col-md-3 col-xl-3 px-0 mt-0 pb-md-1 mb-md-0">
+												<div class="col-12 col-md-3 col-xl-3 mt-0 pb-md-1 mb-md-0">
 													<div class="form-group mb-1 pb-0">
 														<label for="permit_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Permissions &amp; Rights</label>
 														<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
