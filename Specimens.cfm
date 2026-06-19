@@ -598,7 +598,7 @@ limitations under the License.
 													</div>
 													<div class="col-3 col-md-3 col-xl-1 pl-0 mb-1">
 														<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
-														<label for="current_id_only" class="data-entry-label pl-0 smaller font-weight-bold">Search</label>
+														<label for="current_id_only" class="data-entry-label pl-0 small font-weight-bold">Search</label>
 														<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small95 px-0" style="color: rgba(0, 0, 0, .8);">
 															<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 															<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
@@ -853,7 +853,7 @@ limitations under the License.
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
-																<label for="continent_ocean" class="data-entry-label font-weight-bold smaller">Continent/Ocean</label>
+																<label for="continent_ocean" class="data-entry-label font-weight-bold small">Continent/Ocean</label>
 																<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
 																<script>
 																	jQuery(document).ready(function() {
@@ -903,7 +903,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
-																<label for="ocean_subregion" class="data-entry-label px-md-0 smaller font-weight-bold">Ocean Sub-Region</label>
+																<label for="ocean_subregion" class="data-entry-label small px-md-0 font-weight-bold">Ocean Sub-Region</label>
 																<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 																<input type="text" class="data-entry-input inputHeight px-md-0" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
 																<script>
