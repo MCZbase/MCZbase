@@ -370,6 +370,10 @@ limitations under the License.
 													<label for="collector_collection" class="data-entry-label font-weight-bold" id="edited_label">Collector in Collection</label>
 													<select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
 														<option></option>
+														<cfif collector_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+														<option value="NULL" #selected#>Not a Collector</option>
+														<cfif collector_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+														<option value="NOT NULL" #selected#>Collector (any collection)</option>
 														<cfloop query="collections">
 															<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 															<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
@@ -382,6 +386,10 @@ limitations under the License.
 													<label for="author_collection" class="data-entry-label font-weight-bold" id="edited_label">Author in Collection </label>
 													<select id="author_collection" name="author_collection" class="data-entry-select py-0">
 														<option></option>
+														<cfif author_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+														<option value="NULL" #selected#>Not an Author</option>
+														<cfif author_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+														<option value="NOT NULL" #selected#>Author (any collection)</option>
 														<cfloop query="collections">
 															<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 															<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
@@ -395,6 +403,10 @@ limitations under the License.
 														<label for="trans_agent_collection" class="data-entry-label font-weight-bold" id="edited_label">Collection Transactions</label>
 														<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
 															<option></option>
+															<cfif trans_agent_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NULL" #selected#>No Transaction Roles</option>
+															<cfif trans_agent_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NOT NULL" #selected#>Transaction in some collection</option>
 															<cfloop query="collections">
 																<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 																<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
