@@ -117,10 +117,10 @@ limitations under the License.
 						<cfset variables.selActionUnexpectedChar = ""><cfif variables.action EQ "unexpectedChar"><cfset variables.selActionUnexpectedChar = 'selected="selected"'></cfif>
 						<cfset variables.selActionLowMultipleHigher = ""><cfif variables.action EQ "lowMultipleHigher"><cfset variables.selActionLowMultipleHigher = 'selected="selected"'></cfif>
 						<select name="action" id="action" class="data-entry-select" onchange="showOptions(this.value);">
-							<option value=""></option>
-							<option #variables.selActionGap# value="gap">Missing higher taxon values</option>
-							<option #variables.selActionUnexpectedChar# value="unexpectedChar">Scientific names containing unexpected characters</option>
+							<option value="">Pick a QC report...</option>
 							<option #variables.selActionLowMultipleHigher# value="lowMultipleHigher">Lower taxon placed in multiple higher taxa</option>
+							<option #variables.selActionUnexpectedChar# value="unexpectedChar">Scientific names containing unexpected characters</option>
+							<option #variables.selActionGap# value="gap">Missing higher taxon values</option>
 						</select>
 					</div>
 					<div class="col-auto">
