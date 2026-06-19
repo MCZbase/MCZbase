@@ -79,14 +79,17 @@ For a given database concept (e.g. Taxonomy, Publication, Media), there SHOULD, 
 
 widely reused cold fusion, javascript, and css files that we have written SHOULD be in /shared/
 
+```
 	/shared/
 	/shared/js/
 	/shared/css/
+```
 
 Included libraries (jquery, etc), MUST be inside /lib/
 
 Accompany top level pages about objects (nouns, in upper case), with a lower case directory name to support specific components used in the rendering and editing of that object.
 
+```
 	Taxa.cfm (search with results page (plural) role=public)
 	taxonomy/
 	taxonomy/Taxonomy.cfm (taxonomy editor (singular), role=manage\_taxonomy, create and edit functionality).
@@ -94,6 +97,7 @@ Accompany top level pages about objects (nouns, in upper case), with a lower cas
 	taxonomy/js/taxonomy.js (supporting javascript files).
 	taxonomy/component/search.cfc (backing methods for /Taxa.cfm search role=public).
 	taxonomy/component/functions.cfc (other backing methods particular to taxa, backing functions for create/edit, role=manage\_taxonomy).
+```
 
 Place javascript functions that will be widely used outside their concept in /shared/, e.g. /shared/js/vocabularies.js for ajax lookups of controlled vocabulary terms. If a javascript function will be used outside of its concept, place it in a file in /shared/js/ and include this file in /shared/\_header.cfm. If a javascript function is only used within a concept, place it in a file in /{concept}/js/, include this file in /shared/\_header.cfm, but in a section that checks for the /concept/ path in the request (or in rare cases, where the code isn’t reused include directly from a .cfm file, or more likely place inline in that file).
 
@@ -105,10 +109,11 @@ Avoid external dependencies whenever possible. Included libraries MUST be loaded
 
 At the top of each new page include the following block:
 
+```coldfusion
 	<!--
 	{filename}.{extension}
 
-	Copyright 2021 President and Fellows of Harvard College
+	Copyright 2026 President and Fellows of Harvard College
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -123,11 +128,14 @@ At the top of each new page include the following block:
 	limitations under the License.
 
 	-->
+```
 
 On pages modified from existing MCZbase code, use these copyright statements instead:
 
+```
 	Copyright 2008-2017 Contributors to Arctos
-	Copyright 2008-2020 President and Fellows of Harvard College
+	Copyright 2008-2026 President and Fellows of Harvard College
+```
 
 This block MAY be followed by a brief comment about intended function of the page.
 
@@ -141,11 +149,15 @@ On windows computers you MUST NOT commit files which have had the line endings s
 
 To identify files which need line ending conversion (typical of files copied over from the master branch into redesign, use:
 
-`   egrep -l -R $'\r'\$ * | grep -v "^lib/" | grep -v "`\(.png\|.cfr\)`$"`
+```bash
+	egrep -l -R $'\r'\$ * | grep -v "^lib/" | grep -v "`\(.png\|.cfr\)`$"
+```
 
 To convert files to unix line endings use:
 
-`   dos2unix filename.cfm`
+```bash
+	dos2unix filename.cfm
+```
 
 ### Indentation
 
@@ -153,6 +165,7 @@ Indent each level of control nesting with **one tab** character. Indentation MUS
 
 Set your editing environment to use tabs for indentation. For display you can set your editing environment to display (but not convert) the tabs as either two or three spaces (1 tab = 4 spaces in Dreamweaver)
 
+```coldfusion
 	<cfif action EQ “foo”>
 		<cfif case EQ 1>
 			<cfset>
@@ -160,9 +173,11 @@ Set your editing environment to use tabs for indentation. For display you can se
 			<cfset>
 		</cfif>
 	</cfif>
+```
 
 When nesting html or javascript or sql within coldfusion, indentation SHOULD start at the current level of indentation and indent for each level of nesting, regardless of the language involved.
 
+```
 	<cfif ...>	[coldfusion]
 		<cfset ...>
 		<div>[html]
@@ -174,6 +189,7 @@ When nesting html or javascript or sql within coldfusion, indentation SHOULD sta
 			</script>
 		</div>
 	</cfif>
+```
 
 Nest <cftry><cfcatch> blocks at the same level of indentation.
 
@@ -384,7 +400,9 @@ In general, begin each SQL clause on a new line, and indent for readability.
 
 When declaring a result within each named query, use the name of the query with \_result appended.
 
+```
 	<cfquery name=”getCounts” .... result=”getCounts_result”>
+```
 
 ### CFQuery and credentials
 
@@ -406,15 +424,21 @@ Use comments to explain the purpose of blocks of code, and to provide documentat
 
 Comments within the coldfusion code are intended for developers, and therefore should use `<!--- and --->` to avoid being rendered in the html output. 
 
+```coldfusion
 	<!--- This is a comment in coldfusion, it will not be rendered in the html output, always use this style of commeent. --->
 
 	<!-- This is a comment in coldfusion that will be rendered in the html output.  **Do Not Use this style of comment**  -->
+```
 
 Comments within javascript code should be visible in the rendered javascript to aid developers, so use `//` for single line comments and `/* */` for block comments, do not embedd these in `<!--- and --->` when javascript is produced by coldfusion code as this will cause them to be hidden in the rendered javascript.
 
+```javascript
 	// This is a single line comment in javascript, it will be visible in the rendered javascript, use this for short comments.
 
-	/* This is a block comment in javascript, it will be visible in the rendered javascript, use this for longer comments. */
+	/* This is a block comment in javascript, 
+		it will be visible in the rendered javascript, 
+		use this for longer comments. */
+```
 
 ### Javascript Organization.
 
@@ -422,11 +446,13 @@ Include short javascript function invocations in onClick elements of button and 
 
 In general, embed `<script>` blocks within `<cfoutput>` tags in coldfusion, and escape \# selectors by doubling them. 
 
+```coldfusion
 	<cfoutput>
 		<script>
 			$(‘##someId’).var();
 		</script>
 	</cfoutput>
+```
 
 Errors will occur if you do not escape # characters (e.g. in jquery class selectors).
 
@@ -436,10 +462,13 @@ Whenever possible, pass the ID values of elements in the DOM that are reference 
 
 Given: 
 
+```html
 	<div id=”placeToCreateDialog”> </div> 
+```
 
 Use (passing reference to id of div in function call):
 
+```
 	<script>
 		/* function somethingHandler does something with a dialog
 		 * @param dialogID the ID of a dialog in the dom, without the leading # id selector.
@@ -448,35 +477,44 @@ Use (passing reference to id of div in function call):
 			$(‘#’+dialogID).dialog....
 		}
 	</script>
+```
 
 Not (hard coding div id):
 
+```
 	<script>
 		function somethingHandler() {
 			$(‘#placeToCreateDialog’).dialog....
 		}
 	</script>
+```
 
 In general, use jquery selectors for IDs rather than document.getElementById()
 
+```
 	$("#targetfieldid").val();
+```
 
 ### Separate concerns for readability
 
 Avoid using cfset with complex expressions that return booleans, use nested cfif statements instead for readability
 
+```coldfusion
 	<cfset doStuff = false>
 	<cfif isDefined("url.stuff") AND url.stuff EQ "do">
 		<cfset doStuff = true>	
 	</cfif>
+```
 
 Avoid including cfif statements within input or option tags, instead, set a variable before the input or option tag and use that variable within the tag.
 
+```coldfusion
 	<cfset selected = "">
 	<cfif isDefined("url.stuff") AND url.stuff EQ "do">
 		<cfset selected = "selected">	
 	</cfif>
 	<option value="do" #selected#>Do Stuff</option>
+```
 
 ### CSS
 
@@ -496,10 +534,12 @@ Styles that are only used for a particular narrow solution related to one concep
 
 Layout blocks in the stylesheet files with the selector on one line then an indented block of the style declarations, one per line. Place multiple values for the same property on the same line.
 
+```css
 	.indent {
 		text-indent: -2em;
 		padding-left: 2em;
 	}
+```
 
 ### Semantic Tags
 
@@ -515,6 +555,7 @@ MCZbase pages use HTML semantic tags, `<main>` and `<section>` will used most fr
 
 Use the following semantic tags to organize the body of the page:
 
+```html
 	<main class=”container” id=”content”>
 		<section class=”row” >
 			Main form or page content
@@ -523,12 +564,15 @@ Use the following semantic tags to organize the body of the page:
 			Additional forms or content
 		</section>
 	</main>
+```
 
 A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.
 
 For Ajax feedback, use `<output>`
 
+```html
 	<output id=”submitFeedback”>&nbsp;</output>
+```
 
 Use html semantic tags instead of role properties whenever possible.
 
@@ -558,7 +602,9 @@ New record pages in MCZbase SHOULD save changes by posting the new record form t
 
 Provide a marker to indicate that content is expected to be loaded by ajax when a page loads.
 
+```html
 	<output id=”getsReplacedOnPageLoad”> Loading stuff...  </output>
+```
 
 **Provide a consistent spinner that ajax is happening.**
 
