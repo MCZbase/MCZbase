@@ -4047,7 +4047,7 @@ function gridLoaded(gridId, searchType) {
 			// if there are a small number of deaccessions, with at least one specimen, link to the specimen search. 
 			var rows   = $("##"+gridId).jqxGrid('getrows');
 			var values = $.map(rows, function (row) {
-    			return row.deaccn_number; 
+    			return row.deacc_number; 
 			});
 			transactionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&deaccession_number='+ values.join(',') +'" target="_blank">View ' + items +  '</a> in these '+ rowcount + ' Deaccessions';
 		}
