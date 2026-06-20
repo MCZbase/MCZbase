@@ -336,7 +336,7 @@ limitations under the License.
 		<script>
 			// Keyboard shortcut for Search
 			document.addEventListener ("keydown", function (evt) {
-				if (evt.altKey && evt.key === "m") {  
+				if (evt.altKey && evt.key === "m") {
 					evt.preventDefault();
 					evt.stopPropagation();
 					$('##searchDropdown').click();	
@@ -688,14 +688,14 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Code Table Editor</a>
 											</cfif>
 											<a class="dropdown-item" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attributes Hierarchies</a>
-											<!--- TODO: Need another role for report management  --->
+											<!--- TODO: Need another role for report management --->
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Reports/reporter.cfm">Label/Report Management</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
 											</cfif>
 									
-											<!--- TODO: are the rest of these DBA or another role?  --->
+											<!--- TODO: are the rest of these DBA or another role? --->
 									
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
@@ -707,8 +707,8 @@ limitations under the License.
 											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
 											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
-											<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<a class="dropdown-item"  href="/tools/listImages.cfm">Image List</a>
+											<a class="dropdown-item" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
+											<a class="dropdown-item" href="/tools/listImages.cfm">Image List</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 											<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
@@ -864,7 +864,7 @@ limitations under the License.
 						<label for="password" class="mr-1 sr-only"> Password:</label>
 						<input type="password" id="password" name="password" autocomplete="off" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
 						<label for="login" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 						<label for="create_account" class="mr-1 sr-only"> Password:</label>
 						<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();" aria-label="click to create new account">
 					</div>
@@ -872,7 +872,7 @@ limitations under the License.
 			</cfif>
 		</nav>
 	</div>
-	<!-- container //  --> 
+	<!--- container // ---> 
 	<script>
 		document.getElementById("mainMenuContainer").style.display = "block";	
 	</script> 
