@@ -164,11 +164,11 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/misc/multizoom/multizoom.css">
 <!---Heatmap and Point distribution Map (deckgl and Google)--->
 <cfif CGI.script_name IS "/agents/Agent.cfm" OR CGI.script_name IS "/grouping/showNamedCollection.cfm" OR (isDefined("variables.loadMapLibraries") AND variables.loadMapLibraries) >
-    <!--
-      Note: We deliberately load the Google Maps JS API synchronously (no async/callback)
-      to keep initMap timing simple with our deck.gl integration. This triggers a
-      "loaded directly without loading=async" console warning, which is acceptable here.
-    -->
+	<!---
+		Note: We deliberately load the Google Maps JS API synchronously (no async/callback)
+		to keep initMap timing simple with our deck.gl integration. This triggers a
+		"loaded directly without loading=async" console warning, which is acceptable here.
+	--->
 	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization"></script>
 	<script src="/shared/js/deck.gl.min.js"></script>
 	<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
@@ -274,7 +274,7 @@ limitations under the License.
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm 
-         and placed into session variables in setDbUser, preserving  option to set user specific values from cf_collection --->
+			and placed into session variables in setDbUser, preserving  option to set user specific values from cf_collection --->
 		<!---  WARNING: Styles set on these elements must not set the color, this is set in a server or user specific variable --->
 		<ul class="navbar col-11 col-sm-7 col-md-7 col-lg-8 p-0 m-0" style="background-color: #Session.header_color#; ">
 			<li class="nav-item mcz2"> <a href="#Session.institution_url#" target="_blank" rel="noreferrer" style="color: #Session.institutionlinkcolor#;" >#Session.institution_link_text#</a> </li>
@@ -896,7 +896,7 @@ limitations under the License.
 $(document).ready(function() {
 	$('.navbar-nav a[href*=".cfm"]').each(function() {
 		if (String(location).includes($(this).attr('href'))) {
-      //      $('a.nav-link.active').removeAttr('aria-current');
+			//$('a.nav-link.active').removeAttr('aria-current');
 			$('ul.navbar-nav li.active').removeClass('active');
 			$('a.nav-link.active').removeClass('active');
 			$(this).parentsUntil('ul.navbar-nav li.active').addClass('active');
