@@ -893,17 +893,6 @@ function windowOpener(url, name, args) {
 	}
 	popupWins[name].focus();
 }
-function getDocs(url,anc) {
-	var url;
-	var anc;
-	var baseUrl = "http://g-arctos.appspot.com/arctosdoc/";
-	var extension = ".html";
-	var fullURL = baseUrl + url + extension;
-		if (anc != null) {
-			fullURL += "#" + anc;
-		}
-	siteHelpWin=windowOpener(fullURL,"HelpWin","width=700,height=400, resizable,scrollbars,location,toolbar");
-}		
 function noenter(e) {
 	var key;
 

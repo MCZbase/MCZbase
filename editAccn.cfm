@@ -239,10 +239,7 @@ editAccn.cfm?project_id=#getDetails.project_id#"
 								id="rec_date">
 						</td>
 						<td>
-							<label for="estimated_count">
-                                   <!---onClick="getDocs('accession','estimated_count')" class="likeLink">--->
-								Est. Cnt.
-							</label>
+							<label for="estimated_count">Est. Cnt.</label>
 							<cfinput type="text" validate="integer"
 								message="##Specimens must be a number" name="estimated_count"
 								value="#accnData.estimated_count#" size="10" id="estimated_count">

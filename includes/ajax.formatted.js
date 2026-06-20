@@ -277,18 +277,6 @@ function noenter(a) {
     else return true
 }
 
-function getDocs(a, b) {
-    var a;
-    var b;
-    var c = "http://g-arctos.appspot.com/arctosdoc/";
-    var d = ".html";
-    var e = c + a + d;
-    if (b != null) {
-        e += "#" + b
-    }
-    siteHelpWin = windowOpener(e, "HelpWin", "width=700,height=400, resizable,scrollbars,location,toolbar")
-}
-
 function windowOpener(a, b, c) {
     popupWins = [];
     if (typeof popupWins[b] != "object") {
