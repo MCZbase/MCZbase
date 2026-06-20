@@ -4028,7 +4028,7 @@ function gridLoaded(gridId, searchType) {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
 		if (rowcount < 21) { 
-			var rows   = $("#searchResultsGrid").jqxGrid('getrows');
+			var rows   = $("##"+gridId).jqxGrid('getrows');
 			var values = $.map(rows, function (row) {
     			return row.accn_number; 
 			});
