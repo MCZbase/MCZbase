@@ -233,7 +233,7 @@ limitations under the License.
 										     TODO: When locality_encumbrance is added, also require locality_count EQ 0
 										     (or that all localities are expired/have expiration events) before enabling
 										     the delete button. --->
-										<cfif getEnc.specimen_count EQ 0 OR len(trim(getEnc.expiration_event)) GT 0 OR (len(getEnc.expiration_date) GT 0 AND ( dateCompare(parseDateTime(getEnc.expiration_date),now(),"d") ))>
+										<cfif getEnc.specimen_count EQ 0 AND ( len(trim(getEnc.expiration_event)) GT 0 OR (len(getEnc.expiration_date) GT 0 AND ( dateCompare(parseDateTime(getEnc.expiration_date),now(),"d") )) ) >
 											<button type="button" class="btn btn-xs btn-danger mb-1"
 												onclick="confirmDeleteEncumbranceResult('#getEnc.encumbrance_id#','#encodeForHTML(collection_object_id)#');">
 												Delete
