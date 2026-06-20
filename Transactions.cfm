@@ -4019,7 +4019,7 @@ function gridLoaded(gridId, searchType) {
 	var rowcount = datainformation.rowscount;
 	var items = "";
 	// Find number of objects in results, display link to those through specimen search: 
-	var accessionCountSummary = "";
+	var transactionCountSummary = "";
 	if (searchType == 'accn') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
 		if (item_summary['sum']==1){ 
@@ -4027,13 +4027,13 @@ function gridLoaded(gridId, searchType) {
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
-		if (rowcount < 21) { 
+		if (rowcount < 21 && item_summary['sum'] > 0) {
+			// if there are a small number of accessions, with at least one specimen, link to the specimen search. 
 			var rows   = $("##"+gridId).jqxGrid('getrows');
 			var values = $.map(rows, function (row) {
     			return row.accn_number; 
 			});
-			if (items == 1) { plural = ""; } else { plural = "s"; }
-			accessionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ values.join(',') +'" target="_blank">View ' + items +  ' item'+plural+'</a> in these '+ rowcount + ' Accessions';
+			transactionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ values.join(',') +'" target="_blank">View ' + items +  '</a> in these '+ rowcount + ' Accessions';
 		}
 	}
 	if (searchType == 'deacc') { 
@@ -4043,12 +4043,20 @@ function gridLoaded(gridId, searchType) {
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
+		if (rowcount < 21 && item_summary['sum'] > 0) {
+			// if there are a small number of deaccessions, with at least one specimen, link to the specimen search. 
+			var rows   = $("##"+gridId).jqxGrid('getrows');
+			var values = $.map(rows, function (row) {
+    			return row.deaccn_number; 
+			});
+			transactionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&deaccession_number='+ values.join(',') +'" target="_blank">View ' + items +  '</a> in these '+ rowcount + ' Deaccessions';
+		}
 	}
 	if (rowcount == 1) { plural = ""; } else { plural = "s"; }
-	if (accessionCountSummary === "") { 
+	if (transactionCountSummary === "") { 
 		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + plural + items);
 	} else { 
-		$('##resultCount').html(accessionCountSummary);
+		$('##resultCount').html(transactionCountSummary);
 	} 
 	// set maximum page size
 	if (rowcount > 100) { 
