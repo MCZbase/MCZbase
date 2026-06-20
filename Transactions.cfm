@@ -4033,7 +4033,7 @@ function gridLoaded(gridId, searchType) {
     			return row.accn_number; 
 			});
 			if (items == 1) { plural = ""; } else { plural = "s"; }
-			accessionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ values.join(',') +'">View ' + items +  ' item'+plural+' in these '+ rowcount + ' Accessions</a>';
+			accessionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ values.join(',') +'" target="_blank">View ' + items +  ' item'+plural+'</a> in these '+ rowcount + ' Accessions';
 		}
 	}
 	if (searchType == 'deacc') { 
