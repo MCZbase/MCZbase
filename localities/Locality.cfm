@@ -47,6 +47,7 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
+
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -180,11 +181,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
-							<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-								<script> var section = 2</script>
-								<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-								<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
-							</cfif>
+							<cfoutput>#renderWikiButtons()#</cfoutput>
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
 								function runTests() {
@@ -266,9 +263,12 @@ limitations under the License.
 									#blockform#
 								</form>
 							</div>
-							<script>var section = 1</script>
-							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
+							<cftry>
+								#renderWikiButtons()#
+							<cfcatch>
+								Error calling renderWikiButtons: #cfcatch.message#
+							</cfcatch>
+							</cftry>
 						</div>
 					</section>
 				</main>
@@ -676,72 +676,9 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-<!--- wiki drawer outside of main --->
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 
-<cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
-	<cfoutput>
-<!---		<cfset targetWikiPage = "Locality">
-		<cfif action EQ "edit">
-			<cfset targetWikiPage = "Edit_Locality">
-		</cfif>--->
-		<cfif isDefined("action") AND ( action EQ "new" )>
-		<cfset targetWikiPage = "Locality">
-		<cfelseif isDefined("action") AND ( action EQ "edit" )>
-			<cfset targetWikiPage = "Edit_Locality">
-		<cfelse>
-			<cfset targetWikiPage = "Locality">
-		</cfif>
-		<div id="wikiDrawer" class="wiki-drawer border">
-			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-				<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
-				<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div id="wiki-content" class="p-3"></div>
-		</div>
-
-		<script>
-			var drawerWidthPx = 400;
-			var marginPx = 30;
-			var topMarginPx = 20;
-			var dialogWidthPercent = 1;
-		
-			$(document).ready(function() {
-				// Show drawer, push dialog right if drawer will be visible
-				 $('##show-wiki').on('click', function(e) {
-					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,section);
-					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,section);
-					</cfif>
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
-					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is visible
-				});
-
-				$('##hide-wiki').on('click', function(e) {
-					e.preventDefault();
-					closeWikiDrawer();
-					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is hidden
-					$("##hide-wiki").hide();
-					$("##show-wiki").show();
-				});
-				$("##hide-wiki").hide();
-
-				$(window).on('resize', updateDialogPositionForDrawer);
-
-				// Whenever a dialog opens, update its position *after* it appears:
-				$(document).on('dialogopen', '.ui-dialog', function() {
-					setTimeout(updateDialogPositionForDrawer, 0);
-				});
-				// Initial call in case dialog is already open and drawer state matters
-				setTimeout(updateDialogPositionForDrawer, 0);
-			});
-		</script>
-		
-	</cfoutput>	
-</cfif>
 
 <cfinclude template = "/shared/_footer.cfm">

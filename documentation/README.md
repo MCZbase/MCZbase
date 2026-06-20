@@ -79,14 +79,17 @@ For a given database concept (e.g. Taxonomy, Publication, Media), there SHOULD, 
 
 widely reused cold fusion, javascript, and css files that we have written SHOULD be in /shared/
 
+```
 	/shared/
 	/shared/js/
 	/shared/css/
+```
 
 Included libraries (jquery, etc), MUST be inside /lib/
 
 Accompany top level pages about objects (nouns, in upper case), with a lower case directory name to support specific components used in the rendering and editing of that object.
 
+```
 	Taxa.cfm (search with results page (plural) role=public)
 	taxonomy/
 	taxonomy/Taxonomy.cfm (taxonomy editor (singular), role=manage\_taxonomy, create and edit functionality).
@@ -94,6 +97,7 @@ Accompany top level pages about objects (nouns, in upper case), with a lower cas
 	taxonomy/js/taxonomy.js (supporting javascript files).
 	taxonomy/component/search.cfc (backing methods for /Taxa.cfm search role=public).
 	taxonomy/component/functions.cfc (other backing methods particular to taxa, backing functions for create/edit, role=manage\_taxonomy).
+```
 
 Place javascript functions that will be widely used outside their concept in /shared/, e.g. /shared/js/vocabularies.js for ajax lookups of controlled vocabulary terms. If a javascript function will be used outside of its concept, place it in a file in /shared/js/ and include this file in /shared/\_header.cfm. If a javascript function is only used within a concept, place it in a file in /{concept}/js/, include this file in /shared/\_header.cfm, but in a section that checks for the /concept/ path in the request (or in rare cases, where the code isn’t reused include directly from a .cfm file, or more likely place inline in that file).
 
@@ -105,10 +109,11 @@ Avoid external dependencies whenever possible. Included libraries MUST be loaded
 
 At the top of each new page include the following block:
 
+```coldfusion
 	<!--
 	{filename}.{extension}
 
-	Copyright 2021 President and Fellows of Harvard College
+	Copyright 2026 President and Fellows of Harvard College
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -123,11 +128,14 @@ At the top of each new page include the following block:
 	limitations under the License.
 
 	-->
+```
 
 On pages modified from existing MCZbase code, use these copyright statements instead:
 
+```
 	Copyright 2008-2017 Contributors to Arctos
-	Copyright 2008-2020 President and Fellows of Harvard College
+	Copyright 2008-2026 President and Fellows of Harvard College
+```
 
 This block MAY be followed by a brief comment about intended function of the page.
 
@@ -141,11 +149,15 @@ On windows computers you MUST NOT commit files which have had the line endings s
 
 To identify files which need line ending conversion (typical of files copied over from the master branch into redesign, use:
 
-`   egrep -l -R $'\r'\$ * | grep -v "^lib/" | grep -v "`\(.png\|.cfr\)`$"`
+```bash
+	egrep -l -R $'\r'\$ * | grep -v "^lib/" | grep -v "`\(.png\|.cfr\)`$"
+```
 
 To convert files to unix line endings use:
 
-`   dos2unix filename.cfm`
+```bash
+	dos2unix filename.cfm
+```
 
 ### Indentation
 
@@ -153,6 +165,7 @@ Indent each level of control nesting with **one tab** character. Indentation MUS
 
 Set your editing environment to use tabs for indentation. For display you can set your editing environment to display (but not convert) the tabs as either two or three spaces (1 tab = 4 spaces in Dreamweaver)
 
+```coldfusion
 	<cfif action EQ “foo”>
 		<cfif case EQ 1>
 			<cfset>
@@ -160,9 +173,11 @@ Set your editing environment to use tabs for indentation. For display you can se
 			<cfset>
 		</cfif>
 	</cfif>
+```
 
 When nesting html or javascript or sql within coldfusion, indentation SHOULD start at the current level of indentation and indent for each level of nesting, regardless of the language involved.
 
+```
 	<cfif ...>	[coldfusion]
 		<cfset ...>
 		<div>[html]
@@ -174,15 +189,25 @@ When nesting html or javascript or sql within coldfusion, indentation SHOULD sta
 			</script>
 		</div>
 	</cfif>
+```
 
 Nest <cftry><cfcatch> blocks at the same level of indentation.
 
+```coldfusion
 	<ctry>
 		do stuff
 	<cfcatch>
 		handle exception
 	</cfcatch>
 	</cftry>
+```
+
+Do not nest inputs within labels, instead use the for attribute of the label to link it to the input.
+
+```coldfusion
+	<label for="inputId">Label Text</label>
+	<input id="inputId" type="text" name="inputName">
+```
 
 ### Variable Naming
 
@@ -198,15 +223,19 @@ In general, use long descriptive names for variables. Exception: Loop counters c
 
 Place coldfusion operators in upper case.
 
+```coldfusion
 	<cfif foo EQ bar>
+```
 
 Beware of logic errors created by using = instead of == to test for equality in javascript.
 
+```javascript
 	if (foo=1) {    // error for test foo==1   (or foo===1, depending).
 		// assignment of 1 to foo is always true
 	} else {
 		// this block is never reached
 	}
+```
 
 Use spaces around operators when needed for clarity.
 
@@ -214,13 +243,17 @@ Use spaces around operators when needed for clarity.
 
 Except for placing a value in pageTitle for \_header.cfm, avoid using the request scope to pass parameters between coldfusion files.
 
+```coldfusion
 	<cfset pageTitle = "Search Taxonomy">
 	<cfinclude template = "/shared/_header.cfm">
+```
 
 Avoid:
 
+```coldfusion
 	<cfset someParameter = "#retrievedValue#">
 	<cfinclude template = "someTemplateThatUsesSomeParameter.cfm">
+```
 
 Pass variables explicitly to .cfc methods, and declare those variables explicitly using cfargument.
 
@@ -228,16 +261,22 @@ The following scopes must be explicit: cgi, url, form, cookie, file, client.
 
 Cookie scope is widely used with cfid: 
 
-    #cookie.cfid#
+```coldfusion
+	#cookie.cfid#
+```
 
 HTTP GET url parameters (and forms posted with method=get) use the url scope (except in cfcomponents).  The url scope MUST be declared explicitly.  This can be accomplished with a cfset that puts an url scope variable into the variables scope as below (or by using the url scope for all references to the variable). 
 
-    <cfset variables.result_id = url.result_id>
+```coldfusion
+	<cfset variables.result_id = url.result_id>
+```
 
 HTTP POST parameters (from forms posted with method=post) use the form scope (except in cfcomponents).  The form scope MUST be declared explicitly.  his can be accomplished with a cfset
 that puts an form scope variable into the variables scope as below (or by using the url scope for all references to the variable).
 
-    <cfset variables.endDate=form.endDate>
+```coldfusion
+	<cfset variables.endDate=form.endDate>
+```
 
 Forms and form handlers MUST be matched in their use of POST and GET, and variables in the url and form scope in the handlers MUST be explicitly declared.   
 
@@ -249,56 +288,68 @@ Much existing code relies on the deprecated ability of ColdFusion to not care ab
 
 In most cases of .cfm pages that call themselves, this will involve adding a line for each variable that would be provided in an http url parameter (get, url scope), and setting a variables scope variable of the same name: 
 
-    <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-    <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
+```coldfusion
+	<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+	<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
 
-    <cfif isDefined("variables.action") and variables.action EQ "someaction">
-        ...
-
+	<cfif isDefined("variables.action") and variables.action EQ "someaction">
+		...
+```
 In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.
 
-    <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-    <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+```coldfusion
+	<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+	<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
 
-    <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
-       ...
+	<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
+		...
+```
 
-It is a good practice to be explicit about variables scope:
+Be explicit about variables scope:
 
-     <cfset variables.endDate=form.endDate>
+```coldfusion
+	<cfset variables.endDate=form.endDate>
+```
 
 or local scope:
 
-     <cfset var endDate=form.endDate>
-		#local.endDate#
+```coldfusion
+	<cfset var endDate=form.endDate>
+	#local.endDate#
+```
 
 Variable scope is available to all pages processed in the same request, so if the same variable name may be given different values by different functions processed in the same request (e.g. when collection_object_id may be used for a cataloged item in one function and a specimen part in another function), then there may be unintended consequences of using variable scope, and local scope may be preferred.
 
 Use explicit argument scope and variables scope for backing methods that use threading to make the argument values available within the thread:
 
-    <cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
-       <cfargument name="result_id" type="string" required="yes">
-       <cfset variable.result_id = arguments.result_id>
-       <cfthread name="getSomethingThread" >
-		    <cfquery ....
-              result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+```coldfusion
+	<cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
+		<cfargument name="result_id" type="string" required="yes">
+		<cfset variable.result_id = arguments.result_id>
+		<cfthread name="getSomethingThread" >
+			<cfquery ....
+				result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 			</cfquery>
 			<!--- note, changing the value of variables.result_id will change it for the entire request (page scope), and could hit deadlocks between threads --->
+```
 
 Or better, pass variables from argument scope into the thread as thread attributes.
 
-    <cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
-       <cfargument name="result_id" type="string" required="yes">
-       <cfthread name="getSomethingThread" result_id="#arguments.result_id#" >
-		    <cfquery ....
-              result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+```coldfusion
+	<cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
+		<cfargument name="result_id" type="string" required="yes">
+		<cfthread name="getSomethingThread" result_id="#arguments.result_id#" >
+			<cfquery ....
+				result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<!--- changing the value of result_id here will only change the copy within the thread --->
+```
 
 ### Functions
 
 Documentation for functions in both javascript or colfusion SHOULD be provided with a comment in javadoc format. Use @param, @return, and @see as needed.
 
+```javascript
 	/** Function confirmDialog creates a simple confirm dialog with OK and cancel buttons,
 	 * it creates a new div, types it as a jquery-ui modal dialog and displays it, invokes the
 	 * specified callback function when OK is pressed.
@@ -310,6 +361,7 @@ Documentation for functions in both javascript or colfusion SHOULD be provided w
 	function confirmDialog(dialogText, dialogTitle, okFunction) {
 		.....
 	}
+```
 
 ### Embeded SQL
 
@@ -323,6 +375,7 @@ Use upper case for SQL reserved words.
 
 In general, begin each SQL clause on a new line, and indent for readability.
 
+```coldfusion
 	<cfquery>
 		SELECT fields 
 		FROM table
@@ -343,20 +396,49 @@ In general, begin each SQL clause on a new line, and indent for readability.
 			and otherfield = <cfsqlparam value=”#providedValue#” cfsqltype=”CF_SQL_VARCHAR’>
 		ORDER BY otherfield
 	</cfquery>
+```
 
 When declaring a result within each named query, use the name of the query with \_result appended.
 
+```
 	<cfquery name=”getCounts” .... result=”getCounts_result”>
+```
 
 ### CFQuery and credentials
 
 When passing user credentials into a cfquery, use the user_login datasource and obtain the credentials from the session directly, do not store locally, that is, use:
 
-    <cfquery name="permitExp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+```coldfusion
+	<cfquery name="permitExp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+```
 
 When necessary (as in a transaction where a trigger needs to be disabled and all cfqueries need to use the same datasource, use the datasource attribute of cfquery to specify the datasource to use for the query, for a datasource where the credentials are stored in the ColdFusion administrator.
 
-    <cfquery name="checkMedia" datasource="uam_god">
+```coldfusion
+	<cfquery name="checkMedia" datasource="uam_god">
+```
+
+### Comments
+
+Use comments to explain the purpose of blocks of code, and to provide documentation for functions. Avoid comments that explain what the code is doing line by line, instead, use comments to explain why the code is doing what it is doing, and to provide documentation for the function as a whole.
+
+Comments within the coldfusion code are intended for developers, and therefore should use `<!--- and --->` to avoid being rendered in the html output. 
+
+```coldfusion
+	<!--- This is a comment in coldfusion, it will not be rendered in the html output, always use this style of commeent. --->
+
+	<!-- This is a comment in coldfusion that will be rendered in the html output.  **Do Not Use this style of comment**  -->
+```
+
+Comments within javascript code should be visible in the rendered javascript to aid developers, so use `//` for single line comments and `/* */` for block comments, do not embedd these in `<!--- and --->` when javascript is produced by coldfusion code as this will cause them to be hidden in the rendered javascript.
+
+```javascript
+	// This is a single line comment in javascript, it will be visible in the rendered javascript, use this for short comments.
+
+	/* This is a block comment in javascript, 
+		it will be visible in the rendered javascript, 
+		use this for longer comments. */
+```
 
 ### Javascript Organization.
 
@@ -364,11 +446,13 @@ Include short javascript function invocations in onClick elements of button and 
 
 In general, embed `<script>` blocks within `<cfoutput>` tags in coldfusion, and escape \# selectors by doubling them. 
 
+```coldfusion
 	<cfoutput>
 		<script>
 			$(‘##someId’).var();
 		</script>
 	</cfoutput>
+```
 
 Errors will occur if you do not escape # characters (e.g. in jquery class selectors).
 
@@ -378,10 +462,13 @@ Whenever possible, pass the ID values of elements in the DOM that are reference 
 
 Given: 
 
+```html
 	<div id=”placeToCreateDialog”> </div> 
+```
 
 Use (passing reference to id of div in function call):
 
+```
 	<script>
 		/* function somethingHandler does something with a dialog
 		 * @param dialogID the ID of a dialog in the dom, without the leading # id selector.
@@ -390,27 +477,44 @@ Use (passing reference to id of div in function call):
 			$(‘#’+dialogID).dialog....
 		}
 	</script>
+```
 
 Not (hard coding div id):
 
+```
 	<script>
 		function somethingHandler() {
 			$(‘#placeToCreateDialog’).dialog....
 		}
 	</script>
+```
 
 In general, use jquery selectors for IDs rather than document.getElementById()
 
+```
 	$("#targetfieldid").val();
+```
 
 ### Separate concerns for readability
 
 Avoid using cfset with complex expressions that return booleans, use nested cfif statements instead for readability
 
+```coldfusion
 	<cfset doStuff = false>
 	<cfif isDefined("url.stuff") AND url.stuff EQ "do">
 		<cfset doStuff = true>	
 	</cfif>
+```
+
+Avoid including cfif statements within input or option tags, instead, set a variable before the input or option tag and use that variable within the tag.
+
+```coldfusion
+	<cfset selected = "">
+	<cfif isDefined("url.stuff") AND url.stuff EQ "do">
+		<cfset selected = "selected">	
+	</cfif>
+	<option value="do" #selected#>Do Stuff</option>
+```
 
 ### CSS
 
@@ -430,10 +534,12 @@ Styles that are only used for a particular narrow solution related to one concep
 
 Layout blocks in the stylesheet files with the selector on one line then an indented block of the style declarations, one per line. Place multiple values for the same property on the same line.
 
+```css
 	.indent {
 		text-indent: -2em;
 		padding-left: 2em;
 	}
+```
 
 ### Semantic Tags
 
@@ -449,6 +555,7 @@ MCZbase pages use HTML semantic tags, `<main>` and `<section>` will used most fr
 
 Use the following semantic tags to organize the body of the page:
 
+```html
 	<main class=”container” id=”content”>
 		<section class=”row” >
 			Main form or page content
@@ -457,12 +564,15 @@ Use the following semantic tags to organize the body of the page:
 			Additional forms or content
 		</section>
 	</main>
+```
 
 A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.
 
 For Ajax feedback, use `<output>`
 
+```html
 	<output id=”submitFeedback”>&nbsp;</output>
+```
 
 Use html semantic tags instead of role properties whenever possible.
 
@@ -492,15 +602,19 @@ New record pages in MCZbase SHOULD save changes by posting the new record form t
 
 Provide a marker to indicate that content is expected to be loaded by ajax when a page loads.
 
+```html
 	<output id=”getsReplacedOnPageLoad”> Loading stuff...  </output>
+```
 
 **Provide a consistent spinner that ajax is happening.**
 
 Use this pattern for areas that are to have content loaded by ajax on page load: 
 
-    <div id="areaIntoWhichDataIsToBeAjaxLoaded"> 
-        <div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading...</div>
-    </div>
+```html
+	<div id="areaIntoWhichDataIsToBeAjaxLoaded"> 
+		<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading...</div>
+	</div>
+```
 
 WARNING: The spinner is deceptive, it implies that an action is ongoing, if this area remains spinning it is likely that javascript is broken and nothing is happening.
 
@@ -642,31 +756,35 @@ Use on pages that hold metadata for records (e.g., encumbrances, named groups). 
 
 The following legal form of nesting section headings is not used: 
 
-    <section>
-       <h1>Heading</h1>
-       <section>
-         <h1>Subheading</h1>
+```html
+	<section>
+		<h1>Heading</h1>
+		<section>
+			<h1>Subheading</h1>
 			 ...
-       </section>
-       <section>
-         <h1>Subheading</h1>
+		</section>
+		<section>
+			<h1>Subheading</h1>
 			 ...
-       </section>
-    </section>
+		</section>
+	</section>
+```
 
 Instead, nest headings successively h1 to h6 with nesting depth.
 
-    <section>
-       <h1>Heading</h1>
-       <section>
-         <h2>Subheading</h2>
+```html
+	<section>
+		<h1>Heading</h1>
+		<section>
+			<h2>Subheading</h2>
 			 ...
-       </section>
-       <section>
-         <h2>Subheading</h2>
+		</section>
+		<section>
+			<h2>Subheading</h2>
 			 ...
-       </section>
-    </section>
+		</section>
+	</section>
+```
 
 ### Responsive Styles
 
@@ -727,7 +845,9 @@ Font size for displayed data should be .875em.  The font-weight is 500 and font-
 
 For example: Search Transactions page has many headers so the overarching title is styled a little differently: 
 
-     <h1 class="h3 smallcaps pl-1">
+```html
+	<h1 class="h3 smallcaps pl-1">
+```
 
 TODO: Check the following assertion, it doesn't seem current:
 
@@ -837,19 +957,23 @@ Other dialog boxes for alerts should also be styled with white background and gr
 Agent fields MUST have the bust icon from fontawesome as a prepend to the input field.  The background is gray before the agent is verified as one from the database then it switches to green. It includes a hidden field and requires JavaScript to match the entry to the database and validate it.
 The code:
 
-        `<input type="hidden" name="trans_agent_id_1" id="trans_agent_id_1" value="1017544">
-        <div class="input-group">
-            <div class="input-group-prepend">
-	        <span class="input-group-text smaller bg-lightgreen" id="agent_icon_1"><i class="fa fa-user" aria-hidden="true"></i></span> 
-            </div>
-        <input type="text" name="trans_agent_1" id="trans_agent_1" required="" class="goodPick form-control data-entry-input data-height ui-autocomplete-input" value="Joe Q. Pimm" autocomplete="off">
-        </div>`
+```html
+	<input type="hidden" name="trans_agent_id_1" id="trans_agent_id_1" value="1017544">
+	<div class="input-group">
+		<div class="input-group-prepend">
+			<span class="input-group-text smaller bg-lightgreen" id="agent_icon_1"><i class="fa fa-user" aria-hidden="true"></i></span> 
+		</div>
+		<input type="text" name="trans_agent_1" id="trans_agent_1" required="" class="goodPick form-control data-entry-input data-height ui-autocomplete-input" value="Joe Q. Pimm" autocomplete="off">
+	</div>
+```
 
 ### Simple static tabular data
 HTML tables MAY be used, when appropriate, for presenting simple tabular data that has a natural tabular structure (such as tables of controlled vocabulary values with additional metadata columns).  Such tables can be made sortable by including the /lib/misc/sorttable.js script on the page, and adding the sortable class to the table element.
 
+```html
 	<script src="/lib/misc/sorttable.js"></script>
 	<table border class="sortable">
+```
 
 ## Accessibility:
 

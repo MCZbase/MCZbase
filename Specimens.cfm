@@ -229,10 +229,10 @@ limitations under the License.
 }
 /*for the */
 @media screen and (max-width: 678px) {
-       .animation-element {
-               width: 100%;
-               margin: 0px 0px 30px 0px;
-       }
+	.animation-element {
+		width: 100%;
+		margin: 0px 0px 30px 0px;
+	}
 }
 /* below is for the basic search width of form fields area inside teal box */
 @media screen and (min-width: 1200px) {
@@ -245,9 +245,9 @@ limitations under the License.
 		// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
 		// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
 		function getVersion4UUID() {
-		  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-	   	 (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-		  );
+			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			);
 		}
 	</script>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -259,13 +259,13 @@ limitations under the License.
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
-			<div class="row mr-0 mr-md-3 mr-xl-5">
+			<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-5">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					
-					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
+					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
 						<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0 && isdefined("target_loan_number") and len(target_loan_number) GT 0>
 							to add to Loan #target_loan_number# (with manage)
 						</cfif>
@@ -341,11 +341,11 @@ limitations under the License.
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
-								<div class="col-9 float-right px-0"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+								<div class="d-flex justify-content-end px-0"> 
+									<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseFixed">
+									<aside id="collapseFixedBasic" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3 border-dark">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
@@ -414,7 +414,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex" style="display: block;">
-											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
+											<div class="col-12 form-row mx-0 search-form-basic-odd px-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -423,24 +423,25 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
+														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
+														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif> 
-														
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</h2>
+
+												<!---IDENTIFIER SECTION--->	
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
+														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
-												</div>	
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
-													<div class="col-12 mb-1 col-md-3">
-														<label for="fixedCollection" class="data-entry-label small">Collection</label>
+												</div>		
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mx-0">
+													<div class="col-12 col-md-3 mb-1">
+														<label for="fixedCollection" class="data-entry-label small font-weight-bold">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
 														<cfset collection_array = ListToArray(collection)>
@@ -466,22 +467,14 @@ limitations under the License.
 															});
 														</script> 
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-														<label for="catalogNum" class="data-entry-label small">Catalog Number</label>
-														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
+														<label for="catalogNum" class="data-entry-label small font-weight-bold">Catalog Number</label>
+														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
-													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-														<!--- reserve space for debug json control --->
-														<cfset other_id_type_cols="col-md-2">
-														<cfset other_id_number_cols="col-md-2">
-													<cfelse>
-														<cfset other_id_type_cols="col-md-3">
-														<cfset other_id_number_cols="col-md-3">
-													</cfif>
-													<div class="col-12 mb-1 #other_id_type_cols#">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label small">Other ID Type</label>
+														<label for="otherID" class="data-entry-label small font-weight-bold">Other ID Type</label>
 														<div name="other_id_type" id="other_id_type" class="w-100"></div>
 														<cfset otheridtype_array = ListToArray(other_id_type)>
 														<script>
@@ -506,64 +499,68 @@ limitations under the License.
 															});
 														</script> 
 													</div>
-													<div class="col-12 mb-1 #other_id_number_cols#">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
-														<label for="other_id_number" class="data-entry-label small">Other ID Numbers</label>
-														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+														<label for="other_id_number" class="data-entry-label small font-weight-bold">Other ID Numbers</label>
+														<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-														<div class="col-12 mb-1 col-md-2">
-															<label class="data-entry-label small" for="debug1">Debug JSON</label>
-															<select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
-																<option value=""></option>
-																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-																<option value="true" #selected#>Debug JSON</option>
-															</select>
-														</div>
-													</cfif>
-													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-																
-													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
-													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-														<div class="col-12 mb-1 col-md-3">
-															<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
-															<label for="otherID" class="data-entry-label small">or Other ID Type</label>
-															<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
-															<cfset otheridtype_array = ListToArray(other_id_type_1)>
-															<script>
-																function setOtherIdType_1_Values() {
-																	$('##other_id_type_1').jqxComboBox('clearSelection');
-																	<cfloop query="ctother_id_type">
-																		<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-																			$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-																		</cfif>
-																	</cfloop>
-																};
-																$(document).ready(function () {
-																	var otheridtypesource = [
-																		<cfset comma="">
+													
+													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+
+													<!---IDENTIFIER DETAIL--->		
+													<div id="IDDetail" class="col-9 col-md-10 col-lg-11 my-0 px-0 py-0" style="#IDDetailStyle#">
+														<div class="form-row col-12 px-1 mx-0">
+															<div class="col-12 col-md-3 mb-1">
+																<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
+																<label for="otherID" class="data-entry-label small font-weight-bold">or Other ID Type</label>
+																<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
+																<cfset otheridtype_array = ListToArray(other_id_type_1)>
+																<script>
+																	function setOtherIdType_1_Values() {
+																		$('##other_id_type_1').jqxComboBox('clearSelection');
 																		<cfloop query="ctother_id_type">
-																			#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-																			<cfset comma=",">
+																			<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																				$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																			</cfif>
 																		</cfloop>
-																	];
-																	$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
-																	setOtherIdType_1_Values();
-																});
-															</script> 
+																	};
+																	$(document).ready(function () {
+																		var otheridtypesource = [
+																			<cfset comma="">
+																			<cfloop query="ctother_id_type">
+																				#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																				<cfset comma=",">
+																			</cfloop>
+																		];
+																		$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
+																		setOtherIdType_1_Values();
+																	});
+																</script> 
 															</div>
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
-																<label for="other_id_number_1" class="data-entry-label small">Other ID Numbers</label>
+																<label for="other_id_number_1" class="data-entry-label small font-weight-bold">Other ID Numbers</label>
 																<input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
 															</div>
-															<div class="col-12 mb-1 col-md-6">
-															</div>
+															<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																<div class="col-12 col-md-4 mb-1">
+																	<label class="data-entry-label small font-weight-bold" for="debug1">Debug JSON</label>
+																	<select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
+																		<option value=""></option>
+																		<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																		<option value="true" #selected#>Debug JSON</option>
+																	</select>
+																</div>
+															</cfif>
 														</div>
 													</div>
+													<!---END IDENTIFIER DETAIL--->	
 												</div>
 											</div>
-											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
+											<!---END IDENTIFIER SECTION--->	
+
+											<!---TAXONOMY SECTION--->	 
+											<div class="col-12 form-row mx-0 px-0 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -575,47 +572,43 @@ limitations under the License.
 													OR (isDefined("citation") and len(citation) GT 0)
 													OR (isDefined("identification_remarks") and len(identification_remarks) GT 0)
 													OR (isDefined("common_name") and len(common_name) GT 0)
-													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)
-												>
+													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset TaxaButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
+														<cfset TaxaButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
+													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-1 text-left text-dark mb-0">
-														<h2 class="small mb-0 mx-0 px-2 px-xl-0 mx-xl-0 d-block text-black font-weight-bold">Taxonomy</h2>
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
+														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
-													<div class="col-12 mb-1 col-md-4 pr-0">
-														<div class="form-row mx-0 mb-0">
-															<div class="col-9 px-0">
-																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
-																<label for="any_taxa_term" class="data-entry-label small">Any Taxonomic Element</label>
-																<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
-															</div>
-															<div class="col-3">
-																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
-																<label for="current_id_only" class="data-entry-label small">Search</label>
-																<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small px-0">
-																	<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
-																	<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
-																	<option value="any" #any_selected#>Any Id</option>
-																	<option value="current" #current_selected#>Current Id Only</option>
-																</select>
-															</div>
-														</div>
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0">	
+													<div class="col-9 col-md-9 col-xl-3 mb-1">
+														<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
+														<label for="any_taxa_term" class="data-entry-label small font-weight-bold">Any Taxonomic Element</label>
+														<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 													</div>
-													<div class="col-12 mb-1 col-md-3">
-														<label for="scientific_name" class="data-entry-label small">Scientific Name</label>
+													<div class="col-3 col-md-3 col-xl-1 pl-0 mb-1">
+														<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
+														<label for="current_id_only" class="data-entry-label pl-0 small font-weight-bold">Search</label>
+														<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small95 px-0" style="color: rgba(0, 0, 0, .8);">
+															<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
+															<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
+															<option value="any" #any_selected#>Any Id</option>
+															<option value="current" #current_selected#>Current Id Only</option>
+														</select>
+													</div>	
+										
+													<div class="col-12 col-md-4 col-xl-3 mb-1">
+														<label for="scientific_name" class="data-entry-label small font-weight-bold">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
 														<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
@@ -638,8 +631,8 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
-														<label for="author_text" class="data-entry-label small">Authorship</label>
+													<div class="col-12 col-md-4 col-xl-2 mb-1">
+														<label for="author_text" class="data-entry-label small font-weight-bold">Authorship</label>
 														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
 														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
 														<script>
@@ -648,10 +641,12 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
-														<label for="type_status" class="data-entry-label small">Type Status/Citation
+													<div class="col-12 col-md-4 col-xl-3 mb-1">
+														<label for="type_status" class="data-entry-label small font-weight-bold">
+															Type Status/Citation
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
+
 														<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 														<script>
@@ -660,12 +655,13 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-														
-													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
-														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 mb-1 col-md-2">
-																<label for="phylum" class="data-entry-label small">Phylum
+													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<!---TAXONOMY DETAIL--->
+													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
+														<div class="form-row col-12 mb-1 px-1 mx-0">
+															<div class="col-12 col-md-2 mb-1">
+																<label for="phylum" class="data-entry-label small font-weight-bold">
+																	Phylum
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
@@ -676,8 +672,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="phylclass" class="data-entry-label small">Class</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="phylclass" class="data-entry-label small font-weight-bold">Class</label>
 																<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
 																<input id="phylclass" name="phylclass" class="data-entry-input inputHeight" value="#encodeForHtml(phylclass)#" >
 																<script>
@@ -686,8 +682,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="phylorder" class="data-entry-label small">Order</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="phylorder" class="data-entry-label small font-weight-bold">Order</label>
 																<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
 																<input id="phylorder" name="phylorder" class="data-entry-input inputHeight" value="#encodeForHtml(phylorder)#" >
 																<script>
@@ -696,8 +692,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="family" class="data-entry-label small">Family</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="family" class="data-entry-label small font-weight-bold">Family</label>
 																<cfif not isdefined("family")><cfset family=""></cfif>
 																<input type="text" id="family" name="family" class="data-entry-input inputHeight" value="#encodeForHtml(family)#" >
 																<script>
@@ -706,8 +702,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="genus" class="data-entry-label small">Genus</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="genus" class="data-entry-label small font-weight-bold">Genus</label>
 																<cfif not isdefined("genus")><cfset genus=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
 																<script>
@@ -716,8 +712,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="species" class="data-entry-label small">Specific Name</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="species" class="data-entry-label small font-weight-bold">Specific Name</label>
 																<cfif not isdefined("species")><cfset species=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="species" name="species" value="#encodeForHtml(species)#">
 																<script>
@@ -726,11 +722,9 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															
-														</div>
-														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 mb-1 col-md-2">
-																<label for="determiner" class="data-entry-label small">Determiner</label>
+													
+															<div class="col-12 col-md-2 mb-1">
+																<label for="determiner" class="data-entry-label small font-weight-bold">Determiner</label>
 																<cfif not isdefined("determiner")><cfset determiner=""></cfif>
 																<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
 																<!--- lookup agent name --->
@@ -753,8 +747,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-4">
-																<label for="publication_id" class="data-entry-label small">Cited In</label>
+															<div class="col-12 col-md-4 mb-1">
+																<label for="publication_id" class="data-entry-label small font-weight-bold">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
 																<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input inputHeight" value="#encodeForHtml(publication_id)#" >
@@ -765,8 +759,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="nature_of_id" class="data-entry-label small">Nature Of Id</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="nature_of_id" class="data-entry-label small font-weight-bold">Nature of ID</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
 																	<option value=""></option>
@@ -777,20 +771,23 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="identification_remarks" class="data-entry-label small">Id Remarks</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="identification_remarks" class="data-entry-label small font-weight-bold">ID Remarks</label>
 																<cfif not isdefined("identification_remarks")><cfset identification_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="common_name" class="data-entry-label small">Common Name</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="common_name" class="data-entry-label small font-weight-bold">Common Name</label>
 																<cfif not isdefined("common_name")><cfset common_name=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
 															</div>
 														</div>
 													</div>
+													<!---END TAXONOMY DETAIL--->
 												</div>
 											</div> 
+											<!---END TAXONOMY SECTION--->
+
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
@@ -815,31 +812,33 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset GeogButton = '<i class="fas fa-caret-right" style="vertical-align: middle"></i>'>
+													<cfset GeogButton = '<i class="fas fa-caret-right" style="vertical-align: middle"></i>'><!--- " --->
 												<cfelse>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'>
+													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'><!--- " --->
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Geography</h2>
+
+												<!---GEOGRAPHY SECTION--->
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
-													<div class="col-12 mb-1 col-md-4">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0">
+													<div class="col-12 col-md-4 mb-1">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
-														<label for="any_geography" class="data-entry-label small">Any Geography (keywords)</label>
+														<label for="any_geography" class="data-entry-label small font-weight-bold">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 													</div>
-													<div class="col-12 mb-1 col-md-4">
+													<div class="col-12 col-md-4 mb-1">
 														<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
-														<label for="higher_geog" class="data-entry-label small">Higher Geography</label>
+														<label for="higher_geog" class="data-entry-label small font-weight-bold">Higher Geography</label>
 														<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
 													</div>
-													<div class="col-12 mb-1 col-md-4">
-														<label for="spec_locality" class="data-entry-label small">Specific Locality</label>
+													<div class="col-12 col-md-4 mb-1">
+														<label for="spec_locality" class="data-entry-label small font-weight-bold">Specific Locality</label>
 														<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
 														<script>
@@ -848,12 +847,13 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="d-block d-xl-none w-100 py-1 m-1 border btn-link text-center btn small" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
-															<div class="col-12 mb-1 col-md-3">
+													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<!---GEOGRAPHY DETAIL--->
+													<div id="GeogDetail" class="col-9 col-md-10 col-lg-11 my-0 px-0 py-0 float-left" style="#GeogDetailStyle#">
+														<div class="form-row col-12 mb-1 px-1 mx-0">
+															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
-																<label for="continent_ocean" class="data-entry-label small">Continent/Ocean</label>
+																<label for="continent_ocean" class="data-entry-label font-weight-bold small">Continent/Ocean</label>
 																<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
 																<script>
 																	jQuery(document).ready(function() {
@@ -861,8 +861,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="country" class="data-entry-label small">Country</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="country" class="data-entry-label small font-weight-bold">Country</label>
 																<cfif not isdefined("country")><cfset country=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
 																<script>
@@ -871,8 +871,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="state_prov" class="data-entry-label small">State/Province</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="state_prov" class="data-entry-label small font-weight-bold">State/Province</label>
 																<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
 																<script>
@@ -881,8 +881,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="county" class="data-entry-label small">County/Shire/Parish</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="county" class="data-entry-label small font-weight-bold">County/Shire/Parish</label>
 																<cfif not isdefined("county")><cfset county=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
 																<script>
@@ -891,11 +891,9 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															
-														</div>
-														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
-															<div class="col-12 mb-1 col-md-2">
-																<label for="ocean_region" class="data-entry-label small">Ocean Region</label>
+													
+															<div class="col-12 col-md-2 mb-1">
+																<label for="ocean_region" class="data-entry-label small font-weight-bold">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
 																<script>
@@ -904,18 +902,19 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="ocean_subregion" class="data-entry-label small">Ocean Sub-Region</label>
+															<div class="col-12 col-md-2 mb-1">
+																<label for="ocean_subregion" class="data-entry-label small px-md-0 font-weight-bold">Ocean Sub-Region</label>
 																<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
+																<input type="text" class="data-entry-input inputHeight px-md-0" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="sea" class="data-entry-label small">Sea
+															<div class="col-12 col-md-2 mb-1">
+																<label for="sea" class="data-entry-label small font-weight-bold">
+																	Sea
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
@@ -926,8 +925,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="island_group" class="data-entry-label small">Island Group</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="island_group" class="data-entry-label small font-weight-bold">Island Group</label>
 																<cfif not isdefined("island_group")><cfset island_group=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island_group" name="island_group" value="#encodeForHtml(island_group)#">
 																<script>
@@ -936,8 +935,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="island" class="data-entry-label small">Island</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="island" class="data-entry-label small font-weight-bold">Island</label>
 																<cfif not isdefined("island")><cfset island=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island" name="island" value="#encodeForHtml(island)#">
 																<script>
@@ -946,8 +945,9 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="feature" class="data-entry-label small">Land Feature</label>
+													   
+															<div class="col-12 col-md-3 mb-1">
+																<label for="feature" class="data-entry-label small font-weight-bold">Land Feature</label>
 																<cfif not isdefined("feature")><cfset feature=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="feature" name="feature" value="#encodeForHtml(feature)#">
 																<script>
@@ -956,8 +956,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="water_feature" class="data-entry-label small">Water Feature</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="water_feature" class="data-entry-label small font-weight-bold">Water Feature</label>
 																<cfif not isdefined("water_feature")><cfset water_feature=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="water_feature" name="water_feature" value="#encodeForHtml(water_feature)#">
 																<script>
@@ -966,8 +966,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="geo_att_value" class="data-entry-label small">Geological Attribute</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="geo_att_value" class="data-entry-label small font-weight-bold">Geological Attribute</label>
 																<cfif not isdefined("geo_att_value")><cfset geo_att_value=""></cfif>
 																<!--- TODO, possibly, implement attribute type, might not be needed --->
 																<input type="hidden" id="geology_attribute" name="geology_attribute" value="">
@@ -979,8 +979,8 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="verificationstatus" class="data-entry-label small">
+															<div class="col-12 col-md-3 mb-1">
+																<label for="verificationstatus" class="data-entry-label small font-weight-bold">
 																	Georeference Verification
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -992,23 +992,23 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="min_depth_in_m" class="data-entry-label small">Miniumum Depth (m)</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="min_depth_in_m" class="data-entry-label small font-weight-bold">Miniumum Depth (m)</label>
 																<cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="max_depth_in_m" class="data-entry-label small">Maximum Depth (m)</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="max_depth_in_m" class="data-entry-label small font-weight-bold">Maximum Depth (m)</label>
 																<cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="min_elev_in_m" class="data-entry-label small">Miniumum Elevation (m)</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="min_elev_in_m" class="data-entry-label small font-weight-bold">Miniumum Elevation (m)</label>
 																<cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="max_elev_in_m" class="data-entry-label small">Maximum Elevation (m)</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="max_elev_in_m" class="data-entry-label small font-weight-bold">Maximum Elevation (m)</label>
 																<cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
 															</div>
@@ -1016,6 +1016,9 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
+											<!---END GEOGRAPHY SECTION--->
+
+											<!---COLLECTING EVENT SECTION--->
 											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
@@ -1032,18 +1035,17 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
 												</cfif> 
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Coll. Event</h2>
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px d-block border-right border-top border-left border-bottom bg-teal">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mb-0 mx-0">
-													<div class="col-12 mb-1 col-md-3">
-														<label for="collector" class="data-entry-label small">Collector</label>
-														<cfif not isdefined("collector")>
-															<cfset collector="">
-														</cfif>
+													<div class="col-12 col-md-3 mb-1">
+														<label for="collector" class="data-entry-label small font-weight-bold">Collector</label>
+														<cfif not isdefined("collector")><cfset collector=""></cfif>
+
 														<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
 															<cfif len(collector) EQ 0>
 																<cfset collector_agent_id ="">
@@ -1082,13 +1084,12 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
-														<cfif not isdefined("collecting_source")>
-															<cfset collecting_source="">
-														</cfif>
-														<label for="collecting_source" class="data-entry-label small">Collecting Source
+													<div class="col-12 col-md-3 mb-1">
+														<label for="collecting_source" class="data-entry-label small font-weight-bold">
+															Collecting Source
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
+														<cfif not isdefined("collecting_source")><cfset collecting_source=""></cfif>
 														<input type="text" name="collecting_source" class="data-entry-input inputHeight" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 														<script>
 															jQuery(document).ready(function() {
@@ -1096,46 +1097,46 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
-														<cfif not isdefined("date_collected")>
-															<cfset date_collected="">
-														</cfif>
-														<label for="date_collected" class="data-entry-label small">Date Collected</label>
-														<input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
+													<div class="col-12 col-md-3 mb-1">
+														<label for="date_collected" class="data-entry-label small font-weight-bold">Date Collected</label>
+														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
+														<input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
+														<label class="data-entry-label small font-weight-bold" for="verbatim_date">Verbatim Date</label>
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-														<label class="data-entry-label small" for="when">Verbatim Date</label>
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
-														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
-															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
-														</button>
-													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
-														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 mb-1 col-md-3">
-																<cfif not isdefined("date_began_date")>
-																	<cfset date_began_date="">
-																</cfif>
-																<label for="date_began_date" class="data-entry-label small">Date Began</label>
+														
+													<!---COLLECTING EVENT DETAIL--->										
+													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
+														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+													</button>
+													<div id="CollDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
+														<div class="form-row col-12 mb-1 px-1 mx-0">
+															<div class="col-12 col-md-3 mb-1">
+																<label for="date_began_date" class="data-entry-label small font-weight-bold">Date Began</label>
+																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
 																<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<cfif not isdefined("date_ended_date")>
-																	<cfset date_ended_date="">
-																</cfif>
-																<label for="date_ended_date" class="data-entry-label small">Date Ended</label>
+															<div class="col-12 col-md-3 mb-1">
+																<label for="date_ended_date" class="data-entry-label small font-weight-bold">Date Ended</label>
+																<cfif not isdefined("date_ended_date")><cfset date_ended_date=""></cfif>
 																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
 															</div>
-															<div class="col-12 mb-1 col-md-4">
-																<label for="verbatim_locality" class="data-entry-label small">Verbatim Locality</label>
+															<div class="col-12 col-md-6 mb-1">
+																<label for="verbatim_locality" class="data-entry-label small font-weight-bold">Verbatim Locality</label>
 																<cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
 															</div>
 														</div>
 													</div>
+													<!--- END COLLECTING EVENT DETAIL--->
 												</div>
 											</div>
+											<!---END COLLECTING EVENT SECTION--->
+
+											<!---SPECIMEN SECTION--->  
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = "false">
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
@@ -1148,25 +1149,25 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset SpecButton = '<i class="fas fa-caret-right" style="vertical-align: middle;"></i>'>
+													<cfset SpecButton = '<i class="fas fa-caret-right" style="vertical-align: middle;"></i>'><!--- ' --->
 												<cfelse>
 													<cfset SpecDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'>
+													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'><!--- ' --->
 												</cfif> 
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
-													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Specimen</h2>
-														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
+														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Specimen</h2>
+														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													</div>
 												</div>
 													
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mb-0 mx-0">
-													<div class="col-12 mb-1 col-md-3">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 mx-0">
+													<div class="col-12 mb-1 col-md-3 mb-1">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-														<label for="part_name" class="data-entry-label small">Part Name</label>
+														<label for="part_name" class="data-entry-label small font-weight-bold">Part Name</label>
 														<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
 														<script>
 															jQuery(document).ready(function() {
@@ -1174,9 +1175,10 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
-														<label for="preserve_method" class="data-entry-label small">Preserve Method
+														<label for="preserve_method" class="data-entry-label small font-weight-bold">
+															Preserve Method
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
 														<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input inputHeight" value="#encodeForHtml(preserve_method)#" >
@@ -1186,9 +1188,10 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-														<label for="biol_indiv_relationship" class="data-entry-label small">Has Relationship
+														<label for="biol_indiv_relationship" class="data-entry-label small font-weight-bold">
+															Has Relationship
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
@@ -1199,9 +1202,10 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3">
+													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
-														<label for="media_type" class="data-entry-label small">Media Type
+														<label for="media_type" class="data-entry-label small font-weight-bold">
+															Media Type
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
@@ -1212,23 +1216,25 @@ limitations under the License.
 															});
 														</script>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
-															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
-														</button>
-													<div id="SpecDetail" class="col-12 px-0" style="#SpecDetailStyle#">
-														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 mb-1 col-md-2">
-																<label for="coll_object_remarks" class="data-entry-label small">Collection Object Remarks</label>
+
+													<!--- SPECIMEN DETAILS --->
+													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+													</button>
+													<div id="SpecDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
+														<div class="form-row col-12 col-md-12 mb-0 px-1 mx-0">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="coll_object_remarks" class="data-entry-label small font-weight-bold">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks</label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="part_remarks" class="data-entry-label small">Part Remarks</label>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="part_remarks" class="data-entry-label small font-weight-bold">Part Remarks</label>
 																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="preparator" class="data-entry-label small">Preparator</label>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="preparator" class="data-entry-label small font-weight-bold">Preparator</label>
 																<cfif not isdefined("preparator")>
 																	<cfset preparator="">
 																</cfif>
@@ -1270,13 +1276,13 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="lot_count" class="data-entry-label small">Lot Count</label>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="lot_count" class="data-entry-label small font-weight-bold">Lot Count</label>
 																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="coll_obj_disposition" class="data-entry-label small">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="coll_obj_disposition" class="data-entry-label small font-weight-bold">
 																	Disposition
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -1288,17 +1294,17 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="disposition_remarks" class="data-entry-label small">Disposition Remarks</label>
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="disposition_remarks" class="data-entry-label small font-weight-bold">Disposition Remarks</label>
 																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="part_attribute_type" class="data-entry-label small">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="part_attribute_type" class="data-entry-label small font-weight-bold">
 																	Part Attribute Type
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-</label>
+																</label>
 																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
 																<script>
@@ -1307,16 +1313,16 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="part_attribute_value" class="data-entry-label small">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="part_attribute_value" class="data-entry-label small font-weight-bold">
 																	Part Attribute Value
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span></a>
 																</label>
 																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="part_attribute_units" class="data-entry-label small">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="part_attribute_units" class="data-entry-label small font-weight-bold">
 																	Part Attribute Units
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -1329,41 +1335,41 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
-																<label for="part_attribute_remarks" class="data-entry-label small">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<label for="part_attribute_remarks" class="data-entry-label small font-weight-bold">
 																	Part Attribute Remarks
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span></a>
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span></a>
 																</label>
 																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 															</div>
-															<div class="col-12 mb-1 col-md-2">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<!--- TODO: Add an autocomplete when controlled --->
-																<label for="condition" class="data-entry-label small">Condition</label>
+																<label for="condition" class="data-entry-label small font-weight-bold">Condition</label>
 																<cfif not isdefined("condition")><cfset condition=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="condition" name="condition" value="#encodeForHtml(condition)#">
 															</div>
 															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 																<!--- TODO: Add when popluated --->
-																<div class="col-12 mb-1 col-md-2">
-																	<label for="condition_remarks" class="data-entry-label small">Condition Remarks</label>
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																	<label for="condition_remarks" class="data-entry-label small font-weight-bold">Condition Remarks</label>
 																	<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
 																	<input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
 																</div>
 															</cfif>
 															<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-																<div class="col-12 mb-1 col-md-3">
-																	<label for="root_container_label" class="data-entry-label small">In Container Labeled</label>
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																	<label for="root_container_label" class="data-entry-label small font-weight-bold">In Container Labeled</label>
 																	<cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
 																	<input type="text" class="data-entry-input inputHeight" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
 																</div>
-																<div class="col-12 mb-1 col-md-3">
-																	<label for="root_container_barcode" class="data-entry-label small">In Container Barcoded</label>
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																	<label for="root_container_barcode" class="data-entry-label small font-weight-bold">In Container Barcoded</label>
 																	<cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
 																	<input type="text" class="data-entry-input inputHeight" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
 																</div>
-																<div class="col-12 mb-1 col-md-3">
-																	<label for="root_container_type" class="data-entry-label small">In Container of Type</label>
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																	<label for="root_container_type" class="data-entry-label small font-weight-bold">In Container of Type</label>
 																	<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
 																	<select title="root_container_type" name="root_container_type" id="root_container_type" class="data-entry-select inputHeight col-sm-12 pl-2">
 																		<option value=""></option>
@@ -1379,29 +1385,28 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
-													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mb-0 mx-1 mx-xl-0 px-0 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
-															General
-														</h2>
+											<!---END SPECIMEN SECTION--->						   
+										   
+										 	<!---GENERAL SECTION---> 
+											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px text-left text-xl-right border-top border-right border-bottom border-left bg-teal">
+														General
+													</h2>
+												</div>
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 pt-1 mb-0">
+													<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<cfif not isdefined("keyword")><cfset keyword=""></cfif>
+														<label for="keyword" class="data-entry-label small font-weight-bold">Keyword Search</label>
+														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#">
 													</div>
-													<div class="form-row col-12 col-xxl-eleven col-xxl-11 ml-0 px-0 pt-1 mb-0">
-													<div class="col-12 mb-0 col-md-2">
-														<cfif not isdefined("keyword")>
-															<cfset keyword="">
-														</cfif>
-														<label for="keyword" class="data-entry-label small">Keyword Search</label>
-														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#" >
+													<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<cfif not isdefined("coll_object_entered_date")><cfset coll_object_entered_date=""></cfif>
+														<label for="coll_object_entered_date" class="data-entry-label small font-weight-bold">Date Entered</label>
+														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
 													</div>
-													<div class="col-12 mb-0 col-md-2">
-														<cfif not isdefined("coll_object_entered_date")>
-															<cfset coll_object_entered_date="">
-														</cfif>
-														<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
-														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
-													</div>
-													<div class="col-12 mb-0 col-md-2">
-														<label for="coll_object_entered_date" class="data-entry-label small">Entered By</label>
+													<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<label for="entered_by" class="data-entry-label small font-weight-bold">Entered By</label>
 														<cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
 														<cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
 														<!--- lookup agent name --->
@@ -1426,15 +1431,13 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-0 col-md-2">
-														<cfif not isdefined("last_edit_date")>
-															<cfset last_edit_date="">
-														</cfif>
-														<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
-														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
+													<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<cfif not isdefined("last_edit_date")><cfset last_edit_date=""></cfif>
+														<label for="last_edit_date" class="data-entry-label small font-weight-bold">Last Updated on</label>
+														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
 													</div>
-													<div class="col-12 mb-0 col-md-2">
-														<label for="coll_object_entered_date" class="data-entry-label small">Last Updated By</label>
+													<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<label for="last_edited_person" class="data-entry-label small font-weight-bold">Last Updated By</label>
 														<cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
 														<cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
 														<!--- lookup agent name --->
@@ -1458,8 +1461,9 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-0 col-md-2">
-														<label for="underscore_collection" class="data-entry-label small">Named Group
+													<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<label for="underscore_collection" class="data-entry-label small font-weight-bold">
+															Named Group
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
 														</label>
 														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
@@ -1474,18 +1478,43 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
+											<!---END GENERAL SECTION--->
+
+											<!---TRANSACTION SECTION--->
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
-													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
-														<h2 class="small mb-0 mx-1 mx-xl-0 px-0 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
-															Transactions
-														</h2>
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("permit_num") and len(permit_num) GT 0)
+													OR (isDefined("permit_title") and len(permit_title) GT 0)
+													OR (isDefined("issued_by_agent_id") and len(issued_by_agent_id) GT 0)
+													OR (isDefined("IssuedByAgent") and len(IssuedByAgent) GT 0)
+													OR (isDefined("IssuedToAgent") and len(IssuedToAgent) GT 0)
+													OR (isDefined("issued_to_agent_id") and len(issued_to_agent_id) GT 0)
+													OR (isDefined("permit_type") and len(permit_type) GT 0)
+													OR (isDefined("specific_type") and len(specific_type) GT 0)>
+													<cfset hiddenHaveValue = true>
+												</cfif>
+												<cfif listFind(searchPrefList,"TransactionDetail") GT 0 OR hiddenHaveValue>
+													<cfset TransactionDetailStyle="">
+													<cfset toggleTo = "0">
+														<cfset TransactionButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
+												<cfelse>
+													<cfset TransactionDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset TransactionButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
+												</cfif>
+
+												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
+													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
+														<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
+															<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">
+																Transactions
+															</h2>
+															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
+														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-eleven  col-xxl-11 ml-0 px-0 pt-1 mb-0">
-														<div class="col-12 mb-1 col-md-2">
-															<cfif not isdefined("loan_number")>
-																<cfset loan_number="">
-															</cfif>
+													<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 mx-0">
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
+															<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
 																<!--- lookup loan number (for api call &loan_trans_id=) --->
 																<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupLoan_result">
@@ -1498,13 +1527,11 @@ limitations under the License.
 																	<cfset loan_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
-															<label for="loan_number" class="data-entry-label small">Loan ##</label>
+															<label for="loan_number" class="data-entry-label small font-weight-bold">Loan ##</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
-														<div class="col-12 mb-0 col-md-2">
-															<cfif not isdefined("accn_number")>
-																<cfset accn_number="">
-															</cfif>
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
+															<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
 																<!--- lookup accession number (for api call &accn_trans_id=) --->
 																<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupAccn_result">
@@ -1517,21 +1544,18 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
 															</cfif>
-															<label for="accn_number" class="data-entry-label small">Accession ##</label>
-															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
+															<label for="accn_number" class="data-entry-label small font-weight-bold">Accession ##</label>
+															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
 														</div>
-														<div class="col-12 mb-0 col-md-2">
-															<cfif not isdefined("received_date")>
-																<cfset received_date="">
-															</cfif>
-															<label for="received_date" class="data-entry-label small">Date Received</label>
-															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#" >
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
+															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
+															<label for="received_date" class="data-entry-label small font-weight-bold">Date Received</label>
+															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
 														</div>
-														<div class="col-12 mb-0 col-md-2">
-															<cfif not isdefined("accn_status")>
-																<cfset accn_status="">
-															</cfif>
-															<label for="accn_status" class="data-entry-label small">Accession Status
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
+															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
+															<label for="accn_status" class="data-entry-label small font-weight-bold">
+																Accession Status
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 															</label>
 															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
@@ -1541,11 +1565,9 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 mb-0 col-md-2">
-															<cfif not isdefined("accn_type")>
-																<cfset accn_type="">
-															</cfif>
-															<label for="accn_type" class="data-entry-label small">Accession Type
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
+															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
+															<label for="accn_type" class="data-entry-label small font-weight-bold">Accession Type
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 															</label>
 															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
@@ -1555,16 +1577,90 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 mb-0 col-md-2">
-															<cfif not isdefined("deaccession_number")>
-																<cfset deaccession_number="">
-															</cfif>
-															<label for="deaccession_number" class="data-entry-label small">Deaccession ##</label>
-															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
+														<div class="col-12 col-md-3 col-xl-2 mb-1">
+															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
+															<label for="deaccession_number" class="data-entry-label small font-weight-bold">Deaccession ##</label>
+															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
+														<!--- TRANSACTION DETAIL --->
+														<div id="TransactionDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
+															<div class="form-row col-12 mb-1 px-1 mx-0">
+																<div class="col-12 col-md-2 mb-1">
+																	<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
+																	<label for="permit_num" class="data-entry-label small">Permit Number</label>
+																	<input type="text" id="permit_num" name="permit_num" class="data-entry-input inputHeight" value="#encodeForHtml(permit_num)#">
+																	<script>
+																		jQuery(document).ready(function() {
+																			makePermitNumberAutocomplete("permit_num");
+																		});
+																	</script>
+																</div>
+																<div class="col-12 col-md-2 mb-1">
+																	<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
+																	<label for="permit_title" class="data-entry-label small">Document Title</label>
+																	<input type="text" id="permit_title" name="permit_title" class="data-entry-input inputHeight" value="#encodeForHtml(permit_title)#">
+																	<script>
+																		jQuery(document).ready(function() {
+																			makePermitTitleAutocomplete("permit_title");
+																		});
+																	</script>
+																</div>
+																<div class="col-12 col-md-2 mb-1">
+																	<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
+																	<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
+																	<label for="IssuedByAgent" class="data-entry-label small">Issued By</label>
+																	<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedByAgent)#">
+																	<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
+																</div>
+																<div class="col-12 col-md-2 mb-1">
+																	<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
+																	<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
+																	<label for="IssuedToAgent" class="data-entry-label small">Issued To</label>
+																	<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedToAgent)#">
+																	<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#encodeForHtml(issued_to_agent_id)#">
+																</div>
+																<script>
+																	jQuery(document).ready(function() {
+																		makeConstrainedAgentPicker("IssuedByAgent", "issued_by_agent_id","permit_issued_by_agent");
+																		makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
+																	});
+																</script>
+																<div class="col-12 col-md-2 mb-1">
+																	<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
+																	<label for="permit_type" class="data-entry-label small">
+																		Document Category
+																		<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
+																		<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
+																	</label>
+																	<input type="text" id="permit_type" name="permit_type" class="data-entry-input inputHeight" value="#encodeForHtml(permit_type)#">
+																	<script>
+																		jQuery(document).ready(function() {
+																			makeCTFieldSearchAutocomplete('permit_type','PERMIT_TYPE');
+																		});
+																	</script>
+																</div>
+																<div class="col-12 col-md-2 mb-1">
+																	<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
+																	<label for="specific_type" class="data-entry-label small">
+																		Specific Document Type
+																		<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
+																		<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
+																	</label>
+																	<input type="text" id="specific_type" name="specific_type" class="data-entry-input inputHeight" value="#encodeForHtml(specific_type)#">
+																	<script>
+																		jQuery(document).ready(function() {
+																			makeCTFieldSearchAutocomplete('specific_type','SPECIFIC_TYPE');
+																		});
+																	</script>
+																</div>
+															</div>
+														</div>
+														<!--- END TRANSACTION DETAIL --->
 													</div>
 												</div>
 											</cfif>
+											<!---END TRANSACTION SECTION--->
+
 											<div id="searchButtons">
 												<div class="form-row mx-0 px-4 my-1 pb-1">
 													<div class="col-12 px-2 py-2 py-sm-0">
@@ -1618,7 +1714,7 @@ limitations under the License.
 													</cfif>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
+													<div id="fixedselectModeContainer" class="ml-3 mt-1" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val();
@@ -1800,14 +1896,41 @@ limitations under the License.
 									});
 								</cfif>
 							}
+							function toggleTransactionDetail(onOff) {
+								if (onOff==0) {
+									$("##TransactionDetail").hide();
+									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+								} else {
+									$("##TransactionDetail").show();
+									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/specimens/component/search.cfc",
+										{
+											method : "saveBasicSrchPref",
+											id : 'TransactionDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting TransactionDetail state");
+									});
+								</cfif>
+							}
 						</script>
 							<!---Keyword Search/results tab panel--->
 							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
-								<div class="col-9 float-right px-0"> 
-									<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
-													Search Help
+								<div class="d-flex justify-content-end px-0"> 
+									<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help" type="button" data-help-target="collapseKeywordHelp">
+										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseKeyword">
+									<aside id="collapseKeywordHelp" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Keyword Search Help</h2>
 											<p>
@@ -1891,7 +2014,7 @@ limitations under the License.
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
+													<div class="col-12 col-sm-2 col-md-2 col-xl-2 px-0 mt-1 mt-sm-0">
 														<label class="data-entry-label" for="debug2">Debug</label>
 														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
 															<option value=""></option>
@@ -1981,7 +2104,7 @@ limitations under the License.
 
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
-												<div class="row mx-0 mt-0""> 
+												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
@@ -1994,26 +2117,27 @@ limitations under the License.
 									</div>
 								</div>
 							</section> <!--- end keyword search/results panel --->
-								<!---Query Builder tab panel--->
-<!--- 
-Query:
-country = France
-and (family = 'Mustelidae' or family = 'Lophiidae')
-and collector = 'Brendan Haley'
 
-Target JSON:
- [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
---->
+							<!---Query Builder tab panel--->
+							<!--- 
+								Query:
+									country = France
+									and (family = 'Mustelidae' or family = 'Lophiidae')
+									and collector = 'Brendan Haley'
+
+								Old Target JSON:
+									[{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
+							--->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
-									<div class="col-9 float-right px-3"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseBuilder" aria-expanded="false" aria-controls="collapseBuilder">
+									<div class="d-flex justify-content-end px-0"> 
+									<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help border-0" type="button" data-help-target="collapseBuilderHelp">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseBuilder">
+									<aside id="collapseBuilderHelp" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
-											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>.
+											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>
 											<p>Search terms can be connected with <i>and</i> or <i>or</i>.  Searches using <i>and</i> find records where the criteria on both side of the <i>and</i> are met in each record.  Searches using <i>or</i> find records where at least one of the criteria on each side of the <i>or</i> are met.  Searching for Genus=Babelomurex <i>or</i> Genus=Chicoreus will find specimens with an identification in either of these genera. </p> 
 											<p>Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont). See an example: <a href='/Specimens.cfm?execute=true&builderMaxRows=6&action=builderSearch&openParens1=1&field1=GEOG_AUTH_REC%3ASTATE_PROV&searchText1=%3DMassachusetts&closeParens1=0&JoinOperator2=or&openParens2=0&field2=GEOG_AUTH_REC%3ASTATE_PROV&searchText2=%3DVermont&closeParens2=0&JoinOperator3=or&openParens3=0&field3=GEOG_AUTH_REC%3ASTATE_PROV&searchText3=%3DNew%20Hampshire&closeParens3=1&JoinOperator4=and&openParens4=1&field4=TAXONOMY%3AGENUS&searchText4=%3DUrocyon&closeParens4=0&JoinOperator6=or&openParens6=0&field6=TAXONOMY%3AGENUS&searchText6=%3DVulpes&closeParens6=1' target="_blank">Red or Gray foxes from MA, NH, or VT</a></p>
 											<p>The number of parenthesies you open must equal the number of parenthesies you close in order to run a search.  If there is a mismatch in the count, then the search button will be disabled, and an error message will be show.  For example, <i>open 2 ( but close 1 )</i> means that you need to add another close parenthesis.  Similarly, if your parenthesies incorrectly ordered so as to produce a syntax error an error message will be shown and the search button will be disabled.  Problems with nesting of <i>and</i> and <i>or</i> clauses will produce unexpected results if the logic you specified does not match your expectations.</p>
@@ -2126,8 +2250,8 @@ Target JSON:
 													<div class="col-12 col-md-1">
 														<output id="nestingFeedback"></output>
 													</div>
-													<div class="col-12 col-md-1">
-														<label for="openParens1" class="data-entry-label">&nbsp;</label>
+													<div class="col-6 col-md-1">
+														<label for="openParens1" class="data-entry-label">&nbsp;(&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
 														<select id="openParens1" name="openParens1" class="data-entry-select">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2229,8 +2353,8 @@ Target JSON:
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
-													<div class="col-12 col-md-1">
-														<label class="data-entry-label" for="closeParens1">&nbsp;</label>
+													<div class="col-6 col-md-1">
+														<label class="data-entry-label" for="closeParens1">&nbsp;)&nbsp;</label>
 														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
 														<select name="closeParens1" id="closeParens1" class="data-entry-select">
 															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2270,9 +2394,9 @@ Target JSON:
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
-																	&nbsp;
+																	&nbsp;(&nbsp;
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-8 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
@@ -2285,7 +2409,7 @@ Target JSON:
 																		<option value="or" #orSel# >or</option>
 																	</select>
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-6 col-md-1">
 																	<cfif isDefined("openParens#row#")>
 																		<cfset openParens = Evaluate("openParens#row#")>
 																	<cfelse>
@@ -2352,7 +2476,7 @@ Target JSON:
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-6 col-md-1">
 																	<cfif isDefined("closeParens#row#")>
 																		<cfset closeParens = Evaluate("closeParens#row#")>
 																	<cfelse>
@@ -2380,7 +2504,7 @@ Target JSON:
 																	</script> 
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type='button' onclick=' removeBuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
+																	<button type='button' onclick=' removeBuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-2 px-md-1 px-lg-2 btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
 														</cfif>
@@ -2461,10 +2585,10 @@ Target JSON:
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<div class="col-7 col-md-1">';
 													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<div class="col-6 col-md-1">';
 													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
 													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
 													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
@@ -2498,7 +2622,7 @@ Target JSON:
 													newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<div class="col-6 col-md-1">';
 													newControls = newControls + '<select name="closeParens'+row+'" id="closeParens'+row+'" class="data-entry-select">';
 													newControls = newControls + '<option value="0"></option><option value="1">)</option>';
 													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
@@ -2507,7 +2631,7 @@ Target JSON:
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<button type="button" onclick=" removeBuilderRow(' + row + ');" arial-label="remove this row from the builder" class="btn btn-xs px-3 btn-warning mr-auto">Remove</button>';
+													newControls = newControls + '<button type="button" onclick=" removeBuilderRow(' + row + ');" arial-label="remove this row from the builder" class="btn btn-xs px-2 px-md-1 px-lg-2 btn-warning mr-auto">Remove</button>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '</div>';
 													$("##customFields").append(newControls);
@@ -2528,7 +2652,7 @@ Target JSON:
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
-													   addBuilderRow();
+														addBuilderRow();
 													});
 												});
 											</script>
@@ -2630,6 +2754,10 @@ Target JSON:
 					</div>
 				</div>
 			</div>
+			<script src="/shared/js/wikiDrawer.js"></script>
+			<cfset action = "search">
+			<cfset targetWikiPage = "Search_Operators">
+			<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 		</main>
 		<!--- 
 		<div>
@@ -3246,12 +3374,12 @@ Target JSON:
 		var columnOrderLoading = 0
 	
 		function serializeFormAsJSON(formID) {
-		  const array = $('##'+formID).serializeArray();
-		  const json = {};
-		  $.each(array, function () {
-		    json[this.name] = this.value || "";
-		  });
-		  return json;
+			const array = $('##'+formID).serializeArray();
+			const json = {};
+			$.each(array, function () {
+				json[this.name] = this.value || "";
+			});
+			return json;
 		}
 
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -3297,7 +3425,7 @@ Target JSON:
 	
 			bc.onmessage = function (message) { 
 				console.log(message);
-				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
+				if (message.data.source == "manage" && message.data.result_id == $("##result_id_fixedSearch").val()) { 
 					$('##fixedresultCount').html('Modified from manage page.');
 					if (!fixedreloadlistenerbound) { 
 						$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
@@ -3307,7 +3435,7 @@ Target JSON:
 					}
 					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 				} 
-				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
+				if (message.data.source == "manage" && message.data.result_id == $("##result_id_keywordSearch").val()) { 
 					$('##keywordresultCount').html('Modified from manage page.');
 					if (!keywordreloadlistenerbound) { 
 						$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
@@ -3317,7 +3445,7 @@ Target JSON:
 					}
 					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 				} 
-				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
+				if (message.data.source == "manage" && message.data.result_id == $("##result_id_builderSearch").val()) { 
 					$('##builderresultCount').html('Modified from manage page.');
 					if (!builderreloadlistenerbound) { 
 						$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
@@ -3400,7 +3528,7 @@ Target JSON:
 						url: '/specimens/component/search.cfc',
 						type: 'POST',
 						data: serializeFormAsJSON('fixedSearchForm'),
-						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+						timeout: #Application.ajax_timeout*2#000, // units not specified, miliseconds? Fixed
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
@@ -3410,24 +3538,24 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-           					success : function (data) { 
+			 					success : function (data) { 
 									console.log(data);
 									commit(true);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
-            				}
-         				});
+								}
+							});
 						} 
 					};
 				} else { 
@@ -3459,7 +3587,7 @@ Target JSON:
 						root: 'specimenRecord',
 						id: 'collection_object_id',
 						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+						timeout: #Application.ajax_timeout*2#000, // units not specified, miliseconds? Fixed
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
@@ -3469,25 +3597,25 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-           					success : function (data) { 
+								success : function (data) { 
 									console.log(data);
 									commit(true);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 									focusFistVisibleCell_fixed();
 								},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
-            				}
-         				});
+								}
+							});
 						} 
 					};
 				};
@@ -3523,7 +3651,7 @@ Target JSON:
 					columnsresize: true,
 					autoshowfiltericon: true,
 					autoshowcolumnsmenubutton: false,
-					autoshowloadelement: false,  // overlay acts as load element for form+results
+					autoshowloadelement: false, // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: 'singlecell',
@@ -3572,7 +3700,7 @@ Target JSON:
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
+						rowdetailsheight: 1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
 				});
@@ -3877,7 +4005,7 @@ Target JSON:
 					$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
+					// Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
@@ -3922,7 +4050,7 @@ Target JSON:
 				keywordSearchLoaded = 0;
 
 				$("##overlay").show();
-				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
+				$("##collapseKeyword").collapse("hide"); // hide the help text if it is visible.
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
 				$("##keywordresultLink").html("");
@@ -3968,7 +4096,7 @@ Target JSON:
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
-					timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds?  Keyword
+					timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? Keyword
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -3992,7 +4120,7 @@ Target JSON:
 								$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 							},
 							error : function (jqXHR, textStatus, error) {
-							handleFail(jqXHR,textStatus,error,"removing row from result set");
+								handleFail(jqXHR,textStatus,error,"removing row from result set");
 								commit(false);
 							}
 						});
@@ -4015,7 +4143,7 @@ Target JSON:
 					width: '100%',
 					autoheight: 'true',
 					source: dataAdapter,
-					filterable: false,  // turned off, will be difficult to support with server side paging of resultset
+					filterable: false, // turned off, will be difficult to support with server side paging of resultset
 					sortable: true,
 					pageable: true,
 					editable: false,
@@ -4027,7 +4155,7 @@ Target JSON:
 					columnsresize: true,
 					autoshowfiltericon: true,
 					autoshowcolumnsmenubutton: false,
-					autoshowloadelement: false,  // overlay acts as load element for form+results
+					autoshowloadelement: false, // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
@@ -4074,7 +4202,7 @@ Target JSON:
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
+						rowdetailsheight: 1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
 				});
@@ -4137,7 +4265,7 @@ Target JSON:
 				});
 	
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
+					// Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
@@ -4219,7 +4347,7 @@ Target JSON:
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
-					timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds?  Builder
+					timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? Builder
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -4229,24 +4357,24 @@ Target JSON:
 						console.log($('##buildersearchResultsGrid').jqxGrid('getRowData',rowid));
 						var collobjtoremove = $('##buildersearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
-	        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+						$.ajax({
+							url: "/specimens/component/search.cfc",
+							data: { 
 								method: 'removeItemFromResult', 
 								result_id: $('##result_id_builderSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
-           					success : function (data) { 
+							success : function (data) { 
 								console.log(data);
 								commit(true);
 								$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 							},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+							error : function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"removing row from result set");
 								commit(false);
-            				}
-         			});
+							}
+						});
 					} 
 				};	
 	
@@ -4278,7 +4406,7 @@ Target JSON:
 					columnsresize: true,
 					autoshowfiltericon: true,
 					autoshowcolumnsmenubutton: false,
-					autoshowloadelement: false,  // overlay acts as load element for form+results
+					autoshowloadelement: false, // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
@@ -4326,7 +4454,7 @@ Target JSON:
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
+						rowdetailsheight: 1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
 				});
@@ -4352,7 +4480,7 @@ Target JSON:
 						loadColumnOrder('buildersearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfset addedIDs =  "">
+						<cfset addedIDs = "">
 						<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 							<cfset addedIDs = "&target_loan_id=#encodeForUrl(target_loan_id)#">
 						</cfif>
@@ -4387,7 +4515,7 @@ Target JSON:
 					</cfif>
 				});
 				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
+					// Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
@@ -4428,8 +4556,8 @@ Target JSON:
 		}); /* End document.ready */
 	
 		var columnCategoryPlacements = new Map(); // fieldname and category placement
-		var columnCategories = new Map();   // category and count 
-		var columnSections = new Map();   // category and array of list rows
+		var columnCategories = new Map(); // category and count 
+		var columnSections = new Map(); // category and array of list rows
 		<cfloop query="getFieldMetadata">
 			columnCategoryPlacements.set("#getFieldMetadata.column_name#","#getFieldMetadata.category#");
 			if (columnCategories.has("#getFieldMetadata.category#")) { 
@@ -4483,8 +4611,8 @@ Target JSON:
 			console.log(columnSections);
 			$("##"+whichGrid+"columnPick_row").html("");
 			$('<div/>',{
-    			id: whichGrid +"columnPick_col",
-    			class: "col-12 mb-2 accordion"
+				id: whichGrid +"columnPick_col",
+ 				class: "col-12 mb-2 accordion"
 			}).appendTo("##"+whichGrid+"columnPick_row");
 			var firstAccord = true;
 			var bodyClass="";
@@ -4492,9 +4620,9 @@ Target JSON:
 			for (let [key, value] of columnCategories) { 
 				// TODO: use value (number of fields in category) to subdivide long categories.
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord",
-    				class: "card bg-light accordion-item",
-    				title: key
+					id: whichGrid + "_" + key + "_accord",
+					class: "card bg-light accordion-item",
+					title: key
 				}).appendTo("##"+whichGrid+"columnPick_col");
 				if (firstAccord) { 
 					bodyClass = "show";
@@ -4505,21 +4633,21 @@ Target JSON:
 					ariaExpanded = "false";
 				}
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord_head",
-    				class: "card-header accordion-header"
+					id: whichGrid + "_" + key + "_accord_head",
+ 					class: "card-header accordion-header"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$('<h2/>',{
-    				id: whichGrid + "_" + key + "_accord_head_h2",
-    				class: "h4 my-0"
+					id: whichGrid + "_" + key + "_accord_head_h2",
+					class: "h4 my-0"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord_head");
 				$("##"+whichGrid+"_"+ key +"_accord_head_h2").html('<button class="accordion-button headerLnk text-left w-100" data-toggle="collapse" data-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord_body",
-    				class: "card-body accordion-collapse collapse " + bodyClass 
+					id: whichGrid + "_" + key + "_accord_body",
+					class: "card-body accordion-collapse collapse " + bodyClass 
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$('<div/>',{
-    				id: whichGrid + "_" + key + "_accord_list",
-    				class: ""
+					id: whichGrid + "_" + key + "_accord_list",
+					class: ""
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
 				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: columnSections.get(key), autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"_"+key+"_accord_list").on('checkChange', function (event) {
@@ -4722,9 +4850,9 @@ Target JSON:
 				$('.jqx-grid-cell').css({'border-color': '##aaa'});
 			} catch (error) { 
 				console.log(error);
-				console.log("See BugID: 6152, Error seen by Stevie running chrome full screen on a second monitor.");  
-				console.log("Appears to result from jquery selector on the jqx-grid-cell class exceding the stack size.");  
-				console.log("Expected consequence is that the sort menus on the grid are not visible.");  
+				console.log("See BugID: 6152, Error seen by Stevie running chrome full screen on a second monitor.");
+				console.log("Appears to result from jquery selector on the jqx-grid-cell class exceding the stack size.");
+				console.log("Expected consequence is that the sort menus on the grid are not visible.");
 			}
 			try { 
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
@@ -4763,41 +4891,7 @@ Target JSON:
 		}
 
 	</script>
-	
-	<!---  script>
-	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
-	TODO: Fix the indentation and nesting, this looks like one function, but isn't.
-	
-	var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
-		showRightPush = document.getElementById( 'showRightPush' ),
-		menuLeft = document.getElementById( 'cbp-spmenu-s3' ),
-		showLeftPush = document.getElementById( 'showLeftPush' ),
-		body = document.body;
-	
-	    showRightPush.onclick = function() {
-		classie.toggle( this, 'active' );
-		classie.toggle( body, 'cbp-spmenu-push-toleft' );
-		classie.toggle( menuRight, 'cbp-spmenu-open' );
-	
-		disableOther( 'showRightPush' );
-	    };
-	
-		showLeftPush.onclick = function() {
-			classie.toggle( this, 'active' );
-			classie.toggle( body, 'cbp-spmenu-push-toright');
-			classie.toggle( menuLeft, 'cbp-spmenu-open' );
-			disableOther( 'showLeftPush' );
-		};
-	
-		function disableOther( button ) {
-		if( button !== 'showLeftPush' ) {
-			classie.toggle( showLeftPush, 'disabled' );
-		}
-		if( button !== 'showRightPush' ) {
-			classie.toggle( showRightPush, 'disabled' );
-		}
-	}
-	</script --->
+
 	
 	<script>
 	/*!
@@ -4818,7 +4912,7 @@ Target JSON:
 	// class helper functions from bonzo https://github.com/ded/bonzo
 	
 	function classReg( className ) {
-	  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+		return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
 	}
 	
 	// classList support for class management
@@ -4826,50 +4920,50 @@ Target JSON:
 	var hasClass, addClass, removeClass;
 	
 	if ( 'classList' in document.documentElement ) {
-	  hasClass = function( elem, c ) {
-	    return elem.classList.contains( c );
-	  };
-	  addClass = function( elem, c ) {
-	    elem.classList.add( c );
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.classList.remove( c );
-	  };
-	}
-	else {
-	  hasClass = function( elem, c ) {
-	    return classReg( c ).test( elem.className );
-	  };
-	  addClass = function( elem, c ) {
-	    if ( !hasClass( elem, c ) ) {
-	      elem.className = elem.className + ' ' + c;
-	    }
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.className = elem.className.replace( classReg( c ), ' ' );
-	  };
+		hasClass = function( elem, c ) {
+			return elem.classList.contains( c );
+		};
+		addClass = function( elem, c ) {
+			elem.classList.add( c );
+		};
+		removeClass = function( elem, c ) {
+			elem.classList.remove( c );
+		};
+	} else {
+		hasClass = function( elem, c ) {
+			return classReg( c ).test( elem.className );
+		};
+		addClass = function( elem, c ) {
+			if ( !hasClass( elem, c ) ) {
+				elem.className = elem.className + ' ' + c;
+			}
+		};
+		removeClass = function( elem, c ) {
+			elem.className = elem.className.replace( classReg( c ), ' ' );
+		};
 	}
 	
 	function toggleClass( elem, c ) {
-	  var fn = hasClass( elem, c ) ? removeClass : addClass;
-	  fn( elem, c );
+		var fn = hasClass( elem, c ) ? removeClass : addClass;
+		fn( elem, c );
 	}
 	
 	window.classie = {
-	  // full names
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass,
-	  toggleClass: toggleClass,
-	  // short names
-	  has: hasClass,
-	  add: addClass,
-	  remove: removeClass,
-	  toggle: toggleClass
+		// full names
+		hasClass: hasClass,
+		addClass: addClass,
+		removeClass: removeClass,
+		toggleClass: toggleClass,
+		// short names
+		has: hasClass,
+		add: addClass,
+		remove: removeClass,
+		toggle: toggleClass
 	};
 	
 	})( window );
 </script>
 
 </cfoutput>
+
 <cfinclude template="/shared/_footer.cfm">

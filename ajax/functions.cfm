@@ -803,17 +803,6 @@
 	</cfoutput>	
 </cffunction>
 <!----------------------------------------------------------------->
-<cffunction name="getDocsById" returntype="xml">
-	<cfargument name="id" type="string" required="yes">
-	<cfinvoke 
-		webservice="http://arctos.database.museum/service/documentation.cfc?wsdl"
-		method="getDefinition"
-		returnvariable="result">
-		<cfinvokeargument name="fld" value="#id#"/>
-	</cfinvoke>
-	<cfreturn result>
-</cffunction>
-<!-------------------------------------------->
 <cffunction name="saveLocSrchPref" returntype="Any">
 	<cfargument name="id" type="string" required="yes">
 	<cfargument name="onOff" type="numeric" required="yes">

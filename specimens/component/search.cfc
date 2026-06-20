@@ -1531,6 +1531,14 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="root_container_label" type="string" required="no">
 	<cfargument name="root_container_barcode" type="string" required="no">
 	<cfargument name="root_container_type" type="string" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="IssuedByAgent" type="string" required="no">
+	<cfargument name="issued_by_agent_id" type="string" required="no">
+	<cfargument name="IssuedToAgent" type="string" required="no">
+	<cfargument name="issued_to_agent_id" type="string" required="no">
+	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="specific_type" type="string" required="no">
 
 	<cfargument name="debug" type="string" required="no">
 	<cfargument name="recordstartindex" type="string" required="no">
@@ -2241,6 +2249,52 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("deaccession_number") AND len(deaccession_number) GT 0>
 			<cfset field = '"field": "deacc_number"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_number#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("permit_num") AND len(permit_num) GT 0>
+			<cfset field = '"field": "permit_num"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#permit_num#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("permit_title") AND len(permit_title) GT 0>
+			<cfset field = '"field": "permit_title"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#permit_title#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("issued_by_agent_id") AND len(issued_by_agent_id) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_BY_AGENT_ID"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#issued_by_agent_id#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		<cfelseif isDefined("IssuedByAgent") AND len(IssuedByAgent) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_BY_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#IssuedByAgent#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("issued_to_agent_id") AND len(issued_to_agent_id) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_TO_AGENT_ID"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#issued_to_agent_id#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		<cfelseif isDefined("IssuedToAgent") AND len(IssuedToAgent) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_TO_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#IssuedToAgent#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("permit_type") AND len(permit_type) GT 0>
+			<cfset field = '"field": "permit_type"'><!--- in the code table --->
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#permit_type#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("specific_type") AND len(specific_type) GT 0>
+			<cfset field = '"field": "permit_specific_type"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#specific_type#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
@@ -4239,7 +4293,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfoutput>
 			<cftransaction>
 			<cftry>
-				<cfif listFind("IDDetail,TaxaDetail,GeogDetail,CollDetail,SpecDetail",id) EQ 0 >
+				<cfif listFind("IDDetail,TaxaDetail,GeogDetail,CollDetail,SpecDetail,TransactionDetail",id) EQ 0 >
 					<cfthrow message="unknown location search preference id.">
 				</cfif>
 				<cfquery name="getcurrentvalues" datasource="cf_dbuser">

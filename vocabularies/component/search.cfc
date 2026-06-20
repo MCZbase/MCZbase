@@ -183,6 +183,10 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 		<cfset codetable = "OCEANREGION">
 		<cfset fieldname = "OCEAN_REGION">
 		<cfset codetable = "CT#codetable#">
+	<cfelseif codetable EQ "SPECIFIC_TYPE">
+		<cfset codetable = "SPECIFIC_PERMIT_TYPE">
+		<cfset fieldname = "SPECIFIC_TYPE">
+		<cfset codetable = "CT#codetable#">
 	<cfelse>
 		<cfset codetable = "CT#codetable#">
 	</cfif>

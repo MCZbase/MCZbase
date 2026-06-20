@@ -11983,7 +11983,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<button type="button" class="btn btn-xs btn-primary mb-2 mb-md-0" onclick="submitEncumberForm();">Add to Encumbrance</button>
 											<output id="encumberForm_feedback" class="feedback" aria-live="polite"></output>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-												<a class="btn btn-xs btn-primary float-right py-1" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
+												<a class="btn btn-xs btn-primary float-right py-1" target="_blank" href="/encumbrances/Encumbrance.cfm?action=new">Create New Encumbrance</a>
 											</cfif>
 										</div>
 									</form>

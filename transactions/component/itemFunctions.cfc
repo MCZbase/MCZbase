@@ -2470,7 +2470,7 @@ STATE TRANSITION BEHAVIOR:
 												<li>
 													Encumbrance #lookupEncumbrances.encumbrance_action#
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-														<a href="/Encumbrances.cfm?action=listEncumbrances&encumbrance_id==#lookupEncumbrances.encumbrance_id#" target="_blank">
+														<a href="/encumbrances/Encumbrances.cfm?action=listEncumbrances&encumbrance_id==#lookupEncumbrances.encumbrance_id#" target="_blank">
 															#lookupEncumbrances.encumbrance#
 														</a>
 													<cfelse>
