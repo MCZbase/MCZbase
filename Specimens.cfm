@@ -1642,7 +1642,7 @@ limitations under the License.
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 																	<label for="specific_type" class="data-entry-label small">
-																		Specific Document Type
+																		Specific Type
 																		<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
 																		<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
 																	</label>
