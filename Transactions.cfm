@@ -4045,12 +4045,11 @@ function gridLoaded(gridId, searchType) {
 		}
 	}
 	if (rowcount == 1) { plural = ""; } else { plural = "s"; }
-		if (accessionCountSummary === "") { 
-			$('##resultCount').html('Found ' + rowcount + ' ' + searchType + plural + items);
-		} else { 
-			$('##resultCount').html(accessionCountSummary);
-		} 
-	}
+	if (accessionCountSummary === "") { 
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + plural + items);
+	} else { 
+		$('##resultCount').html(accessionCountSummary);
+	} 
 	// set maximum page size
 	if (rowcount > 100) { 
 		$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
