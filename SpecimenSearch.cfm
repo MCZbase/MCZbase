@@ -544,6 +544,7 @@
             <p class="topspace">&nbsp;</p>
 				<input type="text" name="any_geog" id="any_geog" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
 				<span class="secControl" style="font-size:.9em;" id="c_spatial_query" onclick="showHide('spatial_query',1)">Select on Google Map</span>
+				<!--- launches includes/SpecSearch/spatial_query.cfm but map is returning a 404 --->
 			</td>
 		</tr>
 		<tr>

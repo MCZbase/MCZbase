@@ -400,11 +400,7 @@
 
 <cfset bnhmUrl="/bnhmMaps/bnhmMapData.cfm?#mapurl#">
 <br>Map #mapCount# of these #collectionObjectIds.RecordCount# records using
-<input type="submit" value="BerkeleyMapper" class="lnkBtn"
-   onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
-	<span class="infoLink" onclick="getDocs('maps');">
-		What's this?
-	</span>
+<input type="submit" value="BerkeleyMapper" class="lnkBtn" onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 </td>
    </H4>
 </form>

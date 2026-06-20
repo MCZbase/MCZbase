@@ -1,9 +1,9 @@
-<!---  
+<!---
 functionLib.cfm 
 
 This file is to hold only globaly reused coldfusion functions.
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2019-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,13 +17,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-  @author Paul J. Morris
+@author Paul J. Morris
+@author Michelle Kennedy
 
 --->
 <cfscript>
 	function isYear(x){
-       var d = "^[1-9][0-9]{3}$";
-       return isValid("regex", x, d);
+		var d = "^[1-9][0-9]{3}$";
+		return isValid("regex", x, d);
 	}
 </cfscript>
 <cffunction name="jsescape">
@@ -52,13 +53,13 @@ limitations under the License.
 	<!--- contains both filename paths and URIs. The characters :/&.=?, are all used in valid URIs there.  --->
 	<cfargument name="s" type="string" required="yes">
 	<cfscript>
-	      var r=trim(s);
-	      r = Replace(Replace(r,'[','%5B'),']','%5D');
-	      r = Replace(Replace(r,'(','%28'),')','%29');
-	      r = Replace(r,'!','%21');
-	      r = Replace(r,',','%2C');
-	      r = Replace(r,' ','%20');
-	      return r;
+		var r=trim(s);
+		r = Replace(Replace(r,'[','%5B'),']','%5D');
+		r = Replace(Replace(r,'(','%28'),')','%29');
+		r = Replace(r,'!','%21');
+		r = Replace(r,',','%2C');
+		r = Replace(r,' ','%20');
+		return r;
 	</cfscript>
 </cffunction>
 	
@@ -95,26 +96,29 @@ limitations under the License.
 
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
-    <cfargument name="sql" required="true" type="string">
-    <cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,utl_inaddr,ctxsys,all_users">
-    <cfset dels="';','|',">
-    <cfset safe=0>
-    <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#@">
-	    <cfif ListFindNoCase(nono, i)>
-	        <cfset safe=1>
-	    </cfif>
-    </cfloop>
-    <cfif safe is 0>
-        <cfreturn true>
-    <cfelse>
+	<cfargument name="sql" required="true" type="string">
+
+	<cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,utl_inaddr,ctxsys,all_users">
+	<cfset dels="';','|',">
+	<cfset safe=0>
+	<cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#@">
+		<cfif ListFindNoCase(nono, i)>
+			<cfset safe=1>
+		</cfif>
+	</cfloop>
+	<cfif safe is 0>
+		<cfreturn true>
+	<cfelse>
 		<cfinclude template="/errors/autoblacklist.cfm">
 		<cfreturn false>
-    </cfif>
+	</cfif>
 </cffunction>
 		
 <!------------------------------------------------------------------------------------->
+
 <cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
 	<cfargument name="sql" required="true" type="string">
+
 	<!--- NOTE: Limited use, poor approach to sanitizing sql, it is well understood that methods that "exclude bad" can be evaded in ways that "allow only good" cannot. --->
 	<cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,declare,all_tables,v$session,all_users">
 	<cfset dels="';','|',">
@@ -130,6 +134,7 @@ limitations under the License.
 		<cfreturn false>
 	</cfif>
 </cffunction>
+
 <!----------------------------------------------------->
 <!----------------------------------------------------->
 <cffunction name="getMediaRelations" access="public" output="false" returntype="Query">
@@ -162,7 +167,7 @@ limitations under the License.
 					locality.locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&locality_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&locality_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "agent">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_name data 
@@ -182,7 +187,7 @@ limitations under the License.
 					collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
 		<cfelseif table_name is "accn">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -195,7 +200,7 @@ limitations under the License.
 					accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "deaccession">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
@@ -208,7 +213,7 @@ limitations under the License.
 					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-    		        <cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "loan">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -221,7 +226,7 @@ limitations under the License.
 					loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-    		        <cfset temp = QuerySetCell(result, "link", "/transactions/Loan.cfm?Action=editLoan&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Loan.cfm?Action=editLoan&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "borrow">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -234,7 +239,7 @@ limitations under the License.
 					borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-    		        <cfset temp = QuerySetCell(result, "link", "/transactions/Borrow.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Borrow.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "permit">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -344,7 +349,7 @@ limitations under the License.
 	<cfset var LOCAL = StructNew() />
 	<cfset ARGUMENTS.Delimiter = Left( ARGUMENTS.Delimiter, 1 ) />
 	<cfif Len( ARGUMENTS.Qualifier )>
- 	    <cfset ARGUMENTS.Qualifier = Left( ARGUMENTS.Qualifier, 1 ) />
+		<cfset ARGUMENTS.Qualifier = Left( ARGUMENTS.Qualifier, 1 ) />
 	</cfif>
 	<cfset LOCAL.LineDelimiter = Chr( 13 ) />
 	<cfset ARGUMENTS.CSV = ARGUMENTS.CSV.ReplaceAll( "\r?\n", LOCAL.LineDelimiter) />
@@ -394,4 +399,63 @@ limitations under the License.
 	</cfloop>
 	<cfreturn LOCAL.Return />
 
+</cffunction>
+
+<!----------------------------------------------------->
+
+<cffunction name="renderWikiButtons" access="public" returntype="string" output="false">
+	<cfargument name="buttonClass" type="string" required="false" default="btn btn-xs btn-info">
+
+	<cfset var html = "">
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<button id="show-wiki" class="#arguments.buttonClass#">Show Help</button>
+			<button id="hide-wiki" class="#arguments.buttonClass#">Hide Help</button>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<cffunction name="renderWikiDrawer" access="public" returntype="string" output="false">
+	<cfargument name="action" type="string" required="true">
+	<cfargument name="targetWikiPage" type="string" required="true">
+
+	<cfset var html = "">
+	<cfset var canEdit = false>-
+
+	<!--- Determine if user can edit --->
+	<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+		<cfset canEdit = true>
+	</cfif>
+
+	<!--- Only show drawer for new/edit actions --->
+	<cfif arguments.action EQ "new" OR arguments.action EQ "edit" OR arguments.action EQ "search">
+		<cfsavecontent variable="html">
+			<cfoutput>
+				<div id="wikiDrawer" class="wiki-drawer border">
+					<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+						<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+							<div class="mb-0 h5" id="wiki-content-title">MCZ Wiki Article</div>
+						<cfelse>
+							<div class="mb-0 h5" id="wiki-content-title">Help Article</div>
+						</cfif>
+						<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div id="wiki-content" class="p-3 overflow-hidden"></div>
+				</div>
+
+				<!--- Initialize the drawer behavior using the shared JS function --->
+				<script>
+					initWikiDrawer({
+						targetWikiPage: "#encodeForJavaScript(arguments.targetWikiPage)#",
+						canEdit: #canEdit ? "true" : "false"#
+					});
+				</script>
+			</cfoutput>
+		</cfsavecontent>
+	</cfif>
+
+	<cfreturn html>
 </cffunction>

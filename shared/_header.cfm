@@ -164,11 +164,11 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/misc/multizoom/multizoom.css">
 <!---Heatmap and Point distribution Map (deckgl and Google)--->
 <cfif CGI.script_name IS "/agents/Agent.cfm" OR CGI.script_name IS "/grouping/showNamedCollection.cfm" OR (isDefined("variables.loadMapLibraries") AND variables.loadMapLibraries) >
-    <!--
-      Note: We deliberately load the Google Maps JS API synchronously (no async/callback)
-      to keep initMap timing simple with our deck.gl integration. This triggers a
-      "loaded directly without loading=async" console warning, which is acceptable here.
-    -->
+	<!---
+		Note: We deliberately load the Google Maps JS API synchronously (no async/callback)
+		to keep initMap timing simple with our deck.gl integration. This triggers a
+		"loaded directly without loading=async" console warning, which is acceptable here.
+	--->
 	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization"></script>
 	<script src="/shared/js/deck.gl.min.js"></script>
 	<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
@@ -274,7 +274,7 @@ limitations under the License.
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm 
-         and placed into session variables in setDbUser, preserving  option to set user specific values from cf_collection --->
+			and placed into session variables in setDbUser, preserving  option to set user specific values from cf_collection --->
 		<!---  WARNING: Styles set on these elements must not set the color, this is set in a server or user specific variable --->
 		<ul class="navbar col-11 col-sm-7 col-md-7 col-lg-8 p-0 m-0" style="background-color: #Session.header_color#; ">
 			<li class="nav-item mcz2"> <a href="#Session.institution_url#" target="_blank" rel="noreferrer" style="color: #Session.institutionlinkcolor#;" >#Session.institution_link_text#</a> </li>
@@ -336,7 +336,7 @@ limitations under the License.
 		<script>
 			// Keyboard shortcut for Search
 			document.addEventListener ("keydown", function (evt) {
-				if (evt.altKey && evt.key === "m") {  
+				if (evt.altKey && evt.key === "m") {
 					evt.preventDefault();
 					evt.stopPropagation();
 					$('##searchDropdown').click();	
@@ -506,11 +506,7 @@ limitations under the License.
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-												<cfif targetMenu EQ "production">
-													<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
-												<cfelse>
-													<a class="dropdown-item bg-warning" href="">Encumbrances</a>
-												</cfif>
+												<a class="dropdown-item" href="/encumbrances/Encumbrances.cfm">Encumbrances</a>
 												<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 											</cfif>
 											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING ") OR listcontainsnocase(session.roles,"merge_agents") )>
@@ -692,14 +688,14 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Code Table Editor</a>
 											</cfif>
 											<a class="dropdown-item" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attributes Hierarchies</a>
-											<!--- TODO: Need another role for report management  --->
+											<!--- TODO: Need another role for report management --->
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Reports/reporter.cfm">Label/Report Management</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
 											</cfif>
 									
-											<!--- TODO: are the rest of these DBA or another role?  --->
+											<!--- TODO: are the rest of these DBA or another role? --->
 									
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
@@ -711,8 +707,8 @@ limitations under the License.
 											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
 											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
-											<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<a class="dropdown-item"  href="/tools/listImages.cfm">Image List</a>
+											<a class="dropdown-item" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
+											<a class="dropdown-item" href="/tools/listImages.cfm">Image List</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 											<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
@@ -868,7 +864,7 @@ limitations under the License.
 						<label for="password" class="mr-1 sr-only"> Password:</label>
 						<input type="password" id="password" name="password" autocomplete="off" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
 						<label for="login" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 						<label for="create_account" class="mr-1 sr-only"> Password:</label>
 						<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();" aria-label="click to create new account">
 					</div>
@@ -876,7 +872,7 @@ limitations under the License.
 			</cfif>
 		</nav>
 	</div>
-	<!-- container //  --> 
+	<!--- container // ---> 
 	<script>
 		document.getElementById("mainMenuContainer").style.display = "block";	
 	</script> 
@@ -900,7 +896,7 @@ limitations under the License.
 $(document).ready(function() {
 	$('.navbar-nav a[href*=".cfm"]').each(function() {
 		if (String(location).includes($(this).attr('href'))) {
-      //      $('a.nav-link.active').removeAttr('aria-current');
+			//$('a.nav-link.active').removeAttr('aria-current');
 			$('ul.navbar-nav li.active').removeClass('active');
 			$('a.nav-link.active').removeClass('active');
 			$(this).parentsUntil('ul.navbar-nav li.active').addClass('active');

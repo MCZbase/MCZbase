@@ -13,7 +13,7 @@
         
 <cfif action is "entryPoint">
  
-	<h2 class="h2">
+	<h2 class="h2 mt-3">
 		Partial list of ways to talk to MCZbase
 	</h2>
 	<!--- p>
@@ -101,7 +101,7 @@
 	<div class="col-12">
 		You may search taxonomy using the <a href="/api/taxsrch">Taxonomy API</a>. 
 	</div>
-	<div class="col-12">
+	<div class="col-12 mt-1">
 		<h3 class="h3">You may link to taxon detail pages with URLs of the format:</h3>
 		<ul class="labels">
 			<li>
@@ -114,12 +114,17 @@
 			</li>
 		</ul>		
 	</div>
-	<div class="col-12>
+	<div class="col-12">
+		<h3 class="h3">Media</h3>
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
 	</div>
-	<div class="col-12">
-		You may download the complete public MCZ data set from 
-        our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
+	<div class="col-12 mt-1">
+		<h3 class="h3">Download</h3>
+		<p>
+			You may download the complete public MCZ data set from 
+			our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> 
+			DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
+		</p>
 	</div>
 	<!--- 
 	<p>

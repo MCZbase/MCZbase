@@ -146,8 +146,7 @@
 					<input type="text" name="scientific_name" id="scientific_name" readonly class="readClr" size="50">
 				</td>
 				<td colspan="2">
-					<label for="cited_taxon_name" id="lbl_cited_taxon_name">
-						<a href="javascript:void(0);" onClick="getDocs('publication','cited_as_taxon')">Cited As</a></label>
+					<label for="cited_taxon_name" id="lbl_cited_taxon_name">Cited As</label>
 					<input type="text" name="cited_taxon_name" id="cited_taxon_name" class="reqdClr" size="50" onChange="taxaPick('cited_taxon_name_id','cited_taxon_name','newCitation',this.value); return false;">
 					<span class="infoLink"
 						onClick = "taxaPick('cited_taxon_name_id','cited_taxon_name','newCitation',document.getElementById('scientific_name').value)">Use Current</span>
@@ -156,9 +155,7 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="type_status">
-						<a href="javascript:void(0);" onClick="getDocs('publication','citation_type')">Citation Type</a>
-					</label>
+					<label for="type_status">Citation Type</label>
 					<select name="type_status" id="type_status" size="1">
 						<cfloop query="ctTypeStatus">
 							<option value="#ctTypeStatus.type_status#">#ctTypeStatus.type_status#</option>
@@ -167,9 +164,7 @@
 					<span class="infoLink" onClick="getCtDoc('ctcitation_type_status',newCitation.type_status.value)">Define</span>
 				</td>
 				<td>
-					<label for="occurs_page_number">
-						<a href="javascript:void(0);" onClick="getDocs('publication','cited_on_page_number')">Page ##</a>
-					</label>
+					<label for="occurs_page_number">Page ##</label>
 					<input type="text" name="occurs_page_number" id="occurs_page_number" size="4">
 				</td>
 			</tr>

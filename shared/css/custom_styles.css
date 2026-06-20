@@ -3,6 +3,7 @@
 body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
+    overflow-x: hidden;
 }
 /*a {
 	color: #0460c1;
@@ -173,6 +174,10 @@ table td .small {
 .bg-verylightteal {
 	background-color: #f2f9ff;
 }
+.bg-med-teal {
+    background-color: #deebec;
+}
+
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
 .part-occurrence-head {
@@ -182,7 +187,18 @@ table td .small {
 .part-occurrence {
 	background-color: #d4f6f685;
 }
-
+.field-set {
+    background-color: #efeded !important;
+}
+.field-set-legend {
+    background-color: #f8f9fa !important;
+    color: #041132 !important;
+    font-weight: 520 !important;
+    text-align: left;
+}
+.border2 {
+    border: 1px solid #5f9da3;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
@@ -258,6 +274,7 @@ h1.h4 {
 }
 .text-dark-gray {
 	color: #524e4e;
+    color: #4f4b4b;
 }
 .btn-link, .helpText, .fas-info {
 	color: #0460c1 !important;
@@ -811,132 +828,7 @@ body.modal-open {
 .list-group-item {
 	background-color: transparent;
 }
-/***********************************************/
-/* BELOW: filter and column slider menu styles */
-/***********************************************/
-/*#cbp-spmenu-s2 {
-	z-index: 600;
-}*/
-/* #showRightPush black label "Filters" tab that moves the filter for what is in the columns*/
-/*section a#showRightPush {
-	width: 30px;
-	margin-left: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	margin-top: 163px;
-	padding: 7px 1px 7px 5px;
-	position: relative;
-	letter-spacing: .07rem;
-	font-weight: bold;
-	font-size: 1rem;
-	transform-origin: top left;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}*/
-/* #showLeftPush black label "Columns" tab that moves the filter for displaying the columns*/
-/*section a#showLeftPush {
-	width: 32px;
-	margin-right: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	right: 30px;
-	padding: 7px 3px 7px 5px;
-	position: relative;
-	letter-spacing: .07em;
-	font-weight: bold;
-	font-size: 1rem;
-	margin-top: 301px;
-	transform-origin: top right;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu {
-	background: white;
-	position: fixed;
-	z-index: 5000;
-}
-.cbp-spmenu h3.filters {
-	color: #3E6F7D;
-	font-size: 1.7rem;
-	padding: 20px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -298px;
-}
-.cbp-spmenu a {
-	display: block;
-	font-size: 1.1rem;
-	font-weight: 400;
-	color: #006ee3;
-}
-.cbp-spmenu a:hover {
-	cursor: pointer;
-	font-weight: 400;
-}
-.cbp-spmenu a:active {
-	color: azure;
-}
-.cbp-spmenu-vertical {
-	width: 298px;
-	height: 100%;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
 
-.cbp-spmenu-right {
-	right: -298px;
-}
-.cbp-spmenu-right.cbp-spmenu-open {
-	right: 0px;
-	border-left: 1px solid #ccc;
-	padding-right: 3px;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu, .cbp-spmenu-push {
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu h3.columns {
-	color: #3E6F7D;
-	font-size: 1.3rem;
-	padding: 16px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -392px;
-}
-
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu section a.disabled {
-	display: none;
-}
-.cbp-spmenu-vertical-left {
-	width: 214px;
-	height: 420px;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu-left.cbp-spmenu-open {
-	right: 0px;
-	border: 1px solid #ccc;
-	border-right: none;
-	transition: all 0.3s ease;
-}*/
 #clearfilter {
 	margin-left: 1rem;
 	margin-top: 1rem;
@@ -2332,37 +2224,73 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-button.help-btn {
-	background-color: #1b1b1b;
-	color: white;
-	float:right;
-	-webkit-backface-visibility: hidden;
-	-webkit-transform: translateX(-98%) rotate(-90deg);
-	-webkit-transform-origin: right top;
-	-moz-transform: translateX(-98%) rotate(-90deg);
-	-moz-transform-origin: right top;
-	-o-transform: translateX(-98%) rotate(-90deg);
-	-o-transform-origin: right top;
-	transform: translateX(-98%) rotate(-90deg);
-	transform-origin: right top;
-	margin-bottom: 15px;
-	top: -.25rem;
-	right: -92px;
-	z-index:1; 
-	padding-top:.15rem;
-	padding-bottom: .15rem; 
-	font-size: 13.5px;
-	margin-top:0;
-	position: absolute;
+
+button.help-btnSp-SearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    float: right;
+    margin-bottom: 15px;
+    top: 2.1rem;
+    right: 1.75rem;
+    z-index: 1; 
+    padding-top: .5rem;
+    padding-bottom: .35rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    /* Only bottom-left and bottom-right rounded */
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
 }
-/*.jqx-fill-state-normal { 
-	border-color: #e0da76; 
-	background-color: #fdfcf3;
-}*/
-#collapseKeyword h2.headerSm {
+button.help-btnA-SearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    float: right;
+    margin-bottom: 15px;
+    top: 1.5rem;
+    right: 4rem;
+    z-index: 1; 
+    padding-top: .5rem;
+    padding-bottom: .35rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    /* Only bottom-left and bottom-right rounded */
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
+}
+button.help-btnSearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateX(-98%) rotate(90deg);
+    -webkit-transform-origin: right top;
+    -moz-transform: translateX(-98%) rotate(90deg);
+    -moz-transform-origin: right top;
+    -o-transform: translateX(-98%) rotate(90deg);
+    -o-transform-origin: right top;
+    transform: translateX(-98%) rotate(90deg);
+    transform-origin: right top;
+    margin-bottom: 15px;
+    top: 11.5rem;
+    right: -120px;
+    z-index: 1; 
+    padding-top: .75rem;
+    padding-bottom: .15rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    /* Only bottom-left and bottom-right rounded */
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
+}
+#wikiDrawer h2.headerSm {
 	font-size: 1.25rem;
 }
-#collapseKeyword dt {
+#wikiDrawer dt {
 	float:left;
 	display: inline-block;
 	min-width: 25px!important;
@@ -2675,6 +2603,10 @@ input[disabled] {
 .pt2px {
 	padding-top:2px!important;
 }
+.py2px {
+	padding-top:2px!important;
+    padding-bottom:2px!important;
+}
 .pt3px {
 	padding-top:3px!important;
 }
@@ -2817,21 +2749,27 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
+
+
+html,body {
+    overflow-x:hidden;
+}
 .wiki-drawer {
 	position: fixed;
 	top: 0;
-	left: -400px;
-	width: 400px;
+	left: 0;
+	width: 355px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
 	z-index: 1051;
-	transition: left 0.3s;
 	overflow-y: auto;
+    transform: translateX(-355px);
+    transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
-	left: 0;
+	transform: translateX(0);
 }
 #content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
@@ -2839,10 +2777,19 @@ form.form-inline.logout-style {
 	box-sizing: border-box;
 }
 #content.pushed {
-	margin-left: 400px;
-	width: calc(100% - 400px);
+	margin-left: 355px;
+	width: calc(100% - 355px);
 }
-
+body.wiki-open .ui-dialog {
+    /* Override jQuery UI's inline width */
+    width: auto !important;
+    max-width: calc(100vw - 355px) !important;
+    /* Keep the dialog entirely in the visible (non-wiki) area */
+    left: 355px !important;      /* start right after the drawer */
+    right: 0 !important;
+    /* Optional: ensure it stays within viewport */
+    box-sizing: border-box;
+}
 div.mw-parser-output h1 {
 	font-size: 20px;
 	font-weight:bold;
@@ -2865,24 +2812,25 @@ div.mw-parser-output h4 {
 div.mw-parser-output dt {
 	font-weight:650;
 }
-div.toctitle {margin-bottom:0;}
-.thumbinner {display:none;}
-/*
-Can not do this, dialogs have z-index set dynamically and an overlay that should be 
-beneath modal dialogs may be higher than 9997, thus placing arbitrary dialogs beneath 
-an overlay that prevents interaction with them.
-.ui-dialog {
-	z-index: 9997 !important;
+div.toctitle {
+    margin-bottom:0;
 }
-#wikiDrawer {
-	z-index: 9997 !important;
+.thumbinner {
+    display:none;
 }
-*/
 .mw-toc-heading {
 	margin-bottom: 0;
 }
+@media (min-width: 768px) {
+/*    #content.pushed {
+        margin-left: 355px;
+        width: calc(100% - 355px);
+    }
 
-
+    #content.pushed .ui-dialog {
+        max-width: calc(100vw - 355px);
+    }*/
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 
@@ -3408,6 +3356,9 @@ and also iPads specifically.
 	.html_desc {
 		width: 21.5rem!important;
 	}
+    button.help-btnA-SearchWiki {
+        right: 3rem;
+    }
 }
 @media only screen and (max-width: 800px){
 	ol.flowXXS, ul.flowXXS{
@@ -3522,10 +3473,58 @@ and also iPads specifically.
 		margin-top: -4px;
 	}
 }
-@media screen and (max-width: 767px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
+@media (max-width: 991.98px) {        /* adjust breakpoint as you like */
+    .wiki-drawer {
+        width: 95vw;                  /* drawer almost full width */
+        max-width: 95vw;
+        transform: translateX(-95vw); /* fully hidden when closed */
+    }
+    .wiki-drawer.open {
+        transform: translateX(0);     /* 5vw of page still visible */
+    }
+
+    /* Don’t push content on these sizes */
+    #content.pushed {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Let dialogs behave normally on these widths */
+    body.wiki-open .ui-dialog {
+        width: auto;
+        max-width: 100vw;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
+}
+@media screen and (max-width: 767.98px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
 	input, select, textarea {
 		font-size: 16px;
 	}
+    .wiki-drawer {
+        width: 90vw;
+        max-width: 90vw;
+        transform: translateX(-90vw);   /* start fully off-screen */
+    }
+    .wiki-drawer.open {
+        transform: translateX(0);
+    }
+
+    /* Ignore the "pushed" class on small screens */
+    #content.pushed {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Let dialogs behave normally on small screens */
+    body.wiki-open .ui-dialog {
+        width: auto;        /* remove our large-screen overrides */
+        max-width: 100vw;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
 }
 @media only screen and (max-width: 575px) {
 	.tab-content {
@@ -3809,6 +3808,60 @@ and also iPads specifically.
 		padding-bottom: 0;
 		line-height: 1;
 	}
+     button.help-btnA-SearchWiki {
+        background-color: #1b1b1b;
+         position: fixed;
+        color: white;
+        float: right;
+        -webkit-backface-visibility: hidden;
+        -webkit-transform: translateX(-98%) rotate(90deg);
+        -webkit-transform-origin: right top;
+        -moz-transform: translateX(-98%) rotate(90deg);
+        -moz-transform-origin: right top;
+        -o-transform: translateX(-98%) rotate(90deg);
+        -o-transform-origin: right top;
+        transform: translateX(-98%) rotate(90deg);
+        transform-origin: right top;
+        margin-bottom: 15px;
+        top: 9.35rem;
+        right: -8rem;
+        z-index: 1; 
+        padding-top: .35rem;
+        padding-bottom: .5rem; 
+        font-size: 13.5px;
+        margin-top: 0;
+        position: absolute;
+        overflow: hidden;
+        border-radius: 0 0 6px 6px; 
+    }
+    button.help-btnSp-SearchWiki {
+      background-color: #1b1b1b;
+      color: white;
+      float: right;
+      box-sizing: border-box;
+      border: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -webkit-backface-visibility: hidden;
+      transform: translateX(-98%) rotate(90deg);
+      transform-origin: right top;
+      -webkit-transform: translateX(-98%) rotate(90deg);
+      -webkit-transform-origin: right top;
+      -moz-transform: translateX(-98%) rotate(90deg);
+      -moz-transform-origin: right top;
+      -o-transform: translateX(-98%) rotate(90deg);
+      -o-transform-origin: right top;
+      position: absolute;
+      top: 11.5rem;
+      right: -111px;
+      z-index: 1;
+      padding: 0.55rem 0.8rem;
+      line-height: 1;         
+      font-size: 13.5px;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 0 0 6px 6px;
+    }
 }
 @media screen and (max-width: 480px) {
 	#map {
@@ -3829,6 +3882,8 @@ and also iPads specifically.
 		.html_desc {
 		width: 100%!important;
 	}
+    
+   
 }
 /* styles above are media queries for named groups page*/
 
@@ -3896,4 +3951,6 @@ and also iPads specifically.
 	margin-left: -100px;
 	border: 1px solid white;
 }
+
+
 /* end styles for geolocate frame */
