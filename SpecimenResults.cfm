@@ -415,9 +415,6 @@ If your item needs to be sorted in a special way, then do that here. --->
 				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?#mapurl#','_blank');">BerkeleyMapper</span>
 			<span class="controlButton"
 				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&#mapurl#','_blank');">BerkeleyMapper+Rangemaps</span>
-			<span class="infoLink" onclick="getDocs('maps');">
-				What's this?
-			</span>
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
             <cfelse></cfif>
 			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
