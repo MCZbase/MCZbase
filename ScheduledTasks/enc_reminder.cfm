@@ -58,7 +58,7 @@
 				<br><br>
 				The following encumbrance for which you are the encumbering agent is set to expire today:<br><br>
 
-				https://mczbase.mcz.harvard.edu/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encumbrance_id#
+				https://mczbase.mcz.harvard.edu/encumbrances/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encumbrance_id#
 
 				<br><br>
 

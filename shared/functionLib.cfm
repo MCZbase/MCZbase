@@ -460,7 +460,6 @@ limitations under the License.
 	<cfreturn html>
 </cffunction>
 
-
 <!----------------------------------------------------->
 
 <!--- This function will return the URL of a static map image for a given locality, creating and caching the image if it doesn't already exist or if a refresh is forced. It uses the Google Static Maps API to generate the map based on the provided latitude and longitude.
@@ -513,3 +512,4 @@ limitations under the License.
 	</cfif>
 
 </cffunction>
+

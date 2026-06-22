@@ -46,6 +46,7 @@ limitations under the License.
 	<cfargument name="collector_collection" type="string" required="no">
 	<cfargument name="author_collection" type="string" required="no">
 	<cfargument name="trans_agent_collection" type="string" required="no">
+	<cfargument name="trans_agent_role" type="string" required="no">
 	<cfargument name="permit_agent_role" type="string" required="no">
 
 	<!--- clear any arguments where only an operator is given without a search term --->
@@ -60,6 +61,7 @@ limitations under the License.
 	<cfif isdefined("last_name") AND last_name IS "$"><cfset last_name = ""></cfif>
 	<cfif isdefined("anyName") AND anyName IS "="><cfset anyName = ""></cfif>
 	<cfif isdefined("anyName") AND anyName IS "~"><cfset anyName = ""></cfif>
+	<cfif isdefined("trans_agent_role") AND trans_agent_role IS "!"><cfset trans_agent_role = ""></cfif>
 
 	<!--- if remarks_biography has a value, ignore remarks and biography --->
 	<cfif isdefined("remarks_biography") AND len(remarks_biography) GT 0 >
@@ -443,31 +445,56 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("collector_collection") AND len(#collector_collection#) gt 0>
-					AND agent.agent_id IN (
+					AND agent.agent_id 
+						<cfif collector_collection EQ "NULL">NOT</cfif>
+					IN (
 						select agent_id 
 						from collector
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on collector.collection_object_id = flat.collection_object_id
-						where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_collection#">
+							join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on collector.collection_object_id = flat.collection_object_id
+						<cfif collector_collection NEQ "NOT NULL" AND collector_collection NEQ "NULL">
+							where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_collection#">
+						</cfif>
 					)
 				</cfif>
 				<cfif isdefined("author_collection") AND len(#author_collection#) gt 0>
-					AND agent.agent_id IN (
+					AND agent.agent_id 
+						<cfif author_collection EQ "NULL">NOT</cfif>
+						IN (
 						select agent_name.agent_id 
 						from 
 							publication_author_name 
-							left join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
-							left join citation on publication_author_name.publication_id = citation.PUBLICATION_ID
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on citation.collection_object_id = flat.collection_object_id
-						where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_collection#">
+							join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
+							join citation on publication_author_name.publication_id = citation.PUBLICATION_ID
+							join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on citation.collection_object_id = flat.collection_object_id
+						<cfif author_collection NEQ "NOT NULL" AND author_collection NEQ "NULL">
+							where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_collection#">
+						</cfif>
 					)
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 					<cfif isdefined("trans_agent_collection") AND len(#trans_agent_collection#) gt 0>
-						AND agent.agent_id IN (
+						AND agent.agent_id 
+						<cfif trans_agent_collection EQ "NULL">NOT</cfif>
+						IN (
 							SELECT agent_id 
 							FROM trans_agent
-								left join trans on trans_agent.transaction_id = trans.transaction_id
-							WHERE trans.collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_collection#">
+								join trans on trans_agent.transaction_id = trans.transaction_id
+							<cfif trans_agent_collection NEQ "NOT NULL" AND trans_agent_collection NEQ "NULL">
+								WHERE trans.collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_collection#">
+							</cfif>
+						)
+					</cfif>
+					<cfif isdefined("arguments.trans_agent_role") AND len(#arguments.trans_agent_role#) gt 0>
+						AND agent.agent_id 
+						<cfif trans_agent_role EQ "NULL">NOT</cfif>
+						IN (
+							SELECT agent_id 
+							FROM trans_agent
+							<cfif left(arguments.trans_agent_role,1) EQ "!" >
+								WHERE trans_agent.trans_agent_role =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mid(arguments.trans_agent_role,2,len(arguments.trans_agent_role))#">
+							<cfelse>
+								WHERE trans_agent.trans_agent_role =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.trans_agent_role#">
+							</cfif>
 						)
 					</cfif>
 					<cfif isdefined("permit_agent_role") AND len(#permit_agent_role#) gt 0>
@@ -716,7 +743,8 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 @param term agent name to search for.
 @param constraint limit agents to those agents where the constraint applies, supports:  permit_issued_by_agent,
 	permit_issued_to_agent, permit_contact_agent, transaction_agent, project_agent, media_agent, media_creator_agent, 
-	determiner, collector, preparator, author, editor, entered_by, annotated.
+	determiner, collector, preparator, author, editor, entered_by, annotated, encumbering_agent, georeference_determiner, 
+	georeference_verifier, ce_date_determiner.
 @param show_agent_id if no value provided, then do not include the agent_id in the meta, otherwise included the agent_id in the meta.
 @return a json structure containing id and value, with matching agents with matched name in value and agent_id in id, and matched name 
   with * and preferred name in meta.
@@ -795,6 +823,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'annotated'>
 					left join annotations agent_annotations on agent.agent_id = agent_annotations.target_primary_key and agent_annotations.target_table = 'AGENT'
 				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'encumbering_agent'>
+					left join encumbrance agent_encumbrances on agent.agent_id = agent_encumbrances.ENCUMBERING_AGENT_ID 
+				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_by_agent' or constraint EQ 'permit_contact_agent' )>
@@ -845,6 +876,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'annotated'>
 					and agent_annotations.annotation_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'encumbering_agent'>
+					and agent_encumbrances.encumbering_agent_id is not null
 				</cfif>
 			ORDER BY
 				searchname.agent_name

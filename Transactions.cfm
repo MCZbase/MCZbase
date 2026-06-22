@@ -4018,7 +4018,8 @@ function gridLoaded(gridId, searchType) {
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 	var rowcount = datainformation.rowscount;
 	var items = "";
-	// TODO: Find number of objects in results, display link to those through specimen search: 
+	// Find number of objects in results, display link to those through specimen search: 
+	var transactionCountSummary = "";
 	if (searchType == 'accn') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
 		if (item_summary['sum']==1){ 
@@ -4026,9 +4027,14 @@ function gridLoaded(gridId, searchType) {
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
-		// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
-		// /Specimens.cfm?accn_number={list of numbers}&execute=true&action=fixedSearch
-		// $('##specimensLink').html('<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ +'">View ' + items +  ' items in these '+ rowcount + ' Accessions</a>');
+		if (rowcount < 21 && item_summary['sum'] > 0) {
+			// if there are a small number of accessions, with at least one specimen, link to the specimen search. 
+			var rows   = $("##"+gridId).jqxGrid('getrows');
+			var values = $.map(rows, function (row) {
+    			return row.accn_number; 
+			});
+			transactionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ values.join(',') +'" target="_blank">View ' + items +  '</a> in these '+ rowcount + ' Accessions';
+		}
 	}
 	if (searchType == 'deacc') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
@@ -4037,12 +4043,21 @@ function gridLoaded(gridId, searchType) {
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
+		if (rowcount < 21 && item_summary['sum'] > 0) {
+			// if there are a small number of deaccessions, with at least one specimen, link to the specimen search. 
+			var rows   = $("##"+gridId).jqxGrid('getrows');
+			var values = $.map(rows, function (row) {
+    			return row.deacc_number; 
+			});
+			transactionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&deaccession_number='+ values.join(',') +'" target="_blank">View ' + items +  '</a> in these '+ rowcount + ' Deaccessions';
+		}
 	}
-	if (rowcount == 1) {
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
+	if (rowcount == 1) { plural = ""; } else { plural = "s"; }
+	if (transactionCountSummary === "") { 
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + plural + items);
 	} else { 
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
-	}
+		$('##resultCount').html(transactionCountSummary);
+	} 
 	// set maximum page size
 	if (rowcount > 100) { 
 		$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});

@@ -3,6 +3,7 @@
 body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
+    overflow-x: hidden;
 }
 /* Add and a{} style for non-href anchors if neded */
 a:link {
@@ -267,7 +268,6 @@ h1.h4 {
 	margin-top: .5rem;
 }
 .text-dark-gray {
-    color: #524e4e;
     color: #4f4b4b;
 }
 .btn-link, .helpText, .fas-info {
@@ -2542,6 +2542,10 @@ input[disabled] {
     padding-top: 2px!important;
     padding-bottom:2px!important;
 }
+.py2px {
+	padding-top:2px!important;
+    padding-bottom:2px!important;
+}
 .pt3px {
 	padding-top:3px!important;
 }
@@ -2680,6 +2684,11 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
+
+
+html,body {
+    overflow-x:hidden;
+}
 .wiki-drawer {
 	position: fixed;
 	top: 0;
@@ -2704,8 +2713,18 @@ form.form-inline.logout-style {
 	box-sizing: border-box;
 }
 #content.pushed {
-	margin-left: 400px;
-	width: calc(100% - 400px);
+	margin-left: 355px;
+	width: calc(100% - 355px);
+}
+body.wiki-open .ui-dialog {
+    /* Override jQuery UI's inline width */
+    width: auto !important;
+    max-width: calc(100vw - 355px) !important;
+    /* Keep the dialog entirely in the visible (non-wiki) area */
+    left: 355px !important;      /* start right after the drawer */
+    right: 0 !important;
+    /* Optional: ensure it stays within viewport */
+    box-sizing: border-box;
 }
 body.wiki-open .ui-dialog {
     /* Override jQuery UI's inline width */
@@ -2787,6 +2806,16 @@ div.toctitle {
 .tinymap .interactive-map {
     display: none;
     z-index: 2;
+}
+@media (min-width: 768px) {
+    #content.pushed {
+        margin-left: 355px;
+        width: calc(100% - 355px);
+    }
+
+    #content.pushed .ui-dialog {
+        max-width: calc(100vw - 355px);
+    }
 }
 /****************end all screen styles*********************/
 /**********************************************************/
@@ -3275,6 +3304,9 @@ and also iPads specifically.
 	.html_desc {
 		width: 21.5rem!important;
 	}
+    button.help-btnA-SearchWiki {
+        right: 3rem;
+    }
 }
 @media only screen and (max-width: 800px){
 	ol.flowXXS, ul.flowXXS{
@@ -3389,10 +3421,58 @@ and also iPads specifically.
 		margin-top: -4px;
 	}
 }
-@media screen and (max-width: 767px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
+@media (max-width: 991.98px) {        /* adjust breakpoint as you like */
+    .wiki-drawer {
+        width: 95vw;                  /* drawer almost full width */
+        max-width: 95vw;
+        transform: translateX(-95vw); /* fully hidden when closed */
+    }
+    .wiki-drawer.open {
+        transform: translateX(0);     /* 5vw of page still visible */
+    }
+
+    /* Don’t push content on these sizes */
+    #content.pushed {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Let dialogs behave normally on these widths */
+    body.wiki-open .ui-dialog {
+        width: auto;
+        max-width: 100vw;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
+}
+@media screen and (max-width: 767.98px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
 	input, select, textarea {
 		font-size: 16px;
 	}
+    .wiki-drawer {
+        width: 90vw;
+        max-width: 90vw;
+        transform: translateX(-90vw);   /* start fully off-screen */
+    }
+    .wiki-drawer.open {
+        transform: translateX(0);
+    }
+
+    /* Ignore the "pushed" class on small screens */
+    #content.pushed {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Let dialogs behave normally on small screens */
+    body.wiki-open .ui-dialog {
+        width: auto;        /* remove our large-screen overrides */
+        max-width: 100vw;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
 }
 @media only screen and (max-width: 575px) {
 	.tab-content {
@@ -3676,6 +3756,60 @@ and also iPads specifically.
 		padding-bottom: 0;
 		line-height: 1;
 	}
+     button.help-btnA-SearchWiki {
+        background-color: #1b1b1b;
+         position: fixed;
+        color: white;
+        float: right;
+        -webkit-backface-visibility: hidden;
+        -webkit-transform: translateX(-98%) rotate(90deg);
+        -webkit-transform-origin: right top;
+        -moz-transform: translateX(-98%) rotate(90deg);
+        -moz-transform-origin: right top;
+        -o-transform: translateX(-98%) rotate(90deg);
+        -o-transform-origin: right top;
+        transform: translateX(-98%) rotate(90deg);
+        transform-origin: right top;
+        margin-bottom: 15px;
+        top: 9.35rem;
+        right: -8rem;
+        z-index: 1; 
+        padding-top: .35rem;
+        padding-bottom: .5rem; 
+        font-size: 13.5px;
+        margin-top: 0;
+        position: absolute;
+        overflow: hidden;
+        border-radius: 0 0 6px 6px; 
+    }
+    button.help-btnSp-SearchWiki {
+      background-color: #1b1b1b;
+      color: white;
+      float: right;
+      box-sizing: border-box;
+      border: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -webkit-backface-visibility: hidden;
+      transform: translateX(-98%) rotate(90deg);
+      transform-origin: right top;
+      -webkit-transform: translateX(-98%) rotate(90deg);
+      -webkit-transform-origin: right top;
+      -moz-transform: translateX(-98%) rotate(90deg);
+      -moz-transform-origin: right top;
+      -o-transform: translateX(-98%) rotate(90deg);
+      -o-transform-origin: right top;
+      position: absolute;
+      top: 11.5rem;
+      right: -111px;
+      z-index: 1;
+      padding: 0.55rem 0.8rem;
+      line-height: 1;         
+      font-size: 13.5px;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 0 0 6px 6px;
+    }
 }
 @media screen and (max-width: 480px) {
 	#map {
@@ -3696,6 +3830,8 @@ and also iPads specifically.
 		.html_desc {
 		width: 100%!important;
 	}
+    
+   
 }
 /* styles above are media queries for named groups page*/
 
@@ -3763,4 +3899,6 @@ and also iPads specifically.
 	margin-left: -100px;
 	border: 1px solid white;
 }
+
+
 /* end styles for geolocate frame */

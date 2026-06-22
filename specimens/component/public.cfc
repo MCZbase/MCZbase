@@ -1425,7 +1425,8 @@ limitations under the License.
 				<cfelse>
 					<cfset isMixedCollection = false>
 				</cfif>
-				<table class="table px-0 table-responsive-md w-100 tablesection my-0">
+
+				<table class="table px-0 table-responsive-xl w-100 tablesection my-0">
 					<thead class="thead-light">
 						<tr>
 							<th class="py-0"><span>Part</span></th>
@@ -2049,7 +2050,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table px-1 table-responsive-md w-100 tablesection my-0" aria-label="attributes">
+					<table class="table px-1 table-responsive-xl w-100 tablesection my-0" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th class="py-0">Attribute</th>
@@ -4183,7 +4184,7 @@ limitations under the License.
 								</div>
 							</cfif>
 							<div class="col-12 px-2">
-								<table class="table table-responsive w-100">
+								<table class="table table-responsive-xl w-100">
 									<cfloop query="getSpecimen">
 										<tr>
 											<th></th>
