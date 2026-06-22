@@ -92,7 +92,7 @@ limitations under the License.
 										<th>Definition</th>
 										<th>Data Type</th>
 										<th>Example Value</th>
-										<th>% Not Empty</th>
+										<th>% With Value</th>
 									</tr>
 								</thead>
 								<tbody>
