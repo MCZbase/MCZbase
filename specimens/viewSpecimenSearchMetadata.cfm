@@ -92,6 +92,7 @@ limitations under the License.
 										<th>Definition</th>
 										<th>Data Type</th>
 										<th>Example Value</th>
+										<th>Portion Empty</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -101,12 +102,15 @@ limitations under the License.
 										<cfset statsAvailable = ( NOT isNull(getFlatCols.num_rows) AND NOT isNull(getFlatCols.num_nulls) AND getFlatCols.num_rows GT 0)>
 										<cfif statsAvailable>
 											<cfset nonNullRows = getFlatCols.num_rows - getFlatCols.num_nulls>
+											<cfset nullFraction = 0>
 											<cfif nonNullRows LTE 0>
 												<!--- Statistics say column is entirely null: skip queries entirely --->
 												<cfset samplePct = 0>
+												<cfset nullFraction = 1> <!--- for display purposes --->
 											<cfelseif (nonNullRows / getFlatCols.num_rows) GTE 1.0>
 												<!--- All (or statistically all) rows non-null: use minimum sample --->
 												<cfset samplePct = 0.000001>
+												<cfset nullFraction = 0> <!--- for display purposes --->
 											<cfelse>
 												<cfset nonNullFraction = nonNullRows / getFlatCols.num_rows>
 												<!--- ln(1-0.99) / (num_rows * ln(1-p)), target 99% probability --->
@@ -117,6 +121,7 @@ limitations under the License.
 																 and more reliable than a large sample scan
 												--->
 												<cfset samplePct = min(20, max(0.000001, rawPct))>
+												<cfset nullFraction = 1 - nonNullFraction> <!--- for display purposes --->
 											</cfif>
 										</cfif>
 
@@ -184,6 +189,13 @@ limitations under the License.
 													[No Values]
 												<cfelse>
 													#getExample.value#
+												</cfif>
+											</td>
+											<td>
+												<cfif statsAvailable>
+													#numberFormat(nullFraction * 100, "9.99")#% 
+												<cfelse>
+													[Unknown]
 												</cfif>
 											</td>
 										</tr>
