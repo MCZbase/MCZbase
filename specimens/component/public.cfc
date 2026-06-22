@@ -3106,7 +3106,7 @@ limitations under the License.
                           var map = new google.maps.Map(mapDiv, {
                               center: center,
                               zoom: 10,
-                              mapTypeId: google.maps.MapTypeId.TERRAIN
+                              mapTypeId: google.maps.MapTypeId.ROADMAP
                           });
                           new google.maps.Marker({
                             position: center,
