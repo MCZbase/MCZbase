@@ -2774,13 +2774,13 @@ div.toctitle {
 }
 /* Explicit heights per layout */
 .tinymap-3col {
-    height: 280px;   
+    height: 180px;   
     overflow: hidden;
     float:left;
     width: 100%;
 }
 .tinymap-2col {
-    height: 280px;   
+    height: 180px;   
     overflow: hidden;
     float:left;
 }
