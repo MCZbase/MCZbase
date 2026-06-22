@@ -71,12 +71,15 @@ limitations under the License.
 									all_tab_columns.data_type, 
 									all_col_comments.comments definition,
 									all_tab_columns.num_nulls,
-									all_tab_columns.num_rows
+									all_tables.num_rows
 								FROM all_tab_columns
 		            			left join all_col_comments
 		            				on  all_tab_columns.table_name = all_col_comments.table_name
 		            				and all_tab_columns.column_name = all_col_comments.column_name
 		            				and all_col_comments.owner = 'MCZBASE'
+									left join all_tables
+										on  all_tab_columns.table_name = all_tables.table_name
+										and all_tab_columns.owner = all_tables.owner
 								WHERE 
 									all_tab_columns.table_name='FLAT' 
 									AND all_tab_columns.owner='MCZBASE'
