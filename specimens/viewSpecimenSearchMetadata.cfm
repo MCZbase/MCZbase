@@ -92,7 +92,7 @@ limitations under the License.
 										<th>Definition</th>
 										<th>Data Type</th>
 										<th>Example Value</th>
-										<th>Portion Empty</th>
+										<th>% Not Empty</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -193,7 +193,8 @@ limitations under the License.
 											</td>
 											<td>
 												<cfif statsAvailable>
-													#numberFormat(nullFraction * 100, "9.99")#% 
+													<cfset hasValueFraction = 1 - nullFraction>
+													#numberFormat(hasValueFraction * 100, "9.99")#% 
 												<cfelse>
 													[Unknown]
 												</cfif>
