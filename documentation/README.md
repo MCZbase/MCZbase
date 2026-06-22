@@ -284,7 +284,7 @@ The "link to this search" url on search forms passes parameters for the search i
 
 When a form submission occurrs to a cfmethod in a cfcomponent, use argment scope instead of url or form scope.
 
-Much existing code relies on the deprecated ability of ColdFusion to not care about the distinction between GET and POST, when encountered, this MUST be corrected (to allow for a future upgrade to ColdFusion where 
+Much existing code relies on the deprecated ability of ColdFusion to not care about the distinction between GET and POST, when encountered, this MUST be corrected (to allow for a future upgrade to ColdFusion where this is no longer the case).
 
 In most cases of .cfm pages that call themselves, this will involve adding a line for each variable that would be provided in an http url parameter (get, url scope), and setting a variables scope variable of the same name: 
 
@@ -687,6 +687,7 @@ Use semantic tags instead of roles whenever possible.
 
 Search/Results pages MUST use the following top level structure. This structure, with appropriate styling on the overlay div allows the overlay to cover the search form and results grid without covering the navigation header and footer elements of the page.
 
+```html
 	<div id="overlaycontainer" style="position: relative;">
 		<main id=”content’>
 			<section class="container-fluid" role="search" >
@@ -701,9 +702,11 @@ Search/Results pages MUST use the following top level structure. This structure,
 		</script>
 		<div id=”overlay”....></div>
 	</div>
+```
 
 A search form SHOULD use the classes search-box and search-box-header the following to style the search form within a box with a heading.  See: [Content-Boxes](#Content-Boxes) for the variation to use for tabs for mulitiple search forms on the same page.
 
+```html
 	<div id="overlaycontainer" style="position: relative;">
 		<main id=”content”>
 			<section class="container-fluid" role="search">
@@ -714,6 +717,7 @@ A search form SHOULD use the classes search-box and search-box-header the follow
 						</div>
 						<div class="col-12 px-4 py-1">
 							<form>
+```
 
 as the initial outer containers for the search form. Add interior rows/form-rows and columns as necessary to layout form elements in a responsive grid.
 
@@ -733,18 +737,21 @@ Headings MUST reflect actual nesting of content, and SHOULD use bootstrap classe
 
 EDIT PAGE HEADINGS
 
+```html
 	<h1 class="h2">
 		< i class="fas fas-info fa-info-circle mr-2” onClick="getMCZDocs('Edit\_Taxonomy')" aria-label="help link"\></i>
 	</h1>
-
+```
 
 SEARCH PAGE HEADINGS (NO TABS)
 
+```html
 	<div class="search-box-header ">
 		<h1 class="h3 smallcaps text-white" tabindex="0">
 			Search Taxonomy <span class="count font-italic text-grayish mx-0"><small>(\#getCount.cnt\# records)</small></span>
 		</h1>
 	</div>
+```
 
 Heading titles for record searches are inside dark teal tab-cards with outer container as class=”container-fluid”. See Taxonomy search page.
 
@@ -788,7 +795,7 @@ Instead, nest headings successively h1 to h6 with nesting depth.
 
 ### Responsive Styles
 
-Col-12 should be included for most columns with a column size in the class for tablet and monitor sized screens (e.g., col-12 in addition to col-md-6, col-xl-3). Labels should be aligned left on all screens. Make sure spacing works when text, fields and buttons wrap. Also check that they don’t get stuck in rows when the elements are intended to wrap on smaller screens.
+The class col-12 should be included for most columns with a column size in the class for tablet and monitor sized screens (e.g., col-12 in addition to col-md-6, col-xl-3). Labels should be aligned left on all screens. Make sure spacing works when text, fields and buttons wrap. Also check that they don’t get stuck in rows when the elements are intended to wrap on smaller screens.
 
 The class=”row” – important to know that the row class has a -15px margin on each side. Combined with class=”col-12” (or any column number, col-N), which has padding of 15px on each side, allows it to fit devices to the edge without movement (bouncing left or right when a field is brought into focus).
 
@@ -825,7 +832,7 @@ For reference purposes, the following colors are used throughout the website.
 From left to right.
 
 1. Red = \#a51c30
-1. Required = \#e4e476  
+1. Required = \#e4e476  (reqdClr)
 1. Warning = \#ffc107
 1. Danger = \#f8d7da
 1. Search-box gray = \#f5f5f5
@@ -923,11 +930,14 @@ for Organization and Focus
 
 Include accessible tab navigation by setting pageHasTabs=true prior to loading _header.cfm
 
+```coldfusion
 	<cfset pageHasTabs="true">
 	<cfinclude template = "/shared/_header.cfm">
+```
 
 The tabs should follow this set of tags and classes. It makes a Teal border with light tabs.  To support accessible navigation, active tab must have class active, tabs should have role tab and one based integer value for tabid, container for tabs should have role tablist.  Tabs and tab pane content should be crossreferenced with aria-labelledby={id} on the tab pane content.
 
+```html
 	<div class=”tab-card-main mt-1 tab-card”>
 		<div class="tab-card-main mt-1 tab-card">
 			<div class="card-header tab-card-header pb-0" role="tablist">
@@ -935,6 +945,7 @@ The tabs should follow this set of tags and classes. It makes a Teal border with
 					<a class="nav-link active" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" tabid="1" role="tab" aria-controls="Search All Transactions" aria-selected="true" >
 					<div class="tab-content pb-0 px-2" id="tabContentDiv">
 						<div class="tab-pane fade active py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+```
 
 Within main groupings, try to keep the spaces and margins even. Give highlight boxes or borders when additional grouping is needed. Sometimes it is difficult to distribute the fields evenly on the page. The “Find loans” page search section shows the difficulty.
 
@@ -997,8 +1008,10 @@ Some form of visible label is usually best. The labeled element MUST have an “
 
 MCZbase inputs on search and edit forms SHOULD be accessibly labeled with a label for the input: 
 
+```html
 	<label for="loan_number">Loan Number</label>
 	<input type="text" id="loan_number" name="loan_number" value="">
+```
 
 If an element has a label with a “for” property that links to it by id, then aria properties are generally not needed and SHOULD NOT be included (as they are likely to introduce copy/paste errors or become out of date as the page is updated). Check for duplicity by using a screen reader. See if your label is read to determine if you need aria-labels.
 
@@ -1006,23 +1019,29 @@ If there is no visible label for an element, there are several alternatives:
 
 (1) If a visible label is not desirable, add `<label class=”sr-only”>` to a label. This allows the label to be read by the screen reader but positions the text off-screen so it isn’t visible.
 
+```html
 	<label for=”loan_number” class=”sr-only”>Loan Number</label>
 	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll”>
+```
 
 (2) Point to an existing element that can act as a label using aria-labelledby. It is similar to `<label for=””>` with establishes the relationship between objects and their labels. It needs an ID on the element it is pointing to (in the example below it is the `<span>`).
 
+```html
 	Searching on <span id=”loan_number_label”>Loan Number</span> lets you find loans...
 	<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” aria-labeledby=”loan_number_label”>
+```
 
 (3) Provide a title attribute.
 
+```html
 	<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” title=”Loan Number”>
+```
 
 (4) Explicitly set the accessible name on an element using aria-label.
 
+```html
 	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” aria-label=”Loan Number”>
-
-
+```
 
 If none of these are present assistive technologies may resort to using the placeholder attribute as a fallback for the accessible name on `<input>` and `<textarea>` elements.
 
@@ -1032,8 +1051,10 @@ There MUST NOT be multiple types of accessible label on the same input field. Re
 
 Antipattern to avoid (a screen reader is likely to read “Loan Number” four times to identify the input):
 
+```html
 	<label for=”loan_number” id=”loan_number_label”>`Loan Number`</label>
 	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” title=”Load Number” aria-label=”Loan Number” labeled-by=”loan_number_label”>
+```
 
 ### Skip to main content link
 
