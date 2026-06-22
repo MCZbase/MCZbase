@@ -151,6 +151,7 @@ limitations under the License.
 												</cfif>
 											</td>
 										</tr>
+										<cfflush>
 									</cfloop>
 								</tbody>
 							</table>
