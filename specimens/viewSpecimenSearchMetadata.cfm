@@ -69,7 +69,9 @@ limitations under the License.
 								SELECT 
 									all_tab_columns.column_name, 
 									all_tab_columns.data_type, 
-									all_col_comments.comments definition
+									all_col_comments.comments definition,
+									all_tab_columns.num_nulls,
+									all_tab_columns.num_rows
 								FROM all_tab_columns
 		            			left join all_col_comments
 		            				on  all_tab_columns.table_name = all_col_comments.table_name
@@ -91,44 +93,76 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<cfloop query="getFlatCols">
-										<!--- get one not null example that I can see --->
-										<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
-											SELECT COALESCE(
-												<!--- Fast path: SAMPLE() for a random example --->
-												(
-													SELECT
+										<!--- Calculate optimal sample percentage from Oracle statistics --->
+										<cfset samplePct = 20><!--- default if stats unavailable --->
+										<cfset statsAvailable = ( NOT isNull(getFlatCols.num_rows) AND NOT isNull(getFlatCols.num_nulls) AND getFlatCols.num_rows GT 0)>
+										<cfif statsAvailable>
+											<cfset nonNullRows = getFlatCols.num_rows - getFlatCols.num_nulls>
+											<cfif nonNullRows EQ 0>
+												<!--- Statistics say column is entirely null: skip queries entirely --->
+												<cfset samplePct = 0>
+											<cfelse>
+												<cfset nonNullFraction = nonNullRows / getFlatCols.num_rows>
+												<!--- ln(1-0.99) / (num_rows * ln(1-p)), target 99% probability --->
+												<cfset rawPct = 100 * log(0.01) / (getFlatCols.num_rows * log(1 - nonNullFraction))>
+												<!--- 
+													Lower bound: Oracle SAMPLE minimum is 0.000001
+													Upper bound: beyond ~20% the COALESCE fallback is comparably fast 
+																 and more reliable than a large sample scan
+												--->
+												<cfset samplePct = min(20, max(0.000001, rawPct))>
+											</cfif>
+										</cfif>
+
+										<cfif statsAvailable AND nonNullRows EQ 0>
+											<!--- Statistics confirm no values exist: skip DB round-trip entirely --->
+											<cfset getExample = queryNew("value", "varchar", [{value: ""}])>
+										<cfelse>
+											<!--- get one not null example that I can see --->
+											<cfquery name="getExample" datasource="user_login" username="#session.dbuser#"
+												password="#decrypt(session.epw,cookie.cfid)#" 
+												timeout="#Application.query_timeout#" 
+												cachedwithin="#createtimespan(7,0,0,0)#">
+												SELECT COALESCE(
+													<!--- Sample at statistically optimal rate --->
+													(SELECT
 														<cfif getFlatCols.data_type EQ 'DATE'>
 															to_char(#getFlatCols.column_name#, 'yyyy-mm-dd')
 														<cfelse>
 															#getFlatCols.column_name#
 														</cfif>
-													FROM flat SAMPLE(20)
-													WHERE #getFlatCols.column_name# IS NOT NULL
+													 FROM flat SAMPLE(#samplePct#)
+													 WHERE #getFlatCols.column_name# IS NOT NULL
 														<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
 															AND ATTRIBUTES_JSON <> '{}'
 														</cfif>
-														AND collection_object_id NOT IN ( SELECT collection_object_id FROM coll_object_encumbrance)
+														AND collection_object_id NOT IN (
+															SELECT collection_object_id FROM coll_object_encumbrance
+														)
 														AND ROWNUM = 1
-												),
-												<!--- Fallback: full scan but stop at first match --->
-												(
-													SELECT
+													),
+													<!--- Fallback: full scan, stops at first match --->
+													(SELECT
 														<cfif getFlatCols.data_type EQ 'DATE'>
 															to_char(#getFlatCols.column_name#, 'yyyy-mm-dd')
 														<cfelse>
 															#getFlatCols.column_name#
 														</cfif>
-													FROM flat
-													WHERE #getFlatCols.column_name# IS NOT NULL
+													 FROM flat
+													 WHERE #getFlatCols.column_name# IS NOT NULL
 														<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
 															AND ATTRIBUTES_JSON <> '{}'
 														</cfif>
-														AND collection_object_id NOT IN ( SELECT collection_object_id FROM coll_object_encumbrance)
+														AND collection_object_id NOT IN (
+															SELECT collection_object_id FROM coll_object_encumbrance
+														)
 														AND ROWNUM = 1
-												)
-											) AS value
-											FROM dual
-										</cfquery>
+													)
+												) AS value
+												FROM dual
+											</cfquery>
+										</cfif>
+
 										<tr>
 											<td>
 												<cfif getFlatCols.data_type EQ 'DATE'>
