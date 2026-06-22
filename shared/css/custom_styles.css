@@ -3,11 +3,8 @@
 body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
-    overflow-x: hidden;
 }
-/*a {
-	color: #0460c1;
-}*/
+/* Add and a{} style for non-href anchors if neded */
 a:link {
 	color: #0460c1;
 	cursor: pointer;
@@ -181,7 +178,6 @@ table td .small {
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
 .part-occurrence-head {
-	/*background-color: #bff1f1;*/
 	background-color: #d4f6f6;
 } 
 .part-occurrence {
@@ -219,8 +215,6 @@ select:focus {
 	outline: 0;
 }
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-/*	line-height: 1.25;
-	margin: .5rem 0;*/
 	font-weight: 500;
 }
 h1, .h1 {
@@ -324,15 +318,6 @@ p {
 	margin-top: 0;
 	font-size: .95rem;
 }
-/*p:focus {
-	box-shadow: 0 0 0 0;
-}
-div:focus, div > span:focus {
-	box-shadow: 0 0 0 0;
-}
-div:focus, div > span:focus {
-	box-shadow: 0 0 0 0;
-}*/
 .info {
 	position: absolute;
 	left: -9000px;
@@ -377,8 +362,7 @@ div:focus, div > span:focus {
 #loanAgents tr {
 	line-height: 1rem;
 }
-label {
-	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
+label {	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
 .border { /* bootstrap border override */
@@ -484,7 +468,6 @@ span.data-entry-addon {
 	height: calc(1.5rem + .5rem + 1px);
 }
 .btn-primary:hover {
-	/*background-color: #d3dfe0;*/
 	color: #212529;
 	background-color: #deebec;
 	background: #deebec;
@@ -511,7 +494,6 @@ span.data-entry-addon {
 	font-weight: 490;
 }
 .btn-powder-blue:hover {
-	/*background-color: #d3dfe0;*/
 	color: #fff;
 	background: #54a4f9;
 	letter-spacing: .04rem;
@@ -589,31 +571,10 @@ span.data-entry-addon {
 	margin-left: .2rem;
 	margin-right: .2rem;
 }
-/*
-.jqx-widget a:link, .jqx-widget a.link {
-	color: #0460c1;
-}
-.jqx-widget a:visited,.jqx-widget a.visited {
-	color: purple;
-}
-.jqx-widget a:hover,.jqx-widget a.hover {
-	color: #0460c1;
-	text-decoration: underline;
-}
-.jqx-widget a.focus, .jqx-widget a:focus {
-	text-decoration: underline;
-	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
-	box-shadow: none;
-	color: purple;
-}
-.jqx-widget a:active {
-	color: #0460c1;
-}*/
 .jqx-item {
 	color: black;
 }
 .text-success {
-	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
 }
 .btn-danger {
@@ -660,7 +621,6 @@ used by cellclassname functions in the results grids
 .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
 	background-color: #e1edff;
 }
-
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -687,7 +647,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	background: -webkit-linear-gradient(top, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*Chrome10-25,Safari5.1-6*/
 	background: linear-gradient(to bottom, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
-	/*border: 1px solid #aaa;*/
 }
 .secondaryType {
 	background-color: white;
@@ -735,9 +694,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
 	border: 1px solid #aaa;
 }
-/*.card-columns .card {
-	margin-bottom: 0;
-}*/
 .card-body {
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
@@ -758,9 +714,6 @@ li.pid {
 .card-header {
 	padding: .25rem .75rem;
 }
-/*.no-card {
-	border: none;
-}*/
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
@@ -828,7 +781,6 @@ body.modal-open {
 .list-group-item {
 	background-color: transparent;
 }
-
 #clearfilter {
 	margin-left: 1rem;
 	margin-top: 1rem;
@@ -1093,22 +1045,8 @@ ul.sd li.list-group-item:last-child {
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
-	/*	padding: .15em 0;*/
 	border-radius: 4px;
 	margin-top: 0px;
-}
-.search-form-basic-odd {
-   /* odd rows in the basic specimen search form */
-/*	background: #f3f3f3;
-	background: -moz-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, #f0f0f0));
-	background: -webkit-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -o-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -ms-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: linear-gradient(to bottom, #f3f3f3 0%, #e1e1e1 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3', endColorstr='@lightgrey', GradientType=0);
-	border-bottom: 1px solid #c1c1c1!important;
-	border-top: 1px solid #cfcfcf!important;*/
 }
 .search-form-basic-odd {
 	/* odd rows in the basic specimen search form */
@@ -1294,7 +1232,6 @@ table#POITable tr td select:hover {
 	padding: .9rem;
 	margin-right: -5px;
 }
-
 #contenttablejqxgrid {
 	z-index: 100;
 }
@@ -1395,7 +1332,6 @@ table#pairs, th, td {
 	background-color: white
 }
 /* Style the arrow inside the select element: */
-/*.custom-select:after, */
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -1444,7 +1380,6 @@ table.mediaTable tr:last-child {
 table.mediaTable td {
 	border-bottom: none;
 }
-
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
@@ -2684,10 +2619,6 @@ table.tablesection td {
 tr.line-top-sd {
 	border-top: 2px solid #e8eaeb!important;
 }
-/*.variedHeight {
-	height: 225px;
-}*/
-
 .imageFeatures {
 	width: 100%;
 	border: 2px solid gray;
@@ -2749,11 +2680,6 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
-
-
-html,body {
-    overflow-x:hidden;
-}
 .wiki-drawer {
 	position: fixed;
 	top: 0;
@@ -2765,6 +2691,7 @@ html,body {
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
 	z-index: 1051;
 	overflow-y: auto;
+    overflow-x: hidden;
     transform: translateX(-355px);
     transition: transform 0.3s ease;
 }
@@ -2821,23 +2748,12 @@ div.toctitle {
 .mw-toc-heading {
 	margin-bottom: 0;
 }
-@media (min-width: 768px) {
-/*    #content.pushed {
-        margin-left: 355px;
-        width: calc(100% - 355px);
-    }
-
-    #content.pushed .ui-dialog {
-        max-width: calc(100vw - 355px);
-    }*/
-}
 /****************end all screen styles*********************/
 /**********************************************************/
 
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
-
 @media only screen and (min-width: 1599px) {
 	.container-wide {
 		padding-right: 9%;
@@ -2954,12 +2870,6 @@ div.toctitle {
 		padding-right: 3px;
 	}
 }
-
-/*@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
-	.variedHeight {
-		height: 235px;
-	}
-}*/
 /*******************/
 /*******************/
 /*******************/
@@ -2974,8 +2884,6 @@ a.wrapurl {
 ul li.list-unstyled span:last-child {
 	display:none;
 }
-
-
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
@@ -3099,9 +3007,6 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-
-
-
 @media only screen and (min-width: 1513px) {
 	.variedHeight {
 		height: 217px;
@@ -3112,12 +3017,6 @@ and also iPads specifically.
 		height: 250px;
 	}
 }
-
-/*@media only screen and (max-width: 1466px) {
-	.variedHeight {
-		height: 250px;
-	}
-}*/
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
 		height: 283px;
@@ -3226,28 +3125,15 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-/*@media only screen and (max-width: 1200px) {
-	.variedHeight {
-		height: 283px;
-	}
-}*/
 @media only screen and (max-width: 1199px) {
 	.variedHeight {
 		height: 250px;
 	}
 }
-/*@media only screen and (max-width: 1000px) {
-	.variedHeight {
-		height: 250px;
-	}
-}*/
 @media only screen and (max-width: 991px) {
 	input#searchText.form-control {
 		min-width: auto;
 	}
-/*	.variedHeight {
-	height: 250px;	
-	}*/
 	h1 {
 		margin-bottom: 0;
 	}
@@ -3482,13 +3368,11 @@ and also iPads specifically.
     .wiki-drawer.open {
         transform: translateX(0);     /* 5vw of page still visible */
     }
-
     /* Don’t push content on these sizes */
     #content.pushed {
         margin-left: 0;
         width: 100%;
     }
-
     /* Let dialogs behave normally on these widths */
     body.wiki-open .ui-dialog {
         width: auto;
@@ -3516,7 +3400,6 @@ and also iPads specifically.
         margin-left: 0;
         width: 100%;
     }
-
     /* Let dialogs behave normally on small screens */
     body.wiki-open .ui-dialog {
         width: auto;        /* remove our large-screen overrides */
@@ -3615,7 +3498,6 @@ and also iPads specifically.
 		content: "\f0d7";
 		font-size: 1.3rem;
 		color: #0460c1 !important;
-		/*down*/
 	}
 	label.read:after {
 		content: "more";
@@ -3641,7 +3523,6 @@ and also iPads specifically.
 		content: "\f0d8";
 		font-size: 1.3rem;
 		color: #0460c1 !important;
-		/* up */
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
 		content: "less";
@@ -3881,9 +3762,7 @@ and also iPads specifically.
 	}
 		.html_desc {
 		width: 100%!important;
-	}
-    
-   
+	}   
 }
 /* styles above are media queries for named groups page*/
 
@@ -3951,6 +3830,4 @@ and also iPads specifically.
 	margin-left: -100px;
 	border: 1px solid white;
 }
-
-
 /* end styles for geolocate frame */
