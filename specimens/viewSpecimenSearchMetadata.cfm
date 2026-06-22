@@ -101,9 +101,12 @@ limitations under the License.
 										<cfset statsAvailable = ( NOT isNull(getFlatCols.num_rows) AND NOT isNull(getFlatCols.num_nulls) AND getFlatCols.num_rows GT 0)>
 										<cfif statsAvailable>
 											<cfset nonNullRows = getFlatCols.num_rows - getFlatCols.num_nulls>
-											<cfif nonNullRows EQ 0>
+											<cfif nonNullRows LTE 0>
 												<!--- Statistics say column is entirely null: skip queries entirely --->
 												<cfset samplePct = 0>
+											<cfelseif (nonNullRows / getFlatCols.num_rows) GTE 1.0>
+												<!--- All (or statistically all) rows non-null: use minimum sample --->
+												<cfset samplePct = 0.000001>
 											<cfelse>
 												<cfset nonNullFraction = nonNullRows / getFlatCols.num_rows>
 												<!--- ln(1-0.99) / (num_rows * ln(1-p)), target 99% probability --->
