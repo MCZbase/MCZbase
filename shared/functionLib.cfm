@@ -499,7 +499,7 @@ limitations under the License.
 		& "?center=#arguments.lat#,#arguments.lng#"
 		& "&zoom=#zoom#"
 		& "&size=#mapWidth#x#mapHeight#"
-		& "&maptype=terrain"
+		& "&maptype=roadmap"
 		& "&markers=color:red|#arguments.lat#,#arguments.lng#"
 		& "&key=#apiKey#">
  
