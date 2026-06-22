@@ -4,9 +4,7 @@ body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
 }
-/*a {
-	color: #0460c1;
-}*/
+/* Add and a{} style for non-href anchors if neded */
 a:link {
 	color: #0460c1;
 	cursor: pointer;
@@ -307,15 +305,6 @@ p {
 	margin-top: 0;
 	font-size: .95rem;
 }
-/*p:focus {
-	box-shadow: 0 0 0 0;
-}
-div:focus, div > span:focus {
-	box-shadow: 0 0 0 0;
-}
-div:focus, div > span:focus {
-	box-shadow: 0 0 0 0;
-}*/
 .info {
 	position: absolute;
 	left: -9000px;
@@ -572,26 +561,6 @@ span.data-entry-addon {
 	margin-left: .2rem;
 	margin-right: .2rem;
 }
-/*
-.jqx-widget a:link, .jqx-widget a.link {
-	color: #0460c1;
-}
-.jqx-widget a:visited,.jqx-widget a.visited {
-	color: purple;
-}
-.jqx-widget a:hover,.jqx-widget a.hover {
-	color: #0460c1;
-	text-decoration: underline;
-}
-.jqx-widget a.focus, .jqx-widget a:focus {
-	text-decoration: underline;
-	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
-	box-shadow: none;
-	color: purple;
-}
-.jqx-widget a:active {
-	color: #0460c1;
-}*/
 .jqx-item {
 	color: black;
 }
@@ -718,9 +687,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
 	border: 1px solid #aaa;
 }
-/*.card-columns .card {
-	margin-bottom: 0;
-}*/
 .card-body {
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
@@ -741,9 +707,6 @@ li.pid {
 .card-header {
 	padding: .25rem .75rem;
 }
-/*.no-card {
-	border: none;
-}*/
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
@@ -811,132 +774,6 @@ body.modal-open {
 .list-group-item {
 	background-color: transparent;
 }
-/***********************************************/
-/* BELOW: filter and column slider menu styles */
-/***********************************************/
-/*#cbp-spmenu-s2 {
-	z-index: 600;
-}*/
-/* #showRightPush black label "Filters" tab that moves the filter for what is in the columns*/
-/*section a#showRightPush {
-	width: 30px;
-	margin-left: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	margin-top: 163px;
-	padding: 7px 1px 7px 5px;
-	position: relative;
-	letter-spacing: .07rem;
-	font-weight: bold;
-	font-size: 1rem;
-	transform-origin: top left;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}*/
-/* #showLeftPush black label "Columns" tab that moves the filter for displaying the columns*/
-/*section a#showLeftPush {
-	width: 32px;
-	margin-right: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	right: 30px;
-	padding: 7px 3px 7px 5px;
-	position: relative;
-	letter-spacing: .07em;
-	font-weight: bold;
-	font-size: 1rem;
-	margin-top: 301px;
-	transform-origin: top right;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu {
-	background: white;
-	position: fixed;
-	z-index: 5000;
-}
-.cbp-spmenu h3.filters {
-	color: #3E6F7D;
-	font-size: 1.7rem;
-	padding: 20px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -298px;
-}
-.cbp-spmenu a {
-	display: block;
-	font-size: 1.1rem;
-	font-weight: 400;
-	color: #006ee3;
-}
-.cbp-spmenu a:hover {
-	cursor: pointer;
-	font-weight: 400;
-}
-.cbp-spmenu a:active {
-	color: azure;
-}
-.cbp-spmenu-vertical {
-	width: 298px;
-	height: 100%;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
-
-.cbp-spmenu-right {
-	right: -298px;
-}
-.cbp-spmenu-right.cbp-spmenu-open {
-	right: 0px;
-	border-left: 1px solid #ccc;
-	padding-right: 3px;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu, .cbp-spmenu-push {
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu h3.columns {
-	color: #3E6F7D;
-	font-size: 1.3rem;
-	padding: 16px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -392px;
-}
-
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu section a.disabled {
-	display: none;
-}
-.cbp-spmenu-vertical-left {
-	width: 214px;
-	height: 420px;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu-left.cbp-spmenu-open {
-	right: 0px;
-	border: 1px solid #ccc;
-	border-right: none;
-	transition: all 0.3s ease;
-}*/
 #clearfilter {
 	margin-left: 1rem;
 	margin-top: 1rem;
@@ -1204,19 +1041,6 @@ ul.sd li.list-group-item:last-child {
 	/*	padding: .15em 0;*/
 	border-radius: 4px;
 	margin-top: 0px;
-}
-.search-form-basic-odd {
-   /* odd rows in the basic specimen search form */
-/*	background: #f3f3f3;
-	background: -moz-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, #f0f0f0));
-	background: -webkit-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -o-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -ms-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: linear-gradient(to bottom, #f3f3f3 0%, #e1e1e1 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3', endColorstr='@lightgrey', GradientType=0);
-	border-bottom: 1px solid #c1c1c1!important;
-	border-top: 1px solid #cfcfcf!important;*/
 }
 .search-form-basic-odd {
 	/* odd rows in the basic specimen search form */
@@ -1503,7 +1327,6 @@ table#pairs, th, td {
 	background-color: white
 }
 /* Style the arrow inside the select element: */
-/*.custom-select:after, */
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -2566,7 +2389,6 @@ div.vslider-item[aria-hidden="true"]{
 	webkit-transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1);
 	transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1)
 }
-
 .toggle-switch:not(.disabled) .ts-helper:active:before {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(128, 128, 128, .1)
 }
@@ -2871,24 +2693,9 @@ div.toctitle {
 .thumbinner {
     display:none;
 }
-/*
-Can not do this, dialogs have z-index set dynamically and an overlay that should be 
-beneath modal dialogs may be higher than 9997, thus placing arbitrary dialogs beneath 
-an overlay that prevents interaction with them.
-.ui-dialog {
-	z-index: 9997 !important;
-}
-#wikiDrawer {
-	z-index: 9997 !important;
-}
-*/
 .mw-toc-heading {
 	margin-bottom: 0;
 }
-
-
-
-/* Base wrapper: fill the column */
 .tinymap {
     position: relative;
     width: 100%;
@@ -3053,28 +2860,12 @@ an overlay that prevents interaction with them.
 		padding-right: 3px;
 	}
 }
-
-/*@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
-	.variedHeight {
-		height: 235px;
-	}
-}*/
-/*******************/
-/*******************/
-/*******************/
-/*******The two styles below lost their 
-************media query and I don't 
-know if they should be removed.  
-If added back to media query, it may not 
-have intented effects************/
 a.wrapurl {
 	overflow-wrap:anywhere;
 }
 ul li.list-unstyled span:last-child {
 	display:none;
 }
-
-
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
@@ -3092,7 +2883,6 @@ and also iPads specifically.
 	.w-350 {
 		width: 100%;
 	}
-
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
@@ -3198,9 +2988,6 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-
-
-
 @media only screen and (min-width: 1513px) {
 	.variedHeight {
 		height: 217px;
@@ -3211,12 +2998,6 @@ and also iPads specifically.
 		height: 250px;
 	}
 }
-
-/*@media only screen and (max-width: 1466px) {
-	.variedHeight {
-		height: 250px;
-	}
-}*/
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
 		height: 283px;
@@ -3325,28 +3106,17 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-/*@media only screen and (max-width: 1200px) {
-	.variedHeight {
-		height: 283px;
-	}
-}*/
+
 @media only screen and (max-width: 1199px) {
 	.variedHeight {
 		height: 250px;
 	}
 }
-/*@media only screen and (max-width: 1000px) {
-	.variedHeight {
-		height: 250px;
-	}
-}*/
+
 @media only screen and (max-width: 991px) {
 	input#searchText.form-control {
 		min-width: auto;
 	}
-/*	.variedHeight {
-	height: 250px;	
-	}*/
 	h1 {
 		margin-bottom: 0;
 	}
