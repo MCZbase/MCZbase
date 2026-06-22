@@ -93,17 +93,41 @@ limitations under the License.
 									<cfloop query="getFlatCols">
 										<!--- get one not null example that I can see --->
 										<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
-											SELECT 
-												<cfif getFlatCols.data_type EQ 'DATE'>
-													to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
-												<cfelse>
-													#getFlatCols.column_name# 
-												</cfif>
-												as value
-											FROM flat sample(20)
-											WHERE #getFlatCols.column_name# IS NOT NULL
-												and rownum = 1
-												and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+											SELECT COALESCE(
+												<!--- Fast path: SAMPLE() for a random example --->
+												(
+													SELECT
+														<cfif getFlatCols.data_type EQ 'DATE'>
+															to_char(#getFlatCols.column_name#, 'yyyy-mm-dd')
+														<cfelse>
+															#getFlatCols.column_name#
+														</cfif>
+													FROM flat SAMPLE(20)
+													WHERE #getFlatCols.column_name# IS NOT NULL
+														<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
+															AND ATTRIBUTES_JSON <> '{}'
+														</cfif>
+														AND collection_object_id NOT IN ( SELECT collection_object_id FROM coll_object_encumbrance)
+														AND ROWNUM = 1
+												),
+												<!--- Fallback: full scan but stop at first match --->
+												(
+													SELECT
+														<cfif getFlatCols.data_type EQ 'DATE'>
+															to_char(#getFlatCols.column_name#, 'yyyy-mm-dd')
+														<cfelse>
+															#getFlatCols.column_name#
+														</cfif>
+													FROM flat
+													WHERE #getFlatCols.column_name# IS NOT NULL
+														<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
+															AND ATTRIBUTES_JSON <> '{}'
+														</cfif>
+														AND collection_object_id NOT IN ( SELECT collection_object_id FROM coll_object_encumbrance)
+														AND ROWNUM = 1
+												)
+											) AS value
+											FROM dual
 										</cfquery>
 										<tr>
 											<td>
@@ -116,36 +140,8 @@ limitations under the License.
 											<td>#getFlatCols.definition#</td>
 											<td>#getFlatCols.data_type#</td>
 											<td>
-												<cfif len(trim(getExample.value)) EQ 0 OR ( getFlatCols.column_name EQ 'ATTRIBUTES_JSON' AND len(getExample.value) LT 3 ) > 
-													<cfquery name="checkAllNull" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
-														SELECT count(*) ct
-															FROM flat
-															WHERE #getFlatCols.column_name# IS NOT NULL
-																<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
-																	and ATTRIBUTES_JSON <> '{}'
-																</cfif>
-													</cfquery>
-													<cfif checkAllNull.ct EQ 0>
-														[No Values]
-													<cfelse>
-														<cfquery name="getExampleAny" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
-															SELECT 
-																<cfif getFlatCols.data_type EQ 'DATE'>
-																	to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
-																<cfelse>
-																	#getFlatCols.column_name# 
-																</cfif>
-																as value
-															FROM flat
-															WHERE #getFlatCols.column_name# IS NOT NULL
-																and rownum = 1
-																and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
-																<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
-																	and ATTRIBUTES_JSON <> '{}'
-																</cfif>
-														</cfquery>
-														#getExampleAny.value#
-													</cfif>
+												<cfif len(trim(getExample.value)) EQ 0>
+													[No Values]
 												<cfelse>
 													#getExample.value#
 												</cfif>
