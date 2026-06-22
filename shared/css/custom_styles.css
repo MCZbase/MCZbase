@@ -171,16 +171,30 @@ table td .small {
 .bg-verylightteal {
 	background-color: #f2f9ff;
 }
+.bg-med-teal {
+    background-color: #deebec;
+}
+
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
 .part-occurrence-head {
-	/*background-color: #bff1f1;*/
 	background-color: #d4f6f6;
 } 
 .part-occurrence {
 	background-color: #d4f6f685;
 }
-
+.field-set {
+    background-color: #efeded !important;
+}
+.field-set-legend {
+    background-color: #f8f9fa !important;
+    color: #041132 !important;
+    font-weight: 520 !important;
+    text-align: left;
+}
+.border2 {
+    border: 1px solid #5f9da3;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
@@ -201,8 +215,6 @@ select:focus {
 	outline: 0;
 }
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-/*	line-height: 1.25;
-	margin: .5rem 0;*/
 	font-weight: 500;
 }
 h1, .h1 {
@@ -255,7 +267,8 @@ h1.h4 {
 	margin-top: .5rem;
 }
 .text-dark-gray {
-	color: #524e4e;
+    color: #524e4e;
+    color: #4f4b4b;
 }
 .btn-link, .helpText, .fas-info {
 	color: #0460c1 !important;
@@ -349,8 +362,7 @@ p {
 #loanAgents tr {
 	line-height: 1rem;
 }
-label {
-	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
+label { /* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
 .border { /* bootstrap border override */
@@ -456,7 +468,6 @@ span.data-entry-addon {
 	height: calc(1.5rem + .5rem + 1px);
 }
 .btn-primary:hover {
-	/*background-color: #d3dfe0;*/
 	color: #212529;
 	background-color: #deebec;
 	background: #deebec;
@@ -483,7 +494,6 @@ span.data-entry-addon {
 	font-weight: 490;
 }
 .btn-powder-blue:hover {
-	/*background-color: #d3dfe0;*/
 	color: #fff;
 	background: #54a4f9;
 	letter-spacing: .04rem;
@@ -565,7 +575,6 @@ span.data-entry-addon {
 	color: black;
 }
 .text-success {
-	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
 }
 .btn-danger {
@@ -612,7 +621,6 @@ used by cellclassname functions in the results grids
 .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
 	background-color: #e1edff;
 }
-
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -639,7 +647,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	background: -webkit-linear-gradient(top, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*Chrome10-25,Safari5.1-6*/
 	background: linear-gradient(to bottom, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
-	/*border: 1px solid #aaa;*/
 }
 .secondaryType {
 	background-color: white;
@@ -1038,7 +1045,6 @@ ul.sd li.list-group-item:last-child {
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
-	/*	padding: .15em 0;*/
 	border-radius: 4px;
 	margin-top: 0px;
 }
@@ -1226,7 +1232,6 @@ table#POITable tr td select:hover {
 	padding: .9rem;
 	margin-right: -5px;
 }
-
 #contenttablejqxgrid {
 	z-index: 100;
 }
@@ -1375,7 +1380,6 @@ table.mediaTable tr:last-child {
 table.mediaTable td {
 	border-bottom: none;
 }
-
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
@@ -2155,37 +2159,73 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-button.help-btn {
-	background-color: #1b1b1b;
-	color: white;
-	float:right;
-	-webkit-backface-visibility: hidden;
-	-webkit-transform: translateX(-98%) rotate(-90deg);
-	-webkit-transform-origin: right top;
-	-moz-transform: translateX(-98%) rotate(-90deg);
-	-moz-transform-origin: right top;
-	-o-transform: translateX(-98%) rotate(-90deg);
-	-o-transform-origin: right top;
-	transform: translateX(-98%) rotate(-90deg);
-	transform-origin: right top;
-	margin-bottom: 15px;
-	top: -.25rem;
-	right: -92px;
-	z-index:1; 
-	padding-top:.15rem;
-	padding-bottom: .15rem; 
-	font-size: 13.5px;
-	margin-top:0;
-	position: absolute;
+
+button.help-btnSp-SearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    float: right;
+    margin-bottom: 15px;
+    top: 2.1rem;
+    right: 1.75rem;
+    z-index: 1; 
+    padding-top: .5rem;
+    padding-bottom: .35rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    /* Only bottom-left and bottom-right rounded */
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
 }
-/*.jqx-fill-state-normal { 
-	border-color: #e0da76; 
-	background-color: #fdfcf3;
-}*/
-#collapseKeyword h2.headerSm {
+button.help-btnA-SearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    float: right;
+    margin-bottom: 15px;
+    top: 1.5rem;
+    right: 4rem;
+    z-index: 1; 
+    padding-top: .5rem;
+    padding-bottom: .35rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    /* Only bottom-left and bottom-right rounded */
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
+}
+button.help-btnSearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateX(-98%) rotate(90deg);
+    -webkit-transform-origin: right top;
+    -moz-transform: translateX(-98%) rotate(90deg);
+    -moz-transform-origin: right top;
+    -o-transform: translateX(-98%) rotate(90deg);
+    -o-transform-origin: right top;
+    transform: translateX(-98%) rotate(90deg);
+    transform-origin: right top;
+    margin-bottom: 15px;
+    top: 11.5rem;
+    right: -120px;
+    z-index: 1; 
+    padding-top: .75rem;
+    padding-bottom: .15rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    /* Only bottom-left and bottom-right rounded */
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
+}
+#wikiDrawer h2.headerSm {
 	font-size: 1.25rem;
 }
-#collapseKeyword dt {
+#wikiDrawer dt {
 	float:left;
 	display: inline-block;
 	min-width: 25px!important;
@@ -2389,6 +2429,7 @@ div.vslider-item[aria-hidden="true"]{
 	webkit-transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1);
 	transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1)
 }
+
 .toggle-switch:not(.disabled) .ts-helper:active:before {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(128, 128, 128, .1)
 }
@@ -2403,99 +2444,103 @@ div.vslider-item[aria-hidden="true"]{
 	cursor: pointer
 }
 .toggle-switch input:checked+.ts-helper:before {
-	left: 20px
+    left: 20px
 }
 .toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper {
-	background: rgba(0, 150, 136, .5)
+    background: rgba(0, 150, 136, .5)
 }
 .toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:before {
-	background: #009688
+    background: #009688
 }
 .toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
 }
 .toggle-switch.disabled {
-	opacity: .6;
-	filter: alpha(opacity=60)
+    opacity: .6;
+    filter: alpha(opacity=60)
 }
 .toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper {
-	background: rgba(244, 67, 54, .5)
+    background: rgba(244, 67, 54, .5)
 }
 .toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:before {
-	background: #F44336
+    background: #F44336
 }
 .toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
 }
 .toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper {
-	background: rgba(33, 150, 243, .5)
+    background: rgba(33, 150, 243, .5);
 }
 .toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:before {
-	background: #2196F3
+    background: #2196F3
 }
 .toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
 }
 .toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper {
-	background: rgba(255, 193, 7, .5)
+    background: rgba(255, 193, 7, .5)
 }
 .toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:before {
-	background: #FFC107
+    background: #FFC107
 }
 .toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
 }
 .toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper {
-	background: rgba(186, 104, 200, .5)
+    background: rgba(186, 104, 200, .5)
 }
 .toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:before {
-	background: #BA68C8
+    background: #BA68C8
 }
 .toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
 }
 .toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper {
-	background: rgba(233, 30, 99, .5)
+    background: rgba(233, 30, 99, .5)
 }
 .toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:before {
-	background: #E91E63
+    background: #E91E63
 }
 .toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
 }
 .toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper {
-	background: rgba(205, 220, 57, .5)
+    background: rgba(205, 220, 57, .5)
 }
 .toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:before {
-	background: #CDDC39
+    background: #CDDC39
 }
 .toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
 }
 .toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper {
-	background: rgba(0, 188, 212, .5)
+    background: rgba(0, 188, 212, .5)
 }
 .toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:before {
-	background: #00BCD4
+    background: #00BCD4
 }
 .toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
 }
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper {
-	background: rgba(76, 175, 80, .5)
+    background: rgba(76, 175, 80, .5)
 }
 
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:before {
-	background: #4CAF50
+    background: #4CAF50
 }
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
 }	
 input[disabled] {
 	color:#9e9e9e;
 }
 .pt2px {
-	padding-top:2px!important;
+    padding-top:2px!important;
+}
+.py2px {
+    padding-top: 2px!important;
+    padding-bottom:2px!important;
 }
 .pt3px {
 	padding-top:3px!important;
@@ -2574,10 +2619,6 @@ table.tablesection td {
 tr.line-top-sd {
 	border-top: 2px solid #e8eaeb!important;
 }
-/*.variedHeight {
-	height: 225px;
-}*/
-
 .imageFeatures {
 	width: 100%;
 	border: 2px solid gray;
@@ -2642,18 +2683,20 @@ form.form-inline.logout-style {
 .wiki-drawer {
 	position: fixed;
 	top: 0;
-	left: -400px;
-	width: 400px;
+	left: 0;
+	width: 355px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
 	z-index: 1051;
-	transition: left 0.3s;
 	overflow-y: auto;
+    overflow-x: hidden; 
+    transform: translateX(-355px);
+    transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
-	left: 0;
+	transform: translateX(0);
 }
 #content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
@@ -2664,7 +2707,16 @@ form.form-inline.logout-style {
 	margin-left: 400px;
 	width: calc(100% - 400px);
 }
-
+body.wiki-open .ui-dialog {
+    /* Override jQuery UI's inline width */
+    width: auto !important;
+    max-width: calc(100vw - 355px) !important;
+    /* Keep the dialog entirely in the visible (non-wiki) area */
+    left: 355px !important;      /* start right after the drawer */
+    right: 0 !important;
+    /* Optional: ensure it stays within viewport */
+    box-sizing: border-box;
+}
 div.mw-parser-output h1 {
 	font-size: 20px;
 	font-weight:bold;
@@ -2722,7 +2774,6 @@ div.toctitle {
     width: 100%;
     height: 100%;
 }
-
 /* Static thumbnail: keep whole map and center it */
 .tinymap .static-map {
     object-fit: cover;
@@ -2743,7 +2794,6 @@ div.toctitle {
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
-
 @media only screen and (min-width: 1599px) {
 	.container-wide {
 		padding-right: 9%;
@@ -2754,7 +2804,7 @@ div.toctitle {
 	.w-350 {
 		width: 100%;
 	}
-
+    
 	ol.flowXXS,ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
