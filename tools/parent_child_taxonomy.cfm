@@ -108,12 +108,64 @@ limitations under the License.
 <cfset variables.skippedCount = 0>
 <cfset variables.invalidCount = 0>
 <cfset variables.updatedSelectionList = "">
+<cfset variables.noDeterminerText = "[no determiner]">
+<cfset variables.guidUnavailableText = "[GUID unavailable]">
+<cfset variables.updatedSummaryColumns = "source_collection_object_id,related_collection_object_id,source_guid,related_guid,scientific_name,nature_of_id,determiner,made_date">
+<cfset variables.updatedSummaryTypes = "varchar,varchar,varchar,varchar,varchar,varchar,varchar,varchar">
+<cfset variables.updatedSummaryRows = queryNew(variables.updatedSummaryColumns, variables.updatedSummaryTypes)>
 
 <cfif variables.action EQ "syncSelected">
 	<cfif len(trim(form.selected_pair)) EQ 0>
 		<cfset variables.statusClass = "text-warning">
 		<cfset variables.statusMessage = "No rows were selected. Select one or more rows to add/sync accepted identifications.">
 	<cfelse>
+		<cfset variables.syncDeterminer = variables.noDeterminerText>
+		<cfset variables.syncIdentifiedDate = dateFormat(now(), "yyyy-MM-dd")>
+		<cfquery name="getSyncDeterminer" datasource="cf_dbuser">
+			SELECT
+				nvl(agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.noDeterminerText#">) AS agent_name
+			FROM
+				preferred_agent_name
+			WHERE
+				agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+		</cfquery>
+		<cfif getSyncDeterminer.recordcount EQ 1>
+			<cfset variables.syncDeterminer = getSyncDeterminer.agent_name>
+		</cfif>
+		<cfset variables.selectedSourceIds = "">
+		<cfset variables.selectedRelatedIds = "">
+		<cfset variables.selectedPairGuidMap = structNew()>
+		<cfloop list="#form.selected_pair#" index="variables.selectedPair">
+			<cfset variables.selectedSourceCollectionObjectId = listFirst(variables.selectedPair, variables.selectedPairDelimiter)>
+			<cfset variables.selectedRelatedCollectionObjectId = listLast(variables.selectedPair, variables.selectedPairDelimiter)>
+			<cfif isValid("integer", variables.selectedSourceCollectionObjectId) AND isValid("integer", variables.selectedRelatedCollectionObjectId)>
+				<cfset variables.selectedSourceIds = listAppend(variables.selectedSourceIds, variables.selectedSourceCollectionObjectId)>
+				<cfset variables.selectedRelatedIds = listAppend(variables.selectedRelatedIds, variables.selectedRelatedCollectionObjectId)>
+			</cfif>
+		</cfloop>
+		<cfif len(variables.selectedSourceIds) GT 0 AND len(variables.selectedRelatedIds) GT 0>
+			<cfquery name="getSelectedPairGuids" datasource="cf_dbuser">
+				SELECT
+					bir.collection_object_id AS source_collection_object_id,
+					bir.related_coll_object_id AS related_collection_object_id,
+					nvl(sourceColl.institution_acronym, '[missing]') || ':' || nvl(sourceColl.collection_cde, '[missing]') || ':' || nvl(sourceCat.cat_num, '[missing]') AS source_guid,
+					nvl(relatedColl.institution_acronym, '[missing]') || ':' || nvl(relatedColl.collection_cde, '[missing]') || ':' || nvl(relatedCat.cat_num, '[missing]') AS related_guid
+				FROM
+					biol_indiv_relations bir
+					JOIN cataloged_item sourceCat ON bir.collection_object_id = sourceCat.collection_object_id
+					JOIN collection sourceColl ON sourceCat.collection_id = sourceColl.collection_id
+					JOIN cataloged_item relatedCat ON bir.related_coll_object_id = relatedCat.collection_object_id
+					JOIN collection relatedColl ON relatedCat.collection_id = relatedColl.collection_id
+				WHERE
+					lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
+					AND bir.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" list="yes" value="#variables.selectedSourceIds#">)
+					AND bir.related_coll_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" list="yes" value="#variables.selectedRelatedIds#">)
+			</cfquery>
+			<cfloop query="getSelectedPairGuids">
+				<cfset variables.selectedPairGuidKey = "#getSelectedPairGuids.source_collection_object_id##variables.selectedPairDelimiter##getSelectedPairGuids.related_collection_object_id#">
+				<cfset variables.selectedPairGuidMap[variables.selectedPairGuidKey] = {"source_guid" = getSelectedPairGuids.source_guid, "related_guid" = getSelectedPairGuids.related_guid}>
+			</cfloop>
+		</cfif>
 		<cfloop list="#form.selected_pair#" index="variables.selectedPair">
 			<cfset variables.attemptedCount = variables.attemptedCount + 1>
 			<cfset variables.sourceCollectionObjectId = listFirst(variables.selectedPair, variables.selectedPairDelimiter)>
@@ -201,6 +253,21 @@ limitations under the License.
 						</cfquery>
 						<cfset variables.updatedCount = variables.updatedCount + 1>
 						<cfset variables.updatedSelectionList = listAppend(variables.updatedSelectionList, "#variables.sourceCollectionObjectId##variables.selectedPairDelimiter##variables.relatedCollectionObjectId#")>
+						<cfset variables.updatedSummaryRowIndex = queryAddRow(variables.updatedSummaryRows, 1)>
+						<cfset querySetCell(variables.updatedSummaryRows, "source_collection_object_id", variables.sourceCollectionObjectId, variables.updatedSummaryRowIndex)>
+						<cfset querySetCell(variables.updatedSummaryRows, "related_collection_object_id", variables.relatedCollectionObjectId, variables.updatedSummaryRowIndex)>
+						<cfset variables.updatedPairGuidKey = "#variables.sourceCollectionObjectId##variables.selectedPairDelimiter##variables.relatedCollectionObjectId#">
+						<cfif structKeyExists(variables.selectedPairGuidMap, variables.updatedPairGuidKey)>
+							<cfset querySetCell(variables.updatedSummaryRows, "source_guid", variables.selectedPairGuidMap[variables.updatedPairGuidKey].source_guid, variables.updatedSummaryRowIndex)>
+							<cfset querySetCell(variables.updatedSummaryRows, "related_guid", variables.selectedPairGuidMap[variables.updatedPairGuidKey].related_guid, variables.updatedSummaryRowIndex)>
+						<cfelse>
+							<cfset querySetCell(variables.updatedSummaryRows, "source_guid", variables.guidUnavailableText, variables.updatedSummaryRowIndex)>
+							<cfset querySetCell(variables.updatedSummaryRows, "related_guid", variables.guidUnavailableText, variables.updatedSummaryRowIndex)>
+						</cfif>
+						<cfset querySetCell(variables.updatedSummaryRows, "scientific_name", getSourceIdentification.scientific_name, variables.updatedSummaryRowIndex)>
+						<cfset querySetCell(variables.updatedSummaryRows, "nature_of_id", variables.newNatureOfId, variables.updatedSummaryRowIndex)>
+						<cfset querySetCell(variables.updatedSummaryRows, "determiner", variables.syncDeterminer, variables.updatedSummaryRowIndex)>
+						<cfset querySetCell(variables.updatedSummaryRows, "made_date", variables.syncIdentifiedDate, variables.updatedSummaryRowIndex)>
 					<cfelse>
 						<cfset variables.skippedCount = variables.skippedCount + 1>
 					</cfif>
@@ -333,49 +400,18 @@ limitations under the License.
 				<div class="mt-2">
 					<p class="mb-1">Added accepted identifications for:</p>
 					<ul class="mb-0">
-						<cfloop list="#variables.updatedSelectionList#" index="variables.updatedSelection">
-							<cfif listLen(variables.updatedSelection, variables.selectedPairDelimiter) EQ 2>
-								<cfset variables.updatedSourceCollectionObjectId = listGetAt(variables.updatedSelection, 1, variables.selectedPairDelimiter)>
-								<cfset variables.updatedRelatedCollectionObjectId = listGetAt(variables.updatedSelection, 2, variables.selectedPairDelimiter)>
-								<cfquery name="getAddedIdentificationSummary" datasource="cf_dbuser">
-									SELECT
-										updatedId.scientific_name,
-										updatedId.nature_of_id,
-										updatedId.made_date,
-										nvl(updatedDeterminer.agent_name, '[no determiner]') AS determiner,
-										sourceColl.institution_acronym || ':' || sourceColl.collection_cde || ':' || sourceCat.cat_num AS source_guid,
-										relatedColl.institution_acronym || ':' || relatedColl.collection_cde || ':' || relatedCat.cat_num AS related_guid
-									FROM
-										identification updatedId
-										JOIN cataloged_item relatedCat ON updatedId.collection_object_id = relatedCat.collection_object_id
-										JOIN collection relatedColl ON relatedCat.collection_id = relatedColl.collection_id
-										JOIN cataloged_item sourceCat ON sourceCat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.updatedSourceCollectionObjectId#">
-										JOIN collection sourceColl ON sourceCat.collection_id = sourceColl.collection_id
-										LEFT JOIN identification_agent updatedIA ON updatedId.identification_id = updatedIA.identification_id AND updatedIA.identifier_order = 1
-										LEFT JOIN preferred_agent_name updatedDeterminer ON updatedIA.agent_id = updatedDeterminer.agent_id
-									WHERE
-										updatedId.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.updatedRelatedCollectionObjectId#">
-										AND updatedId.accepted_id_fg = 1
-								</cfquery>
-								<li>
-									<cfif getAddedIdentificationSummary.recordcount EQ 1>
-										added identification
-										#encodeForHtml(getAddedIdentificationSummary.scientific_name)#
-										to related
-										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(getAddedIdentificationSummary.related_guid)#</a>
-										from source
-										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(getAddedIdentificationSummary.source_guid)#</a>;
-										type of id: #encodeForHtml(getAddedIdentificationSummary.nature_of_id)#;
-										determiner: #encodeForHtml(getAddedIdentificationSummary.determiner)#;
-										date identified: #encodeForHtml(getAddedIdentificationSummary.made_date)#
-									<cfelse>
-										added identification to related
-										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(variables.updatedRelatedCollectionObjectId)#</a>
-										from source
-										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(variables.updatedSourceCollectionObjectId)#</a>
-									</cfif>
-								</li>
-							</cfif>
+						<cfloop query="variables.updatedSummaryRows">
+							<li>
+								added identification
+								#encodeForHtml(variables.updatedSummaryRows.scientific_name)#
+								to related
+								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSummaryRows.related_collection_object_id)#">#encodeForHtml(variables.updatedSummaryRows.related_guid)#</a>
+								from source
+								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSummaryRows.source_collection_object_id)#">#encodeForHtml(variables.updatedSummaryRows.source_guid)#</a>;
+								type of id: #encodeForHtml(variables.updatedSummaryRows.nature_of_id)#;
+								determiner: #encodeForHtml(variables.updatedSummaryRows.determiner)#;
+								date identified: #encodeForHtml(variables.updatedSummaryRows.made_date)#
+							</li>
 						</cfloop>
 					</ul>
 				</div>
