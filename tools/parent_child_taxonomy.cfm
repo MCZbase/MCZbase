@@ -498,8 +498,8 @@ limitations under the License.
 									<cfloop query="relationshipPairs">
 										<!--- identify the row to be updated with a pair of collection object ids, one source, one target (related) separated by a delimiter --->
 										<cfset variables.rowValue = "#relationshipPairs.collection_object_id##variables.SELECTED_PAIR_DELIMITER##relationshipPairs.related_coll_object_id#">
-										<cfset variables.sourceSpecimenLabel = "#relationshipPairs.source_institution_acronym# #relationshipPairs.source_collection_cde# #relationshipPairs.source_cat_num#">
-										<cfset variables.relatedSpecimenLabel = "#relationshipPairs.related_institution_acronym# #relationshipPairs.related_collection_cde# #relationshipPairs.related_cat_num#">
+										<cfset variables.sourceSpecimenLabel = "#relationshipPairs.source_institution_acronym#:#relationshipPairs.source_collection_cde#:#relationshipPairs.source_cat_num#">
+										<cfset variables.relatedSpecimenLabel = "#relationshipPairs.related_institution_acronym#:#relationshipPairs.related_collection_cde#:#relationshipPairs.related_cat_num#">
 										<cfset variables.copySourceToRelatedValue = variables.rowValue & variables.SELECTED_PAIR_DELIMITER & "s2r">
 										<cfset variables.copyRelatedToSourceValue = variables.rowValue & variables.SELECTED_PAIR_DELIMITER & "r2s">
 										<cfset variables.copySourceToRelatedId = "copy_source_to_related_" & relationshipPairs.currentRow>
