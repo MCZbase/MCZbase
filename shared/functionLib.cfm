@@ -477,10 +477,17 @@ limitations under the License.
 	<cfargument name="layout"       type="string"  required="false" default="3col">
 	<cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-	<cfset var mapWidth  = 640>
-	<cfset var mapHeight = 400> 
-
-	<cfset var zoom        = 11>
+  <!-- choose size and zoom based on layout -->
+  <cfif arguments.layout EQ "2col">
+    <cfset var mapWidth  = 640>
+    <cfset var mapHeight = 400>
+    <cfset var zoom      = 11>   <!-- closer in for 2‑column -->
+  <cfelse>
+    <cfset var mapWidth  = 480>
+    <cfset var mapHeight = 320>
+    <cfset var zoom      = 10>   <!-- matches interactive -->
+  </cfif>
+        
 	<cfset var mapDir      = expandPath("/cache/static_maps/")>
 	<cfset var mapFileName = "locality-#arguments.locality_id#.png">
 	<cfset var mapFilePath = mapDir & mapFileName>
@@ -498,7 +505,7 @@ limitations under the License.
 	<cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
 		& "?center=#arguments.lat#,#arguments.lng#"
 		& "&zoom=#zoom#"
-        & "scale=2"
+        & "&scale=2"
 		& "&size=#mapWidth#x#mapHeight#"
 		& "&maptype=roadmap"
 		& "&markers=color:red|#arguments.lat#,#arguments.lng#"
