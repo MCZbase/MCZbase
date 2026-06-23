@@ -2775,7 +2775,7 @@ div.toctitle {
 /* Explicit heights per layout */
 .tinymap-3col {
     height: 180px;   
-    overflow: hidden;
+ /*   overflow: hidden;*/
     float:left;
     width: 100%;
 }
