@@ -2768,7 +2768,7 @@ div.toctitle {
 	margin-bottom: 0;
 }
 .tinymap {
-    position: relative;
+ /*   position: relative;*/
     width: 100%;
     height: 180px;
     overflow: hidden;
