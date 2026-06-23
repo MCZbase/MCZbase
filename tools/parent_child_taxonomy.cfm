@@ -488,6 +488,7 @@ limitations under the License.
 									<tr>
 										<th scope="col">Relationship Source Item</th>
 										<th scope="col">Source Accepted Identification</th>
+										<th scope="col">Relationship</th>
 										<th scope="col">Copy ID</th>
 										<th scope="col">Related Item</th>
 										<th scope="col">Related Accepted Identification</th>
@@ -525,12 +526,15 @@ limitations under the License.
 													<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# other identification<cfif relationshipPairs.source_other_identification_count NEQ 1>s</cfif></span>
 												</cfif>
 											</td>
+											<td class="text-center">
+												<span class="small">source #encodeForHtml(variables.relationshipType)# related</span>
+											</td>
 											<td>
 												<input type="checkbox" class="relationship-row-check" id="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#" name="selected_pair" value="#encodeForHtmlAttribute(variables.copySourceToRelatedValue)#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.sourceSpecimenLabel)# to #encodeForHtmlAttribute(variables.relatedSpecimenLabel)#">
-												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#">Copy ID to Related</label>
+												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#">Copy ID &rarr; Related</label>
 												<br>
 												<input type="checkbox" class="relationship-row-check" id="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#" name="selected_pair" value="#encodeForHtmlAttribute(variables.copyRelatedToSourceValue)#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.relatedSpecimenLabel)# to #encodeForHtmlAttribute(variables.sourceSpecimenLabel)#">
-												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#">Copy ID to Source</label>
+												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#">Copy ID &larr; Source</label>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
