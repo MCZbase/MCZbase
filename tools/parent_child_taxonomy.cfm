@@ -35,6 +35,7 @@ limitations under the License.
 <cfparam name="form.selected_pair" default="">
 
 <cfset variables.allowedRelationships = "parent of,embryo of,offspring of,littermate of,sibling of,egg of,same individual organism as,part to counterpart,cast of">
+<cfset variables.selectedPairDelimiter = ":">
 <cfset variables.action = "entryPoint">
 <cfif len(trim(url.action)) GT 0><cfset variables.action = trim(url.action)></cfif>
 <cfif len(trim(form.action)) GT 0><cfset variables.action = trim(form.action)></cfif>
@@ -115,8 +116,8 @@ limitations under the License.
 	<cfelse>
 		<cfloop list="#form.selected_pair#" index="variables.selectedPair">
 			<cfset variables.attemptedCount = variables.attemptedCount + 1>
-			<cfset variables.sourceCollectionObjectId = listFirst(variables.selectedPair, ":")>
-			<cfset variables.relatedCollectionObjectId = listLast(variables.selectedPair, ":")>
+			<cfset variables.sourceCollectionObjectId = listFirst(variables.selectedPair, variables.selectedPairDelimiter)>
+			<cfset variables.relatedCollectionObjectId = listLast(variables.selectedPair, variables.selectedPairDelimiter)>
 			<cfif NOT isValid("integer", variables.sourceCollectionObjectId) OR NOT isValid("integer", variables.relatedCollectionObjectId)>
 				<cfset variables.invalidCount = variables.invalidCount + 1>
 			<cfelse>
@@ -199,7 +200,7 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfset variables.updatedCount = variables.updatedCount + 1>
-						<cfset variables.updatedSelectionList = listAppend(variables.updatedSelectionList, "#variables.sourceCollectionObjectId#:#variables.relatedCollectionObjectId#")>
+						<cfset variables.updatedSelectionList = listAppend(variables.updatedSelectionList, "#variables.sourceCollectionObjectId##variables.selectedPairDelimiter##variables.relatedCollectionObjectId#")>
 					<cfelse>
 						<cfset variables.skippedCount = variables.skippedCount + 1>
 					</cfif>
@@ -333,9 +334,9 @@ limitations under the License.
 					<p class="mb-1">Added accepted identifications for:</p>
 					<ul class="mb-0">
 						<cfloop list="#variables.updatedSelectionList#" index="variables.updatedSelection">
-							<cfif listLen(variables.updatedSelection, ":") EQ 2>
-								<cfset variables.updatedSourceCollectionObjectId = listGetAt(variables.updatedSelection, 1, ":")>
-								<cfset variables.updatedRelatedCollectionObjectId = listGetAt(variables.updatedSelection, 2, ":")>
+							<cfif listLen(variables.updatedSelection, variables.selectedPairDelimiter) EQ 2>
+								<cfset variables.updatedSourceCollectionObjectId = listGetAt(variables.updatedSelection, 1, variables.selectedPairDelimiter)>
+								<cfset variables.updatedRelatedCollectionObjectId = listGetAt(variables.updatedSelection, 2, variables.selectedPairDelimiter)>
 								<li>
 									source
 									<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(variables.updatedSourceCollectionObjectId)#</a>
@@ -372,7 +373,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<cfloop query="relationshipPairs">
-										<cfset variables.rowValue = "#relationshipPairs.collection_object_id#:#relationshipPairs.related_coll_object_id#">
+										<cfset variables.rowValue = "#relationshipPairs.collection_object_id##variables.selectedPairDelimiter##relationshipPairs.related_coll_object_id#">
 										<tr>
 											<td>
 												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue)#" aria-label="Select row for #encodeForHtmlAttribute(variables.rowValue)#">
