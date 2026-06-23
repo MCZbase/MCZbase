@@ -239,6 +239,15 @@ Beware of logic errors created by using = instead of == to test for equality in 
 
 Use spaces around operators when needed for clarity.
 
+### Parameters and Arguments
+
+On .cfm pages, declare explicit url and form parameters that are expected to be passed to the page: 
+
+```coldfusion
+<cfparam name="url.action" default="">
+<cfparam name="form.action" default="">
+```
+
 ### Scopes
 
 Except for placing a value in pageTitle for \_header.cfm, avoid using the request scope to pass parameters between coldfusion files.
@@ -289,17 +298,22 @@ Much existing code relies on the deprecated ability of ColdFusion to not care ab
 In most cases of .cfm pages that call themselves, this will involve adding a line for each variable that would be provided in an http url parameter (get, url scope), and setting a variables scope variable of the same name: 
 
 ```coldfusion
-	<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+   <cfparam name="url.action" default="">
+
+	<cfif len(url.action) GT 0><cfset variables.action = url.action></cfif>
 	<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
 
 	<cfif isDefined("variables.action") and variables.action EQ "someaction">
 		...
 ```
-In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.
+In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.  
 
 ```coldfusion
-	<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-	<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+   <cfparam name="url.action" default="">
+   <cfparam name="form.action" default="">
+
+	<cfif len(url.action) GT 0><cfset variables.action = url.action></cfif>
+	<cfif len(form.action) GT 0><cfset variables.action = form.action></cfif>
 
 	<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 		...
