@@ -3092,8 +3092,20 @@ limitations under the License.
                             mapDiv.style.display = "block";
                             staticImg.style.opacity = "0.0"; // optional fade-out
 
+                            // If Google Maps JS is not loaded yet, load it, then call setupMap
+                            if (!window.google || !window.google.maps) {
+                              var script = document.createElement("script");
+                              script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js"
+                                         + "?key=#application.gmap_api_key#&libraries=geometry";  // geometry lib needed
+                              script.async = true;
+                              script.onload = function() {
+                                setupMap(localityId);   // use your existing function
+                              };
+                              document.head.appendChild(script);
+                            } else {
+                              // Maps JS already loaded: just call setupMap
                               setupMap(localityId);
-                        
+                            }
                           }
 
                           if (staticImg) {
