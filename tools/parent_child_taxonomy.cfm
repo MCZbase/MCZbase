@@ -206,6 +206,15 @@ limitations under the License.
 
 <cfif variables.shouldQuery>
 	<cfquery name="relationshipPairs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		WITH identificationCounts AS (
+			SELECT
+				collection_object_id,
+				count(*) AS total_identification_count
+			FROM
+				identification
+			GROUP BY
+				collection_object_id
+		)
 		SELECT
 			bir.collection_object_id,
 			bir.related_coll_object_id,
@@ -238,19 +247,11 @@ limitations under the License.
 			JOIN identification sourceId ON sourceCat.collection_object_id = sourceId.collection_object_id
 			LEFT JOIN identification_agent sourceIA ON sourceId.identification_id = sourceIA.identification_id AND sourceIA.identifier_order = 1
 			LEFT JOIN preferred_agent_name sourcePAN ON sourceIA.agent_id = sourcePAN.agent_id
-			LEFT JOIN (
-				SELECT collection_object_id, count(*) AS total_identification_count
-				FROM identification
-				GROUP BY collection_object_id
-			) sourceIdCount ON sourceCat.collection_object_id = sourceIdCount.collection_object_id
+			LEFT JOIN identificationCounts sourceIdCount ON sourceCat.collection_object_id = sourceIdCount.collection_object_id
 			JOIN identification relatedId ON relatedCat.collection_object_id = relatedId.collection_object_id
 			LEFT JOIN identification_agent relatedIA ON relatedId.identification_id = relatedIA.identification_id AND relatedIA.identifier_order = 1
 			LEFT JOIN preferred_agent_name relatedPAN ON relatedIA.agent_id = relatedPAN.agent_id
-			LEFT JOIN (
-				SELECT collection_object_id, count(*) AS total_identification_count
-				FROM identification
-				GROUP BY collection_object_id
-			) relatedIdCount ON relatedCat.collection_object_id = relatedIdCount.collection_object_id
+			LEFT JOIN identificationCounts relatedIdCount ON relatedCat.collection_object_id = relatedIdCount.collection_object_id
 		WHERE
 			lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
 			AND sourceId.accepted_id_fg = 1
@@ -357,7 +358,7 @@ limitations under the License.
 												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.source_determiner)#</span>
 												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.source_identification_date)) GT 0>#dateFormat(relationshipPairs.source_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
 												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.source_identification_type)#</span>
-												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# other identifications</span>
+												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# other identification<cfif relationshipPairs.source_other_identification_count NEQ 1>s</cfif></span>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
@@ -370,7 +371,7 @@ limitations under the License.
 												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.related_determiner)#</span>
 												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.related_identification_date)) GT 0>#dateFormat(relationshipPairs.related_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
 												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.related_identification_type)#</span>
-												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.related_other_identification_count)# other identifications</span>
+												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.related_other_identification_count)# other identification<cfif relationshipPairs.related_other_identification_count NEQ 1>s</cfif></span>
 											</td>
 										</tr>
 									</cfloop>
