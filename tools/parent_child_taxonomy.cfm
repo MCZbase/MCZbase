@@ -418,7 +418,7 @@ limitations under the License.
 					<ul class="mb-0">
 						<cfloop query="variables.updatedSummaryRows">
 							<li>
-								added #encodeForHtml(variables.updatedSummaryRows.scientific_name)# as accepted identification to related
+								added #encodeForHtml(variables.updatedSummaryRows.scientific_name)# as accepted identification to the related specimen
 								<cfif trim(variables.updatedSummaryRows.related_guid) EQ variables.guidUnavailableText>
 									#encodeForHtml(variables.updatedSummaryRows.related_guid)#
 								<cfelse>
