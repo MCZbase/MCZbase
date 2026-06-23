@@ -62,7 +62,7 @@ limitations under the License.
 	FROM
 		ctbiol_relations
 	WHERE
-		rel_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="biological">
+		rel_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="biological" />
 		AND (
 			lower(biol_indiv_relationship) IN (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" list="yes" value="#variables.allowedRelationships#">
