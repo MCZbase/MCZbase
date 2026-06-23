@@ -88,7 +88,7 @@ limitations under the License.
 	<cfset variables.invalidRelationship = true>
 	<cfset variables.relationshipType = "parent of">
 </cfif>
-<cfset variables.inverseRelationshipType = variables.relationshipType>
+<cfset variables.inverseRelationshipType = "">
 <cfquery name="getInverseRelationship" datasource="cf_dbuser" cachedwithin="#createTimeSpan(0,2,0,0)#">
 	SELECT
 		lower(inverse_relation) AS inverse_relationship
@@ -100,6 +100,8 @@ limitations under the License.
 </cfquery>
 <cfif getInverseRelationship.recordcount EQ 1 AND len(trim(getInverseRelationship.inverse_relationship)) GT 0>
 	<cfset variables.inverseRelationshipType = trim(getInverseRelationship.inverse_relationship)>
+<cfelse>
+	<cfset variables.inverseRelationshipType = variables.relationshipType>
 </cfif>
 <cfset variables.isSelfReciprocalRelationship = variables.relationshipType EQ variables.inverseRelationshipType>
 
@@ -418,7 +420,7 @@ limitations under the License.
 					<ul class="mb-0">
 						<cfloop query="variables.updatedSummaryRows">
 							<li>
-								added #encodeForHtml(variables.updatedSummaryRows.scientific_name)# as accepted identification to the related specimen
+								added #encodeForHtml(variables.updatedSummaryRows.scientific_name)# as an accepted identification to the related specimen
 								<cfif trim(variables.updatedSummaryRows.related_guid) EQ variables.guidUnavailableText>
 									#encodeForHtml(variables.updatedSummaryRows.related_guid)#
 								<cfelse>
