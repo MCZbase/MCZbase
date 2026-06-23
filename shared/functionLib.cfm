@@ -479,7 +479,7 @@ limitations under the License.
 
   <!-- choose size and zoom  -->
     <cfset var mapWidth  = 320>
-    <cfset var mapHeight = 240>
+    <cfset var mapHeight = 180>
     <cfset var zoom      = 10>   
         
 	<cfset var mapDir      = expandPath("/cache/static_maps/")>
@@ -499,7 +499,7 @@ limitations under the License.
 	<cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
 		& "?center=#arguments.lat#,#arguments.lng#"
 		& "&zoom=#zoom#"
-        & "&scale=2"
+        & "&scale=1"
 		& "&size=#mapWidth#x#mapHeight#"
 		& "&maptype=roadmap"
 		& "&markers=color:red|#arguments.lat#,#arguments.lng#"
