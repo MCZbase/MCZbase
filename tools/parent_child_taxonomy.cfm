@@ -225,8 +225,8 @@ limitations under the License.
 			relatedColl.collection_cde AS related_collection_cde,
 			sourceColl.institution_acronym AS source_institution_acronym,
 			relatedColl.institution_acronym AS related_institution_acronym,
-			greatest((SELECT count(*) FROM identification sourceAllId WHERE sourceAllId.collection_object_id = sourceCat.collection_object_id) - 1, 0) AS source_other_identification_count,
-			greatest((SELECT count(*) FROM identification relatedAllId WHERE relatedAllId.collection_object_id = relatedCat.collection_object_id) - 1, 0) AS related_other_identification_count,
+			greatest(nvl(sourceIdCount.total_identification_count, 0) - 1, 0) AS source_other_identification_count,
+			greatest(nvl(relatedIdCount.total_identification_count, 0) - 1, 0) AS related_other_identification_count,
 			concatSingleOtherId(sourceCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS source_custom_id,
 			concatSingleOtherId(relatedCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS related_custom_id
 		FROM
@@ -238,9 +238,19 @@ limitations under the License.
 			JOIN identification sourceId ON sourceCat.collection_object_id = sourceId.collection_object_id
 			LEFT JOIN identification_agent sourceIA ON sourceId.identification_id = sourceIA.identification_id AND sourceIA.identifier_order = 1
 			LEFT JOIN preferred_agent_name sourcePAN ON sourceIA.agent_id = sourcePAN.agent_id
+			LEFT JOIN (
+				SELECT collection_object_id, count(*) AS total_identification_count
+				FROM identification
+				GROUP BY collection_object_id
+			) sourceIdCount ON sourceCat.collection_object_id = sourceIdCount.collection_object_id
 			JOIN identification relatedId ON relatedCat.collection_object_id = relatedId.collection_object_id
 			LEFT JOIN identification_agent relatedIA ON relatedId.identification_id = relatedIA.identification_id AND relatedIA.identifier_order = 1
 			LEFT JOIN preferred_agent_name relatedPAN ON relatedIA.agent_id = relatedPAN.agent_id
+			LEFT JOIN (
+				SELECT collection_object_id, count(*) AS total_identification_count
+				FROM identification
+				GROUP BY collection_object_id
+			) relatedIdCount ON relatedCat.collection_object_id = relatedIdCount.collection_object_id
 		WHERE
 			lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
 			AND sourceId.accepted_id_fg = 1
