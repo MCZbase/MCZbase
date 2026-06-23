@@ -188,9 +188,7 @@ limitations under the License.
 				<cfset variables.selectedDirection = lcase(trim(listGetAt(variables.selectedPair, 3, variables.SELECTED_PAIR_DELIMITER)))>
 				<cfif variables.selectedDirection EQ "r2s">
 					<cfset variables.copyDirection = "related_to_source">
-				<cfelseif variables.selectedDirection EQ "s2r">
-					<cfset variables.copyDirection = "source_to_related">
-				<cfelse>
+				<cfelseif variables.selectedDirection NEQ "s2r">
 					<cfset variables.validCopyDirection = false>
 				</cfif>
 			</cfif>
@@ -525,10 +523,10 @@ limitations under the License.
 											</td>
 											<td>
 												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 's2r')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.sourceSpecimenLabel)# to #encodeForHtmlAttribute(variables.relatedSpecimenLabel)#">
-												<span class="small" aria-hidden="true">copy id &#8594;</span>
+												<span class="small">copy id &#8594; to related</span>
 												<br>
 												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 'r2s')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.relatedSpecimenLabel)# to #encodeForHtmlAttribute(variables.sourceSpecimenLabel)#">
-												<span class="small" aria-hidden="true">&#8592; copy id</span>
+												<span class="small">&#8592; copy id to source</span>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
