@@ -222,12 +222,12 @@ limitations under the License.
 			sourceId.scientific_name AS source_scientific_name,
 			sourceId.nature_of_id AS source_identification_type,
 			sourceId.made_date AS source_identification_date,
-			nvl(sourcePAN.agent_name, '') AS source_determiner,
+			nvl(sourcePAN.agent_name, '[no determiner]') AS source_determiner,
 			relatedId.identification_id AS related_identification_id,
 			relatedId.scientific_name AS related_scientific_name,
 			relatedId.nature_of_id AS related_identification_type,
 			relatedId.made_date AS related_identification_date,
-			nvl(relatedPAN.agent_name, '') AS related_determiner,
+			nvl(relatedPAN.agent_name, '[no determiner]') AS related_determiner,
 			sourceCat.cat_num AS source_cat_num,
 			relatedCat.cat_num AS related_cat_num,
 			sourceColl.collection_cde AS source_collection_cde,
@@ -355,7 +355,7 @@ limitations under the License.
 											</td>
 											<td>
 												#encodeForHtml(relationshipPairs.source_scientific_name)#
-												<cfif len(trim(relationshipPairs.source_determiner)) GT 0>
+												<cfif len(trim(relationshipPairs.source_determiner)) GT 0 AND relationshipPairs.source_determiner NEQ '[no determiner]'>
 													<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.source_determiner)#</span>
 												</cfif>
 												<cfif len(trim(relationshipPairs.source_identification_date)) GT 0>
@@ -376,7 +376,7 @@ limitations under the License.
 											</td>
 											<td>
 												#encodeForHtml(relationshipPairs.related_scientific_name)#
-												<cfif len(trim(relationshipPairs.related_determiner)) GT 0>
+												<cfif len(trim(relationshipPairs.related_determiner)) GT 0 AND relationshipPairs.related_determiner NEQ '[no determiner]'>
 													<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.related_determiner)#</span>
 												</cfif>
 												<cfif len(trim(relationshipPairs.related_identification_date)) GT 0>
