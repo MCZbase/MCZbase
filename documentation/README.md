@@ -957,6 +957,31 @@ Use a single gray line surrounding them with class=”border”. Use fieldset wh
 
 Put a bg-light (gray background) border-rounded box with an outline around them `<div class=”bg-light border-rounded p-2”>`. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
 
+### Form Inputs and Labels
+
+On forms, provide paired label and input using the for property of the label, place a data-entry-label class on the label and a data-entry-{type} e.g. data-entry-input class on the input.  
+
+```html
+<div class="form-group mb-0 col-12 col-md-4">
+	<label for="scientific_name" class="data-entry-label">Scientific Name<label>
+	<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+</div>
+
+When additional controls, such as those that prefix $ for soundex matching to the value in the input, place these outside the label, but wrap them and the label in a span with the data-entry-label class on that span instead of the label.
+
+```html
+<div class="form-group mb-0 col-12 col-md-4">
+	<span class="data-entry-label">
+		<label for="scientific_name" class="">Scientific Name<label>
+		<span class="h6">
+			(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
+			<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+		</span>
+	</span>
+	<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+</div>
+
+
 ### Dialog Boxes
 Dialog content boxes should be laid out similarly to a main page when data captured is the same (e.g., create media page appear as a dialog box). The buttons follow the same rules as listed in the button section of this document when in the content area.  The close button for the dialog and any button along the bottom will have the standard jquery gray buttonface background (difficult to style separately without changing the library files). The borders and background should be different from the main page so it is easy to recognize it as a dialog box. Searches in dialog boxes will have the class "search-box", which has following styles:  background-color: #f5f5f5; margin-top: 1em; padding-bottom: .25em; width: 100%; border-radius: 8px; border: 2px solid #3E6F7D; to make a dark teal outline with a gray background around the search fields. Small search/create dialog boxes which do not replicate a main page, can have a white background (e.g., add shipment dialog box). The search results should repeat the jqxwidget grid style when possible.  The form fields to create a records should have the classes "p-3 border bg-light" in the column div around them (see create media for an example).  The dialog boxes should be repsonsive based on the screen size when launched.  Other dialog boxes for alerts should also be styled with white background and gray header bar and appropriate text for the message. For instance, if there is a danger of mistakenly changing many records, part of the alert message should look like a delete button in color with a background in pinkish-red with red text and red border.
 
