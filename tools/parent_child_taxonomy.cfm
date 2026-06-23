@@ -234,6 +234,7 @@ limitations under the License.
 			relatedColl.collection_cde AS related_collection_cde,
 			sourceColl.institution_acronym AS source_institution_acronym,
 			relatedColl.institution_acronym AS related_institution_acronym,
+			/* subtract one to exclude the displayed accepted identification from "other identifications" metadata */
 			GREATEST(nvl(sourceIdCount.total_identification_count, 0) - 1, 0) AS source_other_identification_count,
 			GREATEST(nvl(relatedIdCount.total_identification_count, 0) - 1, 0) AS related_other_identification_count,
 			concatSingleOtherId(sourceCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS source_custom_id,
@@ -343,6 +344,12 @@ limitations under the License.
 								<tbody>
 									<cfloop query="relationshipPairs">
 										<cfset variables.rowValue = "#relationshipPairs.collection_object_id#:#relationshipPairs.related_coll_object_id#">
+										<cfset variables.sourceHasDeterminer = len(trim(relationshipPairs.source_determiner)) GT 0>
+										<cfset variables.sourceHasIdentificationDate = len(trim(relationshipPairs.source_identification_date)) GT 0>
+										<cfset variables.sourceHasIdentificationType = len(trim(relationshipPairs.source_identification_type)) GT 0>
+										<cfset variables.relatedHasDeterminer = len(trim(relationshipPairs.related_determiner)) GT 0>
+										<cfset variables.relatedHasIdentificationDate = len(trim(relationshipPairs.related_identification_date)) GT 0>
+										<cfset variables.relatedHasIdentificationType = len(trim(relationshipPairs.related_identification_type)) GT 0>
 										<tr>
 											<td>
 												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue)#" aria-label="Select row for #encodeForHtmlAttribute(variables.rowValue)#">
@@ -355,13 +362,13 @@ limitations under the License.
 											</td>
 											<td>
 												#encodeForHtml(relationshipPairs.source_scientific_name)#
-												<cfif len(trim(relationshipPairs.source_determiner)) GT 0>
+												<cfif variables.sourceHasDeterminer>
 													<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.source_determiner)#</span>
 												</cfif>
-												<cfif len(trim(relationshipPairs.source_identification_date)) GT 0>
+												<cfif variables.sourceHasIdentificationDate>
 													<br><span class="small text-muted">Date identified: #dateFormat(relationshipPairs.source_identification_date, 'yyyy-mm-dd')#</span>
 												</cfif>
-												<cfif len(trim(relationshipPairs.source_identification_type)) GT 0>
+												<cfif variables.sourceHasIdentificationType>
 													<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.source_identification_type)#</span>
 												</cfif>
 												<cfif relationshipPairs.source_other_identification_count GT 0>
@@ -376,13 +383,13 @@ limitations under the License.
 											</td>
 											<td>
 												#encodeForHtml(relationshipPairs.related_scientific_name)#
-												<cfif len(trim(relationshipPairs.related_determiner)) GT 0>
+												<cfif variables.relatedHasDeterminer>
 													<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.related_determiner)#</span>
 												</cfif>
-												<cfif len(trim(relationshipPairs.related_identification_date)) GT 0>
+												<cfif variables.relatedHasIdentificationDate>
 													<br><span class="small text-muted">Date identified: #dateFormat(relationshipPairs.related_identification_date, 'yyyy-mm-dd')#</span>
 												</cfif>
-												<cfif len(trim(relationshipPairs.related_identification_type)) GT 0>
+												<cfif variables.relatedHasIdentificationType>
 													<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.related_identification_type)#</span>
 												</cfif>
 												<cfif relationshipPairs.related_other_identification_count GT 0>
