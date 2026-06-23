@@ -333,14 +333,16 @@ limitations under the License.
 					<p class="mb-1">Added accepted identifications for:</p>
 					<ul class="mb-0">
 						<cfloop list="#variables.updatedSelectionList#" index="variables.updatedSelection">
-							<cfset variables.updatedSourceCollectionObjectId = listFirst(variables.updatedSelection, ":")>
-							<cfset variables.updatedRelatedCollectionObjectId = listLast(variables.updatedSelection, ":")>
-							<li>
-								source
-								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(variables.updatedSourceCollectionObjectId)#</a>
-								to related
-								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(variables.updatedRelatedCollectionObjectId)#</a>
-							</li>
+							<cfif listLen(variables.updatedSelection, ":") EQ 2>
+								<cfset variables.updatedSourceCollectionObjectId = listGetAt(variables.updatedSelection, 1, ":")>
+								<cfset variables.updatedRelatedCollectionObjectId = listGetAt(variables.updatedSelection, 2, ":")>
+								<li>
+									source
+									<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(variables.updatedSourceCollectionObjectId)#</a>
+									to related
+									<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(variables.updatedRelatedCollectionObjectId)#</a>
+								</li>
+							</cfif>
 						</cfloop>
 					</ul>
 				</div>
