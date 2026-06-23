@@ -503,7 +503,7 @@ limitations under the License.
        1) FOOTPRINT / ERROR POLYGON (getGeoreferenceErrorWKT)
        ===================================================== -->
   <cfset var errWktResult = "">
-  <cfhttp url="#Application.protocol#://#cgi.server_name#/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=#arguments.locality_id#"
+  <cfhttp url="#Application.protocol#://#cgi.http_host#/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=#arguments.locality_id#"
           method="get"
           timeout="10"
           result="errWktResult" />
