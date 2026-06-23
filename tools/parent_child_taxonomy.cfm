@@ -280,7 +280,7 @@ limitations under the License.
 			<h1 class="h2">Relationship Taxonomy Consistency Checks and Sync</h1>
 			<p class="mb-1">This tool lists cataloged item pairs linked by one biological relationship type at a time where both items are expected to have the same taxon identification.</p>
 			<p class="mb-1">Use this to examine accepted identifications and add/sync accepted IDs from the listed relationship source item to the related item.</p>
-			<p class="text-warning mb-3">Hybrid taxa (taxon formula <em>A x B</em>) are excluded from this actionable list.</p>
+			<p class="mb-3">Hybrid taxa (taxon formula <em>A x B</em>) are excluded from this actionable list.</p>
 		</div>
 	</section>
 
@@ -333,7 +333,7 @@ limitations under the License.
 							<table class="sortable table table-responsive d-xl-table table-striped table-sm">
 								<thead>
 									<tr>
-										<th scope="col"><label for="selectAllRows" class="mb-0">Select</label><br><input type="checkbox" id="selectAllRows"></th>
+										<th scope="col">Select</th>
 										<th scope="col">Relationship Source Item</th>
 										<th scope="col">Source Accepted Identification</th>
 										<th scope="col">Related Item</th>
@@ -396,9 +396,9 @@ limitations under the License.
 						</div>
 						<div class="d-flex align-items-center gap-2 mt-2">
 							<input type="submit" id="bulkSyncBtn" class="btn btn-primary" value="Add/Sync Accepted IDs for Selected Rows" disabled>
-							<span id="selectedCount" aria-live="polite" class="small text-muted">0 selected</span>
+							<span id="selectedCount" aria-live="polite" class="text-muted">0 selected</span>
 						</div>
-						<p class="small mt-2 mb-0">Action updates related items by adding a new accepted identification copied from the selected relationship source item.</p>
+						<p class="mt-2 mb-0">Action updates related items by adding a new accepted identification copied from the selected relationship source item.</p>
 					</form>
 					</cfoutput>
 				<cfelse>
