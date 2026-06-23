@@ -337,11 +337,43 @@ limitations under the License.
 							<cfif listLen(variables.updatedSelection, variables.selectedPairDelimiter) EQ 2>
 								<cfset variables.updatedSourceCollectionObjectId = listGetAt(variables.updatedSelection, 1, variables.selectedPairDelimiter)>
 								<cfset variables.updatedRelatedCollectionObjectId = listGetAt(variables.updatedSelection, 2, variables.selectedPairDelimiter)>
+								<cfquery name="getAddedIdentificationSummary" datasource="cf_dbuser">
+									SELECT
+										updatedId.scientific_name,
+										updatedId.nature_of_id,
+										updatedId.made_date,
+										nvl(updatedDeterminer.agent_name, '[no determiner]') AS determiner,
+										sourceColl.institution_acronym || ':' || sourceColl.collection_cde || ':' || sourceCat.cat_num AS source_guid,
+										relatedColl.institution_acronym || ':' || relatedColl.collection_cde || ':' || relatedCat.cat_num AS related_guid
+									FROM
+										identification updatedId
+										JOIN cataloged_item relatedCat ON updatedId.collection_object_id = relatedCat.collection_object_id
+										JOIN collection relatedColl ON relatedCat.collection_id = relatedColl.collection_id
+										JOIN cataloged_item sourceCat ON sourceCat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.updatedSourceCollectionObjectId#">
+										JOIN collection sourceColl ON sourceCat.collection_id = sourceColl.collection_id
+										LEFT JOIN identification_agent updatedIA ON updatedId.identification_id = updatedIA.identification_id AND updatedIA.identifier_order = 1
+										LEFT JOIN preferred_agent_name updatedDeterminer ON updatedIA.agent_id = updatedDeterminer.agent_id
+									WHERE
+										updatedId.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.updatedRelatedCollectionObjectId#">
+										AND updatedId.accepted_id_fg = 1
+								</cfquery>
 								<li>
-									source
-									<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(variables.updatedSourceCollectionObjectId)#</a>
-									to related
-									<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(variables.updatedRelatedCollectionObjectId)#</a>
+									<cfif getAddedIdentificationSummary.recordcount EQ 1>
+										added identification
+										#encodeForHtml(getAddedIdentificationSummary.scientific_name)#
+										to related
+										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(getAddedIdentificationSummary.related_guid)#</a>
+										from source
+										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(getAddedIdentificationSummary.source_guid)#</a>;
+										type of id: #encodeForHtml(getAddedIdentificationSummary.nature_of_id)#;
+										determiner: #encodeForHtml(getAddedIdentificationSummary.determiner)#;
+										date identified: #encodeForHtml(getAddedIdentificationSummary.made_date)#
+									<cfelse>
+										added identification to related
+										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(variables.updatedRelatedCollectionObjectId)#</a>
+										from source
+										<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(variables.updatedSourceCollectionObjectId)#</a>
+									</cfif>
 								</li>
 							</cfif>
 						</cfloop>
