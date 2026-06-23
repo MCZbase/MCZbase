@@ -123,6 +123,7 @@ limitations under the License.
 					<cfquery name="getSourceIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							sourceId.identification_id,
+							sourceId.nature_of_id,
 							sourceId.taxa_formula,
 							sourceId.scientific_name
 						FROM
@@ -140,6 +141,10 @@ limitations under the License.
 							AND nvl(relatedId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
 					</cfquery>
 					<cfif getSourceIdentification.recordcount EQ 1>
+						<cfset variables.newNatureOfId = "ID of kin">
+						<cfif variables.relationshipType EQ "part to counterpart">
+							<cfset variables.newNatureOfId = getSourceIdentification.nature_of_id>
+						</cfif>
 						<cfquery name="unsetCurrentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification
 							SET accepted_id_fg = 0
@@ -160,7 +165,7 @@ limitations under the License.
 								sq_identification_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.relatedCollectionObjectId#">,
 								sysdate,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ID of kin">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.newNatureOfId#">,
 								1,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSourceIdentification.taxa_formula#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSourceIdentification.scientific_name#">
@@ -272,6 +277,10 @@ limitations under the License.
 		<cfset variables.statusClass = "text-info">
 		<cfset variables.statusMessage = "No eligible #variables.relationshipType# taxonomy mismatches found (hybrids excluded).">
 	</cfif>
+</cfif>
+<cfset variables.natureOfIdGuidance = "Nature of ID on the new accepted identification is set to ID of kin for this relationship type.">
+<cfif variables.relationshipType EQ "part to counterpart">
+	<cfset variables.natureOfIdGuidance = "Nature of ID on the new accepted identification is copied from the selected source accepted identification for part to counterpart.">
 </cfif>
 
 <main class="container-fluid py-3 px-xl-5" id="content">
@@ -398,7 +407,7 @@ limitations under the License.
 							<input type="submit" id="bulkSyncBtn" class="btn btn-primary" value="Add/Sync Accepted IDs for Selected Rows" disabled>
 							<span id="selectedCount" aria-live="polite" class="text-muted">0 selected</span>
 						</div>
-						<p class="mt-2 mb-0">Action updates related items by adding a new accepted identification copied from the selected relationship source item.</p>
+						<p class="mt-2 mb-0">Action updates related items by adding a new accepted identification copied from the selected relationship source item. Determiner is recorded as the currently logged in user, date identified is set to today, and #encodeForHtml(variables.natureOfIdGuidance)#</p>
 					</form>
 					</cfoutput>
 				<cfelse>
