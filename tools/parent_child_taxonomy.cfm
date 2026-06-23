@@ -527,10 +527,10 @@ limitations under the License.
 											</td>
 											<td>
 												<input type="checkbox" class="relationship-row-check" id="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#" name="selected_pair" value="#encodeForHtmlAttribute(variables.copySourceToRelatedValue)#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.sourceSpecimenLabel)# to #encodeForHtmlAttribute(variables.relatedSpecimenLabel)#">
-												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#">copy id to related</label>
+												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#">Copy ID to Related</label>
 												<br>
 												<input type="checkbox" class="relationship-row-check" id="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#" name="selected_pair" value="#encodeForHtmlAttribute(variables.copyRelatedToSourceValue)#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.relatedSpecimenLabel)# to #encodeForHtmlAttribute(variables.sourceSpecimenLabel)#">
-												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#">copy id to source</label>
+												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#">Copy ID to Source</label>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
@@ -562,7 +562,7 @@ limitations under the License.
 							<input type="submit" id="bulkSyncBtn" class="btn btn-primary" value="Add/Sync Accepted IDs for Selected Copy Actions" disabled>
 							<span id="selectedCount" aria-live="polite" class="text-muted">0 actions selected</span>
 						</div>
-						<p class="mt-2 mb-0">Action adds a new accepted identification in the selected direction for each checked copy action. Determiner is recorded as the currently logged in user, date identified is set to today, and #encodeForHtml(variables.natureOfIdGuidance)#</p>
+						<p class="mt-2 mb-0">This action adds a new accepted identification in the selected direction for each checked copy action. Determiner is recorded as the currently logged in user, date identified is set to today, and #encodeForHtml(variables.natureOfIdGuidance)#</p>
 					</form>
 					</cfoutput>
 				<cfelse>
