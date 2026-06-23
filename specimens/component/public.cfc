@@ -3092,7 +3092,8 @@ limitations under the License.
                             mapDiv.style.display = "block";
                             staticImg.style.opacity = "0.0"; // optional fade-out
 
-                            setupMap(localityId);
+                              setupMap(localityId);
+                        
                           }
 
                           if (staticImg) {

@@ -180,12 +180,14 @@ limitations under the License.
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
-
+<!---<cfoutput>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>--->
 
 <!--- (4) Display the summary/type bar for the record --->
 <!--- Include the templates that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
-<!---<cfinclude template="/media/component/search.cfc" runOnce="true">---><!--- ? unused ? removed ? testing 6-23-26--->
+<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? removed ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- getMediaBlockHtml --->
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>

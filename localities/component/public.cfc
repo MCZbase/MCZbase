@@ -35,7 +35,7 @@ limitations under the License.
 			<cftry>
 				<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
 				<!--- map --->
-				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
+				<!---<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">--->
 				</script>
 				<script>
 					function findBounds(latLongs) { 
@@ -311,7 +311,7 @@ limitations under the License.
 				<cfif isDefined("reload") AND reload EQ "true">
 					<!--- map section is being reloaded, api is already loaded on page --->
 				<cfelse>
-					<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
+					<!---<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">--->
 				</cfif>
 				</script>
 				<script>
