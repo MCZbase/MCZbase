@@ -106,6 +106,7 @@ limitations under the License.
 <cfset variables.updatedCount = 0>
 <cfset variables.skippedCount = 0>
 <cfset variables.invalidCount = 0>
+<cfset variables.updatedSelectionList = "">
 
 <cfif variables.action EQ "syncSelected">
 	<cfif len(trim(form.selected_pair)) EQ 0>
@@ -198,6 +199,7 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfset variables.updatedCount = variables.updatedCount + 1>
+						<cfset variables.updatedSelectionList = listAppend(variables.updatedSelectionList, "#variables.sourceCollectionObjectId#:#variables.relatedCollectionObjectId#")>
 					<cfelse>
 						<cfset variables.skippedCount = variables.skippedCount + 1>
 					</cfif>
@@ -323,9 +325,26 @@ limitations under the License.
 
 	<section class="row mt-3" aria-labelledby="resultsHeading">
 		<div class="col-12">
-			<h2 class="h4" id="resultsHeading">Actionable relationship records</h2>
 			<cfoutput>
+			<h2 class="h4" id="resultsHeading">Actionable relationship records<cfif isDefined("relationshipPairs")> (#relationshipPairs.recordcount#)</cfif></h2>
 			<output id="statusMessage" class="#encodeForHtmlAttribute(variables.statusClass)#" aria-live="polite">#encodeForHtml(variables.statusMessage)#</output>
+			<cfif variables.action EQ "syncSelected" AND variables.updatedCount GT 0>
+				<div class="mt-2">
+					<p class="mb-1">Added accepted identifications for:</p>
+					<ul class="mb-0">
+						<cfloop list="#variables.updatedSelectionList#" index="variables.updatedSelection">
+							<cfset variables.updatedSourceCollectionObjectId = listFirst(variables.updatedSelection, ":")>
+							<cfset variables.updatedRelatedCollectionObjectId = listLast(variables.updatedSelection, ":")>
+							<li>
+								source
+								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSourceCollectionObjectId)#">#encodeForHtml(variables.updatedSourceCollectionObjectId)#</a>
+								to related
+								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedRelatedCollectionObjectId)#">#encodeForHtml(variables.updatedRelatedCollectionObjectId)#</a>
+							</li>
+						</cfloop>
+					</ul>
+				</div>
+			</cfif>
 			</cfoutput>
 		</div>
 
