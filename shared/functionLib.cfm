@@ -480,7 +480,7 @@ limitations under the License.
 	<cfset var mapWidth  = 640>
 	<cfset var mapHeight = 400> 
 
-	<cfset var zoom        = 10>
+	<cfset var zoom        = 11>
 	<cfset var mapDir      = expandPath("/cache/static_maps/")>
 	<cfset var mapFileName = "locality-#arguments.locality_id#.png">
 	<cfset var mapFilePath = mapDir & mapFileName>
