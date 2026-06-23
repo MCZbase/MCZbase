@@ -548,7 +548,7 @@ limitations under the License.
        2) ENCLOSING HIGHER GEOGRAPHY POLYGON (getContainingGeographyWKT)
        ========================================================== -->
   <cfset var enclWktResult = "">
-  <cfhttp url="#Application.protocol#://#cgi.server_name#/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=#arguments.locality_id#"
+  <cfhttp url="#Application.protocol#://#cgi.http_host#/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=#arguments.locality_id#"
           method="get"
           timeout="10"
           result="enclWktResult" />
