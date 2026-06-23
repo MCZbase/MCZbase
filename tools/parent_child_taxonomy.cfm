@@ -162,8 +162,8 @@ limitations under the License.
 								sysdate,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ID of kin">,
 								1,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSourceIdentification.taxa_formula#" null="#NOT len(getSourceIdentification.taxa_formula)#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSourceIdentification.scientific_name#" null="#NOT len(getSourceIdentification.scientific_name)#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSourceIdentification.taxa_formula#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSourceIdentification.scientific_name#">
 							)
 						</cfquery>
 						<cfquery name="copyTaxonomyRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
