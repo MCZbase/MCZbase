@@ -481,11 +481,11 @@ limitations under the License.
   <cfif arguments.layout EQ "2col">
     <cfset var mapWidth  = 480>
     <cfset var mapHeight = 320>
-    <cfset var zoom      = 1>   <!-- closer in for 2‑column -->
+    <cfset var zoom      = 10>   <!-- closer in for 2‑column -->
   <cfelse>
     <cfset var mapWidth  = 480>
     <cfset var mapHeight = 320>
-    <cfset var zoom      = 1>   <!-- matches interactive -->
+    <cfset var zoom      = 10>   <!-- matches interactive -->
   </cfif>
         
 	<cfset var mapDir      = expandPath("/cache/static_maps/")>
