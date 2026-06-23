@@ -479,9 +479,9 @@ limitations under the License.
 
   <!-- choose size and zoom based on layout -->
   <cfif arguments.layout EQ "2col">
-    <cfset var mapWidth  = 480>
-    <cfset var mapHeight = 320>
-    <cfset var zoom      = 10>   <!-- closer in for 2‑column -->
+    <cfset var mapWidth  = 640>
+    <cfset var mapHeight = 400>
+    <cfset var zoom      = 11>   <!-- closer in for 2‑column -->
   <cfelse>
     <cfset var mapWidth  = 480>
     <cfset var mapHeight = 320>
