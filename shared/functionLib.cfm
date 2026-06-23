@@ -477,7 +477,7 @@ limitations under the License.
   <cfargument name="layout"       type="string"  required="false" default="3col">
   <cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-  <!-- one size / zoom for both layouts -->
+  <!-- one size / zoom -->
   <cfset var mapWidth  = 320>
   <cfset var mapHeight = 180>
   <cfset var zoom      = 10>
@@ -490,129 +490,41 @@ limitations under the License.
   <cfset var staticUrl   = "">
   <cfset var httpRes     = "">
 
-  <!-- NEW: strings for polygon path parameters -->
-  <cfset var errPathParam   = "">
-  <cfset var enclPathParam  = "">
+  <!-- NEW: geo utilities component and WKT strings -->
+  <!-- Adjust component path if needed -->
+  <cfset var geoUtil     = createObject("component","localities.component.georefUtilities")>
+  <cfset var errWkt      = "">
+  <cfset var enclWkt     = "">
+  <cfset var errPathParam  = "">
+  <cfset var enclPathParam = "">
 
-  <!-- Use cached file if present -->
+  <!-- use cached file if present -->
   <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
     <cfreturn mapUrl>
   </cfif>
 
-  <!-- =====================================================
-       1) FOOTPRINT / ERROR POLYGON (getGeoreferenceErrorWKT)
-       ===================================================== -->
-  <cfset var errWktResult = "">
-  <cfhttp url="localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=#arguments.locality_id#"
-          method="get"
-          timeout="10"
-          result="errWktResult" />
-      
-     <cfdump var="#errWktResult.statusCode#" label="DEBUG err status">
-     <cfdump var="#left(errWktResult.fileContent,300)#" label="DEBUG err WKT">
-     <cfabort>
-     
-  <cfif errWktResult.statusCode CONTAINS "200">
-    <cfset var errWkt = trim(errWktResult.fileContent)>
+  <!-- ==============================================
+       1) FOOTPRINT / ERROR POLYGON WKT (error_polygon)
+       ============================================== -->
+  <cftry>
+    <!-- cast locality_id to numeric to satisfy CFC argument -->
+    <cfset errWkt = trim( geoUtil.getGeoreferenceErrorWKT( locality_id = val(arguments.locality_id) ) )>
+  <cfcatch>
+    <cfset errWkt = "">
+  </cfcatch>
+  </cftry>
 
-    <cfif len(errWkt)>
-      <!-- extract each (lng lat, lng lat, ...) ring -->
-      <cfset var errRings = REMatch("\(([^()]+)\)", errWkt)>
-      <cfset var errCoords = []>
-      <cfset var ring     = "">
-      <cfset var ringClean = "">
-      <cfset var pair     = "">
-      <cfset var da       = []>
-      <cfset var lonLat   = []>
+  <cfif len(errWkt)>
+    <cfset var errRings   = REMatch("\(([^()]+)\)", errWkt)>
+    <cfset var errCoords  = []>
+    <cfset var ring       = "">
+    <cfset var ringClean  = "">
+    <cfset var pair       = "">
+    <cfset var da         = []>
+    <cfset var lonLat     = []>
 
-      <cfloop array="#errRings#" index="ring">
-        <!-- strip parentheses -->
-        <cfset ringClean = Replace(ring, "(", "", "all")>
-        <cfset ringClean = Replace(ringClean, ")", "", "all")>
-        <cfset da = ListToArray(ringClean, ",")>
-        <cfloop array="#da#" index="pair">
-          <cfset pair    = trim(pair)>
-          <cfset lonLat  = ListToArray(pair, " ")>
-          <cfif ArrayLen(lonLat) GTE 2>
-            <!-- WKT is lon lat; Static Maps wants lat,lng -->
-            <cfset ArrayAppend(errCoords, lonLat[2] & "," & lonLat[1])>
-          </cfif>
-        </cfloop>
-      </cfloop>
-
-      <cfif ArrayLen(errCoords)>
-        <!-- purple-ish footprint polygon -->
-        <cfset var errBody = "fillcolor:0xCF6FFF55|color:0x7412A4FF|weight:2|" & ArrayToList(errCoords, "|")>
-        <cfset errPathParam = "&path=#URLEncodedFormat(errBody)#">
-      </cfif>
-    </cfif>
-  </cfif>
-
-  <!-- ==========================================================
-       2) ENCLOSING HIGHER GEOGRAPHY POLYGON (getContainingGeographyWKT)
-       ========================================================== -->
-  <cfset var enclWktResult = "">
-  <cfhttp url="localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=#arguments.locality_id#"
-          method="get"
-          timeout="10"
-          result="enclWktResult" />
-
-  <cfif enclWktResult.statusCode CONTAINS "200">
-    <cfset var enclWkt = trim(enclWktResult.fileContent)>
-
-    <cfif len(enclWkt)>
-      <cfset var enclRings = REMatch("\(([^()]+)\)", enclWkt)>
-      <cfset var enclCoords = []>
-      <cfset var ring2      = "">
-      <cfset var ringClean2 = "">
-      <cfset var pair2      = "">
-      <cfset var da2        = []>
-      <cfset var lonLat2    = []>
-
-      <cfloop array="#enclRings#" index="ring2">
-        <cfset ringClean2 = Replace(ring2, "(", "", "all")>
-        <cfset ringClean2 = Replace(ringClean2, ")", "", "all")>
-        <cfset da2 = ListToArray(ringClean2, ",")>
-        <cfloop array="#da2#" index="pair2">
-          <cfset pair2   = trim(pair2)>
-          <cfset lonLat2 = ListToArray(pair2, " ")>
-          <cfif ArrayLen(lonLat2) GTE 2>
-            <cfset ArrayAppend(enclCoords, lonLat2[2] & "," & lonLat2[1])>
-          </cfif>
-        </cfloop>
-      </cfloop>
-
-      <cfif ArrayLen(enclCoords)>
-        <!-- blue enclosing geography polygon -->
-        <cfset var enclBody = "fillcolor:0x1E90FF55|color:0x1E90FFFF|weight:2|" & ArrayToList(enclCoords, "|")>
-        <cfset enclPathParam = "&path=#URLEncodedFormat(enclBody)#">
-      </cfif>
-    </cfif>
-  </cfif>
-
-  <!-- =========================================
-       3) Build Static Maps URL with polygons
-       ========================================= -->
-  <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
-    & "?center=#arguments.lat#,#arguments.lng#"
-    & "&zoom=#zoom#"
-    & "&scale=1"
-    & "&size=#mapWidth#x#mapHeight#"
-    & "&maptype=roadmap"
-    & errPathParam
-    & enclPathParam
-    & "&markers=color:red|#arguments.lat#,#arguments.lng#"
-    & "&key=#apiKey#">
-
-  <cfhttp url="#staticUrl#" method="get" timeout="10"
-          path="#GetDirectoryFromPath(mapFilePath)#"
-          file="#GetFileFromPath(mapFilePath)#"
-          result="httpRes" />
-
-  <cfif httpRes.statusCode CONTAINS "200">
-    <cfreturn mapUrl>
-  <cfelse>
-    <cfreturn "/shared/images/map-placeholder.jpg">
-  </cfif>
-</cffunction>
-
+    <cfloop array="#errRings#" index="ring">
+      <cfset ringClean = Replace(ring, "(", "", "all")>
+      <cfset ringClean = Replace(ringClean, ")", "", "all")>
+      <cfset da = ListToArray(ringClean, ",")>
+      <cfloop array="#da#" index="
