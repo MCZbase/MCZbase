@@ -88,6 +88,19 @@ limitations under the License.
 	<cfset variables.invalidRelationship = true>
 	<cfset variables.relationshipType = "parent of">
 </cfif>
+<cfset variables.inverseRelationshipType = variables.relationshipType>
+<cfquery name="ctRelationshipInverse" datasource="cf_dbuser" cachedwithin="#createTimeSpan(0,2,0,0)#">
+	SELECT
+		lower(nvl(inverse_relation, biol_indiv_relationship)) AS inverse_relationship
+	FROM
+		ctbiol_relations
+	WHERE
+		rel_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="biological" />
+		AND lower(biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
+</cfquery>
+<cfif ctRelationshipInverse.recordcount EQ 1 AND len(trim(ctRelationshipInverse.inverse_relationship)) GT 0>
+	<cfset variables.inverseRelationshipType = lcase(trim(ctRelationshipInverse.inverse_relationship))>
+</cfif>
 
 <cfif len(variables.collectionObjectIdFilter) GT 0 AND NOT isValid("integer", variables.collectionObjectIdFilter)>
 	<cfset variables.invalidCollectionObjectId = true>
@@ -329,6 +342,9 @@ limitations under the License.
 			LEFT JOIN identificationCounts relatedIdCount ON relatedCat.collection_object_id = relatedIdCount.collection_object_id
 		WHERE
 			lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
+			<cfif variables.relationshipType EQ variables.inverseRelationshipType>
+				AND bir.collection_object_id < bir.related_coll_object_id
+			</cfif>
 			AND sourceId.accepted_id_fg = 1
 			AND relatedId.accepted_id_fg = 1
 			AND sourceId.scientific_name <> relatedId.scientific_name
@@ -394,7 +410,6 @@ limitations under the License.
 	<section class="row mt-3" aria-labelledby="resultsHeading">
 		<div class="col-12">
 			<cfoutput>
-			<h2 class="h4" id="resultsHeading">Actionable relationship records<cfif isDefined("relationshipPairs")> (#relationshipPairs.recordcount#)</cfif></h2>
 			<output id="statusMessage" class="#encodeForHtmlAttribute(variables.statusClass)#" aria-live="polite">#encodeForHtml(variables.statusMessage)#</output>
 			<cfif variables.action EQ "syncSelected" AND variables.updatedCount GT 0>
 				<div class="mt-2">
@@ -402,12 +417,18 @@ limitations under the License.
 					<ul class="mb-0">
 						<cfloop query="variables.updatedSummaryRows">
 							<li>
-								added identification
-								#encodeForHtml(variables.updatedSummaryRows.scientific_name)#
-								to related
-								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSummaryRows.related_collection_object_id)#">#encodeForHtml(variables.updatedSummaryRows.related_guid)#</a>
+								added #encodeForHtml(variables.updatedSummaryRows.scientific_name)# as accepted identification to related
+								<cfif trim(variables.updatedSummaryRows.related_guid) EQ variables.guidUnavailableText>
+									#encodeForHtml(variables.updatedSummaryRows.related_guid)#
+								<cfelse>
+									<a href="/guid/#encodeForUrl(variables.updatedSummaryRows.related_guid)#">#encodeForHtml(variables.updatedSummaryRows.related_guid)#</a>
+								</cfif>
 								from source
-								<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(variables.updatedSummaryRows.source_collection_object_id)#">#encodeForHtml(variables.updatedSummaryRows.source_guid)#</a>;
+								<cfif trim(variables.updatedSummaryRows.source_guid) EQ variables.guidUnavailableText>
+									#encodeForHtml(variables.updatedSummaryRows.source_guid)#
+								<cfelse>
+									<a href="/guid/#encodeForUrl(variables.updatedSummaryRows.source_guid)#">#encodeForHtml(variables.updatedSummaryRows.source_guid)#</a>
+								</cfif>;
 								type of id: #encodeForHtml(variables.updatedSummaryRows.nature_of_id)#;
 								determiner: #encodeForHtml(variables.updatedSummaryRows.determiner)#;
 								date identified: #encodeForHtml(variables.updatedSummaryRows.made_date)#
@@ -416,6 +437,7 @@ limitations under the License.
 					</ul>
 				</div>
 			</cfif>
+			<h2 class="h4 mt-3" id="resultsHeading">Actionable relationship records<cfif isDefined("relationshipPairs")> (#relationshipPairs.recordcount#)</cfif></h2>
 			</cfoutput>
 		</div>
 
