@@ -527,4 +527,84 @@ limitations under the License.
       <cfset ringClean = Replace(ring, "(", "", "all")>
       <cfset ringClean = Replace(ringClean, ")", "", "all")>
       <cfset da = ListToArray(ringClean, ",")>
-      <cfloop array="#da#" index="
+      <cfloop array="#da#" index="pair">
+        <cfset pair   = trim(pair)>
+        <cfset lonLat = ListToArray(pair, " ")>
+        <cfif ArrayLen(lonLat) GTE 2>
+          <!-- WKT is lon lat; Static Maps wants lat,lng -->
+          <cfset ArrayAppend(errCoords, lonLat[2] & "," & lonLat[1])>
+        </cfif>
+      </cfloop>
+    </cfloop>
+
+    <cfif ArrayLen(errCoords)>
+      <!-- purple footprint polygon -->
+      <cfset var errBody = "fillcolor:0xCF6FFF55|color:0x7412A4FF|weight:2|" & ArrayToList(errCoords,"|")>
+      <cfset errPathParam = "&path=#URLEncodedFormat(errBody)#">
+    </cfif>
+  </cfif>
+
+  <!-- ======================================================
+       2) ENCLOSING HIGHER GEOGRAPHY POLYGON WKT (containing)
+       ====================================================== -->
+  <cftry>
+    <cfset enclWkt = trim( geoUtil.getContainingGeographyWKT( locality_id = val(arguments.locality_id) ) )>
+  <cfcatch>
+    <cfset enclWkt = "">
+  </cfcatch>
+  </cftry>
+
+  <cfif len(enclWkt)>
+    <cfset var enclRings  = REMatch("\(([^()]+)\)", enclWkt)>
+    <cfset var enclCoords = []>
+    <cfset var ring2      = "">
+    <cfset var ringClean2 = "">
+    <cfset var pair2      = "">
+    <cfset var da2        = []>
+    <cfset var lonLat2    = []>
+
+    <cfloop array="#enclRings#" index="ring2">
+      <cfset ringClean2 = Replace(ring2, "(", "", "all")>
+      <cfset ringClean2 = Replace(ringClean2, ")", "", "all")>
+      <cfset da2 = ListToArray(ringClean2, ",")>
+      <cfloop array="#da2#" index="pair2">
+        <cfset pair2   = trim(pair2)>
+        <cfset lonLat2 = ListToArray(pair2, " ")>
+        <cfif ArrayLen(lonLat2) GTE 2>
+          <cfset ArrayAppend(enclCoords, lonLat2[2] & "," & lonLat2[1])>
+        </cfif>
+      </cfloop>
+    </cfloop>
+
+    <cfif ArrayLen(enclCoords)>
+      <!-- blue enclosing geography polygon -->
+      <cfset var enclBody = "fillcolor:0x1E90FF55|color:0x1E90FFFF|weight:2|" & ArrayToList(enclCoords,"|")>
+      <cfset enclPathParam = "&path=#URLEncodedFormat(enclBody)#">
+    </cfif>
+  </cfif>
+
+  <!-- ===============================
+       3) Build Static Maps URL
+       =============================== -->
+  <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
+    & "?center=#arguments.lat#,#arguments.lng#"
+    & "&zoom=#zoom#"
+    & "&scale=1"
+    & "&size=#mapWidth#x#mapHeight#"
+    & "&maptype=roadmap"
+    & errPathParam
+    & enclPathParam
+    & "&markers=color:red|#arguments.lat#,#arguments.lng#"
+    & "&key=#apiKey#">
+
+  <cfhttp url="#staticUrl#" method="get" timeout="10"
+          path="#GetDirectoryFromPath(mapFilePath)#"
+          file="#GetFileFromPath(mapFilePath)#"
+          result="httpRes" />
+
+  <cfif httpRes.statusCode CONTAINS "200">
+    <cfreturn mapUrl>
+  <cfelse>
+    <cfreturn "/shared/images/map-placeholder.jpg">
+  </cfif>
+</cffunction>
