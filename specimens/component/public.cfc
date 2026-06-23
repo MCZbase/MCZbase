@@ -3206,10 +3206,10 @@ limitations under the License.
                                 bounds.extend(c);
                                 if (parseInt(radius) > 0){
                                   var circleoptn = {
-                                    strokeColor  : '#FF0000',
+                                    strokeColor  : '##FF0000',
                                     strokeOpacity: 0.8,
                                     strokeWeight : 2,
-                                    fillColor    : '#FF0000',
+                                    fillColor    : '##FF0000',
                                     fillOpacity  : 0.15,
                                     map          : map,
                                     center       : c,
@@ -3249,10 +3249,10 @@ limitations under the License.
                               }
                               uncertaintypoly = new google.maps.Polygon({
                                 paths       : uncertaintyPointsArray,
-                                strokeColor : '#7412A4',
+                                strokeColor : '##7412A4',
                                 strokeOpacity: 0.9,
                                 strokeWeight: 2,
-                                fillColor   : '#CF6FFF', 
+                                fillColor   : '##CF6FFF', 
                                 fillOpacity : 0.35
                               });
                               uncertaintypoly.setMap(map);
@@ -3269,7 +3269,7 @@ limitations under the License.
                               } 
                               map.fitBounds(bounds);
                             } else {
-                              $("#mapdiv_" + localityId).addClass('noErrorWKT');
+                              $("##mapdiv_" + localityId).addClass('noErrorWKT');
                             }
                             polygonLoaded = true;
                             postLoadCheck();
@@ -3300,16 +3300,16 @@ limitations under the License.
                               }
                               enclosingpoly = new google.maps.Polygon({
                                 paths       : enclosingPointsArray,
-                                strokeColor : '#1E90FF',
+                                strokeColor : '##1E90FF',
                                 strokeOpacity: 0.8,
                                 strokeWeight: 2,
-                                fillColor   : '#1E90FF',
+                                fillColor   : '##1E90FF',
                                 fillOpacity : 0.25
                               });
                               enclosingpoly.setMap(map);
                               enclosingPolygonArray.push(enclosingpoly);
                             } else {
-                              $("#mapdiv_" + localityId).addClass('noWKT');
+                              $("##mapdiv_" + localityId).addClass('noWKT');
                             }
 
                             if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
@@ -3335,7 +3335,7 @@ limitations under the License.
                             for (var a = 0; a < enclosingPolygonArray.length; a++){
                               if (!google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a])) {
                                 hasProblem = true;
-                                $("#mapMetadataUL").append(
+                                $("##mapMetadataUL").append(
                                   "<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>"
                                 );
                               }
@@ -3343,15 +3343,15 @@ limitations under the License.
                             for (var b = 0; b < uncertaintyPolygonArray.length; b++){
                               if (!google.maps.geometry.poly.containsLocation(georefs, uncertaintyPolygonArray[b])) {
                                 hasProblem = true;
-                                $("#mapMetadataUL").append(
+                                $("##mapMetadataUL").append(
                                   "<li class='list-style-circle'>Georeference for locality is outside of Footprint Polygon.</li>"
                                 );
                               }
                             }
                             if (hasProblem) {
-                              $("#mapdiv_" + localityId).addClass('uglyGeoSPatData');
+                              $("##mapdiv_" + localityId).addClass('uglyGeoSPatData');
                             } else {
-                              $("#mapdiv_" + localityId).addClass('niceGeoSPatData');
+                              $("##mapdiv_" + localityId).addClass('niceGeoSPatData');
                             }
                           }
                         }
