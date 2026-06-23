@@ -499,6 +499,10 @@ limitations under the License.
 										<cfset variables.rowValue = "#relationshipPairs.collection_object_id##variables.SELECTED_PAIR_DELIMITER##relationshipPairs.related_coll_object_id#">
 										<cfset variables.sourceSpecimenLabel = "#relationshipPairs.source_institution_acronym# #relationshipPairs.source_collection_cde# #relationshipPairs.source_cat_num#">
 										<cfset variables.relatedSpecimenLabel = "#relationshipPairs.related_institution_acronym# #relationshipPairs.related_collection_cde# #relationshipPairs.related_cat_num#">
+										<cfset variables.copySourceToRelatedValue = variables.rowValue & variables.SELECTED_PAIR_DELIMITER & "s2r">
+										<cfset variables.copyRelatedToSourceValue = variables.rowValue & variables.SELECTED_PAIR_DELIMITER & "r2s">
+										<cfset variables.copySourceToRelatedId = "copy_source_to_related_" & relationshipPairs.currentRow>
+										<cfset variables.copyRelatedToSourceId = "copy_related_to_source_" & relationshipPairs.currentRow>
 										<tr>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.collection_object_id)#">#encodeForHtml(relationshipPairs.source_institution_acronym)# #encodeForHtml(relationshipPairs.source_collection_cde)# #encodeForHtml(relationshipPairs.source_cat_num)#</a>
@@ -522,11 +526,11 @@ limitations under the License.
 												</cfif>
 											</td>
 											<td>
-												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 's2r')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.sourceSpecimenLabel)# to #encodeForHtmlAttribute(variables.relatedSpecimenLabel)#">
-												<span class="small">copy id to related</span>
+												<input type="checkbox" class="relationship-row-check" id="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#" name="selected_pair" value="#encodeForHtmlAttribute(variables.copySourceToRelatedValue)#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.sourceSpecimenLabel)# to #encodeForHtmlAttribute(variables.relatedSpecimenLabel)#">
+												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copySourceToRelatedId)#">copy id to related</label>
 												<br>
-												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 'r2s')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.relatedSpecimenLabel)# to #encodeForHtmlAttribute(variables.sourceSpecimenLabel)#">
-												<span class="small">copy id to source</span>
+												<input type="checkbox" class="relationship-row-check" id="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#" name="selected_pair" value="#encodeForHtmlAttribute(variables.copyRelatedToSourceValue)#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.relatedSpecimenLabel)# to #encodeForHtmlAttribute(variables.sourceSpecimenLabel)#">
+												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#">copy id to source</label>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
