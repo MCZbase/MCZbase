@@ -405,8 +405,8 @@ limitations under the License.
 	<section class="row">
 		<div class="col-12">
 			<h1 class="h2">Relationship Taxonomy Consistency Checks and Sync</h1>
-			<p class="mb-1">This tool lists cataloged item pairs linked by one biological relationship type at a time where both items are expected to have the same taxon identification.</p>
-			<p class="mb-1">Use this to examine accepted identifications and add/sync accepted IDs from the listed relationship source item to the related item.  Evaluate each record with care, before using this form to add identifications, the relationship may be in error, or there may be a good reason why the identifications are different.</p>
+			<p class="mb-1">This tool lists cataloged item pairs linked by a biological relationship type where both items are expected to have the same taxonomic identification (e.g. siblings).</p>
+			<p class="mb-1">Use this tool to examine accepted identifications and add/sync accepted IDs from the listed relationship source item to the related item.  Evaluate each record with care before using this form to add identifications.   The relationship may be in error, or there may be a good reason why the identifications are different.</p>
 			<p class="mb-3">Hybrid taxa (taxon formula <em>A x B</em>) are excluded from this actionable list.</p>
 		</div>
 	</section>
