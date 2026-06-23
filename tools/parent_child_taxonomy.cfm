@@ -506,7 +506,7 @@ limitations under the License.
 										<cfset variables.copyRelatedToSourceId = "copy_related_to_source_" & relationshipPairs.currentRow>
 										<tr>
 											<td>
-												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.collection_object_id)#">#encodeForHtml(relationshipPairs.source_institution_acronym)# #encodeForHtml(relationshipPairs.source_collection_cde)# #encodeForHtml(relationshipPairs.source_cat_num)#</a>
+												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.collection_object_id)#">#encodeForHtml(relationshipPairs.source_institution_acronym)#:#encodeForHtml(relationshipPairs.source_collection_cde)#:#encodeForHtml(relationshipPairs.source_cat_num)#</a>
 												<cfif len(trim(relationshipPairs.source_custom_id)) GT 0>
 													<br><span class="small">#encodeForHtml(session.CustomOtherIdentifier)# = #encodeForHtml(relationshipPairs.source_custom_id)#</span>
 												</cfif>
@@ -537,7 +537,7 @@ limitations under the License.
 												<label class="small mb-0" for="#encodeForHtmlAttribute(variables.copyRelatedToSourceId)#">Copy ID &larr; Source</label>
 											</td>
 											<td>
-												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
+												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)#:#encodeForHtml(relationshipPairs.related_collection_cde)#:#encodeForHtml(relationshipPairs.related_cat_num)#</a>
 												<cfif len(trim(relationshipPairs.related_custom_id)) GT 0>
 													<br><span class="small">#encodeForHtml(session.CustomOtherIdentifier)# = #encodeForHtml(relationshipPairs.related_custom_id)#</span>
 												</cfif>
