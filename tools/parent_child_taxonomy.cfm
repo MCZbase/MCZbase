@@ -267,7 +267,7 @@ limitations under the License.
 			<h1 class="h2">Relationship Taxonomy Consistency Checks and Sync</h1>
 			<p class="mb-1">This tool lists cataloged item pairs linked by one biological relationship type at a time where both items are expected to have the same taxon identification.</p>
 			<p class="mb-1">Use this to examine accepted identifications and add/sync accepted IDs from the listed relationship source item to the related item.</p>
-			<p class="text-warning mb-3">Hybrid taxa (taxon formulas such as <em>A x B</em> or <em>A × B</em>) are excluded from this actionable list.</p>
+			<p class="text-warning mb-3">Hybrid taxa (taxon formula <em>A x B</em>) are excluded from this actionable list.</p>
 		</div>
 	</section>
 
