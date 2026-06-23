@@ -89,18 +89,19 @@ limitations under the License.
 	<cfset variables.relationshipType = "parent of">
 </cfif>
 <cfset variables.inverseRelationshipType = variables.relationshipType>
-<cfquery name="ctRelationshipInverse" datasource="cf_dbuser" cachedwithin="#createTimeSpan(0,2,0,0)#">
+<cfquery name="getInverseRelationship" datasource="cf_dbuser" cachedwithin="#createTimeSpan(0,2,0,0)#">
 	SELECT
-		lower(nvl(inverse_relation, biol_indiv_relationship)) AS inverse_relationship
+		lower(inverse_relation) AS inverse_relationship
 	FROM
 		ctbiol_relations
 	WHERE
 		rel_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="biological" />
 		AND lower(biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
 </cfquery>
-<cfif ctRelationshipInverse.recordcount EQ 1 AND len(trim(ctRelationshipInverse.inverse_relationship)) GT 0>
-	<cfset variables.inverseRelationshipType = lcase(trim(ctRelationshipInverse.inverse_relationship))>
+<cfif getInverseRelationship.recordcount EQ 1 AND len(trim(getInverseRelationship.inverse_relationship)) GT 0>
+	<cfset variables.inverseRelationshipType = trim(getInverseRelationship.inverse_relationship)>
 </cfif>
+<cfset variables.isSelfReciprocalRelationship = variables.relationshipType EQ variables.inverseRelationshipType>
 
 <cfif len(variables.collectionObjectIdFilter) GT 0 AND NOT isValid("integer", variables.collectionObjectIdFilter)>
 	<cfset variables.invalidCollectionObjectId = true>
@@ -342,7 +343,7 @@ limitations under the License.
 			LEFT JOIN identificationCounts relatedIdCount ON relatedCat.collection_object_id = relatedIdCount.collection_object_id
 		WHERE
 			lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
-			<cfif variables.relationshipType EQ variables.inverseRelationshipType>
+			<cfif variables.isSelfReciprocalRelationship>
 				AND bir.collection_object_id < bir.related_coll_object_id
 			</cfif>
 			AND sourceId.accepted_id_fg = 1
