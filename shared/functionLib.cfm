@@ -498,6 +498,7 @@ limitations under the License.
 	<cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
 		& "?center=#arguments.lat#,#arguments.lng#"
 		& "&zoom=#zoom#"
+        & "scale=2"
 		& "&size=#mapWidth#x#mapHeight#"
 		& "&maptype=roadmap"
 		& "&markers=color:red|#arguments.lat#,#arguments.lng#"
