@@ -489,7 +489,7 @@ limitations under the License.
   </cfif>
         
 	<cfset var mapDir      = expandPath("/cache/static_maps/")>
-	<cfset var mapFileName = "locality-#arguments.locality_id#-#arguments.layout.png">
+	<cfset var mapFileName = "locality-#arguments.locality_id#-#arguments.layout#.png">
 	<cfset var mapFilePath = mapDir & mapFileName>
 	<cfset var mapUrl      = "https://mczbase-dev.rc.fas.harvard.edu/cache/static_maps/#mapFileName#">
 	<cfset var apiKey      = application.gmap_api_key>
