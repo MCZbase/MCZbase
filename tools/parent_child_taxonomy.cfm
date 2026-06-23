@@ -209,7 +209,7 @@ limitations under the License.
 		WITH identificationCounts AS (
 			SELECT
 				collection_object_id,
-				count(*) AS total_identification_count
+				greatest(count(*) - 1, 0) AS other_identification_count
 			FROM
 				identification
 			GROUP BY
@@ -234,8 +234,10 @@ limitations under the License.
 			relatedColl.collection_cde AS related_collection_cde,
 			sourceColl.institution_acronym AS source_institution_acronym,
 			relatedColl.institution_acronym AS related_institution_acronym,
-			greatest(nvl(sourceIdCount.total_identification_count, 0) - 1, 0) AS source_other_identification_count,
-			greatest(nvl(relatedIdCount.total_identification_count, 0) - 1, 0) AS related_other_identification_count,
+			nvl(sourceIdCount.other_identification_count, 0) AS source_other_identification_count,
+			CASE WHEN nvl(sourceIdCount.other_identification_count, 0) = 1 THEN 'other identification' ELSE 'other identifications' END AS source_other_identification_label,
+			nvl(relatedIdCount.other_identification_count, 0) AS related_other_identification_count,
+			CASE WHEN nvl(relatedIdCount.other_identification_count, 0) = 1 THEN 'other identification' ELSE 'other identifications' END AS related_other_identification_label,
 			concatSingleOtherId(sourceCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS source_custom_id,
 			concatSingleOtherId(relatedCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS related_custom_id
 		FROM
@@ -358,7 +360,7 @@ limitations under the License.
 												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.source_determiner)#</span>
 												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.source_identification_date)) GT 0>#dateFormat(relationshipPairs.source_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
 												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.source_identification_type)#</span>
-												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# other identification<cfif relationshipPairs.source_other_identification_count NEQ 1>s</cfif></span>
+												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# #encodeForHtml(relationshipPairs.source_other_identification_label)#</span>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
@@ -371,7 +373,7 @@ limitations under the License.
 												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.related_determiner)#</span>
 												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.related_identification_date)) GT 0>#dateFormat(relationshipPairs.related_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
 												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.related_identification_type)#</span>
-												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.related_other_identification_count)# other identification<cfif relationshipPairs.related_other_identification_count NEQ 1>s</cfif></span>
+												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.related_other_identification_count)# #encodeForHtml(relationshipPairs.related_other_identification_label)#</span>
 											</td>
 										</tr>
 									</cfloop>
