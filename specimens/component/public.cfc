@@ -3104,7 +3104,7 @@ limitations under the License.
                         var center = { lat: lat, lng: lng };
                             
                         var mapOptions = {
-                              zoom: 1,
+                              zoom: 10,
                               center: new google.maps.LatLng(0,0),
                               mapTypeId: google.maps.MapTypeId.ROADMAP,
                               panControl: false,
