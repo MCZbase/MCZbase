@@ -183,10 +183,15 @@ limitations under the License.
 			<cfset variables.pairSourceCollectionObjectId = listGetAt(variables.selectedPair, 1, variables.SELECTED_PAIR_DELIMITER)>
 			<cfset variables.pairRelatedCollectionObjectId = listGetAt(variables.selectedPair, 2, variables.SELECTED_PAIR_DELIMITER)>
 			<cfset variables.copyDirection = "source_to_related">
+			<cfset variables.validCopyDirection = true>
 			<cfif listLen(variables.selectedPair, variables.SELECTED_PAIR_DELIMITER) GTE 3>
 				<cfset variables.selectedDirection = lcase(trim(listGetAt(variables.selectedPair, 3, variables.SELECTED_PAIR_DELIMITER)))>
 				<cfif variables.selectedDirection EQ "r2s">
 					<cfset variables.copyDirection = "related_to_source">
+				<cfelseif variables.selectedDirection EQ "s2r">
+					<cfset variables.copyDirection = "source_to_related">
+				<cfelse>
+					<cfset variables.validCopyDirection = false>
 				</cfif>
 			</cfif>
 			<cfset variables.sourceCollectionObjectId = variables.pairSourceCollectionObjectId>
@@ -195,7 +200,7 @@ limitations under the License.
 				<cfset variables.sourceCollectionObjectId = variables.pairRelatedCollectionObjectId>
 				<cfset variables.relatedCollectionObjectId = variables.pairSourceCollectionObjectId>
 			</cfif>
-			<cfif NOT isValid("integer", variables.sourceCollectionObjectId) OR NOT isValid("integer", variables.relatedCollectionObjectId)>
+			<cfif NOT variables.validCopyDirection OR NOT isValid("integer", variables.sourceCollectionObjectId) OR NOT isValid("integer", variables.relatedCollectionObjectId)>
 				<cfset variables.invalidCount = variables.invalidCount + 1>
 			<cfelse>
 				<cftransaction>
@@ -494,6 +499,8 @@ limitations under the License.
 									<cfloop query="relationshipPairs">
 										<!--- identify the row to be updated with a pair of collection object ids, one source, one target (related) separated by a delimiter --->
 										<cfset variables.rowValue = "#relationshipPairs.collection_object_id##variables.SELECTED_PAIR_DELIMITER##relationshipPairs.related_coll_object_id#">
+										<cfset variables.sourceSpecimenLabel = "#relationshipPairs.source_institution_acronym# #relationshipPairs.source_collection_cde# #relationshipPairs.source_cat_num#">
+										<cfset variables.relatedSpecimenLabel = "#relationshipPairs.related_institution_acronym# #relationshipPairs.related_collection_cde# #relationshipPairs.related_cat_num#">
 										<tr>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.collection_object_id)#">#encodeForHtml(relationshipPairs.source_institution_acronym)# #encodeForHtml(relationshipPairs.source_collection_cde)# #encodeForHtml(relationshipPairs.source_cat_num)#</a>
@@ -517,11 +524,11 @@ limitations under the License.
 												</cfif>
 											</td>
 											<td>
-												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 's2r')#" aria-label="Copy source accepted identification to related">
-												<span class="small">copy id &#8594;</span>
+												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 's2r')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.sourceSpecimenLabel)# to #encodeForHtmlAttribute(variables.relatedSpecimenLabel)#">
+												<span class="small" aria-hidden="true">copy id &#8594;</span>
 												<br>
-												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 'r2s')#" aria-label="Copy related accepted identification to source">
-												<span class="small">&#8592; copy id</span>
+												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 'r2s')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.relatedSpecimenLabel)# to #encodeForHtmlAttribute(variables.sourceSpecimenLabel)#">
+												<span class="small" aria-hidden="true">&#8592; copy id</span>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
