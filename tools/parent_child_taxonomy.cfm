@@ -120,7 +120,7 @@ limitations under the License.
 				<cfset variables.invalidCount = variables.invalidCount + 1>
 			<cfelse>
 				<cftransaction>
-					<cfquery name="getSourceIdentification" datasource="user_login" username="#session.dbuser#" ******>
+					<cfquery name="getSourceIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							sourceId.identification_id,
 							sourceId.taxa_formula,
@@ -140,14 +140,14 @@ limitations under the License.
 							AND nvl(relatedId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
 					</cfquery>
 					<cfif getSourceIdentification.recordcount EQ 1>
-						<cfquery name="unsetCurrentId" datasource="user_login" username="#session.dbuser#" ******>
+						<cfquery name="unsetCurrentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification
 							SET accepted_id_fg = 0
 							WHERE
 								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.relatedCollectionObjectId#">
 								AND accepted_id_fg = 1
 						</cfquery>
-						<cfquery name="insertNewIdentification" datasource="user_login" username="#session.dbuser#" ******>
+						<cfquery name="insertNewIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO identification (
 								IDENTIFICATION_ID,
 								COLLECTION_OBJECT_ID,
@@ -166,7 +166,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSourceIdentification.scientific_name#" null="#NOT len(getSourceIdentification.scientific_name)#">
 							)
 						</cfquery>
-						<cfquery name="copyTaxonomyRows" datasource="user_login" username="#session.dbuser#" ******>
+						<cfquery name="copyTaxonomyRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO identification_taxonomy (
 								identification_id,
 								taxon_name_id,
@@ -181,7 +181,7 @@ limitations under the License.
 							WHERE
 								identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSourceIdentification.identification_id#">
 						</cfquery>
-						<cfquery name="insertIdentifierAgent" datasource="user_login" username="#session.dbuser#" ******>
+						<cfquery name="insertIdentifierAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO identification_agent (
 								IDENTIFICATION_ID,
 								AGENT_ID,
@@ -205,7 +205,7 @@ limitations under the License.
 </cfif>
 
 <cfif variables.shouldQuery>
-	<cfquery name="relationshipPairs" datasource="user_login" username="#session.dbuser#" ******>
+	<cfquery name="relationshipPairs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			bir.collection_object_id,
 			bir.related_coll_object_id,
