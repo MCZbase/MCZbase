@@ -563,7 +563,7 @@ limitations under the License.
 							</table>
 						</div>
 						<div class="d-flex align-items-center gap-2 mt-2">
-							<input type="submit" id="bulkSyncBtn" class="btn btn-primary" value="Add/Sync Accepted IDs for Selected Copy Actions" disabled>
+							<input type="submit" id="bulkSyncBtn" class="btn btn-primary pr-2" value="Add/Sync Accepted IDs for Selected Copy Actions" disabled>
 							<span id="selectedCount" aria-live="polite" class="text-muted">0 actions selected</span>
 						</div>
 						<p class="mt-2 mb-0">This action adds a new accepted identification in the selected direction for each checked copy action. Determiner is recorded as the currently logged in user, date identified is set to today, and #encodeForHtml(variables.natureOfIdGuidance)#</p>
