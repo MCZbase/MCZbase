@@ -598,13 +598,12 @@ limitations under the License.
     & "&key=#apiKey#">
 
   <cfhttp url="#staticUrl#" method="get" timeout="10"
-          path="#GetDirectoryFromPath(mapFilePath)#"
-          file="#GetFileFromPath(mapFilePath)#"
-          result="httpRes" />
+        path="#GetDirectoryFromPath(mapFilePath)#"
+        file="#GetFileFromPath(mapFilePath)#"
+        result="httpRes" />
 
-  <cfif httpRes.statusCode CONTAINS "200">
-    <cfreturn mapUrl>
-  <cfelse>
-    <cfreturn "/shared/images/map-placeholder.jpg">
-  </cfif>
+<cfdump var="#staticUrl#" label="DEBUG staticUrl">
+<cfdump var="#httpRes.statusCode#" label="DEBUG statusCode">
+<cfdump var="#left(httpRes.fileContent,300)#" label="DEBUG fileContent start">
+<cfabort>
 </cffunction>
