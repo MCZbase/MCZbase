@@ -385,7 +385,7 @@ limitations under the License.
 	</section>
 
 	<section class="row" aria-labelledby="relationshipFiltersHeading">
-		<div class="col-12">
+		<div class="col-12 border border-rounded">
 			<h2 class="h4" id="relationshipFiltersHeading">Find mismatches by relationship type</h2>
 			<cfoutput>
 			<form method="get" action="/tools/parent_child_taxonomy.cfm" class="form-row align-items-end g-2">
