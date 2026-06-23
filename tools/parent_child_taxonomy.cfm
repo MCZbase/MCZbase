@@ -222,20 +222,20 @@ limitations under the License.
 			sourceId.scientific_name AS source_scientific_name,
 			sourceId.nature_of_id AS source_identification_type,
 			sourceId.made_date AS source_identification_date,
-			nvl(sourcePAN.agent_name, '[no determiner]') AS source_determiner,
+			sourcePAN.agent_name AS source_determiner,
 			relatedId.identification_id AS related_identification_id,
 			relatedId.scientific_name AS related_scientific_name,
 			relatedId.nature_of_id AS related_identification_type,
 			relatedId.made_date AS related_identification_date,
-			nvl(relatedPAN.agent_name, '[no determiner]') AS related_determiner,
+			relatedPAN.agent_name AS related_determiner,
 			sourceCat.cat_num AS source_cat_num,
 			relatedCat.cat_num AS related_cat_num,
 			sourceColl.collection_cde AS source_collection_cde,
 			relatedColl.collection_cde AS related_collection_cde,
 			sourceColl.institution_acronym AS source_institution_acronym,
 			relatedColl.institution_acronym AS related_institution_acronym,
-			nvl(sourceIdCount.total_identification_count, 1) - 1 AS source_other_identification_count,
-			nvl(relatedIdCount.total_identification_count, 1) - 1 AS related_other_identification_count,
+			CASE WHEN nvl(sourceIdCount.total_identification_count, 0) > 0 THEN sourceIdCount.total_identification_count - 1 ELSE 0 END AS source_other_identification_count,
+			CASE WHEN nvl(relatedIdCount.total_identification_count, 0) > 0 THEN relatedIdCount.total_identification_count - 1 ELSE 0 END AS related_other_identification_count,
 			concatSingleOtherId(sourceCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS source_custom_id,
 			concatSingleOtherId(relatedCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS related_custom_id
 		FROM
@@ -355,9 +355,15 @@ limitations under the License.
 											</td>
 											<td>
 												#encodeForHtml(relationshipPairs.source_scientific_name)#
-												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.source_determiner)#</span>
-												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.source_identification_date)) GT 0>#dateFormat(relationshipPairs.source_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
-												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.source_identification_type)#</span>
+												<cfif len(trim(relationshipPairs.source_determiner)) GT 0>
+													<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.source_determiner)#</span>
+												</cfif>
+												<cfif len(trim(relationshipPairs.source_identification_date)) GT 0>
+													<br><span class="small text-muted">Date identified: #dateFormat(relationshipPairs.source_identification_date, 'yyyy-mm-dd')#</span>
+												</cfif>
+												<cfif len(trim(relationshipPairs.source_identification_type)) GT 0>
+													<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.source_identification_type)#</span>
+												</cfif>
 												<cfif relationshipPairs.source_other_identification_count GT 0>
 													<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# other identification<cfif relationshipPairs.source_other_identification_count NEQ 1>s</cfif></span>
 												</cfif>
@@ -370,9 +376,15 @@ limitations under the License.
 											</td>
 											<td>
 												#encodeForHtml(relationshipPairs.related_scientific_name)#
-												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.related_determiner)#</span>
-												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.related_identification_date)) GT 0>#dateFormat(relationshipPairs.related_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
-												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.related_identification_type)#</span>
+												<cfif len(trim(relationshipPairs.related_determiner)) GT 0>
+													<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.related_determiner)#</span>
+												</cfif>
+												<cfif len(trim(relationshipPairs.related_identification_date)) GT 0>
+													<br><span class="small text-muted">Date identified: #dateFormat(relationshipPairs.related_identification_date, 'yyyy-mm-dd')#</span>
+												</cfif>
+												<cfif len(trim(relationshipPairs.related_identification_type)) GT 0>
+													<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.related_identification_type)#</span>
+												</cfif>
 												<cfif relationshipPairs.related_other_identification_count GT 0>
 													<br><span class="small text-muted">#encodeForHtml(relationshipPairs.related_other_identification_count)# other identification<cfif relationshipPairs.related_other_identification_count NEQ 1>s</cfif></span>
 												</cfif>
