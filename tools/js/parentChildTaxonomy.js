@@ -14,7 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	rowChecks.forEach(function (rowCheck) {
-		rowCheck.addEventListener("change", updateSelectionState);
+		rowCheck.addEventListener("change", function () {
+			if (rowCheck.checked) {
+				const row = rowCheck.closest("tr");
+				if (row) {
+					const rowCheckGroup = row.querySelectorAll(".relationship-row-check");
+					rowCheckGroup.forEach(function (otherCheck) {
+						if (otherCheck !== rowCheck) {
+							otherCheck.checked = false;
+						}
+					});
+				}
+			}
+			updateSelectionState();
+		});
 	});
 
 	updateSelectionState();
