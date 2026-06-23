@@ -507,7 +507,11 @@ limitations under the License.
           method="get"
           timeout="10"
           result="errWktResult" />
-
+      
+     <cfdump var="#errWktResult.statusCode#" label="DEBUG err status">
+     <cfdump var="#left(errWktResult.fileContent,300)#" label="DEBUG err WKT">
+     <cfabort>
+     
   <cfif errWktResult.statusCode CONTAINS "200">
     <cfset var errWkt = trim(errWktResult.fileContent)>
 
