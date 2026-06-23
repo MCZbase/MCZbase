@@ -3327,6 +3327,11 @@ limitations under the License.
                             postLoadCheck();
                           }
                         );
+                        map.fitBounds(bounds);
+
+                        if (map.getZoom() < 10) {
+                          map.setZoom(10);   // don't zoom out more than static
+                        }
 
                         // ---- 5) Boundary checks (inside polygons?) ----
                         function postLoadCheck() { 
