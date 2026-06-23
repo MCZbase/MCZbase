@@ -523,10 +523,10 @@ limitations under the License.
 											</td>
 											<td>
 												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 's2r')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.sourceSpecimenLabel)# to #encodeForHtmlAttribute(variables.relatedSpecimenLabel)#">
-												<span class="small">copy id &#8594; to related</span>
+												<span class="small">copy id to related</span>
 												<br>
 												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 'r2s')#" aria-label="Copy accepted identification from #encodeForHtmlAttribute(variables.relatedSpecimenLabel)# to #encodeForHtmlAttribute(variables.sourceSpecimenLabel)#">
-												<span class="small">&#8592; copy id to source</span>
+												<span class="small">copy id to source</span>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
