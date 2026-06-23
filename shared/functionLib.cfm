@@ -586,24 +586,26 @@ limitations under the License.
   <!-- ===============================
        3) Build Static Maps URL
        =============================== -->
-  <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
-    & "?center=#arguments.lat#,#arguments.lng#"
-    & "&zoom=#zoom#"
-    & "&scale=1"
-    & "&size=#mapWidth#x#mapHeight#"
-    & "&maptype=roadmap"
-    & errPathParam
-    & enclPathParam
-    & "&markers=color:red|#arguments.lat#,#arguments.lng#"
-    & "&key=#apiKey#">
+    <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
+        & "?center=#arguments.lat#,#arguments.lng#"
+        & "&zoom=#zoom#"
+        & "&scale=1"
+        & "&size=#mapWidth#x#mapHeight#"
+        & "&maptype=roadmap"
+        & errPathParam
+        & enclPathParam
+        & "&markers=color:red|#arguments.lat#,#arguments.lng#"
+        & "&key=#apiKey#">
 
-  <cfhttp url="#staticUrl#" method="get" timeout="10"
+    <cfhttp url="#staticUrl#" method="get" timeout="10"
         path="#GetDirectoryFromPath(mapFilePath)#"
         file="#GetFileFromPath(mapFilePath)#"
         result="httpRes" />
 
-<cfdump var="#staticUrl#" label="DEBUG staticUrl">
-<cfdump var="#httpRes.statusCode#" label="DEBUG statusCode">
-<cfdump var="#left(httpRes.fileContent,300)#" label="DEBUG fileContent start">
-<cfabort>
+    <cfif httpRes.statusCode CONTAINS "200">
+        <!-- MUST return the local cached file URL, not the Google URL -->
+        <cfreturn mapUrl>
+    <cfelse>
+        <cfreturn "/shared/images/map-placeholder.jpg">
+    </cfif>
 </cffunction>
