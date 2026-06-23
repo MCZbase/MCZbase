@@ -514,7 +514,7 @@ limitations under the License.
 												<a class="dropdown-item" href="/Admin/killBadAgentDups.cfm">Merge bad duplicate agents</a>
 											</cfif>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-												<a class="dropdown-item" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Identifications</a>
+												<a class="dropdown-item" href="/tools/parent_child_taxonomy.cfm?execute=true&relationship_type=parent%20of">Sync Parent/Child Identifications</a>
 												<cfif targetMenu EQ "production">
 													<a class="dropdown-item" href="/tools/pendingRelations.cfm">Pending Relationships</a>
 												<cfelse>
