@@ -19,7 +19,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 --->
-<cfset pageTitle = "Relationship Taxonomy Consistency Sync">
+<cfset pageTitle = "Relationship Identification Consistency Sync">
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 <script src="/tools/js/parentChildTaxonomy.js"></script>

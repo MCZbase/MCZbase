@@ -306,7 +306,7 @@
 												<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
 											</cfif>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-												<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
+												<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Identifications</a>
 												<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
 												<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
 												<a class="dropdown-item" target="_top" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a>
