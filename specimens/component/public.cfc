@@ -3226,7 +3226,7 @@ limitations under the License.
                         );
 
                         // ---- 3) Footprint polygon (error region) ----
-                        $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + localityId,
+                        $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&libraries=geometry&locality_id=" + localityId,
                           function(wkt) {
                             if (wkt.length > 0){
                               var regex   = /\(([^()]+)\)/g;
@@ -3277,7 +3277,7 @@ limitations under the License.
                         );
 
                         // ---- 4) Enclosing higher geography polygon ----
-                        $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + localityId,
+                        $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&libraries=geometry&locality_id=" + localityId,
                           function(wkt) {
                             if (wkt.length > 0){
                               var regex = /\(([^()]+)\)/g;
