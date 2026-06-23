@@ -160,18 +160,16 @@ limitations under the License.
 			</cfif>
 		</cfloop>
 		<cfif len(variables.selectedSourceIds) GT 0 AND len(variables.selectedRelatedIds) GT 0>
-			<cfquery name="getSelectedPairGuids" datasource="cf_dbuser">
+			<cfquery name="getSelectedPairGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					bir.collection_object_id AS source_collection_object_id,
 					bir.related_coll_object_id AS related_collection_object_id,
-					nvl(sourceColl.institution_acronym, '[missing]') || ':' || nvl(sourceColl.collection_cde, '[missing]') || ':' || nvl(sourceCat.cat_num, '[missing]') AS source_guid,
-					nvl(relatedColl.institution_acronym, '[missing]') || ':' || nvl(relatedColl.collection_cde, '[missing]') || ':' || nvl(relatedCat.cat_num, '[missing]') AS related_guid
+					nvl(sourceFlat.guid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.guidUnavailableText#">) AS source_guid,
+					nvl(relatedFlat.guid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.guidUnavailableText#">) AS related_guid
 				FROM
 					biol_indiv_relations bir
-					JOIN cataloged_item sourceCat ON bir.collection_object_id = sourceCat.collection_object_id
-					JOIN collection sourceColl ON sourceCat.collection_id = sourceColl.collection_id
-					JOIN cataloged_item relatedCat ON bir.related_coll_object_id = relatedCat.collection_object_id
-					JOIN collection relatedColl ON relatedCat.collection_id = relatedColl.collection_id
+					LEFT JOIN #session.flatTableName# sourceFlat ON bir.collection_object_id = sourceFlat.collection_object_id
+					LEFT JOIN #session.flatTableName# relatedFlat ON bir.related_coll_object_id = relatedFlat.collection_object_id
 				WHERE
 					lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
 					AND bir.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" list="yes" value="#variables.selectedSourceIds#">)
