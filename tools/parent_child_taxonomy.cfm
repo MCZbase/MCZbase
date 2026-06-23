@@ -225,6 +225,8 @@ limitations under the License.
 			relatedColl.collection_cde AS related_collection_cde,
 			sourceColl.institution_acronym AS source_institution_acronym,
 			relatedColl.institution_acronym AS related_institution_acronym,
+			greatest((SELECT count(*) FROM identification sourceAllId WHERE sourceAllId.collection_object_id = sourceCat.collection_object_id) - 1, 0) AS source_other_identification_count,
+			greatest((SELECT count(*) FROM identification relatedAllId WHERE relatedAllId.collection_object_id = relatedCat.collection_object_id) - 1, 0) AS related_other_identification_count,
 			concatSingleOtherId(sourceCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS source_custom_id,
 			concatSingleOtherId(relatedCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS related_custom_id
 		FROM
@@ -322,15 +324,9 @@ limitations under the License.
 									<tr>
 										<th scope="col"><label for="selectAllRows" class="mb-0">Select</label><br><input type="checkbox" id="selectAllRows"></th>
 										<th scope="col">Relationship Source Item</th>
-										<th scope="col">Source Accepted Taxon</th>
-										<th scope="col">Source Determiner</th>
-										<th scope="col">Source ID Type</th>
-										<th scope="col">Source ID Date</th>
+										<th scope="col">Source Accepted Identification</th>
 										<th scope="col">Related Item</th>
-										<th scope="col">Related Accepted Taxon</th>
-										<th scope="col">Related Determiner</th>
-										<th scope="col">Related ID Type</th>
-										<th scope="col">Related ID Date</th>
+										<th scope="col">Related Accepted Identification</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -346,20 +342,26 @@ limitations under the License.
 													<br><span class="small">#encodeForHtml(session.CustomOtherIdentifier)# = #encodeForHtml(relationshipPairs.source_custom_id)#</span>
 												</cfif>
 											</td>
-											<td>#encodeForHtml(relationshipPairs.source_scientific_name)#</td>
-											<td>#encodeForHtml(relationshipPairs.source_determiner)#</td>
-											<td>#encodeForHtml(relationshipPairs.source_identification_type)#</td>
-											<td><cfif len(trim(relationshipPairs.source_identification_date)) GT 0>#dateFormat(relationshipPairs.source_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></td>
+											<td>
+												#encodeForHtml(relationshipPairs.source_scientific_name)#
+												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.source_determiner)#</span>
+												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.source_identification_date)) GT 0>#dateFormat(relationshipPairs.source_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
+												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.source_identification_type)#</span>
+												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# other identifications</span>
+											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
 												<cfif len(trim(relationshipPairs.related_custom_id)) GT 0>
 													<br><span class="small">#encodeForHtml(session.CustomOtherIdentifier)# = #encodeForHtml(relationshipPairs.related_custom_id)#</span>
 												</cfif>
 											</td>
-											<td>#encodeForHtml(relationshipPairs.related_scientific_name)#</td>
-											<td>#encodeForHtml(relationshipPairs.related_determiner)#</td>
-											<td>#encodeForHtml(relationshipPairs.related_identification_type)#</td>
-											<td><cfif len(trim(relationshipPairs.related_identification_date)) GT 0>#dateFormat(relationshipPairs.related_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></td>
+											<td>
+												#encodeForHtml(relationshipPairs.related_scientific_name)#
+												<br><span class="small text-muted">Determiner: #encodeForHtml(relationshipPairs.related_determiner)#</span>
+												<br><span class="small text-muted">Date identified: <cfif len(trim(relationshipPairs.related_identification_date)) GT 0>#dateFormat(relationshipPairs.related_identification_date, 'yyyy-mm-dd')#<cfelse>[no date]</cfif></span>
+												<br><span class="small text-muted">Type of identification: #encodeForHtml(relationshipPairs.related_identification_type)#</span>
+												<br><span class="small text-muted">#encodeForHtml(relationshipPairs.related_other_identification_count)# other identifications</span>
+											</td>
 										</tr>
 									</cfloop>
 								</tbody>
