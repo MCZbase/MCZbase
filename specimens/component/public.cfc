@@ -3078,42 +3078,46 @@ limitations under the License.
                       </div>
 
                       <!-- Lazy-load interactive Google Map on hover/click -->
-                    <script>
-                        (function() {
-                          var localityId = "#loc_collevent.locality_id#";
-                          var staticImg  = document.getElementById("static-map-" + localityId);
-                          var mapDiv     = document.getElementById("mapdiv_" + localityId);
-                          var loaded     = false;
+                      <script>
+                      (function() {
+                        var localityId = "#loc_collevent.locality_id#";
+                        var lat        = #coordlookup.dec_lat#;
+                        var lng        = #coordlookup.dec_long#;
+                        var staticImg  = document.getElementById("static-map-" + localityId);
+                        var mapDiv     = document.getElementById("mapdiv_" + localityId);
+                        var loaded     = false;
 
-                          function loadInteractiveMap() {
-                            if (loaded) return;
-                            loaded = true;
+                        function loadInteractiveMap() {
+                          if (loaded) return;
+                          loaded = true;
 
-                            mapDiv.style.display = "block";
-                            staticImg.style.opacity = "0.0"; // optional fade-out
+                          mapDiv.style.display = "block";
+                          staticImg.style.opacity = "0.0"; // optional fade-out
 
-                            // If Google Maps JS is not loaded yet, load it, then call setupMap
-                            if (!window.google || !window.google.maps) {
-                              var script = document.createElement("script");
-                              script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js"
-                                         + "?key=#application.gmap_api_key#&libraries=geometry";  // geometry lib needed
-                              script.async = true;
-                              script.onload = function() {
-                                setupMap(localityId);   // use your existing function
-                              };
-                              document.head.appendChild(script);
-                            } else {
-                              // Maps JS already loaded: just call setupMap
-                              setupMap(localityId);
-                            }
-                          }
+                          var script = document.createElement("script");
+                          script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initLocalityMap_" + localityId;
+                          script.async = true;
+                          document.head.appendChild(script);
+                        }
 
-                          if (staticImg) {
-                            staticImg.addEventListener("mouseenter", loadInteractiveMap);
-                            staticImg.addEventListener("click", loadInteractiveMap);
-                          }
-                        })();
-                        </script>
+                        window["initLocalityMap_" + localityId] = function() {
+                          var center = { lat: lat, lng: lng };
+                            
+                          var map = new google.maps.Map(mapDiv, {
+                              center: center,
+                              zoom: 10,
+                              mapTypeId: google.maps.MapTypeId.ROADMAP
+                          });
+                          new google.maps.Marker({
+                            position: center,
+                            map: map
+                            });
+                        };
+
+                        staticImg.addEventListener("mouseenter", loadInteractiveMap);
+                        staticImg.addEventListener("click", loadInteractiveMap);
+                      })();
+                      </script>
                     </div>
                 <cfelse>
                     <cfset leftOfMapClass = "col-12">
