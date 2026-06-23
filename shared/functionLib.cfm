@@ -477,16 +477,10 @@ limitations under the License.
 	<cfargument name="layout"       type="string"  required="false" default="3col">
 	<cfargument name="forceRefresh" type="boolean" required="false" default="false">
 
-  <!-- choose size and zoom based on layout -->
-  <cfif arguments.layout EQ "2col">
-    <cfset var mapWidth  = 640>
-    <cfset var mapHeight = 400>
-    <cfset var zoom      = 11>   <!-- closer in for 2‑column -->
-  <cfelse>
-    <cfset var mapWidth  = 480>
-    <cfset var mapHeight = 320>
-    <cfset var zoom      = 10>   <!-- matches interactive -->
-  </cfif>
+  <!-- choose size and zoom  -->
+    <cfset var mapWidth  = 320>
+    <cfset var mapHeight = 240>
+    <cfset var zoom      = 10>   
         
 	<cfset var mapDir      = expandPath("/cache/static_maps/")>
 	<cfset var mapFileName = "locality-#arguments.locality_id#-#arguments.layout#.png">
