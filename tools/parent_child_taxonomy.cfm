@@ -234,8 +234,8 @@ limitations under the License.
 			relatedColl.collection_cde AS related_collection_cde,
 			sourceColl.institution_acronym AS source_institution_acronym,
 			relatedColl.institution_acronym AS related_institution_acronym,
-			CASE WHEN nvl(sourceIdCount.total_identification_count, 0) > 0 THEN sourceIdCount.total_identification_count - 1 ELSE 0 END AS source_other_identification_count,
-			CASE WHEN nvl(relatedIdCount.total_identification_count, 0) > 0 THEN relatedIdCount.total_identification_count - 1 ELSE 0 END AS related_other_identification_count,
+			GREATEST(nvl(sourceIdCount.total_identification_count, 0) - 1, 0) AS source_other_identification_count,
+			GREATEST(nvl(relatedIdCount.total_identification_count, 0) - 1, 0) AS related_other_identification_count,
 			concatSingleOtherId(sourceCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS source_custom_id,
 			concatSingleOtherId(relatedCat.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS related_custom_id
 		FROM
