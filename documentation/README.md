@@ -248,6 +248,18 @@ On .cfm pages, declare explicit url and form parameters that are expected to be 
 <cfparam name="form.action" default="">
 ```
 
+In cffunction declarations in .cfc files, explicitly list arguments to the cffunction.
+
+```coldfusion
+<cffunction name="linkMediaHtml" access="remote">
+	<cfargument name="relationship" type="string" required="yes">
+	<cfargument name="related_value" type="string" required="yes">
+	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="callback" type="string" required="no" default="reloadTransMedia">
+
+	<cfset target_id = related_id>
+```
+
 ### Scopes
 
 Except for placing a value in pageTitle for \_header.cfm, avoid using the request scope to pass parameters between coldfusion files.
