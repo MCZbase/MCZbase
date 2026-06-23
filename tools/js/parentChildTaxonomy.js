@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const updateSelectionState = function () {
 		const selected = document.querySelectorAll(".relationship-row-check:checked").length;
-		selectedCount.textContent = selected + " selected";
+		selectedCount.textContent = selected + " action" + (selected === 1 ? "" : "s") + " selected";
 		bulkSyncBtn.disabled = selected === 0;
 	};
 

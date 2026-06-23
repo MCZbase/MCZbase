@@ -32,7 +32,7 @@ limitations under the License.
 <cfparam name="form.execute" default="">
 <cfparam name="url.collection_object_id" default="">
 <cfparam name="form.collection_object_id" default="">
-<!--- selected_pair serves to to identify a row to be updated with a pair of collection object ids, one source, one target (related) separated by a delimiter, it can be a list. --->
+<!--- selected_pair serves to identify one sync action with source id, target id, and direction separated by a delimiter, it can be a list. --->
 <cfparam name="form.selected_pair" default="">
 
 <cfset variables.ALLOWED_RELATIONSHIPS = "parent of,embryo of,offspring of,littermate of,sibling of,egg of,same individual organism as,part to counterpart,cast of">
@@ -135,7 +135,7 @@ limitations under the License.
 <cfif variables.action EQ "syncSelected">
 	<cfif len(trim(form.selected_pair)) EQ 0>
 		<cfset variables.statusClass = "text-warning">
-		<cfset variables.statusMessage = "No rows were selected. Select one or more rows to add/sync accepted identifications.">
+		<cfset variables.statusMessage = "No copy actions were selected. Select one or more copy actions to add/sync accepted identifications.">
 	<cfelse>
 		<cfset variables.syncDeterminer = variables.noDeterminerText>
 		<cfset variables.syncIdentifiedDate = dateFormat(now(), "yyyy-MM-dd")>
@@ -150,44 +150,51 @@ limitations under the License.
 		<cfif getSyncDeterminer.recordcount EQ 1>
 			<cfset variables.syncDeterminer = getSyncDeterminer.agent_name>
 		</cfif>
-		<cfset variables.selectedSourceIds = "">
-		<cfset variables.selectedRelatedIds = "">
-		<cfset variables.selectedPairGuidMap = structNew()>
+		<cfset variables.selectedCollectionObjectIds = "">
+		<cfset variables.selectedGuidMap = structNew()>
 		<cfloop list="#form.selected_pair#" index="variables.selectedPair">
-			<!--- selected_pair serves to to identify a row to be updated with a pair of collection object ids, 
-					one source, one target (related) separated by a delimiter, it itself can be a list. --->
-			<cfset variables.selectedSourceCollectionObjectId = listFirst(variables.selectedPair, variables.SELECTED_PAIR_DELIMITER)>
-			<cfset variables.selectedRelatedCollectionObjectId = listLast(variables.selectedPair, variables.SELECTED_PAIR_DELIMITER)>
-			<cfif isValid("integer", variables.selectedSourceCollectionObjectId) AND isValid("integer", variables.selectedRelatedCollectionObjectId)>
-				<cfset variables.selectedSourceIds = listAppend(variables.selectedSourceIds, variables.selectedSourceCollectionObjectId)>
-				<cfset variables.selectedRelatedIds = listAppend(variables.selectedRelatedIds, variables.selectedRelatedCollectionObjectId)>
+			<cfset variables.selectedPairSourceCollectionObjectId = listGetAt(variables.selectedPair, 1, variables.SELECTED_PAIR_DELIMITER)>
+			<cfset variables.selectedPairRelatedCollectionObjectId = listGetAt(variables.selectedPair, 2, variables.SELECTED_PAIR_DELIMITER)>
+			<cfif isValid("integer", variables.selectedPairSourceCollectionObjectId) AND isValid("integer", variables.selectedPairRelatedCollectionObjectId)>
+				<cfif NOT listFind(variables.selectedCollectionObjectIds, variables.selectedPairSourceCollectionObjectId)>
+					<cfset variables.selectedCollectionObjectIds = listAppend(variables.selectedCollectionObjectIds, variables.selectedPairSourceCollectionObjectId)>
+				</cfif>
+				<cfif NOT listFind(variables.selectedCollectionObjectIds, variables.selectedPairRelatedCollectionObjectId)>
+					<cfset variables.selectedCollectionObjectIds = listAppend(variables.selectedCollectionObjectIds, variables.selectedPairRelatedCollectionObjectId)>
+				</cfif>
 			</cfif>
 		</cfloop>
-		<cfif len(variables.selectedSourceIds) GT 0 AND len(variables.selectedRelatedIds) GT 0>
-			<cfquery name="getSelectedPairGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfif len(variables.selectedCollectionObjectIds) GT 0>
+			<cfquery name="getSelectedGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
-					bir.collection_object_id AS source_collection_object_id,
-					bir.related_coll_object_id AS related_collection_object_id,
-					nvl(sourceFlat.guid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.guidUnavailableText#">) AS source_guid,
-					nvl(relatedFlat.guid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.guidUnavailableText#">) AS related_guid
+					flat.collection_object_id,
+					nvl(flat.guid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.guidUnavailableText#">) AS guid
 				FROM
-					biol_indiv_relations bir
-					LEFT JOIN #session.flatTableName# sourceFlat ON bir.collection_object_id = sourceFlat.collection_object_id
-					LEFT JOIN #session.flatTableName# relatedFlat ON bir.related_coll_object_id = relatedFlat.collection_object_id
+					#session.flatTableName# flat
 				WHERE
-					lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
-					AND bir.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" list="yes" value="#variables.selectedSourceIds#">)
-					AND bir.related_coll_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" list="yes" value="#variables.selectedRelatedIds#">)
+					flat.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" list="yes" value="#variables.selectedCollectionObjectIds#">)
 			</cfquery>
-			<cfloop query="getSelectedPairGuids">
-				<cfset variables.selectedPairGuidKey = "#getSelectedPairGuids.source_collection_object_id##variables.SELECTED_PAIR_DELIMITER##getSelectedPairGuids.related_collection_object_id#">
-				<cfset variables.selectedPairGuidMap[variables.selectedPairGuidKey] = {"source_guid" = getSelectedPairGuids.source_guid, "related_guid" = getSelectedPairGuids.related_guid}>
+			<cfloop query="getSelectedGuids">
+				<cfset variables.selectedGuidMap[getSelectedGuids.collection_object_id] = getSelectedGuids.guid>
 			</cfloop>
 		</cfif>
 		<cfloop list="#form.selected_pair#" index="variables.selectedPair">
 			<cfset variables.attemptedCount = variables.attemptedCount + 1>
-			<cfset variables.sourceCollectionObjectId = listFirst(variables.selectedPair, variables.SELECTED_PAIR_DELIMITER)>
-			<cfset variables.relatedCollectionObjectId = listLast(variables.selectedPair, variables.SELECTED_PAIR_DELIMITER)>
+			<cfset variables.pairSourceCollectionObjectId = listGetAt(variables.selectedPair, 1, variables.SELECTED_PAIR_DELIMITER)>
+			<cfset variables.pairRelatedCollectionObjectId = listGetAt(variables.selectedPair, 2, variables.SELECTED_PAIR_DELIMITER)>
+			<cfset variables.copyDirection = "source_to_related">
+			<cfif listLen(variables.selectedPair, variables.SELECTED_PAIR_DELIMITER) GTE 3>
+				<cfset variables.selectedDirection = lcase(trim(listGetAt(variables.selectedPair, 3, variables.SELECTED_PAIR_DELIMITER)))>
+				<cfif variables.selectedDirection EQ "r2s">
+					<cfset variables.copyDirection = "related_to_source">
+				</cfif>
+			</cfif>
+			<cfset variables.sourceCollectionObjectId = variables.pairSourceCollectionObjectId>
+			<cfset variables.relatedCollectionObjectId = variables.pairRelatedCollectionObjectId>
+			<cfif variables.copyDirection EQ "related_to_source">
+				<cfset variables.sourceCollectionObjectId = variables.pairRelatedCollectionObjectId>
+				<cfset variables.relatedCollectionObjectId = variables.pairSourceCollectionObjectId>
+			</cfif>
 			<cfif NOT isValid("integer", variables.sourceCollectionObjectId) OR NOT isValid("integer", variables.relatedCollectionObjectId)>
 				<cfset variables.invalidCount = variables.invalidCount + 1>
 			<cfelse>
@@ -199,18 +206,33 @@ limitations under the License.
 							sourceId.taxa_formula,
 							sourceId.scientific_name
 						FROM
-							biol_indiv_relations bir
-							JOIN identification sourceId ON bir.collection_object_id = sourceId.collection_object_id
-							JOIN identification relatedId ON bir.related_coll_object_id = relatedId.collection_object_id
+							identification sourceId
+							JOIN identification relatedId ON relatedId.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.relatedCollectionObjectId#">
 						WHERE
-							bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sourceCollectionObjectId#">
-							AND bir.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.relatedCollectionObjectId#">
-							AND lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
+							sourceId.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sourceCollectionObjectId#">
 							AND sourceId.accepted_id_fg = 1
 							AND relatedId.accepted_id_fg = 1
 							AND sourceId.scientific_name <> relatedId.scientific_name
 							AND nvl(sourceId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
 							AND nvl(relatedId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
+							AND EXISTS (
+								SELECT
+									1
+								FROM
+									biol_indiv_relations bir
+								WHERE
+									lower(bir.biol_indiv_relationship) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.relationshipType#">
+									AND (
+										(
+											bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sourceCollectionObjectId#">
+											AND bir.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.relatedCollectionObjectId#">
+										)
+										OR (
+											bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.relatedCollectionObjectId#">
+											AND bir.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sourceCollectionObjectId#">
+										)
+									)
+							)
 					</cfquery>
 					<cfif getSourceIdentification.recordcount EQ 1>
 						<cfset variables.newNatureOfId = "ID of kin">
@@ -274,14 +296,16 @@ limitations under the License.
 						<cfset variables.updatedSummaryRowIndex = queryAddRow(variables.updatedSummaryRows, 1)>
 						<cfset querySetCell(variables.updatedSummaryRows, "source_collection_object_id", variables.sourceCollectionObjectId, variables.updatedSummaryRowIndex)>
 						<cfset querySetCell(variables.updatedSummaryRows, "related_collection_object_id", variables.relatedCollectionObjectId, variables.updatedSummaryRowIndex)>
-						<cfset variables.updatedPairGuidKey = "#variables.sourceCollectionObjectId##variables.SELECTED_PAIR_DELIMITER##variables.relatedCollectionObjectId#">
-						<cfif structKeyExists(variables.selectedPairGuidMap, variables.updatedPairGuidKey)>
-							<cfset querySetCell(variables.updatedSummaryRows, "source_guid", variables.selectedPairGuidMap[variables.updatedPairGuidKey].source_guid, variables.updatedSummaryRowIndex)>
-							<cfset querySetCell(variables.updatedSummaryRows, "related_guid", variables.selectedPairGuidMap[variables.updatedPairGuidKey].related_guid, variables.updatedSummaryRowIndex)>
-						<cfelse>
-							<cfset querySetCell(variables.updatedSummaryRows, "source_guid", variables.guidUnavailableText, variables.updatedSummaryRowIndex)>
-							<cfset querySetCell(variables.updatedSummaryRows, "related_guid", variables.guidUnavailableText, variables.updatedSummaryRowIndex)>
+						<cfset variables.updatedSourceGuid = variables.guidUnavailableText>
+						<cfset variables.updatedRelatedGuid = variables.guidUnavailableText>
+						<cfif structKeyExists(variables.selectedGuidMap, variables.sourceCollectionObjectId)>
+							<cfset variables.updatedSourceGuid = variables.selectedGuidMap[variables.sourceCollectionObjectId]>
 						</cfif>
+						<cfif structKeyExists(variables.selectedGuidMap, variables.relatedCollectionObjectId)>
+							<cfset variables.updatedRelatedGuid = variables.selectedGuidMap[variables.relatedCollectionObjectId]>
+						</cfif>
+						<cfset querySetCell(variables.updatedSummaryRows, "source_guid", variables.updatedSourceGuid, variables.updatedSummaryRowIndex)>
+						<cfset querySetCell(variables.updatedSummaryRows, "related_guid", variables.updatedRelatedGuid, variables.updatedSummaryRowIndex)>
 						<cfset querySetCell(variables.updatedSummaryRows, "scientific_name", getSourceIdentification.scientific_name, variables.updatedSummaryRowIndex)>
 						<cfset querySetCell(variables.updatedSummaryRows, "nature_of_id", variables.newNatureOfId, variables.updatedSummaryRowIndex)>
 						<cfset querySetCell(variables.updatedSummaryRows, "determiner", variables.syncDeterminer, variables.updatedSummaryRowIndex)>
@@ -293,7 +317,7 @@ limitations under the License.
 			</cfif>
 		</cfloop>
 		<cfset variables.statusClass = "text-info">
-		<cfset variables.statusMessage = "Processed #variables.attemptedCount# row(s): #variables.updatedCount# updated, #variables.skippedCount# skipped, #variables.invalidCount# invalid selections.">
+		<cfset variables.statusMessage = "Processed #variables.attemptedCount# selected action(s): #variables.updatedCount# updated, #variables.skippedCount# skipped, #variables.invalidCount# invalid selections.">
 	</cfif>
 </cfif>
 
@@ -459,9 +483,9 @@ limitations under the License.
 							<table class="sortable table table-responsive d-xl-table table-striped table-sm">
 								<thead>
 									<tr>
-										<th scope="col">Select</th>
 										<th scope="col">Relationship Source Item</th>
 										<th scope="col">Source Accepted Identification</th>
+										<th scope="col">Copy ID</th>
 										<th scope="col">Related Item</th>
 										<th scope="col">Related Accepted Identification</th>
 									</tr>
@@ -471,9 +495,6 @@ limitations under the License.
 										<!--- identify the row to be updated with a pair of collection object ids, one source, one target (related) separated by a delimiter --->
 										<cfset variables.rowValue = "#relationshipPairs.collection_object_id##variables.SELECTED_PAIR_DELIMITER##relationshipPairs.related_coll_object_id#">
 										<tr>
-											<td>
-												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue)#" aria-label="Select row for #encodeForHtmlAttribute(variables.rowValue)#">
-											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.collection_object_id)#">#encodeForHtml(relationshipPairs.source_institution_acronym)# #encodeForHtml(relationshipPairs.source_collection_cde)# #encodeForHtml(relationshipPairs.source_cat_num)#</a>
 												<cfif len(trim(relationshipPairs.source_custom_id)) GT 0>
@@ -494,6 +515,13 @@ limitations under the License.
 												<cfif relationshipPairs.source_other_identification_count GT 0>
 													<br><span class="small text-muted">#encodeForHtml(relationshipPairs.source_other_identification_count)# other identification<cfif relationshipPairs.source_other_identification_count NEQ 1>s</cfif></span>
 												</cfif>
+											</td>
+											<td>
+												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 's2r')#" aria-label="Copy source accepted identification to related">
+												<span class="small">copy id &#8594;</span>
+												<br>
+												<input type="checkbox" class="relationship-row-check" name="selected_pair" value="#encodeForHtmlAttribute(variables.rowValue & variables.SELECTED_PAIR_DELIMITER & 'r2s')#" aria-label="Copy related accepted identification to source">
+												<span class="small">&#8592; copy id</span>
 											</td>
 											<td>
 												<a href="/specimens/Specimen.cfm?collection_object_id=#encodeForUrl(relationshipPairs.related_coll_object_id)#">#encodeForHtml(relationshipPairs.related_institution_acronym)# #encodeForHtml(relationshipPairs.related_collection_cde)# #encodeForHtml(relationshipPairs.related_cat_num)#</a>
@@ -522,10 +550,10 @@ limitations under the License.
 							</table>
 						</div>
 						<div class="d-flex align-items-center gap-2 mt-2">
-							<input type="submit" id="bulkSyncBtn" class="btn btn-primary" value="Add/Sync Accepted IDs for Selected Rows" disabled>
-							<span id="selectedCount" aria-live="polite" class="text-muted">0 selected</span>
+							<input type="submit" id="bulkSyncBtn" class="btn btn-primary" value="Add/Sync Accepted IDs for Selected Copy Actions" disabled>
+							<span id="selectedCount" aria-live="polite" class="text-muted">0 actions selected</span>
 						</div>
-						<p class="mt-2 mb-0">Action updates related items by adding a new accepted identification copied from the selected relationship source item. Determiner is recorded as the currently logged in user, date identified is set to today, and #encodeForHtml(variables.natureOfIdGuidance)#</p>
+						<p class="mt-2 mb-0">Action adds a new accepted identification in the selected direction for each checked copy action. Determiner is recorded as the currently logged in user, date identified is set to today, and #encodeForHtml(variables.natureOfIdGuidance)#</p>
 					</form>
 					</cfoutput>
 				<cfelse>
