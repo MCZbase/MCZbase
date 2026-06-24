@@ -2619,6 +2619,7 @@ limitations under the License.
 				</cfif>
 			)
 		</cfquery>
+	<cfelseif tbl is "ctspecimen_part_list_order">
 		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctspecimen_part_list_order (
 				partname,
