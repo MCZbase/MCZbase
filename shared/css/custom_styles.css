@@ -2732,9 +2732,8 @@ div.toctitle {
 	margin-bottom: 0;
 }
 .tinymap {
-    width: 100%;
-    height: 180px;
-    margin: 0.3em;
+/*    width: 100%;
+    height: 180px;*/
 }
 .tinymap-3col {/* Explicit heights per layout */
     height: 180px;   
