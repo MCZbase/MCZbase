@@ -662,6 +662,7 @@ The only form that uses the bootstrap fields is the account profile page.
 
 Header and footer are included as includes.  Content between these includes on edit record pages SHOULD be structured with: 
 
+```html
 	<main class=”container py-3” id=”content” >
 		<section class=”row border rounded my-2”>
 			<h1 class=”h2”>Title of Page </h1>
@@ -675,12 +676,48 @@ Header and footer are included as includes.  Content between these includes on e
 `           ... related concepts, e.g. shipments for loans...`
 		</section>
 	</main>
+```
 
-See: (??)Edit loans on Transactions.cfm(??) to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-{n} div or form.
+See Edit loans to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-{n} div or form.
 
+```html
 	<section class="row px-0">
 		<form  name="Name" class="col-12 col-md-6 border rounded">
 	</section>
+```
+
+Here, `<div class="col-12 col-sm-6 col-xl-3">`  within a `form-row` will be stacked on small screens, side-by-side in pairs on medium screens, and side-by-side with 4 columns on extra large screens.  
+
+'''coldfusion
+<section class="col-12 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" title="Form for creating a new loan">
+   <form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
+      <input type="hidden" name="action" value="makeLoan">
+      <div class="form-row mb-2">
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="collection_id" class="data-entry-label">Collection</label>
+            <select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1">
+               <cfloop query="ctcollection">
+                  <option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+               </cfloop>
+            </select>
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
+            <input type="text" name="loan_number" class="reqdClr data-entry-input mb-1" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="loan_type" class="data-entry-label">Loan Type</label>
+            <select name="loan_type" id="loan_type" class="reqdClr data-entry-select mb-1" required >
+               <cfloop query="ctLoanType">
+                  <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+               </cfloop>
+            </select>
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+				...
+         </div>
+		</div>
+```
 
 On smaller screens, the boxes will be stacked, but on medium screens and up, they will be side-by-side (iPad 768px width).
 
