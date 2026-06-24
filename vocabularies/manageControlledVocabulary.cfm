@@ -1943,6 +1943,7 @@ limitations under the License.
 			SELECT column_name 
 			FROM sys.user_tab_columns 
 			WHERE table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
+			ORDER BY column_id
 		</cfquery>
 		<cfset collcde=listfindnocase(valuelist(getCols.column_name),"collection_cde")>
 		<cfset hasDescn=listfindnocase(valuelist(getCols.column_name),"description")>
@@ -1950,8 +1951,15 @@ limitations under the License.
 			select column_name from getCols where lower(column_name) not in ('collection_cde','description')
 		</cfquery>
 		<cfset fld=f.column_name>
+		<cfset variables.extraCols = "">
+		<cfif f.recordcount gt 1>
+			<cfset variables.extraCols = listRest(valuelist(f.column_name))>
+		</cfif>
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select #fld# as data 
+			<cfif variables.extraCols neq "">
+				,#variables.extraCols#
+			</cfif>
 			<cfif collcde gt 0>
 				,collection_cde
 			</cfif>
@@ -1973,6 +1981,7 @@ limitations under the License.
 				<input type="hidden" name="tbl" value="#tbl#">
 				<input type="hidden" name="hasDescn" value="#hasDescn#">
 				<input type="hidden" name="fld" value="#fld#">
+				<input type="hidden" name="extraCols" value="#variables.extraCols#">
 				<div class="form-row mb-1 flex-nowrap align-items-end">
 					<cfif collcde gt 0>
 						<div class="col">
@@ -1988,6 +1997,14 @@ limitations under the License.
 						<label class="form-label" for="newData_#tbl#">#fld#</label>
 						<input class="data-entry-input" type="text" name="newData" id="newData_#tbl#">
 					</div>
+					<cfif variables.extraCols neq "">
+						<cfloop list="#variables.extraCols#" index="variables.ec">
+							<div class="col">
+								<label class="form-label" for="ec_#variables.ec#_#tbl#">#variables.ec#</label>
+								<input class="data-entry-input" type="text" name="ec_#variables.ec#" id="ec_#variables.ec#_#tbl#">
+							</div>
+						</cfloop>
+					</cfif>
 					<cfif hasDescn gt 0>
 						<div class="col">
 							<label class="form-label" for="description">Description</label>
@@ -2011,6 +2028,11 @@ limitations under the License.
 						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Collection Type</div>
 					</cfif>
 					<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#fld#</div>
+					<cfif variables.extraCols neq "">
+						<cfloop list="#variables.extraCols#" index="variables.ec">
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#variables.ec#</div>
+						</cfloop>
+					</cfif>
 					<cfif hasDescn gt 0>
 						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3">Description</div>
 					</cfif>
@@ -2024,6 +2046,7 @@ limitations under the License.
 						<input type="hidden" name="collcde" value="#collcde#">
 						<input type="hidden" name="hasDescn" value="#hasDescn#">
 						<input type="hidden" name="origData" value="#q.data#">
+						<input type="hidden" name="extraCols" value="#variables.extraCols#">
 						<cfif collcde gt 0>
 							<input type="hidden" name="origcollection_cde" value="#q.collection_cde#">
 							<cfset thisColl=#q.collection_cde#>
@@ -2039,6 +2062,13 @@ limitations under the License.
 						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
 							<input class="data-entry-input w-100" type="text" name="thisField" value="#q.data#">
 						</div>
+						<cfif variables.extraCols neq "">
+							<cfloop list="#variables.extraCols#" index="variables.ec">
+								<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
+									<input class="data-entry-input w-100" type="text" name="ec_#variables.ec#" value="#q[variables.ec]#">
+								</div>
+							</cfloop>
+						</cfif>
 						<cfif hasDescn gt 0>
 							<div class="d-table-cell py-1 pr-3 align-middle">
 								<textarea class="data-entry-textarea" name="description" rows="4" cols="40">#q.description#</textarea>
@@ -2403,8 +2433,13 @@ limitations under the License.
 				state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelse>
-		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="up" datasource="user_login" username="#session.dbuser#" ******>
 			UPDATE #tbl# SET #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisField#" />
+			<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
+				<cfloop list="#form.extraCols#" index="variables.ec">
+					,#variables.ec# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.ec]#" />
+				</cfloop>
+			</cfif>
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 				,collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#" />
 			</cfif>
@@ -2686,9 +2721,14 @@ limitations under the License.
 			)
 		</cfquery>
 	<cfelse>
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" ******>
 			INSERT INTO #tbl# 
 				(#fld#
+				<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
+					<cfloop list="#form.extraCols#" index="variables.ec">
+						,#variables.ec#
+					</cfloop>
+				</cfif>
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 					 ,collection_cde
 				</cfif>
@@ -2698,6 +2738,11 @@ limitations under the License.
 				)
 			VALUES 
 				(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />
+				<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
+					<cfloop list="#form.extraCols#" index="variables.ec">
+						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.ec]#" />
+					</cfloop>
+				</cfif>
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>
 				</cfif>
