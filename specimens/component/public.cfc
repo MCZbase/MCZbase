@@ -3060,7 +3060,7 @@ limitations under the License.
                         layout      = layoutFlag
                     )>
                     
-                    <div class="col-12 col-md-5 float-right" style="right: .25rem;">
+                    <div class="col-12 col-md-5 float-right px-1">
                         <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap #twocol#">
                         <!-- Static thumbnail always shown -->
                         <img
