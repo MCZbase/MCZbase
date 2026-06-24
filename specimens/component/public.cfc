@@ -3322,14 +3322,16 @@ limitations under the License.
                               bounds = google.maps.LatLngBounds.MAX_BOUNDS;
                             } 
                             map.fitBounds(bounds);
-
                             higherLoaded = true;
                             postLoadCheck();
                           }
                         );
                         
-                        if (map.getZoom() < 10) {
-                          map.setZoom(10);   // don't zoom out more than static
+                        var z = map.getZoom();
+                        if (z > 12) {
+                            map.setZoom(12);
+                        } else if (z < 7) {
+                          map.setZoom(7);   // don't zoom out more than static
                         }
 
                         // ---- 5) Boundary checks (inside polygons?) ----
