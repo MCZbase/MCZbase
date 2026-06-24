@@ -688,7 +688,7 @@ See Edit loans to see how to how two boxes of content side-by-side. Essentially,
 
 Here, `<div class="col-12 col-sm-6 col-xl-3">`  within a `form-row` will be stacked on small screens, side-by-side in pairs on medium screens, and side-by-side with 4 columns on extra large screens.  
 
-'''coldfusion
+```coldfusion
 <section class="col-12 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" title="Form for creating a new loan">
    <form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
       <input type="hidden" name="action" value="makeLoan">
