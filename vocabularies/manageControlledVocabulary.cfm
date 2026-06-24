@@ -79,9 +79,11 @@ limitations under the License.
 				</cfswitch>
 
 <cfif action is "edit">
-	<p class="my-3">
+	<cfset variables.editTitle = trim(replaceNoCase(REReplace(tbl, "(?i)^CT", ""), "_", " ", "ALL"))>
+	<div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+		<h2 class="h4 mb-0">Edit: #variables.editTitle#</h2>
 		<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Go to code table list</a>
-	</p>
+	</div>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
 	<cfelseif tbl is "CTJOURNAL_NAME"><!---------------------------------------------------->
@@ -2038,20 +2040,21 @@ limitations under the License.
 			</form>
 		</div>
 		<cfset i = 1>
-		<h3 class="h5 mt-3 mb-2">Edit Existing Values</h3>
+		<h3 class="h5 mt-3 mb-2">Edit Existing Values to #fld#</h3>
 		<div class="row border rounded my-2 mx-1 p-2">
-			<div class="form-row mb-1 flex-nowrap">
-				<cfif collcde gt 0>
-					<div class="col fw-bold small text-muted">Collection Type</div>
-				</cfif>
-				<div class="col fw-bold small text-muted">#fld#</div>
-				<cfif hasDescn gt 0>
-					<div class="col fw-bold small text-muted">Description</div>
-				</cfif>
-				<div class="col-auto fw-bold small text-muted">&nbsp;</div>
-			</div>
-			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+			<div class="d-table w-100">
+				<div class="d-table-row bg-light border-bottom">
+					<cfif collcde gt 0>
+						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Collection Type</div>
+					</cfif>
+					<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#fld#</div>
+					<cfif hasDescn gt 0>
+						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3">Description</div>
+					</cfif>
+					<div class="d-table-cell fw-bold small text-muted pb-1 text-nowrap">Actions</div>
+				</div>
+				<cfloop query="q">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="Action">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<input type="hidden" name="fld" value="#fld#">
@@ -2061,7 +2064,7 @@ limitations under the License.
 						<cfif collcde gt 0>
 							<input type="hidden" name="origcollection_cde" value="#q.collection_cde#">
 							<cfset thisColl=#q.collection_cde#>
-							<div class="col">
+							<div class="d-table-cell py-1 pr-3 align-middle">
 								<select class="data-entry-select" name="collection_cde" size="1">
 									<cfloop query="ctcollcde">
 										<option 
@@ -2070,28 +2073,28 @@ limitations under the License.
 								</select>
 							</div>
 						</cfif>
-						<div class="col">
-							<input class="data-entry-input" type="text" name="thisField" value="#q.data#" size="50">
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="thisField" value="#q.data#">
 						</div>
 						<cfif hasDescn gt 0>
-							<div class="col">
+							<div class="d-table-cell py-1 pr-3 align-middle">
 								<textarea class="data-entry-textarea" name="description" rows="4" cols="40">#q.description#</textarea>
-							</div>				
+							</div>
 						</cfif>
-						<div class="col-auto">
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.Action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.Action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-								onclick="#tbl##i#.Action.value='deleteValue';submit();">	
-		
+								onclick="#tbl##i#.Action.value='deleteValue';submit();">
 						</div>
 					</form>
-				<cfset i = #i#+1>
-			</cfloop>
+					<cfset i = #i#+1>
+				</cfloop>
+			</div>
 		</div>
 	</cfif>
 <cfelseif action is "deleteValue">
