@@ -2051,7 +2051,7 @@ limitations under the License.
 					<cfif hasDescn gt 0>
 						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3">Description</div>
 					</cfif>
-					<div class="d-table-cell fw-bold small text-muted pb-1 text-nowrap">Actions</div>
+					<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
 				</div>
 				<cfloop query="q">
 					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
