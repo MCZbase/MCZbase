@@ -1029,6 +1029,7 @@ On forms, provide paired label and input using the for property of the label, pl
 	<label for="scientific_name" class="data-entry-label">Scientific Name<label>
 	<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
 </div>
+```
 
 When additional controls, such as those that prefix $ for soundex matching to the value in the input, place these outside the label, but wrap them and the label in a span with the data-entry-label class on that span instead of the label.
 
