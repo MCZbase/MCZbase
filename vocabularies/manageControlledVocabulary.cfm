@@ -2126,16 +2126,18 @@ limitations under the License.
 						</div>
 						<cfif variables.pkExtraCols neq "">
 							<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
-								<input type="hidden" name="origpk_#variables.pkc#" value="#q[variables.pkc]#">
+								<cfset variables.pkcVal = q[variables.pkc][q.currentrow]>
+								<input type="hidden" name="origpk_#variables.pkc#" value="#variables.pkcVal#">
 								<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
-									<input class="data-entry-input w-100" type="text" name="ec_#variables.pkc#" value="#q[variables.pkc]#">
+									<input class="data-entry-input w-100" type="text" name="ec_#variables.pkc#" value="#variables.pkcVal#">
 								</div>
 							</cfloop>
 						</cfif>
 						<cfif variables.extraCols neq "">
 							<cfloop list="#variables.extraCols#" index="variables.ec">
+								<cfset variables.ecVal = q[variables.ec][q.currentrow]>
 								<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
-									<input class="data-entry-input w-100" type="text" name="ec_#variables.ec#" value="#q[variables.ec]#">
+									<input class="data-entry-input w-100" type="text" name="ec_#variables.ec#" value="#variables.ecVal#">
 								</div>
 							</cfloop>
 						</cfif>
