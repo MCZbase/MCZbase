@@ -3640,32 +3640,24 @@ and also iPads specifically.
         border-radius: 0 0 6px 6px; 
     }
     button.help-btnSp-SearchWiki {
-      background-color: #1b1b1b;
-      color: white;
-      float: right;
-      box-sizing: border-box;
-      border: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      -webkit-backface-visibility: hidden;
-      transform: translateX(-98%) rotate(90deg);
-      transform-origin: right top;
-      -webkit-transform: translateX(-98%) rotate(90deg);
-      -webkit-transform-origin: right top;
-      -moz-transform: translateX(-98%) rotate(90deg);
-      -moz-transform-origin: right top;
-      -o-transform: translateX(-98%) rotate(90deg);
-      -o-transform-origin: right top;
-      position: absolute;
-      top: 11.5rem;
-      right: -111px;
-      z-index: 1;
-      padding: 0.55rem 0.8rem;
-      line-height: 1;         
-      font-size: 13.5px;
-      margin: 0;
-      overflow: hidden;
-      border-radius: 0 0 6px 6px;
+        background-color: #1b1b1b;
+        color: white;    
+        position: absolute;
+        top: 11.5rem;
+        right: -111px;
+        z-index: 1;
+        box-sizing: border-box;
+        border: none;
+        appearance: none;               /* replaces -webkit-/-moz- */
+        backface-visibility: hidden;
+        transform: translateX(-98%) rotate(90deg);
+        transform-origin: right top;
+        padding: 0.55rem 0.8rem;
+        line-height: 1;
+        font-size: 13.5px;
+        margin: 0;
+        overflow: hidden;
+        border-radius: 0 0 6px 6px;
     }
 }
 @media screen and (max-width: 480px) {
