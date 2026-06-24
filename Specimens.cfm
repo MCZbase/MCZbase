@@ -1326,17 +1326,21 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
-																<label for="part_attribute_value" class="data-entry-label small">
-																	Part Attribute Value
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span></a>
-																</label>
+																<span class="data-entry-label small">
+                                                                    <label for="part_attribute_value">Part Attribute Value</label>
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > 
+                                                                        (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
+                                                                    </a>
+                                                                </span>
 																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
-																<label for="part_attribute_units" class="data-entry-label small">Part Attribute Units</label>
-                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
-                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                                <span class="data-entry-label small">
+																    <label for="part_attribute_units">Part Attribute Units</label>
+                                                                    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
+                                                                    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;"> (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                                </span>
 																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
 																<script>
@@ -1346,8 +1350,11 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
-																<label for="part_attribute_remarks" class="data-entry-label small">Part Attribute Remarks</label>
-																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span></a>
+                                                                <span class="data-entry-label small">
+																    <label for="part_attribute_remarks">Part Attribute Remarks</label>
+																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span>
+                                                                    </a>
+                                                                </span>
 																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 															</div>
@@ -1470,10 +1477,10 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
-														<label for="underscore_collection" class="data-entry-label small">
-															Named Group
+                                                        <span class="data-entry-label small">
+														    <label for="underscore_collection">Named Group</label>
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
-														</label>
+														</span>
 														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
 														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
 														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
@@ -1573,8 +1580,10 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
-															<label for="accn_type" class="data-entry-label small">Accession Type</label>
-												            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                            <span class="data-entry-label small">
+															    <label for="accn_type">Accession Type</label>
+												                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                            </span>
 															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
 															<script>
 																jQuery(document).ready(function() {
