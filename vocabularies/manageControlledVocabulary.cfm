@@ -1940,23 +1940,67 @@ limitations under the License.
 		</div>
 	<cfelse><!---------------------------- normal CTs --------------->
 		<cfquery name="getCols" datasource="uam_god">
-			SELECT column_name 
+			SELECT column_name, column_id
 			FROM sys.user_tab_columns 
 			WHERE table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
 			ORDER BY column_id
 		</cfquery>
-		<cfset collcde=listfindnocase(valuelist(getCols.column_name),"collection_cde")>
-		<cfset hasDescn=listfindnocase(valuelist(getCols.column_name),"description")>
-		<cfquery name="f" dbtype="query">
-			select column_name from getCols where lower(column_name) not in ('collection_cde','description')
+		<!--- Query primary key columns ordered by position within the constraint --->
+		<cfquery name="getPKCols" datasource="uam_god">
+			SELECT ucc.column_name, ucc.position
+			FROM sys.user_constraints uc
+			JOIN sys.user_cons_columns ucc ON uc.constraint_name = ucc.constraint_name
+			WHERE uc.table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
+			  AND uc.constraint_type = 'P'
+			ORDER BY ucc.position
 		</cfquery>
-		<cfset fld=f.column_name>
-		<cfset variables.extraCols = "">
-		<cfif f.recordcount gt 0>
-			<cfset variables.extraCols = listRest(valuelist(f.column_name))>
+		<cfset variables.pkColList = valuelist(getPKCols.column_name)>
+		<cfset collcde = listfindnocase(valuelist(getCols.column_name), "collection_cde")>
+		<cfset hasDescn = listfindnocase(valuelist(getCols.column_name), "description")>
+		<!--- fld: first non-collection_cde PK column by PK position;
+		      fallback to first non-collection_cde/description column if no PK is defined --->
+		<cfset fld = "">
+		<cfif variables.pkColList neq "">
+			<cfloop list="#variables.pkColList#" index="variables.pkc">
+				<cfif fld eq "" and not listfindnocase("collection_cde", variables.pkc)>
+					<cfset fld = variables.pkc>
+				</cfif>
+			</cfloop>
 		</cfif>
+		<cfif fld eq "">
+			<cfloop list="#valuelist(getCols.column_name)#" index="variables.c">
+				<cfif fld eq "" and not listfindnocase("collection_cde,description", variables.c)>
+					<cfset fld = variables.c>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfif fld eq "" and getCols.recordCount gt 0>
+			<cfset fld = listFirst(valuelist(getCols.column_name))>
+		</cfif>
+		<!--- pkExtraCols: additional PK columns that are not fld and not collection_cde;
+		      included in WHERE clauses for uniqueness with multi-column primary keys --->
+		<cfset variables.pkExtraCols = "">
+		<cfif variables.pkColList neq "">
+			<cfloop list="#variables.pkColList#" index="variables.pkc">
+				<cfif variables.pkc neq fld and not listfindnocase("collection_cde", variables.pkc)>
+					<cfset variables.pkExtraCols = listAppend(variables.pkExtraCols, variables.pkc)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- extraCols: non-PK, non-collection_cde, non-description, non-fld columns (descriptive/data columns) --->
+		<cfset variables.extraCols = "">
+		<cfloop list="#valuelist(getCols.column_name)#" index="variables.c">
+			<cfif variables.c neq fld
+			  and not listfindnocase("collection_cde,description", variables.c)
+			  and (variables.pkColList eq "" or not listfindnocase(variables.pkColList, variables.c))>
+				<cfset variables.extraCols = listAppend(variables.extraCols, variables.c)>
+			</cfif>
+		</cfloop>
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select #fld# as data 
+			<cfif variables.pkExtraCols neq "">
+				,#variables.pkExtraCols#
+			</cfif>
 			<cfif variables.extraCols neq "">
 				,#variables.extraCols#
 			</cfif>
@@ -1971,6 +2015,9 @@ limitations under the License.
 			<cfif collcde gt 0>
 				collection_cde,
 			</cfif>
+			<cfif variables.pkExtraCols neq "">
+				#variables.pkExtraCols#,
+			</cfif>
 			#fld#
 		</cfquery>
 		<h3 class="h5 mt-3 mb-2 text-success">Add New Value to #fld#</h3>
@@ -1981,6 +2028,7 @@ limitations under the License.
 				<input type="hidden" name="tbl" value="#tbl#">
 				<input type="hidden" name="hasDescn" value="#hasDescn#">
 				<input type="hidden" name="fld" value="#fld#">
+				<input type="hidden" name="pkExtraCols" value="#variables.pkExtraCols#">
 				<input type="hidden" name="extraCols" value="#variables.extraCols#">
 				<div class="form-row mb-1 flex-nowrap align-items-end">
 					<cfif collcde gt 0>
@@ -1997,6 +2045,14 @@ limitations under the License.
 						<label class="form-label" for="newData_#tbl#">#fld#</label>
 						<input class="data-entry-input" type="text" name="newData" id="newData_#tbl#">
 					</div>
+					<cfif variables.pkExtraCols neq "">
+						<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
+							<div class="col">
+								<label class="form-label" for="ec_#variables.pkc#_#tbl#">#variables.pkc#</label>
+								<input class="data-entry-input" type="text" name="ec_#variables.pkc#" id="ec_#variables.pkc#_#tbl#">
+							</div>
+						</cfloop>
+					</cfif>
 					<cfif variables.extraCols neq "">
 						<cfloop list="#variables.extraCols#" index="variables.ec">
 							<div class="col">
@@ -2028,6 +2084,11 @@ limitations under the License.
 						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Collection Type</div>
 					</cfif>
 					<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#fld#</div>
+					<cfif variables.pkExtraCols neq "">
+						<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#variables.pkc#</div>
+						</cfloop>
+					</cfif>
 					<cfif variables.extraCols neq "">
 						<cfloop list="#variables.extraCols#" index="variables.ec">
 							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#variables.ec#</div>
@@ -2046,6 +2107,7 @@ limitations under the License.
 						<input type="hidden" name="collcde" value="#collcde#">
 						<input type="hidden" name="hasDescn" value="#hasDescn#">
 						<input type="hidden" name="origData" value="#q.data#">
+						<input type="hidden" name="pkExtraCols" value="#variables.pkExtraCols#">
 						<input type="hidden" name="extraCols" value="#variables.extraCols#">
 						<cfif collcde gt 0>
 							<input type="hidden" name="origcollection_cde" value="#q.collection_cde#">
@@ -2062,6 +2124,14 @@ limitations under the License.
 						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
 							<input class="data-entry-input w-100" type="text" name="thisField" value="#q.data#">
 						</div>
+						<cfif variables.pkExtraCols neq "">
+							<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
+								<input type="hidden" name="origpk_#variables.pkc#" value="#q[variables.pkc]#">
+								<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
+									<input class="data-entry-input w-100" type="text" name="ec_#variables.pkc#" value="#q[variables.pkc]#">
+								</div>
+							</cfloop>
+						</cfif>
 						<cfif variables.extraCols neq "">
 							<cfloop list="#variables.extraCols#" index="variables.ec">
 								<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
@@ -2221,9 +2291,14 @@ limitations under the License.
 	<cfelse>
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM #tbl# 
-			where #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			WHERE #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+					AND #variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['origpk_' & variables.pkc]#" />
+				</cfloop>
+			</cfif>
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-				 AND collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origcollection_cde#" />
+				AND collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origcollection_cde#" />
 			</cfif>
 		</cfquery>
 	</cfif>
@@ -2433,8 +2508,13 @@ limitations under the License.
 				state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelse>
-		<cfquery name="up" datasource="user_login" username="#session.dbuser#" ******>
+		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE #tbl# SET #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisField#" />
+			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+					,#variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.pkc]#" />
+				</cfloop>
+			</cfif>
 			<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
 				<cfloop list="#form.extraCols#" index="variables.ec">
 					,#variables.ec# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.ec]#" />
@@ -2446,9 +2526,14 @@ limitations under the License.
 			<cfif isdefined("description")>
 				,description=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			</cfif>
-			where #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			WHERE #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+					AND #variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['origpk_' & variables.pkc]#" />
+				</cfloop>
+			</cfif>
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-				 AND collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origcollection_cde#" />
+				AND collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origcollection_cde#" />
 			</cfif>
 		</cfquery>
 	</cfif>
@@ -2721,9 +2806,14 @@ limitations under the License.
 			)
 		</cfquery>
 	<cfelse>
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" ******>
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO #tbl# 
 				(#fld#
+				<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+					<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+						,#variables.pkc#
+					</cfloop>
+				</cfif>
 				<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
 					<cfloop list="#form.extraCols#" index="variables.ec">
 						,#variables.ec#
@@ -2738,6 +2828,11 @@ limitations under the License.
 				)
 			VALUES 
 				(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />
+				<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+					<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.pkc]#" />
+					</cfloop>
+				</cfif>
 				<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
 					<cfloop list="#form.extraCols#" index="variables.ec">
 						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.ec]#" />
