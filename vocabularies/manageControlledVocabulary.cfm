@@ -82,7 +82,7 @@ limitations under the License.
 	<cfset variables.editTitle = trim(replaceNoCase(REReplace(tbl, "(?i)^CT", ""), "_", " ", "ALL"))>
 	<div class="d-flex justify-content-between align-items-center mt-3 mb-2">
 		<h2 class="h4 mb-0">Edit: #variables.editTitle#</h2>
-		<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Go to code table list</a>
+		<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Go to controlled vocabulary list</a>
 	</div>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
