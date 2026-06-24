@@ -58,17 +58,19 @@ limitations under the License.
 							<ul>
 								<cfloop query="getCTName">
 									<cfif getCTName.table_name is "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
-										<cfset variables.rowCount = "">
+										<cfset variables.showCount = false>
+										<cfset variables.rowCount = 0>
 									<cfelse>
 										<cfquery name="getRowCounts" datasource="uam_god">
 											SELECT count(*) ct
 											FROM #getCTName.table_name#
 										</cfquery>
 										<cfset variables.rowCount = getRowCounts.ct>
+										<cfset variables.showCount = true>
 									</cfif>
 									<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 									<li>
-										<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><cfif len(variables.rowCount) gt 0> (#variables.rowCount#)</cfif>
+										<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><cfif variables.showCount> (#variables.rowCount#)</cfif>
 									</li>
 								</cfloop>
 							</ul>
