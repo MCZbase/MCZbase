@@ -32,7 +32,8 @@ limitations under the License.
 <cfelseif isdefined("form.tbl")>
 	<cfset tbl = ucase(form.tbl)>
 </cfif>
-<cfif not isdefined("action")><cfset action="listtables"></cfif>
+<cfif not isdefined("action")><cfset action="listTables"></cfif>
+<cfif action is "entryPoint"><cfset action="listTables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
 	<div class="container">
@@ -40,7 +41,7 @@ limitations under the License.
 			<div class="col-12">
 
 				<cfswitch expression="#action#">
-					<cfcase value="entryPoint,listtables,nothing">
+					<cfcase value="listTables">
 						<cfquery name="getCTName" datasource="uam_god">
 								SELECT
 									distinct(table_name) table_name 
