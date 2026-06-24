@@ -290,68 +290,58 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col">GUID Type:</div>
 					<div class="col">
-						<input type="text" name="newData" class="data-entry-input reqdClr" required >
+						<label class="form-label" for="add_guid_type">GUID Type</label>
+						<input id="add_guid_type" type="text" name="newData" class="data-entry-input reqdClr w-100" required>
+						<small class="form-text text-muted">Name for picklist</small>
 					</div>
-					<div class="col">Name for picklist</div>
-				</div>
-				<div class="form-row mb-1">
-					<div class="col">Description:</div>
 					<div class="col">
-						<input class="data-entry-input" type="text" name="description" size="80">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input w-100" type="text" name="description">
 					</div>
 				</div>
 				<div class="form-row mb-1">
-					<div class="col">Applies to</div>
 					<div class="col">
-						<input type="text" name="applies_to" size="80" class="data-entry-input reqdClr" required>
+						<label class="form-label" for="add_applies_to">Applies To</label>
+						<input id="add_applies_to" type="text" name="applies_to" class="data-entry-input reqdClr w-100" required>
+						<small class="form-text text-muted">space delimited list of table.field</small>
 					</div>
-					<div class="col">space delimited list of table.field)</div>
+					<div class="col">
+						<label class="form-label" for="add_placeholder">Placeholder</label>
+						<input id="add_placeholder" class="data-entry-input w-100" type="text" name="placeholder">
+						<small class="form-text text-muted">Hint for data entry, e.g. doi:</small>
+					</div>
 				</div>
 				<div class="form-row mb-1">
-					<div class="col">Placeholder</div>
 					<div class="col">
-						<input class="data-entry-input" type="text" name="placeholder" size="80">
+						<label class="form-label" for="add_pattern_regex">Pattern Regex</label>
+						<input id="add_pattern_regex" type="text" name="pattern_regex" class="data-entry-input reqdClr w-100" required>
+						<small class="form-text text-muted">To validate entry, e.g. ^doi:10[.].+$</small>
 					</div>
-					<div class="col">Hint for data entry, e.g. doi:</div>
+					<div class="col">
+						<label class="form-label" for="add_resolver_regex">Resolver Regex</label>
+						<input id="add_resolver_regex" class="data-entry-input w-100" type="text" name="resolver_regex">
+						<small class="form-text text-muted">Regex pattern for conversion to a uri, e.g. ^doi:</small>
+					</div>
 				</div>
 				<div class="form-row mb-1">
-					<div class="col">Pattern Regex</div>
 					<div class="col">
-						<input type="text" name="pattern_regex" size="80" class="data-entry-input reqdClr" required>
+						<label class="form-label" for="add_resolver_replacement">Resolver Replacement</label>
+						<input id="add_resolver_replacement" class="data-entry-input w-100" type="text" name="resolver_replacement">
+						<small class="form-text text-muted">Replacement string for match to pattern, e.g. https://doi.org/</small>
 					</div>
-					<div class="col">To validate entry, e.g. ^doi:10[.].+$</div>
+					<div class="col">
+						<label class="form-label" for="add_search_uri">Search URI</label>
+						<input id="add_search_uri" class="data-entry-input w-100" type="text" name="search_uri">
+						<small class="form-text text-muted">URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</small>
+					</div>
 				</div>
 				<div class="form-row mb-1">
-					<div class="col">Resolver Regex</div>
-					<div class="col">
-						<input class="data-entry-input" type="text" name="resolver_regex" size="80">
-					</div>
-					<div class="col">Regex pattern for conversion to a uri, e.g. ^doi:</div>
-				</div>
-				<div class="form-row mb-1">
-					<div class="col">Resolver Replacement</div>
-					<div class="col">
-						<input class="data-entry-input" type="text" name="resolver_replacement" size="80">
-					</div>
-					<div class="col">Replacement string for match to pattern, e.g. https://doi.org/</div>
-				</div>
-				<div class="form-row mb-1">
-					<div class="col">Search URI</div>
-					<div class="col">
-						<input class="data-entry-input" type="text" name="search_uri" size="80">
-					</div>
-					<div class="col">URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</div>
-				</div>
-				<div class="form-row mb-1">
-					<div class="col"></div>
-					<div class="col">
+					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">
 					</div>
-					<div class="col"></div>
 				</div>
 			</div>
 		</form>
