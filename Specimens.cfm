@@ -764,7 +764,7 @@ limitations under the License.
 															<div class="col-12 col-md-2 mb-1">
 																<label for="nature_of_id" class="data-entry-label small">Nature of ID</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
-																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
+																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select col-sm-12 pl-2" style="color: rgba(0, 0, 0, .8);font-size:.8rem;padding:1px;">
 																	<option value=""></option>
 																	<cfset nid = nature_of_id>
 																	<cfloop query="ctnature_of_id">
