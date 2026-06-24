@@ -37,6 +37,8 @@ limitations under the License.
 
 <cfset variables.ALLOWED_RELATIONSHIPS = "parent of,embryo of,offspring of,littermate of,sibling of,egg of,same individual organism as,part to counterpart,cast of">
 <cfset variables.SELECTED_PAIR_DELIMITER = ":"><!--- NOTE: Can not be a comma, as delimited pairs are composed into a comma separated list --->
+<cfset variables.HYBRID_TAXA_FORMULA = "A x B">
+<cfset variables.NON_HYBRID_DEFAULT_FORMULA = "A">
 
 <cfset variables.action = "entryPoint">
 <cfif len(trim(url.action)) GT 0><cfset variables.action = trim(url.action)></cfif>
@@ -77,13 +79,16 @@ limitations under the License.
 </cfquery>
 
 <cfset variables.relationshipOptions = "">
+<cfset variables.relationshipOptionsForQuery = "">
 <cfloop query="ctRelationships">
 	<cfif listFindNoCase(variables.ALLOWED_RELATIONSHIPS, ctRelationships.biol_indiv_relationship) AND NOT listFindNoCase(variables.relationshipOptions, ctRelationships.biol_indiv_relationship)>
 		<cfset variables.relationshipOptions = listAppend(variables.relationshipOptions, lcase(ctRelationships.biol_indiv_relationship))>
+		<cfset variables.relationshipOptionsForQuery = listAppend(variables.relationshipOptionsForQuery, ctRelationships.biol_indiv_relationship)>
 	</cfif>
 </cfloop>
 <cfif len(variables.relationshipOptions) EQ 0>
 	<cfset variables.relationshipOptions = variables.ALLOWED_RELATIONSHIPS>
+	<cfset variables.relationshipOptionsForQuery = variables.relationshipOptions>
 </cfif>
 <cfset variables.relationshipCountByType = structNew()>
 <cfloop list="#variables.relationshipOptions#" index="variables.relationshipOption">
@@ -92,33 +97,33 @@ limitations under the License.
 <cfif len(variables.relationshipOptions) GT 0>
 	<cfquery name="relationshipOptionCounts" datasource="cf_dbuser">
 		SELECT
-			lower(bir.biol_indiv_relationship) AS relationship_type,
+			bir.biol_indiv_relationship AS relationship_type,
 			count(*) AS relationship_count
 		FROM
 			biol_indiv_relations bir
-			JOIN ctbiol_relations cbr ON lower(bir.biol_indiv_relationship) = lower(cbr.biol_indiv_relationship)
+			JOIN ctbiol_relations cbr ON bir.biol_indiv_relationship = cbr.biol_indiv_relationship
 			JOIN identification sourceId ON bir.collection_object_id = sourceId.collection_object_id
 			JOIN identification relatedId ON bir.related_coll_object_id = relatedId.collection_object_id
 		WHERE
 			cbr.rel_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="biological">
-			AND lower(bir.biol_indiv_relationship) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" list="yes" value="#variables.relationshipOptions#">)
+			AND bir.biol_indiv_relationship IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" list="yes" value="#variables.relationshipOptionsForQuery#">)
 			AND sourceId.accepted_id_fg = 1
 			AND relatedId.accepted_id_fg = 1
 			AND sourceId.scientific_name <> relatedId.scientific_name
-			AND nvl(sourceId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
-			AND nvl(relatedId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
+			AND nvl(sourceId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+			AND nvl(relatedId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
 			<cfif len(variables.collectionObjectIdFilter) GT 0>
 				AND bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collectionObjectIdFilter#">
 			</cfif>
 			AND (
-				lower(cbr.biol_indiv_relationship) <> lower(nvl(cbr.inverse_relation, cbr.biol_indiv_relationship))
+				cbr.biol_indiv_relationship <> nvl(cbr.inverse_relation, cbr.biol_indiv_relationship)
 				OR bir.collection_object_id < bir.related_coll_object_id
 			)
 		GROUP BY
-			lower(bir.biol_indiv_relationship)
+			bir.biol_indiv_relationship
 	</cfquery>
 	<cfloop query="relationshipOptionCounts">
-		<cfset variables.relationshipCountByType[relationshipOptionCounts.relationship_type] = relationshipOptionCounts.relationship_count>
+		<cfset variables.relationshipCountByType[lcase(relationshipOptionCounts.relationship_type)] = relationshipOptionCounts.relationship_count>
 	</cfloop>
 </cfif>
 
@@ -252,8 +257,8 @@ limitations under the License.
 							AND sourceId.accepted_id_fg = 1
 							AND relatedId.accepted_id_fg = 1
 							AND sourceId.scientific_name <> relatedId.scientific_name
-							AND nvl(sourceId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
-							AND nvl(relatedId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
+							AND nvl(sourceId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+							AND nvl(relatedId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
 							AND EXISTS (
 								SELECT
 									1
@@ -416,8 +421,8 @@ limitations under the License.
 			AND sourceId.accepted_id_fg = 1
 			AND relatedId.accepted_id_fg = 1
 			AND sourceId.scientific_name <> relatedId.scientific_name
-			AND nvl(sourceId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
-			AND nvl(relatedId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
+			AND nvl(sourceId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+			AND nvl(relatedId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
 			<cfif len(variables.collectionObjectIdFilter) GT 0>
 				AND bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collectionObjectIdFilter#">
 			</cfif>
