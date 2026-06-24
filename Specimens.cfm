@@ -441,7 +441,7 @@ limitations under the License.
 												</div>		
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mx-0">
 													<div class="col-12 col-md-3 mb-1">
-														<label for="fixedCollection" class="data-entry-label small font-weight-bold">Collection</label>
+														<label for="fixedCollection" class="data-entry-label small">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
 														<cfset collection_array = ListToArray(collection)>
@@ -474,7 +474,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-														<label for="otherID" class="data-entry-label small font-weight-bold">Other ID Type</label>
+														<label for="otherID" class="data-entry-label small">Other ID Type</label>
 														<div name="other_id_type" id="other_id_type" class="w-100"></div>
 														<cfset otheridtype_array = ListToArray(other_id_type)>
 														<script>
@@ -511,7 +511,7 @@ limitations under the License.
 														<div class="form-row col-12 px-1 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
-																<label for="otherID" class="data-entry-label small font-weight-bold">or Other ID Type</label>
+																<label for="otherID" class="data-entry-label small">or Other ID Type</label>
 																<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
 																<cfset otheridtype_array = ListToArray(other_id_type_1)>
 																<script>
@@ -538,12 +538,12 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
-																<label for="other_id_number_1" class="data-entry-label small font-weight-bold">Other ID Numbers</label>
+																<label for="other_id_number_1" class="data-entry-label small">Other ID Numbers</label>
 																<input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
 															</div>
 															<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																<div class="col-12 col-md-4 mb-1">
-																	<label class="data-entry-label small font-weight-bold" for="debug1">Debug JSON</label>
+																	<label class="data-entry-label small" for="debug1">Debug JSON</label>
 																	<select title="debug" name="debug" id="debug1" class="data-entry-select inputHeight">
 																		<option value=""></option>
 																		<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
