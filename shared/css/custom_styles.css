@@ -1,5 +1,6 @@
+/***********************************************************/
 /** This file contains Various local style customizations **/
-/************************/
+/***********************************************************/
 body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
@@ -324,7 +325,6 @@ p {
 	width: 0;
 	overflow: hidden;
 }
-
 .link-color {
 	color: #02458c;
 }
@@ -392,7 +392,6 @@ label { /* Override bootstrap label .5rem to reduce excess whitespace on forms. 
 /* BELOW:    code for 3 searches */
 /*********************************/
 /************************
-*************************
 BELOW: Small Form button (bootstrap override)
 ************************/
 .btn-xs { /*********Changed padding and font size to see if the text is more vertically aligned; vertical-align:middle; hasn't worked**********/
@@ -844,18 +843,15 @@ a#showLeftPush.hiddenclass {
 #regForm select {
 	font-size: .875rem;
 }
-/* Mark input boxes that gets an error on validation: */
 #regForm input.invalid, #regForm select.invalid {
 	background-color: #ffdddd;
 }
-/* Hide all steps by default: */
 #regForm .tab {
 	display: none;
 }
 #prevBtn {
 	background-color: #bbbbbb;
 }
-/* Make circles that indicate the steps of the form: */
 #regForm .step {
 	height: 26px;
 	width: 116px;
@@ -875,7 +871,6 @@ a#showLeftPush.hiddenclass {
 	color: white;
 	letter-spacing: .02rem;
 }
-/* Mark the steps that are finished and valid: */
 #regForm .step.finish {
 	background-color: #80ADCC;
 	background-color: #d3ebd8;
@@ -1048,13 +1043,11 @@ ul.sd li.list-group-item:last-child {
 	border-radius: 4px;
 	margin-top: 0px;
 }
-.search-form-basic-odd {
-	/* odd rows in the basic specimen search form */
+.search-form-basic-odd { /* odd rows in the basic specimen search form */
 	border-top: 1px solid #e3e3e3;
 	border-bottom: 1px solid #e3e3e3;
 	background-color: #efeded!important;
 }
-/*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
 	background-position: 0% 0%;
 }
@@ -1100,8 +1093,7 @@ table.inputTable tr td label {
 table.inputTable tr {
 	background-color: white;
 }
-.save_shared {
-	/*  desktop button for saving shared locality on dialog*/
+.save_shared { /* desktop button for saving shared locality on dialog */
 	border: 2px solid red;
 	position: absolute;
 	left: 1.5em !important;
@@ -1175,7 +1167,6 @@ table.inputTable tr {
 .search-box-header h1, .search-box-header h2 {
 	color: #fff;
 }
-
 ::-ms-clear {
 	display: none;
 }
@@ -1331,7 +1322,6 @@ table#pairs, th, td {
 .custom-select {
 	background-color: white
 }
-/* Style the arrow inside the select element: */
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -1601,9 +1591,7 @@ textarea {
 	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .autogrow {
-	/* autogrow textareas must have a vertical padding in pixels for
-	the autogrow calculation of the height to work correctly,
-	otherwise the textareas grow in height with each keystroke.  */
+	/* autogrow textareas must have a vertical padding in px for the autogrow calculation of the height to work correctly, otherwise the textareas grow in height with each keystroke. */
 	padding: 2px .5rem;
 }
 .input-group > .custom-file, .input-group > .custom-select, .input-group > .form-control, .input-group > .form-control-plaintext {
@@ -1749,7 +1737,7 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	content: "\f067";
+	/*content: "\f067";*/
 	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
@@ -1759,7 +1747,7 @@ tr.line-top:first-child {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	content: "\f068";
+	/*content: "\f068";*/
 	content: "\f146";/*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
@@ -1775,14 +1763,12 @@ tr.line-top:first-child {
 .nav-link.dropdown-toggle:hover:after {
 	transform: rotate(-90deg);
 }
-.card-body li.list-group-item span:last-child {
-	/*display: none;  */
+.card-body li.list-group-item span:last-child {/*changes the last element of the group with the class*/
 	display: block;
 	margin-bottom: .5rem;
-	/* Caution, this directive will have unexpected side effects such as hiding badge spans. The point of this is to prevent the */
 }
-.card-body li.list-group-item span.sd:last-child {
-	display:none;
+.card-body li.list-group-item span.sd:last-child {/*changes the last element of the group with the class*/
+	display:none; 
 }
 .comma1 span {
 	display:inline;
@@ -1822,7 +1808,6 @@ input#readMore_check_id {
 .MediaAccordionShow {
 	display: none;
 }
-/************tabs -- redone for accessibility  ***************/
 .tabpanel {
 	margin: 20px;
 	padding: 0;
@@ -1957,7 +1942,7 @@ button[tabindex="-1"]:focus {
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	content: "\f067";
+/*	content: "\f067";*/
 	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
@@ -1967,7 +1952,7 @@ button[tabindex="-1"]:focus {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	content: "\f068";
+	/*content: "\f068";*/
 	content: "\f146";/*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
@@ -2117,7 +2102,6 @@ section#mediaSection.accordion {
 	background-color: rgb(199 251 255 / .35) !important;
 }
 .bg-paleyellow {
-	/*background-color: rgba(255, 238, 199, 0.35) !important; // too light for all browser settings */
 	background-color: rgb(233 204 138 / 35%) !important;
 }
 .height1p2 {
@@ -2159,7 +2143,6 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-
 button.help-btnSp-SearchWiki {
     background-color: #1b1b1b;
     color: white;
@@ -2174,7 +2157,6 @@ button.help-btnSp-SearchWiki {
     margin-top: 0;
     position: absolute;
     overflow: hidden;
-    /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     border-color: black;
 }
@@ -2192,7 +2174,6 @@ button.help-btnA-SearchWiki {
     margin-top: 0;
     position: absolute;
     overflow: hidden;
-    /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     border-color: black;
 }
@@ -2218,7 +2199,6 @@ button.help-btnSearchWiki {
     margin-top: 0;
     position: absolute;
     overflow: hidden;
-    /* Only bottom-left and bottom-right rounded */
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     border-color: black;
 }
@@ -2353,7 +2333,6 @@ div.vslider-item[aria-hidden="true"]{
 	background-color: transparent;
 	width: auto;
 }
-
 .text-truncate1 p, .text-truncate1 h3 {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
@@ -2429,7 +2408,6 @@ div.vslider-item[aria-hidden="true"]{
 	webkit-transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1);
 	transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1)
 }
-
 .toggle-switch:not(.disabled) .ts-helper:active:before {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(128, 128, 128, .1)
 }
@@ -2525,7 +2503,6 @@ div.vslider-item[aria-hidden="true"]{
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper {
     background: rgba(76, 175, 80, .5)
 }
-
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:before {
     background: #4CAF50
 }
@@ -2562,7 +2539,6 @@ input[disabled] {
 	animation-duration: .5s;
 	animation-name: slideup;
 }
-
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
 	background-color: transparent;
@@ -2580,29 +2556,24 @@ input[disabled] {
 	transition: transform 0.8s;
 	transform-style: preserve-3d;
 }
-/* Do an horizontal flip when you move the mouse over the flip box container */
 .flip-card:hover .flip-card-inner,
 .flip-card:focus-within .flip-card-inner,
 .flip-card:active .flip-card-inner,
-.flip-card:focus .flip-card-inner {
+.flip-card:focus .flip-card-inner {/* Do an horizontal flip when you move the mouse over the flip box container */
   transform: rotateY(180deg);
 }
-/* Position the front and back side */
 .flip-card-front, .flip-card-back {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	-webkit-backface-visibility: hidden;
-	/* Safari */
+	-webkit-backface-visibility: hidden;	/* Safari */
 	backface-visibility: hidden;
 }
-/* Style the front side (fallback if image is missing) */
-.flip-card-front {
+.flip-card-front {/* Style the front side (fallback if image is missing) */
 	background-color: aliceblue;
 	color: black;
 }
-/* Style the back side */
-.flip-card-back {
+.flip-card-back { /* Style the back side */
 	background-color:#dee2e6;
 	color: black;
 	transform: rotateY(180deg);
@@ -2614,8 +2585,8 @@ input[disabled] {
 	width: 21.5rem!important;
 }
 @keyframes slideup {
-	from {top: 700px;}
-	to {top:100px;}
+	from { top: 700px; }
+	to { top:100px; }
 }
 table.tablesection td {
 	border: 1px solid transparent;
@@ -2684,8 +2655,6 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
-
-
 html,body {
     overflow-x:hidden;
 }
@@ -2716,25 +2685,20 @@ html,body {
 	margin-left: 355px;
 	width: calc(100% - 355px);
 }
-body.wiki-open .ui-dialog {
-    /* Override jQuery UI's inline width */
+body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
     width: auto !important;
     max-width: calc(100vw - 355px) !important;
-    /* Keep the dialog entirely in the visible (non-wiki) area */
     left: 355px !important;      /* start right after the drawer */
     right: 0 !important;
-    /* Optional: ensure it stays within viewport */
-    box-sizing: border-box;
+  
+    box-sizing: border-box;   /* ensure it stays within viewport */
 }
 body.wiki-open .ui-dialog {
-    /* Override jQuery UI's inline width */
-    width: auto !important;
+    width: auto !important;   /* Override jQuery UI's inline width */
     max-width: calc(100vw - 355px) !important;
-    /* Keep the dialog entirely in the visible (non-wiki) area */
     left: 355px !important;      /* start right after the drawer */
     right: 0 !important;
-    /* Optional: ensure it stays within viewport */
-    box-sizing: border-box;
+    box-sizing: border-box;    /* ensure it stays within viewport */
 }
 div.mw-parser-output h1 {
 	font-size: 20px;
@@ -2768,13 +2732,10 @@ div.toctitle {
 	margin-bottom: 0;
 }
 .tinymap {
- /*   position: relative;*/
     width: 100%;
     height: 180px;
-/*    overflow: hidden;*/
 }
-/* Explicit heights per layout */
-.tinymap-3col {
+.tinymap-3col {/* Explicit heights per layout */
     height: 180px;   
     overflow: hidden;
     float:left;
@@ -2785,17 +2746,15 @@ div.toctitle {
     overflow: hidden;
     float:left;
 }
-/* Both maps fill the wrapper box */
 .tinymap .static-map,
-.tinymap .interactive-map {
+.tinymap .interactive-map {/* Both maps fill the wrapper box */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
-/* Static thumbnail: keep whole map and center it */
-.tinymap .static-map {
+.tinymap .static-map {/* Static thumbnail: keep whole map and center it */
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -2805,8 +2764,7 @@ div.toctitle {
     border: 2px solid #444;
     cursor: pointer;
 }
-/* Interactive map: hidden until JS shows it */
-.tinymap .interactive-map {
+.tinymap .interactive-map {/* Interactive map: hidden until JS shows it */
     display: none;
     z-index: 2;
 }
@@ -2815,17 +2773,14 @@ div.toctitle {
         margin-left: 355px;
         width: calc(100% - 355px);
     }
-
     #content.pushed .ui-dialog {
         max-width: calc(100vw - 355px);
     }
 }
 /****************end all screen styles*********************/
 /**********************************************************/
-
-/*********************************/
-/* Device styles below ***********/
-/*********************************/
+/**************** Device styles below *********************/
+/**********************************************************/
 @media only screen and (min-width: 1599px) {
 	.container-wide {
 		padding-right: 9%;
@@ -2840,7 +2795,7 @@ div.toctitle {
 	ol.flowXXS,ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 170px; /* need to specify height :-( */
+		height: 170px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowXXS li, ul.flowXXS li {
@@ -2855,7 +2810,7 @@ div.toctitle {
 	ol.flowXS, ul.flowXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 270px; /* need to specify height :-( */
+		height: 270px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowXS li,ul.flowXS li {
@@ -2870,7 +2825,7 @@ div.toctitle {
 	ol.flowSm, ul.flowSm {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 410px; /* need to specify height :-( */
+		height: 410px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowSm li,ul.flowSm li {
@@ -2885,7 +2840,7 @@ div.toctitle {
 	ol.flowMd,ul.flowMd {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 509px; /* need to specify height :-( */
+		height: 509px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowMd li, ul.flowMd li {
@@ -2900,7 +2855,7 @@ div.toctitle {
 	ol.flowLg ,ul.flowLg{
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 660px; /* need to specify height :-( */
+		height: 660px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowLg li,ul.flowLg li {
@@ -2915,7 +2870,7 @@ div.toctitle {
 	ol.flowXL,ul.flowXL {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 800px; /* need to specify height :-( */
+		height: 800px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowXL li,ul.flowXL li {
@@ -2930,7 +2885,7 @@ div.toctitle {
 	ol.flowNone,ul.flowNone {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
+		height: auto; /* need to specify height */
 		column-count: 1;
 	}
 	ol.flowNone li,ul.flowNone li {
@@ -2954,8 +2909,6 @@ This query will take effect for any screen smaller than 760px
 and also iPads specifically.
 */
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr {}
 	.step-arrow {
 		background-color: #deebec;
 		border-bottom: 1px solid #aaa;
@@ -3188,13 +3141,11 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-
 @media only screen and (max-width: 1199px) {
 	.variedHeight {
 		height: 250px;
 	}
 }
-
 @media only screen and (max-width: 991px) {
 	input#searchText.form-control {
 		min-width: auto;
@@ -3433,15 +3384,11 @@ and also iPads specifically.
     .wiki-drawer.open {
         transform: translateX(0);     /* 5vw of page still visible */
     }
-
-    /* Don’t push content on these sizes */
-    #content.pushed {
+    #content.pushed {/* Don’t push content on these sizes */
         margin-left: 0;
         width: 100%;
     }
-
-    /* Let dialogs behave normally on these widths */
-    body.wiki-open .ui-dialog {
+    body.wiki-open .ui-dialog {   /* Let dialogs behave normally on these widths */
         width: auto;
         max-width: 100vw;
         left: 0;
@@ -3461,15 +3408,11 @@ and also iPads specifically.
     .wiki-drawer.open {
         transform: translateX(0);
     }
-
-    /* Ignore the "pushed" class on small screens */
-    #content.pushed {
+    #content.pushed {/* Ignore the "pushed" class on small screens */
         margin-left: 0;
         width: 100%;
     }
-
-    /* Let dialogs behave normally on small screens */
-    body.wiki-open .ui-dialog {
+    body.wiki-open .ui-dialog {/* Let dialogs behave normally on small screens */
         width: auto;        /* remove our large-screen overrides */
         max-width: 100vw;
         left: 0;
@@ -3516,7 +3459,7 @@ and also iPads specifically.
 	}
 }
 @media (min-width:1200px) and (max-width: 1700px) {
-	#searchHelpTextBlock {
+/*	#searchHelpTextBlock {
 		width: 100%;
 		margin-left: auto;
 		margin-right: auto;
@@ -3545,8 +3488,8 @@ and also iPads specifically.
 	#searchHelpTextBlock[type="checkbox"] {
 		position: absolute;
 		left: -9999px;
-	}
-	label.read {
+	}*/
+	/*label.read {
 		background: aliceblue;
 		display: block;
 		width: 70px;
@@ -3566,7 +3509,6 @@ and also iPads specifically.
 		content: "\f0d7";
 		font-size: 1.3rem;
 		color: #0460c1 !important;
-		/*down*/
 	}
 	label.read:after {
 		content: "more";
@@ -3592,11 +3534,10 @@ and also iPads specifically.
 		content: "\f0d8";
 		font-size: 1.3rem;
 		color: #0460c1 !important;
-		/* up */
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
 		content: "less";
-	}
+	}*/
 }
 @media(min-width:768px) {
 	.footer-col-4-md {
@@ -3761,7 +3702,6 @@ and also iPads specifically.
 	}
      button.help-btnA-SearchWiki {
         background-color: #1b1b1b;
-         position: fixed;
         color: white;
         float: right;
         -webkit-backface-visibility: hidden;
@@ -3830,14 +3770,11 @@ and also iPads specifically.
 		font-size: .78rem;
 		height: 5rem;
 	}
-		.html_desc {
+    .html_desc {
 		width: 100%!important;
-	}
-    
-   
+	} 
 }
 /* styles above are media queries for named groups page*/
-
 /* styles for locality maps */
 .uglyGeoSPatData{
 	border:4px solid red;
@@ -3902,6 +3839,4 @@ and also iPads specifically.
 	margin-left: -100px;
 	border: 1px solid white;
 }
-
-
 /* end styles for geolocate frame */

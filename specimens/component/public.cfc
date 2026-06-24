@@ -3061,134 +3061,128 @@ limitations under the License.
                     )>
                     
                     <div class="col-12 col-md-5 float-right" style="right: .25rem;">
-                      <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap #twocol#">
+                        <div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap #twocol#">
                         <!-- Static thumbnail always shown -->
                         <img
-                          id="static-map-#loc_collevent.locality_id#"
-                          src="#encodeForHtmlAttribute(staticMapUrl)#"
-                          alt="Map of specimen collection locality #loc_collevent.locality_id#"
-                        class="static-map">
-
+                            id="static-map-#loc_collevent.locality_id#"
+                            src="#encodeForHtmlAttribute(staticMapUrl)#"
+                            alt="Map of specimen collection locality #loc_collevent.locality_id#"
+                            class="static-map">
                         <!-- Interactive map, hidden until user interacts -->
                         <div
-                          id="mapdiv_#loc_collevent.locality_id#"
-                          class="interactive-map"
-                          aria-label="Google Map of specimen collection location">
+                            id="mapdiv_#loc_collevent.locality_id#"
+                            class="interactive-map"
+                            aria-label="Google Map of specimen collection location">
                         </div>
-                      </div>
+                    </div>
 
-                      <!-- Lazy-load interactive Google Map on hover/click -->
-                      <script>
-                      (function() {
-                        var localityId = "#loc_collevent.locality_id#";
-                        var lat        = #coordlookup.dec_lat#;
-                        var lng        = #coordlookup.dec_long#;
-                        var staticImg  = document.getElementById("static-map-" + localityId);
-                        var mapDiv     = document.getElementById("mapdiv_" + localityId);
-                        var loaded     = false;
+                    <!-- Lazy-load interactive Google Map on hover/click -->
+                    <script>
+                        (function() {
+                            var localityId = "#loc_collevent.locality_id#";
+                            var lat        = #coordlookup.dec_lat#;
+                            var lng        = #coordlookup.dec_long#;
+                            var staticImg  = document.getElementById("static-map-" + localityId);
+                            var mapDiv     = document.getElementById("mapdiv_" + localityId);
+                            var loaded     = false;
 
-                        function loadInteractiveMap() {
-                          if (loaded) return;
-                          loaded = true;
+                            function loadInteractiveMap() {
+                                if (loaded) return;
+                                loaded = true;
 
-                          mapDiv.style.display = "block";
-                          staticImg.style.opacity = "0.0"; // optional fade-out
+                                mapDiv.style.display = "block";
+                                staticImg.style.opacity = "0.0"; // optional fade-out
 
-                          var script = document.createElement("script");
-                          script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry&callback=initLocalityMap_" + localityId;
-                          script.async = true;
-                          document.head.appendChild(script);
-                        }
+                                var script = document.createElement("script");
+                                script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry&callback=initLocalityMap_" + localityId;
+                                script.async = true;
+                                document.head.appendChild(script);
+                            }
 
-                        window["initLocalityMap_" + localityId] = function() {
-                        var center = { lat: lat, lng: lng };
-                            
-                        var mapOptions = {
-                              zoom: 10,
-                              center: new google.maps.LatLng(0,0),
-                              mapTypeId: google.maps.MapTypeId.ROADMAP,
-                              panControl: false,
-                              scaleControl: true,
-                              fullscreenControl: true,
-                              zoomControl: true
-                        };
-                        var map = new google.maps.Map(mapDiv, mapOptions);
-                          
-                        var bounds = new google.maps.LatLngBounds();
-                        var georefs      = null;
-                        var georefsBounds;
-                        var georefsLoaded   = false;
-                        var polygonLoaded   = false;
-                        var higherLoaded    = false;
-                        var uncertaintypoly = null;
-                        var errorcircle     = null;
-                        var enclosingpoly   = null;
-                        var uncertaintyPolygonArray = [];
-                        var enclosingPolygonArray   = [];
+                            window["initLocalityMap_" + localityId] = function() {
+                            var center = { lat: lat, lng: lng };
+
+                            var mapOptions = {
+                                  zoom: 10,
+                                  center: new google.maps.LatLng(0,0),
+                                  mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                  panControl: false,
+                                  scaleControl: true,
+                                  fullscreenControl: true,
+                                  zoomControl: true
+                            };
+                            var map = new google.maps.Map(mapDiv, mapOptions);
+                            var bounds = new google.maps.LatLngBounds();
+                            var georefs      = null;
+                            var georefsBounds;
+                            var georefsLoaded   = false;
+                            var polygonLoaded   = false;
+                            var higherLoaded    = false;
+                            var uncertaintypoly = null;
+                            var errorcircle     = null;
+                            var enclosingpoly   = null;
+                            var uncertaintyPolygonArray = [];
+                            var enclosingPolygonArray   = [];
                         
-                       // ---- 1) Accepted / not‑accepted georefs from GeoJSON ----
+                        // ---- 1) Accepted / not‑accepted georefs from GeoJSON ----
                         $.getJSON("/localities/component/georefUtilities.cfc", {
                             method      : "getGeorefsGeoJSON",
                             locality_id : localityId,
                             returnformat: "json"
-                          },
-                          function (result) {
+                        },
+                        function (result) {
                             if (result) {
-                              map.data.addGeoJson(result, { idPropertyName: "id" } );
-                              map.data.setStyle(function(feature) {
-                                var accepted   = feature.getProperty('accepted');
-                                var determiner = feature.getProperty('determiner');
-                                var loc        = feature.getProperty('spec_locality');
-                                var opacity    = 1.0;
-                                var label      = '';
-                                var icon;
-                                var zindex;
-                                var title;
-
-                                if (accepted == 'Yes') {
-                                  zindex = 15;
-                                  opacity = 1.0;
-                                  title = 'Accepted.';
-                                } else {
-                                  label  = { text: 'n' };
-                                  icon   = '/shared/images/map_pin_grey.png';
-                                  opacity = 0.6;
-                                  zindex  = 3;
-                                  title   = 'Not Accepted.';
-                                }
-                                title = title + ' ' + loc + ' Determiner: ' + determiner;
-
-                                var style = {
-                                  zIndex : zindex,
-                                  opacity: opacity,
-                                  label  : label,
-                                  title  : title
-                                };
-                                if (accepted != 'Yes') {
-                                  style.icon = icon;
-                                }
-                                return style;
-                              });
-
-                              bounds = new google.maps.LatLngBounds(); 
-                              map.data.forEach(function(feature){
-                                feature.getGeometry().forEachLatLng(function(latlng){
-                                  bounds.extend(latlng);
+                                map.data.addGeoJson(result, { idPropertyName: "id" } );
+                                map.data.setStyle(function(feature) {
+                                    var accepted   = feature.getProperty('accepted');
+                                    var determiner = feature.getProperty('determiner');
+                                    var loc        = feature.getProperty('spec_locality');
+                                    var opacity    = 1.0;
+                                    var label      = '';
+                                    var icon;
+                                    var zindex;
+                                    var title;
+                                    if (accepted == 'Yes') {
+                                        zindex = 15;
+                                        opacity = 1.0;
+                                        title = 'Accepted.';
+                                    } else {
+                                        label  = { text: 'n' };
+                                        icon   = '/shared/images/map_pin_grey.png';
+                                        opacity = 0.6;
+                                        zindex  = 3;
+                                        title   = 'Not Accepted.';
+                                    }
+                                    title = title + ' ' + loc + ' Determiner: ' + determiner;
+                                    var style = {
+                                        zIndex : zindex,
+                                        opacity: opacity,
+                                        label  : label,
+                                        title  : title
+                                    };
+                                    if (accepted != 'Yes') {
+                                        style.icon = icon;
+                                    }
+                                    return style;
                                 });
-                                var accepted = feature.getProperty('accepted');
-                                if (accepted == 'Yes') { 
-                                  feature.getGeometry().forEachLatLng(function(latlng){
-                                    georefs = latlng;
-                                  });
-                                }
-                              });
-                              map.fitBounds(bounds);
-                              georefsBounds  = bounds;
-                              georefsLoaded  = true;
-                              postLoadCheck();
+                                bounds = new google.maps.LatLngBounds(); 
+                                map.data.forEach(function(feature){
+                                    feature.getGeometry().forEachLatLng(function(latlng){
+                                        bounds.extend(latlng);
+                                    });
+                                    var accepted = feature.getProperty('accepted');
+                                    if (accepted == 'Yes') {
+                                        feature.getGeometry().forEachLatLng(function(latlng){
+                                            georefs = latlng;
+                                        });
+                                    }
+                                });
+                                map.fitBounds(bounds);
+                                georefsBounds  = bounds;
+                                georefsLoaded  = true;
+                                postLoadCheck();
                             }
-                          }
-                        );
+                        });
 
                         // ---- 2) Point‑radius uncertainty circle ----
                         $.getJSON("/localities/component/georefUtilities.cfc", {
@@ -3271,9 +3265,6 @@ limitations under the License.
                             } else {
                               $("##mapdiv_" + localityId).addClass('noErrorWKT');
                             }
-                            
-                 
-                            
                             polygonLoaded = true;
                             postLoadCheck();
                           }
@@ -3325,13 +3316,6 @@ limitations under the License.
                               bounds = google.maps.LatLngBounds.MAX_BOUNDS;
                             } 
                             map.fitBounds(bounds);
-                                         // Clamp zoom so it isn't too close or too far
-                              var z = map.getZoom();
-                              if (z > 12) {
-                                map.setZoom(12);
-                              } else if (z < 7) {
-                                map.setZoom(7);
-                              }
                             
                             higherLoaded = true;
                             postLoadCheck();
@@ -3368,10 +3352,9 @@ limitations under the License.
                           }
                         }
                       };
-
-                      staticImg.addEventListener("mouseenter", loadInteractiveMap);
-                      staticImg.addEventListener("click", loadInteractiveMap);
-                    })();
+                            staticImg.addEventListener("mouseenter", loadInteractiveMap);
+                            staticImg.addEventListener("click", loadInteractiveMap);
+                        })();
                     </script>
                     </div>
                 <cfelse>
