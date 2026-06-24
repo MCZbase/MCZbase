@@ -200,4 +200,90 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getContainerShapeSummary" access="remote" returntype="query" output="false">
+	<cfquery name="qSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT 'TOTAL_CONTAINERS' AS metric, TO_CHAR(COUNT(*)) AS metric_value FROM container
+		UNION ALL
+		SELECT 'TOTAL_COLLECTION_OBJECT_CONTAINERS' AS metric, TO_CHAR(COUNT(*)) AS metric_value
+		FROM container
+		WHERE container_type = 'collection object'
+		UNION ALL
+		SELECT 'TOTAL_STRUCTURAL_CONTAINERS' AS metric, TO_CHAR(COUNT(*)) AS metric_value
+		FROM container
+		WHERE container_type <> 'collection object'
+	</cfquery>
+	<cfreturn qSummary>
+</cffunction>
+
+<cffunction name="getContainerShapeByDepth" access="remote" returntype="query" output="false">
+	<cfquery name="qDepth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			max_depth_below AS depth_below,
+			COUNT(*) AS node_count
+		FROM (
+			SELECT
+				root_id,
+				MAX(lvl) - 1 AS max_depth_below
+			FROM (
+				SELECT
+					CONNECT_BY_ROOT container_id AS root_id,
+					LEVEL AS lvl
+				FROM container
+				CONNECT BY PRIOR container_id = parent_container_id
+			)
+			GROUP BY root_id
+		)
+		GROUP BY max_depth_below
+		ORDER BY max_depth_below
+	</cfquery>
+	<cfreturn qDepth>
+</cffunction>
+
+<cffunction name="getContainerShapeHotspots" access="remote" returntype="query" output="false">
+	<cfquery name="qHotspots" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			c.container_id,
+			c.container_type,
+			c.label,
+			NVL(cc.direct_children,0) AS direct_children,
+			NVL(cc.direct_leaf_children,0) AS direct_leaf_children,
+			NVL(cc.direct_structural_children,0) AS direct_structural_children,
+			CASE
+				WHEN NVL(cc.direct_leaf_children,0) >= 1000 AND NVL(cc.direct_structural_children,0) = 0 THEN 'B'
+				WHEN NVL(cc.direct_leaf_children,0) >= 200 AND NVL(cc.direct_structural_children,0) > 0 THEN 'AB'
+				WHEN NVL(cc.direct_leaf_children,0) > 0 AND NVL(cc.direct_structural_children,0) > 0 THEN 'AB'
+				ELSE 'A'
+			END AS shape_class
+		FROM container c
+		LEFT JOIN (
+			SELECT
+				parent_container_id,
+				COUNT(*) AS direct_children,
+				SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children,
+				SUM(CASE WHEN container_type = 'collection object' THEN 0 ELSE 1 END) AS direct_structural_children
+			FROM container
+			GROUP BY parent_container_id
+		) cc
+			ON cc.parent_container_id = c.container_id
+		WHERE NVL(cc.direct_leaf_children,0) >= 200
+			OR (NVL(cc.direct_leaf_children,0) > 0 AND NVL(cc.direct_structural_children,0) > 0)
+		ORDER BY NVL(cc.direct_leaf_children,0) DESC
+	</cfquery>
+	<cfreturn qHotspots>
+</cffunction>
+
+<cffunction name="getCollObjContHistAnomalies" access="remote" returntype="query" output="false">
+	<cfquery name="qAnom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			collection_object_id,
+			COUNT(*) AS ct
+		FROM coll_obj_cont_hist
+		WHERE current_container_fg = 1
+		GROUP BY collection_object_id
+		HAVING COUNT(*) > 1
+		ORDER BY collection_object_id
+	</cfquery>
+	<cfreturn qAnom>
+</cffunction>
+
 </cfcomponent>

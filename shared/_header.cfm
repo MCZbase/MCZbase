@@ -707,6 +707,7 @@ limitations under the License.
 											<a class="dropdown-item" href="/tools/listImages.cfm">Image List</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+											<a class="dropdown-item" href="/containers/containerDiagnostics.cfm">Container Diagnostics</a>
 											<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
 										</cfif>
 									</div>
