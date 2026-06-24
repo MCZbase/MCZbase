@@ -285,7 +285,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">GUID Type:</div>
 					<div class="col">
-						<input type="text" name="newData" class="reqdClr" required >
+						<input type="text" name="newData" class="data-entry-input reqdClr" required >
 					</div>
 					<div class="col">Name for picklist</div>
 				</div>
@@ -298,7 +298,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">Applies to</div>
 					<div class="col">
-						<input type="text" name="applies_to" size="80" class="reqdClr" required>
+						<input type="text" name="applies_to" size="80" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">space delimited list of table.field)</div>
 				</div>
@@ -312,7 +312,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">Pattern Regex</div>
 					<div class="col">
-						<input type="text" name="pattern_regex" size="80" class="reqdClr" required>
+						<input type="text" name="pattern_regex" size="80" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">To validate entry, e.g. ^doi:10[.].+$</div>
 				</div>
@@ -362,7 +362,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col">GUID Type:</div>
 							<div class="col">
-								<input type="text" name="guid_type" value="#guid_type#" class="reqdClr" required >
+								<input type="text" name="guid_type" value="#guid_type#" class="data-entry-input reqdClr" required >
 							</div>
 							<div class="col">Name for picklist</div>
 						</div>
@@ -375,7 +375,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col">Applies to</div>
 							<div class="col">
-								<input type="text" name="applies_to" value="#applies_to#" size="80" class="reqdClr" required>
+								<input type="text" name="applies_to" value="#applies_to#" size="80" class="data-entry-input reqdClr" required>
 							</div>
 							<div class="col">space delimited list of table.field</div>
 						</div>
@@ -389,7 +389,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col">Pattern Regex</div>
 							<div class="col">
-								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80" class="reqdClr" required>
+								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80" class="data-entry-input reqdClr" required>
 							</div>
 							<div class="col">Regex to validate entry, e.g. ^doi:10[.].+$</div>
 						</div>
@@ -1552,13 +1552,13 @@ limitations under the License.
 				</div>
 				<div class="form-row mb-1">
 					<div class="col">
-						<input type="text" name="newData" class="reqdClr" required>
+						<input type="text" name="newData" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">
 						<input class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
-						<input type="text" name="ordinal" class="reqdClr" required>
+						<input type="text" name="ordinal" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">
 						<input class="data-entry-input" type="text" name="label">
@@ -1592,13 +1592,13 @@ limitations under the License.
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#role#">
 						<div class="col">
-							<input type="text" name="role" value="#role#" required class="reqdClr">
+							<input type="text" name="role" value="#role#" required class="data-entry-input reqdClr">
 						</div>
 						<div class="col">
 							<input class="data-entry-input" type="text" name="description" value="#description#">
 						</div>
 						<div class="col">
-							<input type="text" name="ordinal" value="#ordinal#" required class="reqdClr">
+							<input type="text" name="ordinal" value="#ordinal#" required class="data-entry-input reqdClr">
 						</div>
 						<div class="col">
 							<input class="data-entry-input" type="text" name="label" value="#label#">
@@ -1758,10 +1758,10 @@ limitations under the License.
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#taxon_category#">
 						<div class="col">
-							<input type="text" name="taxon_category" value="#taxon_category#" class="reqdClr">
+							<input type="text" name="taxon_category" value="#taxon_category#" class="data-entry-input reqdClr">
 						</div>
 						<div class="col">
-							<input type="text" name="category_type" value="#category_type#" class="reqdClr">
+							<input type="text" name="category_type" value="#category_type#" class="data-entry-input reqdClr">
 						</div>
 						<div class="col">
 							<input class="data-entry-input" type="text" name="description" value="#description#">
@@ -1847,7 +1847,7 @@ limitations under the License.
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#taxon_attribute_type#">
 						<div class="col">
-							<input type="text" name="taxon_attribute_type" value="#taxon_attribute_type#" class="reqdClr">
+							<input type="text" name="taxon_attribute_type" value="#taxon_attribute_type#" class="data-entry-input reqdClr">
 						</div>
 						<div class="col">
 							<cfif hidden_fg EQ 0>
@@ -1933,7 +1933,7 @@ limitations under the License.
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#state#">
 						<div class="col">
-							<input type="text" name="state" value="#state#" class="reqdClr">
+							<input type="text" name="state" value="#state#" class="data-entry-input reqdClr">
 						</div>
 						<div class="col">
 							<input class="data-entry-input" type="text" name="state_curie" value="#state_curie#">
