@@ -3576,7 +3576,7 @@ and also iPads specifically.
 		text-align: right;
 	}
 }
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1023.95px) {
 	.card-body h5 {
 		margin-top: -0.5rem;
 	}
@@ -3584,6 +3584,59 @@ and also iPads specifically.
 		font-size: 0.8rem;
 		text-align: right;
 	}
+    button.help-btnA-SearchWiki {
+        background-color: #1b1b1b;
+        color: white;
+        float: right;
+        -webkit-backface-visibility: hidden;
+        -webkit-transform: translateX(-98%) rotate(90deg);
+        -webkit-transform-origin: right top;
+        -moz-transform: translateX(-98%) rotate(90deg);
+        -moz-transform-origin: right top;
+        -o-transform: translateX(-98%) rotate(90deg);
+        -o-transform-origin: right top;
+        transform: translateX(-98%) rotate(90deg);
+        transform-origin: right top;
+        margin-bottom: 15px;
+        top: 9.35rem;
+        right: -8rem;
+        z-index: 1; 
+        padding-top: .35rem;
+        padding-bottom: .5rem; 
+        font-size: 13.5px;
+        margin-top: 0;
+        position: absolute;
+        overflow: hidden;
+        border-radius: 0 0 6px 6px; 
+    }
+    button.help-btnSp-SearchWiki {
+        background-color: #1b1b1b;
+        color: white;
+        float: right;
+        box-sizing: border-box;
+        border: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -webkit-backface-visibility: hidden;
+        transform: translateX(-98%) rotate(90deg);
+        transform-origin: right top;
+        -webkit-transform: translateX(-98%) rotate(90deg);
+        -webkit-transform-origin: right top;
+        -moz-transform: translateX(-98%) rotate(90deg);
+        -moz-transform-origin: right top;
+        -o-transform: translateX(-98%) rotate(90deg);
+        -o-transform-origin: right top;
+        position: absolute;
+        top: 11.5rem;
+        right: -111px;
+        z-index: 1;
+        padding: 0.55rem 0.8rem;
+        line-height: 1;         
+        font-size: 13.5px;
+        margin: 0;
+        overflow: hidden;
+        border-radius: 0 0 6px 6px;
+    }
 }
 @media screen and (max-width: 768px) {
 	.caption-sm {
@@ -3614,59 +3667,7 @@ and also iPads specifically.
 		padding-bottom: 0;
 		line-height: 1;
 	}
-    button.help-btnA-SearchWiki {
-        background-color: #1b1b1b;
-        color: white;
-        float: right;
-        -webkit-backface-visibility: hidden;
-        -webkit-transform: translateX(-98%) rotate(90deg);
-        -webkit-transform-origin: right top;
-        -moz-transform: translateX(-98%) rotate(90deg);
-        -moz-transform-origin: right top;
-        -o-transform: translateX(-98%) rotate(90deg);
-        -o-transform-origin: right top;
-        transform: translateX(-98%) rotate(90deg);
-        transform-origin: right top;
-        margin-bottom: 15px;
-        top: 9.35rem;
-        right: -8rem;
-        z-index: 1; 
-        padding-top: .35rem;
-        padding-bottom: .5rem; 
-        font-size: 13.5px;
-        margin-top: 0;
-        position: absolute;
-        overflow: hidden;
-        border-radius: 0 0 6px 6px; 
-    }
-    button.help-btnSp-SearchWiki {
-      background-color: #1b1b1b;
-      color: white;
-      float: right;
-      box-sizing: border-box;
-      border: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      -webkit-backface-visibility: hidden;
-      transform: translateX(-98%) rotate(90deg);
-      transform-origin: right top;
-      -webkit-transform: translateX(-98%) rotate(90deg);
-      -webkit-transform-origin: right top;
-      -moz-transform: translateX(-98%) rotate(90deg);
-      -moz-transform-origin: right top;
-      -o-transform: translateX(-98%) rotate(90deg);
-      -o-transform-origin: right top;
-      position: absolute;
-      top: 11.5rem;
-      right: -111px;
-      z-index: 1;
-      padding: 0.55rem 0.8rem;
-      line-height: 1;         
-      font-size: 13.5px;
-      margin: 0;
-      overflow: hidden;
-      border-radius: 0 0 6px 6px;
-    }
+  
 }
 @media screen and (max-width: 480px) {
 	#map {
