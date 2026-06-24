@@ -239,6 +239,27 @@ Beware of logic errors created by using = instead of == to test for equality in 
 
 Use spaces around operators when needed for clarity.
 
+### Parameters and Arguments
+
+On .cfm pages, declare explicit url and form parameters that are expected to be passed to the page: 
+
+```coldfusion
+<cfparam name="url.action" default="">
+<cfparam name="form.action" default="">
+```
+
+In cffunction declarations in .cfc files, explicitly list arguments to the cffunction.
+
+```coldfusion
+<cffunction name="linkMediaHtml" access="remote">
+	<cfargument name="relationship" type="string" required="yes">
+	<cfargument name="related_value" type="string" required="yes">
+	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="callback" type="string" required="no" default="reloadTransMedia">
+
+	<cfset target_id = related_id>
+```
+
 ### Scopes
 
 Except for placing a value in pageTitle for \_header.cfm, avoid using the request scope to pass parameters between coldfusion files.
@@ -289,17 +310,22 @@ Much existing code relies on the deprecated ability of ColdFusion to not care ab
 In most cases of .cfm pages that call themselves, this will involve adding a line for each variable that would be provided in an http url parameter (get, url scope), and setting a variables scope variable of the same name: 
 
 ```coldfusion
-	<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+   <cfparam name="url.action" default="">
+
+	<cfif len(url.action) GT 0><cfset variables.action = url.action></cfif>
 	<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
 
 	<cfif isDefined("variables.action") and variables.action EQ "someaction">
 		...
 ```
-In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.
+In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.  
 
 ```coldfusion
-	<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-	<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+   <cfparam name="url.action" default="">
+   <cfparam name="form.action" default="">
+
+	<cfif len(url.action) GT 0><cfset variables.action = url.action></cfif>
+	<cfif len(form.action) GT 0><cfset variables.action = form.action></cfif>
 
 	<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 		...
@@ -636,6 +662,7 @@ The only form that uses the bootstrap fields is the account profile page.
 
 Header and footer are included as includes.  Content between these includes on edit record pages SHOULD be structured with: 
 
+```html
 	<main class=”container py-3” id=”content” >
 		<section class=”row border rounded my-2”>
 			<h1 class=”h2”>Title of Page </h1>
@@ -649,12 +676,48 @@ Header and footer are included as includes.  Content between these includes on e
 `           ... related concepts, e.g. shipments for loans...`
 		</section>
 	</main>
+```
 
-See: (??)Edit loans on Transactions.cfm(??) to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-{n} div or form.
+See Edit loans to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-{n} div or form.
 
+```html
 	<section class="row px-0">
 		<form  name="Name" class="col-12 col-md-6 border rounded">
 	</section>
+```
+
+Here, `<div class="col-12 col-sm-6 col-xl-3">`  within a `form-row` will be stacked on small screens, side-by-side in pairs on medium screens, and side-by-side with 4 columns on extra large screens.  
+
+```coldfusion
+<section class="col-12 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" title="Form for creating a new loan">
+   <form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
+      <input type="hidden" name="action" value="makeLoan">
+      <div class="form-row mb-2">
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="collection_id" class="data-entry-label">Collection</label>
+            <select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1">
+               <cfloop query="ctcollection">
+                  <option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+               </cfloop>
+            </select>
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
+            <input type="text" name="loan_number" class="reqdClr data-entry-input mb-1" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="loan_type" class="data-entry-label">Loan Type</label>
+            <select name="loan_type" id="loan_type" class="reqdClr data-entry-select mb-1" required >
+               <cfloop query="ctLoanType">
+                  <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+               </cfloop>
+            </select>
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+				...
+         </div>
+		</div>
+```
 
 On smaller screens, the boxes will be stacked, but on medium screens and up, they will be side-by-side (iPad 768px width).
 
@@ -956,6 +1019,32 @@ Use a single gray line surrounding them with class=”border”. Use fieldset wh
 <u>**For highlighting a field or group of fields**</u>
 
 Put a bg-light (gray background) border-rounded box with an outline around them `<div class=”bg-light border-rounded p-2”>`. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
+
+### Form Inputs and Labels
+
+On forms, provide paired label and input using the for property of the label, place a data-entry-label class on the label and a data-entry-{type} e.g. data-entry-input class on the input.  
+
+```html
+<div class="form-group mb-0 col-12 col-md-4">
+	<label for="scientific_name" class="data-entry-label">Scientific Name<label>
+	<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+</div>
+```
+
+When additional controls, such as those that prefix $ for soundex matching to the value in the input, place these outside the label, but wrap them and the label in a span with the data-entry-label class on that span instead of the label.
+
+```html
+<div class="form-group mb-0 col-12 col-md-4">
+	<span class="data-entry-label">
+		<label for="scientific_name" class="">Scientific Name<label>
+		<span class="h6">
+			(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
+			<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+		</span>
+	</span>
+	<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+</div>
+
 
 ### Dialog Boxes
 Dialog content boxes should be laid out similarly to a main page when data captured is the same (e.g., create media page appear as a dialog box). The buttons follow the same rules as listed in the button section of this document when in the content area.  The close button for the dialog and any button along the bottom will have the standard jquery gray buttonface background (difficult to style separately without changing the library files). The borders and background should be different from the main page so it is easy to recognize it as a dialog box. Searches in dialog boxes will have the class "search-box", which has following styles:  background-color: #f5f5f5; margin-top: 1em; padding-bottom: .25em; width: 100%; border-radius: 8px; border: 2px solid #3E6F7D; to make a dark teal outline with a gray background around the search fields. Small search/create dialog boxes which do not replicate a main page, can have a white background (e.g., add shipment dialog box). The search results should repeat the jqxwidget grid style when possible.  The form fields to create a records should have the classes "p-3 border bg-light" in the column div around them (see create media for an example).  The dialog boxes should be repsonsive based on the screen size when launched.  Other dialog boxes for alerts should also be styled with white background and gray header bar and appropriate text for the message. For instance, if there is a danger of mistakenly changing many records, part of the alert message should look like a delete button in color with a background in pinkish-red with red text and red border.
