@@ -112,8 +112,8 @@ limitations under the License.
 				<input type="hidden" name="tbl" value="#tbl#">
 				<div class="form-row mb-1">
 					<div class="col">				
-						<label class="form-label">Attribute</label>
-						<select class="data-entry-select" name="attribute_type" size="1">
+						<label class="form-label" for="add_attribute_type">Attribute</label>
+						<select id="add_attribute_type" class="data-entry-select" name="attribute_type" size="1">
 							<option value=""></option>
 							<cfloop query="ctAttribute_type">
 							<option 
@@ -122,9 +122,9 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col">
-						<label class="form-label">Value Controlled Vocabulary</label>
+						<label class="form-label" for="add_value_code_table">Value Controlled Vocabulary</label>
 						<cfset thisValueTable = #thisRec.value_code_table#>
-						<select class="data-entry-select" name="value_code_table" size="1">
+						<select id="add_value_code_table" class="data-entry-select" name="value_code_table" size="1">
 							<option value="">none</option>
 							<cfloop query="allCTs">
 							<option 
@@ -133,9 +133,9 @@ limitations under the License.
 						</select>			
 					</div>
 					<div class="col">
-						<label class="form-label">Units Controlled Vocabulary</label>
+						<label class="form-label" for="add_units_code_table">Units Controlled Vocabulary</label>
 						<cfset thisUnitsTable = #thisRec.units_code_table#>
-						<select class="data-entry-select" name="units_code_table" size="1">
+						<select id="add_units_code_table" class="data-entry-select" name="units_code_table" size="1">
 							<option value="">none</option>
 							<cfloop query="allCTs">
 							<option 
@@ -226,12 +226,12 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Country Code</label>
-						<input class="data-entry-input" type="text" name="code" maxlength="3">
+						<label class="form-label" for="add_code">Country Code</label>
+						<input id="add_code" class="data-entry-input" type="text" name="code" maxlength="3">
 					</div>
 					<div class="col">
-						<label class="form-label">Country</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Country</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -453,19 +453,19 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Loan Type</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Loan Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Loan/Gift</label>
-						<select class="data-entry-select" name="scope">
+						<label class="form-label" for="add_scope">Loan/Gift</label>
+						<select id="add_scope" class="data-entry-select" name="scope">
 							<option value="Loan">Loan</option>
 							<option value="Gift">Gift</option>
 						</select>
 					</div>
 					<div class="col">
-						<label class="form-label">Sort Order</label>
-						<input class="data-entry-input" type="text" name="ordinal">
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -541,12 +541,12 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Specific Type</label>
-						<input class="data-entry-input" type="text" name="newData" size=80 >
+						<label class="form-label" for="add_newData">Specific Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" size=80 >
 					</div>
 					<div class="col">
-						<label class="form-label">General Type</label>
-						<select class="data-entry-select" name="permit_type">
+						<label class="form-label" for="add_permit_type">General Type</label>
+						<select id="add_permit_type" class="data-entry-select" name="permit_type">
 							<option value=""></option>
 							<cfloop query="ptypes">
 								<option value="#permit_type#">#permit_type#</option>
@@ -554,8 +554,8 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col">
-						<label class="form-label">Carry Accession Document to Loans</label>
-						<select class="data-entry-select" name="accn_show_on_shipment">
+						<label class="form-label" for="add_accn_show_on_shipment">Carry Accession Document to Loans</label>
+						<select id="add_accn_show_on_shipment" class="data-entry-select" name="accn_show_on_shipment">
 							<option value="1" selected="selected" >Yes</option>
 							<option value="0">No</option>
 						</select>
@@ -634,24 +634,24 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Authorship Role</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Authorship Role</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Sort Order</label>
-						<input class="data-entry-input" type="text" name="ordinal" pattern="\d*" title="Integer value only">
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal" pattern="\d*" title="Integer value only">
 					</div>
 					<div class="col">
-						<label class="form-label">Nomenclatural Code</label>
-						<select class="data-entry-select" name="nomenclatural_code" >
+						<label class="form-label" for="add_nomenclatural_code">Nomenclatural Code</label>
+						<select id="add_nomenclatural_code" class="data-entry-select" name="nomenclatural_code" >
 							<cfloop query="getNomenclaturalCodes">
 								<option value="#nomenclatural_code#">#nomenclatural_code#</option>
 							</cfloop>
 						</select>
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<input class="data-entry-input" type="text" name="description" title="description">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description" title="description">
 					</div>
 					<div class="col">
 						<input type="submit" value="Insert" class="insBtn mt-4">
@@ -724,12 +724,12 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Type Status</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Type Status</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Kind of Type</label>
-						<select class="data-entry-select" name="category">
+						<label class="form-label" for="add_category">Kind of Type</label>
+						<select id="add_category" class="data-entry-select" name="category">
 							<option value="Primary">Primary</option>
 							<option value="Secondary">Secondary</option>
 							<option value="Voucher">Voucher (non-type)</option>
@@ -740,12 +740,12 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col">
-						<label class="form-label">Sort Order</label>
-						<input class="data-entry-input" type="text" name="ordinal">
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal">
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<input class="data-entry-input" type="text" name="description">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -844,12 +844,12 @@ limitations under the License.
 						<div class="row border rounded my-2 mx-1 p-2 bg-light">
 							<div class="form-row mb-1">
 								<div class="col">
-									<label class="form-label">Geology Attribute</label>
-									<input type="text" name="newData" class="data-entry-input">
+									<label class="form-label" for="add_newData">Geology Attribute</label>
+									<input id="add_newData" type="text" name="newData" class="data-entry-input">
 								</div>
 								<div class="col">
-									<label class="form-label">Category</label>
-									<select name="type" class="data-entry-select">
+									<label class="form-label" for="add_type">Category</label>
+									<select id="add_type" name="type" class="data-entry-select">
 										<option value="lithologic">Lithologic</option>
 										<option value="lithostratigraphic">Lithostratigraphic</option>
 										<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
@@ -857,12 +857,12 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col">
-									<label class="form-label">Sort Order</label>
-									<input type="text" name="ordinal" class="data-entry-input">
+									<label class="form-label" for="add_ordinal">Sort Order</label>
+									<input id="add_ordinal" type="text" name="ordinal" class="data-entry-input">
 								</div>
 								<div class="col">
-									<label class="form-label">Description</label>
-									<input type="text" name="description" class="data-entry-input">
+									<label class="form-label" for="add_description">Description</label>
+									<input id="add_description" type="text" name="description" class="data-entry-input">
 								</div>
 								<div class="col">
 									<input type="submit" 
@@ -950,16 +950,16 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Publication Attribute</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Publication Attribute</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<textarea class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
 					</div>
 					<div class="col">
-						<label class="form-label">Control</label>
-						<select class="data-entry-select" name="control">
+						<label class="form-label" for="add_control">Control</label>
+						<select id="add_control" class="data-entry-select" name="control">
 							<option value=""></option>
 							<cfloop query="allCTs">
 								<option value="#tablename#">#tablename#</option>
@@ -1029,16 +1029,16 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 						<div class="col">
-							<label class="form-label">Relationship</label>
-							<input class="data-entry-input" type="text" name="newData" size="50">
+							<label class="form-label" for="add_newData">Relationship</label>
+							<input id="add_newData" class="data-entry-input" type="text" name="newData" size="50">
 						</div>
 						<div class="col">
-							<label class="form-label">Inverse Relation</label>
-							<input class="data-entry-input" type="text" name="inverse_relation" size="50">
+							<label class="form-label" for="add_inverse_relation">Inverse Relation</label>
+							<input id="add_inverse_relation" class="data-entry-input" type="text" name="inverse_relation" size="50">
 						</div>
 						<div class="col">
-							<label class="form-label">Type</label>
-							<select class="data-entry-select" name="rel_type">
+							<label class="form-label" for="add_rel_type">Type</label>
+							<select id="add_rel_type" class="data-entry-select" name="rel_type">
 								<option value="biological" selected='selected'>Biological</option>
 								<option value="curatorial">Curatorial</option>
 								<option value="functional">Functional</option>
@@ -1119,20 +1119,20 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">ID Type</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">ID Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<textarea class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
 					</div>
 					<div class="col">
-						<label class="form-label">Base URL</label>
-						<input class="data-entry-input" type="text" name="base_url" size="50">
+						<label class="form-label" for="add_base_url">Base URL</label>
+						<input id="add_base_url" class="data-entry-input" type="text" name="base_url" size="50">
 					</div>
 					<div class="col">
-						<label class="form-label">Mask As Field Number</label>
-						<select class="data-entry-select" name="encumber_as_field_num">
+						<label class="form-label" for="add_encumber_as_field_num">Mask As Field Number</label>
+						<select id="add_encumber_as_field_num" class="data-entry-select" name="encumber_as_field_num">
 							<option value="0">No</option>
 							<option value="1">Yes</option>
 						</select>
@@ -1219,16 +1219,16 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Taxon Relationship</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Taxon Relationship</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<textarea class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
 					</div>
 					<div class="col">
-						<label class="form-label">Inverse Relation</label>
-						<input class="data-entry-input" type="text" name="inverse_relation">
+						<label class="form-label" for="add_inverse_relation">Inverse Relation</label>
+						<input id="add_inverse_relation" class="data-entry-input" type="text" name="inverse_relation">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -1294,16 +1294,16 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Nomenclatural Code</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Nomenclatural Code</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<textarea class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
 					</div>
 					<div class="col">
-						<label class="form-label">Sort Order</label>
-						<input class="data-entry-input" type="text" name="sort_order" size="3">
+						<label class="form-label" for="add_sort_order">Sort Order</label>
+						<input id="add_sort_order" class="data-entry-input" type="text" name="sort_order" size="3">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -1375,9 +1375,9 @@ limitations under the License.
 				<input type="hidden" name="tbl" value="#tbl#">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Part Name</label>
+						<label class="form-label" for="add_partname">Part Name</label>
 						<cfset thisPart = #thisRec.partname#>
-						<select class="data-entry-select" name="partname" size="1">
+						<select id="add_partname" class="data-entry-select" name="partname" size="1">
 							<cfloop query="ctspecimen_part_name">
 							<option 
 							value="#ctspecimen_part_name.partname#">#ctspecimen_part_name.partname# (#ctspecimen_part_name.collection_cde#)</option>
@@ -1388,9 +1388,9 @@ limitations under the License.
 						select max(list_order) +1 maxNum from thisRec
 					</cfquery>
 					<div class="col">
-						<label class="form-label">List Order</label>
+						<label class="form-label" for="add_list_order">List Order</label>
 						<cfset thisLO = #thisRec.list_order#>
-						<select class="data-entry-select" name="list_order" size="1">
+						<select id="add_list_order" class="data-entry-select" name="list_order" size="1">
 							<cfloop from="1" to="#mo.maxNum#" index="n">
 								<option value="#n#">#n#</option>
 							</cfloop>
@@ -1467,16 +1467,16 @@ limitations under the License.
 				<input type="hidden" name="tbl" value="#tbl#">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Type</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<textarea class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
 					</div>
 					<div class="col">
-						<label class="form-label">Allowed Agent Roles</label>
-						<input class="data-entry-input" type="text" name="allowed_agent_roles" >
+						<label class="form-label" for="add_allowed_agent_roles">Allowed Agent Roles</label>
+						<input id="add_allowed_agent_roles" class="data-entry-input" type="text" name="allowed_agent_roles" >
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -1539,24 +1539,24 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Role</label>
-						<input type="text" name="newData" class="data-entry-input reqdClr" required>
+						<label class="form-label" for="add_newData">Role</label>
+						<input id="add_newData" type="text" name="newData" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<input class="data-entry-input" type="text" name="description">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
-						<label class="form-label">Sort Order</label>
-						<input type="text" name="ordinal" class="data-entry-input reqdClr" required>
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" type="text" name="ordinal" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">
-						<label class="form-label">Label (group-label-agent)</label>
-						<input class="data-entry-input" type="text" name="label">
+						<label class="form-label" for="add_label">Label (group-label-agent)</label>
+						<input id="add_label" class="data-entry-input" type="text" name="label">
 					</div>
 					<div class="col">
-						<label class="form-label">Inverse Label (agent-label-group)</label>
-						<input class="data-entry-input" type="text" name="inverse_label">
+						<label class="form-label" for="add_inverse_label">Inverse Label (agent-label-group)</label>
+						<input id="add_inverse_label" class="data-entry-input" type="text" name="inverse_label">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -1629,16 +1629,16 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Media Relationship</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Media Relationship</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Label</label>
-						<input class="data-entry-input" type="text" name="label">
+						<label class="form-label" for="add_label">Label</label>
+						<input id="add_label" class="data-entry-input" type="text" name="label">
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<input class="data-entry-input" type="text" name="description">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -1706,20 +1706,20 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Taxon Category</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Taxon Category</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Category Type</label>
-						<input class="data-entry-input" type="text" name="category_type">
+						<label class="form-label" for="add_category_type">Category Type</label>
+						<input id="add_category_type" class="data-entry-input" type="text" name="category_type">
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<input class="data-entry-input" type="text" name="description">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
-						<label class="form-label">Visibility</label>
-						<select class="data-entry-select" name="hidden_fg">
+						<label class="form-label" for="add_hidden_fg">Visibility</label>
+						<select id="add_hidden_fg" class="data-entry-select" name="hidden_fg">
 							<option value="0" selected="selected" >Public</option>
 							<option value="1">Hidden</option>
 						</select>
@@ -1800,19 +1800,19 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Taxon Attribute Type</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Taxon Attribute Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Visibility</label>
-						<select class="data-entry-select" name="hidden_fg">
+						<label class="form-label" for="add_hidden_fg">Visibility</label>
+						<select id="add_hidden_fg" class="data-entry-select" name="hidden_fg">
 							<option value="0" selected="selected" >Public</option>
 							<option value="1">Hidden</option>
 						</select>
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<input class="data-entry-input" type="text" name="description">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -1889,16 +1889,16 @@ limitations under the License.
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">
-						<label class="form-label">Annotation State</label>
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="add_newData">Annotation State</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
-						<label class="form-label">Mapped to CURIE</label>
-						<input class="data-entry-input" type="text" name="state_curie" >
+						<label class="form-label" for="add_state_curie">Mapped to CURIE</label>
+						<input id="add_state_curie" class="data-entry-input" type="text" name="state_curie" >
 					</div>
 					<div class="col">
-						<label class="form-label">Description</label>
-						<input class="data-entry-input" type="text" name="description">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
@@ -1986,8 +1986,8 @@ limitations under the License.
 				<div class="form-row mb-1 flex-nowrap align-items-end">
 					<cfif collcde gt 0>
 						<div class="col">
-							<label class="form-label">Collection Type</label>
-							<select class="data-entry-select" name="collection_cde" size="1">
+							<label class="form-label" for="add_collection_cde">Collection Type</label>
+							<select id="add_collection_cde" class="data-entry-select" name="collection_cde" size="1">
 								<cfloop query="ctcollcde">
 									<option value="#ctcollcde.collection_cde#">#ctcollcde.collection_cde#</option>
 								</cfloop>
