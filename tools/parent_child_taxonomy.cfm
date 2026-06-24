@@ -85,6 +85,42 @@ limitations under the License.
 <cfif len(variables.relationshipOptions) EQ 0>
 	<cfset variables.relationshipOptions = variables.ALLOWED_RELATIONSHIPS>
 </cfif>
+<cfset variables.relationshipCountByType = structNew()>
+<cfloop list="#variables.relationshipOptions#" index="variables.relationshipOption">
+	<cfset variables.relationshipCountByType[variables.relationshipOption] = 0>
+</cfloop>
+<cfif len(variables.relationshipOptions) GT 0>
+	<cfquery name="relationshipOptionCounts" datasource="cf_dbuser">
+		SELECT
+			lower(bir.biol_indiv_relationship) AS relationship_type,
+			count(*) AS relationship_count
+		FROM
+			biol_indiv_relations bir
+			JOIN ctbiol_relations cbr ON lower(bir.biol_indiv_relationship) = lower(cbr.biol_indiv_relationship)
+			JOIN identification sourceId ON bir.collection_object_id = sourceId.collection_object_id
+			JOIN identification relatedId ON bir.related_coll_object_id = relatedId.collection_object_id
+		WHERE
+			cbr.rel_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="biological">
+			AND lower(bir.biol_indiv_relationship) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" list="yes" value="#variables.relationshipOptions#">)
+			AND sourceId.accepted_id_fg = 1
+			AND relatedId.accepted_id_fg = 1
+			AND sourceId.scientific_name <> relatedId.scientific_name
+			AND nvl(sourceId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
+			AND nvl(relatedId.taxa_formula,'A') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A x B">
+			<cfif len(variables.collectionObjectIdFilter) GT 0>
+				AND bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collectionObjectIdFilter#">
+			</cfif>
+			AND (
+				lower(cbr.biol_indiv_relationship) <> lower(nvl(cbr.inverse_relation, cbr.biol_indiv_relationship))
+				OR bir.collection_object_id < bir.related_coll_object_id
+			)
+		GROUP BY
+			lower(bir.biol_indiv_relationship)
+	</cfquery>
+	<cfloop query="relationshipOptionCounts">
+		<cfset variables.relationshipCountByType[relationshipOptionCounts.relationship_type] = relationshipOptionCounts.relationship_count>
+	</cfloop>
+</cfif>
 
 <cfif NOT listFindNoCase(variables.relationshipOptions, variables.relationshipType)>
 	<cfset variables.invalidRelationship = true>
@@ -423,7 +459,8 @@ limitations under the License.
 						<cfloop list="#variables.relationshipOptions#" index="variables.relationshipOption">
 							<cfset variables.relationshipSelected = "">
 							<cfif variables.relationshipOption EQ variables.relationshipType><cfset variables.relationshipSelected = 'selected="selected"'></cfif>
-							<option #variables.relationshipSelected# value="#encodeForHtmlAttribute(variables.relationshipOption)#">#encodeForHtml(variables.relationshipOption)#</option>
+							<cfset variables.relationshipOptionCount = variables.relationshipCountByType[variables.relationshipOption]>
+							<option #variables.relationshipSelected# value="#encodeForHtmlAttribute(variables.relationshipOption)#">#encodeForHtml(variables.relationshipOption)# (#encodeForHtml(variables.relationshipOptionCount)#)</option>
 						</cfloop>
 					</select>
 				</div>
