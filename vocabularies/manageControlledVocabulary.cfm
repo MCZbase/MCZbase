@@ -107,17 +107,12 @@ limitations under the License.
 		</cfquery>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Attribute Control</h3>
 		<div class="row border rounded my-2 mx-1 p-2 bg-light">
-			<div class="form-row mb-1">
-				<div class="col fw-bold small text-muted">Attribute</div>
-				<div class="col fw-bold small text-muted">Value Code Table</div>
-				<div class="col fw-bold small text-muted">Units Code Table</div>
-				<div class="col fw-bold small text-muted">&nbsp;</div>
-			</div>
 			<form method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
 				<div class="form-row mb-1">
 					<div class="col">				
+						<label class="form-label">Attribute</label>
 						<select class="data-entry-select" name="attribute_type" size="1">
 							<option value=""></option>
 							<cfloop query="ctAttribute_type">
@@ -127,6 +122,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col">
+						<label class="form-label">Value Controlled Vocabulary</label>
 						<cfset thisValueTable = #thisRec.value_code_table#>
 						<select class="data-entry-select" name="value_code_table" size="1">
 							<option value="">none</option>
@@ -137,6 +133,7 @@ limitations under the License.
 						</select>			
 					</div>
 					<div class="col">
+						<label class="form-label">Units Controlled Vocabulary</label>
 						<cfset thisUnitsTable = #thisRec.units_code_table#>
 						<select class="data-entry-select" name="units_code_table" size="1">
 							<option value="">none</option>
@@ -149,7 +146,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn">	
+							class="insBtn mt-4">	
 					</div>
 				</div>
 			</form>
@@ -159,8 +156,8 @@ limitations under the License.
 			<div class="d-table w-100">
 			<div class="d-table-row bg-light border-bottom">
 				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Attribute</div>
-				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Value Code Table</div>
-				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Units Code Table</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Value Controlled Vocabulary</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Units Controlled Vocabulary</div>
 				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
 			</div>
 			<cfset i=1>
@@ -228,21 +225,18 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Country Code</div>
-					<div class="col fw-bold small text-muted">Country</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Country Code</label>
 						<input class="data-entry-input" type="text" name="code" maxlength="3">
 					</div>
 					<div class="col">
+						<label class="form-label">Country</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -458,28 +452,25 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Loan Type</div>
-					<div class="col fw-bold small text-muted">Loan/Gift</div>
-					<div class="col fw-bold small text-muted">Sort Order</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Loan Type</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Loan/Gift</label>
 						<select class="data-entry-select" name="scope">
 							<option value="Loan">Loan</option>
 							<option value="Gift">Gift</option>
 						</select>
 					</div>
 					<div class="col">
+						<label class="form-label">Sort Order</label>
 						<input class="data-entry-input" type="text" name="ordinal">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -549,16 +540,12 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="ctspecific_permit_type">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Specific Type</div>
-					<div class="col fw-bold small text-muted">General Type</div>
-					<div class="col fw-bold small text-muted">Carry Accession Document to Loans</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Specific Type</label>
 						<input class="data-entry-input" type="text" name="newData" size=80 >
 					</div>
 					<div class="col">
+						<label class="form-label">General Type</label>
 						<select class="data-entry-select" name="permit_type">
 							<option value=""></option>
 							<cfloop query="ptypes">
@@ -567,6 +554,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col">
+						<label class="form-label">Carry Accession Document to Loans</label>
 						<select class="data-entry-select" name="accn_show_on_shipment">
 							<option value="1" selected="selected" >Yes</option>
 							<option value="0">No</option>
@@ -575,7 +563,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -645,20 +633,16 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Authorship Role</div>
-					<div class="col fw-bold small text-muted">Sort Order</div>
-					<div class="col fw-bold small text-muted">Nomenclatural Code</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Authorship Role</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Sort Order</label>
 						<input class="data-entry-input" type="text" name="ordinal" pattern="\d*" title="Integer value only">
 					</div>
 					<div class="col">
+						<label class="form-label">Nomenclatural Code</label>
 						<select class="data-entry-select" name="nomenclatural_code" >
 							<cfloop query="getNomenclaturalCodes">
 								<option value="#nomenclatural_code#">#nomenclatural_code#</option>
@@ -666,10 +650,11 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<input class="data-entry-input" type="text" name="description" title="description">
 					</div>
 					<div class="col">
-						<input type="submit" value="Insert" class="insBtn">
+						<input type="submit" value="Insert" class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -738,17 +723,12 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Type Status</div>
-					<div class="col fw-bold small text-muted">Kind of Type</div>
-					<div class="col fw-bold small text-muted">Sort Order</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Type Status</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Kind of Type</label>
 						<select class="data-entry-select" name="category">
 							<option value="Primary">Primary</option>
 							<option value="Secondary">Secondary</option>
@@ -760,15 +740,17 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col">
+						<label class="form-label">Sort Order</label>
 						<input class="data-entry-input" type="text" name="ordinal">
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<input class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -861,17 +843,12 @@ limitations under the License.
 						<input type="hidden" name="tbl" value="#tbl#">
 						<div class="row border rounded my-2 mx-1 p-2 bg-light">
 							<div class="form-row mb-1">
-								<div class="col fw-bold small text-muted">Geology Attribute</div>
-								<div class="col fw-bold small text-muted">Category</div>
-								<div class="col fw-bold small text-muted">Sort Order</div>
-								<div class="col fw-bold small text-muted">Description</div>
-								<div class="col fw-bold small text-muted"></div>
-							</div>
-							<div class="form-row mb-1">
 								<div class="col">
+									<label class="form-label">Geology Attribute</label>
 									<input type="text" name="newData" class="data-entry-input">
 								</div>
 								<div class="col">
+									<label class="form-label">Category</label>
 									<select name="type" class="data-entry-select">
 										<option value="lithologic">Lithologic</option>
 										<option value="lithostratigraphic">Lithostratigraphic</option>
@@ -880,15 +857,17 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col">
+									<label class="form-label">Sort Order</label>
 									<input type="text" name="ordinal" class="data-entry-input">
 								</div>
 								<div class="col">
+									<label class="form-label">Description</label>
 									<input type="text" name="description" class="data-entry-input">
 								</div>
 								<div class="col">
 									<input type="submit" 
 										value="Insert" 
-										class="insBtn">
+										class="insBtn mt-4">
 								</div>
 							</div>
 						</div>
@@ -970,19 +949,16 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="ctpublication_attribute">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Publication Attribute</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted">Control</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Publication Attribute</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<textarea class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
 					</div>
 					<div class="col">
+						<label class="form-label">Control</label>
 						<select class="data-entry-select" name="control">
 							<option value=""></option>
 							<cfloop query="allCTs">
@@ -993,7 +969,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -1052,19 +1028,16 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="ctbiol_relations">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Relationship</div>
-					<div class="col fw-bold small text-muted">Inverse Relation</div>
-					<div class="col fw-bold small text-muted">Type</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 						<div class="col">
+							<label class="form-label">Relationship</label>
 							<input class="data-entry-input" type="text" name="newData" size="50">
 						</div>
 						<div class="col">
+							<label class="form-label">Inverse Relation</label>
 							<input class="data-entry-input" type="text" name="inverse_relation" size="50">
 						</div>
 						<div class="col">
+							<label class="form-label">Type</label>
 							<select class="data-entry-select" name="rel_type">
 								<option value="biological" selected='selected'>Biological</option>
 								<option value="curatorial">Curatorial</option>
@@ -1074,7 +1047,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -1145,23 +1118,20 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="ctcoll_other_id_type">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">ID Type</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted">Base URL</div>
-					<div class="col fw-bold small text-muted">Mask As Field Number</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">ID Type</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<textarea class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
 					</div>
 					<div class="col">
+						<label class="form-label">Base URL</label>
 						<input class="data-entry-input" type="text" name="base_url" size="50">
 					</div>
 					<div class="col">
+						<label class="form-label">Mask As Field Number</label>
 						<select class="data-entry-select" name="encumber_as_field_num">
 							<option value="0">No</option>
 							<option value="1">Yes</option>
@@ -1170,7 +1140,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">					
+							class="insBtn mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1248,25 +1218,22 @@ limitations under the License.
 			</ul>
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Taxon Relationship</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted">Inverse Relation</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Taxon Relationship</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<textarea class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
 					</div>
 					<div class="col">
+						<label class="form-label">Inverse Relation</label>
 						<input class="data-entry-input" type="text" name="inverse_relation">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">					
+							class="insBtn mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1326,25 +1293,22 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="ctnomenclatural_code">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Nomenclatural Code</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted">Sort Order</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Nomenclatural Code</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<textarea class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
 					</div>
 					<div class="col">
+						<label class="form-label">Sort Order</label>
 						<input class="data-entry-input" type="text" name="sort_order" size="3">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">					
+							class="insBtn mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1406,16 +1370,12 @@ limitations under the License.
 		</p>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Part Ordering</h3>
 		<div class="row border rounded my-2 mx-1 p-2 bg-light">
-			<div class="form-row mb-1">
-				<div class="col fw-bold small text-muted">Part Name</div>
-				<div class="col fw-bold small text-muted">List Order</div>
-				<div class="col fw-bold small text-muted"></div>
-			</div>
 			<form name="newPart" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
 				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Part Name</label>
 						<cfset thisPart = #thisRec.partname#>
 						<select class="data-entry-select" name="partname" size="1">
 							<cfloop query="ctspecimen_part_name">
@@ -1428,6 +1388,7 @@ limitations under the License.
 						select max(list_order) +1 maxNum from thisRec
 					</cfquery>
 					<div class="col">
+						<label class="form-label">List Order</label>
 						<cfset thisLO = #thisRec.list_order#>
 						<select class="data-entry-select" name="list_order" size="1">
 							<cfloop from="1" to="#mo.maxNum#" index="n">
@@ -1438,7 +1399,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn">	
+							class="insBtn mt-4">	
 					</div>
 				</div>
 			</form>	
@@ -1501,29 +1462,26 @@ limitations under the License.
 		</p>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Named Group Type</h3>
 		<div class="row border rounded my-2 mx-1 p-2 bg-light">
-			<div class="form-row mb-1">
-				<div class="col fw-bold small text-muted">Type</div>
-				<div class="col fw-bold small text-muted">Description</div>
-				<div class="col fw-bold small text-muted">Allowed Agent Roles</div>
-				<div class="col fw-bold small text-muted"></div>
-			</div>
 			<form name="newType" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
 				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Type</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<textarea class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
 					</div>
 					<div class="col">
+						<label class="form-label">Allowed Agent Roles</label>
 						<input class="data-entry-input" type="text" name="allowed_agent_roles" >
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn">	
+							class="insBtn mt-4">	
 					</div>
 				</div>
 			</form>	
@@ -1580,33 +1538,30 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Role</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted">Sort Order</div>
-					<div class="col fw-bold small text-muted">Label (group-label-agent)</div>
-					<div class="col fw-bold small text-muted">Inverse Label (agent-label-group)</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Role</label>
 						<input type="text" name="newData" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<input class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
+						<label class="form-label">Sort Order</label>
 						<input type="text" name="ordinal" class="data-entry-input reqdClr" required>
 					</div>
 					<div class="col">
+						<label class="form-label">Label (group-label-agent)</label>
 						<input class="data-entry-input" type="text" name="label">
 					</div>
 					<div class="col">
+						<label class="form-label">Inverse Label (agent-label-group)</label>
 						<input class="data-entry-input" type="text" name="inverse_label">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -1673,25 +1628,22 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Media Relationship</div>
-					<div class="col fw-bold small text-muted">Label</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Media Relationship</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Label</label>
 						<input class="data-entry-input" type="text" name="label">
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<input class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -1753,23 +1705,20 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Taxon Category</div>
-					<div class="col fw-bold small text-muted">Category Type</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted">Visibility</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Taxon Category</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Category Type</label>
 						<input class="data-entry-input" type="text" name="category_type">
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<input class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
+						<label class="form-label">Visibility</label>
 						<select class="data-entry-select" name="hidden_fg">
 							<option value="0" selected="selected" >Public</option>
 							<option value="1">Hidden</option>
@@ -1778,7 +1727,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -1850,28 +1799,25 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Taxon Attribute Type</div>
-					<div class="col fw-bold small text-muted">Visibility</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Taxon Attribute Type</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Visibility</label>
 						<select class="data-entry-select" name="hidden_fg">
 							<option value="0" selected="selected" >Public</option>
 							<option value="1">Hidden</option>
 						</select>
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<input class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -1942,25 +1888,22 @@ limitations under the License.
 			<input type="hidden" name="tbl" value="#tbl#">
 			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
-					<div class="col fw-bold small text-muted">Annotation State</div>
-					<div class="col fw-bold small text-muted">Mapped to CURIE</div>
-					<div class="col fw-bold small text-muted">Description</div>
-					<div class="col fw-bold small text-muted"></div>
-				</div>
-				<div class="form-row mb-1">
 					<div class="col">
+						<label class="form-label">Annotation State</label>
 						<input class="data-entry-input" type="text" name="newData" >
 					</div>
 					<div class="col">
+						<label class="form-label">Mapped to CURIE</label>
 						<input class="data-entry-input" type="text" name="state_curie" >
 					</div>
 					<div class="col">
+						<label class="form-label">Description</label>
 						<input class="data-entry-input" type="text" name="description">
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="insBtn mt-4">
 					</div>
 				</div>
 			</div>
@@ -2034,18 +1977,6 @@ limitations under the License.
 		</cfquery>
 		<h3 class="h5 mt-3 mb-2 text-success">Add New Value to #fld#</h3>
 		<div class="row border rounded my-2 mx-1 p-2 bg-light">
-			<cfif collcde gt 0 OR hasDescn gt 0>
-				<div class="form-row mb-1">
-					<cfif collcde gt 0>
-						<div class="col fw-bold small text-muted">Collection Type</div>
-					</cfif>
-					<div class="col fw-bold small text-muted">&nbsp;</div>
-					<cfif hasDescn gt 0>
-						<div class="col fw-bold small text-muted">Description</div>
-					</cfif>
-					<div class="col fw-bold small text-muted">&nbsp;</div>
-				</div>
-			</cfif>
 			<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="collcde" value="#collcde#">
 				<input type="hidden" name="action" value="newValue">
@@ -2055,6 +1986,7 @@ limitations under the License.
 				<div class="form-row mb-1 flex-nowrap align-items-end">
 					<cfif collcde gt 0>
 						<div class="col">
+							<label class="form-label">Collection Type</label>
 							<select class="data-entry-select" name="collection_cde" size="1">
 								<cfloop query="ctcollcde">
 									<option value="#ctcollcde.collection_cde#">#ctcollcde.collection_cde#</option>
@@ -2068,13 +2000,14 @@ limitations under the License.
 					</div>
 					<cfif hasDescn gt 0>
 						<div class="col">
+							<label class="form-label" for="description">Description</label>
 							<textarea class="data-entry-textarea" name="description" id="description" rows="4" cols="40"></textarea>
 						</div>
 					</cfif>
 					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">	
+							class="insBtn mt-4">	
 					</div>
 				</div>
 			</form>
