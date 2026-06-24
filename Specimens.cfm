@@ -641,10 +641,12 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                        <label for="type_status" class="data-entry-label small">Type Status/Citation</label>
-												        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) 
-                                                            <span class="sr-only">open pick list</span>
-                                                        </a>
+                                                        <span class="data-entry-label small">
+                                                            <label for="type_status">Type Status/Citation</label>
+												            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
+                                                                (&##8595;) <span class="sr-only">open pick list</span>
+                                                            </a>
+                                                        </span>
 														<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 														<script>
@@ -658,10 +660,12 @@ limitations under the License.
 													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-2 mb-1">
-																<label for="phylum" class="data-entry-label small">Phylum</label>
-																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) 
-                                                                    <span class="sr-only">open pick list</span>
-                                                                </a>
+                                                                <span  class="data-entry-label small">
+																    <label for="phylum">Phylum</label>
+																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;"> 
+                                                                        (&##8595;) <span class="sr-only">open pick list</span>
+                                                                    </a>
+                                                                </span>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
 																<input id="phylum" name="phylum" class="data-entry-input inputHeight" value="#encodeForHtml(phylum)#" >
 																<script>
@@ -775,7 +779,7 @@ limitations under the License.
 																<input type="text" class="data-entry-input inputHeight" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
 															</div>
 															<div class="col-12 col-md-2 mb-1">
-																<label for="common_name" class="data-entry-label small font-weight-bold">Common Name</label>
+																<label for="common_name" class="data-entry-label small">Common Name</label>
 																<cfif not isdefined("common_name")><cfset common_name=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
 															</div>
@@ -1163,9 +1167,11 @@ limitations under the License.
 													
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 mx-0">
 													<div class="col-12 mb-1 col-md-3 mb-1">
-														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-														<label for="part_name" class="data-entry-label">Part Name</label>
-														<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
+                                                        <cfif not isdefined("part_name")><cfset part_name=""></cfif>
+												        <span class="data-entry-label small"> 
+                                                            <label for="part_name">Part Name</label>
+                                                        </span>
+												        <input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#">
 														<script>
 															jQuery(document).ready(function() {
 																makePartNameAutocompleteMeta('part_name');
