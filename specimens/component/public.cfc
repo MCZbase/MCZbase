@@ -3226,27 +3226,27 @@ limitations under the License.
                         );
 
                         // ---- 3) Footprint polygon (error region) ----
-                        $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&libraries=geometry&locality_id=" + localityId,
-                          function(wkt) {
-                            if (wkt.length > 0){
-                              var regex   = /\(([^()]+)\)/g;
-                              var RingsErr = [];
-                              var results;
-                              while( results = regex.exec(wkt) ) {
-                                RingsErr.push( results[1] );
-                              }
-                              var uncertaintyPointsArray = [];
-                              for (var i = 0; i < RingsErr.length; i++){
-                                var lary = [];
-                                var da   = RingsErr[i].split(",");
-                                for (var j = 0; j < da.length; j++){
-                                  var xy = da[j].trim().split(" ");
-                                  var pt = new google.maps.LatLng(xy[1], xy[0]);
-                                  lary.push(pt);
-                                  bounds.extend(pt);
-                                }
-                                uncertaintyPointsArray.push(lary);
-                              }
+                            $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&libraries=geometry&locality_id=" + localityId,
+                            function(wkt) {
+                                if (wkt.length > 0){
+                                    var regex   = /\(([^()]+)\)/g;
+                                    var RingsErr = [];
+                                    var results;
+                                    while( results = regex.exec(wkt) ) {
+                                        RingsErr.push( results[1] );
+                                    }
+                                    var uncertaintyPointsArray = [];
+                                    for (var i = 0; i < RingsErr.length; i++){
+                                        var lary = [];
+                                        var da   = RingsErr[i].split(",");
+                                        for (var j = 0; j < da.length; j++){
+                                            var xy = da[j].trim().split(" ");
+                                            var pt = new google.maps.LatLng(xy[1], xy[0]);
+                                            lary.push(pt);
+                                            bounds.extend(pt);
+                                        }
+                                        uncertaintyPointsArray.push(lary);
+                                    }
                               uncertaintypoly = new google.maps.Polygon({
                                 paths       : uncertaintyPointsArray,
                                 strokeColor : '##7412A4',
@@ -3271,6 +3271,9 @@ limitations under the License.
                             } else {
                               $("##mapdiv_" + localityId).addClass('noErrorWKT');
                             }
+                            
+                 
+                            
                             polygonLoaded = true;
                             postLoadCheck();
                           }
@@ -3322,17 +3325,20 @@ limitations under the License.
                               bounds = google.maps.LatLngBounds.MAX_BOUNDS;
                             } 
                             map.fitBounds(bounds);
+                                         // Clamp zoom so it isn't too close or too far
+                              var z = map.getZoom();
+                              if (z > 12) {
+                                map.setZoom(12);
+                              } else if (z < 7) {
+                                map.setZoom(7);
+                              }
+                            
                             higherLoaded = true;
                             postLoadCheck();
                           }
                         );
                         
-                        var z = map.getZoom();
-                        if (z > 12) {
-                            map.setZoom(12);
-                        } else if (z < 7) {
-                          map.setZoom(7);   // don't zoom out more than static
-                        }
+    
 
                         // ---- 5) Boundary checks (inside polygons?) ----
                         function postLoadCheck() { 
