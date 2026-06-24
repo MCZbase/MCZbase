@@ -1952,7 +1952,7 @@ limitations under the License.
 		</cfquery>
 		<cfset fld=f.column_name>
 		<cfset variables.extraCols = "">
-		<cfif f.recordcount gt 1>
+		<cfif f.recordcount gt 0>
 			<cfset variables.extraCols = listRest(valuelist(f.column_name))>
 		</cfif>
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
