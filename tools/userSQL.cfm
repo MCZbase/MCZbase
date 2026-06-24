@@ -23,11 +23,34 @@ limitations under the License.
 	<!--- extra check to ensure access only by authorized users --->
 	<cfthrow message="Inadequate Permissions.">
 </cfif>
-<cfif not isDefined("action")>
-	<cfset action = "nothing"> 
-<cfelse>
-	<cfset action = "run"> 
+<!--- obtain variables from form or URL with explicit scopes, form taking priority --->
+<cfset input_sql = "">
+<cfif isDefined("form.sql")>
+	<cfset input_sql = form.sql>
+<cfelseif isDefined("url.sql")>
+	<cfset input_sql = url.sql>
 </cfif>
+<cfset format = "table">
+<cfif isDefined("form.format")>
+	<cfset format = form.format>
+<cfelseif isDefined("url.format")>
+	<cfset format = url.format>
+</cfif>
+<!--- allow only valid formats --->
+<cfif not listfind("table,csv",format)>
+	<cfset format = "table">
+</cfif>
+<cfset action = "entryPoint">
+<cfif isDefined("form.action")>
+	<cfset action = form.action>
+<cfelseif isDefined("url.action")>
+	<cfset action = url.action>
+</cfif>
+<!--- allow only valid actions --->
+<cfif not listfind("entryPoint,run",action)>
+	<cfset action = "entryPoint">
+</cfif>
+
 <cfset guidanceText = "This tool allows you to run arbitrary queries on MCZbase. ">
 <cfif not isdefined("sql")>
 	<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
@@ -38,7 +61,7 @@ limitations under the License.
 		<cfset sql = "SELECT 'test' FROM dual">
 	</cfif>
 </cfif>
-<cfset guidanceText = "#guidanceText# The <a href='/documentation/er_diagrams/' target='_blank'>E-R Diagrams</a>, <a href='https://github.com/MCZbase/DDL/tree/master/TABLE' target='_blank'>Schema documentation</a>, the list of fields in the <a href='/specimens/viewSpecimenSearchMetadata.cfm?action=flat' target='_blank'>FLAT table</a>, and <a href='https://github.com/MCZbase/queries_MCZbase' target='_blank'>Example Query Library</a> may help in formulating queries."> <!--- " --->
+<cfset guidanceText = "#guidanceText# The <a href='/documentation/er_diagrams/' target='_blank'>E-R Diagrams</a>, <a href='https://github.com/MCZbase/DDL/tree/master/TABLE' target='_blank'>Schema documentation</a>, the list of fields in the <a href='/specimens/viewSpecimenSearchMetadata.cfm?action=flat' target='_blank'>FLAT table</a>, the Table Name, Column Name, and Definition columns in the <a href='https://mczbase.mcz.harvard.edu/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&search_category=Cataloged%20Item&table_name=&column_name=&label=&access_role=&description=&ui_function=' target='_blank'>Specimen Search Builder Help</a> and <a href='https://github.com/MCZbase/queries_MCZbase' target='_blank'>Example Query Library</a> may help in formulating queries."> <!--- " --->
 <cfif isDefined("sql")>
 	<!--- prevent typical copy/paste problem that users encounter, a query with normal ; termination. Strip off the ; to allow query to pass checks --->
 	<cfset sql=Trim(sql)>
