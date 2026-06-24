@@ -3104,7 +3104,7 @@ limitations under the License.
 
                             var mapOptions = {
                                   zoom: 10,
-                                  center: new google.maps.LatLng(0,0),
+                                  center: new google.maps.LatLng(lat, lng),
                                   mapTypeId: google.maps.MapTypeId.ROADMAP,
                                   panControl: false,
                                   scaleControl: true,
@@ -3220,7 +3220,7 @@ limitations under the License.
                         );
 
                         // ---- 3) Footprint polygon (error region) ----
-                            $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&libraries=geometry&locality_id=" + localityId,
+                        $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&libraries=geometry&locality_id=" + localityId,
                             function(wkt) {
                                 if (wkt.length > 0){
                                     var regex   = /\(([^()]+)\)/g;
@@ -3242,116 +3242,110 @@ limitations under the License.
                                         uncertaintyPointsArray.push(lary);
                                     }
                               uncertaintypoly = new google.maps.Polygon({
-                                paths       : uncertaintyPointsArray,
-                                strokeColor : '##7412A4',
-                                strokeOpacity: 0.9,
-                                strokeWeight: 2,
-                                fillColor   : '##CF6FFF', 
-                                fillOpacity : 0.35
+                                  paths       : uncertaintyPointsArray,
+                                  strokeColor : '##7412A4',
+                                  strokeOpacity: 0.9,
+                                  strokeWeight: 2,
+                                  fillColor   : '##CF6FFF',
+                                  fillOpacity : 0.35
                               });
-                              uncertaintypoly.setMap(map);
-                              uncertaintyPolygonArray.push(uncertaintypoly);
-
-                              if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-                                var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-                                var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-                                bounds.extend(extendPoint1);
-                                bounds.extend(extendPoint2);
-                              }
-                              if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) { 
-                                bounds = google.maps.LatLngBounds.MAX_BOUNDS;
-                              } 
-                              map.fitBounds(bounds);
-                            } else {
-                              $("##mapdiv_" + localityId).addClass('noErrorWKT');
+                                    uncertaintypoly.setMap(map);
+                                    uncertaintyPolygonArray.push(uncertaintypoly);
+                                    if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+                                        var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+                                        var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+                                        bounds.extend(extendPoint1);
+                                        bounds.extend(extendPoint2);
+                                    }
+                                    if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) {
+                                        bounds = google.maps.LatLngBounds.MAX_BOUNDS;
+                                    }
+                                    map.fitBounds(bounds);
+                                } else {
+                                    $("##mapdiv_" + localityId).addClass('noErrorWKT');
+                                }
+                                polygonLoaded = true;
+                                postLoadCheck();
                             }
-                            polygonLoaded = true;
-                            postLoadCheck();
-                          }
                         );
 
                         // ---- 4) Enclosing higher geography polygon ----
                         $.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&libraries=geometry&locality_id=" + localityId,
                           function(wkt) {
                             if (wkt.length > 0){
-                              var regex = /\(([^()]+)\)/g;
-                              var Rings = [];
-                              var results;
-                              while( results = regex.exec(wkt) ) {
-                                Rings.push( results[1] );
-                              }
-                              var enclosingPointsArray = [];
-                              for (var i = 0; i < Rings.length; i++){
-                                var lary = [];
-                                var da   = Rings[i].split(",");
-                                for (var j = 0; j < da.length; j++){
-                                  var xy = da[j].trim().split(" ");
-                                  var pt = new google.maps.LatLng(xy[1], xy[0]);
-                                  lary.push(pt);
-                                  bounds.extend(pt);
+                                var regex = /\(([^()]+)\)/g;
+                                var Rings = [];
+                                var results;
+                                while( results = regex.exec(wkt) ) {
+                                    Rings.push( results[1] );
                                 }
-                                enclosingPointsArray.push(lary);
-                              }
-                              enclosingpoly = new google.maps.Polygon({
-                                paths       : enclosingPointsArray,
-                                strokeColor : '##1E90FF',
-                                strokeOpacity: 0.8,
-                                strokeWeight: 2,
-                                fillColor   : '##1E90FF',
-                                fillOpacity : 0.25
-                              });
-                              enclosingpoly.setMap(map);
-                              enclosingPolygonArray.push(enclosingpoly);
+                                var enclosingPointsArray = [];
+                                for (var i = 0; i < Rings.length; i++){
+                                    var lary = [];
+                                    var da   = Rings[i].split(",");
+                                    for (var j = 0; j < da.length; j++){
+                                        var xy = da[j].trim().split(" ");
+                                        var pt = new google.maps.LatLng(xy[1], xy[0]);
+                                        lary.push(pt);
+                                        bounds.extend(pt);
+                                    }
+                                    enclosingPointsArray.push(lary);
+                                }
+                                enclosingpoly = new google.maps.Polygon({
+                                    paths       : enclosingPointsArray,
+                                    strokeColor : '##1E90FF',
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 2,
+                                    fillColor   : '##1E90FF',
+                                    fillOpacity : 0.25
+                                });
+                                enclosingpoly.setMap(map);
+                                enclosingPolygonArray.push(enclosingpoly);
                             } else {
-                              $("##mapdiv_" + localityId).addClass('noWKT');
+                                $("##mapdiv_" + localityId).addClass('noWKT');
                             }
-
                             if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-                              var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-                              var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-                              bounds.extend(extendPoint1);
-                              bounds.extend(extendPoint2);
-                            }		
-                            if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) { 
-                              bounds = google.maps.LatLngBounds.MAX_BOUNDS;
-                            } 
+                                var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+                                var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+                                bounds.extend(extendPoint1);
+                                bounds.extend(extendPoint2);
+                            }
+                            if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) {
+                                bounds = google.maps.LatLngBounds.MAX_BOUNDS;
+                            }
                             map.fitBounds(bounds);
-                            
                             higherLoaded = true;
                             postLoadCheck();
-                          }
-                        );
-                        
-    
-
+                        });
+                                
                         // ---- 5) Boundary checks (inside polygons?) ----
-                        function postLoadCheck() { 
-                          if (georefsLoaded && polygonLoaded && higherLoaded && georefs) { 
-                            var hasProblem = false;
-                            for (var a = 0; a < enclosingPolygonArray.length; a++){
-                              if (!google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a])) {
-                                hasProblem = true;
-                                $("##mapMetadataUL").append(
-                                  "<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>"
-                                );
-                              }
+                        function postLoadCheck() {
+                            if (georefsLoaded && polygonLoaded && higherLoaded && georefs) {
+                                var hasProblem = false;
+                                for (var a = 0; a < enclosingPolygonArray.length; a++){
+                                    if (!google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a])) {
+                                        hasProblem = true;
+                                        $("##mapMetadataUL").append(
+                                            "<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>"
+                                        );
+                                    }
+                                }
+                                for (var b = 0; b < uncertaintyPolygonArray.length; b++){
+                                    if (!google.maps.geometry.poly.containsLocation(georefs, uncertaintyPolygonArray[b])) {
+                                        hasProblem = true;
+                                        $("##mapMetadataUL").append(
+                                            "<li class='list-style-circle'>Georeference for locality is outside of Footprint Polygon.</li>"
+                                        );
+                                    }
+                                }
+                                if (hasProblem) {
+                                    $("##mapdiv_" + localityId).addClass('uglyGeoSPatData');
+                                } else {
+                                    $("##mapdiv_" + localityId).addClass('niceGeoSPatData');
+                                    }
+                                }
                             }
-                            for (var b = 0; b < uncertaintyPolygonArray.length; b++){
-                              if (!google.maps.geometry.poly.containsLocation(georefs, uncertaintyPolygonArray[b])) {
-                                hasProblem = true;
-                                $("##mapMetadataUL").append(
-                                  "<li class='list-style-circle'>Georeference for locality is outside of Footprint Polygon.</li>"
-                                );
-                              }
-                            }
-                            if (hasProblem) {
-                              $("##mapdiv_" + localityId).addClass('uglyGeoSPatData');
-                            } else {
-                              $("##mapdiv_" + localityId).addClass('niceGeoSPatData');
-                            }
-                          }
-                        }
-                      };
+                        };
                             staticImg.addEventListener("mouseenter", loadInteractiveMap);
                             staticImg.addEventListener("click", loadInteractiveMap);
                         })();
