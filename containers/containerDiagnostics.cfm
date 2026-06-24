@@ -21,11 +21,6 @@ limitations under the License.
 <cfset pageHasContainers = true>
 <cfinclude template="/shared/_header.cfm">
 
-<!--- role gate: internal operations diagnostics --->
-<cfif NOT isdefined("session.roles") OR NOT listFindNoCase(session.roles, "collops")>
-	<cfthrow message="You do not have permission to access Container Diagnostics.">
-</cfif>
-
 <cfparam name="url.action" default="summary" type="string">
 
 <cfobject component="containers.component.search" name="containerSearch">
