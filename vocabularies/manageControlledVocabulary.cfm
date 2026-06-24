@@ -104,7 +104,7 @@ limitations under the License.
 			select distinct(table_name) as tablename from sys.user_tables where table_name like 'CT%' order by table_name
 		</cfquery>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Attribute Control</h3>
-		<div class="row border rounded my-2 mx-1 py-2 bg-light">
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Attribute</div>
 				<div class="col fw-bold small text-muted">Value Code Table</div>
@@ -153,7 +153,7 @@ limitations under the License.
 			</form>
 		</div>
 		<h3 class="h5 mt-3 mb-2">Edit Attribute Controls</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Attribute</div>
 				<div class="col fw-bold small text-muted">Value Code Table</div>
@@ -224,7 +224,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Country Code</div>
 					<div class="col fw-bold small text-muted">Country</div>
@@ -246,7 +246,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Country Codes</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Country Code</div>
 				<div class="col fw-bold small text-muted">Country</div>
@@ -254,7 +254,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -290,7 +290,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col">GUID Type:</div>
 					<div class="col">
@@ -358,15 +358,15 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit GUID Types</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#guid_type#">
-					<div class="row border rounded my-2 mx-1 py-2">
+					<div class="row border rounded my-2 mx-1 p-2">
 						<div class="form-row mb-1">
 							<div class="col">GUID Type:</div>
 							<div class="col">
@@ -452,7 +452,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Loan Type</div>
 					<div class="col fw-bold small text-muted">Loan/Gift</div>
@@ -481,7 +481,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Loan Types</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Loan Type</div>
 				<div class="col fw-bold small text-muted">Loan/Gift</div>
@@ -489,7 +489,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -540,7 +540,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctspecific_permit_type">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Specific Type</div>
 					<div class="col fw-bold small text-muted">General Type</div>
@@ -575,7 +575,7 @@ limitations under the License.
 		</form>
 		<cfset i = 1>
 		<h3 class="h5 mt-3 mb-2">Edit Specific Permit Types</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Specific Type</div>
 				<div class="col fw-bold small text-muted">General Type</div>
@@ -583,7 +583,7 @@ limitations under the License.
 					<div class="col fw-bold small text-muted"></div>
 			</div>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctspecific_permit_type">
 						<input type="hidden" name="origData" value="#q.specific_type#">
@@ -634,7 +634,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Authorship Role</div>
 					<div class="col fw-bold small text-muted">Sort Order</div>
@@ -666,7 +666,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Authorship Roles</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Authorship Role</div>
 				<div class="col fw-bold small text-muted">Sort Order</div>
@@ -676,7 +676,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -725,7 +725,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Type Status</div>
 					<div class="col fw-bold small text-muted">Kind of Type</div>
@@ -763,7 +763,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Citation Type Status</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Type Status</div>
 				<div class="col fw-bold small text-muted">Kind of Type</div>
@@ -772,7 +772,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -845,7 +845,7 @@ limitations under the License.
 					<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="newValue">
 						<input type="hidden" name="tbl" value="#tbl#">
-						<div class="row border rounded my-2 mx-1 py-2 bg-light">
+						<div class="row border rounded my-2 mx-1 p-2 bg-light">
 							<div class="form-row mb-1">
 								<div class="col fw-bold small text-muted">Geology Attribute</div>
 								<div class="col fw-bold small text-muted">Category</div>
@@ -880,7 +880,7 @@ limitations under the License.
 						</div>
 					</form>
 					<h3 class="h5 mt-3 mb-2">Edit Geology Attributes</h3>
-					<div class="row border rounded my-2 mx-1 py-2">
+					<div class="row border rounded my-2 mx-1 p-2">
 						<div class="form-row mb-1">
 							<div class="col fw-bold small text-muted">Geological Attribute</div>
 							<div class="col fw-bold small text-muted">Category</div>
@@ -889,7 +889,7 @@ limitations under the License.
 						</div>
 						<cfset i = 1>
 						<cfloop query="q">
-								<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+								<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 									<input type="hidden" name="action" value="">
 									<input type="hidden" name="tbl" value="#tbl#">
 									<!---  Need to pass current value as it is the PK for the code table --->
@@ -951,7 +951,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctpublication_attribute">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Publication Attribute</div>
 					<div class="col fw-bold small text-muted">Description</div>
@@ -983,14 +983,14 @@ limitations under the License.
 		</form>
 		<cfset i = 1>
 		<h3 class="h5 mt-3 mb-2">Edit Publication Attributes</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Type</div>
 				<div class="col fw-bold small text-muted">Description</div>
 				<div class="col fw-bold small text-muted">Control</div>
 			</div>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctpublication_attribute">
 						<input type="hidden" name="origData" value="#publication_attribute#">
@@ -1031,7 +1031,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctbiol_relations">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Relationship</div>
 					<div class="col fw-bold small text-muted">Inverse Relation</div>
@@ -1062,14 +1062,14 @@ limitations under the License.
 		</form>
 		<cfset i = 1>
 		<h3 class="h5 mt-3 mb-2">Edit Biological Relationships</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Relationship</div>
 				<div class="col fw-bold small text-muted">Inverse Relation</div>
 				<div class="col fw-bold small text-muted">Type</div>
 			</div>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctbiol_relations">
 						<input type="hidden" name="origData" value="#biol_indiv_relationship#">
@@ -1122,7 +1122,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctcoll_other_id_type">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">ID Type</div>
 					<div class="col fw-bold small text-muted">Description</div>
@@ -1156,14 +1156,14 @@ limitations under the License.
 		</form>
 		<cfset i = 1>
 		<h3 class="h5 mt-3 mb-2">Edit Other ID Types</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Type</div>
 				<div class="col fw-bold small text-muted">Description</div>
 				<div class="col fw-bold small text-muted">Base URL</div>
 			</div>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctcoll_other_id_type">
 						<input type="hidden" name="origData" value="#other_id_type#">
@@ -1221,7 +1221,7 @@ limitations under the License.
 				<li>A taxon_relationship B inverse_relation A</li>
 				<li>A junior homonym of B senior homonym of A</li>
 			</ul>
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Taxon Relationship</div>
 					<div class="col fw-bold small text-muted">Description</div>
@@ -1248,7 +1248,7 @@ limitations under the License.
 		</form>
 		<cfset i = 1>
 		<h3 class="h5 mt-3 mb-2">Edit Taxon Relationships</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Taxon Relationship</div>
 				<div class="col fw-bold small text-muted">Description</div>
@@ -1257,7 +1257,7 @@ limitations under the License.
 				<div class="col fw-bold small text-muted">Instances</div>
 			</div>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="cttaxon_relation">
 						<input type="hidden" name="origData" value="#taxon_relationship#">
@@ -1297,7 +1297,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctnomenclatural_code">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Nomenclatural Code</div>
 					<div class="col fw-bold small text-muted">Description</div>
@@ -1324,14 +1324,14 @@ limitations under the License.
 		</form>
 		<cfset i = 1>
 		<h3 class="h5 mt-3 mb-2">Edit Nomenclatural Codes</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Nomenclatural Code</div>
 				<div class="col fw-bold small text-muted">Description</div>
 				<div class="col fw-bold small text-muted">Sort Order</div>
 			</div>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctnomenclatural_code">
 						<input type="hidden" name="origData" value="#nomenclatural_code#">
@@ -1375,7 +1375,7 @@ limitations under the License.
 			order, and doing so will just cause them to not be ordered. You don't have to order things you don't care about.	
 		</p>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Part Ordering</h3>
-		<div class="row border rounded my-2 mx-1 py-2 bg-light">
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Part Name</div>
 				<div class="col fw-bold small text-muted">List Order</div>
@@ -1414,7 +1414,7 @@ limitations under the License.
 			</form>	
 		</div>
 		<h3 class="h5 mt-3 mb-2">Edit Part Orderings</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Part Name</div>
 				<div class="col fw-bold small text-muted">List Order</div>
@@ -1471,7 +1471,7 @@ limitations under the License.
 			Types of Named Groups of Cataloged Items.
 		</p>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Named Group Type</h3>
-		<div class="row border rounded my-2 mx-1 py-2 bg-light">
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Type</div>
 				<div class="col fw-bold small text-muted">Description</div>
@@ -1500,7 +1500,7 @@ limitations under the License.
 			</form>	
 		</div>
 		<h3 class="h5 mt-3 mb-2">Edit Named Group Types</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Type</div>
 				<div class="col fw-bold small text-muted">Description</div>
@@ -1549,7 +1549,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Role</div>
 					<div class="col fw-bold small text-muted">Description</div>
@@ -1583,7 +1583,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Collection Agent Roles</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Role</div>
 				<div class="col fw-bold small text-muted">Description</div>
@@ -1594,7 +1594,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -1640,7 +1640,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Media Relationship</div>
 					<div class="col fw-bold small text-muted">Label</div>
@@ -1666,7 +1666,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Media Relationships</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Media Relationship</div>
 				<div class="col fw-bold small text-muted">Table</div>
@@ -1675,7 +1675,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -1717,7 +1717,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Taxon Category</div>
 					<div class="col fw-bold small text-muted">Category Type</div>
@@ -1750,7 +1750,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Taxon Categories</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Taxon Category</div>
 				<div class="col fw-bold small text-muted">Category Type</div>
@@ -1760,7 +1760,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -1812,7 +1812,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Taxon Attribute Type</div>
 					<div class="col fw-bold small text-muted">Visibility</div>
@@ -1841,7 +1841,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Taxon Attribute Types</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Taxon Attribute Type</div>
 				<div class="col fw-bold small text-muted">Visibility</div>
@@ -1849,7 +1849,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -1901,7 +1901,7 @@ limitations under the License.
 		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<div class="row border rounded my-2 mx-1 py-2 bg-light">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
 				<div class="form-row mb-1">
 					<div class="col fw-bold small text-muted">Annotation State</div>
 					<div class="col fw-bold small text-muted">Mapped to CURIE</div>
@@ -1927,7 +1927,7 @@ limitations under the License.
 			</div>
 		</form>
 		<h3 class="h5 mt-3 mb-2">Edit Annotation States</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
+		<div class="row border rounded my-2 mx-1 p-2">
 			<div class="form-row mb-1">
 				<div class="col fw-bold small text-muted">Annotation State</div>
 				<div class="col fw-bold small text-muted">Mapped to CURIE</div>
@@ -1935,7 +1935,7 @@ limitations under the License.
 			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
@@ -1990,24 +1990,27 @@ limitations under the License.
 			</cfif>
 			#fld#
 		</cfquery>
-		<h3 class="h5 mt-3 mb-2 text-success">Add New Value</h3>
-		<div class="row border rounded my-2 mx-1 py-2 bg-light">
-			<div class="form-row mb-1">
-				<cfif collcde gt 0>
-					<div class="col fw-bold small text-muted">Collection Type</div>
-				</cfif>
-				<div class="col fw-bold small text-muted">#fld#</div>
-				<cfif hasDescn gt 0>
-					<div class="col fw-bold small text-muted">Description</div>
-				</cfif>
-			</div>
+		<h3 class="h5 mt-3 mb-2 text-success">Add New Value to #fld#</h3>
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
+			<cfif collcde gt 0 OR hasDescn gt 0>
+				<div class="form-row mb-1">
+					<cfif collcde gt 0>
+						<div class="col fw-bold small text-muted">Collection Type</div>
+					</cfif>
+					<div class="col fw-bold small text-muted">&nbsp;</div>
+					<cfif hasDescn gt 0>
+						<div class="col fw-bold small text-muted">Description</div>
+					</cfif>
+					<div class="col fw-bold small text-muted">&nbsp;</div>
+				</div>
+			</cfif>
 			<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="collcde" value="#collcde#">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
 				<input type="hidden" name="hasDescn" value="#hasDescn#">
 				<input type="hidden" name="fld" value="#fld#">
-				<div class="form-row mb-1">
+				<div class="form-row mb-1 flex-nowrap align-items-end">
 					<cfif collcde gt 0>
 						<div class="col">
 							<select class="data-entry-select" name="collection_cde" size="1">
@@ -2018,15 +2021,15 @@ limitations under the License.
 						</div>
 					</cfif>
 					<div class="col">
-						<input class="data-entry-input" type="text" name="newData" >
+						<label class="form-label" for="newData_#tbl#">#fld#</label>
+						<input class="data-entry-input" type="text" name="newData" id="newData_#tbl#">
 					</div>
-					
 					<cfif hasDescn gt 0>
 						<div class="col">
 							<textarea class="data-entry-textarea" name="description" id="description" rows="4" cols="40"></textarea>
 						</div>
 					</cfif>
-					<div class="col">
+					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">	
@@ -2036,8 +2039,8 @@ limitations under the License.
 		</div>
 		<cfset i = 1>
 		<h3 class="h5 mt-3 mb-2">Edit Existing Values</h3>
-		<div class="row border rounded my-2 mx-1 py-2">
-			<div class="form-row mb-1">
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="form-row mb-1 flex-nowrap">
 				<cfif collcde gt 0>
 					<div class="col fw-bold small text-muted">Collection Type</div>
 				</cfif>
@@ -2045,9 +2048,10 @@ limitations under the License.
 				<cfif hasDescn gt 0>
 					<div class="col fw-bold small text-muted">Description</div>
 				</cfif>
+				<div class="col-auto fw-bold small text-muted">&nbsp;</div>
 			</div>
 			<cfloop query="q">
-					<form class="form-row mb-1 align-items-center" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+					<form class="form-row mb-1 align-items-center flex-nowrap" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="Action">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<input type="hidden" name="fld" value="#fld#">
@@ -2074,7 +2078,7 @@ limitations under the License.
 								<textarea class="data-entry-textarea" name="description" rows="4" cols="40">#q.description#</textarea>
 							</div>				
 						</cfif>
-						<div class="col">
+						<div class="col-auto">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
