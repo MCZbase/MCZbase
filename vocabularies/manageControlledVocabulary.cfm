@@ -333,7 +333,7 @@ limitations under the License.
 					<div class="col">
 						<label class="form-label" for="add_search_uri">Search URI</label>
 						<input id="add_search_uri" class="data-entry-input w-100" type="text" name="search_uri">
-						<small class="form-text text-muted">URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</small>
+						<small class="form-text text-muted">URI for searching by text string (appended to end). Leave blank if not applicable.</small>
 					</div>
 				</div>
 				<div class="form-row mb-1">
