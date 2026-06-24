@@ -1602,7 +1602,7 @@ limitations under the License.
 														</div>
 														<!--- TRANSACTION DETAIL --->
 														<div id="TransactionDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
-															<div class="form-row col-12 mb-1 px-1 mx-0">
+															<div class="form-row col-12 mb-1 px-0 mx-0">
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
 																	<label for="permit_num" class="data-entry-label small">Permit Number</label>
