@@ -1569,8 +1569,12 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
-															<label for="accn_status" class="data-entry-label small">Accession Status</label>
-												            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                            <span class="data-entry-label small">
+															    <label for="accn_status">Accession Status</label>
+												                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > 
+                                                                    (&##8595;) <span class="sr-only">open pick list</span>
+                                                                </a>
+                                                            </span>
 															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1641,9 +1645,11 @@ limitations under the License.
 																</script>
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
-																	<label for="permit_type" class="data-entry-label small">Document Category</label>
-																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
-																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
+                                                                    <span class="data-entry-label small">
+																	    <label for="permit_type">Document Category</label>
+																        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
+																        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
+                                                                    </span>
 																	<input type="text" id="permit_type" name="permit_type" class="data-entry-input inputHeight" value="#encodeForHtml(permit_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1653,9 +1659,11 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
-																	<label for="specific_type" class="data-entry-label small">Specific Type</label>
-																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
+                                                                    <span class="data-entry-label small">
+																	    <label for="specific_type">Specific Type</label>
+																        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
+																	    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
+                                                                    </span>
 																	<input type="text" id="specific_type" name="specific_type" class="data-entry-input inputHeight" value="#encodeForHtml(specific_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
