@@ -2734,6 +2734,7 @@ div.toctitle {
 .tinymap {
     width: 100%;
     height: 180px;
+    margin: 0.3em;
 }
 .tinymap-3col {/* Explicit heights per layout */
     height: 180px;   
@@ -2745,6 +2746,7 @@ div.toctitle {
     height: 180px;   
     overflow: hidden;
     float:left;
+    width: 100%;
 }
 .tinymap .static-map,
 .tinymap .interactive-map {/* Both maps fill the wrapper box */
@@ -2759,7 +2761,7 @@ div.toctitle {
     width: 100%;
     height: 97%;
     object-position: 50% 50%;
-    margin: 0.3em;
+    margin: 0;
     padding: 0;
     border: 2px solid #444;
     cursor: pointer;
