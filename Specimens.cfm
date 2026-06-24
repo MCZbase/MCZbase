@@ -502,7 +502,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number" class="data-entry-label small">Other ID Numbers</label>
-														<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+														<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
 													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 
@@ -598,7 +598,7 @@ limitations under the License.
 													<div class="col-3 col-md-3 col-xl-1 pl-0 mb-1">
 														<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 														<label for="current_id_only" class="data-entry-label pl-0 small">Search</label>
-														<select id="current_id_only" name="current_id_only" class="data-entry-select" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;">
+														<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;">
 															<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 															<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
 															<option value="any" #any_selected#>Any Id</option>
@@ -915,10 +915,12 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
-																<label for="sea" class="data-entry-label small">Sea</label>
-																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) 
-                                                                    <span class="sr-only">open pick list</span>
-                                                                </a>
+                                                                <span class="data-entry-label small">
+																    <label for="sea">Sea</label>
+																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > 
+                                                                        (&##8595;) <span class="sr-only">open pick list</span>
+                                                                    </a>
+                                                                </span>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="sea" name="sea" value="#encodeForHtml(sea)#">
 																<script>
@@ -1086,10 +1088,12 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
-														<label for="collecting_source" class="data-entry-label small">Collecting Source</label>
-														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" > (&##8595;) 
-                                                            <span class="sr-only">open pick list</span>
-                                                        </a>
+                                                        <span class="data-entry-label small">
+														    <label for="collecting_source">Collecting Source</label>
+														    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" >  
+                                                               (&##8595;) <span class="sr-only">open pick list</span>
+                                                            </a>
+                                                        </span>
 														<cfif not isdefined("collecting_source")><cfset collecting_source=""></cfif>
 														<input type="text" name="collecting_source" class="data-entry-input inputHeight" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 														<script>
@@ -1193,26 +1197,29 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-														<label for="biol_indiv_relationship" class="data-entry-label small">Has Relationship</label>
-															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
-															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) 
-                                                                <span class="sr-only">open pick list</span>
+                                                        <span class="data-entry-label small">
+                                                            <label for="biol_indiv_relationship">Has Relationship</label>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > 
+                                                              (&##8595;) <span class="sr-only">open pick list</span>
                                                             </a>
-														
-														<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
-														<script>
-															jQuery(document).ready(function() {
-																makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
-															});
-														</script>
+                                                        </span>
+                                                        <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
+                                                        <script>
+                                                            jQuery(document).ready(function() {
+                                                                makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+                                                            });
+                                                        </script>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
-														<label for="media_type" class="data-entry-label small">Media Type</label>
-                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
-                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) 
-                                                            <span class="sr-only">open pick list</span>
-                                                        </a>
+                                                        <span class="data-entry-label small">
+														    <label for="media_type">Media Type</label>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > 
+                                                                (&##8595;) <span class="sr-only">open pick list</span>
+                                                            </a>
+                                                        </span>
 														<input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
 														<script>
 															jQuery(document).ready(function() {
@@ -1303,10 +1310,13 @@ limitations under the License.
 																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
-																<label for="part_attribute_type" class="data-entry-label small">Part Attribute Type</label>
+                                                                <span class="data-entry-label small">
+																    <label for="part_attribute_type">Part Attribute Type</label>
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > 
+                                                                        (&##8595;) <span class="sr-only">open pick list</span>
+                                                                    </a>
+                                                                </span>
 																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
 																<script>
