@@ -2930,7 +2930,7 @@ ul li.list-unstyled span:last-child {
 /* below is for the basic search width of form fields area inside teal box */
 @media screen and (min-width: 1200px) {
 .col-xxl-1 {max-width: 8%}
-.col-xxl-11 {max-width: 91%}
+.col-xxl-11 {max-width: 91%; padding-left: .25rem}
 }
 /* 
 Max width before this PARTICULAR table gets nasty

@@ -1535,7 +1535,11 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 col-md-3 col-xl-2 mb-1">
+                                                        <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left" onclick="toggleTransactionDetail(#toggleTo#);">
+														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+													    </button>   
+                                                            
+														<div id="TransactionDetail" class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
                                                             <label for="accn_type">Accession Type</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_type').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span></a>
