@@ -113,14 +113,14 @@ limitations under the License.
 													</cfif>
 												</cfquery>
 												<cfset variables.rowCountDisplay = getRowCounts.ct>
-												<cfset variables.listName = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+												<cfset variables.strippedTableName = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 												<tr>
-													<td>#variables.listName#</td>
+													<td>#variables.strippedTableName#</td>
 													<td class="text-nowrap">
 														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
 														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
 													</td>
-													<td><cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#<cfelse>&mdash;</cfif></td>
+													<td><cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#<cfelse>No comment</cfif></td>
 													<td>#variables.rowCountDisplay#</td>
 													<cfif variables.hasGlobalAdmin>
 														<td>#getCTName.inbound_fk_count#</td>
