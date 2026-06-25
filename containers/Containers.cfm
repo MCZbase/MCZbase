@@ -35,6 +35,7 @@ limitations under the License.
 					<h1 class="h3 text-white">Browse Containers</h1>
 				</div>
 				<div class="col-12 px-3 py-3">
+					<cfoutput>
 					<form id="containerSearchForm" name="containerSearch"
 						method="get" onsubmit="return false;">
 						<div class="form-row">
@@ -43,21 +44,20 @@ limitations under the License.
 								<input type="text" id="search_term" name="search_term"
 									class="data-entry-input col-12"
 									placeholder="Label, barcode, or container ID"
-									value="<cfoutput>#encodeForHtml(url.search_term)#</cfoutput>">
+									value="#encodeForHtml(url.search_term)#">
 								<input type="hidden" id="container_id" name="container_id"
-									value="<cfoutput>#encodeForHtml(url.container_id)#</cfoutput>">
+									value="#encodeForHtml(url.container_id)#">
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="col-12 mb-2">
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
 								<button type="reset" class="btn btn-xs btn-warning">Reset</button>
-								<cfoutput>
 								<a href="containerDiagnostics.cfm" class="btn btn-xs btn-secondary">Diagnostics</a>
-								</cfoutput>
 							</div>
 						</div>
 					</form>
+					</cfoutput>
 				</div>
 			</div>
 		</div>
@@ -76,7 +76,6 @@ limitations under the License.
 	</section>
 </main>
 
-<script src="/containers/js/containers.js"></script>
 <script>
 $(document).ready(function() {
 	initContainerBrowse("containerBrowsePanel", "containerLeafPanel", "containerBrowseFeedback");
