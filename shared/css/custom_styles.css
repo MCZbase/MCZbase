@@ -1904,7 +1904,7 @@ input#readMore_check_id {
 	display: block;
 }
 .tab-content label {
-	font-weight: 700;
+	font-weight: 600;
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;

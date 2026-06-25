@@ -491,7 +491,7 @@ limitations under the License.
 
 													<!---IDENTIFIER DETAIL--->		
 													<div id="IDDetail" class="col-9 col-md-10 col-lg-11 my-0 px-0 py-0" style="#IDDetailStyle#">
-														<div class="form-row col-12 px-1 mx-0">
+														<div class="form-row col-12 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
 																<label for="otherID" class="data-entry-label small">or Other ID Type</label>
