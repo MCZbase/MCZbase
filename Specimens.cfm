@@ -831,7 +831,7 @@ limitations under the License.
 													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													<!---GEOGRAPHY DETAIL--->
 													<div id="GeogDetail" class="col-9 col-md-10 col-lg-11 my-0 px-0 py-0 float-left" style="#GeogDetailStyle#">
-														<div class="form-row col-12 mb-1 px-1 mx-0">
+														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label small">Continent/Ocean</label>
@@ -927,7 +927,6 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-													   
 															<div class="col-12 col-md-3 mb-1">
 																<label for="feature">Land Feature</label>
 																<cfif not isdefined("feature")><cfset feature=""></cfif>
@@ -1094,7 +1093,7 @@ limitations under the License.
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
 													<div id="CollDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
-														<div class="form-row col-12 mb-1 px-1 mx-0">
+														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date" class="data-entry-label small">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
