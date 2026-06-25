@@ -391,4 +391,53 @@ exactly one collection object; zero or two-or-more children both represent anoma
 	<cfreturn qAnom>
 </cffunction>
 
+
+<!---
+Function getContainerBreadcrumb.  Returns the ancestor chain for container_id as a JSON array
+ordered from root to the given node, for use in breadcrumb display.
+Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
+
+@param container_id the container_id whose ancestor chain is to be returned.
+@return a JSON array of objects with keys: container_id, container_type, label, barcode;
+  ordered from root (highest level) to the given node.
+--->
+<cffunction name="getContainerBreadcrumb" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfset variables.data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="variables.qBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				container_id,
+				container_type,
+				label,
+				barcode
+			FROM
+				container
+			START WITH
+				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			CONNECT BY PRIOR
+				parent_container_id = container_id
+			ORDER BY LEVEL DESC
+		</cfquery>
+		<cfset variables.i = 1>
+		<cfloop query="variables.qBreadcrumb">
+			<cfset variables.row = StructNew()>
+			<cfset variables.row["container_id"] = variables.qBreadcrumb.container_id>
+			<cfset variables.row["container_type"] = variables.qBreadcrumb.container_type>
+			<cfset variables.row["label"] = variables.qBreadcrumb.label>
+			<cfset variables.row["barcode"] = variables.qBreadcrumb.barcode>
+			<cfset variables.data[variables.i] = variables.row>
+			<cfset variables.i = variables.i + 1>
+		</cfloop>
+		<cfreturn serializeJSON(variables.data)>
+	<cfcatch>
+		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset variables.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#variables.function_called#", error_message="#variables.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(variables.data)>
+</cffunction>
+
 </cfcomponent>
