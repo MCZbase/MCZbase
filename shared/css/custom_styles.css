@@ -278,6 +278,9 @@ h1.h4 {
 span.caps {
 	text-transform: capitalize;
 }
+span.label.data-entry-label {
+    font-weight:700;
+}
 .line-height-sm {
 	line-height: .9rem;
 }
