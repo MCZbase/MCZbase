@@ -298,31 +298,28 @@ limitations under the License.
 													<input type="text" class="data-entry-input py-0" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
-													<label for="phylum" class="data-entry-label align-left font-weight-bold">Phylum 
-														<span class="h6">
-															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-															(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
-															<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-														</span>
-													</label>
+                                                    <span class="data-entry-label small">
+                                                        <label for="phylum">Phylum</label> 
+                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                        (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
+                                                        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    </span>
 													<input type="text" class="data-entry-input py-0 mb-0" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
-													<label for="subphylum" class="data-entry-label align-left font-weight-bold">Subphylum 
-														<span class="h6">
-															(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
-															<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-														</span>
-													</label>
+													<span class="data-entry-label small">
+                                                        <label for="subphylum">Subphylum</label>
+														(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
+												        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+												    </span>
 													<input type="small" class="data-entry-input py-0 mb-0" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
-													<label for="superclass" class="data-entry-label align-left font-weight-bold">Superclass 
-														<span class="h6">
-															(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">=</button>,
-															<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-														</span>
-													</label>
+													<span class="data-entry-label small">
+                                                        <label for="superclass" class="font-weight-lessbold">Superclass</label>
+														(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">=</button>,
+														<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+												    </span>
 													<input type="small" class="data-entry-input py-0 mb-0" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
