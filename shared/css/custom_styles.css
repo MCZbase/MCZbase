@@ -2672,7 +2672,7 @@ html,body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 355px;
+	width: 325px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
@@ -2680,7 +2680,7 @@ html,body {
 	z-index: 1051;
 	overflow-y: auto;
 	overflow-x: hidden; 
-	transform: translateX(-355px);
+	transform: translateX(-325px);
 	transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
@@ -2692,21 +2692,21 @@ html,body {
 	box-sizing: border-box;
 }
 #content.pushed {
-	margin-left: 355px;
-	width: calc(100% - 355px);
+	margin-left: 325px;
+	width: calc(100% - 325px);
 }
 body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
     width: auto !important;
-    max-width: calc(100vw - 355px) !important;
-    left: 355px !important;      /* start right after the drawer */
+    max-width: calc(100vw - 325px) !important;
+    left: 325px !important;      /* start right after the drawer */
     right: 0 !important;
   
     box-sizing: border-box;   /* ensure it stays within viewport */
 }
 body.wiki-open .ui-dialog {
     width: auto !important;   /* Override jQuery UI's inline width */
-    max-width: calc(100vw - 355px) !important;
-    left: 355px !important;      /* start right after the drawer */
+    max-width: calc(100vw - 325px) !important;
+    left: 325px !important;      /* start right after the drawer */
     right: 0 !important;
     box-sizing: border-box;    /* ensure it stays within viewport */
 }
@@ -2774,11 +2774,11 @@ div.toctitle {
 
 @media (min-width: 768px) {
     #content.pushed {
-        margin-left: 355px;
-        width: calc(100% - 355px);
+        margin-left: 325px;
+        width: calc(100% - 325px);
     }
     #content.pushed .ui-dialog {
-        max-width: calc(100vw - 355px);
+        max-width: calc(100vw - 325px);
     }
 }
 /****************end all screen styles*********************/
