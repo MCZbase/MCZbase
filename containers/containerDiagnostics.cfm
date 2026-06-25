@@ -161,7 +161,7 @@ limitations under the License.
 				</table>
 			</div>
 		</div>
-		<div id="diag_loading_2" class="col-12 col-xl-6 py-2 text-secondary"><em>Loading Depth Distribution&hellip;</em></div>
+		<div id="diag_loading_2" class="col-12 col-xl-6 offset-xl-6 py-2 text-secondary"><em>Loading Depth Distribution&hellip;</em></div>
 	</section>
 	<cfflush>
 
