@@ -1517,9 +1517,9 @@ limitations under the License.
 												</cfif>
 
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
-													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-0 float-left">
+													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
-															<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">
+															<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-3 d-block border-top border-right border-bottom border-left bg-teal">
 																Transactions
 															</h2>
 															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
