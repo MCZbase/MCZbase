@@ -1,5 +1,6 @@
 <!---
 containers/component/functions.cfc
+Functions supporting the use of containers.
 
 Copyright 2026 President and Fellows of Harvard College
 
