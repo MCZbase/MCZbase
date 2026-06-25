@@ -414,7 +414,7 @@ limitations under the License.
 												</cfif> 
 
 												<!---IDENTIFIER SECTION--->	
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -422,7 +422,7 @@ limitations under the License.
 														</cfif>
 													</div>
 												</div>		
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mx-0">
+												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mx-0">
 													<div class="col-12 col-md-3 mb-1">
 														<label for="fixedCollection" class="data-entry-label small">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
