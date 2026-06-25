@@ -1525,7 +1525,7 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
-                                                                <label for="accn_status">Acc<span class="d-none d-md-block">essio</span>n Status</label>
+                                                                <label for="accn_status">Acc<span class="d-none d-md-inline-block">essio</span>n Status</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_status').autocomplete('search','%'); return false;" > 
                                                                 (&##8595;) <span class="sr-only">open pick list</span>
                                                             </a>
