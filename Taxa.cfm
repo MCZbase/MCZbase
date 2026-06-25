@@ -437,7 +437,7 @@ limitations under the License.
 										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-1 pb-1 mt-0 mx-2">
 											<div class="form-row mt-0">
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-1 pb-0">
-														<label for="taxon_habitat" class="data-entry-label small">Habitat</label>
+														<label for="taxon_habitat" class="data-entry-label small font-weight-lessbold">Habitat</label>
 														<select name="taxon_habitat" class="data-entry-select py-0" id="taxon_habitat">
 															<option></option>
 															<cfloop query="cttaxon_habitat_null">
@@ -451,7 +451,7 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
-														<label for="taxon_category" class="data-entry-label small">Category</label>
+														<label for="taxon_category" class="data-entry-label small font-weight-lessbold">Category</label>
 														<select name="taxon_category" class="data-entry-select py-0" id="taxon_category">
 															<option></option>
 															<cfloop query="cttaxon_category">
