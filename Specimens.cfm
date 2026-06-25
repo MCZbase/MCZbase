@@ -1502,12 +1502,12 @@ limitations under the License.
 															<label for="accn_number">Accession ##</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
 														</div>
-														<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
 															<label for="received_date">Date Received</label>
 															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
 														</div>
-														<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
                                                             <label for="accn_status">Accession Status</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_status').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span>
@@ -1519,7 +1519,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
                                                             <label for="accn_type">Accession Type</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_type').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span></a>
@@ -1547,7 +1547,7 @@ limitations under the License.
 															<label for="loan_number">Loan ##</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
-														<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
 															<label for="deaccession_number">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
