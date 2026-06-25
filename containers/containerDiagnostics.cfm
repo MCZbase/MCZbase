@@ -32,218 +32,19 @@ limitations under the License.
 
 <cfobject component="containers.component.search" name="containerSearch">
 
-<main id="content" class="container-fluid">
-	<section class="row">
-		<div class="col-12 mb-2">
-			<h1 class="h2">Container Diagnostics</h1>
-			<p>
-				Diagnostics for container hierarchy shape and potential data anomalies.
-				This page does not modify data.
-			</p>
-		</div>
-	</section>
-
-	<cfif variables.action EQ "entryPoint">
-
-		<cfset variables.summary = containerSearch.getContainerShapeSummary()>
-		<cfset variables.depth = containerSearch.getContainerShapeByDepth()>
-		<section class="row">
-			<div class="col-12 col-xl-6 mb-2">
-				<div class="border rounded bg-light p-2">
-					<h2 class="h4">Summary</h2>
-					<table class="table table-sm table-striped d-xl-table">
-						<thead>
-							<tr>
-								<th>Metric</th>
-								<th>Value</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfoutput query="variables.summary">
-								<tr>
-									<td>#encodeForHtml(metric)#</td>
-									<td>#encodeForHtml(metric_value)#</td>
-								</tr>
-							</cfoutput>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="col-12 col-xl-6 mb-2">
-				<div class="border rounded bg-light p-2">
-					<h2 class="h4">Depth Distribution</h2>
-					<table class="table table-sm table-striped d-xl-table">
-						<thead>
-							<tr>
-								<th>Depth Below Node</th>
-								<th>Nodes</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfoutput query="variables.depth">
-								<tr>
-									<td>#encodeForHtml(depth_below)#</td>
-									<td>#encodeForHtml(node_count)#</td>
-								</tr>
-							</cfoutput>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div id="diag_loading_1" class="col-12 py-2 text-secondary"><em>Loading&hellip;</em></div>
-		</section>
-		<cfflush>
-
-		<cfset variables.hotspots = containerSearch.getContainerShapeHotspots()>
-		<script>document.getElementById('diag_loading_1').style.display='none';</script>
+<!---
+	singleOccupantViolations action: handle entirely here and exit.
+	Keeping this action in its own short block (with cfabort) means the
+	entryPoint content below is never wrapped in a cfif, which keeps
+	cfflush unobstructed for incremental rendering.
+--->
+<cfif variables.action EQ "singleOccupantViolations">
+	<main id="content" class="container-fluid">
 		<section class="row">
 			<div class="col-12 mb-2">
-				<div class="border rounded bg-light p-2">
-					<h2 class="h4">A/B/AB Hotspots</h2>
-					<p class="mb-1">
-						A = structural, B = flat leaf-heavy, AB = mixed.
-					</p>
-					<table class="table table-sm table-striped d-xl-table">
-						<thead>
-							<tr>
-								<th>Container ID</th>
-								<th>Type</th>
-								<th>Label</th>
-								<th>Direct Children</th>
-								<th>Direct Leaf Children</th>
-								<th>Direct Structural Children</th>
-								<th>Shape Class</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfoutput query="variables.hotspots">
-								<tr>
-									<td>
-										<a href="/findContainer.cfm?container_id=#encodeForUrl(container_id)#" target="_blank">
-											#encodeForHtml(container_id)#
-										</a>
-									</td>
-									<td>#encodeForHtml(container_type)#</td>
-									<td>#encodeForHtml(label)#</td>
-									<td>#encodeForHtml(direct_children)#</td>
-									<td>#encodeForHtml(direct_leaf_children)#</td>
-									<td>#encodeForHtml(direct_structural_children)#</td>
-									<td>#encodeForHtml(shape_class)#</td>
-								</tr>
-							</cfoutput>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div id="diag_loading_2" class="col-12 py-2 text-secondary"><em>Loading&hellip;</em></div>
-		</section>
-		<cfflush>
-
-		<cfset variables.typeRoleFit = containerSearch.getContainerTypeRoleFit()>
-		<script>document.getElementById('diag_loading_2').style.display='none';</script>
-		<section class="row">
-			<div class="col-12 mb-2">
-				<div class="border rounded bg-light p-2">
-					<h2 class="h4">Container Type Role Fit</h2>
-					<p class="mb-1">
-						Compares actual child distribution against the expected role for each container type (per CTCONTAINER_TYPE).
-						<strong>C</strong> = expected to contain only other containers
-						(institution, campus, cryovat, building, floor, room, freezer, freezer rack, grouping, set, fixture, rack slot, position);
-						<strong>S</strong> = expected to contain only collection-object containers (leaf nodes)
-						(cryovial, tank, jar, glass vial, envelope, slide, pin);
-						<strong>SC</strong> = may contain both structural containers and collection objects
-						(freezer box, compartment);
-						<strong>leaf</strong> = collection object, should never have children.
-						Cells highlighted in red indicate violations: non-zero <em>With Coll Obj Children</em> for C types,
-						non-zero <em>With Structural Children</em> for S types, or any children for leaf types.
-					</p>
-					<table class="table table-sm table-striped d-xl-table">
-						<thead>
-							<tr>
-								<th>Container Type</th>
-								<th>Expected Role</th>
-								<th>Total Count</th>
-								<th>With Coll Obj Children</th>
-								<th>With Structural Children</th>
-								<th>With Both Types</th>
-								<th>Leaf Nodes (no children)</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfoutput query="variables.typeRoleFit">
-								<cfset variables.colObjClass = "">
-								<cfset variables.structClass = "">
-								<cfif expected_role EQ "C" AND val(with_coll_obj_children) GT 0>
-									<cfset variables.colObjClass = " table-danger">
-								</cfif>
-								<cfif expected_role EQ "S" AND val(with_structural_children) GT 0>
-									<cfset variables.structClass = " table-danger">
-								</cfif>
-								<cfif expected_role EQ "leaf" AND (val(with_coll_obj_children) GT 0 OR val(with_structural_children) GT 0)>
-									<cfset variables.colObjClass = " table-danger">
-									<cfset variables.structClass = " table-danger">
-								</cfif>
-								<tr>
-									<td>#encodeForHtml(container_type)#</td>
-									<td>#encodeForHtml(expected_role)#</td>
-									<td>#encodeForHtml(total_count)#</td>
-									<td class="#variables.colObjClass#">#encodeForHtml(with_coll_obj_children)#</td>
-									<td class="#variables.structClass#">#encodeForHtml(with_structural_children)#</td>
-									<td>#encodeForHtml(with_both_types)#</td>
-									<td>#encodeForHtml(leaf_nodes)#</td>
-								</tr>
-							</cfoutput>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div id="diag_loading_3" class="col-12 py-2 text-secondary"><em>Loading&hellip;</em></div>
-		</section>
-		<cfflush>
-
-		<cfset variables.collObjAnomalies = containerSearch.getCollObjContHistAnomalies()>
-		<script>document.getElementById('diag_loading_3').style.display='none';</script>
-		<section class="row">
-			<div class="col-12 mb-2">
-				<div class="border rounded bg-light p-2">
-					<h2 class="h4">coll_obj_cont_hist Anomalies</h2>
-					<p class="mb-1">Objects with more than one row where current_container_fg=1.</p>
-					<cfif variables.collObjAnomalies.recordcount EQ 0>
-						<p>No anomalies detected.</p>
-					<cfelse>
-						<table class="table table-sm table-striped d-xl-table">
-							<thead>
-								<tr>
-									<th>Collection Object ID</th>
-									<th>Count</th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfoutput query="variables.collObjAnomalies">
-									<tr>
-										<td>#encodeForHtml(collection_object_id)#</td>
-										<td>#encodeForHtml(ct)#</td>
-									</tr>
-								</cfoutput>
-							</tbody>
-						</table>
-					</cfif>
-				</div>
+				<h1 class="h2">Container Diagnostics</h1>
 			</div>
 		</section>
-		<section class="row mb-4">
-			<div class="col-12">
-				<cfoutput>
-				<a href="containerDiagnostics.cfm?action=singleOccupantViolations" class="btn btn-secondary">
-					Check Single-Occupant Container Violations
-				</a>
-				</cfoutput>
-			</div>
-		</section>
-		<cfflush>
-
-	<cfelseif variables.action EQ "singleOccupantViolations">
-
 		<section class="row">
 			<div class="col-12 mb-2">
 				<h2 class="h4">Single-Occupant Container Violations</h2>
@@ -307,8 +108,229 @@ limitations under the License.
 			</div>
 		</section>
 		<cfflush>
+	</main>
+	<cfinclude template="/shared/_footer.cfm">
+	<cfabort>
+</cfif>
 
-	</cfif>
+<!---
+	entryPoint: default action.  No cfif wrapper around the cfflush sequence
+	so that ColdFusion can flush each section to the browser incrementally.
+	Each loading indicator is flushed BEFORE its corresponding query runs
+	so the browser shows feedback immediately.
+--->
+<main id="content" class="container-fluid">
+	<section class="row">
+		<div class="col-12 mb-2">
+			<h1 class="h2">Container Diagnostics</h1>
+			<p>
+				Diagnostics for container hierarchy shape and potential data anomalies.
+				This page does not modify data.
+			</p>
+			<cfoutput>
+			<a href="containerDiagnostics.cfm?action=singleOccupantViolations" class="btn btn-secondary mb-2">
+				Check Single-Occupant Container Violations
+			</a>
+			</cfoutput>
+		</div>
+	</section>
+	<div id="diag_loading_1" class="row"><div class="col-12 py-2 text-secondary"><em>Loading Summary&hellip;</em></div></div>
+	<cfflush>
+
+	<cfset variables.summary = containerSearch.getContainerShapeSummary()>
+	<script>document.getElementById('diag_loading_1').style.display='none';</script>
+	<section class="row">
+		<div class="col-12 col-xl-6 mb-2">
+			<div class="border rounded bg-light p-2">
+				<h2 class="h4">Summary</h2>
+				<table class="table table-sm table-striped d-xl-table">
+					<thead>
+						<tr>
+							<th>Metric</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfoutput query="variables.summary">
+							<tr>
+								<td>#encodeForHtml(metric)#</td>
+								<td>#encodeForHtml(metric_value)#</td>
+							</tr>
+						</cfoutput>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div id="diag_loading_2" class="col-12 col-xl-6 py-2 text-secondary"><em>Loading Depth Distribution&hellip;</em></div>
+	</section>
+	<cfflush>
+
+	<cfset variables.depth = containerSearch.getContainerShapeByDepth()>
+	<script>document.getElementById('diag_loading_2').style.display='none';</script>
+	<section class="row">
+		<div class="col-12 col-xl-6 mb-2 offset-xl-6">
+			<div class="border rounded bg-light p-2">
+				<h2 class="h4">Depth Distribution</h2>
+				<table class="table table-sm table-striped d-xl-table">
+					<thead>
+						<tr>
+							<th>Depth Below Node</th>
+							<th>Nodes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfoutput query="variables.depth">
+							<tr>
+								<td>#encodeForHtml(depth_below)#</td>
+								<td>#encodeForHtml(node_count)#</td>
+							</tr>
+						</cfoutput>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	<div id="diag_loading_3" class="row"><div class="col-12 py-2 text-secondary"><em>Loading A/B/AB Hotspots&hellip;</em></div></div>
+	<cfflush>
+
+	<cfset variables.hotspots = containerSearch.getContainerShapeHotspots()>
+	<script>document.getElementById('diag_loading_3').style.display='none';</script>
+	<section class="row">
+		<div class="col-12 mb-2">
+			<div class="border rounded bg-light p-2">
+				<h2 class="h4">A/B/AB Hotspots</h2>
+				<p class="mb-1">
+					A = structural, B = flat leaf-heavy, AB = mixed.
+				</p>
+				<table class="table table-sm table-striped d-xl-table">
+					<thead>
+						<tr>
+							<th>Container ID</th>
+							<th>Type</th>
+							<th>Label</th>
+							<th>Direct Children</th>
+							<th>Direct Leaf Children</th>
+							<th>Direct Structural Children</th>
+							<th>Shape Class</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfoutput query="variables.hotspots">
+							<tr>
+								<td>
+									<a href="/findContainer.cfm?container_id=#encodeForUrl(container_id)#" target="_blank">
+										#encodeForHtml(container_id)#
+									</a>
+								</td>
+								<td>#encodeForHtml(container_type)#</td>
+								<td>#encodeForHtml(label)#</td>
+								<td>#encodeForHtml(direct_children)#</td>
+								<td>#encodeForHtml(direct_leaf_children)#</td>
+								<td>#encodeForHtml(direct_structural_children)#</td>
+								<td>#encodeForHtml(shape_class)#</td>
+							</tr>
+						</cfoutput>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	<div id="diag_loading_4" class="row"><div class="col-12 py-2 text-secondary"><em>Loading Container Type Role Fit&hellip;</em></div></div>
+	<cfflush>
+
+	<cfset variables.typeRoleFit = containerSearch.getContainerTypeRoleFit()>
+	<script>document.getElementById('diag_loading_4').style.display='none';</script>
+	<section class="row">
+		<div class="col-12 mb-2">
+			<div class="border rounded bg-light p-2">
+				<h2 class="h4">Container Type Role Fit</h2>
+				<p class="mb-1">
+					Compares actual child distribution against the expected role for each container type (per CTCONTAINER_TYPE).
+					<strong>C</strong> = expected to contain only other containers
+					(institution, campus, cryovat, building, floor, room, freezer, freezer rack, grouping, set, fixture, rack slot, position);
+					<strong>S</strong> = expected to contain only collection-object containers (leaf nodes)
+					(cryovial, tank, jar, glass vial, envelope, slide, pin);
+					<strong>SC</strong> = may contain both structural containers and collection objects
+					(freezer box, compartment);
+					<strong>leaf</strong> = collection object, should never have children.
+					Cells highlighted in red indicate violations: non-zero <em>With Coll Obj Children</em> for C types,
+					non-zero <em>With Structural Children</em> for S types, or any children for leaf types.
+				</p>
+				<table class="table table-sm table-striped d-xl-table">
+					<thead>
+						<tr>
+							<th>Container Type</th>
+							<th>Expected Role</th>
+							<th>Total Count</th>
+							<th>With Coll Obj Children</th>
+							<th>With Structural Children</th>
+							<th>With Both Types</th>
+							<th>Leaf Nodes (no children)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfoutput query="variables.typeRoleFit">
+							<cfset variables.colObjClass = "">
+							<cfset variables.structClass = "">
+							<cfif expected_role EQ "C" AND val(with_coll_obj_children) GT 0>
+								<cfset variables.colObjClass = " table-danger">
+							</cfif>
+							<cfif expected_role EQ "S" AND val(with_structural_children) GT 0>
+								<cfset variables.structClass = " table-danger">
+							</cfif>
+							<cfif expected_role EQ "leaf" AND (val(with_coll_obj_children) GT 0 OR val(with_structural_children) GT 0)>
+								<cfset variables.colObjClass = " table-danger">
+								<cfset variables.structClass = " table-danger">
+							</cfif>
+							<tr>
+								<td>#encodeForHtml(container_type)#</td>
+								<td>#encodeForHtml(expected_role)#</td>
+								<td>#encodeForHtml(total_count)#</td>
+								<td class="#variables.colObjClass#">#encodeForHtml(with_coll_obj_children)#</td>
+								<td class="#variables.structClass#">#encodeForHtml(with_structural_children)#</td>
+								<td>#encodeForHtml(with_both_types)#</td>
+								<td>#encodeForHtml(leaf_nodes)#</td>
+							</tr>
+						</cfoutput>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	<div id="diag_loading_5" class="row"><div class="col-12 py-2 text-secondary"><em>Loading coll_obj_cont_hist Anomalies&hellip;</em></div></div>
+	<cfflush>
+
+	<cfset variables.collObjAnomalies = containerSearch.getCollObjContHistAnomalies()>
+	<script>document.getElementById('diag_loading_5').style.display='none';</script>
+	<section class="row mb-4">
+		<div class="col-12">
+			<div class="border rounded bg-light p-2">
+				<h2 class="h4">coll_obj_cont_hist Anomalies</h2>
+				<p class="mb-1">Objects with more than one row where current_container_fg=1.</p>
+				<cfif variables.collObjAnomalies.recordcount EQ 0>
+					<p>No anomalies detected.</p>
+				<cfelse>
+					<table class="table table-sm table-striped d-xl-table">
+						<thead>
+							<tr>
+								<th>Collection Object ID</th>
+								<th>Count</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfoutput query="variables.collObjAnomalies">
+								<tr>
+									<td>#encodeForHtml(collection_object_id)#</td>
+									<td>#encodeForHtml(ct)#</td>
+								</tr>
+							</cfoutput>
+						</tbody>
+					</table>
+				</cfif>
+			</div>
+		</div>
+	</section>
+	<cfflush>
 </main>
 
 <cfinclude template="/shared/_footer.cfm">
