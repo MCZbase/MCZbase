@@ -90,7 +90,7 @@ limitations under the License.
 					</table>
 				</div>
 			</div>
-			<div id="diag_loading_1" class="col-12 py-2 text-secondary"><em>Loading&#133;</em></div>
+			<div id="diag_loading_1" class="col-12 py-2 text-secondary"><em>Loading&hellip;</em></div>
 		</section>
 		<cfflush>
 
@@ -135,7 +135,7 @@ limitations under the License.
 					</table>
 				</div>
 			</div>
-			<div id="diag_loading_2" class="col-12 py-2 text-secondary"><em>Loading&#133;</em></div>
+			<div id="diag_loading_2" class="col-12 py-2 text-secondary"><em>Loading&hellip;</em></div>
 		</section>
 		<cfflush>
 
@@ -197,7 +197,7 @@ limitations under the License.
 					</table>
 				</div>
 			</div>
-			<div id="diag_loading_3" class="col-12 py-2 text-secondary"><em>Loading&#133;</em></div>
+			<div id="diag_loading_3" class="col-12 py-2 text-secondary"><em>Loading&hellip;</em></div>
 		</section>
 		<cfflush>
 
@@ -252,7 +252,7 @@ limitations under the License.
 					expected to hold exactly one collection-object child.
 					The rows below have zero or two-or-more collection-object children.
 				</p>
-				<div id="diag_loading_single" class="py-2 text-secondary"><em>Computing, please wait&#133;</em></div>
+				<div id="diag_loading_single" class="py-2 text-secondary"><em>Computing, please wait&hellip;</em></div>
 			</div>
 		</section>
 		<cfflush>
@@ -301,7 +301,7 @@ limitations under the License.
 			<div class="col-12">
 				<cfoutput>
 				<a href="containerDiagnostics.cfm" class="btn btn-secondary">
-					&#8592; Back to Diagnostics Summary
+					&larr; Back to Diagnostics Summary
 				</a>
 				</cfoutput>
 			</div>
