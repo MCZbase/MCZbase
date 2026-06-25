@@ -276,11 +276,23 @@ Delete an existing collecting event number record.
 				WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 
-			<cfset row = StructNew()>
-			<cfset row["status"] = "updated">
-			<cfset row["id"] = "#locality_id#">
-			<cfset data[1] = row>
-			<cftransaction action="commit">
+		<cfset row = StructNew()>
+        <cfset row["status"] = "updated">
+        <cfset row["id"] = "#locality_id#">
+        <cfset data[1] = row>
+        <cftransaction action="commit">
+
+        <!--- clear cached static maps for this locality --->
+        <cfset var mapDir      = expandPath("/cache/static_maps/")>
+        <cfset var mapFile3col = mapDir & "locality-#locality_id#-3col.png">
+        <cfset var mapFile2col = mapDir & "locality-#locality_id#-2col.png">
+
+        <cfif fileExists(mapFile3col)>
+            <cffile action="delete" file="#mapFile3col#">
+        </cfif>
+        <cfif fileExists(mapFile2col)>
+            <cffile action="delete" file="#mapFile2col#">
+        </cfif>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>

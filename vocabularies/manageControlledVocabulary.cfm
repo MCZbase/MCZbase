@@ -1,4 +1,26 @@
 <cfset pageTitle = "Manage Controlled Vocabularies">
+<!---
+/vocabularies/manageControlledVocabulary.cfm
+
+Manage controlled vocabulary (code table) values. Provides list view of all CT* tables
+and edit/add/delete forms for each, replacing /CodeTableEditor.cfm.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfinclude template="/shared/_header.cfm">
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct collection_cde from ctcollection_cde
@@ -10,7 +32,8 @@
 <cfelseif isdefined("form.tbl")>
 	<cfset tbl = ucase(form.tbl)>
 </cfif>
-<cfif not isdefined("action")><cfset action="listtables"></cfif>
+<cfif not isdefined("action")><cfset action="listTables"></cfif>
+<cfif action is "entryPoint"><cfset action="listTables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
 	<div class="container">
@@ -18,7 +41,7 @@
 			<div class="col-12">
 
 				<cfswitch expression="#action#">
-					<cfcase value="listtables">
+					<cfcase value="listTables">
 						<cfquery name="getCTName" datasource="uam_god">
 								SELECT
 									distinct(table_name) table_name 
@@ -34,13 +57,20 @@
 						<div class="my-2">
 							<ul>
 								<cfloop query="getCTName">
-									<cfquery name="getRowCounts" datasource="uam_god">
-										SELECT count(*) ct
-										FROM #getCTName.table_name#
-									</cfquery>
+									<cfif getCTName.table_name is "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
+										<cfset variables.showCount = false>
+										<cfset variables.rowCount = 0>
+									<cfelse>
+										<cfquery name="getRowCounts" datasource="uam_god">
+											SELECT count(*) ct
+											FROM #getCTName.table_name#
+										</cfquery>
+										<cfset variables.rowCount = getRowCounts.ct>
+										<cfset variables.showCount = true>
+									</cfif>
 									<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 									<li>
-										<a href="/CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a> (#getRowCounts.ct#)
+										<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><cfif variables.showCount> (#variables.rowCount#)</cfif>
 									</li>
 								</cfloop>
 							</ul>
@@ -49,11 +79,15 @@
 				</cfswitch>
 
 <cfif action is "edit">
-	<p class="my-3">
-		<a href="/CodeTableEditor.cfm?action=nothing" class="btn btn-xs btn-outline-primary">Go to code table list</a>
-	</p>
+	<cfset variables.editTitle = trim(replaceNoCase(REReplace(tbl, "(?i)^CT", ""), "_", " ", "ALL"))>
+	<div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+		<h2 class="h4 mb-0">Edit: #variables.editTitle#</h2>
+		<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Go to controlled vocabulary list</a>
+	</div>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
+	<cfelseif tbl is "CTJOURNAL_NAME"><!---------------------------------------------------->
+		<cflocation url="/publications/Journals.cfm" addtoken="false">
 	<cfelseif tbl is "ctspecimen_part_name"><!---------------------------------------------------->
 		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
 	<cfelseif tbl is "ctspec_part_att_att"><!---------------------------------------------------->
@@ -71,168 +105,164 @@
 		<cfquery name="allCTs" datasource="uam_god">
 			select distinct(table_name) as tablename from sys.user_tables where table_name like 'CT%' order by table_name
 		</cfquery>
-		<br>Create Attribute Control
-		<table class="newRec" border>
-			<tr>
-				<th>Attribute</th>
-				<th>Value Code Table</th>
-				<th>Units Code Table</th>
-				<th>&nbsp;</th>
-			</tr>
-			<form method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Attribute Control</h3>
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
+			<form method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
-				<tr>
-					<td>				
-						<select name="attribute_type" size="1">
+				<div class="form-row mb-1">
+					<div class="col">				
+						<label class="form-label" for="add_attribute_type">Attribute</label>
+						<select id="add_attribute_type" class="data-entry-select" name="attribute_type" size="1">
 							<option value=""></option>
 							<cfloop query="ctAttribute_type">
 							<option 
 								value="#ctAttribute_type.attribute_type#">#ctAttribute_type.attribute_type#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_value_code_table">Value Controlled Vocabulary</label>
 						<cfset thisValueTable = #thisRec.value_code_table#>
-						<select name="value_code_table" size="1">
+						<select id="add_value_code_table" class="data-entry-select" name="value_code_table" size="1">
 							<option value="">none</option>
 							<cfloop query="allCTs">
 							<option 
 							value="#allCTs.tablename#">#allCTs.tablename#</option>
 							</cfloop>
 						</select>			
-					</td>
-					<td>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_units_code_table">Units Controlled Vocabulary</label>
 						<cfset thisUnitsTable = #thisRec.units_code_table#>
-						<select name="units_code_table" size="1">
+						<select id="add_units_code_table" class="data-entry-select" name="units_code_table" size="1">
 							<option value="">none</option>
 							<cfloop query="allCTs">
 							<option 
 							value="#allCTs.tablename#">#allCTs.tablename#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn">	
-					</td>
-				</tr>
+							class="insBtn mt-4">	
+					</div>
+				</div>
 			</form>
-		</table>
-		<br>Edit Attribute Controls
-		<table border>
-			<tr>
-				<th>Attribute</th>
-				<th>Value Code Table</th>
-				<th>Units Code Table</th>
-				<th>&nbsp;</th>
-			</tr>
+		</div>
+		<h3 class="h5 mt-3 mb-2">Edit Attribute Controls</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Attribute</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Value Controlled Vocabulary</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Units Controlled Vocabulary</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i=1>
 			<cfloop query="thisRec">
-				<form name="att#i#" method="post" action="CodeTableEditor.cfm">
+				<form class="d-table-row" name="att#i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 					<input type="hidden" name="action" value="">
 					<input type="hidden" name="tbl" value="#tbl#">
 					<input type="hidden" name="oldAttribute_type" value="#Attribute_type#">
 					<input type="hidden" name="oldvalue_code_table" value="#value_code_table#">
 					<input type="hidden" name="oldunits_code_table" value="#units_code_table#">
-					<tr>
-						<td>
-							<cfset thisAttType = #thisRec.attribute_type#>
-								<select name="attribute_type" size="1">
-									<option value=""></option>
-									<cfloop query="ctAttribute_type">
-									<option 
-												<cfif #thisAttType# is "#ctAttribute_type.attribute_type#"> selected </cfif>value="#ctAttribute_type.attribute_type#">#ctAttribute_type.attribute_type#</option>
-									</cfloop>
-								</select>
-						</td>
-						<td>
-							<cfset thisValueTable = #thisRec.value_code_table#>
-							<select name="value_code_table" size="1">
-								<option value="">none</option>
-								<cfloop query="allCTs">
+					<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+						<cfset thisAttType = #thisRec.attribute_type#>
+							<select class="data-entry-select w-100" name="attribute_type" size="1">
+								<option value=""></option>
+								<cfloop query="ctAttribute_type">
 								<option 
-								<cfif #thisValueTable# is "#allCTs.tablename#"> selected </cfif>value="#allCTs.tablename#">#allCTs.tablename#</option>
+											<cfif #thisAttType# is "#ctAttribute_type.attribute_type#"> selected </cfif>value="#ctAttribute_type.attribute_type#">#ctAttribute_type.attribute_type#</option>
 								</cfloop>
 							</select>
-						</td>
-						<td>
-							<cfset thisUnitsTable = #thisRec.units_code_table#>
-							<select name="units_code_table" size="1">
-								<option value="">none</option>
-								<cfloop query="allCTs">
-								<option 
-								<cfif #thisUnitsTable# is "#allCTs.tablename#"> selected </cfif>value="#allCTs.tablename#">#allCTs.tablename#</option>
-								</cfloop>
-							</select>
-						</td>
-						<td>
-							<input type="button" 
-								value="Save" 
-								class="savBtn"
-							 	onclick="att#i#.action.value='saveEdit';submit();">	
-							<input type="button" 
-								value="Delete" 
-								class="delBtn"
-								onclick="att#i#.action.value='deleteValue';submit();">	
-						</td>
-					</tr>
+					</div>
+					<div class="d-table-cell py-1 pr-3 align-middle">
+						<cfset thisValueTable = #thisRec.value_code_table#>
+						<select class="data-entry-select" name="value_code_table" size="1">
+							<option value="">none</option>
+							<cfloop query="allCTs">
+							<option 
+							<cfif #thisValueTable# is "#allCTs.tablename#"> selected </cfif>value="#allCTs.tablename#">#allCTs.tablename#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="d-table-cell py-1 pr-3 align-middle">
+						<cfset thisUnitsTable = #thisRec.units_code_table#>
+						<select class="data-entry-select" name="units_code_table" size="1">
+							<option value="">none</option>
+							<cfloop query="allCTs">
+							<option 
+							<cfif #thisUnitsTable# is "#allCTs.tablename#"> selected </cfif>value="#allCTs.tablename#">#allCTs.tablename#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="d-table-cell py-1 align-middle text-nowrap">
+						<input type="button" 
+							value="Save" 
+							class="savBtn"
+						 	onclick="att#i#.action.value='saveEdit';submit();">	
+						<input type="button" 
+							value="Delete" 
+							class="delBtn"
+							onclick="att#i#.action.value='deleteValue';submit();">	
+					</div>
 				</form>
 			<cfset i=#i#+1>
 		</cfloop>
-	</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctcountry_code"><!---------------------------------------------------->
                 <p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
 		<!---   Country/Country Code code table includes fields for country and country code, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select country, code from ctcountry_code order by code, country
 		</cfquery>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Country Code</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec">
-				<tr>
-					<th>Country Code</th>
-					<th>Country</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="code" maxlength="3">
-					</td>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_code">Country Code</label>
+						<input id="add_code" class="data-entry-input" type="text" name="code" maxlength="3">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_newData">Country</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
-		<table>
-			<tr>
-				<th>Country Code</th>
-				<th>Country</th>
-				<th></th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Country Codes</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Country Code</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Country</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#country#">
-						<td>
-							<input type="text" name="code" value="#code#" maxlength="3">
-						</td>
-						<td>
-							<input type="text" name="country" value="#country#">
-						</td>
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="code" value="#code#" maxlength="3">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input w-100" type="text" name="country" value="#country#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
@@ -241,12 +271,12 @@
 								value="Delete" 
 								class="delBtn"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
-						</td>
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -254,218 +284,207 @@
 			from ctguid_type
 			order by guid_type
 		</cfquery>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add GUID Type</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec" style="width: 90em;">
-				<tr>
-					<td>GUID Type:</td>
-					<td>
-						<input type="text" name="newData" class="reqdClr" required >
-					</td>
-					<td>Name for picklist</td>
-				</tr>
-				<tr>
-					<td>Description:</td>
-					<td colspan="2">
-						<input type="text" name="description" size="80">
-					</td>
-				</tr>
-				<tr>
-					<td>Applies to</td>
-					<td>
-						<input type="text" name="applies_to" size="80" class="reqdClr" required>
-					</td>
-					<td>space delimited list of table.field)</td>
-				</tr>
-				<tr>
-					<td>Placeholder</td>
-					<td>
-						<input type="text" name="placeholder" size="80">
-					</td>
-					<td>Hint for data entry, e.g. doi:</td>
-				</tr>
-				<tr>
-					<td>Pattern Regex</td>
-					<td>
-						<input type="text" name="pattern_regex" size="80" class="reqdClr" required>
-					</td>
-					<td>To validate entry, e.g. ^doi:10[.].+$</td>
-				</tr>
-				<tr>
-					<td>Resolver Regex</td>
-					<td>
-						<input type="text" name="resolver_regex" size="80">
-					</td>
-					<td>Regex pattern for conversion to a uri, e.g. ^doi:</td>
-				</tr>
-				<tr>
-					<td>Resolver Replacement</td>
-					<td>
-						<input type="text" name="resolver_replacement" size="80">
-					</td>
-					<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
-				</tr>
-				<tr>
-					<td>Search URI</td>
-					<td>
-						<input type="text" name="search_uri" size="80">
-					</td>
-					<td>URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_guid_type">GUID Type</label>
+						<input id="add_guid_type" type="text" name="newData" class="data-entry-input reqdClr w-100" required>
+						<small class="form-text text-muted">Name for picklist</small>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input w-100" type="text" name="description">
+					</div>
+				</div>
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_applies_to">Applies To</label>
+						<input id="add_applies_to" type="text" name="applies_to" class="data-entry-input reqdClr w-100" required>
+						<small class="form-text text-muted">space delimited list of table.field</small>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_placeholder">Placeholder</label>
+						<input id="add_placeholder" class="data-entry-input w-100" type="text" name="placeholder">
+						<small class="form-text text-muted">Hint for data entry, e.g. doi:</small>
+					</div>
+				</div>
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_pattern_regex">Pattern Regex</label>
+						<input id="add_pattern_regex" type="text" name="pattern_regex" class="data-entry-input reqdClr w-100" required>
+						<small class="form-text text-muted">To validate entry, e.g. ^doi:10[.].+$</small>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_resolver_regex">Resolver Regex</label>
+						<input id="add_resolver_regex" class="data-entry-input w-100" type="text" name="resolver_regex">
+						<small class="form-text text-muted">Regex pattern for conversion to a uri, e.g. ^doi:</small>
+					</div>
+				</div>
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_resolver_replacement">Resolver Replacement</label>
+						<input id="add_resolver_replacement" class="data-entry-input w-100" type="text" name="resolver_replacement">
+						<small class="form-text text-muted">Replacement string for match to pattern, e.g. https://doi.org/</small>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_search_uri">Search URI</label>
+						<input id="add_search_uri" class="data-entry-input w-100" type="text" name="search_uri">
+						<small class="form-text text-muted">URI for searching by text string (appended to end). Leave blank if not applicable.</small>
+					</div>
+				</div>
+				<div class="form-row mb-1">
+					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">
-					</td>
-					<td></td>
-				</tr>
-			</table>
+					</div>
+				</div>
+			</div>
 		</form>
-		<br>
-		<table>
+		<h3 class="h5 mt-3 mb-2">Edit GUID Types</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
 			<cfset i = 1>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#guid_type#">
-					<table style="border: 1px solid black">
-						<tr>
-							<td>GUID Type:</td>
-							<td>
-								<input type="text" name="guid_type" value="#guid_type#" class="reqdClr" required >
-							</td>
-							<td>Name for picklist</td>
-						</tr>
-						<tr>
-							<td>Description:</td>
-							<td colspan="2">
-								<input type="text" name="description" value="#description#" size="80">
-							</td>
-						</tr>
-						<tr>
-							<td>Applies to</td>
-							<td>
-								<input type="text" name="applies_to" value="#applies_to#" size="80" class="reqdClr" required>
-							</td>
-							<td>space delimited list of table.field</td>
-						</tr>
-						<tr>
-							<td>Placeholder</td>
-							<td>
-								<input type="text" name="placeholder" value="#placeholder#" size="80" >
-							</td>
-							<td>Hint for data entry, e.g. doi:</td>
-						</tr>
-						<tr>
-							<td>Pattern Regex</td>
-							<td>
-								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80" class="reqdClr" required>
-							</td>
-							<td>Regex to validate entry, e.g. ^doi:10[.].+$</td>
-						</tr>
-						<tr>
-							<td>Resolver Regex</td>
-							<td>
-								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
-							</td>
-							<td>Regex pattern for conversion to a uri, e.g. ^doi:</td>
-						</tr>
-						<tr>
-							<td>Resolver Replacement</td>
-							<td>
-								<input type="text" name="resolver_replacement" value="#resolver_replacement#" size="80">
-							</td>
-							<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
-						</tr>
-						<tr>
-							<td>Search URI</td>
-							<td>
-								<input type="text" name="search_uri" value="#search_uri#" size="80">
-							</td>
-							<td>URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
+					<div class="row border rounded my-2 mx-1 p-2">
+						<div class="form-row mb-1">
+							<div class="col">GUID Type:</div>
+							<div class="col">
+								<input type="text" name="guid_type" value="#guid_type#" class="data-entry-input reqdClr" required >
+							</div>
+							<div class="col">Name for picklist</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col">Description:</div>
+							<div class="col">
+								<input class="data-entry-input" type="text" name="description" value="#description#" size="80">
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col">Applies to</div>
+							<div class="col">
+								<input type="text" name="applies_to" value="#applies_to#" size="80" class="data-entry-input reqdClr" required>
+							</div>
+							<div class="col">space delimited list of table.field</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col">Placeholder</div>
+							<div class="col">
+								<input class="data-entry-input" type="text" name="placeholder" value="#placeholder#" size="80" >
+							</div>
+							<div class="col">Hint for data entry, e.g. doi:</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col">Pattern Regex</div>
+							<div class="col">
+								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80" class="data-entry-input reqdClr" required>
+							</div>
+							<div class="col">Regex to validate entry, e.g. ^doi:10[.].+$</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col">Resolver Regex</div>
+							<div class="col">
+								<input class="data-entry-input" type="text" name="resolver_regex" value="#resolver_regex#" size="80">
+							</div>
+							<div class="col">Regex pattern for conversion to a uri, e.g. ^doi:</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col">Resolver Replacement</div>
+							<div class="col">
+								<input class="data-entry-input" type="text" name="resolver_replacement" value="#resolver_replacement#" size="80">
+							</div>
+							<div class="col">Replacement string for match to pattern, e.g. https://doi.org/</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col">Search URI</div>
+							<div class="col">
+								<input class="data-entry-input" type="text" name="search_uri" value="#search_uri#" size="80">
+							</div>
+							<div class="col">URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col"></div>
+							<div class="col">
 								<input type="button" 
 									value="Save" 
 									class="savBtn"
 									onclick="#tbl##i#.action.value='saveEdit';submit();">
-							</td>
-							<td>
+							</div>
+							<div class="col">
 								<input type="button" 
 									value="Delete" 
 									class="delBtn"
 									onclick="#tbl##i#.action.value='deleteValue';submit();">
-							</td>
-						</tr>
-					<table>
+							</div>
+						</div>
+					</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+		</div>
 
 	<cfelseif tbl is "ctloan_type"><!---------------------------------------------------->
 		<!---   Loan type code table includes fields for scope (loan or gift) and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select loan_type, scope, ordinal from ctloan_type order by scope desc, ordinal, loan_type
 		</cfquery>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Loan Type</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec">
-				<tr>
-					<th>Loan Type</th>
-					<th>Loan/Gift</th>
-					<th>Sort Order</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<select name="scope">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Loan Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_scope">Loan/Gift</label>
+						<select id="add_scope" class="data-entry-select" name="scope">
 							<option value="Loan">Loan</option>
 							<option value="Gift">Gift</option>
 						</select>
-					</td>
-					<td>
-						<input type="text" name="ordinal">
-					</td>
-					<td>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal">
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
-		<table>
-			<tr>
-				<th>Loan Type</th>
-				<th>Loan/Gift</th>
-				<th>Sort Order</th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Loan Types</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Loan Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Loan/Gift</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Sort Order</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#loan_type#">
-						<td>
-							<input type="text" name="loan_type" value="#loan_type#">
-						</td>
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="loan_type" value="#loan_type#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
 							<cfif scope EQ "Loan"> 
 								<cfset scopeloanselected = "selected='selected'">
 								<cfset scopegiftselected = "">
@@ -473,15 +492,15 @@
 								<cfset scopeloanselected = "">
 								<cfset scopegiftselected = "selected='selected'">
 							</cfif>
-							<select name="scope">
+							<select class="data-entry-select" name="scope">
 								<option value="Loan" #scopeloanselected# >Loan</option>
 								<option value="Gift" #scopegiftselected# >Gift</option>
 							</select>
-						</td>
-						<td>
-							<input type="text" name="ordinal" value="#ordinal#">
-						</td>
-						<td>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="ordinal" value="#ordinal#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
@@ -490,12 +509,12 @@
 								value="Delete" 
 								class="delBtn"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
-						</td>
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctspecific_permit_type">
 		<!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -505,89 +524,88 @@
 			select permit_type from ctpermit_type order by permit_type
 		</cfquery>
 		<h2>Specific Types of Permissions and Rights documents (permits)</h2>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Specific Permit Type</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctspecific_permit_type">
-			<table class="newRec">
-				<tr>
-					<th>Specific Type</th>
-					<th>General Type</th>
-					<th>Carry Accession Document to Loans</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" size=80 >
-					</td>
-					<td>
-						<select name="permit_type">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Specific Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" size=80 >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_permit_type">General Type</label>
+						<select id="add_permit_type" class="data-entry-select" name="permit_type">
 							<option value=""></option>
 							<cfloop query="ptypes">
 								<option value="#permit_type#">#permit_type#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
-						<select name="accn_show_on_shipment">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_accn_show_on_shipment">Carry Accession Document to Loans</label>
+						<select id="add_accn_show_on_shipment" class="data-entry-select" name="accn_show_on_shipment">
 							<option value="1" selected="selected" >Yes</option>
 							<option value="0">No</option>
 						</select>
-					</td>
-					<td>
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
 		<cfset i = 1>
-		<table>
-			<tr>
-				<th>Specific Type</th>
-				<th>General Type</th>
-					<th>Carry&nbsp;Accession Document&nbsp;to&nbsp;Loans</th>
-					<th></th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Specific Permit Types</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Specific Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">General Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Carry Accession Document to Loans</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctspecific_permit_type">
 						<input type="hidden" name="origData" value="#q.specific_type#">
 						<input type="hidden" name="fld" value="specific_type">
-						<td>
-							<input type="text" name="specific_type" value="#q.specific_type#" size="66">
-						</td>
-						<td>
-							<select name="permit_type">
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="specific_type" value="#q.specific_type#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<select class="data-entry-select" name="permit_type">
 								<option value=""></option>
 								<cfloop query="ptypes" >
 									<option <cfif q.permit_type is ptypes.permit_type > selected="selected" </cfif>value="#ptypes.permit_type#">#ptypes.permit_type#</option>
 								</cfloop>
 							</select>
-						</td>				
-						<td style="width: 3em;">
-							<select name="accn_show_on_shipment">
+						</div>				
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<select class="data-entry-select" name="accn_show_on_shipment">
 								<option <cfif q.accn_show_on_shipment EQ 1 > selected="selected" </cfif>value="1">Yes</option>
 								<option <cfif q.accn_show_on_shipment EQ 0 > selected="selected" </cfif>value="0">No</option>
 							</select>
-						</td>				
-						<td><span>
+						</div>				
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-								onclick="#tbl##i#.action.value='deleteValue';submit();"></span>
-						</td>
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "CTAUTHORSHIP_ROLE"><!-------------------------------------------------------->
 		<!--- Authorship Role code table includes fields for nomenclatural code and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -599,75 +617,74 @@
 			select nomenclatural_code from ctnomenclatural_code order by nomenclatural_code
 		</cfquery>
 		<h2>Authorship roles for agents involved in creating scientific names</h2>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Authorship Role</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec">
-				<tr>
-					<th>Authorship Role</th>
-					<th>Sort Order</th>
-					<th>Nomenclatural Code</th>
-					<th>Description</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<input type="text" name="ordinal" pattern="\d*" title="Integer value only">
-					</td>
-					<td>
-						<select name="nomenclatural_code" >
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Authorship Role</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal" pattern="\d*" title="Integer value only">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_nomenclatural_code">Nomenclatural Code</label>
+						<select id="add_nomenclatural_code" class="data-entry-select" name="nomenclatural_code" >
 							<cfloop query="getNomenclaturalCodes">
 								<option value="#nomenclatural_code#">#nomenclatural_code#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
-						<input type="text" name="description" title="description">
-					</td>
-					<td>
-						<input type="submit" value="Insert" class="insBtn">
-					</td>
-				</tr>
-			</table>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description" title="description">
+					</div>
+					<div class="col">
+						<input type="submit" value="Insert" class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
-		<table>
-			<tr>
-				<th>Authorship Role</th>
-				<th>Sort Order</th>
-				<th>Nomenclatural Code</th>
-				<th>Description</th>
-				<th></th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Authorship Roles</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Authorship Role</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Sort Order</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Nomenclatural Code</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#authorship_role#">
-						<td>
-							<input type="text" name="authorship_role" value="#authorship_role#">
-						</td>
-						<td>
-							<input type="text" name="ordinal" value="#ordinal#" pattern="\d*" title="Integer value only">
-						</td>
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="authorship_role" value="#authorship_role#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="ordinal" value="#ordinal#" pattern="\d*" title="Integer value only">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
 							<cfset thisNomenclaturalCode = #q.nomenclatural_code#>
-							<select name="nomenclatural_code" >
+							<select class="data-entry-select" name="nomenclatural_code" >
 								<cfloop query="getNomenclaturalCodes">
 									<cfif thisNomenclaturalCode is "#getNomenclaturalCodes.nomenclatural_code#" ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
 								</cfloop>
 							</select>
-						</td>
-						<td>
-							<input type="text" name="description" value="#description#">
-						</td>
-						<td>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="description" value="#description#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
@@ -676,12 +693,12 @@
 								value="Delete" 
 								class="delBtn"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
-						</td>
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -690,23 +707,19 @@
 			order by category, ordinal, type_status
 		</cfquery>
 		<h2>Citation type, type status terms and other kinds of citation</h2>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Citation Type Status</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec">
-				<tr>
-					<th>Type Status</th>
-					<th>Kind of Type</th>
-					<th>Sort Order</th>
-					<th>Description</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<select name="category">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Type Status</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_category">Kind of Type</label>
+						<select id="add_category" class="data-entry-select" name="category">
 							<option value="Primary">Primary</option>
 							<option value="Secondary">Secondary</option>
 							<option value="Voucher">Voucher (non-type)</option>
@@ -715,40 +728,44 @@
                             <!---  NOTE: Alphabetic sort of these values is used to order Primary/Secondary/other type status --->
                             <!---  If new category values are added for non-types, they should sort after Secondary. --->
 						</select>
-					</td>
-					<td>
-						<input type="text" name="ordinal">
-					</td>
-					<td>
-						<input type="text" name="description">
-					</td>
-					<td>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
-		<table>
-			<tr>
-				<th>Type Status</th>
-				<th>Kind of Type</th>
-				<th>Sort Order</th>
-				<th>Description</th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Citation Type Status</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Type Status</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Kind of Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Sort Order</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#type_status#">
-						<td>
-							<input type="text" name="type_status" value="#type_status#">
-						</td>
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="type_status" value="#type_status#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
 							<cfif category EQ "Primary"> 
 								<cfset scopepriselected = "selected='selected'">
 								<cfset scopesecselected = "">
@@ -771,21 +788,21 @@
 								<cfset scopevouselected = "selected='selected'">
 								<cfset scopenvouselected = "">
 							</cfif>
-							<select name="category">
+							<select class="data-entry-select" name="category">
 								<option value="Primary" #scopepriselected# >Primary</option>
 								<option value="Secondary" #scopesecselected# >Secondary</option>
 								<option value="Voucher" #scopevouselected# >Voucher (non-type)</option>
 								<option value="Voucher Not" #scopenvouselected#>Not Voucher (non-type)</option>
 							</select>
-						</td>
-						<td>
-							<input type="text" name="ordinal" value="#ordinal#">
-						</td>
-						<td>
-						<!---	<input type="description" name="description" value="#stripQuotes(description)#">--->
-							<input type="description" name="description" value="#description#">
-						</td>
-						<td>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="ordinal" value="#ordinal#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+						<!---	<input class="data-entry-input" type="description" name="description" value="#stripQuotes(description)#">--->
+							<input class="data-entry-input" type="description" name="description" value="#description#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
@@ -794,12 +811,12 @@
 								value="Delete" 
 								class="delBtn"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
-						</td>
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctgeology_attributes"><!---------------------------------------------------->
 		<!---  geology attributes code table includes fields for typing and sort order, thus needs custom form  --->
 		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
@@ -810,62 +827,62 @@
 		
 					<h2>Geological attribute types, and their categories.</h2>
 					<h4>Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h4>
-					<form name="newData" method="post" action="CodeTableEditor.cfm">
+					<h3 class="h5 mt-3 mb-2 text-success">Add Geology Attribute</h3>
+					<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="newValue">
 						<input type="hidden" name="tbl" value="#tbl#">
-						<table class="newRec table col-12 col-md-9">
-							<tr>
-								<th>Geology Attribute</th>
-								<th>Category</th>
-								<th>Sort Order</th>
-								<th>Description</th>
-								<th></th>
-							</tr>
-							<tr>
-								<td>
-									<input type="text" name="newData" class="data-entry-input">
-								</td>
-								<td>
-									<select name="type" class="data-entry-select">
+						<div class="row border rounded my-2 mx-1 p-2 bg-light">
+							<div class="form-row mb-1">
+								<div class="col">
+									<label class="form-label" for="add_newData">Geology Attribute</label>
+									<input id="add_newData" type="text" name="newData" class="data-entry-input">
+								</div>
+								<div class="col">
+									<label class="form-label" for="add_type">Category</label>
+									<select id="add_type" name="type" class="data-entry-select">
 										<option value="lithologic">Lithologic</option>
 										<option value="lithostratigraphic">Lithostratigraphic</option>
 										<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
 								 <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
 									</select>
-								</td>
-								<td>
-									<input type="text" name="ordinal" class="data-entry-input">
-								</td>
-								<td>
-									<input type="text" name="description" class="data-entry-input">
-								</td>
-								<td>
+								</div>
+								<div class="col">
+									<label class="form-label" for="add_ordinal">Sort Order</label>
+									<input id="add_ordinal" type="text" name="ordinal" class="data-entry-input">
+								</div>
+								<div class="col">
+									<label class="form-label" for="add_description">Description</label>
+									<input id="add_description" type="text" name="description" class="data-entry-input">
+								</div>
+								<div class="col">
 									<input type="submit" 
 										value="Insert" 
-										class="insBtn">
-								</td>
-							</tr>
-						</table>
+										class="insBtn mt-4">
+								</div>
+							</div>
+						</div>
 					</form>
-					<table class="table">
-						<tr>
-							<th>Geological Attribute</th>
-							<th>Category</th>
-							<th>Sort Order</th>
-							<th>Description</th>
-						</tr>
+					<h3 class="h5 mt-3 mb-2">Edit Geology Attributes</h3>
+					<div class="row border rounded my-2 mx-1 p-2">
+						<div class="d-table w-100">
+						<div class="d-table-row bg-light border-bottom">
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Geological Attribute</div>
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Category</div>
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Sort Order</div>
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+						</div>
 						<cfset i = 1>
 						<cfloop query="q">
-							<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-								<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+								<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 									<input type="hidden" name="action" value="">
 									<input type="hidden" name="tbl" value="#tbl#">
 									<!---  Need to pass current value as it is the PK for the code table --->
 									<input type="hidden" name="origData" value="#geology_attribute#">
-									<td>
-										<input type="text" name="geology_attribute" class="data-entry-input" value="#geology_attribute#">
-									</td>
-									<td>
+									<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+										<input type="text" name="geology_attribute" class="data-entry-input w-100" value="#geology_attribute#">
+									</div>
+									<div class="d-table-cell py-1 pr-3 align-middle">
 										<cfif type EQ "lithologic"> 
 											<cfset scopelithselected = "selected='selected'">
 											<cfset scopestratselected = "">
@@ -884,15 +901,15 @@
 											<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
 											<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
 										</select>
-									</td>
-									<td>
+									</div>
+									<div class="d-table-cell py-1 pr-3 align-middle">
 										<input type="text" name="ordinal" class="data-entry-input" value="#ordinal#">
-									</td>
-									<td>
-										<!---<input type="description" name="description" value="#stripQuotes(description)#">--->
+									</div>
+									<div class="d-table-cell py-1 pr-3 align-middle">
+										<!---<input class="data-entry-input" type="description" name="description" value="#stripQuotes(description)#">--->
 										<input type="description" name="description" class="data-entry-input" value="#description#">
-									</td>
-									<td>
+									</div>
+									<div class="d-table-cell py-1 align-middle text-nowrap">
 										<input type="button" 
 											value="Save" 
 											class="savBtn btn-xs btn-primary"
@@ -901,12 +918,12 @@
 											value="Delete" 
 											class="delBtn btn-xs btn-danger px-2"
 											onclick="#tbl##i#.action.value='deleteValue';submit();">
-									</td>
+									</div>
 								</form>
-							</tr>
 							<cfset i = #i#+1>
 						</cfloop>
-					</table>
+						</div>
+					</div>
 			
 
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
@@ -916,138 +933,137 @@
 		<cfquery name="allCTs" datasource="uam_god">
 			select distinct(table_name) as tablename from sys.user_tables where table_name like 'CT%' order by table_name
 		</cfquery>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Publication Attribute</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctpublication_attribute">
-			<table class="newRec">
-				<tr>
-					<th>Publication Attribute</th>
-					<th>Description</th>
-					<th>Control</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<textarea name="description" rows="4" cols="40"></textarea>
-					</td>
-					<td>
-						<select name="control">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Publication Attribute</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_control">Control</label>
+						<select id="add_control" class="data-entry-select" name="control">
 							<option value=""></option>
 							<cfloop query="allCTs">
 								<option value="#tablename#">#tablename#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
 		<cfset i = 1>
-		<table>
-			<tr>
-				<th>Type</th>
-				<th>Description</th>
-				<th>Control</th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Publication Attributes</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Control</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctpublication_attribute">
 						<input type="hidden" name="origData" value="#publication_attribute#">
-						<td>
-							<input type="text" name="publication_attribute" value="#publication_attribute#" size="50">
-						</td>
-						<td>
-							<textarea name="description" rows="4" cols="40">#description#</textarea>
-						</td>
-						<td>
-							<select name="control">
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="publication_attribute" value="#publication_attribute#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<textarea class="data-entry-textarea" name="description" rows="4" cols="40">#description#</textarea>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<select class="data-entry-select" name="control">
 								<option value=""></option>
 								<cfloop query="allCTs">
 									<option <cfif q.control is allCTs.tablename> selected="selected" </cfif>value="#tablename#">#tablename#</option>
 								</cfloop>
 							</select>
-						</td>				
-						<td>
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-								onclick="#tbl##i#.action.value='deleteValue';submit();">	
-			
-						</td>
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctbiol_relations"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctbiol_relations order by biol_indiv_relationship
 		</cfquery>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Biological Relationship</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctbiol_relations">
-			<table class="newRec">
-				<tr>
-					<th>Relationship</th>
-					<th>Inverse Relation</th>
-					<th>Type</th>
-					<th></th>
-				</tr>
-				<tr>
-						<td>
-							<input type="text" name="newData" size="50">
-						</td>
-						<td>
-							<input type="text" name="inverse_relation" size="50">
-						</td>
-						<td>
-							<select name="rel_type">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+						<div class="col">
+							<label class="form-label" for="add_newData">Relationship</label>
+							<input id="add_newData" class="data-entry-input" type="text" name="newData" size="50">
+						</div>
+						<div class="col">
+							<label class="form-label" for="add_inverse_relation">Inverse Relation</label>
+							<input id="add_inverse_relation" class="data-entry-input" type="text" name="inverse_relation" size="50">
+						</div>
+						<div class="col">
+							<label class="form-label" for="add_rel_type">Type</label>
+							<select id="add_rel_type" class="data-entry-select" name="rel_type">
 								<option value="biological" selected='selected'>Biological</option>
 								<option value="curatorial">Curatorial</option>
 								<option value="functional">Functional</option>
 							</select>
-						</td>				
-					<td>
+						</div>				
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
 		<cfset i = 1>
-		<table>
-			<tr>
-				<th>Relationship</th>
-				<th>Inverse Relation</th>
-				<th>Type</th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Biological Relationships</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Relationship</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Inverse Relation</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctbiol_relations">
 						<input type="hidden" name="origData" value="#biol_indiv_relationship#">
-						<td>
-							<input type="text" name="biol_indiv_relationship" value="#biol_indiv_relationship#" size="50">
-						</td>
-						<td>
-							<input type="text" name="inverse_relation" value="#inverse_relation#" size="50">
-						</td>
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="biol_indiv_relationship" value="#biol_indiv_relationship#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="inverse_relation" value="#inverse_relation#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
 							<cfif rel_type EQ "biological">
 								<cfset scopepriselected = "selected='selected'">
 								<cfset scopesecselected = "">
@@ -1061,90 +1077,90 @@
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "selected='selected'">
 							</cfif>
-							<select name="rel_type">
+							<select class="data-entry-select" name="rel_type">
 								<option value="biological" #scopepriselected# >Biological</option>
 								<option value="curatorial" #scopesecselected# >Curatorial</option>
 								<option value="functional" #scopevouselected# >Functional</option>
 							</select>
-						</td>				
-						<td>
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-								onclick="#tbl##i#.action.value='deleteValue';submit();">	
-			
-						</td>
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctcoll_other_id_type"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctcoll_other_id_type order by other_id_type
 		</cfquery>	
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Other ID Type</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctcoll_other_id_type">
-			<table class="newRec">
-				<tr>
-					<th>ID Type</th>
-					<th>Description</th>
-					<th>Base URL</th>
-					<th>Mask As Field Number</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<textarea name="description" rows="4" cols="40"></textarea>
-					</td>
-					<td>
-						<input type="text" name="base_url" size="50">
-					</td>
-					<td>
-						<select name="encumber_as_field_num">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">ID Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_base_url">Base URL</label>
+						<input id="add_base_url" class="data-entry-input" type="text" name="base_url" size="50">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_encumber_as_field_num">Mask As Field Number</label>
+						<select id="add_encumber_as_field_num" class="data-entry-select" name="encumber_as_field_num">
 							<option value="0">No</option>
 							<option value="1">Yes</option>
 						</select>
-					</td>
-					<td>
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">					
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">					
+					</div>
+				</div>
+			</div>
 		</form>
 		<cfset i = 1>
-		<table>
-			<tr>
-				<th>Type</th>
-				<th>Description</th>
-				<th>Base URL</th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Other ID Types</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Base URL</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Encumber</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctcoll_other_id_type">
 						<input type="hidden" name="origData" value="#other_id_type#">
-						<td>
-							<input type="text" name="other_id_type" value="#other_id_type#" size="50">
-						</td>
-						<td>
-							<textarea name="description" rows="4" cols="40">#description#</textarea>
-						</td>
-						<td>
-							<input type="text" name="base_url" size="60" value="#base_url#">
-						</td>				
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="other_id_type" value="#other_id_type#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<textarea class="data-entry-textarea" name="description" rows="4" cols="40">#description#</textarea>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="base_url" value="#base_url#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
 							<cfif encumber_as_field_num EQ "1">
 								<cfset select1 = "selected">
 								<cfset select0 = "">
@@ -1152,26 +1168,26 @@
 								<cfset select1 = "">
 								<cfset select0 = "1">
 							</cfif>
-							<select name="encumber_as_field_num">
+							<select class="data-entry-select" name="encumber_as_field_num">
 								<option value="0" #select0#>No</option>
 								<option value="1" #select1#>Yes</option>
 							</select>
-						</td>
-						<td>
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-								onclick="#tbl##i#.action.value='deleteValue';submit();">	
-						</td>
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "cttaxon_relation"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(taxon_relations.taxon_name_id) ct, cttaxon_relation.taxon_relationship, description, inverse_relation
@@ -1181,7 +1197,8 @@
 				cttaxon_relation.taxon_relationship, description, inverse_relation
 			ORDER BY taxon_relationship
 		</cfquery>	
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Taxon Relationship</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="cttaxon_relation">
 			<h2>Phrase taxon relationships and inverse relations in the form</h2>
@@ -1189,56 +1206,54 @@
 				<li>A taxon_relationship B inverse_relation A</li>
 				<li>A junior homonym of B senior homonym of A</li>
 			</ul>
-			<table class="newRec">
-				<tr>
-					<th>Taxon Relationship</th>
-					<th>Description</th>
-					<th>Inverse Relation</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<textarea name="description" rows="4" cols="40"></textarea>
-					</td>
-					<td>
-						<input type="text" name="inverse_relation">
-					</td>
-					<td>
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Taxon Relationship</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="40"></textarea>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_inverse_relation">Inverse Relation</label>
+						<input id="add_inverse_relation" class="data-entry-input" type="text" name="inverse_relation">
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">					
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">					
+					</div>
+				</div>
+			</div>
 		</form>
 		<cfset i = 1>
-		<table>
-			<tr>
-				<th>Taxon Relationship</th>
-				<th>Description</th>
-				<th>Inverse Relation</th>
-				<th>Action</th>
-				<th>Instances</th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Taxon Relationships</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Taxon Relationship</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Inverse Relation</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Instances</div>
+			</div>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="cttaxon_relation">
 						<input type="hidden" name="origData" value="#taxon_relationship#">
-						<td>
-							<input type="text" name="taxon_relationship" value="#taxon_relationship#" size="50">
-						</td>
-						<td>
-							<textarea name="description" rows="4" cols="40">#description#</textarea>
-						</td>
-						<td>
-							<input type="text" name="inverse_relation" value="#inverse_relation#">
-						</td>				
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="taxon_relationship" value="#taxon_relationship#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<textarea class="data-entry-textarea" name="description" rows="4" cols="40">#description#</textarea>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="inverse_relation" value="#inverse_relation#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
@@ -1247,86 +1262,86 @@
 								<input type="button" 
 									value="Delete" 
 									class="delBtn"
-									onclick="#tbl##i#.action.value='deleteValue';submit();">	
+									onclick="#tbl##i#.action.value='deleteValue';submit();">
 							</cfif>
-						</td>
-						<td>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
 							#ct#
-						</td>				
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctnomenclatural_code"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select nomenclatural_code, description, sort_order from ctnomenclatural_code order by sort_order
 		</cfquery>	
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Nomenclatural Code</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctnomenclatural_code">
-			<table class="newRec">
-				<tr>
-					<th>Nomenclatural Code</th>
-					<th>Description</th>
-					<th>Sort Order</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<textarea name="description" rows="4" cols="70"></textarea>
-					</td>
-					<td>
-						<input type="text" name="sort_order" size="3">
-					</td>
-					<td>
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Nomenclatural Code</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_sort_order">Sort Order</label>
+						<input id="add_sort_order" class="data-entry-input" type="text" name="sort_order" size="3">
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">					
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">					
+					</div>
+				</div>
+			</div>
 		</form>
 		<cfset i = 1>
-		<table>
-			<tr>
-				<th>Nomenclatural Code</th>
-				<th>Description</th>
-				<th>Sort Order</th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Nomenclatural Codes</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Nomenclatural Code</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Sort Order</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="ctnomenclatural_code">
 						<input type="hidden" name="origData" value="#nomenclatural_code#">
-						<td>
-							<input type="text" name="nomenclatural_code" value="#nomenclatural_code#" size="50">
-						</td>
-						<td>
-							<textarea name="description" rows="4" cols="70">#description#</textarea>
-						</td>
-						<td>
-							<input type="text" name="sort_order" size="3" value="#sort_order#">
-						</td>				
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="nomenclatural_code" value="#nomenclatural_code#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<textarea class="data-entry-textarea" name="description" rows="4" cols="70">#description#</textarea>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="sort_order" size="3" value="#sort_order#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-								onclick="#tbl##i#.action.value='deleteValue';submit();">	
-						</td>
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctspecimen_part_list_order"><!--- special section to handle  another  funky code table --->
 		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctspecimen_part_list_order order by
@@ -1343,93 +1358,89 @@
 			Nothing prevents you from making several parts the same
 			order, and doing so will just cause them to not be ordered. You don't have to order things you don't care about.	
 		</p>
-		Create part ordering
-		<table class="newRec" border>
-			<tr>
-				<th>Part Name</th>
-				<th>List Order</th>
-				<th></th>
-			</tr>
-			<form name="newPart" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Part Ordering</h3>
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
+			<form name="newPart" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
-				<tr>
-					<td>
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_partname">Part Name</label>
 						<cfset thisPart = #thisRec.partname#>
-						<select name="partname" size="1">
+						<select id="add_partname" class="data-entry-select" name="partname" size="1">
 							<cfloop query="ctspecimen_part_name">
 							<option 
 							value="#ctspecimen_part_name.partname#">#ctspecimen_part_name.partname# (#ctspecimen_part_name.collection_cde#)</option>
 							</cfloop>
 						</select>
-					</td>
+					</div>
 					<cfquery name="mo" dbtype="query">
 						select max(list_order) +1 maxNum from thisRec
 					</cfquery>
-					<td>
+					<div class="col">
+						<label class="form-label" for="add_list_order">List Order</label>
 						<cfset thisLO = #thisRec.list_order#>
-						<select name="list_order" size="1">
+						<select id="add_list_order" class="data-entry-select" name="list_order" size="1">
 							<cfloop from="1" to="#mo.maxNum#" index="n">
 								<option value="#n#">#n#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td colspan="3">
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn">	
-					</td>
-				</tr>
+							class="insBtn mt-4">	
+					</div>
+				</div>
 			</form>	
-		</table>
-		Edit part order
-		<table border>
-			<tr>
-				<th>Part Name</th>
-				<th>List Order</th>
-				<th>&nbsp;</th>
-			</tr>
+		</div>
+		<h3 class="h5 mt-3 mb-2">Edit Part Orderings</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Part Name</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">List Order</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i=1>
 			<cfloop query="thisRec">
-				<form name="part#i#" method="post" action="CodeTableEditor.cfm">
+				<form class="d-table-row" name="part#i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 					<input type="hidden" name="action" value="ctspecimen_part_list_order">
 					<input type="hidden" name="tbl" value="#tbl#">
 					<input type="hidden" name="oldlist_order" value="#list_order#">
 					<input type="hidden" name="oldpartname" value="#partname#">
-					<tr>
-						<td>
-							<cfset thisPart = #thisRec.partname#>
-							<select name="partname" size="1">
-								<cfloop query="ctspecimen_part_name">
-								<option 
-								<cfif #thisPart# is "#ctspecimen_part_name.partname#"> selected </cfif>value="#ctspecimen_part_name.partname#">#ctspecimen_part_name.partname#</option>
-								</cfloop>
-							</select>
-						</td>
-						<td>
-							<cfset thisLO = #thisRec.list_order#>
-							<select name="list_order" size="1">
-								<cfloop from="1" to="#mo.maxNum#" index="n">
-									<option <cfif #thisLO# is "#n#"> selected </cfif>value="#n#">#n#</option>
-								</cfloop>
-							</select>
-						</td>
-						<td colspan="3">
-							<input type="button" 
-								value="Save" 
-								class="savBtn"
-								onclick="part#i#.action.value='saveEdit';submit();">	
-							<input type="button" 
-								value="Delete" 
-								class="delBtn"
-							 	onclick="part#i#.action.value='deleteValue';submit();">	
-								
-						</td>
-					</tr>
+					<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+						<cfset thisPart = #thisRec.partname#>
+						<select class="data-entry-select w-100" name="partname" size="1">
+							<cfloop query="ctspecimen_part_name">
+							<option 
+							<cfif #thisPart# is "#ctspecimen_part_name.partname#"> selected </cfif>value="#ctspecimen_part_name.partname#">#ctspecimen_part_name.partname#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="d-table-cell py-1 pr-3 align-middle">
+						<cfset thisLO = #thisRec.list_order#>
+						<select class="data-entry-select" name="list_order" size="1">
+							<cfloop from="1" to="#mo.maxNum#" index="n">
+								<option <cfif #thisLO# is "#n#"> selected </cfif>value="#n#">#n#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="d-table-cell py-1 align-middle text-nowrap">
+						<input type="button" 
+							value="Save" 
+							class="savBtn"
+							onclick="part#i#.action.value='saveEdit';submit();">	
+						<input type="button" 
+							value="Delete" 
+							class="delBtn"
+						 	onclick="part#i#.action.value='deleteValue';submit();">	
+					</div>
 				</form>
 				<cfset i=#i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctunderscore_collection_type">
 		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * FROM ctunderscore_collection_type 
@@ -1439,74 +1450,71 @@
 		<p>
 			Types of Named Groups of Cataloged Items.
 		</p>
-		Create type of named group
-		<table class="newRec" border>
-			<tr>
-				<th>Type</th>
-				<th>Description</th>
-				<th>Allowed Agent Roles</th>
-				<th></th>
-			</tr>
-			<form name="newType" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Named Group Type</h3>
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
+			<form name="newType" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
-				<tr>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					<td>
-						<textarea name="description" rows="4" cols="70"></textarea>
-					</td>
-					<td>
-						<input type="text" name="allowed_agent_roles" >
-					</td>
-					<td colspan="3">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<textarea id="add_description" class="data-entry-textarea" name="description" rows="4" cols="70"></textarea>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_allowed_agent_roles">Allowed Agent Roles</label>
+						<input id="add_allowed_agent_roles" class="data-entry-input" type="text" name="allowed_agent_roles" >
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn">	
-					</td>
-				</tr>
+							class="insBtn mt-4">	
+					</div>
+				</div>
 			</form>	
-		</table>
-		Edit types of named groups
-		<table border>
-			<tr>
-				<th>Type</th>
-				<th>Description</th>
-				<th>Allowed Agent Roles</th>
-				<th>&nbsp;</th>
-			</tr>
+		</div>
+		<h3 class="h5 mt-3 mb-2">Edit Named Group Types</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Allowed Agent Roles</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i=1>
 			<cfloop query="thisRec">
-				<form name="type#i#" method="post" action="CodeTableEditor.cfm">
+				<form class="d-table-row" name="type#i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 					<input type="hidden" name="action" value="replacedinbuttonclick">
 					<input type="hidden" name="tbl" value="#tbl#">
 					<input type="hidden" name="oldunderscore_collection_type" value="#underscore_collection_type#">
-					<tr>
-						<td>
-							<input type="text" name="underscore_collection_type" value="#underscore_collection_type#" >
-						</td>
-						<td>
-							<input type="text" name="description" value="#description#" >
-						</td>
-						<td>
-							<input type="text" name="allowed_agent_roles" value="#allowed_agent_roles#" >
-						</td>
-						<td colspan="3">
-							<input type="button" 
-								value="Save" 
-								class="savBtn"
-								onclick="type#i#.action.value='saveEdit';submit();">	
-							<input type="button" 
-								value="Delete" 
-								class="delBtn"
-							 	onclick="type#i#.action.value='deleteValue';submit();">	
-						</td>
-					</tr>
+					<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+						<input class="data-entry-input w-100" type="text" name="underscore_collection_type" value="#underscore_collection_type#" >
+					</div>
+					<div class="d-table-cell py-1 pr-3 align-middle">
+						<input class="data-entry-input" type="text" name="description" value="#description#" >
+					</div>
+					<div class="d-table-cell py-1 pr-3 align-middle">
+						<input class="data-entry-input" type="text" name="allowed_agent_roles" value="#allowed_agent_roles#" >
+					</div>
+					<div class="d-table-cell py-1 align-middle text-nowrap">
+						<input type="button" 
+							value="Save" 
+							class="savBtn"
+							onclick="type#i#.action.value='saveEdit';submit();">	
+						<input type="button" 
+							value="Delete" 
+							class="delBtn"
+						 	onclick="type#i#.action.value='deleteValue';submit();">	
+					</div>
 				</form>
 				<cfset i=#i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
 	<cfelseif tbl is "ctunderscore_coll_agent_role"><!---------------------------------------------------->
 		<!---   underscore_collection agent role table has sort order and labels, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1514,75 +1522,74 @@
 			FROM CTUNDERSCORE_COLL_AGENT_ROLE 
 			ORDER BY ordinal, role
 		</cfquery>
-		<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add Collection Agent Role</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec">
-				<tr>
-					<th>Role</th>
-					<th>Description</th>
-					<th>Sort Order</th>
-					<th>Label (group-label-agent)</th>
-					<th>Inverse Label (agent-label-group)</th>
-					<th></th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text" name="newData" class="reqdClr" required>
-					</td>
-					<td>
-						<input type="text" name="description">
-					</td>
-					<td>
-						<input type="text" name="ordinal" class="reqdClr" required>
-					</td>
-					<td>
-						<input type="text" name="label">
-					</td>
-					<td>
-						<input type="text" name="inverse_label">
-					</td>
-					<td>
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Role</label>
+						<input id="add_newData" type="text" name="newData" class="data-entry-input reqdClr" required>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_ordinal">Sort Order</label>
+						<input id="add_ordinal" type="text" name="ordinal" class="data-entry-input reqdClr" required>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_label">Label (group-label-agent)</label>
+						<input id="add_label" class="data-entry-input" type="text" name="label">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_inverse_label">Inverse Label (agent-label-group)</label>
+						<input id="add_inverse_label" class="data-entry-input" type="text" name="inverse_label">
+					</div>
+					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
-					</td>
-				</tr>
-			</table>
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
 		</form>
-		<table>
-			<tr>
-				<th>Role</th>
-				<th>Description</th>
-				<th>Sort Order</th>
-				<th>Label (group-label-agent)</th>
-				<th>Inverse Label (agent-label-group)</th>
-				<th></th>
-			</tr>
+		<h3 class="h5 mt-3 mb-2">Edit Collection Agent Roles</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Role</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Sort Order</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Label</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Inverse Label</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
 			<cfset i = 1>
 			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#role#">
-						<td>
-							<input type="text" name="role" value="#role#" required class="reqdClr">
-						</td>
-						<td>
-							<input type="text" name="description" value="#description#">
-						</td>
-						<td>
-							<input type="text" name="ordinal" value="#ordinal#" required class="reqdClr">
-						</td>
-						<td>
-							<input type="text" name="label" value="#label#">
-						</td>
-						<td>
-							<input type="text" name="inverse_label" value="#inverse_label#">
-						</td>
-						<td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input type="text" name="role" value="#role#" required class="data-entry-input reqdClr w-100">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="description" value="#description#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input type="text" name="ordinal" value="#ordinal#" required class="data-entry-input reqdClr">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="label" value="#label#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="inverse_label" value="#inverse_label#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
@@ -1591,26 +1598,412 @@
 								value="Delete" 
 								class="delBtn"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
-						</td>
+						</div>
 					</form>
-				</tr>
 				<cfset i = #i#+1>
 			</cfloop>
-		</table>
+			</div>
+		</div>
+	<cfelseif tbl is "ctmedia_relationship"><!---------------------------------------------------->
+		<!---  Media relationship code table includes field for label, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select media_relationship, description, label, auto_table from ctmedia_relationship order by media_relationship
+		</cfquery>
+		<h2>Relationships between media records and other tables.</h2>
+		<p>Last word in Media Relationship must be a table name.  Adding new relationship also involves code changes to MCZBASE.get_media_descriptor and MCZBASE.get_media_title.</p>
+		<p>If adding relationships to a new table, additions are needed to MCZBASE.MEDIA_RELATION_SUMMARY</p>
+		<h3 class="h5 mt-3 mb-2 text-success">Add Media Relationship</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Media Relationship</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_label">Label</label>
+						<input id="add_label" class="data-entry-input" type="text" name="label">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
+					</div>
+					<div class="col">
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
+		</form>
+		<h3 class="h5 mt-3 mb-2">Edit Media Relationships</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Media Relationship</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Table</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Label</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
+			<cfset i = 1>
+			<cfloop query="q">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#media_relationship#">
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="media_relationship" value="#media_relationship#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<span>#auto_table#</span>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="label" value="#label#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="description" value="#description#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
+					</form>
+				<cfset i = #i#+1>
+			</cfloop>
+			</div>
+		</div>
+	<cfelseif tbl is "CTTAXON_CATEGORY"><!---------------------------------------------------->
+		<!---  taxon category code table includes field for category type, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select taxon_category, category_type, description, hidden_fg from cttaxon_category order by taxon_category
+		</cfquery>
+		<h2>Categorization of taxonomy records.</h2>
+		<p>Each taxon_category must have a category_type, some category types have functional roles in the code, category types may be set to public or internal only visibility.</p>
+		<h3 class="h5 mt-3 mb-2 text-success">Add Taxon Category</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Taxon Category</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_category_type">Category Type</label>
+						<input id="add_category_type" class="data-entry-input" type="text" name="category_type">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_hidden_fg">Visibility</label>
+						<select id="add_hidden_fg" class="data-entry-select" name="hidden_fg">
+							<option value="0" selected="selected" >Public</option>
+							<option value="1">Hidden</option>
+						</select>
+					</div>
+					<div class="col">
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
+		</form>
+		<h3 class="h5 mt-3 mb-2">Edit Taxon Categories</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Taxon Category</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Category Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Visibility</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
+			<cfset i = 1>
+			<cfloop query="q">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#taxon_category#">
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input type="text" name="taxon_category" value="#taxon_category#" class="data-entry-input reqdClr w-100">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input type="text" name="category_type" value="#category_type#" class="data-entry-input reqdClr">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="description" value="#description#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<cfif hidden_fg EQ 0>
+								<cfset publicselected = "selected='selected'">
+								<cfset hiddenselected = "">
+							<cfelse>
+								<cfset publicselected = "">
+								<cfset hiddenselected = "selected='selected'">
+							</cfif>
+							<select class="data-entry-select" name="hidden_fg">
+								<option value="0" #publicselected#>Public</option>
+								<option value="1" #hiddenselected#>Hidden</option>
+							</select>
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
+					</form>
+				<cfset i = #i#+1>
+			</cfloop>
+			</div>
+		</div>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE"><!---------------------------------------------------->
+		<!---  taxon attribute type table includes field for visibility, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select taxon_attribute_type, hidden_fg, description from cttaxon_attribute_type order by taxon_attribute_type
+		</cfquery>
+		<h2>Types of taxonomy attributes.</h2>
+		<p>Each taxon_attribute must have a type, types can have visibility public or hidden, hidden taxon attributes are shown to internal users only.</p>
+		<h3 class="h5 mt-3 mb-2 text-success">Add Taxon Attribute Type</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Taxon Attribute Type</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_hidden_fg">Visibility</label>
+						<select id="add_hidden_fg" class="data-entry-select" name="hidden_fg">
+							<option value="0" selected="selected" >Public</option>
+							<option value="1">Hidden</option>
+						</select>
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
+					</div>
+					<div class="col">
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
+		</form>
+		<h3 class="h5 mt-3 mb-2">Edit Taxon Attribute Types</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Taxon Attribute Type</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Visibility</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
+			<cfset i = 1>
+			<cfloop query="q">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#taxon_attribute_type#">
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input type="text" name="taxon_attribute_type" value="#taxon_attribute_type#" class="data-entry-input reqdClr w-100">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<cfif hidden_fg EQ 0>
+								<cfset publicselected = "selected='selected'">
+								<cfset hiddenselected = "">
+							<cfelse>
+								<cfset publicselected = "">
+								<cfset hiddenselected = "selected='selected'">
+							</cfif>
+							<select class="data-entry-select" name="hidden_fg">
+								<option value="0" #publicselected#>Public</option>
+								<option value="1" #hiddenselected#>Hidden</option>
+							</select>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="description" value="#description#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
+					</form>
+				<cfset i = #i#+1>
+			</cfloop>
+			</div>
+		</div>
+	<cfelseif tbl is "CTSTATE"><!---------------------------------------------------->
+		<!---  ctstate annotation state table includes field for state_curie, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				state, description, state_curie
+			FROM ctstate
+			ORDER BY state
+		</cfquery>
+		<h2>Annotation States.</h2>
+		<p>Each annotation state must have a state and may be mapped to an ontology term by CURIE (namespaceabbreviation:term).</p>
+		<h3 class="h5 mt-3 mb-2 text-success">Add Annotation State</h3>
+		<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<div class="row border rounded my-2 mx-1 p-2 bg-light">
+				<div class="form-row mb-1">
+					<div class="col">
+						<label class="form-label" for="add_newData">Annotation State</label>
+						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_state_curie">Mapped to CURIE</label>
+						<input id="add_state_curie" class="data-entry-input" type="text" name="state_curie" >
+					</div>
+					<div class="col">
+						<label class="form-label" for="add_description">Description</label>
+						<input id="add_description" class="data-entry-input" type="text" name="description">
+					</div>
+					<div class="col">
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn mt-4">
+					</div>
+				</div>
+			</div>
+		</form>
+		<h3 class="h5 mt-3 mb-2">Edit Annotation States</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+			<div class="d-table-row bg-light border-bottom">
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Annotation State</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Mapped to CURIE</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+			</div>
+			<cfset i = 1>
+			<cfloop query="q">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#state#">
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input type="text" name="state" value="#state#" class="data-entry-input reqdClr w-100">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="state_curie" value="#state_curie#">
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle">
+							<input class="data-entry-input" type="text" name="description" value="#description#">
+						</div>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</div>
+					</form>
+				<cfset i = #i#+1>
+			</cfloop>
+			</div>
+		</div>
 	<cfelse><!---------------------------- normal CTs --------------->
 		<cfquery name="getCols" datasource="uam_god">
-			SELECT column_name 
+			SELECT column_name, column_id
 			FROM sys.user_tab_columns 
 			WHERE table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
+			ORDER BY column_id
 		</cfquery>
-		<cfset collcde=listfindnocase(valuelist(getCols.column_name),"collection_cde")>
-		<cfset hasDescn=listfindnocase(valuelist(getCols.column_name),"description")>
-		<cfquery name="f" dbtype="query">
-			select column_name from getCols where lower(column_name) not in ('collection_cde','description')
+		<!--- Query primary key columns ordered by position within the constraint --->
+		<cfquery name="getPKCols" datasource="uam_god">
+			SELECT ucc.column_name, ucc.position
+			FROM sys.user_constraints uc
+			JOIN sys.user_cons_columns ucc ON uc.constraint_name = ucc.constraint_name
+			WHERE uc.table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
+			  AND uc.constraint_type = 'P'
+			ORDER BY ucc.position
 		</cfquery>
-		<cfset fld=f.column_name>
+		<cfset variables.pkColList = valuelist(getPKCols.column_name)>
+		<cfset collcde = listfindnocase(valuelist(getCols.column_name), "collection_cde")>
+		<cfset hasDescn = listfindnocase(valuelist(getCols.column_name), "description")>
+		<!--- fld: first non-collection_cde PK column by PK position;
+		      fallback to first non-collection_cde/description column if no PK is defined --->
+		<cfset fld = "">
+		<cfif variables.pkColList neq "">
+			<cfloop list="#variables.pkColList#" index="variables.pkc">
+				<cfif fld eq "" and not listfindnocase("collection_cde", variables.pkc)>
+					<cfset fld = variables.pkc>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfif fld eq "">
+			<cfloop list="#valuelist(getCols.column_name)#" index="variables.c">
+				<cfif fld eq "" and not listfindnocase("collection_cde,description", variables.c)>
+					<cfset fld = variables.c>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfif fld eq "" and getCols.recordCount gt 0>
+			<cfset fld = listFirst(valuelist(getCols.column_name))>
+		</cfif>
+		<!--- pkExtraCols: additional PK columns that are not fld and not collection_cde;
+		      included in WHERE clauses for uniqueness with multi-column primary keys --->
+		<cfset variables.pkExtraCols = "">
+		<cfif variables.pkColList neq "">
+			<cfloop list="#variables.pkColList#" index="variables.pkc">
+				<cfif variables.pkc neq fld and not listfindnocase("collection_cde", variables.pkc)>
+					<cfset variables.pkExtraCols = listAppend(variables.pkExtraCols, variables.pkc)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- extraCols: non-PK, non-collection_cde, non-description, non-fld columns (descriptive/data columns) --->
+		<cfset variables.extraCols = "">
+		<cfloop list="#valuelist(getCols.column_name)#" index="variables.c">
+			<cfif variables.c neq fld
+			  and not listfindnocase("collection_cde,description", variables.c)
+			  and (variables.pkColList eq "" or not listfindnocase(variables.pkColList, variables.c))>
+				<cfset variables.extraCols = listAppend(variables.extraCols, variables.c)>
+			</cfif>
+		</cfloop>
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select #fld# as data 
+			<cfif variables.pkExtraCols neq "">
+				,#variables.pkExtraCols#
+			</cfif>
+			<cfif variables.extraCols neq "">
+				,#variables.extraCols#
+			</cfif>
 			<cfif collcde gt 0>
 				,collection_cde
 			</cfif>
@@ -1622,122 +2015,165 @@
 			<cfif collcde gt 0>
 				collection_cde,
 			</cfif>
+			<cfif variables.pkExtraCols neq "">
+				#variables.pkExtraCols#,
+			</cfif>
 			#fld#
 		</cfquery>
-		Add record:
-		<table class="newRec" border="1">
-			<tr>
-				<cfif collcde gt 0>
-					<th>Collection Type</th>
-				</cfif>
-				<th>#fld#</th>
-				<cfif hasDescn gt 0>
-					<th>Description</th>
-				</cfif>
-			</tr>
-			<form name="newData" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2 text-success">Add New Value to #fld#</h3>
+		<div class="row border rounded my-2 mx-1 p-2 bg-light">
+			<form name="newData" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 				<input type="hidden" name="collcde" value="#collcde#">
 				<input type="hidden" name="action" value="newValue">
 				<input type="hidden" name="tbl" value="#tbl#">
 				<input type="hidden" name="hasDescn" value="#hasDescn#">
 				<input type="hidden" name="fld" value="#fld#">
-				<tr>
+				<input type="hidden" name="pkExtraCols" value="#variables.pkExtraCols#">
+				<input type="hidden" name="extraCols" value="#variables.extraCols#">
+				<div class="form-row mb-1 flex-nowrap align-items-end">
 					<cfif collcde gt 0>
-						<td>
-							<select name="collection_cde" size="1">
+						<div class="col">
+							<label class="form-label" for="add_collection_cde">Collection Type</label>
+							<select id="add_collection_cde" class="data-entry-select" name="collection_cde" size="1">
 								<cfloop query="ctcollcde">
 									<option value="#ctcollcde.collection_cde#">#ctcollcde.collection_cde#</option>
 								</cfloop>
 							</select>
-						</td>
+						</div>
 					</cfif>
-					<td>
-						<input type="text" name="newData" >
-					</td>
-					
+					<div class="col">
+						<label class="form-label" for="newData_#tbl#">#fld#</label>
+						<input class="data-entry-input" type="text" name="newData" id="newData_#tbl#">
+					</div>
+					<cfif variables.pkExtraCols neq "">
+						<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
+							<div class="col">
+								<label class="form-label" for="ec_#variables.pkc#_#tbl#">#variables.pkc#</label>
+								<input class="data-entry-input" type="text" name="ec_#variables.pkc#" id="ec_#variables.pkc#_#tbl#">
+							</div>
+						</cfloop>
+					</cfif>
+					<cfif variables.extraCols neq "">
+						<cfloop list="#variables.extraCols#" index="variables.ec">
+							<div class="col">
+								<label class="form-label" for="ec_#variables.ec#_#tbl#">#variables.ec#</label>
+								<input class="data-entry-input" type="text" name="ec_#variables.ec#" id="ec_#variables.ec#_#tbl#">
+							</div>
+						</cfloop>
+					</cfif>
 					<cfif hasDescn gt 0>
-						<td>
-							<textarea name="description" id="description" rows="4" cols="40"></textarea>
-						</td>
+						<div class="col">
+							<label class="form-label" for="description">Description</label>
+							<textarea class="data-entry-textarea" name="description" id="description" rows="4" cols="40"></textarea>
+						</div>
 					</cfif>
-					<td>
+					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">	
-					</td>
-				</tr>
+							class="insBtn mt-4">	
+					</div>
+				</div>
 			</form>
-		</table>
+		</div>
 		<cfset i = 1>
-		Edit #tbl#:
-		<table border="1">
-			<tr>
-				<cfif collcde gt 0>
-					<th>Collection Type</th>
-				</cfif>
-				<th>#fld#</th>
-				<cfif hasDescn gt 0>
-					<th>Description</th>
-				</cfif>
-			</tr>
-			<cfloop query="q">
-				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+		<h3 class="h5 mt-3 mb-2">Edit Existing Values to #fld#</h3>
+		<div class="row border rounded my-2 mx-1 p-2">
+			<div class="d-table w-100">
+				<div class="d-table-row bg-light border-bottom">
+					<cfif collcde gt 0>
+						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Collection Type</div>
+					</cfif>
+					<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#fld#</div>
+					<cfif variables.pkExtraCols neq "">
+						<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#variables.pkc#</div>
+						</cfloop>
+					</cfif>
+					<cfif variables.extraCols neq "">
+						<cfloop list="#variables.extraCols#" index="variables.ec">
+							<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">#variables.ec#</div>
+						</cfloop>
+					</cfif>
+					<cfif hasDescn gt 0>
+						<div class="d-table-cell fw-bold small text-muted pb-1 pr-3">Description</div>
+					</cfif>
+					<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
+				</div>
+				<cfloop query="q">
+					<form class="d-table-row" name="#tbl##i#" method="post" action="/vocabularies/manageControlledVocabulary.cfm">
 						<input type="hidden" name="Action">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<input type="hidden" name="fld" value="#fld#">
 						<input type="hidden" name="collcde" value="#collcde#">
 						<input type="hidden" name="hasDescn" value="#hasDescn#">
 						<input type="hidden" name="origData" value="#q.data#">
+						<input type="hidden" name="pkExtraCols" value="#variables.pkExtraCols#">
+						<input type="hidden" name="extraCols" value="#variables.extraCols#">
 						<cfif collcde gt 0>
 							<input type="hidden" name="origcollection_cde" value="#q.collection_cde#">
 							<cfset thisColl=#q.collection_cde#>
-							<td>
-								<select name="collection_cde" size="1">
+							<div class="d-table-cell py-1 pr-3 align-middle">
+								<select class="data-entry-select" name="collection_cde" size="1">
 									<cfloop query="ctcollcde">
 										<option 
 											<cfif #thisColl# is "#ctcollcde.collection_cde#"> selected </cfif>value="#ctcollcde.collection_cde#">#ctcollcde.collection_cde#</option>
 									</cfloop>
 								</select>
-							</td>
+							</div>
 						</cfif>
-						<td>
-							<input type="text" name="thisField" value="#q.data#" size="50">
-						</td>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<input class="data-entry-input w-100" type="text" name="thisField" value="#q.data#">
+						</div>
+						<cfif variables.pkExtraCols neq "">
+							<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
+								<cfset variables.pkcVal = q[variables.pkc][q.currentrow]>
+								<input type="hidden" name="origpk_#variables.pkc#" value="#variables.pkcVal#">
+								<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
+									<input class="data-entry-input w-100" type="text" name="ec_#variables.pkc#" value="#variables.pkcVal#">
+								</div>
+							</cfloop>
+						</cfif>
+						<cfif variables.extraCols neq "">
+							<cfloop list="#variables.extraCols#" index="variables.ec">
+								<cfset variables.ecVal = q[variables.ec][q.currentrow]>
+								<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
+									<input class="data-entry-input w-100" type="text" name="ec_#variables.ec#" value="#variables.ecVal#">
+								</div>
+							</cfloop>
+						</cfif>
 						<cfif hasDescn gt 0>
-							<td>
-								<textarea name="description" rows="4" cols="40">#q.description#</textarea>
-							</td>				
+							<div class="d-table-cell py-1 pr-3 align-middle">
+								<textarea class="data-entry-textarea" name="description" rows="4" cols="40">#q.description#</textarea>
+							</div>
 						</cfif>
-						<td>
+						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.Action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.Action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-								onclick="#tbl##i#.Action.value='deleteValue';submit();">	
-		
-						</td>
+								onclick="#tbl##i#.Action.value='deleteValue';submit();">
+						</div>
 					</form>
-				</tr>
-				<cfset i = #i#+1>
-			</cfloop>
-		</table>
+					<cfset i = #i#+1>
+				</cfloop>
+			</div>
+		</div>
 	</cfif>
 <cfelseif action is "deleteValue">
 	<cfif tbl is "ctpublication_attribute">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctpublication_attribute 
 			where
-				publication_attribute='#origData#'
+				publication_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctnomenclatural_code">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctnomenclatural_code 
 			where
-				nomenclatural_code='#origData#'
+				nomenclatural_code=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1797,20 +2233,20 @@
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM ctattribute_code_tables
 			WHERE
-				Attribute_type = '#oldAttribute_type#' 
-				<cfif len(#oldvalue_code_table#) gt 0>
-					AND	value_code_table = '#oldvalue_code_table#'
-				</cfif> 
-				<cfif len(#oldunits_code_table#) gt 0>
-					AND	units_code_table = '#oldunits_code_table#'
-				</cfif> 
+				Attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldAttribute_type#" />
+				<cfif len(oldvalue_code_table) gt 0>
+					AND	value_code_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldvalue_code_table#" />
+				</cfif>
+				<cfif len(oldunits_code_table) gt 0>
+					AND	units_code_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunits_code_table#" />
+				</cfif>
 		</cfquery>
 	<cfelseif tbl is "ctspecimen_part_list_order">
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM ctspecimen_part_list_order
 			WHERE
-				partname = '#oldpartname#' AND
-				list_order = '#oldlist_order#'
+				partname = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldpartname#" /> AND
+				list_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oldlist_order#" />
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_collection_type">
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1824,23 +2260,59 @@
 			WHERE
 				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
+	<cfelseif tbl is "ctspecific_permit_type">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM ctspecific_permit_type
+			WHERE
+				specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM ctmedia_relationship
+			WHERE
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_CATEGORY">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM CTTAXON_CATEGORY
+			WHERE
+				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM CTTAXON_ATTRIBUTE_TYPE
+			WHERE
+				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTSTATE">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM CTSTATE
+			WHERE
+				state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
 	<cfelse>
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM #tbl# 
-			where #fld# = '#origData#'
+			WHERE #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+					AND #variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['origpk_' & variables.pkc]#" />
+				</cfloop>
+			</cfif>
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-				 AND collection_cde='#origcollection_cde#'
+				AND collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origcollection_cde#" />
 			</cfif>
 		</cfquery>
 	</cfif>
-	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
+	<cflocation url="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#tbl#" addtoken="false">
 <cfelseif action is "saveEdit">
 	<cfif tbl is "ctpublication_attribute">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctpublication_attribute set 
 				publication_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
 				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
-				control=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#control#">
+				control=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#control#">,
+				mcz_publication_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mcz_publication_fg#">
 			where
 				publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1950,27 +2422,31 @@
 				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				inverse_relation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />
 			WHERE
-				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+				taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctattribute_code_tables SET
-				Attribute_type = '#Attribute_type#',
-				value_code_table = '#value_code_table#',
-				units_code_table = '#units_code_table#'
+				Attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Attribute_type#" />,
+				value_code_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#value_code_table#" />,
+				units_code_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#units_code_table#" />
 			WHERE
-				Attribute_type = '#oldAttribute_type#' AND
-				value_code_table = '#oldvalue_code_table#' AND
-				units_code_table = '#oldunits_code_table#'
+				Attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldAttribute_type#" />
+				<cfif len(oldvalue_code_table) gt 0>
+					AND value_code_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldvalue_code_table#" />
+				</cfif>
+				<cfif len(oldunits_code_table) gt 0>
+					AND units_code_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunits_code_table#" />
+				</cfif>
 		</cfquery>
 	<cfelseif tbl is "ctspecimen_part_list_order">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctspecimen_part_list_order SET
-				partname = '#partname#',
-				list_order = '#list_order#'
+				partname = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#partname#" />,
+				list_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#list_order#" />
 			WHERE
-				partname = '#oldpartname#' AND
-				list_order = '#oldlist_order#'
+				partname = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldpartname#" /> AND
+				list_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oldlist_order#" />
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_collection_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1993,22 +2469,77 @@
 			WHERE
 				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update ctmedia_relationship set 
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#" />,
+				DESCRIPTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />
+			where
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_CATEGORY">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE cttaxon_category 
+			SET 
+				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				category_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />,
+				hidden_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
+			WHERE
+				taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE cttaxon_attribute_type 
+			SET 
+				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_attribute_type#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				hidden_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
+			WHERE
+				taxon_attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "CTSTATE">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE ctstate 
+			SET 
+				state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				state_curie = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_curie#" />
+			WHERE
+				state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
 	<cfelse>
 		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE #tbl# SET #fld# = '#thisField#'
+			UPDATE #tbl# SET #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisField#" />
+			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+					,#variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.pkc]#" />
+				</cfloop>
+			</cfif>
+			<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
+				<cfloop list="#form.extraCols#" index="variables.ec">
+					,#variables.ec# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.ec]#" />
+				</cfloop>
+			</cfif>
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-				,collection_cde='#collection_cde#'
+				,collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#" />
 			</cfif>
 			<cfif isdefined("description")>
-				,description='#description#'
+				,description=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			</cfif>
-			where #fld# = '#origData#'
+			WHERE #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+					AND #variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['origpk_' & variables.pkc]#" />
+				</cfloop>
+			</cfif>
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-				 AND collection_cde='#origcollection_cde#'
+				AND collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origcollection_cde#" />
 			</cfif>
 		</cfquery>
 	</cfif>
-	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
+	<cflocation url="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#tbl#" addtoken="false">
 <cfelseif action is "newValue">
 	<cfif tbl is "ctpublication_attribute">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2019,7 +2550,8 @@
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#control#'>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#control#'>,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#mcz_publication_fg#'>
 			)
 		</cfquery>
 	<cfelseif tbl is "ctnomenclatural_code">
@@ -2167,20 +2699,20 @@
 		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctattribute_code_tables (
 				Attribute_type
-				<cfif len(#value_code_table#) gt 0>
+				<cfif len(value_code_table) gt 0>
 					,value_code_table
 				</cfif>
-				<cfif len(#units_code_table#) gt 0>
+				<cfif len(units_code_table) gt 0>
 					,units_code_table
 				</cfif>
 				)
 			VALUES (
-				'#Attribute_type#'
-				<cfif len(#value_code_table#) gt 0>
-					,'#value_code_table#'
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Attribute_type#" />
+				<cfif len(value_code_table) gt 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#value_code_table#" />
 				</cfif>
-				<cfif len(#units_code_table#) gt 0>
-					,'#units_code_table#'
+				<cfif len(units_code_table) gt 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#units_code_table#" />
 				</cfif>
 			)
 		</cfquery>
@@ -2191,8 +2723,8 @@
 				list_order
 				)
 			VALUES (
-				'#partname#',
-				#list_order#
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#partname#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#list_order#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_collection_type">
@@ -2225,10 +2757,70 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_label#">
 			)
 		</cfquery>
+	<cfelseif tbl is "CTMEDIA_RELATIONSHIP">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO ctmedia_relationship (
+				media_relationship,
+				label,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_CATEGORY">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO cttaxon_category (
+				taxon_category,
+				category_type,
+				description,
+				hidden_fg
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category_type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO cttaxon_attribute_type (
+				taxon_attribute_type,
+				hidden_fg,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hidden_fg#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "CTSTATE">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO ctstate (
+				state,
+				state_curie,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_curie#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
 	<cfelse>
 		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO #tbl# 
 				(#fld#
+				<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+					<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+						,#variables.pkc#
+					</cfloop>
+				</cfif>
+				<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
+					<cfloop list="#form.extraCols#" index="variables.ec">
+						,#variables.ec#
+					</cfloop>
+				</cfif>
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 					 ,collection_cde
 				</cfif>
@@ -2237,7 +2829,17 @@
 				</cfif>
 				)
 			VALUES 
-				('#newData#'
+				(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />
+				<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
+					<cfloop list="#form.pkExtraCols#" index="variables.pkc">
+						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.pkc]#" />
+					</cfloop>
+				</cfif>
+				<cfif isdefined("form.extraCols") and len(form.extraCols) gt 0>
+					<cfloop list="#form.extraCols#" index="variables.ec">
+						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.ec]#" />
+					</cfloop>
+				</cfif>
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>
 				</cfif>
@@ -2247,7 +2849,7 @@
 			)
 		</cfquery>
 	</cfif>
-	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
+	<cflocation url="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#tbl#" addtoken="false">
 </cfif>
 			</div>
 		</div>
