@@ -1485,7 +1485,7 @@ limitations under the License.
 													</div>
 													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
 														
-														<div class="col-12 col-md-1 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
 																<!--- lookup accession number (for api call &accn_trans_id=) --->
@@ -1509,7 +1509,7 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
-                                                            <label for="accn_status">Accession Status</label>
+                                                            <label for="accn_status">Accn Status</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_status').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span>
                                                             </a>
 															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
@@ -1521,7 +1521,7 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
-                                                            <label for="accn_type">Accession Type</label>
+                                                            <label for="accn_type">Accn Type</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_type').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span></a>
 															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
 															<script>
@@ -1530,7 +1530,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-                                                        <div class="col-12 col-md-1 col-xl-2 mb-1">
+                                                        <div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
 																<!--- lookup loan number (for api call &loan_trans_id=) --->
