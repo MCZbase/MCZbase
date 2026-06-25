@@ -113,7 +113,7 @@ limitations under the License.
 													</cfif>
 												</cfquery>
 												<cfset variables.rowCountDisplay = getRowCounts.ct>
-												<cfset variables.displayName = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+												<cfset variables.displayName = REReplace(getCTName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 												<tr>
 													<td>#variables.displayName#</td>
 													<td class="text-nowrap">
