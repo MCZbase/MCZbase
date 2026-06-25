@@ -1908,7 +1908,6 @@ input#readMore_check_id {
     font-size: 0.875em;
     width: 100%;
     border: none;
-    display: block;
     padding: 0 .25rem .11rem .25rem;
 }
 button[tabindex="-1"]:focus {
