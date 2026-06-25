@@ -1445,10 +1445,8 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
-                                                        <span class="data-entry-label small">
-														    <label for="underscore_collection">Named Group</label>
-															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
-														</span>
+												        <label for="underscore_collection">Named Group</label>
+														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
 														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
 														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
 														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
