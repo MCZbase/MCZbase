@@ -193,39 +193,93 @@ limitations under the License.
 
 	<cfset variables.hotspots = containerSearch.getContainerShapeHotspots()>
 	<script>document.getElementById('diag_loading_3').style.display='none';</script>
+	<!--- Container type classification lists, shared by both hotspots and role fit sections --->
+	<cfset variables.ctypeC  = "institution,campus,cryovat,building,floor,room,freezer,freezer rack,grouping,set,fixture,rack slot,position">
+	<cfset variables.ctypeS  = "cryovial,tank,jar,glass vial,envelope,slide,pin">
+	<cfset variables.ctypeSC = "freezer box,compartment">
+	<!--- Reusable accessibility indicator snippets --->
+	<cfset variables.violationIndicator = " <span aria-hidden=""true"">&#x2717;</span><span class=""sr-only""> violation</span>">
+	<cfset variables.anomalyIndicator   = " <span aria-hidden=""true"">&#x26A0;</span><span class=""sr-only""> anomaly</span>">
+	<cfset variables.emptyIndicator     = " <span class=""text-muted"">(empty)</span>">
 	<section class="row">
 		<div class="col-12 mb-2">
 			<div class="border rounded bg-light p-2">
 				<h2 class="h4">A/B/AB Hotspots</h2>
 				<p class="mb-1">
-					A = structural, B = flat leaf-heavy, AB = mixed.
+					This table lists containers with an unusually large number of direct collection-object
+					children or with a mix of child types.  A container is included if it has
+					<strong>200 or more direct collection-object children</strong>, or if it has
+					<strong>both collection-object and structural children simultaneously</strong>.
+					Containers with only structural children (no direct collection objects) are not shown.
+				</p>
+				<p class="mb-1">
+					<strong>Shape class</strong> describes the direct-child distribution:
+					<strong>A</strong> = 200&ndash;999 direct collection-object children with no structural children;
+					<strong>B</strong> = 1,000 or more direct collection-object children with no structural children;
+					<strong>AB</strong> = has both collection-object and structural direct children (regardless of count).
+				</p>
+				<p class="mb-1">
+					<strong>Expected Role</strong> shows the role the container type is designed to fill:
+					<strong>C</strong> = structural only (should not hold collection objects directly);
+					<strong>S</strong> = specimen holder (should hold only collection objects);
+					<strong>SC</strong> = may hold both.
+					Rows highlighted in <span class="badge badge-danger">red</span> are
+					<strong>violations</strong> (a C-type holding collection-object children).
+					Rows highlighted in <span class="badge badge-warning">yellow</span> are
+					<strong>anomalies</strong> (an S-type holding structural children).
+					A &#x2717; or &#x26A0; in the Status column provides a non-color indicator.
 				</p>
 				<table class="table table-sm table-striped d-xl-table">
 					<thead>
 						<tr>
 							<th>Container ID</th>
 							<th>Type</th>
+							<th>Expected Role</th>
 							<th>Label</th>
 							<th>Direct Children</th>
 							<th>Direct Leaf Children</th>
 							<th>Direct Structural Children</th>
 							<th>Shape Class</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody>
 						<cfoutput query="variables.hotspots">
-							<tr>
+							<cfset variables.hotspotRole = "unknown">
+							<cfif listFindNoCase(variables.ctypeC, container_type)>
+								<cfset variables.hotspotRole = "C">
+							<cfelseif listFindNoCase(variables.ctypeS, container_type)>
+								<cfset variables.hotspotRole = "S">
+							<cfelseif listFindNoCase(variables.ctypeSC, container_type)>
+								<cfset variables.hotspotRole = "SC">
+							<cfelseif container_type EQ "collection object">
+								<cfset variables.hotspotRole = "leaf">
+							</cfif>
+							<cfset variables.hotspotRowClass = "">
+							<cfset variables.hotspotStatusIndicator = "">
+							<cfif variables.hotspotRole EQ "C">
+								<!--- C types should hold no collection-object children; any are violations --->
+								<cfset variables.hotspotRowClass = " table-danger">
+								<cfset variables.hotspotStatusIndicator = variables.violationIndicator>
+							<cfelseif variables.hotspotRole EQ "S" AND shape_class EQ "AB">
+								<!--- S types with structural children are anomalies --->
+								<cfset variables.hotspotRowClass = " table-warning">
+								<cfset variables.hotspotStatusIndicator = variables.anomalyIndicator>
+							</cfif>
+							<tr class="#trim(variables.hotspotRowClass)#">
 								<td>
 									<a href="/findContainer.cfm?container_id=#encodeForUrl(container_id)#" target="_blank">
 										#encodeForHtml(container_id)#
 									</a>
 								</td>
 								<td>#encodeForHtml(container_type)#</td>
+								<td>#encodeForHtml(variables.hotspotRole)#</td>
 								<td>#encodeForHtml(label)#</td>
 								<td>#encodeForHtml(direct_children)#</td>
 								<td>#encodeForHtml(direct_leaf_children)#</td>
 								<td>#encodeForHtml(direct_structural_children)#</td>
 								<td>#encodeForHtml(shape_class)#</td>
+								<td>#variables.hotspotStatusIndicator#</td>
 							</tr>
 						</cfoutput>
 					</tbody>
@@ -243,16 +297,26 @@ limitations under the License.
 			<div class="border rounded bg-light p-2">
 				<h2 class="h4">Container Type Role Fit</h2>
 				<p class="mb-1">
-					Compares actual child distribution against the expected role for each container type (per CTCONTAINER_TYPE).
-					<strong>C</strong> = expected to contain only other containers
+					Compares the actual child distribution against the expected role for each container type (per CTCONTAINER_TYPE).
+					<strong>C</strong> = expected to contain only other (structural) containers
 					(institution, campus, cryovat, building, floor, room, freezer, freezer rack, grouping, set, fixture, rack slot, position);
-					<strong>S</strong> = expected to contain only collection-object containers (leaf nodes)
+					<strong>S</strong> = expected to contain only collection-object containers, one per container
 					(cryovial, tank, jar, glass vial, envelope, slide, pin);
 					<strong>SC</strong> = may contain both structural containers and collection objects
 					(freezer box, compartment);
 					<strong>leaf</strong> = collection object, should never have children.
-					Cells highlighted in red indicate violations: non-zero <em>With Coll Obj Children</em> for C types,
-					non-zero <em>With Structural Children</em> for S types, or any children for leaf types.
+				</p>
+				<p class="mb-1">
+					Cell highlighting key (color + symbol for accessibility):
+					<strong>&#x2717; Violation</strong> (red) &mdash; clearly incorrect data:
+						non-zero <em>With Coll&nbsp;Obj Children</em> for C types;
+						non-zero <em>With Structural Children</em> for S types;
+						any children for leaf types;
+						non-zero <em>Leaf&nbsp;Nodes</em> for S types (empty specimen holders that should each contain one collection object).
+					<strong>&#x26A0; Anomaly</strong> (yellow) &mdash; unusual but may require investigation:
+						non-zero <em>With Both Types</em> for S or C types.
+					<em>(empty)</em> (plain text) &mdash; informational:
+						non-zero <em>Leaf&nbsp;Nodes</em> for C or SC types indicates containers whose placement has not yet been recorded.
 				</p>
 				<table class="table table-sm table-striped d-xl-table">
 					<thead>
@@ -269,25 +333,52 @@ limitations under the License.
 					<tbody>
 						<cfoutput query="variables.typeRoleFit">
 							<cfset variables.colObjClass = "">
+							<cfset variables.colObjSuffix = "">
 							<cfset variables.structClass = "">
+							<cfset variables.structSuffix = "">
+							<cfset variables.bothClass = "">
+							<cfset variables.bothSuffix = "">
+							<cfset variables.leafClass = "">
+							<cfset variables.leafSuffix = "">
+							<!--- Violation: C type with collection-object children --->
 							<cfif expected_role EQ "C" AND val(with_coll_obj_children) GT 0>
 								<cfset variables.colObjClass = " table-danger">
+								<cfset variables.colObjSuffix = variables.violationIndicator>
 							</cfif>
+							<!--- Violation: S type with structural children --->
 							<cfif expected_role EQ "S" AND val(with_structural_children) GT 0>
 								<cfset variables.structClass = " table-danger">
+								<cfset variables.structSuffix = variables.violationIndicator>
 							</cfif>
+							<!--- Violation: leaf type (collection object) with any children --->
 							<cfif expected_role EQ "leaf" AND (val(with_coll_obj_children) GT 0 OR val(with_structural_children) GT 0)>
 								<cfset variables.colObjClass = " table-danger">
+								<cfset variables.colObjSuffix = variables.violationIndicator>
 								<cfset variables.structClass = " table-danger">
+								<cfset variables.structSuffix = variables.violationIndicator>
+							</cfif>
+							<!--- Anomaly: S or C with children of both types --->
+							<cfif (expected_role EQ "S" OR expected_role EQ "C") AND val(with_both_types) GT 0>
+								<cfset variables.bothClass = " table-warning">
+								<cfset variables.bothSuffix = variables.anomalyIndicator>
+							</cfif>
+							<!--- Violation: S type with empty containers (leaf nodes with no collection-object child) --->
+							<cfif expected_role EQ "S" AND val(leaf_nodes) GT 0>
+								<cfset variables.leafClass = " table-danger">
+								<cfset variables.leafSuffix = variables.violationIndicator>
+							</cfif>
+							<!--- Informational: C or SC type with empty containers (not yet placed in hierarchy) --->
+							<cfif (expected_role EQ "C" OR expected_role EQ "SC") AND val(leaf_nodes) GT 0>
+								<cfset variables.leafSuffix = variables.emptyIndicator>
 							</cfif>
 							<tr>
 								<td>#encodeForHtml(container_type)#</td>
 								<td>#encodeForHtml(expected_role)#</td>
 								<td>#encodeForHtml(total_count)#</td>
-								<td class="#variables.colObjClass#">#encodeForHtml(with_coll_obj_children)#</td>
-								<td class="#variables.structClass#">#encodeForHtml(with_structural_children)#</td>
-								<td>#encodeForHtml(with_both_types)#</td>
-								<td>#encodeForHtml(leaf_nodes)#</td>
+								<td class="#variables.colObjClass#">#encodeForHtml(with_coll_obj_children)##variables.colObjSuffix#</td>
+								<td class="#variables.structClass#">#encodeForHtml(with_structural_children)##variables.structSuffix#</td>
+								<td class="#variables.bothClass#">#encodeForHtml(with_both_types)##variables.bothSuffix#</td>
+								<td class="#variables.leafClass#">#encodeForHtml(leaf_nodes)##variables.leafSuffix#</td>
 							</tr>
 						</cfoutput>
 					</tbody>
