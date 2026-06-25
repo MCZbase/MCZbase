@@ -274,39 +274,53 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page) {
 			var pageSize = data.pageSize || 50;
 			var currentPage = data.page || 1;
 
-			var html = '<div class="container-leaf-panel">';
-			html += '<h3 class="h5">Contents (' + totalRows + ' collection objects)</h3>';
+			var panel = $('<div class="container-leaf-panel"></div>');
+			panel.append('<h3 class="h5">Contents (' + totalRows + ' collection objects)</h3>');
 
 			if (rows.length === 0) {
-				html += '<p class="text-muted">No collection objects found.</p>';
+				panel.append('<p class="text-muted">No collection objects found.</p>');
 			} else {
-				html += '<table class="table table-sm table-striped"><thead><tr>';
-				html += '<th>Container ID</th><th>Label</th><th>Barcode</th><th>Description</th>';
-				html += '</tr></thead><tbody>';
+				var tbody = $('<tbody></tbody>');
 				$.each(rows, function(i, row) {
-					html += '<tr>';
-					html += '<td>' + $('<span>').text(row.container_id).html() + '</td>';
-					html += '<td>' + $('<span>').text(row.label).html() + '</td>';
-					html += '<td>' + $('<span>').text(row.barcode).html() + '</td>';
-					html += '<td>' + $('<span>').text(row.description).html() + '</td>';
-					html += '</tr>';
+					var tr = $('<tr></tr>');
+					tr.append($('<td></td>').text(row.container_id));
+					tr.append($('<td></td>').text(row.label));
+					tr.append($('<td></td>').text(row.barcode));
+					tr.append($('<td></td>').text(row.description));
+					tbody.append(tr);
 				});
-				html += '</tbody></table>';
+				var table = $('<table class="table table-sm table-striped"></table>');
+				table.append('<thead><tr><th>Container ID</th><th>Label</th><th>Barcode</th><th>Description</th></tr></thead>');
+				table.append(tbody);
+				panel.append(table);
 			}
 
 			if (totalRows > pageSize) {
-				html += '<div class="mt-2">';
+				var nav = $('<div class="mt-2"></div>');
 				if (currentPage > 1) {
-					html += '<button class="btn btn-xs btn-secondary mr-1" onclick="loadLeafPanel(' + containerId + ',\'' + leafPanelId + '\',\'' + feedbackId + '\',' + (currentPage - 1) + ')">Previous</button>';
+					nav.append(
+						$('<button class="btn btn-xs btn-secondary mr-1">Previous</button>')
+							.data('cid', containerId)
+							.data('page', currentPage - 1)
+							.addClass('leaf-page-btn')
+					);
 				}
 				if (currentPage * pageSize < totalRows) {
-					html += '<button class="btn btn-xs btn-secondary" onclick="loadLeafPanel(' + containerId + ',\'' + leafPanelId + '\',\'' + feedbackId + '\',' + (currentPage + 1) + ')">Next</button>';
+					nav.append(
+						$('<button class="btn btn-xs btn-secondary">Next</button>')
+							.data('cid', containerId)
+							.data('page', currentPage + 1)
+							.addClass('leaf-page-btn')
+					);
 				}
-				html += '</div>';
+				panel.append(nav);
 			}
 
-			html += '</div>';
-			$('#' + leafPanelId).html(html);
+			var leafEl = $('#' + leafPanelId);
+			leafEl.html(panel);
+			leafEl.off('click.leafpage').on('click.leafpage', '.leaf-page-btn', function() {
+				loadLeafPanel($(this).data('cid'), leafPanelId, feedbackId, $(this).data('page'));
+			});
 		},
 		error: function(jqXHR, textStatus, error) {
 			$('#' + leafPanelId).addClass('d-none');
