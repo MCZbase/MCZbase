@@ -1484,7 +1484,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
-														<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
 																<!--- lookup loan number (for api call &loan_trans_id=) --->
@@ -1501,7 +1501,7 @@ limitations under the License.
 															<label for="loan_number">Loan ##</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
-														<div class="col-12 col-md-3 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
 																<!--- lookup accession number (for api call &accn_trans_id=) --->
@@ -1535,8 +1535,6 @@ limitations under the License.
 																});
 															</script>
 														</div>
-                                                         
-                                                            
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
                                                             <label for="accn_type">Accession Type</label>
@@ -1553,6 +1551,9 @@ limitations under the License.
 															<label for="deaccession_number">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
+                                                    </div>  
+                                                            
+                                                            
                                                          <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													    </button> 
