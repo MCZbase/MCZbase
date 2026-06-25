@@ -679,7 +679,7 @@ limitations under the License.
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
 										
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/CodeTableEditor.cfm">Code Table Editor</a>
+												<a class="dropdown-item" href="/vocabularies/manageControlledVocabulary.cfm">Code Table Editor</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Code Table Editor</a>
 											</cfif>

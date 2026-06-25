@@ -22,10 +22,12 @@ limitations under the License.
 
 --->
 <cfinclude template="/shared/_header.cfm">
+<script src="/lib/misc/sorttable.js"></script>
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
 <cfset tbl="">
+<cfset variables.hasGlobalAdmin = isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
 <!--- obtain tbl variable from form post or get parameter with url scope taking precedence, and force to uppercase --->
 <cfif isdefined("url.tbl")>
 	<cfset tbl = ucase(url.tbl)>
@@ -36,47 +38,102 @@ limitations under the License.
 <cfif action is "entryPoint"><cfset action="listTables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
+	<main id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
 
-				<cfswitch expression="#action#">
-					<cfcase value="listTables">
-						<cfquery name="getCTName" datasource="uam_god">
+					<cfswitch expression="#action#">
+						<cfcase value="listTables">
+							<cfquery name="getCTName" datasource="uam_god">
 								SELECT
-									distinct(table_name) table_name 
-								FROM
-									sys.user_tables 
-								WHERE
-									table_name like 'CT%'
-								UNION 
-								SELECT 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
-			 					ORDER BY table_name
-						</cfquery>
-						<h1 class="h3 mt-2">Manage Controlled Vocabularies</h1>
-						<div class="my-2">
-							<ul>
-								<cfloop query="getCTName">
-									<cfif getCTName.table_name is "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
-										<cfset variables.showCount = false>
-										<cfset variables.rowCount = 0>
-									<cfelse>
-										<cfquery name="getRowCounts" datasource="uam_god">
-											SELECT count(*) ct
-											FROM #getCTName.table_name#
-										</cfquery>
-										<cfset variables.rowCount = getRowCounts.ct>
-										<cfset variables.showCount = true>
-									</cfif>
-									<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
-									<li>
-										<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><cfif variables.showCount> (#variables.rowCount#)</cfif>
-									</li>
-								</cfloop>
-							</ul>
-						</div>
-					</cfcase>
-				</cfswitch>
+									t.table_name,
+									nvl(c.comments,'') comments,
+									nvl(fk.inbound_fk_count, 0) inbound_fk_count,
+									CASE WHEN nvl(pk.pk_col_count,0) > 1 THEN 1 ELSE 0 END composite_pk
+								FROM (
+									SELECT distinct(table_name) table_name
+									FROM sys.user_tables
+									WHERE table_name like 'CT%'
+									UNION
+									SELECT 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name FROM dual
+								) t
+								LEFT JOIN all_tab_comments c ON c.table_name = t.table_name AND c.owner = 'MCZBASE'
+								LEFT JOIN (
+									SELECT
+										p.table_name,
+										count(distinct fk.constraint_name) inbound_fk_count
+									FROM all_constraints fk
+									JOIN all_constraints p ON fk.r_owner = p.owner AND fk.r_constraint_name = p.constraint_name
+									WHERE
+										fk.owner = 'MCZBASE'
+										AND fk.constraint_type = 'R'
+										AND p.owner = 'MCZBASE'
+									GROUP BY p.table_name
+								) fk ON fk.table_name = t.table_name
+								LEFT JOIN (
+									SELECT
+										ac.table_name,
+										count(acc.column_name) pk_col_count
+									FROM all_constraints ac
+									JOIN all_cons_columns acc ON ac.owner = acc.owner AND ac.constraint_name = acc.constraint_name
+									WHERE
+										ac.owner = 'MCZBASE'
+										AND ac.constraint_type = 'P'
+									GROUP BY ac.table_name
+								) pk ON pk.table_name = t.table_name
+			 					ORDER BY t.table_name
+							</cfquery>
+							<h1 class="h3 mt-2">Manage Controlled Vocabularies</h1>
+							<section aria-labelledby="controlledVocabularyListHeading" class="my-2">
+								<h2 id="controlledVocabularyListHeading" class="h5">Editable controlled vocabulary tables</h2>
+								<div class="table-responsive">
+									<table id="controlledVocabularyListTable" class="sortable table table-striped table-sm d-xl-table">
+										<thead>
+											<tr>
+												<th scope="col">Table</th>
+												<th scope="col">Actions</th>
+												<th scope="col">Comment</th>
+												<th scope="col">Row Count</th>
+												<cfif variables.hasGlobalAdmin>
+													<th scope="col">Inbound FK Count</th>
+													<th scope="col">Composite PK</th>
+												</cfif>
+											</tr>
+										</thead>
+										<tbody>
+											<cfloop query="getCTName">
+												<cfquery name="getRowCounts" datasource="uam_god">
+													SELECT count(*) ct
+													FROM
+													<cfif getCTName.table_name is "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
+														GEOLOGY_ATTRIBUTE_HIERARCHY
+													<cfelse>
+														#getCTName.table_name#
+													</cfif>
+												</cfquery>
+												<cfset variables.rowCountDisplay = getRowCounts.ct>
+												<cfset variables.listName = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+												<tr>
+													<td>#variables.listName#</td>
+													<td class="text-nowrap">
+														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
+														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
+													</td>
+													<td><cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#<cfelse>&mdash;</cfif></td>
+													<td>#variables.rowCountDisplay#</td>
+													<cfif variables.hasGlobalAdmin>
+														<td>#getCTName.inbound_fk_count#</td>
+														<td><cfif getCTName.composite_pk EQ 1>Yes<cfelse>No</cfif></td>
+													</cfif>
+												</tr>
+											</cfloop>
+										</tbody>
+									</table>
+								</div>
+							</section>
+						</cfcase>
+					</cfswitch>
 
 <cfif action is "edit">
 	<cfset variables.editTitle = trim(replaceNoCase(REReplace(tbl, "(?i)^CT", ""), "_", " ", "ALL"))>
@@ -2851,8 +2908,9 @@ limitations under the License.
 	</cfif>
 	<cflocation url="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#tbl#" addtoken="false">
 </cfif>
+				</div>
 			</div>
 		</div>
-	</div>
+	</main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
