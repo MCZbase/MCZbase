@@ -624,13 +624,11 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                        <span class="data-entry-label small">
-                                                            <label for="type_status">Type Status/Citation</label>
-												            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
+                                                        <label for="type_status">Type Status/Citation</label>
+												        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
                                                                 (&##8595;) <span class="sr-only">open pick list</span>
-                                                            </a>
-                                                        </span>
-														<cfif not isdefined("type_status")><cfset type_status=""></cfif>
+                                                        </a>
+                                                       	<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 														<script>
 															jQuery(document).ready(function() {
