@@ -2913,6 +2913,22 @@ a.wrapurl {
 ul li.list-unstyled span:last-child {
 	display:none;
 }
+/*fas is for the arrow up and down (more and less on form sections*/
+.fas {
+	font-size: 16px;
+}
+/*for the */
+@media screen and (max-width: 678px) {
+	.animation-element {
+		width: 100%;
+		margin: 0px 0px 30px 0px;
+	}
+}
+/* below is for the basic search width of form fields area inside teal box */
+@media screen and (min-width: 1200px) {
+.col-xxl-1 {max-width: 7.666667%}
+.col-xxl-11 {max-width: 90.333333%}
+}
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
