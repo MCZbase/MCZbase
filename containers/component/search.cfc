@@ -272,6 +272,114 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 	<cfreturn qHotspots>
 </cffunction>
 
+<!---
+Function getContainerTypeRoleFit.  Returns per-container-type statistics comparing the actual
+child distribution against the expected role for each type, based on CTCONTAINER_TYPE:
+  C  = expected to contain only structural (non-collection-object) containers
+       (institution, campus, cryovat, building, floor, room, freezer, freezer rack,
+        grouping, set, fixture, rack slot, position)
+  S  = expected to contain only collection-object containers (leaf nodes)
+       (cryovial, tank, jar, glass vial, envelope, slide, pin)
+  SC = may contain both structural containers and collection objects
+       (freezer box, compartment)
+  leaf = collection object; should never have children
+
+Columns returned:
+  container_type, expected_role, total_count,
+  with_coll_obj_children, with_structural_children, with_both_types, leaf_nodes
+
+--->
+<cffunction name="getContainerTypeRoleFit" access="remote" returntype="query" output="false">
+	<cfquery name="qTypeFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			c.container_type,
+			CASE
+				WHEN c.container_type IN (
+					'institution','campus','cryovat','building','floor','room',
+					'freezer','freezer rack','grouping','set','fixture',
+					'rack slot','position'
+				) THEN 'C'
+				WHEN c.container_type IN (
+					'cryovial','tank','jar','glass vial','envelope','slide','pin'
+				) THEN 'S'
+				WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
+				WHEN c.container_type = 'collection object' THEN 'leaf'
+				ELSE 'unknown'
+			END AS expected_role,
+			COUNT(*) AS total_count,
+			SUM(CASE WHEN NVL(ch.has_coll_obj_child,0) = 1 THEN 1 ELSE 0 END)
+				AS with_coll_obj_children,
+			SUM(CASE WHEN NVL(ch.has_struct_child,0) = 1 THEN 1 ELSE 0 END)
+				AS with_structural_children,
+			SUM(CASE WHEN NVL(ch.has_coll_obj_child,0) = 1 AND NVL(ch.has_struct_child,0) = 1 THEN 1 ELSE 0 END)
+				AS with_both_types,
+			SUM(CASE WHEN NVL(ch.child_count,0) = 0 THEN 1 ELSE 0 END)
+				AS leaf_nodes
+		FROM container c
+		LEFT JOIN (
+			SELECT
+				parent_container_id,
+				COUNT(*) AS child_count,
+				MAX(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
+					AS has_coll_obj_child,
+				MAX(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END)
+					AS has_struct_child
+			FROM container
+			GROUP BY parent_container_id
+		) ch ON ch.parent_container_id = c.container_id
+		GROUP BY
+			c.container_type,
+			CASE
+				WHEN c.container_type IN (
+					'institution','campus','cryovat','building','floor','room',
+					'freezer','freezer rack','grouping','set','fixture',
+					'rack slot','position'
+				) THEN 'C'
+				WHEN c.container_type IN (
+					'cryovial','tank','jar','glass vial','envelope','slide','pin'
+				) THEN 'S'
+				WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
+				WHEN c.container_type = 'collection object' THEN 'leaf'
+				ELSE 'unknown'
+			END
+		ORDER BY total_count DESC
+	</cfquery>
+	<cfreturn qTypeFit>
+</cffunction>
+
+<!---
+Function getSingleOccupantViolations.  Returns containers of type pin, slide, or cryovial
+that do not hold exactly one collection-object child.  These types are expected to contain
+exactly one collection object; zero or two-or-more children both represent anomalies.
+
+@return query with container_id, container_type, label, barcode, child_count, coll_obj_count
+--->
+<cffunction name="getSingleOccupantViolations" access="remote" returntype="query" output="false">
+	<cfquery name="qViolations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			c.container_id,
+			c.container_type,
+			c.label,
+			c.barcode,
+			ch.child_count,
+			ch.coll_obj_count
+		FROM container c
+		JOIN (
+			SELECT
+				parent_container_id,
+				COUNT(*) AS child_count,
+				SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
+					AS coll_obj_count
+			FROM container
+			GROUP BY parent_container_id
+			HAVING SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) <> 1
+		) ch ON ch.parent_container_id = c.container_id
+		WHERE c.container_type IN ('pin', 'slide', 'cryovial')
+		ORDER BY c.container_type, ch.child_count DESC
+	</cfquery>
+	<cfreturn qViolations>
+</cffunction>
+
 <cffunction name="getCollObjContHistAnomalies" access="remote" returntype="query" output="false">
 	<cfquery name="qAnom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
