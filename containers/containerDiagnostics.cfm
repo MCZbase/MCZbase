@@ -198,8 +198,8 @@ limitations under the License.
 	<cfset variables.ctypeS  = "cryovial,tank,jar,glass vial,envelope,slide,pin">
 	<cfset variables.ctypeSC = "freezer box,compartment">
 	<!--- Reusable accessibility indicator snippets --->
-	<cfset variables.violationIndicator = " <span aria-hidden=""true"">&#x2717;</span><span class=""sr-only""> violation</span>">
-	<cfset variables.anomalyIndicator   = " <span aria-hidden=""true"">&#x26A0;</span><span class=""sr-only""> anomaly</span>">
+	<cfset variables.violationIndicator = " <span aria-hidden=""true"">&##x2717;</span><span class=""sr-only""> violation</span>">
+	<cfset variables.anomalyIndicator   = " <span aria-hidden=""true"">&##x26A0;</span><span class=""sr-only""> anomaly</span>">
 	<cfset variables.emptyIndicator     = " <span class=""text-muted"">(empty)</span>">
 	<section class="row">
 		<div class="col-12 mb-2">
