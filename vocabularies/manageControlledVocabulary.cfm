@@ -38,7 +38,7 @@ limitations under the License.
 <cfif action is "entryPoint"><cfset action="listTables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
-	<main id="content">
+	<main id="content" aria-label="Controlled Vocabulary Management">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
