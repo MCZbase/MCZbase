@@ -1483,8 +1483,7 @@ limitations under the License.
 															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
-														
+													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">	
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
@@ -1552,10 +1551,7 @@ limitations under the License.
 															<label for="deaccession_number">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
-                                                    </div>  
-                                                            
-                                                            
-                                                         <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTransactionDetail(#toggleTo#);">
+                                                        <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													    </button> 
 														<!--- TRANSACTION DETAIL --->
