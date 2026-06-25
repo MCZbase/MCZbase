@@ -465,7 +465,7 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
-														<label for="relationship" class="data-entry-label small">Has Relationship</label>
+														<label for="relationship" class="data-entry-label small font-weight-lessbold">Has Relationship</label>
 														<select name="relationship" id="relationship" class="data-entry-select py-0" size="1">
 															<option></option>
 															<cfloop query="cttaxon_relation">
@@ -477,7 +477,7 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
-														<label for="source_authority" class="data-entry-label small">Source Authority</label>
+														<label for="source_authority" class="data-entry-label small font-weight-lessbold">Source Authority</label>
 														<select name="source_authority" id="source_authority" class="data-entry-select py-0" size="1">
 															<option></option>
 															<cfloop query="CTTAXONOMIC_AUTHORITY">
@@ -498,7 +498,7 @@ limitations under the License.
 															<cfset selectedCollection = lookupCollection.collection >
 														</cfif>
 													   <div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
-															<label for="collection_cde" class="data-entry-label small">Used by Coll.</label>
+															<label for="collection_cde" class="data-entry-label small font-weight-lessbold">Used by Coll.</label>
 															<select name="collection_cde" class="data-entry-select py-0" aria-label="collection">
 																<option value="" class="text-dark">any collection</option>
 																<cfloop query="ctcollection">
@@ -513,7 +513,7 @@ limitations under the License.
 														</div>
 													</cfif>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
-                                                        <label for="taxon_remarks" class="data-entry-label small">Remarks</label>
+                                                        <label for="taxon_remarks" class="data-entry-label small font-weight-lessbold">Remarks</label>
 														<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
 													</div>
 												</div>	
