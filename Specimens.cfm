@@ -1553,7 +1553,7 @@ limitations under the License.
 															<label for="deaccession_number">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
-                                                         <button type="button" id="TransactionDetailCtl1" class="class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTransactionDetail(#toggleTo#);">
+                                                         <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													    </button> 
 														<!--- TRANSACTION DETAIL --->
