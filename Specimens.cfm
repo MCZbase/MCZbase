@@ -1118,7 +1118,7 @@ limitations under the License.
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
 													<div id="CollDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
-														<div class="form-row col-12 mb-1 px-1 mx-0">
+														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date" class="data-entry-label small">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
@@ -1230,7 +1230,7 @@ limitations under the License.
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
 													<div id="SpecDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
-														<div class="form-row col-12 col-md-12 mb-0 px-1 mx-0">
+														<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="coll_object_remarks" class="data-entry-label small">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks</label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
@@ -1562,7 +1562,7 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
-															<label for="received_date" class="data-entry-label smalld">Date Received</label>
+															<label for="received_date" class="data-entry-label small">Date Received</label>
 															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
