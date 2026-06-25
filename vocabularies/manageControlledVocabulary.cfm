@@ -38,7 +38,7 @@ limitations under the License.
 <cfif action is "entryPoint"><cfset action="listTables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
-	<main id="content" aria-label="Controlled Vocabulary Management">
+	<main id="content" aria-labelledby="pageHeading">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -84,7 +84,7 @@ limitations under the License.
 								) pk ON pk.table_name = t.table_name
 			 					ORDER BY t.table_name
 							</cfquery>
-							<h1 class="h3 mt-2">Manage Controlled Vocabularies</h1>
+							<h1 id="pageHeading" class="h3 mt-2">Manage Controlled Vocabularies</h1>
 							<section aria-labelledby="controlledVocabularyListHeading" class="my-2">
 								<h2 id="controlledVocabularyListHeading" class="h5">Editable controlled vocabulary tables</h2>
 								<div class="table-responsive">
@@ -113,9 +113,9 @@ limitations under the License.
 													</cfif>
 												</cfquery>
 												<cfset variables.rowCountDisplay = getRowCounts.ct>
-												<cfset variables.strippedTableName = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+												<cfset variables.tableNameWithoutCTPrefix = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 												<tr>
-													<td>#variables.strippedTableName#</td>
+													<td>#variables.tableNameWithoutCTPrefix#</td>
 													<td class="text-nowrap">
 														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
 														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
