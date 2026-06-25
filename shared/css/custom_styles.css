@@ -278,12 +278,12 @@ h1.h4 {
 span.caps {
 	text-transform: capitalize;
 }
-span.data-entry-label label {
+/*span.data-entry-label label {
     font-weight: 700;
 }
 label.font-weight-lessbold {
     font-weight: 700;
-}
+}*/
 .line-height-sm {
 	line-height: .9rem;
 }
@@ -1918,7 +1918,7 @@ input#readMore_check_id {
 	display: block;
 }
 .tab-content label {
-	font-weight: 600;
+	font-weight: 700;
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;

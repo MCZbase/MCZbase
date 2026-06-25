@@ -411,7 +411,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input py-0" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 mb-1 pb-0">
-                                                    <label for="nomenclatural_code" class="data-entry-label small">Nomenclatural Code</label>
+                                                    <label for="nomenclatural_code" class="data-entry-label small font-weight-lessbold">Nomenclatural Code</label>
                                                     <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
                                                         <option></option>
                                                         <cfloop query="ctnomenclatural_code">
@@ -421,7 +421,7 @@ limitations under the License.
                                                     </select>
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 mb-1 pb-0">
-													<label for="taxon_status" class="data-entry-label small">Nomenclatural Status</label>
+													<label for="taxon_status" class="data-entry-label small font-weight-lessbold">Nomenclatural Status</label>
 													<select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
 														<option></option>
 														<cfloop query="cttaxon_status">
