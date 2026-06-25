@@ -1525,9 +1525,8 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
-                                                                <label for="accn_status">Acc<span class="d-none d-md-inline-block">essio</span>n Status</label>
-                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_status').autocomplete('search','%'); return false;" > 
-                                                                (&##8595;) <span class="sr-only">open pick list</span>
+                                                            <label for="accn_status">Accession Status</label>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_status').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span>
                                                             </a>
 															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
 															<script>
@@ -1539,7 +1538,7 @@ limitations under the License.
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
                                                             <label for="accn_type">Accession Type</label>
-                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_type').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span></a>
 															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
 															<script>
 																jQuery(document).ready(function() {
