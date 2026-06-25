@@ -292,56 +292,50 @@ Columns returned:
 <cffunction name="getContainerTypeRoleFit" access="remote" returntype="query" output="false">
 	<cfquery name="qTypeFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
-			c.container_type,
-			CASE
-				WHEN c.container_type IN (
-					'institution','campus','cryovat','building','floor','room',
-					'freezer','freezer rack','grouping','set','fixture',
-					'rack slot','position'
-				) THEN 'C'
-				WHEN c.container_type IN (
-					'cryovial','tank','jar','glass vial','envelope','slide','pin'
-				) THEN 'S'
-				WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
-				WHEN c.container_type = 'collection object' THEN 'leaf'
-				ELSE 'unknown'
-			END AS expected_role,
+			container_type,
+			expected_role,
 			COUNT(*) AS total_count,
-			SUM(CASE WHEN NVL(ch.has_coll_obj_child,0) = 1 THEN 1 ELSE 0 END)
+			SUM(CASE WHEN has_coll_obj_child = 1 THEN 1 ELSE 0 END)
 				AS with_coll_obj_children,
-			SUM(CASE WHEN NVL(ch.has_struct_child,0) = 1 THEN 1 ELSE 0 END)
+			SUM(CASE WHEN has_struct_child = 1 THEN 1 ELSE 0 END)
 				AS with_structural_children,
-			SUM(CASE WHEN NVL(ch.has_coll_obj_child,0) = 1 AND NVL(ch.has_struct_child,0) = 1 THEN 1 ELSE 0 END)
+			SUM(CASE WHEN has_coll_obj_child = 1 AND has_struct_child = 1 THEN 1 ELSE 0 END)
 				AS with_both_types,
-			SUM(CASE WHEN NVL(ch.child_count,0) = 0 THEN 1 ELSE 0 END)
+			SUM(CASE WHEN child_count = 0 THEN 1 ELSE 0 END)
 				AS leaf_nodes
-		FROM container c
-		LEFT JOIN (
+		FROM (
 			SELECT
-				parent_container_id,
-				COUNT(*) AS child_count,
-				MAX(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
-					AS has_coll_obj_child,
-				MAX(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END)
-					AS has_struct_child
-			FROM container
-			GROUP BY parent_container_id
-		) ch ON ch.parent_container_id = c.container_id
-		GROUP BY
-			c.container_type,
-			CASE
-				WHEN c.container_type IN (
-					'institution','campus','cryovat','building','floor','room',
-					'freezer','freezer rack','grouping','set','fixture',
-					'rack slot','position'
-				) THEN 'C'
-				WHEN c.container_type IN (
-					'cryovial','tank','jar','glass vial','envelope','slide','pin'
-				) THEN 'S'
-				WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
-				WHEN c.container_type = 'collection object' THEN 'leaf'
-				ELSE 'unknown'
-			END
+				c.container_type,
+				CASE
+					WHEN c.container_type IN (
+						'institution','campus','cryovat','building','floor','room',
+						'freezer','freezer rack','grouping','set','fixture',
+						'rack slot','position'
+					) THEN 'C'
+					WHEN c.container_type IN (
+						'cryovial','tank','jar','glass vial','envelope','slide','pin'
+					) THEN 'S'
+					WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
+					WHEN c.container_type = 'collection object' THEN 'leaf'
+					ELSE 'unknown'
+				END AS expected_role,
+				NVL(ch.has_coll_obj_child,0) AS has_coll_obj_child,
+				NVL(ch.has_struct_child,0) AS has_struct_child,
+				NVL(ch.child_count,0) AS child_count
+			FROM container c
+			LEFT JOIN (
+				SELECT
+					parent_container_id,
+					COUNT(*) AS child_count,
+					MAX(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
+						AS has_coll_obj_child,
+					MAX(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END)
+						AS has_struct_child
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+		)
+		GROUP BY container_type, expected_role
 		ORDER BY total_count DESC
 	</cfquery>
 	<cfreturn qTypeFit>
@@ -356,26 +350,29 @@ exactly one collection object; zero or two-or-more children both represent anoma
 --->
 <cffunction name="getSingleOccupantViolations" access="remote" returntype="query" output="false">
 	<cfquery name="qViolations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT
-			c.container_id,
-			c.container_type,
-			c.label,
-			c.barcode,
-			ch.child_count,
-			ch.coll_obj_count
-		FROM container c
-		JOIN (
+		SELECT container_id, container_type, label, barcode, child_count, coll_obj_count
+		FROM (
 			SELECT
-				parent_container_id,
-				COUNT(*) AS child_count,
-				SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
-					AS coll_obj_count
-			FROM container
-			GROUP BY parent_container_id
-			HAVING SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) <> 1
-		) ch ON ch.parent_container_id = c.container_id
-		WHERE c.container_type IN ('pin', 'slide', 'cryovial')
-		ORDER BY c.container_type, ch.child_count DESC
+				c.container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				ch.child_count,
+				ch.coll_obj_count
+			FROM container c
+			JOIN (
+				SELECT
+					parent_container_id,
+					COUNT(*) AS child_count,
+					SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
+						AS coll_obj_count
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+			WHERE c.container_type IN ('pin', 'slide', 'cryovial')
+		)
+		WHERE coll_obj_count <> 1
+		ORDER BY container_type, child_count DESC
 	</cfquery>
 	<cfreturn qViolations>
 </cffunction>
