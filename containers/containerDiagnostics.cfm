@@ -161,14 +161,12 @@ limitations under the License.
 				</table>
 			</div>
 		</div>
-		<div id="diag_loading_2" class="col-12 col-xl-6 offset-xl-6 py-2 text-secondary"><em>Loading Depth Distribution&hellip;</em></div>
-	</section>
-	<cfflush>
+		<div class="col-12 col-xl-6 mb-2">
+			<div id="diag_loading_2" class="py-2 text-secondary"><em>Loading Depth Distribution&hellip;</em></div>
+			<cfflush>
 
-	<cfset variables.depth = containerSearch.getContainerShapeByDepth()>
-	<script>document.getElementById('diag_loading_2').style.display='none';</script>
-	<section class="row">
-		<div class="col-12 col-xl-6 mb-2 offset-xl-6">
+			<cfset variables.depth = containerSearch.getContainerShapeByDepth()>
+			<script>document.getElementById('diag_loading_2').style.display='none';</script>
 			<div class="border rounded bg-light p-2">
 				<h2 class="h4">Depth Distribution</h2>
 				<table class="table table-sm table-striped d-xl-table">
