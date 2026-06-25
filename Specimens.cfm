@@ -575,12 +575,12 @@ limitations under the License.
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0">	
 													<div class="col-9 col-md-9 col-xl-3 mb-1">
 														<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
-														<label for="any_taxa_term" class="data-entry-label small">Any Taxonomic Element</label>
+														<label for="any_taxa_term">Any Taxonomic Element</label>
 														<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 													</div>
 													<div class="col-3 col-md-3 col-xl-1 pl-0 mb-1">
 														<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
-														<label for="current_id_only" class="data-entry-label pl-0 small">Search</label>
+														<label for="current_id_only" class="pl-0">Search</label>
 														<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;">
 															<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 															<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
@@ -590,7 +590,7 @@ limitations under the License.
 													</div>	
 										
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
-														<label for="scientific_name" class="data-entry-label small">Scientific Name</label>
+														<label for="scientific_name">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
 														<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
@@ -614,7 +614,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-4 col-xl-2 mb-1">
-														<label for="author_text" class="data-entry-label small">Authorship</label>
+														<label for="author_text">Authorship</label>
 														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
 														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
 														<script>
