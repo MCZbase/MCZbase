@@ -1172,10 +1172,8 @@ limitations under the License.
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 mx-0">
 													<div class="col-12 mb-1 col-md-3 mb-1">
                                                         <cfif not isdefined("part_name")><cfset part_name=""></cfif>
-												        <span class="data-entry-label small"> 
-                                                            <label for="part_name">Part Name</label>
-                                                        </span>
-												        <input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#">
+                                                        <label for="part_name" class="data-entry-label small">Part Name</label>
+                                                        <input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#">
 														<script>
 															jQuery(document).ready(function() {
 																makePartNameAutocompleteMeta('part_name');
