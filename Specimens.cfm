@@ -641,12 +641,10 @@ limitations under the License.
 													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-2 mb-1">
-                                                                <span  class="data-entry-label small">
-																    <label for="phylum">Phylum</label>
-																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;"> 
+                                                                <label for="phylum">Phylum</label>
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;"> 
                                                                         (&##8595;) <span class="sr-only">open pick list</span>
-                                                                    </a>
-                                                                </span>
+                                                                </a>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
 																<input id="phylum" name="phylum" class="data-entry-input inputHeight" value="#encodeForHtml(phylum)#" >
 																<script>
@@ -896,11 +894,10 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-2 mb-1">
-                                                                <span class="data-entry-label small">
-																    <label for="sea">Sea</label>
-																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > 
+                                                                <label for="sea">Sea</label>
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > 
                                                                         (&##8595;) <span class="sr-only">open pick list</span>
-                                                                    </a>
+                                                                </a>
                                                                 </span>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="sea" name="sea" value="#encodeForHtml(sea)#">
@@ -911,7 +908,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="island_group" class="data-entry-label small">Island Group</label>
+																<label for="island_group">Island Group</label>
 																<cfif not isdefined("island_group")><cfset island_group=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island_group" name="island_group" value="#encodeForHtml(island_group)#">
 																<script>
@@ -921,7 +918,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="island" class="data-entry-label small">Island</label>
+																<label for="island">Island</label>
 																<cfif not isdefined("island")><cfset island=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island" name="island" value="#encodeForHtml(island)#">
 																<script>
@@ -932,7 +929,7 @@ limitations under the License.
 															</div>
 													   
 															<div class="col-12 col-md-3 mb-1">
-																<label for="feature" class="data-entry-label small">Land Feature</label>
+																<label for="feature">Land Feature</label>
 																<cfif not isdefined("feature")><cfset feature=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="feature" name="feature" value="#encodeForHtml(feature)#">
 																<script>
@@ -942,7 +939,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="water_feature" class="data-entry-label small">Water Feature</label>
+																<label for="water_feature">Water Feature</label>
 																<cfif not isdefined("water_feature")><cfset water_feature=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="water_feature" name="water_feature" value="#encodeForHtml(water_feature)#">
 																<script>
@@ -978,22 +975,22 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="min_depth_in_m" class="data-entry-label small">Miniumum Depth (m)</label>
+																<label for="min_depth_in_m">Miniumum Depth (m)</label>
 																<cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="max_depth_in_m" class="data-entry-label small">Maximum Depth (m)</label>
+																<label for="max_depth_in_m">Maximum Depth (m)</label>
 																<cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="min_elev_in_m" class="data-entry-label small">Miniumum Elevation (m)</label>
+																<label for="min_elev_in_m">Miniumum Elevation (m)</label>
 																<cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="max_elev_in_m" class="data-entry-label small">Maximum Elevation (m)</label>
+																<label for="max_elev_in_m">Maximum Elevation (m)</label>
 																<cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
 															</div>
@@ -1028,7 +1025,7 @@ limitations under the License.
 												</div>				
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mb-0 mx-0">
 													<div class="col-12 col-md-3 mb-1">
-														<label for="collector" class="data-entry-label small">Collector</label>
+														<label for="collector">Collector</label>
 														<cfif not isdefined("collector")><cfset collector=""></cfif>
 														<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
 															<cfif len(collector) EQ 0>
@@ -1069,12 +1066,10 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
-                                                        <span class="data-entry-label small">
-														    <label for="collecting_source">Collecting Source</label>
-														    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" >  
-                                                               (&##8595;) <span class="sr-only">open pick list</span>
-                                                            </a>
-                                                        </span>
+                                                       <label for="collecting_source">Collecting Source</label>
+                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" >  
+                                                           (&##8595;) <span class="sr-only">open pick list</span>
+                                                        </a>
 														<cfif not isdefined("collecting_source")><cfset collecting_source=""></cfif>
 														<input type="text" name="collecting_source" class="data-entry-input inputHeight" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 														<script>
@@ -1176,13 +1171,11 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-                                                        <span class="data-entry-label small">
-                                                            <label for="biol_indiv_relationship">Has Relationship</label>
-                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
-                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > 
-                                                              (&##8595;) <span class="sr-only">open pick list</span>
-                                                            </a>
-                                                        </span>
+                                                        <label for="biol_indiv_relationship">Has Relationship</label>
+                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
+                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > 
+                                                          (&##8595;) <span class="sr-only">open pick list</span>
+                                                        </a>
                                                         <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
                                                         <script>
                                                             jQuery(document).ready(function() {
@@ -1192,13 +1185,11 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
-                                                        <span class="data-entry-label small">
-														    <label for="media_type">Media Type</label>
-                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
-                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > 
-                                                                (&##8595;) <span class="sr-only">open pick list</span>
-                                                            </a>
-                                                        </span>
+                                                        <label for="media_type">Media Type</label>
+                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
+                                                        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > 
+                                                            (&##8595;) <span class="sr-only">open pick list</span>
+                                                        </a>
 														<input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
 														<script>
 															jQuery(document).ready(function() {
@@ -1213,17 +1204,21 @@ limitations under the License.
 													<div id="SpecDetail" class="col-9 col-md-10 col-lg-11 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
 															<div class="col-12 col-md-3 col-xl-32 mb-1">
-																<label for="coll_object_remarks" class="data-entry-label small">Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span> Object Remarks</label>
+																<label for="coll_object_remarks">
+                                                                    Coll<span class="d-inline-block d-xl-none">.</span>
+                                                                    <span class="d-none d-xl-inline-block">ection</span> 
+                                                                    Object Remarks
+                                                                </label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-																<label for="part_remarks" class="data-entry-label small">Part Remarks</label>
+																<label for="part_remarks">Part Remarks</label>
 																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-																<label for="preparator" class="data-entry-label small">Preparator</label>
+																<label for="preparator">Preparator</label>
 																<cfif not isdefined("preparator")>
 																	<cfset preparator="">
 																</cfif>
@@ -1266,12 +1261,12 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-																<label for="lot_count" class="data-entry-label small">Lot Count</label>
+																<label for="lot_count">Lot Count</label>
 																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-																<label for="coll_obj_disposition" class="data-entry-label small">
+																<label for="coll_obj_disposition">
 																	Disposition
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -1284,18 +1279,16 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-																<label for="disposition_remarks" class="data-entry-label small">Disposition Remarks</label>
+																<label for="disposition_remarks">Disposition Remarks</label>
 																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-                                                                <span class="data-entry-label small">
-																    <label for="part_attribute_type">Part Attribute Type</label>
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > 
-                                                                        (&##8595;) <span class="sr-only">open pick list</span>
-                                                                    </a>
-                                                                </span>
+                                                                <label for="part_attribute_type">Part Attribute Type</label>
+                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
+                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > 
+                                                                    (&##8595;) <span class="sr-only">open pick list</span>
+                                                                </a>
 																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
 																<script>
@@ -1305,12 +1298,10 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-																<span class="data-entry-label small">
-                                                                    <label for="part_attribute_value">Part Attribute Value</label>
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > 
-                                                                        (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
-                                                                    </a>
-                                                                </span>
+                                                                <label for="part_attribute_value">Part Attribute Value</label>
+                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > 
+                                                                    (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
+                                                                </a>
 																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 															</div>
@@ -1329,41 +1320,39 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
-                                                                <span class="data-entry-label small">
-																    <label for="part_attribute_remarks">Part Attribute Remarks</label>
-																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span>
-                                                                    </a>
-                                                                </span>
+                                                                <label for="part_attribute_remarks">Part Attribute Remarks</label>
+                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span>
+                                                                </a>
 																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
 																<!--- TODO: Add an autocomplete when controlled --->
-																<label for="condition" class="data-entry-label small">Condition</label>
+																<label for="condition">Condition</label>
 																<cfif not isdefined("condition")><cfset condition=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="condition" name="condition" value="#encodeForHtml(condition)#">
 															</div>
 															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 																<!--- TODO: Add when popluated --->
 																<div class="col-12 col-md-3 col-xl-3 mb-1">
-																	<label for="condition_remarks" class="data-entry-label small">Condition Remarks</label>
+																	<label for="condition_remarks">Condition Remarks</label>
 																	<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
 																	<input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
 																</div>
 															</cfif>
 															<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 																<div class="col-12 col-md-3 col-xl-3 mb-1">
-																	<label for="root_container_label" class="data-entry-label small">In Container Labeled</label>
+																	<label for="root_container_label">In Container Labeled</label>
 																	<cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
 																	<input type="text" class="data-entry-input inputHeight" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
 																</div>
 																<div class="col-12 col-md-3 col-xl-3 mb-1">
-																	<label for="root_container_barcode" class="data-entry-label small">In Container Barcoded</label>
+																	<label for="root_container_barcode">In Container Barcoded</label>
 																	<cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
 																	<input type="text" class="data-entry-input inputHeight" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
 																</div>
 																<div class="col-12 col-md-3 col-xl-3 mb-1">
-																	<label for="root_container_type" class="data-entry-label small">In Container of Type</label>
+																	<label for="root_container_type">In Container of Type</label>
 																	<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
 																	<select title="root_container_type" name="root_container_type" id="root_container_type" class="data-entry-select inputHeight col-sm-12 pl-2">
 																		<option value=""></option>
@@ -1391,16 +1380,16 @@ limitations under the License.
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 pt-1 mb-0">
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("keyword")><cfset keyword=""></cfif>
-														<label for="keyword" class="data-entry-label small">Keyword Search</label>
+														<label for="keyword">Keyword Search</label>
 														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#">
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("coll_object_entered_date")><cfset coll_object_entered_date=""></cfif>
-														<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
+														<label for="coll_object_entered_date">Date Entered</label>
 														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
-														<label for="entered_by" class="data-entry-label small">Entered By</label>
+														<label for="entered_by">Entered By</label>
 														<cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
 														<cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
 														<!--- lookup agent name --->
@@ -1427,11 +1416,11 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("last_edit_date")><cfset last_edit_date=""></cfif>
-														<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
+														<label for="last_edit_date">Last Updated on</label>
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
-														<label for="last_edited_person" class="data-entry-label small">Last Updated By</label>
+														<label for="last_edited_person">Last Updated By</label>
 														<cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
 														<cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
 														<!--- lookup agent name --->
@@ -1521,7 +1510,7 @@ limitations under the License.
 																	<cfset loan_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
-															<label for="loan_number" class="data-entry-label small">Loan ##</label>
+															<label for="loan_number">Loan ##</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
@@ -1538,22 +1527,20 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
 															</cfif>
-															<label for="accn_number" class="data-entry-label small">Accession ##</label>
+															<label for="accn_number">Accession ##</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
-															<label for="received_date" class="data-entry-label small">Date Received</label>
+															<label for="received_date">Date Received</label>
 															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
-                                                            <span class="data-entry-label small">
-															    <label for="accn_status">Accession Status</label>
-												                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > 
-                                                                    (&##8595;) <span class="sr-only">open pick list</span>
-                                                                </a>
-                                                            </span>
+                                                            <label for="accn_status">Accession Status</label>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > 
+                                                                (&##8595;) <span class="sr-only">open pick list</span>
+                                                            </a>
 															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1563,10 +1550,8 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
-                                                            <span class="data-entry-label small">
-															    <label for="accn_type">Accession Type</label>
-												                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-                                                            </span>
+                                                            <label for="accn_type">Accession Type</label>
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1576,7 +1561,7 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
-															<label for="deaccession_number" class="data-entry-label small">Deaccession ##</label>
+															<label for="deaccession_number">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
 														<!--- TRANSACTION DETAIL --->
@@ -1584,7 +1569,7 @@ limitations under the License.
 															<div class="form-row col-12 mb-1 px-0 mx-0">
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
-																	<label for="permit_num" class="data-entry-label small">Permit Number</label>
+																	<label for="permit_num">Permit Number</label>
 																	<input type="text" id="permit_num" name="permit_num" class="data-entry-input inputHeight" value="#encodeForHtml(permit_num)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1594,7 +1579,7 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
-																	<label for="permit_title" class="data-entry-label small">Document Title</label>
+																	<label for="permit_title">Document Title</label>
 																	<input type="text" id="permit_title" name="permit_title" class="data-entry-input inputHeight" value="#encodeForHtml(permit_title)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1605,14 +1590,14 @@ limitations under the License.
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
 																	<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
-																	<label for="IssuedByAgent" class="data-entry-label small">Issued By</label>
+																	<label for="IssuedByAgent">Issued By</label>
 																	<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedByAgent)#">
 																	<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
 																</div>
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
 																	<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
-																	<label for="IssuedToAgent" class="data-entry-label small">Issued To</label>
+																	<label for="IssuedToAgent">Issued To</label>
 																	<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedToAgent)#">
 																	<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#encodeForHtml(issued_to_agent_id)#">
 																</div>
@@ -1624,11 +1609,9 @@ limitations under the License.
 																</script>
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
-                                                                    <span class="data-entry-label small">
-																	    <label for="permit_type">Document Category</label>
-																        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
-																        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
-                                                                    </span>
+                                                                    <label for="permit_type">Document Category</label>
+																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
+																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
 																	<input type="text" id="permit_type" name="permit_type" class="data-entry-input inputHeight" value="#encodeForHtml(permit_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1638,11 +1621,9 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-2 mb-1">
 																	<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
-                                                                    <span class="data-entry-label small">
-																	    <label for="specific_type">Specific Type</label>
-																        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
-																	    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
-                                                                    </span>
+																    <label for="specific_type">Specific Type</label>
+																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
+																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
 																	<input type="text" id="specific_type" name="specific_type" class="data-entry-input inputHeight" value="#encodeForHtml(specific_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
