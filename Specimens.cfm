@@ -1485,7 +1485,7 @@ limitations under the License.
 													</div>
 													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
 														
-														<div class="col-12 col-md-2 col-xl-2 mb-1">
+														<div class="col-12 col-md-1 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
 																<!--- lookup accession number (for api call &accn_trans_id=) --->
@@ -1530,7 +1530,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-                                                        <div class="col-12 col-md-2 col-xl-2 mb-1">
+                                                        <div class="col-12 col-md-1 col-xl-2 mb-1">
 															<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
 																<!--- lookup loan number (for api call &loan_trans_id=) --->
