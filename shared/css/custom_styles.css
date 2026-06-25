@@ -279,7 +279,10 @@ span.caps {
 	text-transform: capitalize;
 }
 span.data-entry-label label {
-    font-weight:700;
+    font-weight: 700;
+}
+label.font-weight-lessbold {
+    font-weight: 700;
 }
 .line-height-sm {
 	line-height: .9rem;
