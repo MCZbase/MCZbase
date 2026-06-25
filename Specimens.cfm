@@ -1484,23 +1484,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
-														<div class="col-12 col-md-2 col-xl-2 mb-1">
-															<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
-															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
-																<!--- lookup loan number (for api call &loan_trans_id=) --->
-																<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupLoan_result">
-																	SELECT loan_number as lnum
-																	FROM loan
-																	WHERE
-																		transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
-																</cfquery>
-																<cfif lookupLoan.recordcount EQ 1>
-																	<cfset loan_number = "=#lookupLoan.lnum#">
-																</cfif>
-															</cfif>
-															<label for="loan_number">Loan ##</label>
-															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
-														</div>
+														
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
@@ -1545,6 +1529,23 @@ limitations under the License.
 																	makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
 																});
 															</script>
+														</div>
+                                                        <div class="col-12 col-md-2 col-xl-2 mb-1">
+															<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
+															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
+																<!--- lookup loan number (for api call &loan_trans_id=) --->
+																<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupLoan_result">
+																	SELECT loan_number as lnum
+																	FROM loan
+																	WHERE
+																		transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
+																</cfquery>
+																<cfif lookupLoan.recordcount EQ 1>
+																	<cfset loan_number = "=#lookupLoan.lnum#">
+																</cfif>
+															</cfif>
+															<label for="loan_number">Loan ##</label>
+															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
