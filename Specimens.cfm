@@ -1367,7 +1367,7 @@ limitations under the License.
 														General
 													</h2>
 												</div>
-												<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 pt-1 mb-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 mx-0 pt-1 pb-1 mb-0">
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("keyword")><cfset keyword=""></cfif>
 														<label for="keyword">Keyword Search</label>
