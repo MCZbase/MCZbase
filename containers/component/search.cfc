@@ -200,4 +200,195 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getContainerShapeSummary" access="remote" returntype="query" output="false">
+	<cfquery name="qSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT 'TOTAL_CONTAINERS' AS metric, TO_CHAR(COUNT(*)) AS metric_value FROM container
+		UNION ALL
+		SELECT 'TOTAL_COLLECTION_OBJECT_CONTAINERS' AS metric, TO_CHAR(COUNT(*)) AS metric_value
+		FROM container
+		WHERE container_type = 'collection object'
+		UNION ALL
+		SELECT 'TOTAL_STRUCTURAL_CONTAINERS' AS metric, TO_CHAR(COUNT(*)) AS metric_value
+		FROM container
+		WHERE container_type <> 'collection object'
+	</cfquery>
+	<cfreturn qSummary>
+</cffunction>
+
+<cffunction name="getContainerShapeByDepth" access="remote" returntype="query" output="false">
+	<cfquery name="qDepth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			max_depth_below AS depth_below,
+			COUNT(*) AS node_count
+		FROM (
+			SELECT
+				root_id,
+				MAX(lvl) - 1 AS max_depth_below
+			FROM (
+				SELECT
+					CONNECT_BY_ROOT container_id AS root_id,
+					LEVEL AS lvl
+				FROM container
+				CONNECT BY PRIOR container_id = parent_container_id
+			)
+			GROUP BY root_id
+		)
+		GROUP BY max_depth_below
+		ORDER BY max_depth_below
+	</cfquery>
+	<cfreturn qDepth>
+</cffunction>
+
+<cffunction name="getContainerShapeHotspots" access="remote" returntype="query" output="false">
+	<cfquery name="qHotspots" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			c.container_id,
+			c.container_type,
+			c.label,
+			NVL(cc.direct_children,0) AS direct_children,
+			NVL(cc.direct_leaf_children,0) AS direct_leaf_children,
+			NVL(cc.direct_structural_children,0) AS direct_structural_children,
+			CASE
+				WHEN NVL(cc.direct_leaf_children,0) >= 1000 AND NVL(cc.direct_structural_children,0) = 0 THEN 'B'
+				WHEN NVL(cc.direct_leaf_children,0) >= 200 AND NVL(cc.direct_structural_children,0) > 0 THEN 'AB'
+				WHEN NVL(cc.direct_leaf_children,0) > 0 AND NVL(cc.direct_structural_children,0) > 0 THEN 'AB'
+				ELSE 'A'
+			END AS shape_class
+		FROM container c
+		LEFT JOIN (
+			SELECT
+				parent_container_id,
+				COUNT(*) AS direct_children,
+				SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children,
+				SUM(CASE WHEN container_type = 'collection object' THEN 0 ELSE 1 END) AS direct_structural_children
+			FROM container
+			GROUP BY parent_container_id
+		) cc
+			ON cc.parent_container_id = c.container_id
+		WHERE NVL(cc.direct_leaf_children,0) >= 200
+			OR (NVL(cc.direct_leaf_children,0) > 0 AND NVL(cc.direct_structural_children,0) > 0)
+		ORDER BY NVL(cc.direct_leaf_children,0) DESC
+	</cfquery>
+	<cfreturn qHotspots>
+</cffunction>
+
+<!---
+Function getContainerTypeRoleFit.  Returns per-container-type statistics comparing the actual
+child distribution against the expected role for each type, based on CTCONTAINER_TYPE:
+  C  = expected to contain only structural (non-collection-object) containers
+       (institution, campus, cryovat, building, floor, room, freezer, freezer rack,
+        grouping, set, fixture, rack slot, position)
+  S  = expected to contain only collection-object containers (leaf nodes)
+       (cryovial, tank, jar, glass vial, envelope, slide, pin)
+  SC = may contain both structural containers and collection objects
+       (freezer box, compartment)
+  leaf = collection object; should never have children
+
+Columns returned:
+  container_type, expected_role, total_count,
+  with_coll_obj_children, with_structural_children, with_both_types, leaf_nodes
+
+--->
+<cffunction name="getContainerTypeRoleFit" access="remote" returntype="query" output="false">
+	<cfquery name="qTypeFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			container_type,
+			expected_role,
+			COUNT(*) AS total_count,
+			SUM(CASE WHEN has_coll_obj_child = 1 THEN 1 ELSE 0 END)
+				AS with_coll_obj_children,
+			SUM(CASE WHEN has_struct_child = 1 THEN 1 ELSE 0 END)
+				AS with_structural_children,
+			SUM(CASE WHEN has_coll_obj_child = 1 AND has_struct_child = 1 THEN 1 ELSE 0 END)
+				AS with_both_types,
+			SUM(CASE WHEN child_count = 0 THEN 1 ELSE 0 END)
+				AS leaf_nodes
+		FROM (
+			SELECT
+				c.container_type,
+				CASE
+					WHEN c.container_type IN (
+						'institution','campus','cryovat','building','floor','room',
+						'freezer','freezer rack','grouping','set','fixture',
+						'rack slot','position'
+					) THEN 'C'
+					WHEN c.container_type IN (
+						'cryovial','tank','jar','glass vial','envelope','slide','pin'
+					) THEN 'S'
+					WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
+					WHEN c.container_type = 'collection object' THEN 'leaf'
+					ELSE 'unknown'
+				END AS expected_role,
+				NVL(ch.has_coll_obj_child,0) AS has_coll_obj_child,
+				NVL(ch.has_struct_child,0) AS has_struct_child,
+				NVL(ch.child_count,0) AS child_count
+			FROM container c
+			LEFT JOIN (
+				SELECT
+					parent_container_id,
+					COUNT(*) AS child_count,
+					MAX(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
+						AS has_coll_obj_child,
+					MAX(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END)
+						AS has_struct_child
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+		)
+		GROUP BY container_type, expected_role
+		ORDER BY total_count DESC
+	</cfquery>
+	<cfreturn qTypeFit>
+</cffunction>
+
+<!---
+Function getSingleOccupantViolations.  Returns containers of type pin, slide, or cryovial
+that do not hold exactly one collection-object child.  These types are expected to contain
+exactly one collection object; zero or two-or-more children both represent anomalies.
+
+@return query with container_id, container_type, label, barcode, child_count, coll_obj_count
+--->
+<cffunction name="getSingleOccupantViolations" access="remote" returntype="query" output="false">
+	<cfquery name="qViolations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT container_id, container_type, label, barcode, child_count, coll_obj_count
+		FROM (
+			SELECT
+				c.container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				ch.child_count,
+				ch.coll_obj_count
+			FROM container c
+			JOIN (
+				SELECT
+					parent_container_id,
+					COUNT(*) AS child_count,
+					SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END)
+						AS coll_obj_count
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+			WHERE c.container_type IN ('pin', 'slide', 'cryovial')
+		)
+		WHERE coll_obj_count <> 1
+		ORDER BY container_type, child_count DESC
+	</cfquery>
+	<cfreturn qViolations>
+</cffunction>
+
+<cffunction name="getCollObjContHistAnomalies" access="remote" returntype="query" output="false">
+	<cfquery name="qAnom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			collection_object_id,
+			COUNT(*) AS ct
+		FROM coll_obj_cont_hist
+		WHERE current_container_fg = 1
+		GROUP BY collection_object_id
+		HAVING COUNT(*) > 1
+		ORDER BY collection_object_id
+	</cfquery>
+	<cfreturn qAnom>
+</cffunction>
+
 </cfcomponent>

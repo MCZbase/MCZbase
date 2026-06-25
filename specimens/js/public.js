@@ -630,7 +630,7 @@ function localityMapSetup(){
 		var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
 		var center=new google.maps.LatLng(lat,lng);
-		var marker = new google.maps.Marker({
+		var marker = new google.maps.marker.AdvancedMarkerElement({
 			position: center,
 			map: map,
 			zIndex: 10
