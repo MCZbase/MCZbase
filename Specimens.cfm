@@ -625,7 +625,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                         <label for="type_status">Type Status/Citation</label>
-												        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
+												        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
                                                                 (&##8595;) <span class="sr-only">open pick list</span>
                                                         </a>
                                                        	<cfif not isdefined("type_status")><cfset type_status=""></cfif>
@@ -642,7 +642,7 @@ limitations under the License.
 														<div class="form-row col-12 mb-1 px-1 mx-0">
 															<div class="col-12 col-md-2 mb-1">
                                                                 <label for="phylum">Phylum</label>
-																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;"> 
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick=" $('##phylum').autocomplete('search','%%%'); return false;"> 
                                                                         (&##8595;) <span class="sr-only">open pick list</span>
                                                                 </a>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
@@ -1160,7 +1160,7 @@ limitations under the License.
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method" class="data-entry-label small">
 															Preserve Method
-															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 														</label>
 														<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input inputHeight" value="#encodeForHtml(preserve_method)#" >
 														<script>
@@ -1286,7 +1286,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
                                                                 <label for="part_attribute_type">Part Attribute Type</label>
                                                                 <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
-                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > 
+                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > 
                                                                     (&##8595;) <span class="sr-only">open pick list</span>
                                                                 </a>
 																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
@@ -1299,7 +1299,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-3 col-xl-3 mb-1">
                                                                 <label for="part_attribute_value">Part Attribute Value</label>
-                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > 
+                                                                <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > 
                                                                     (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
                                                                 </a>
 																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
@@ -1309,7 +1309,7 @@ limitations under the License.
                                                                 <span class="data-entry-label small">
 																    <label for="part_attribute_units">Part Attribute Units</label>
                                                                     <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
-                                                                    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;"> (&##8595;) <span class="sr-only">open pick list</span></a>
+                                                                    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;"> (&##8595;) <span class="sr-only">open pick list</span></a>
                                                                 </span>
 																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
@@ -1536,7 +1536,7 @@ limitations under the License.
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
                                                             <label for="accn_status">Accession Status</label>
-                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > 
+                                                            <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_status').autocomplete('search','%'); return false;" > 
                                                                 (&##8595;) <span class="sr-only">open pick list</span>
                                                             </a>
 															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
