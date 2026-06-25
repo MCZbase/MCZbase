@@ -86,7 +86,7 @@ limitations under the License.
 							</cfquery>
 							<h1 id="pageHeading" class="h3 mt-2">Manage Controlled Vocabularies</h1>
 							<section aria-labelledby="controlledVocabularyListHeading" class="my-2">
-								<h2 id="controlledVocabularyListHeading" class="h5">Editable controlled vocabulary tables</h2>
+								<h2 id="controlledVocabularyListHeading" class="h5">Editable Controlled Vocabulary Tables</h2>
 								<div class="table-responsive">
 									<table id="controlledVocabularyListTable" class="sortable table table-striped table-sm d-xl-table">
 										<thead>
@@ -113,9 +113,9 @@ limitations under the License.
 													</cfif>
 												</cfquery>
 												<cfset variables.rowCountDisplay = getRowCounts.ct>
-												<cfset variables.tableNameWithoutCTPrefix = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+												<cfset variables.displayName = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 												<tr>
-													<td>#variables.tableNameWithoutCTPrefix#</td>
+													<td>#variables.displayName#</td>
 													<td class="text-nowrap">
 														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
 														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
