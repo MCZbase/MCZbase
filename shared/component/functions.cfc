@@ -16,10 +16,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+
+
+<!---Static map handler for Google cost reduction--->
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+    
+    
 <!---
 	linkMediaHtml create dialog content to link media to an object 
 	@see findMediaSearchResults 
@@ -406,13 +412,13 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2">
 						<label for="media_type">Media Type</label>
-							<select name="media_type" id="media_type" class="reqdClr w-75"  required>
-								<option value=""></option>'>
-								<cfloop query="ctmedia_type">
-									<cfset result = result & '<option value="#media_type#">#media_type#</option>' >
-								</cfloop> 
-								<cfset result = result & '
-							</select>
+                        <select name="media_type" id="media_type" class="reqdClr w-75"  required>
+                            <option value=""></option>'>
+                            <cfloop query="ctmedia_type">
+                                <cfset result = result & '<option value="#media_type#">#media_type#</option>' >
+                            </cfloop> 
+                            <cfset result = result & '
+                        </select>
 					</div>
 					<div class="col-12 col-md-4 pb-2">
 						<label for="mask_media_fg">Media Record Visibility</label>
@@ -456,19 +462,18 @@ limitations under the License.
 						<label for="relationships" class="mt-2">Media Relationships</label>
 						<div id="relationships" class="p-2 rounded dotted-border">
 							<div id="relationshiperror"></div>
-								<select name="relationship__1" id="relationship__1" size="1" class="col-3 float-left" onchange="pickedRelationship(this.id)">
-									<option value="">None/Unpick</option>'>
-									<cfloop query="ctmedia_relationship">
-										<cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
-									</cfloop>
-									<cfset result = result & '
-								</select>
-						
-								<input type="text" name="related_value__1" id="related_value__1" class="col-9 float-left" readonly>
-								<input type="hidden" name="related_id__1" id="related_id__1">
-								<button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
-							</div>
-					</div>
+                            <select name="relationship__1" id="relationship__1" size="1" class="col-3 float-left" onchange="pickedRelationship(this.id)">
+                                <option value="">None/Unpick</option>'>
+                                <cfloop query="ctmedia_relationship">
+                                    <cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
+                                </cfloop>
+                                <cfset result = result & '
+                            </select>
+                            <input type="text" name="related_value__1" id="related_value__1" class="col-9 float-left" readonly>
+                            <input type="hidden" name="related_id__1" id="related_id__1">
+                            <button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
+				        </div>
+				    </div>
 				</div>
 				<div class="form-row">
 					<div class="col-12 col-md-12">
@@ -482,14 +487,16 @@ limitations under the License.
 									</cfloop>
 									<cfset result = result & '
 								</select>
-				
 								<input type="text" name="label_value__1" id="label_value__1" class="col-9 float-left">
 								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabelTo(2,''labels'',''addLabel'');" aria-label="Add a media label">Add Label</button>
 							</div>
-					</div>
-				</div>
-			</div>
-</form></div></div></div>
+					    </div>
+				    </div>
+			    </div>
+            </form>
+            </div>
+        </div>
+    </div>
 	</div>'>
 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -826,6 +833,8 @@ limitations under the License.
 	</cfif>
 	<cfreturn returnValue>
 </cffunction>
+
+                
 
 <!--- given a table and field return a comment on the field from the schema.
 

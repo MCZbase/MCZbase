@@ -459,3 +459,61 @@ limitations under the License.
 
 	<cfreturn html>
 </cffunction>
+
+<!----------------------------------------------------->
+
+<!--- This function will return the URL of a static map image for a given locality, creating and caching the image if it doesn't already exist or if a refresh is forced. It uses the Google Static Maps API to generate the map based on the provided latitude and longitude.
+
+	@param locality_id (numeric, required): The ID of the locality for which the map is being generated. This is used to name and cache the map image.
+	@param lat (numeric, required): The latitude coordinate of the locality, used to center the map.
+	@param lng (numeric, required): The longitude coordinate of the locality, used to center the map.
+	@param layout (string, optional, default="3col"): The layout of the page where the map will be displayed. This can be used to adjust the size of the map if needed.
+	@param forceRefresh (boolean, optional, default=false): If true, the function will bypass the cache and generate a new map image even if one already exists for the locality.
+--->
+<cffunction name="getOrCreateStaticMapForLocality" access="public" returntype="string">
+    <cfargument name="locality_id"  type="numeric" required="true">
+    <cfargument name="lat"          type="numeric" required="true">
+    <cfargument name="lng"          type="numeric" required="true">
+    <cfargument name="layout"       type="string"  required="false" default="3col">
+    <cfargument name="forceRefresh" type="boolean" required="false" default="false">
+
+    <!-- one size / zoom -->
+    <cfset var mapWidth  = 320>
+    <cfset var mapHeight = 180>
+    <cfset var zoom      = 10>
+
+    <cfset var mapDir      = expandPath("/cache/static_maps/")>
+    <cfset var mapFileName = "locality-#arguments.locality_id#-#arguments.layout#.png">
+    <cfset var mapFilePath = mapDir & mapFileName>
+    <cfset var mapUrl      = "#Application.serverRootUrl#/cache/static_maps/#mapFileName#">
+    <cfset var apiKey      = application.gmap_api_key>
+    <cfset var staticUrl   = "">
+    <cfset var httpRes     = "">
+
+    <!-- existing file -->
+    <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
+        <cfreturn mapUrl>
+    </cfif>
+
+    <!-- plain static map: center + marker, no polygons -->
+    <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
+        & "?center=#arguments.lat#,#arguments.lng#"
+        & "&zoom=#zoom#"
+        & "&scale=1"
+        & "&size=#mapWidth#x#mapHeight#"
+        & "&maptype=roadmap"
+        & "&markers=color:red|#arguments.lat#,#arguments.lng#"
+        & "&key=#apiKey#">
+
+    <cfhttp url="#staticUrl#" method="get" timeout="10"
+        path="#GetDirectoryFromPath(mapFilePath)#"
+        file="#GetFileFromPath(mapFilePath)#"
+        result="httpRes" />
+
+    <cfif httpRes.statusCode CONTAINS "200">
+        <cfreturn mapUrl>
+    <cfelse>
+        <cfreturn "/shared/images/map-placeholder.jpg">
+    </cfif>
+        
+</cffunction>
