@@ -75,32 +75,32 @@ limitations under the License.
 					<div class="row border rounded my-2 mx-1 p-2 bg-light">
 						<form method="post" action="/vocabularies/ctspecimen_part_name.cfm">
 							<input type="hidden" name="action" value="insert">
-							<div class="form-row align-items-end">
-								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newCollCde">Collection <span class="text-danger">*</span></label>
-									<select class="form-control form-control-sm" id="newCollCde" name="collection_cde">
+							<div class="form-row mb-1">
+								<div class="col">
+									<label class="form-label" for="newCollCde">Collection</label>
+									<select class="data-entry-select reqdClr" id="newCollCde" name="collection_cde" required>
 										<cfloop query="ctcollcde">
 										<option value="#encodeForHTML(ctcollcde.collection_cde)#">#encodeForHTML(ctcollcde.collection_cde)#</option>
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newPartName">Part Name <span class="text-danger">*</span></label>
-									<input type="text" class="form-control form-control-sm" id="newPartName" name="part_name" required>
+								<div class="col">
+									<label class="form-label" for="newPartName">Part Name</label>
+									<input type="text" class="data-entry-input reqdClr" id="newPartName" name="part_name" required>
 								</div>
-								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newIsTissue">Is Tissue?</label>
-									<select class="form-control form-control-sm" id="newIsTissue" name="is_tissue">
+								<div class="col">
+									<label class="form-label" for="newIsTissue">Is Tissue?</label>
+									<select class="data-entry-select" id="newIsTissue" name="is_tissue">
 										<option value="0">no</option>
 										<option value="1">yes</option>
 									</select>
 								</div>
 								<div class="col">
-									<label class="col-form-label-sm font-weight-bold" for="newDescription">Description</label>
-									<textarea class="form-control form-control-sm" id="newDescription" name="description" rows="2"></textarea>
+									<label class="form-label" for="newDescription">Description</label>
+									<textarea class="data-entry-textarea" id="newDescription" name="description" rows="2"></textarea>
 								</div>
 								<div class="col-auto">
-									<button type="submit" class="btn btn-sm btn-success">Add</button>
+									<input type="submit" value="Add" class="btn btn-xs btn-secondary mt-4">
 								</div>
 							</div>
 						</form>
@@ -148,9 +148,9 @@ limitations under the License.
 				<div id="editPartDialog" style="display:none;">
 					<input type="hidden" id="editPartCtspnid">
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 col-form-label col-form-label-sm font-weight-bold" for="editPartCollCde">Collection</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartCollCde">Collection</label>
 						<div class="col-sm-8">
-							<select class="form-control form-control-sm" id="editPartCollCde">
+							<select class="data-entry-select" id="editPartCollCde">
 								<cfloop query="ctcollcde">
 								<option value="#encodeForHTML(ctcollcde.collection_cde)#">#encodeForHTML(ctcollcde.collection_cde)#</option>
 								</cfloop>
@@ -158,39 +158,39 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 col-form-label col-form-label-sm font-weight-bold" for="editPartName">Part Name</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartName">Part Name</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control form-control-sm" id="editPartName" required>
+							<input type="text" class="data-entry-input reqdClr" id="editPartName" required>
 						</div>
 					</div>
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 col-form-label col-form-label-sm font-weight-bold" for="editPartIsTissue">Is Tissue?</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartIsTissue">Is Tissue?</label>
 						<div class="col-sm-8">
-							<select class="form-control form-control-sm" id="editPartIsTissue">
+							<select class="data-entry-select" id="editPartIsTissue">
 								<option value="0">no</option>
 								<option value="1">yes</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 col-form-label col-form-label-sm font-weight-bold" for="editPartUpAllTiss">Update is_tissue for all parts with this name?</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartUpAllTiss">Update is_tissue for all parts with this name?</label>
 						<div class="col-sm-8">
-							<select class="form-control form-control-sm" id="editPartUpAllTiss">
+							<select class="data-entry-select" id="editPartUpAllTiss">
 								<option value="0">Just this one</option>
 								<option value="1">Yes, update all</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 col-form-label col-form-label-sm font-weight-bold" for="editPartDescription">Description</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartDescription">Description</label>
 						<div class="col-sm-8">
-							<textarea class="form-control form-control-sm" id="editPartDescription" rows="3"></textarea>
+							<textarea class="data-entry-textarea" id="editPartDescription" rows="3"></textarea>
 						</div>
 					</div>
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 col-form-label col-form-label-sm font-weight-bold" for="editPartUpAllDesc">Update description for all parts with this name?</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartUpAllDesc">Update description for all parts with this name?</label>
 						<div class="col-sm-8">
-							<select class="form-control form-control-sm" id="editPartUpAllDesc">
+							<select class="data-entry-select" id="editPartUpAllDesc">
 								<option value="0">Just this one</option>
 								<option value="1">Yes, update all</option>
 							</select>

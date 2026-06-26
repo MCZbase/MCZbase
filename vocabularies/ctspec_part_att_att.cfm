@@ -96,19 +96,28 @@ limitations under the License.
 					<div class="row border rounded my-2 mx-1 p-2 bg-light">
 						<form method="post" action="/vocabularies/ctspec_part_att_att.cfm">
 							<input type="hidden" name="action" value="newValue">
-							<div class="form-row align-items-end">
-								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newAttrType">Attribute Type <span class="text-danger">*</span></label>
-									<select class="form-control form-control-sm" id="newAttrType" name="attribute_type">
+							<div class="form-row mb-1">
+								<div class="col">
+									<label class="form-label" for="newAttrType">Attribute Type</label>
+									<select class="data-entry-select reqdClr" id="newAttrType" name="attribute_type" required>
 										<option value=""></option>
 										<cfloop query="ctAttribute_type">
 										<option value="#encodeForHTML(ctAttribute_type.attribute_type)#">#encodeForHTML(ctAttribute_type.attribute_type)#</option>
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newValueCT">Value Code Table</label>
-									<select class="form-control form-control-sm" id="newValueCT" name="value_code_table">
+								<div class="col">
+									<label class="form-label" for="newValueCT">Value Code Table</label>
+									<select class="data-entry-select" id="newValueCT" name="value_code_table">
+										<option value="">none</option>
+										<cfloop query="allCTs">
+										<option value="#encodeForHTML(allCTs.tablename)#">#encodeForHTML(allCTs.tablename)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col">
+									<label class="form-label" for="newUnitCT">Unit Code Table</label>
+									<select class="data-entry-select" id="newUnitCT" name="unit_code_table">
 										<option value="">none</option>
 										<cfloop query="allCTs">
 										<option value="#encodeForHTML(allCTs.tablename)#">#encodeForHTML(allCTs.tablename)#</option>
@@ -116,16 +125,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newUnitCT">Unit Code Table</label>
-									<select class="form-control form-control-sm" id="newUnitCT" name="unit_code_table">
-										<option value="">none</option>
-										<cfloop query="allCTs">
-										<option value="#encodeForHTML(allCTs.tablename)#">#encodeForHTML(allCTs.tablename)#</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-auto">
-									<button type="submit" class="btn btn-sm btn-success">Add</button>
+									<input type="submit" value="Add" class="btn btn-xs btn-secondary mt-4">
 								</div>
 							</div>
 						</form>
@@ -153,12 +153,12 @@ limitations under the License.
 									action="/vocabularies/ctspec_part_att_att.cfm">
 									<input type="hidden" name="action" value="">
 									<input type="hidden" name="attribute_type" value="#encodeForHTML(thisRec.attribute_type)#">
-									<div class="d-table-cell p-2 align-middle">
+									<div class="d-table-cell py-1 pr-2 align-middle">
 										#encodeForHTML(thisRec.attribute_type)#
 									</div>
-									<div class="d-table-cell p-2 align-middle">
+									<div class="d-table-cell py-1 pr-2 align-middle">
 										<label class="sr-only" for="#variables.fid#_value_ct">Value Code Table</label>
-										<select class="form-control form-control-sm" id="#variables.fid#_value_ct" name="value_code_table">
+										<select class="data-entry-select" id="#variables.fid#_value_ct" name="value_code_table">
 											<option value="">none</option>
 											<cfloop query="allCTs">
 												<cfset variables.selVal = (thisRec.value_code_table IS allCTs.tablename) ? " selected" : "">
@@ -166,9 +166,9 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="d-table-cell p-2 align-middle">
+									<div class="d-table-cell py-1 pr-2 align-middle">
 										<label class="sr-only" for="#variables.fid#_unit_ct">Unit Code Table</label>
-										<select class="form-control form-control-sm" id="#variables.fid#_unit_ct" name="unit_code_table">
+										<select class="data-entry-select" id="#variables.fid#_unit_ct" name="unit_code_table">
 											<option value="">none</option>
 											<cfloop query="allCTs">
 												<cfset variables.selVal = (thisRec.unit_code_table IS allCTs.tablename) ? " selected" : "">
@@ -176,11 +176,11 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="d-table-cell p-2 align-middle text-nowrap">
-										<button type="submit" class="btn btn-xs btn-primary mr-1"
-											onclick="document.getElementById('#variables.fid#').elements['action'].value='saveEdit';">Save</button>
-										<button type="submit" class="btn btn-xs btn-danger"
-											onclick="document.getElementById('#variables.fid#').elements['action'].value='deleteValue'; return confirm('Delete this mapping?');">Delete</button>
+									<div class="d-table-cell py-1 align-middle text-nowrap">
+										<input type="button" class="btn btn-xs btn-primary mr-1" value="Save"
+											onclick="document.getElementById('#variables.fid#').elements['action'].value='saveEdit';document.getElementById('#variables.fid#').submit();">
+										<input type="button" class="btn btn-xs btn-danger" value="Delete"
+											onclick="if(confirm('Delete this mapping?')){document.getElementById('#variables.fid#').elements['action'].value='deleteValue';document.getElementById('#variables.fid#').submit();}">
 									</div>
 								</form>
 							</cfloop>

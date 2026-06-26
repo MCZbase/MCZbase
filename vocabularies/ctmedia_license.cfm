@@ -89,21 +89,21 @@ limitations under the License.
 					<div class="row border rounded my-2 mx-1 p-2 bg-light">
 						<form method="post" action="/vocabularies/ctmedia_license.cfm">
 							<input type="hidden" name="action" value="insert">
-							<div class="form-row align-items-end">
-								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newDisplay">Display Name <span class="text-danger">*</span></label>
-									<input type="text" class="form-control form-control-sm" id="newDisplay" name="display" required>
-								</div>
-								<div class="col-auto">
-									<label class="col-form-label-sm font-weight-bold" for="newUri">URI</label>
-									<input type="text" class="form-control form-control-sm" id="newUri" name="uri">
+							<div class="form-row mb-1">
+								<div class="col">
+									<label class="form-label" for="newDisplay">Display Name</label>
+									<input type="text" class="data-entry-input reqdClr" id="newDisplay" name="display" required>
 								</div>
 								<div class="col">
-									<label class="col-form-label-sm font-weight-bold" for="newDescription">Description</label>
-									<textarea class="form-control form-control-sm" id="newDescription" name="description" rows="2"></textarea>
+									<label class="form-label" for="newUri">URI</label>
+									<input type="text" class="data-entry-input" id="newUri" name="uri">
+								</div>
+								<div class="col">
+									<label class="form-label" for="newDescription">Description</label>
+									<textarea class="data-entry-textarea" id="newDescription" name="description" rows="2"></textarea>
 								</div>
 								<div class="col-auto">
-									<button type="submit" class="btn btn-sm btn-success">Add</button>
+									<input type="submit" value="Add" class="btn btn-xs btn-secondary mt-4">
 								</div>
 							</div>
 						</form>
@@ -131,23 +131,23 @@ limitations under the License.
 									action="/vocabularies/ctmedia_license.cfm">
 									<input type="hidden" name="action" value="">
 									<input type="hidden" name="media_license_id" value="#media_license_id#">
-									<div class="d-table-cell p-2 align-middle">
+									<div class="d-table-cell py-1 pr-2 align-middle">
 										<label class="sr-only" for="#variables.fid#_display">Display Name</label>
-										<input type="text" class="form-control form-control-sm" id="#variables.fid#_display" name="display" value="#encodeForHTML(display)#" required>
+										<input type="text" class="data-entry-input reqdClr w-100" id="#variables.fid#_display" name="display" value="#encodeForHTML(display)#" required>
 									</div>
-									<div class="d-table-cell p-2 align-middle">
+									<div class="d-table-cell py-1 pr-2 align-middle">
 										<label class="sr-only" for="#variables.fid#_uri">URI</label>
-										<input type="text" class="form-control form-control-sm" id="#variables.fid#_uri" name="uri" value="#encodeForHTML(uri)#">
+										<input type="text" class="data-entry-input w-100" id="#variables.fid#_uri" name="uri" value="#encodeForHTML(uri)#">
 									</div>
-									<div class="d-table-cell p-2 align-middle">
+									<div class="d-table-cell py-1 pr-2 align-middle">
 										<label class="sr-only" for="#variables.fid#_description">Description</label>
-										<textarea class="form-control form-control-sm" id="#variables.fid#_description" name="description" rows="2">#encodeForHTML(description)#</textarea>
+										<textarea class="data-entry-textarea w-100" id="#variables.fid#_description" name="description" rows="2">#encodeForHTML(description)#</textarea>
 									</div>
-									<div class="d-table-cell p-2 align-middle text-nowrap">
-										<button type="submit" class="btn btn-xs btn-primary mr-1"
-											onclick="document.getElementById('#variables.fid#').elements['action'].value='save';">Save</button>
-										<button type="submit" class="btn btn-xs btn-danger"
-											onclick="document.getElementById('#variables.fid#').elements['action'].value='delete'; return confirm('Delete this license?');">Delete</button>
+									<div class="d-table-cell py-1 align-middle text-nowrap">
+										<input type="button" class="btn btn-xs btn-primary mr-1" value="Save"
+											onclick="document.getElementById('#variables.fid#').elements['action'].value='save';document.getElementById('#variables.fid#').submit();">
+										<input type="button" class="btn btn-xs btn-danger" value="Delete"
+											onclick="if(confirm('Delete this license?')){document.getElementById('#variables.fid#').elements['action'].value='delete';document.getElementById('#variables.fid#').submit();}">
 									</div>
 								</form>
 							</cfloop>
