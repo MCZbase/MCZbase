@@ -46,15 +46,15 @@ when selected from the list.
     Reason: Journal name management is integrated with publication management
             and requires a dedicated search/picker UI.
 
-  ctspecimen_part_name           -> /Admin/ctspecimen_part_name.cfm
+  ctspecimen_part_name           -> /vocabularies/ctspecimen_part_name.cfm
     Reason: Has a boolean is_tissue field, per-collection scoping, and uses
-            an iframe-based modal for edit and AJAX for delete; dedicated page.
+            a jquery-ui dialog for edit and AJAX for delete; dedicated page.
 
-  ctspec_part_att_att            -> /Admin/ctspec_part_att_att.cfm
+  ctspec_part_att_att            -> /vocabularies/ctspec_part_att_att.cfm
     Reason: Maps attribute types to code tables (value + unit selects populated
             from all CT* tables); dedicated page.
 
-  ctmedia_license                -> /Admin/ctmedia_license.cfm
+  ctmedia_license                -> /vocabularies/ctmedia_license.cfm
     Reason: Has dedicated display/description/URI fields not in the generic
             pattern; dedicated page.
 
@@ -255,6 +255,53 @@ What still requires file edits:
 								) pk ON pk.table_name = t.table_name
 			 					ORDER BY t.table_name
 							</cfquery>
+							<!--- Pre-compute edit permissions for the 5 externally managed vocabulary pages.
+								  Uses the same role-check logic as /CustomTags/rolecheck.cfm. --->
+							<cfquery name="variables.qExtPerms" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+								SELECT DISTINCT form_path, role_name FROM cf_form_permissions
+								WHERE form_path IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR"
+									value="/vocabularies/GeologicalHierarchies.cfm,/publications/Journals.cfm,/vocabularies/ctspecimen_part_name.cfm,/vocabularies/ctspec_part_att_att.cfm,/vocabularies/ctmedia_license.cfm"
+									list="yes">)
+							</cfquery>
+							<!--- Build form_path -> comma-separated required roles --->
+							<cfset variables.extPathRoles = structNew()>
+							<cfloop query="variables.qExtPerms">
+								<cfif NOT structKeyExists(variables.extPathRoles, variables.qExtPerms.form_path)>
+									<cfset variables.extPathRoles[variables.qExtPerms.form_path] = "">
+								</cfif>
+								<cfset variables.extPathRoles[variables.qExtPerms.form_path] = listAppend(variables.extPathRoles[variables.qExtPerms.form_path], variables.qExtPerms.role_name)>
+							</cfloop>
+							<!--- Default all 5 external tables to no-access; updated below where permissions exist --->
+							<cfset variables.externalCanEdit = structNew()>
+							<cfset variables.externalCanEdit["CTGEOLOGY_ATTRIBUTE_HIERARCHY"] = false>
+							<cfset variables.externalCanEdit["CTJOURNAL_NAME"] = false>
+							<cfset variables.externalCanEdit["CTSPECIMEN_PART_NAME"] = false>
+							<cfset variables.externalCanEdit["CTSPEC_PART_ATT_ATT"] = false>
+							<cfset variables.externalCanEdit["CTMEDIA_LICENSE"] = false>
+							<cfset variables.extCheckMap = {
+								"CTGEOLOGY_ATTRIBUTE_HIERARCHY": "/vocabularies/GeologicalHierarchies.cfm",
+								"CTJOURNAL_NAME":                "/publications/Journals.cfm",
+								"CTSPECIMEN_PART_NAME":          "/vocabularies/ctspecimen_part_name.cfm",
+								"CTSPEC_PART_ATT_ATT":           "/vocabularies/ctspec_part_att_att.cfm",
+								"CTMEDIA_LICENSE":               "/vocabularies/ctmedia_license.cfm"
+							}>
+							<cfloop collection="#variables.extCheckMap#" item="variables.extCheckTbl">
+								<cfset variables.extCheckPath = variables.extCheckMap[variables.extCheckTbl]>
+								<cfif structKeyExists(variables.extPathRoles, variables.extCheckPath)>
+									<cfset variables.extCheckRoles = variables.extPathRoles[variables.extCheckPath]>
+									<cfif listLen(variables.extCheckRoles) EQ 1 AND listFirst(variables.extCheckRoles) IS "public">
+										<cfset variables.externalCanEdit[variables.extCheckTbl] = true>
+									<cfelse>
+										<cfset variables.extCheckOK = true>
+										<cfloop list="#variables.extCheckRoles#" index="variables.extCheckRole">
+											<cfif NOT listfindnocase(session.roles, variables.extCheckRole)>
+												<cfset variables.extCheckOK = false>
+											</cfif>
+										</cfloop>
+										<cfset variables.externalCanEdit[variables.extCheckTbl] = variables.extCheckOK>
+									</cfif>
+								</cfif>
+							</cfloop>
 							<h1 id="pageHeading" class="h3 mt-2">Manage Controlled Vocabularies</h1>
 							<section aria-labelledby="controlledVocabularyNotesHeading" class="my-2">
 								<h2 id="controlledVocabularyNotesHeading" class="sr-only">Controlled Vocabulary Notes</h2>
@@ -315,7 +362,11 @@ What still requires file edits:
 													<td>#variables.displayName#</td>
 													<td>#getRowCounts.ct#</td>
 													<td class="text-nowrap">
-														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
+														<cfif structKeyExists(variables.externalCanEdit, getCTName.table_name) AND NOT variables.externalCanEdit[getCTName.table_name]>
+															<span class="btn btn-xs btn-primary disabled" aria-disabled="true" title="You do not have permission to edit this vocabulary">Edit</span>
+														<cfelse>
+															<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
+														</cfif>
 														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
 													</td>
 													<td>
@@ -359,11 +410,11 @@ What still requires file edits:
 	<cfelseif tbl is "CTJOURNAL_NAME"><!---------------------------------------------------->
 		<cflocation url="/publications/Journals.cfm" addtoken="false">
 	<cfelseif tbl is "ctspecimen_part_name"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctspecimen_part_name.cfm" addtoken="false">
 	<cfelseif tbl is "ctspec_part_att_att"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctspec_part_att_att.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctspec_part_att_att.cfm" addtoken="false">
 	<cfelseif tbl is "ctmedia_license"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctmedia_license.cfm" addtoken="false">
 	<!--- RETAINED SPECIAL CASE: Composite PK; two FK selects (value_code_table, units_code_table) from all CT* tables; NULL in composite WHERE clauses. --->
 	<cfelseif tbl is "ctattribute_code_tables"><!---------------------------------------------------->
 		<cfquery name="ctAttribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">

@@ -84,7 +84,10 @@ limitations under the License.
 <main id="content" aria-labelledby="pageHeading">
 	<div class="row">
 		<div class="col-12">
-			<h1 id="pageHeading" class="h3 mt-3 mb-1">Specimen Part Attribute Controls</h1>
+			<div class="d-flex justify-content-between align-items-start mt-3 mb-1">
+				<h1 id="pageHeading" class="h3 mb-0">Specimen Part Attribute Controls</h1>
+				<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Controlled vocabulary list</a>
+			</div>
 			<p class="text-muted small">Maps specimen part attribute types to code tables for value and unit selects.</p>
 		</div>
 	</div>
