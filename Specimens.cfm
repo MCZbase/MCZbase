@@ -2298,7 +2298,7 @@ limitations under the License.
 																	searchMode: 'containsignorecase',
 																	width: '100%',
 																	dropDownHeight: 400,
-                                                                    height: '21px'
+                                                                    height: '22px'
 																});
 																// bind an autocomplete, if one applies
 																handleFieldSetup('field1',1);
@@ -2428,7 +2428,8 @@ limitations under the License.
 																				autoComplete: true,
 																				searchMode: 'containsignorecase',
 																				width: '100%',
-																				dropDownHeight: 400
+																				dropDownHeight: 400,
+                                                                                height: '22px';
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
