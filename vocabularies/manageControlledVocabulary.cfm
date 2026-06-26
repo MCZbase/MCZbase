@@ -67,6 +67,7 @@ limitations under the License.
 									FROM all_tab_columns
 									WHERE
 										owner = 'MCZBASE'
+										AND table_name like 'CT%'
 										AND column_name = 'COLLECTION_CDE'
 								) cc ON cc.table_name = t.table_name
 								LEFT JOIN (
