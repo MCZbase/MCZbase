@@ -40,11 +40,11 @@
 	<cfelseif tbl is "CTJOURNAL_NAME"><!---------------------------------------------------->
 		<cflocation url="/publications/Journals.cfm" addtoken="false">
 	<cfelseif tbl is "CTSPECIMEN_PART_NAME"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctspecimen_part_name.cfm" addtoken="false">
 	<cfelseif tbl is "CTSPEC_PART_ATT_ATT"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctspec_part_att_att.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctspec_part_att_att.cfm" addtoken="false">
 	<cfelseif tbl is "CTMEDIA_LICENSE"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctmedia_license.cfm" addtoken="false">
 	<cfelseif tbl is "CTATTRIBUTE_CODE_TABLES"><!---------------------------------------------------->
 		<cfquery name="ctAttribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct(attribute_type) from ctAttribute_type

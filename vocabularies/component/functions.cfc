@@ -938,4 +938,82 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 	<cfthread action="join" name="listNodePathInGeoTreeThread" />
 	<cfreturn listNodePathInGeoTreeThread.output>
 </cffunction>
+
+<!------------------------------------------------------->
+<!--- Specimen Part Name functions --->
+<!------------------------------------------------------->
+
+<cffunction name="deleteCtPartName" access="remote" returntype="any" returnformat="json">
+	<cfargument name="ctspnid" type="numeric" required="yes">
+	<cfset var result = structNew()>
+	<cftry>
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM ctspecimen_part_name
+			WHERE ctspnid = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.ctspnid#">
+		</cfquery>
+		<cfset result.status = 1>
+		<cfset result.ctspnid = arguments.ctspnid>
+		<cfset result.message = "Deleted">
+	<cfcatch>
+		<cfset result.status = 0>
+		<cfset result.ctspnid = arguments.ctspnid>
+		<cfset result.message = cfcatch.message & ": " & cfcatch.detail>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+
+<!------------------------------------------------------->
+
+<cffunction name="updateCtPartName" access="remote" returntype="any" returnformat="json">
+	<cfargument name="ctspnid" type="numeric" required="yes">
+	<cfargument name="collection_cde" type="string" required="yes">
+	<cfargument name="part_name" type="string" required="yes">
+	<cfargument name="is_tissue" type="numeric" required="yes">
+	<cfargument name="description" type="string" required="yes">
+	<cfargument name="upAllDesc" type="numeric" required="yes" default="0">
+	<cfargument name="upAllTiss" type="numeric" required="yes" default="0">
+	<cfset var result = structNew()>
+	<cftry>
+		<cftransaction>
+			<cfquery name="upd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE ctspecimen_part_name SET
+					collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.collection_cde)#">,
+					part_name      = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.part_name)#">,
+					is_tissue      = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.is_tissue#">,
+					description    = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#">
+				WHERE ctspnid = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.ctspnid#">
+			</cfquery>
+			<cfif arguments.upAllDesc EQ 1>
+				<cfquery name="updDesc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE ctspecimen_part_name SET
+						description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#">
+					WHERE part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.part_name)#">
+				</cfquery>
+			</cfif>
+			<cfif arguments.upAllTiss EQ 1>
+				<cfquery name="updTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE ctspecimen_part_name SET
+						is_tissue = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.is_tissue#">
+					WHERE part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.part_name)#">
+				</cfquery>
+			</cfif>
+		</cftransaction>
+		<cfset result.status = 1>
+		<cfset result.ctspnid = arguments.ctspnid>
+		<cfset result.collection_cde = arguments.collection_cde>
+		<cfset result.part_name = arguments.part_name>
+		<cfset result.is_tissue = arguments.is_tissue>
+		<cfset result.description = arguments.description>
+		<cfset result.upAllDesc = arguments.upAllDesc>
+		<cfset result.upAllTiss = arguments.upAllTiss>
+		<cfset result.message = "Saved">
+	<cfcatch>
+		<cfset result.status = 0>
+		<cfset result.ctspnid = arguments.ctspnid>
+		<cfset result.message = cfcatch.message & ": " & cfcatch.detail>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
 </cfcomponent>
