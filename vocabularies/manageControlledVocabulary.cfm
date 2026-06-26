@@ -92,9 +92,9 @@ limitations under the License.
 										<thead>
 											<tr>
 												<th scope="col">Table</th>
+												<th scope="col">Records</th>
 												<th scope="col">Actions</th>
 												<th scope="col">Comment</th>
-												<th scope="col">Row Count</th>
 												<cfif variables.hasGlobalAdmin>
 													<th scope="col">Inbound FK Count</th>
 													<th scope="col">Composite PK</th>
@@ -112,19 +112,22 @@ limitations under the License.
 														#getCTName.table_name#
 													</cfif>
 												</cfquery>
-												<cfset variables.rowCountDisplay = getRowCounts.ct>
 												<cfset variables.displayName = REReplace(getCTName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 												<tr>
 													<td>#variables.displayName#</td>
+													<td>#getRowCounts.ct#</td>
 													<td class="text-nowrap">
 														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
 														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
 													</td>
-													<td><cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#<cfelse>No comment</cfif></td>
-													<td>#variables.rowCountDisplay#</td>
+													<td>
+														<cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#/cfif>
+													</td>
 													<cfif variables.hasGlobalAdmin>
 														<td>#getCTName.inbound_fk_count#</td>
-														<td><cfif getCTName.composite_pk EQ 1>Yes<cfelse>No</cfif></td>
+														<td>
+															<cfif getCTName.composite_pk EQ 1>Yes<cfelse>No</cfif>
+														</td>
 													</cfif>
 												</tr>
 											</cfloop>
