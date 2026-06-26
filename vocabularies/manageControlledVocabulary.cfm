@@ -68,7 +68,6 @@ limitations under the License.
 									WHERE
 										owner = 'MCZBASE'
 										AND column_name = 'COLLECTION_CDE'
-									GROUP BY table_name
 								) cc ON cc.table_name = t.table_name
 								LEFT JOIN (
 									SELECT
