@@ -121,7 +121,7 @@ limitations under the License.
 														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
 													</td>
 													<td>
-														<cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#/cfif>
+														<cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#</cfif>
 													</td>
 													<cfif variables.hasGlobalAdmin>
 														<td>#getCTName.inbound_fk_count#</td>
