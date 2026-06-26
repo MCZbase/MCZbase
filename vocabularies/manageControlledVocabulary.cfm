@@ -287,7 +287,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_code">Country Code</label>
-						<input id="add_code" class="data-entry-input" type="text" name="code" maxlength="3">
+						<input id="add_code" class="data-entry-input reqdClr" type="text" name="code" maxlength="3" required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_newData">Country</label>
@@ -508,14 +508,14 @@ limitations under the License.
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_scope">Loan/Gift</label>
-						<select id="add_scope" class="data-entry-select" name="scope">
+						<select id="add_scope" class="data-entry-select reqdClr" name="scope">
 							<option value="Loan">Loan</option>
 							<option value="Gift">Gift</option>
 						</select>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_ordinal">Sort Order</label>
-						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal">
+						<input id="add_ordinal" class="data-entry-input reqdClr" type="text" name="ordinal" required>
 					</div>
 					<div class="col">
 						<input type="submit" 
