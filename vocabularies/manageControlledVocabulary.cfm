@@ -96,6 +96,21 @@ limitations under the License.
 			 					ORDER BY t.table_name
 							</cfquery>
 							<h1 id="pageHeading" class="h3 mt-2">Manage Controlled Vocabularies</h1>
+							<section aria-labelledby="controlledVocabularyNotesHeading" class="my-2">
+								<h2 id="controlledVocabularyNotesHeading" class="sr-only">Controlled Vocabulary Notes</h2>
+								<div class="alert alert-info py-2 px-3 mb-2">
+									<cfif variables.hasGlobalAdmin>
+										<p class="mb-1 small">This table lists editable controlled vocabularies with metadata checks. <strong>Collection Specific</strong> is <strong>Yes</strong> when a table contains a <code>collection_cde</code> field.</p>
+										<ul class="mb-0 small">
+											<li><strong>Inbound FK Count</strong> is the number of incoming foreign keys to the table.</li>
+											<li><strong>Composite PK</strong> is <strong>Yes</strong> when the table primary key has more than one column.</li>
+											<li><strong>Status</strong> shows <span class="text-warning" aria-hidden="true">&#9888;</span> <strong>Deprecate</strong> for empty tables with no composite PK and no inbound FKs, and <span class="text-warning" aria-hidden="true">&#9888;</span> <strong>Add FKs</strong> for non-empty tables with no composite PK and no inbound FKs.</li>
+										</ul>
+									<cfelse>
+										<p class="mb-0 small">This table lists editable controlled vocabularies and comments. <strong>Collection Specific</strong> is <strong>Yes</strong> when a table contains a <code>collection_cde</code> field.</p>
+									</cfif>
+								</div>
+							</section>
 							<section aria-labelledby="controlledVocabularyListHeading" class="my-2">
 								<h2 id="controlledVocabularyListHeading" class="h5">Editable Controlled Vocabulary Tables</h2>
 								<div class="table-responsive">
@@ -110,6 +125,7 @@ limitations under the License.
 												<cfif variables.hasGlobalAdmin>
 													<th scope="col">Inbound FK Count</th>
 													<th scope="col">Composite PK</th>
+													<th scope="col">Status</th>
 												</cfif>
 											</tr>
 										</thead>
@@ -142,6 +158,15 @@ limitations under the License.
 														<td>#getCTName.inbound_fk_count#</td>
 														<td>
 															<cfif getCTName.composite_pk EQ 1>Yes<cfelse>No</cfif>
+														</td>
+														<td>
+															<cfif getCTName.inbound_fk_count EQ 0 AND getCTName.composite_pk EQ 0>
+																<cfif getRowCounts.ct EQ 0>
+																	<span class="text-warning" aria-hidden="true">&#9888;</span> Deprecate
+																<cfelseif getRowCounts.ct GT 0>
+																	<span class="text-warning" aria-hidden="true">&#9888;</span> Add FKs
+																</cfif>
+															</cfif>
 														</td>
 													</cfif>
 												</tr>
@@ -523,7 +548,7 @@ limitations under the License.
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_scope">Loan/Gift</label>
-						<select id="add_scope" class="data-entry-select reqdClr" name="scope">
+						<select id="add_scope" class="data-entry-select reqdClr" name="scope" required>
 							<option value="Loan">Loan</option>
 							<option value="Gift">Gift</option>
 						</select>
