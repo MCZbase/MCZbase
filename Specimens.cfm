@@ -2220,9 +2220,9 @@ limitations under the License.
 														<output id="nestingFeedback"></output>
 													</div>
 													<div class="col-6 col-md-1">
-														<label for="openParens1" class="data-entry-label">&nbsp;(&nbsp;</label>
+														<label for="openParens1">&nbsp;(&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
-														<select id="openParens1" name="openParens1" class="data-entry-select">
+														<select id="openParens1" name="openParens1">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif openParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2297,7 +2297,8 @@ limitations under the License.
 																	autoComplete: true,
 																	searchMode: 'containsignorecase',
 																	width: '100%',
-																	dropDownHeight: 400
+																	dropDownHeight: 400,
+                                                                    height: '20px'
 																});
 																// bind an autocomplete, if one applies
 																handleFieldSetup('field1',1);
