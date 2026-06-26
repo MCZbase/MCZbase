@@ -160,6 +160,13 @@ function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeContro
 };
 
 /**
+ * Container types that are expected to hold exactly one collection object each.
+ * Nodes of these types have their contained collection object shown inline
+ * automatically in the tree, without requiring a "Browse contents" button click.
+ */
+var SINGLE_OCCUPANT_TYPES = ['pin', 'slide', 'cryovial'];
+
+/**
  * Formats a container's display name using barcode as the primary identifier,
  * appending the label in parentheses when it differs from the barcode.
  * Falls back to label alone, or to '(unknown container)' if both are empty.
@@ -215,10 +222,14 @@ function loadContainerNode(containerId, targetDivId, feedbackId) {
 
 /**
  * Renders an array of node objects as a tree list inside targetDivId.
- * Each node row contains the node label/toggle and an optional "Browse contents"
- * button on the same line; the lazy-loaded child list expands below that row.
+ * Each node row shows an optional expand toggle button, the container barcode/name
+ * as selectable text, the container type in brackets as separate metadata, and an
+ * optional "Browse contents" button. The lazy-loaded child list expands below that
+ * row so buttons are never displaced.
  * The expand toggle is only shown when direct_structural_children > 0.
- * The "Browse contents" button is only shown when direct_leaf_children > 0.
+ * The "Browse contents" button is only shown for non-single-occupant nodes when
+ * direct_leaf_children > 0. For single-occupant container types (pin, slide,
+ * cryovial) the contained collection object is shown inline automatically.
  * @param {Array} nodes - array of node objects from getDirectStructuralChildren.
  * @param {string} targetDivId - the id of the element to render into (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
@@ -229,6 +240,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		return;
 	}
 	var ul = $('<ul class="container-tree" role="tree"></ul>');
+	var singleOccupantLoads = [];
 	$.each(nodes, function(idx, node) {
 		var label = node.label || '';
 		var barcode = node.barcode || '';
@@ -238,23 +250,23 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		var leafChildren = parseInt(node.direct_leaf_children, 10) || 0;
 		var childUlId = 'ctree-children-' + cid;
 		var toggleId = 'ctree-toggle-' + cid;
+		var inlineLeafId = 'ctree-inline-leaf-' + cid;
+		var isSingleOccupant = SINGLE_OCCUPANT_TYPES.indexOf(ctype) !== -1;
 
-		/* Display barcode as the primary identifier; append label in parens if it differs.
-		   Container type is shown in square brackets to distinguish it from the name. */
+		/* Display barcode as the primary identifier; append label in parens if it differs. */
 		var displayName = formatContainerDisplay(barcode, label);
-		var nodeText = displayName + ' [' + ctype + ']';
 
-		/* nodeRow holds the toggle/label and Browse button on one line;
-		   childUl is a sibling below, so expanding it never moves the buttons. */
-		var nodeRow = $('<div class="d-flex align-items-center flex-wrap"></div>');
+		/* nodeRow holds the expand toggle, name text, type metadata, and Browse button on
+		   one line; childUl is a sibling below so expanding never displaces the buttons. */
+		var nodeRow = $('<div class="d-flex align-items-center flex-wrap tree-node-row"></div>');
 
 		if (structuralChildren > 0) {
 			var toggle = $('<button></button>')
 				.attr('id', toggleId)
 				.attr('aria-expanded', 'false')
 				.attr('aria-controls', childUlId)
-				.addClass('tree-node-toggle btn-link')
-				.text(nodeText);
+				.attr('aria-label', 'Expand ' + displayName)
+				.addClass('tree-node-toggle btn-link');
 
 			toggle.on('click', function() {
 				var expanded = $(this).attr('aria-expanded') === 'true';
@@ -266,11 +278,14 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			});
 
 			nodeRow.append(toggle);
-		} else {
-			nodeRow.append($('<span class="tree-node-label mr-1"></span>').text(nodeText));
 		}
 
-		if (leafChildren > 0) {
+		/* Container name as selectable text, separate from the toggle button. */
+		nodeRow.append($('<span class="tree-node-label"></span>').text(displayName));
+		/* Container type as secondary metadata. */
+		nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + ctype + ']'));
+
+		if (leafChildren > 0 && !isSingleOccupant) {
 			var browseBtn = $('<button></button>')
 				.addClass('btn btn-xs btn-outline-secondary ml-1')
 				.text('Browse contents')
@@ -285,12 +300,56 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			.addClass('collapse container-tree');
 
 		var li = $('<li role="treeitem"></li>').append(nodeRow).append(childUl);
+
+		/* For single-occupant container types, reserve an inline div for the auto-loaded
+		   collection object display; the actual load is triggered after DOM insertion. */
+		if (isSingleOccupant && leafChildren > 0) {
+			li.append($('<div></div>').attr('id', inlineLeafId).addClass('tree-node-inline-leaf'));
+			singleOccupantLoads.push({ cid: cid, inlineLeafId: inlineLeafId, feedbackId: feedbackId });
+		}
+
 		ul.append(li);
 	});
 	$('#' + targetDivId).html(ul);
+
+	/* Trigger inline leaf loads after the tree is in the DOM. */
+	$.each(singleOccupantLoads, function(idx, item) {
+		loadInlineLeaf(item.cid, item.inlineLeafId, item.feedbackId);
+	});
 }
 
 /**
+ * Loads and displays the single collection-object child of a single-occupant
+ * container (pin, slide, cryovial) inline within the tree node.
+ * Renders the collection object's barcode/name as a brief inline annotation.
+ * @param {number} containerId - the container_id to load the leaf child for.
+ * @param {string} targetId - the id of the div to render the result into (without leading #).
+ * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
+ */
+function loadInlineLeaf(containerId, targetId, feedbackId) {
+	$('#' + targetId).html('<img src="/shared/images/indicator.gif">');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		/* Fetch only the first item — single-occupant containers hold exactly one. */
+		data: { method: 'getDirectLeafChildren', container_id: containerId, page: 1, pageSize: 1 },
+		dataType: 'json',
+		success: function(data) {
+			var rows = data.rows || [];
+			if (rows.length === 0) {
+				$('#' + targetId).html('<span class="text-muted small">No collection object found.</span>');
+			} else {
+				var row = rows[0];
+				var display = formatContainerDisplay(row.barcode, row.label);
+				$('#' + targetId).html($('<span class="tree-node-leaf-info small text-muted"></span>').text('\u2937 ' + display));
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading inline leaf');
+		}
+	});
+}
+
+/**
  * Loads the first page of direct collection-object children for containerId
  * from functions.cfc?method=getDirectLeafChildren and renders them as a table
  * in leafPanelId.  Shows the leaf panel; hides it on error.

@@ -38,7 +38,15 @@ limitations under the License.
 
 .container-tree .tree-node-label {
 	cursor: default;
-	user-select: none;
+}
+
+.container-tree .tree-node-type {
+	white-space: nowrap;
+}
+
+.container-tree .tree-node-inline-leaf {
+	padding-left: 1.5em;
+	margin-top: 0.1em;
 }
 
 .container-tree .tree-node-toggle[aria-expanded="true"]::before {

@@ -32,7 +32,7 @@ limitations under the License.
 		<div class="row mx-0 mb-2">
 			<div class="search-box col-12 px-0">
 				<div class="search-box-header">
-					<h1 class="h3 text-white">Browse Containers</h1>
+					<h1 class="h3 text-white">Find Containers</h1>
 				</div>
 				<div class="col-12 px-3 py-3">
 					<cfoutput>
