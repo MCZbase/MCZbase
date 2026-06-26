@@ -1947,7 +1947,7 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="input-group mt-1">
 												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
-													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
+													<label for="keywordCollection">Limit to Collection(s)</label>
 													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
 													<cfset collection_array = ListToArray(collection_cde)>
