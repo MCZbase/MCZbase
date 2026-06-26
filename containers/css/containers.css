@@ -36,6 +36,11 @@ limitations under the License.
 	user-select: none;
 }
 
+.container-tree .tree-node-label {
+	cursor: default;
+	user-select: none;
+}
+
 .container-tree .tree-node-toggle[aria-expanded="true"]::before {
 	content: "▼ ";
 }

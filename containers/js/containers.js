@@ -215,8 +215,10 @@ function loadContainerNode(containerId, targetDivId, feedbackId) {
 
 /**
  * Renders an array of node objects as a tree list inside targetDivId.
- * Each node is rendered as a treeitem with a toggle button for lazy-loading
- * children and, if the node has leaf children, a "Browse contents" button.
+ * Each node row contains the node label/toggle and an optional "Browse contents"
+ * button on the same line; the lazy-loaded child list expands below that row.
+ * The expand toggle is only shown when direct_structural_children > 0.
+ * The "Browse contents" button is only shown when direct_leaf_children > 0.
  * @param {Array} nodes - array of node objects from getDirectStructuralChildren.
  * @param {string} targetDivId - the id of the element to render into (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
@@ -232,43 +234,57 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		var barcode = node.barcode || '';
 		var ctype = node.container_type || '';
 		var cid = node.container_id;
+		var structuralChildren = parseInt(node.direct_structural_children, 10) || 0;
+		var leafChildren = parseInt(node.direct_leaf_children, 10) || 0;
 		var childUlId = 'ctree-children-' + cid;
 		var toggleId = 'ctree-toggle-' + cid;
 
 		/* Display barcode as the primary identifier; append label in parens if it differs.
 		   Container type is shown in square brackets to distinguish it from the name. */
 		var displayName = formatContainerDisplay(barcode, label);
+		var nodeText = displayName + ' [' + ctype + ']';
 
-		var toggle = $('<button></button>')
-			.attr('id', toggleId)
-			.attr('aria-expanded', 'false')
-			.attr('aria-controls', childUlId)
-			.addClass('tree-node-toggle btn-link')
-			.text(displayName + ' [' + ctype + ']');
+		/* nodeRow holds the toggle/label and Browse button on one line;
+		   childUl is a sibling below, so expanding it never moves the buttons. */
+		var nodeRow = $('<div class="d-flex align-items-center flex-wrap"></div>');
+
+		if (structuralChildren > 0) {
+			var toggle = $('<button></button>')
+				.attr('id', toggleId)
+				.attr('aria-expanded', 'false')
+				.attr('aria-controls', childUlId)
+				.addClass('tree-node-toggle btn-link')
+				.text(nodeText);
+
+			toggle.on('click', function() {
+				var expanded = $(this).attr('aria-expanded') === 'true';
+				if (!expanded && $('#' + childUlId).children().length === 0) {
+					loadContainerNode(cid, childUlId, feedbackId);
+				}
+				$('#' + childUlId).toggleClass('collapse');
+				$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+			});
+
+			nodeRow.append(toggle);
+		} else {
+			nodeRow.append($('<span class="tree-node-label mr-1"></span>').text(nodeText));
+		}
+
+		if (leafChildren > 0) {
+			var browseBtn = $('<button></button>')
+				.addClass('btn btn-xs btn-outline-secondary ml-1')
+				.text('Browse contents')
+				.on('click', function() {
+					loadLeafPanel(cid, 'containerLeafPanel', feedbackId, 1, displayName);
+				});
+			nodeRow.append(browseBtn);
+		}
 
 		var childUl = $('<ul></ul>')
 			.attr('id', childUlId)
 			.addClass('collapse container-tree');
 
-		toggle.on('click', function() {
-			var expanded = $(this).attr('aria-expanded') === 'true';
-			if (!expanded && $('#' + childUlId).children().length === 0) {
-				loadContainerNode(cid, childUlId, feedbackId);
-			}
-			$('#' + childUlId).toggleClass('collapse');
-			$(this).attr('aria-expanded', expanded ? 'false' : 'true');
-		});
-
-		var li = $('<li role="treeitem"></li>').append(toggle).append(childUl);
-
-		var browseBtn = $('<button></button>')
-			.addClass('btn btn-xs btn-outline-secondary ml-1')
-			.text('Browse contents')
-			.on('click', function() {
-				loadLeafPanel(cid, 'containerLeafPanel', feedbackId, 1, displayName);
-			});
-		li.append(browseBtn);
-
+		var li = $('<li role="treeitem"></li>').append(nodeRow).append(childUl);
 		ul.append(li);
 	});
 	$('#' + targetDivId).html(ul);

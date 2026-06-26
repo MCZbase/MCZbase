@@ -39,18 +39,24 @@ children of the given container, suitable for rendering a tree node.
 				c.container_type,
 				c.label,
 				c.barcode,
-				c.description
+				c.description,
+				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children
 			FROM
 				container c
+				LEFT JOIN (
+					SELECT
+						parent_container_id,
+						SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
+						SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
+					FROM container
+					GROUP BY parent_container_id
+				) ch ON ch.parent_container_id = c.container_id
 			WHERE
 				c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 				AND c.container_type <> 'collection object'
 			ORDER BY
-				CASE WHEN EXISTS (
-					SELECT 1 FROM container sub
-					WHERE sub.parent_container_id = c.container_id
-					AND sub.container_type <> 'collection object'
-				) THEN 0 ELSE 1 END,
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
 				c.container_type,
 				c.label
 		</cfquery>
@@ -63,6 +69,8 @@ children of the given container, suitable for rendering a tree node.
 			<cfset variables.row["label"] = variables.qChildren.label>
 			<cfset variables.row["barcode"] = variables.qChildren.barcode>
 			<cfset variables.row["description"] = variables.qChildren.description>
+			<cfset variables.row["direct_structural_children"] = variables.qChildren.direct_structural_children>
+			<cfset variables.row["direct_leaf_children"] = variables.qChildren.direct_leaf_children>
 			<cfset variables.data[variables.i] = variables.row>
 			<cfset variables.i = variables.i + 1>
 		</cfloop>
