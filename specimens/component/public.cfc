@@ -3054,10 +3054,11 @@ limitations under the License.
 					<cfset leftOfMapClass = "col-12 col-md-7">
                         <!-- call the helper function defined in this same CFC -->
                     <cfset staticMapUrl = getOrCreateStaticMapForLocality(
-                        locality_id = loc_collevent.locality_id,
-                        lat         = coordlookup.dec_lat,
-                        lng         = coordlookup.dec_long,
-                        layout      = layoutFlag
+                        locality_id     = loc_collevent.locality_id,
+                        lat             = coordlookup.dec_lat,
+                        lng             = coordlookup.dec_long,
+                        layout          = layoutFlag,
+                        createIfMissing = false
                     )>
                     
                     <div class="col-12 col-md-5 float-right px-1">

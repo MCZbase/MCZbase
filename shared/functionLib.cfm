@@ -476,6 +476,7 @@ limitations under the License.
     <cfargument name="lng"          type="numeric" required="true">
     <cfargument name="layout"       type="string"  required="false" default="3col">
     <cfargument name="forceRefresh" type="boolean" required="false" default="false">
+    <cfargument name="createIfMissing" type="boolean" required="false" default="true">
 
     <!-- one size / zoom -->
     <cfset var mapWidth  = 320>
@@ -489,13 +490,22 @@ limitations under the License.
     <cfset var apiKey      = application.gmap_api_key>
     <cfset var staticUrl   = "">
     <cfset var httpRes     = "">
+    <cfset var fileSize    = 0>
+    <!-- tune these as you like -->
+    <cfset var badSize     = 8123>   <!-- size (bytes) of known Google error tile -->
+    <cfset var minGoodSize = 2000>   <!-- ignore tiny “images” that are likely errors -->
 
-    <!-- existing file -->
+   <!-- 1) If we already have a file and no refresh is requested, just use it -->
     <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
         <cfreturn mapUrl>
     </cfif>
 
-    <!-- plain static map: center + marker, no polygons -->
+    <!-- 2) If file is missing and caller is not allowed to create it, bail out -->
+    <cfif NOT fileExists(mapFilePath) AND NOT arguments.createIfMissing>
+        <cfreturn "/shared/images/map-placeholder.jpg">
+    </cfif>
+
+    <!-- 3) Build Google Static Maps URL -->
     <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
         & "?center=#arguments.lat#,#arguments.lng#"
         & "&zoom=#zoom#"
@@ -505,15 +515,39 @@ limitations under the License.
         & "&markers=color:red|#arguments.lat#,#arguments.lng#"
         & "&key=#apiKey#">
 
-    <cfhttp url="#staticUrl#" method="get" timeout="10"
-        path="#GetDirectoryFromPath(mapFilePath)#"
-        file="#GetFileFromPath(mapFilePath)#"
-        result="httpRes" />
+    <!-- 4) Make sure cache directory exists -->
+    <cfif NOT directoryExists(mapDir)>
+        <cfdirectory action="create" directory="#mapDir#">
+    </cfif>
 
-    <cfif httpRes.statusCode CONTAINS "200">
-        <cfreturn mapUrl>
-    <cfelse>
+    <!-- 5) Call Google and stream directly to disk -->
+    <cfhttp url="#staticUrl#" method="get" timeout="10"
+            path="#GetDirectoryFromPath(mapFilePath)#"
+            file="#GetFileFromPath(mapFilePath)#"
+            result="httpRes" />
+
+    <!-- 6) Non‑200: delete whatever was written, use placeholder -->
+    <cfif NOT (httpRes.statusCode CONTAINS "200")>
+        <cfif fileExists(mapFilePath)>
+            <cffile action="delete" file="#mapFilePath#">
+        </cfif>
         <cfreturn "/shared/images/map-placeholder.jpg">
     </cfif>
-        
+
+    <!-- 7) Size checks on the just‑saved file -->
+    <cfif fileExists(mapFilePath)>
+        <cfset fileInfo = getFileInfo(mapFilePath)>
+
+        <cfif fileInfo.size EQ badSize OR fileInfo.size LT minGoodSize>
+            <!-- looks like the Google error tile or bad content -->
+            <cffile action="delete" file="#mapFilePath#">
+            <cfreturn "/shared/images/map-placeholder.jpg">
+        </cfif>
+    <cfelse>
+        <!-- something went wrong; no file created -->
+        <cfreturn "/shared/images/map-placeholder.jpg">
+    </cfif>
+
+    <!-- 8) All good -->
+    <cfreturn mapUrl>
 </cffunction>
