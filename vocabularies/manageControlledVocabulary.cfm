@@ -206,7 +206,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>
@@ -261,11 +261,11 @@ limitations under the License.
 					<div class="d-table-cell py-1 align-middle text-nowrap">
 						<input type="button" 
 							value="Save" 
-							class="savBtn"
+							class="btn btn-xs btn-primary"
 						 	onclick="att#i#.action.value='saveEdit';submit();">	
 						<input type="button" 
 							value="Delete" 
-							class="delBtn"
+							class="btn btn-xs btn-danger"
 							onclick="att#i#.action.value='deleteValue';submit();">	
 					</div>
 				</form>
@@ -291,12 +291,12 @@ limitations under the License.
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_newData">Country</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -325,11 +325,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -400,7 +400,7 @@ limitations under the License.
 					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="btn btn-xs btn-secondary">
 					</div>
 				</div>
 			</div>
@@ -475,13 +475,13 @@ limitations under the License.
 							<div class="col">
 								<input type="button" 
 									value="Save" 
-									class="savBtn"
+									class="btn btn-xs btn-primary"
 									onclick="#tbl##i#.action.value='saveEdit';submit();">
 							</div>
 							<div class="col">
 								<input type="button" 
 									value="Delete" 
-									class="delBtn"
+									class="btn btn-xs btn-danger"
 									onclick="#tbl##i#.action.value='deleteValue';submit();">
 							</div>
 						</div>
@@ -504,7 +504,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Loan Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_scope">Loan/Gift</label>
@@ -520,7 +520,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -563,11 +563,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -592,7 +592,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Specific Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" size=80 >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData" size=80  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_permit_type">General Type</label>
@@ -613,7 +613,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -654,11 +654,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -685,7 +685,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Authorship Role</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_ordinal">Sort Order</label>
@@ -704,7 +704,7 @@ limitations under the License.
 						<input id="add_description" class="data-entry-input" type="text" name="description" title="description">
 					</div>
 					<div class="col">
-						<input type="submit" value="Insert" class="insBtn mt-4">
+						<input type="submit" value="Insert" class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -747,11 +747,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -775,7 +775,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Type Status</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_category">Kind of Type</label>
@@ -800,7 +800,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -865,11 +865,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -883,7 +883,7 @@ limitations under the License.
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
 		</cfquery>
-<a class="btn-xs btn-secondary px-2 float-right" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
+<a class="btn btn-xs btn-secondary px-2 float-right" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
 		
 					<h2>Geological attribute types, and their categories.</h2>
 					<h4>Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h4>
@@ -895,7 +895,7 @@ limitations under the License.
 							<div class="form-row mb-1">
 								<div class="col">
 									<label class="form-label" for="add_newData">Geology Attribute</label>
-									<input id="add_newData" type="text" name="newData" class="data-entry-input">
+									<input id="add_newData" type="text" name="newData" class="data-entry-input reqdClr" required>
 								</div>
 								<div class="col">
 									<label class="form-label" for="add_type">Category</label>
@@ -917,7 +917,7 @@ limitations under the License.
 								<div class="col">
 									<input type="submit" 
 										value="Insert" 
-										class="insBtn mt-4">
+										class="btn btn-xs btn-secondary mt-4">
 								</div>
 							</div>
 						</div>
@@ -972,11 +972,11 @@ limitations under the License.
 									<div class="d-table-cell py-1 align-middle text-nowrap">
 										<input type="button" 
 											value="Save" 
-											class="savBtn btn-xs btn-primary"
+											class="btn btn-xs btn-primary"
 											onclick="#tbl##i#.action.value='saveEdit';submit();">
 										<input type="button" 
 											value="Delete" 
-											class="delBtn btn-xs btn-danger px-2"
+											class="btn btn-xs btn-danger px-2"
 											onclick="#tbl##i#.action.value='deleteValue';submit();">
 									</div>
 								</form>
@@ -999,7 +999,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Publication Attribute</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1017,7 +1017,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1054,11 +1054,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1078,7 +1078,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 						<div class="col">
 							<label class="form-label" for="add_newData">Relationship</label>
-							<input id="add_newData" class="data-entry-input" type="text" name="newData" size="50">
+							<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData" size="50" required>
 						</div>
 						<div class="col">
 							<label class="form-label" for="add_inverse_relation">Inverse Relation</label>
@@ -1095,7 +1095,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1144,11 +1144,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1168,7 +1168,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">ID Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1188,7 +1188,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">					
+							class="btn btn-xs btn-secondary mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1234,11 +1234,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1268,7 +1268,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Taxon Relationship</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1281,7 +1281,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">					
+							class="btn btn-xs btn-secondary mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1314,12 +1314,12 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<cfif q.ct EQ 0>
 								<input type="button" 
 									value="Delete" 
-									class="delBtn"
+									class="btn btn-xs btn-danger"
 									onclick="#tbl##i#.action.value='deleteValue';submit();">
 							</cfif>
 						</div>
@@ -1343,7 +1343,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Nomenclatural Code</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1356,7 +1356,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">					
+							class="btn btn-xs btn-secondary mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1388,11 +1388,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1447,7 +1447,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>	
@@ -1487,11 +1487,11 @@ limitations under the License.
 					<div class="d-table-cell py-1 align-middle text-nowrap">
 						<input type="button" 
 							value="Save" 
-							class="savBtn"
+							class="btn btn-xs btn-primary"
 							onclick="part#i#.action.value='saveEdit';submit();">	
 						<input type="button" 
 							value="Delete" 
-							class="delBtn"
+							class="btn btn-xs btn-danger"
 						 	onclick="part#i#.action.value='deleteValue';submit();">	
 					</div>
 				</form>
@@ -1516,7 +1516,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1529,7 +1529,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>	
@@ -1561,11 +1561,11 @@ limitations under the License.
 					<div class="d-table-cell py-1 align-middle text-nowrap">
 						<input type="button" 
 							value="Save" 
-							class="savBtn"
+							class="btn btn-xs btn-primary"
 							onclick="type#i#.action.value='saveEdit';submit();">	
 						<input type="button" 
 							value="Delete" 
-							class="delBtn"
+							class="btn btn-xs btn-danger"
 						 	onclick="type#i#.action.value='deleteValue';submit();">	
 					</div>
 				</form>
@@ -1609,7 +1609,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1650,11 +1650,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1678,7 +1678,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Media Relationship</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_label">Label</label>
@@ -1691,7 +1691,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1728,11 +1728,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1755,7 +1755,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Taxon Category</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_category_type">Category Type</label>
@@ -1775,7 +1775,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1822,11 +1822,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1849,7 +1849,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Taxon Attribute Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_hidden_fg">Visibility</label>
@@ -1865,7 +1865,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1908,11 +1908,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1938,7 +1938,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Annotation State</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_state_curie">Mapped to CURIE</label>
@@ -1951,7 +1951,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1984,11 +1984,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -2101,7 +2101,7 @@ limitations under the License.
 					</cfif>
 					<div class="col">
 						<label class="form-label" for="newData_#tbl#">#fld#</label>
-						<input class="data-entry-input" type="text" name="newData" id="newData_#tbl#">
+						<input class="data-entry-input reqdClr" type="text" name="newData" id="newData_#tbl#" required>
 					</div>
 					<cfif variables.pkExtraCols neq "">
 						<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
@@ -2128,7 +2128,7 @@ limitations under the License.
 					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>
@@ -2207,11 +2207,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.Action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.Action.value='deleteValue';submit();">
 						</div>
 					</form>
