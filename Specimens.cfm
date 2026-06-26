@@ -246,7 +246,6 @@ limitations under the License.
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
-						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
@@ -2476,7 +2475,7 @@ limitations under the License.
 																	</script> 
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type='button' onclick=' removeBuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-2 px-md-1 px-lg-2 btn-warning mr-auto py-0'>Remove</button>
+																	<button type='button' onclick=' removeBuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-2 px-md-1 px-lg-2 btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
 														</cfif>
