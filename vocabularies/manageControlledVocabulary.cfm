@@ -106,8 +106,8 @@ limitations under the License.
 											<li><strong>Composite PK</strong> is <strong>Yes</strong> when the table primary key has more than one column.</li>
 											<li><strong>Status</strong> values:
 												<ul class="mb-0">
-													<li><span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning: </span> <strong>Deprecate</strong> for empty tables with no composite PK and no inbound FKs.</li>
-													<li><span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning: </span> <strong>Add FKs</strong> for non-empty tables with no composite PK and no inbound FKs.</li>
+													<li><span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning:</span> <strong>Deprecate</strong> for empty tables with no composite PK and no inbound FKs.</li>
+													<li><span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning:</span> <strong>Add FKs</strong> for non-empty tables with no composite PK and no inbound FKs.</li>
 												</ul>
 											</li>
 										</ul>
@@ -167,9 +167,9 @@ limitations under the License.
 														<td>
 															<cfif getCTName.inbound_fk_count EQ 0 AND getCTName.composite_pk EQ 0>
 																<cfif getRowCounts.ct EQ 0>
-																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning: </span>Deprecate
+																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning:</span> Deprecate
 																<cfelseif getRowCounts.ct GT 0>
-																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning: </span>Add FKs
+																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning:</span> Add FKs
 																</cfif>
 															</cfif>
 														</td>
