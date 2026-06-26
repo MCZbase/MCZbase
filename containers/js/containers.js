@@ -229,7 +229,8 @@ function loadContainerNode(containerId, targetDivId, feedbackId) {
  * The expand toggle is only shown when direct_structural_children > 0.
  * The "Browse contents" button is only shown for non-single-occupant nodes when
  * direct_leaf_children > 0. For single-occupant container types (pin, slide,
- * cryovial) the contained collection object is shown inline automatically.
+ * cryovial) the contained collection object is shown inline using data already
+ * returned by getDirectStructuralChildren — no additional AJAX request is needed.
  * @param {Array} nodes - array of node objects from getDirectStructuralChildren.
  * @param {string} targetDivId - the id of the element to render into (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
@@ -240,7 +241,6 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		return;
 	}
 	var ul = $('<ul class="container-tree" role="tree"></ul>');
-	var singleOccupantLoads = [];
 	$.each(nodes, function(idx, node) {
 		var label = node.label || '';
 		var barcode = node.barcode || '';
@@ -250,7 +250,6 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		var leafChildren = parseInt(node.direct_leaf_children, 10) || 0;
 		var childUlId = 'ctree-children-' + cid;
 		var toggleId = 'ctree-toggle-' + cid;
-		var inlineLeafId = 'ctree-inline-leaf-' + cid;
 		var isSingleOccupant = SINGLE_OCCUPANT_TYPES.indexOf(ctype) !== -1;
 
 		/* Display barcode as the primary identifier; append label in parens if it differs. */
@@ -301,52 +300,25 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 
 		var li = $('<li role="treeitem"></li>').append(nodeRow).append(childUl);
 
-		/* For single-occupant container types, reserve an inline div for the auto-loaded
-		   collection object display; the actual load is triggered after DOM insertion. */
+		/* For single-occupant container types, render the contained collection object
+		   inline using data already returned by getDirectStructuralChildren — no extra
+		   AJAX request required. Only render if child data is present. */
 		if (isSingleOccupant && leafChildren > 0) {
-			li.append($('<div></div>').attr('id', inlineLeafId).addClass('tree-node-inline-leaf'));
-			singleOccupantLoads.push({ cid: cid, inlineLeafId: inlineLeafId, feedbackId: feedbackId });
+			var childBarcode = node.single_child_barcode || '';
+			var childLabel = node.single_child_label || '';
+			if (childBarcode || childLabel) {
+				var childDisplay = formatContainerDisplay(childBarcode, childLabel);
+				li.append(
+					$('<div class="tree-node-inline-leaf"></div>').append(
+						$('<span class="tree-node-leaf-info small text-muted"></span>').text('\u2937 ' + childDisplay)
+					)
+				);
+			}
 		}
 
 		ul.append(li);
 	});
 	$('#' + targetDivId).html(ul);
-
-	/* Trigger inline leaf loads after the tree is in the DOM. */
-	$.each(singleOccupantLoads, function(idx, item) {
-		loadInlineLeaf(item.cid, item.inlineLeafId, item.feedbackId);
-	});
-}
-
-/**
- * Loads and displays the single collection-object child of a single-occupant
- * container (pin, slide, cryovial) inline within the tree node.
- * Renders the collection object's barcode/name as a brief inline annotation.
- * @param {number} containerId - the container_id to load the leaf child for.
- * @param {string} targetId - the id of the div to render the result into (without leading #).
- * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
- */
-function loadInlineLeaf(containerId, targetId, feedbackId) {
-	$('#' + targetId).html('<img src="/shared/images/indicator.gif">');
-	$.ajax({
-		url: '/containers/component/functions.cfc',
-		/* Fetch only the first item — single-occupant containers hold exactly one. */
-		data: { method: 'getDirectLeafChildren', container_id: containerId, page: 1, pageSize: 1 },
-		dataType: 'json',
-		success: function(data) {
-			var rows = data.rows || [];
-			if (rows.length === 0) {
-				$('#' + targetId).html('<span class="text-muted small">No collection object found.</span>');
-			} else {
-				var row = rows[0];
-				var display = formatContainerDisplay(row.barcode, row.label);
-				$('#' + targetId).html($('<span class="tree-node-leaf-info small text-muted"></span>').text('\u2937 ' + display));
-			}
-		},
-		error: function(jqXHR, textStatus, error) {
-			handleFail(jqXHR, textStatus, error, 'loading inline leaf');
-		}
-	});
 }
 
 /**

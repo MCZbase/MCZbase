@@ -41,7 +41,9 @@ children of the given container, suitable for rendering a tree node.
 				c.barcode,
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
-				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				sc.single_child_barcode,
+				sc.single_child_label
 			FROM
 				container c
 				LEFT JOIN (
@@ -52,6 +54,25 @@ children of the given container, suitable for rendering a tree node.
 					FROM container
 					GROUP BY parent_container_id
 				) ch ON ch.parent_container_id = c.container_id
+				LEFT JOIN (
+					SELECT parent_container_id, barcode AS single_child_barcode, label AS single_child_label
+					FROM (
+						SELECT
+							parent_container_id,
+							barcode,
+							label,
+							ROW_NUMBER() OVER (PARTITION BY parent_container_id ORDER BY label) AS rn
+						FROM container
+						WHERE container_type = 'collection object'
+							AND parent_container_id IN (
+								SELECT container_id
+								FROM container
+								WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+									AND container_type <> 'collection object'
+							)
+					)
+					WHERE rn = 1
+				) sc ON sc.parent_container_id = c.container_id
 			WHERE
 				c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 				AND c.container_type <> 'collection object'
@@ -71,6 +92,8 @@ children of the given container, suitable for rendering a tree node.
 			<cfset variables.row["description"] = variables.qChildren.description>
 			<cfset variables.row["direct_structural_children"] = variables.qChildren.direct_structural_children>
 			<cfset variables.row["direct_leaf_children"] = variables.qChildren.direct_leaf_children>
+			<cfset variables.row["single_child_barcode"] = variables.qChildren.single_child_barcode>
+			<cfset variables.row["single_child_label"] = variables.qChildren.single_child_label>
 			<cfset variables.data[variables.i] = variables.row>
 			<cfset variables.i = variables.i + 1>
 		</cfloop>
