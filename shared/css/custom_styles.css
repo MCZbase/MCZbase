@@ -1912,7 +1912,7 @@ input#readMore_check_id {
 .tab-content input {
     display: block;
     width: 100%;
-    padding: .2rem .5rem;
+    padding: 1px .5rem 1px .5rem;
     color: black;
     border: 1px solid #ced4da;
     background-clip: padding-box;

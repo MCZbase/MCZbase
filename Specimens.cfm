@@ -865,7 +865,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="county" class="data-entry-label small">County/Shire/Parish</label>
 																<cfif not isdefined("county")><cfset county=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
+																<input type="text" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('county','county');
@@ -876,7 +876,7 @@ limitations under the License.
 															<div class="col-12 col-md-2 mb-1">
 																<label for="ocean_region" class="data-entry-label small">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
+																<input type="text" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('ocean_region','ocean_region');
@@ -886,7 +886,7 @@ limitations under the License.
 															<div class="col-12 col-md-2 mb-1">
 																<label for="ocean_subregion" class="data-entry-label small px-md-0">Ocean Sub-Region</label>
 																<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
-																<input type="text" class="data-entry-input inputHeight px-md-0" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
+																<input type="text" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
@@ -900,7 +900,7 @@ limitations under the License.
                                                                 </a>
                                                                 </span>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="sea" name="sea" value="#encodeForHtml(sea)#">
+																<input type="text" id="sea" name="sea" value="#encodeForHtml(sea)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('sea','sea');
@@ -910,7 +910,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="island_group">Island Group</label>
 																<cfif not isdefined("island_group")><cfset island_group=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="island_group" name="island_group" value="#encodeForHtml(island_group)#">
+																<input type="text" id="island_group" name="island_group" value="#encodeForHtml(island_group)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('island_group','island_group');
@@ -920,7 +920,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="island">Island</label>
 																<cfif not isdefined("island")><cfset island=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="island" name="island" value="#encodeForHtml(island)#">
+																<input type="text" id="island" name="island" value="#encodeForHtml(island)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('island','island');
@@ -930,7 +930,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="feature">Land Feature</label>
 																<cfif not isdefined("feature")><cfset feature=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="feature" name="feature" value="#encodeForHtml(feature)#">
+																<input type="text" id="feature" name="feature" value="#encodeForHtml(feature)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('feature','feature');
@@ -940,7 +940,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="water_feature">Water Feature</label>
 																<cfif not isdefined("water_feature")><cfset water_feature=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="water_feature" name="water_feature" value="#encodeForHtml(water_feature)#">
+																<input type="text" id="water_feature" name="water_feature" value="#encodeForHtml(water_feature)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('water_feature','water_feature');
@@ -953,7 +953,7 @@ limitations under the License.
 																<!--- TODO, possibly, implement attribute type, might not be needed --->
 																<input type="hidden" id="geology_attribute" name="geology_attribute" value="">
 																<input type="hidden" id="geology_attribute_heirarchy_id" name="geology_attribute_heirarchy_id" value="">
-																<input type="text" class="data-entry-input inputHeight" id="geo_att_value" name="geo_att_value" value="#encodeForHtml(geo_att_value)#">
+																<input type="text" id="geo_att_value" name="geo_att_value" value="#encodeForHtml(geo_att_value)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value', 'geology_attribute_heirarchy_id', 'search', null);
@@ -964,7 +964,7 @@ limitations under the License.
 																<label for="verificationstatus">Georeference Verification</label>
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																<cfif not isdefined("verificationstatus")><cfset verificationstatus=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="verificationstatus" name="verificationstatus" value="#encodeForHtml(verificationstatus)#">
+																<input type="text" id="verificationstatus" name="verificationstatus" value="#encodeForHtml(verificationstatus)#">
 																<script>
 																	jQuery(document).ready(function() {
 																		makeCTFieldSearchAutocomplete('verificationstatus','VERIFICATIONSTATUS');
@@ -974,22 +974,22 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="min_depth_in_m">Miniumum Depth (m)</label>
 																<cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
+																<input type="text" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="max_depth_in_m">Maximum Depth (m)</label>
 																<cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
+																<input type="text" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="min_elev_in_m">Miniumum Elevation (m)</label>
 																<cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
+																<input type="text" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="max_elev_in_m">Maximum Elevation (m)</label>
 																<cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
+																<input type="text" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
 															</div>
 														</div>
 													</div>
@@ -1068,7 +1068,7 @@ limitations under the License.
                                                            (&##8595;) <span class="sr-only">open pick list</span>
                                                         </a>
 														<cfif not isdefined("collecting_source")><cfset collecting_source=""></cfif>
-														<input type="text" name="collecting_source" class="data-entry-input inputHeight" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
+														<input type="text" name="collecting_source" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 														<script>
 															jQuery(document).ready(function() {
 																makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
@@ -1078,12 +1078,12 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<label for="date_collected">Date Collected</label>
 														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
-														<input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
+														<input type="text" name="date_collected" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<label for="verbatim_date">Verbatim Date</label>
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
+														<input type="text" name="verbatim_date" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
 														
 													<!---COLLECTING EVENT DETAIL--->										
@@ -1095,17 +1095,17 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
-																<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+																<input type="text" name="date_began_date" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_ended_date">Date Ended</label>
 																<cfif not isdefined("date_ended_date")><cfset date_ended_date=""></cfif>
-																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+																<input type="text" name="date_ended_date" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
 															</div>
 															<div class="col-12 col-md-6 mb-1">
 																<label for="verbatim_locality">Verbatim Locality</label>
 																<cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
+																<input type="text" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
 															</div>
 														</div>
 													</div>
@@ -1504,7 +1504,7 @@ limitations under the License.
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
 															<label for="received_date">Date Received</label>
-															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
+															<input type="text" name="received_date" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
