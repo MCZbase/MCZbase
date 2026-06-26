@@ -257,7 +257,7 @@ What still requires file edits:
 							</cfquery>
 							<!--- Pre-compute edit permissions for the 5 externally managed vocabulary pages.
 								  Uses the same role-check logic as /CustomTags/rolecheck.cfm. --->
-							<cfquery name="variables.qExtPerms" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+							<cfquery name="variables.qExtPerms" datasource="uam_god" cachedWithin="#CreateTimeSpan(1,0,0,0)#">
 								SELECT DISTINCT form_path, role_name FROM cf_form_permissions
 								WHERE form_path IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR"
 									value="/vocabularies/GeologicalHierarchies.cfm,/publications/Journals.cfm,/vocabularies/ctspecimen_part_name.cfm,/vocabularies/ctspec_part_att_att.cfm,/vocabularies/ctmedia_license.cfm"
@@ -289,7 +289,7 @@ What still requires file edits:
 								<cfset variables.extCheckPath = variables.extCheckMap[variables.extCheckTbl]>
 								<cfif structKeyExists(variables.extPathRoles, variables.extCheckPath)>
 									<cfset variables.extCheckRoles = variables.extPathRoles[variables.extCheckPath]>
-									<cfif listLen(variables.extCheckRoles) EQ 1 AND listFirst(variables.extCheckRoles) IS "public">
+									<cfif listLen(variables.extCheckRoles) EQ 1 AND listFirst(variables.extCheckRoles) EQ "public">
 										<cfset variables.externalCanEdit[variables.extCheckTbl] = true>
 									<cfelse>
 										<cfset variables.extCheckOK = true>
