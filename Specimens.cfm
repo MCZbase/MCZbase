@@ -424,7 +424,7 @@ limitations under the License.
 												</div>		
 												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mx-0">
 													<div class="col-12 col-md-3 mb-1">
-														<label for="fixedCollection" class="data-entry-label small">Collection</label>
+														<label for="fixedCollection">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
 														<cfset collection_array = ListToArray(collection)>
@@ -616,7 +616,7 @@ limitations under the License.
 													<div class="col-12 col-md-4 col-xl-2 mb-1">
 														<label for="author_text">Authorship</label>
 														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
+														<input id="author_text" name="author_text" value="#encodeForHtml(author_text)#" >
 														<script>
 															jQuery(document).ready(function() {
 																makeTaxonSearchAutocomplete('author_text','author_text');
@@ -744,8 +744,7 @@ limitations under the License.
 																<label for="nature_of_id">Nature of ID</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="col-sm-12 pl-2">
-                                                                       <!--- style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;"--->
-                                                                        
+                                                                       <!--- style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;"--->  
 																	<option value=""></option>
 																	<cfset nid = nature_of_id>
 																	<cfloop query="ctnature_of_id">
@@ -1018,7 +1017,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px d-block border-right border-top border-left border-bottom bg-teal">Coll. Event</h2>
+														<h2 class="px-3 px-xl-2">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
