@@ -160,6 +160,23 @@ function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeContro
 };
 
 /**
+ * Formats a container's display name using barcode as the primary identifier,
+ * appending the label in parentheses when it differs from the barcode.
+ * Falls back to label alone, or to '(unknown container)' if both are empty.
+ * @param {string} barcode - the container's barcode value.
+ * @param {string} label - the container's label/name value.
+ * @returns {string} a human-readable display name for the container.
+ */
+function formatContainerDisplay(barcode, label) {
+	var b = barcode || '';
+	var l = label || '';
+	if (b && l && b !== l) {
+		return b + ' (' + l + ')';
+	}
+	return b || l || '(unknown container)';
+}
+
+/**
  * Initializes the container browse panel and loads the top-level structural
  * children (container_id=1) on page load.
  * @param {string} browsePanel - the id of the div to render the tree into (without leading #).
@@ -211,17 +228,22 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 	var ul = $('<ul class="container-tree" role="tree"></ul>');
 	$.each(nodes, function(idx, node) {
 		var label = node.label || '';
+		var barcode = node.barcode || '';
 		var ctype = node.container_type || '';
 		var cid = node.container_id;
 		var childUlId = 'ctree-children-' + cid;
 		var toggleId = 'ctree-toggle-' + cid;
+
+		/* Display barcode as the primary identifier; append label in parens if it differs.
+		   Container type is shown in square brackets to distinguish it from the name. */
+		var displayName = formatContainerDisplay(barcode, label);
 
 		var toggle = $('<button></button>')
 			.attr('id', toggleId)
 			.attr('aria-expanded', 'false')
 			.attr('aria-controls', childUlId)
 			.addClass('tree-node-toggle btn-link')
-			.text(label + ' (' + ctype + ')');
+			.text(displayName + ' [' + ctype + ']');
 
 		var childUl = $('<ul></ul>')
 			.attr('id', childUlId)
@@ -282,15 +304,14 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page) {
 			} else {
 				var tbody = $('<tbody></tbody>');
 				$.each(rows, function(i, row) {
+					var rowDisplay = formatContainerDisplay(row.barcode, row.label);
 					var tr = $('<tr></tr>');
-					tr.append($('<td></td>').text(row.container_id));
-					tr.append($('<td></td>').text(row.label));
-					tr.append($('<td></td>').text(row.barcode));
+					tr.append($('<td></td>').text(rowDisplay));
 					tr.append($('<td></td>').text(row.description));
 					tbody.append(tr);
 				});
 				var table = $('<table class="table table-sm table-striped"></table>');
-				table.append('<thead><tr><th>Container ID</th><th>Label</th><th>Barcode</th><th>Description</th></tr></thead>');
+				table.append('<thead><tr><th>Container</th><th>Description</th></tr></thead>');
 				table.append(tbody);
 				panel.append(table);
 			}
