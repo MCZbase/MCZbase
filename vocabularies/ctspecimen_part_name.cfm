@@ -3,8 +3,10 @@
 /vocabularies/ctspecimen_part_name.cfm
 
 Manage ctspecimen_part_name: specimen part names with collection scope and tissue flag.
-Provides insert of new part names. Update and delete use existing AJAX/iframe helpers
-(deletePart via /component/functions.cfc, updatePart via f_ctspecimen_part_name.cfm iframe).
+Provides insert of new part names. Update uses a jquery-ui dialog backed by
+updateCtPartName() in /vocabularies/component/functions.cfc. Delete uses
+deleteCtPartName() in the same CFC. The legacy iframe form
+includes/forms/f_ctspecimen_part_name.cfm has been removed.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
