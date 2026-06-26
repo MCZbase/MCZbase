@@ -1932,7 +1932,7 @@ input#readMore_check_id {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
     line-height: 1.15rem;    
 }
-.tab-content select, .tab-content .jqx-combobox {
+.tab-content select {
     display: block;
     width: 100%!important;
     font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
