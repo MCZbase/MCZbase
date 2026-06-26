@@ -82,110 +82,114 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfoutput>
 <main id="content" aria-labelledby="pageHeading">
-	<div class="row">
-		<div class="col-12">
-			<div class="d-flex justify-content-between align-items-start mt-3 mb-1">
-				<h1 id="pageHeading" class="h3 mb-0">Specimen Part Attribute Controls</h1>
-				<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Controlled vocabulary list</a>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+					<h1 id="pageHeading" class="h3 mb-0">Specimen Part Attribute Controls</h1>
+					<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Controlled vocabulary list</a>
+				</div>
+				<p class="text-muted small">Maps specimen part attribute types to code tables for value and unit selects.</p>
+
+				<section aria-labelledby="addHeading">
+					<h2 id="addHeading" class="h5 mt-3 mb-2 text-success">Add Attribute Control</h2>
+					<div class="row border rounded my-2 mx-1 p-2 bg-light">
+						<form method="post" action="/vocabularies/ctspec_part_att_att.cfm">
+							<input type="hidden" name="action" value="newValue">
+							<div class="form-row align-items-end">
+								<div class="col-auto">
+									<label class="col-form-label-sm font-weight-bold" for="newAttrType">Attribute Type <span class="text-danger">*</span></label>
+									<select class="form-control form-control-sm" id="newAttrType" name="attribute_type">
+										<option value=""></option>
+										<cfloop query="ctAttribute_type">
+										<option value="#encodeForHTML(ctAttribute_type.attribute_type)#">#encodeForHTML(ctAttribute_type.attribute_type)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-auto">
+									<label class="col-form-label-sm font-weight-bold" for="newValueCT">Value Code Table</label>
+									<select class="form-control form-control-sm" id="newValueCT" name="value_code_table">
+										<option value="">none</option>
+										<cfloop query="allCTs">
+										<option value="#encodeForHTML(allCTs.tablename)#">#encodeForHTML(allCTs.tablename)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-auto">
+									<label class="col-form-label-sm font-weight-bold" for="newUnitCT">Unit Code Table</label>
+									<select class="form-control form-control-sm" id="newUnitCT" name="unit_code_table">
+										<option value="">none</option>
+										<cfloop query="allCTs">
+										<option value="#encodeForHTML(allCTs.tablename)#">#encodeForHTML(allCTs.tablename)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-auto">
+									<button type="submit" class="btn btn-sm btn-success">Add</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</section>
+
+				<section aria-labelledby="editHeading">
+					<h2 id="editHeading" class="h5 mt-3 mb-2">Edit Attribute Controls</h2>
+					<div class="row border rounded my-2 mx-1 p-2">
+						<div class="d-table w-100">
+							<div class="d-table-row bg-light font-weight-bold border-bottom">
+								<div class="d-table-cell p-2">Attribute Type</div>
+								<div class="d-table-cell p-2">Value Code Table</div>
+								<div class="d-table-cell p-2">Unit Code Table</div>
+								<div class="d-table-cell p-2">Actions</div>
+							</div>
+							<cfset variables.fid = "">
+							<cfloop query="thisRec">
+								<cfset variables.fid = "att" & thisRec.currentRow>
+								<form
+									class="d-table-row"
+									name="#variables.fid#"
+									id="#variables.fid#"
+									method="post"
+									action="/vocabularies/ctspec_part_att_att.cfm">
+									<input type="hidden" name="action" value="">
+									<input type="hidden" name="attribute_type" value="#encodeForHTML(thisRec.attribute_type)#">
+									<div class="d-table-cell p-2 align-middle">
+										#encodeForHTML(thisRec.attribute_type)#
+									</div>
+									<div class="d-table-cell p-2 align-middle">
+										<label class="sr-only" for="#variables.fid#_value_ct">Value Code Table</label>
+										<select class="form-control form-control-sm" id="#variables.fid#_value_ct" name="value_code_table">
+											<option value="">none</option>
+											<cfloop query="allCTs">
+												<cfset variables.selVal = (thisRec.value_code_table IS allCTs.tablename) ? " selected" : "">
+												<option value="#encodeForHTML(allCTs.tablename)#"#variables.selVal#>#encodeForHTML(allCTs.tablename)#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="d-table-cell p-2 align-middle">
+										<label class="sr-only" for="#variables.fid#_unit_ct">Unit Code Table</label>
+										<select class="form-control form-control-sm" id="#variables.fid#_unit_ct" name="unit_code_table">
+											<option value="">none</option>
+											<cfloop query="allCTs">
+												<cfset variables.selVal = (thisRec.unit_code_table IS allCTs.tablename) ? " selected" : "">
+												<option value="#encodeForHTML(allCTs.tablename)#"#variables.selVal#>#encodeForHTML(allCTs.tablename)#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="d-table-cell p-2 align-middle text-nowrap">
+										<button type="submit" class="btn btn-xs btn-primary mr-1"
+											onclick="document.getElementById('#variables.fid#').elements['action'].value='saveEdit';">Save</button>
+										<button type="submit" class="btn btn-xs btn-danger"
+											onclick="document.getElementById('#variables.fid#').elements['action'].value='deleteValue'; return confirm('Delete this mapping?');">Delete</button>
+									</div>
+								</form>
+							</cfloop>
+						</div>
+					</div>
+				</section>
 			</div>
-			<p class="text-muted small">Maps specimen part attribute types to code tables for value and unit selects.</p>
 		</div>
 	</div>
-
-	<section aria-labelledby="addHeading">
-		<h2 id="addHeading" class="h5 mt-3 mb-2 text-success">Add Attribute Control</h2>
-		<div class="border rounded p-3 bg-light mb-4">
-			<form method="post" action="/vocabularies/ctspec_part_att_att.cfm">
-				<input type="hidden" name="action" value="newValue">
-				<div class="form-row align-items-end">
-					<div class="col-auto">
-						<label class="col-form-label-sm font-weight-bold" for="newAttrType">Attribute Type <span class="text-danger">*</span></label>
-						<select class="form-control form-control-sm" id="newAttrType" name="attribute_type">
-							<option value=""></option>
-							<cfloop query="ctAttribute_type">
-							<option value="#encodeForHTML(ctAttribute_type.attribute_type)#">#encodeForHTML(ctAttribute_type.attribute_type)#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label-sm font-weight-bold" for="newValueCT">Value Code Table</label>
-						<select class="form-control form-control-sm" id="newValueCT" name="value_code_table">
-							<option value="">none</option>
-							<cfloop query="allCTs">
-							<option value="#encodeForHTML(allCTs.tablename)#">#encodeForHTML(allCTs.tablename)#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label-sm font-weight-bold" for="newUnitCT">Unit Code Table</label>
-						<select class="form-control form-control-sm" id="newUnitCT" name="unit_code_table">
-							<option value="">none</option>
-							<cfloop query="allCTs">
-							<option value="#encodeForHTML(allCTs.tablename)#">#encodeForHTML(allCTs.tablename)#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-auto">
-						<button type="submit" class="btn btn-sm btn-success">Add</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</section>
-
-	<section aria-labelledby="editHeading">
-		<h2 id="editHeading" class="h5 mt-2 mb-2">Edit Attribute Controls</h2>
-		<div class="d-table w-100 border rounded">
-			<div class="d-table-row bg-light font-weight-bold">
-				<div class="d-table-cell p-2 border-bottom">Attribute Type</div>
-				<div class="d-table-cell p-2 border-bottom">Value Code Table</div>
-				<div class="d-table-cell p-2 border-bottom">Unit Code Table</div>
-				<div class="d-table-cell p-2 border-bottom">Actions</div>
-			</div>
-			<cfset variables.fid = "">
-			<cfloop query="thisRec">
-				<cfset variables.fid = "att" & thisRec.currentRow>
-				<form
-					class="d-table-row"
-					name="#variables.fid#"
-					id="#variables.fid#"
-					method="post"
-					action="/vocabularies/ctspec_part_att_att.cfm">
-					<input type="hidden" name="action" value="">
-					<input type="hidden" name="attribute_type" value="#encodeForHTML(thisRec.attribute_type)#">
-					<div class="d-table-cell p-2 align-middle">
-						#encodeForHTML(thisRec.attribute_type)#
-					</div>
-					<div class="d-table-cell p-2 align-middle">
-						<label class="sr-only" for="#variables.fid#_value_ct">Value Code Table</label>
-						<select class="form-control form-control-sm" id="#variables.fid#_value_ct" name="value_code_table">
-							<option value="">none</option>
-							<cfloop query="allCTs">
-								<cfset variables.selVal = (thisRec.value_code_table IS allCTs.tablename) ? " selected" : "">
-								<option value="#encodeForHTML(allCTs.tablename)#"#variables.selVal#>#encodeForHTML(allCTs.tablename)#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="d-table-cell p-2 align-middle">
-						<label class="sr-only" for="#variables.fid#_unit_ct">Unit Code Table</label>
-						<select class="form-control form-control-sm" id="#variables.fid#_unit_ct" name="unit_code_table">
-							<option value="">none</option>
-							<cfloop query="allCTs">
-								<cfset variables.selVal = (thisRec.unit_code_table IS allCTs.tablename) ? " selected" : "">
-								<option value="#encodeForHTML(allCTs.tablename)#"#variables.selVal#>#encodeForHTML(allCTs.tablename)#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="d-table-cell p-2 align-middle text-nowrap">
-						<button type="submit" class="btn btn-xs btn-primary mr-1"
-							onclick="document.getElementById('#variables.fid#').elements['action'].value='saveEdit';">Save</button>
-						<button type="submit" class="btn btn-xs btn-danger"
-							onclick="document.getElementById('#variables.fid#').elements['action'].value='deleteValue'; return confirm('Delete this mapping?');">Delete</button>
-					</div>
-				</form>
-			</cfloop>
-		</div>
-	</section>
 </main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">

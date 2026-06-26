@@ -75,84 +75,88 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfoutput>
 <main id="content" aria-labelledby="pageHeading">
-	<div class="row">
-		<div class="col-12">
-			<div class="d-flex justify-content-between align-items-start mt-3 mb-1">
-				<h1 id="pageHeading" class="h3 mb-0">Media Licenses</h1>
-				<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Controlled vocabulary list</a>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+					<h1 id="pageHeading" class="h3 mb-0">Media Licenses</h1>
+					<a href="/vocabularies/manageControlledVocabulary.cfm" class="btn btn-xs btn-outline-primary">Controlled vocabulary list</a>
+				</div>
+				<p class="text-muted small">Manage media license display names, descriptions, and URIs used for specimen media.</p>
+
+				<section aria-labelledby="addHeading">
+					<h2 id="addHeading" class="h5 mt-3 mb-2 text-success">Add Media License</h2>
+					<div class="row border rounded my-2 mx-1 p-2 bg-light">
+						<form method="post" action="/vocabularies/ctmedia_license.cfm">
+							<input type="hidden" name="action" value="insert">
+							<div class="form-row align-items-end">
+								<div class="col-auto">
+									<label class="col-form-label-sm font-weight-bold" for="newDisplay">Display Name <span class="text-danger">*</span></label>
+									<input type="text" class="form-control form-control-sm" id="newDisplay" name="display" required>
+								</div>
+								<div class="col-auto">
+									<label class="col-form-label-sm font-weight-bold" for="newUri">URI</label>
+									<input type="text" class="form-control form-control-sm" id="newUri" name="uri">
+								</div>
+								<div class="col">
+									<label class="col-form-label-sm font-weight-bold" for="newDescription">Description</label>
+									<textarea class="form-control form-control-sm" id="newDescription" name="description" rows="2"></textarea>
+								</div>
+								<div class="col-auto">
+									<button type="submit" class="btn btn-sm btn-success">Add</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</section>
+
+				<section aria-labelledby="editHeading">
+					<h2 id="editHeading" class="h5 mt-3 mb-2">Edit Media Licenses</h2>
+					<div class="row border rounded my-2 mx-1 p-2">
+						<div class="d-table w-100">
+							<div class="d-table-row bg-light font-weight-bold border-bottom">
+								<div class="d-table-cell p-2">Display Name</div>
+								<div class="d-table-cell p-2">URI</div>
+								<div class="d-table-cell p-2">Description</div>
+								<div class="d-table-cell p-2">Actions</div>
+							</div>
+							<cfset variables.fid = "">
+							<cfloop query="q">
+								<cfset variables.fid = "lic" & media_license_id>
+								<form
+									class="d-table-row"
+									name="#variables.fid#"
+									id="#variables.fid#"
+									method="post"
+									action="/vocabularies/ctmedia_license.cfm">
+									<input type="hidden" name="action" value="">
+									<input type="hidden" name="media_license_id" value="#media_license_id#">
+									<div class="d-table-cell p-2 align-middle">
+										<label class="sr-only" for="#variables.fid#_display">Display Name</label>
+										<input type="text" class="form-control form-control-sm" id="#variables.fid#_display" name="display" value="#encodeForHTML(display)#" required>
+									</div>
+									<div class="d-table-cell p-2 align-middle">
+										<label class="sr-only" for="#variables.fid#_uri">URI</label>
+										<input type="text" class="form-control form-control-sm" id="#variables.fid#_uri" name="uri" value="#encodeForHTML(uri)#">
+									</div>
+									<div class="d-table-cell p-2 align-middle">
+										<label class="sr-only" for="#variables.fid#_description">Description</label>
+										<textarea class="form-control form-control-sm" id="#variables.fid#_description" name="description" rows="2">#encodeForHTML(description)#</textarea>
+									</div>
+									<div class="d-table-cell p-2 align-middle text-nowrap">
+										<button type="submit" class="btn btn-xs btn-primary mr-1"
+											onclick="document.getElementById('#variables.fid#').elements['action'].value='save';">Save</button>
+										<button type="submit" class="btn btn-xs btn-danger"
+											onclick="document.getElementById('#variables.fid#').elements['action'].value='delete'; return confirm('Delete this license?');">Delete</button>
+									</div>
+								</form>
+							</cfloop>
+						</div>
+					</div>
+				</section>
 			</div>
-			<p class="text-muted small">Manage media license display names, descriptions, and URIs used for specimen media.</p>
 		</div>
 	</div>
-
-	<section aria-labelledby="addHeading">
-		<h2 id="addHeading" class="h5 mt-3 mb-2 text-success">Add Media License</h2>
-		<div class="border rounded p-3 bg-light mb-4">
-			<form method="post" action="/vocabularies/ctmedia_license.cfm">
-				<input type="hidden" name="action" value="insert">
-				<div class="form-row align-items-end">
-					<div class="col-auto">
-						<label class="col-form-label-sm font-weight-bold" for="newDisplay">Display Name <span class="text-danger">*</span></label>
-						<input type="text" class="form-control form-control-sm" id="newDisplay" name="display" required>
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label-sm font-weight-bold" for="newUri">URI</label>
-						<input type="text" class="form-control form-control-sm" id="newUri" name="uri">
-					</div>
-					<div class="col">
-						<label class="col-form-label-sm font-weight-bold" for="newDescription">Description</label>
-						<textarea class="form-control form-control-sm" id="newDescription" name="description" rows="2"></textarea>
-					</div>
-					<div class="col-auto">
-						<button type="submit" class="btn btn-sm btn-success">Add</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</section>
-
-	<section aria-labelledby="editHeading">
-		<h2 id="editHeading" class="h5 mt-2 mb-2">Edit Media Licenses</h2>
-		<div class="d-table w-100 border rounded">
-			<div class="d-table-row bg-light font-weight-bold">
-				<div class="d-table-cell p-2 border-bottom">Display Name</div>
-				<div class="d-table-cell p-2 border-bottom">URI</div>
-				<div class="d-table-cell p-2 border-bottom">Description</div>
-				<div class="d-table-cell p-2 border-bottom">Actions</div>
-			</div>
-			<cfset variables.fid = "">
-			<cfloop query="q">
-				<cfset variables.fid = "lic" & media_license_id>
-				<form
-					class="d-table-row"
-					name="#variables.fid#"
-					id="#variables.fid#"
-					method="post"
-					action="/vocabularies/ctmedia_license.cfm">
-					<input type="hidden" name="action" value="">
-					<input type="hidden" name="media_license_id" value="#media_license_id#">
-					<div class="d-table-cell p-2 align-middle">
-						<label class="sr-only" for="#variables.fid#_display">Display Name</label>
-						<input type="text" class="form-control form-control-sm" id="#variables.fid#_display" name="display" value="#encodeForHTML(display)#" required>
-					</div>
-					<div class="d-table-cell p-2 align-middle">
-						<label class="sr-only" for="#variables.fid#_uri">URI</label>
-						<input type="text" class="form-control form-control-sm" id="#variables.fid#_uri" name="uri" value="#encodeForHTML(uri)#">
-					</div>
-					<div class="d-table-cell p-2 align-middle">
-						<label class="sr-only" for="#variables.fid#_description">Description</label>
-						<textarea class="form-control form-control-sm" id="#variables.fid#_description" name="description" rows="2">#encodeForHTML(description)#</textarea>
-					</div>
-					<div class="d-table-cell p-2 align-middle text-nowrap">
-						<button type="submit" class="btn btn-xs btn-primary mr-1"
-							onclick="document.getElementById('#variables.fid#').elements['action'].value='save';">Save</button>
-						<button type="submit" class="btn btn-xs btn-danger"
-							onclick="document.getElementById('#variables.fid#').elements['action'].value='delete'; return confirm('Delete this license?');">Delete</button>
-					</div>
-				</form>
-			</cfloop>
-		</div>
-	</section>
 </main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
