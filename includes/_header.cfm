@@ -426,7 +426,7 @@
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 									<div style="float:left; width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Data</div>
-										<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
+										<a class="dropdown-item" target="_top" href="/vocabularies/manageControlledVocabulary.cfm">Code Table Editor</a>
 										<a class="dropdown-item" target="_top" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attribute Heirarchies</a>
 										<a class="dropdown-item" target="_top" href="/Reports/reporter.cfm">Label/Report Management</a>
 										<a class="dropdown-item" target="_top" href="/tools/downloadData.cfm">Download Tables</a>

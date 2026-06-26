@@ -271,7 +271,7 @@ limitations under the License.
 			</div>
 		</div>
 	<cfelseif tbl is "ctcountry_code"><!---------------------------------------------------->
-                <p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
+		<p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
 		<!---   Country/Country Code code table includes fields for country and country code, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select country, code from ctcountry_code order by code, country
@@ -759,9 +759,9 @@ limitations under the License.
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select type_status, description, category, ordinal 
-			from ctcitation_type_status 
-			order by category, ordinal, type_status
+			SELECT type_status, description, category, ordinal 
+			FROM ctcitation_type_status 
+			ORDER by category, ordinal, type_status
 		</cfquery>
 		<h2>Citation type, type status terms and other kinds of citation</h2>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Citation Type Status</h3>
@@ -781,9 +781,9 @@ limitations under the License.
 							<option value="Secondary">Secondary</option>
 							<option value="Voucher">Voucher (non-type)</option>
 							<option value="Voucher Not">Not Voucher (non-type)</option>
-                            <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
-                            <!---  NOTE: Alphabetic sort of these values is used to order Primary/Secondary/other type status --->
-                            <!---  If new category values are added for non-types, they should sort after Secondary. --->
+							<!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+							<!---  NOTE: Alphabetic sort of these values is used to order Primary/Secondary/other type status --->
+							<!---  If new category values are added for non-types, they should sort after Secondary. --->
 						</select>
 					</div>
 					<div class="col">
@@ -839,7 +839,7 @@ limitations under the License.
 								<cfset scopevouselected = "">
 								<cfset scopenvouselected = "selected='selected'">
 							<cfelse>
-                                <!-- caution, failover case will select Voucher as the value --->
+								<!-- Caution: failover case will select Voucher as the value --->
 								<cfset scopepriselected = "">
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "selected='selected'">
@@ -900,7 +900,7 @@ limitations under the License.
 										<option value="lithologic">Lithologic</option>
 										<option value="lithostratigraphic">Lithostratigraphic</option>
 										<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
-								 <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+								 		<!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
 									</select>
 								</div>
 								<div class="col">
@@ -981,8 +981,6 @@ limitations under the License.
 						</cfloop>
 						</div>
 					</div>
-			
-
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
@@ -2008,14 +2006,14 @@ limitations under the License.
 			FROM sys.user_constraints uc
 			JOIN sys.user_cons_columns ucc ON uc.constraint_name = ucc.constraint_name
 			WHERE uc.table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
-			  AND uc.constraint_type = 'P'
+				AND uc.constraint_type = 'P'
 			ORDER BY ucc.position
 		</cfquery>
 		<cfset variables.pkColList = valuelist(getPKCols.column_name)>
 		<cfset collcde = listfindnocase(valuelist(getCols.column_name), "collection_cde")>
 		<cfset hasDescn = listfindnocase(valuelist(getCols.column_name), "description")>
 		<!--- fld: first non-collection_cde PK column by PK position;
-		      fallback to first non-collection_cde/description column if no PK is defined --->
+				fallback to first non-collection_cde/description column if no PK is defined --->
 		<cfset fld = "">
 		<cfif variables.pkColList neq "">
 			<cfloop list="#variables.pkColList#" index="variables.pkc">
@@ -2035,7 +2033,7 @@ limitations under the License.
 			<cfset fld = listFirst(valuelist(getCols.column_name))>
 		</cfif>
 		<!--- pkExtraCols: additional PK columns that are not fld and not collection_cde;
-		      included in WHERE clauses for uniqueness with multi-column primary keys --->
+				included in WHERE clauses for uniqueness with multi-column primary keys --->
 		<cfset variables.pkExtraCols = "">
 		<cfif variables.pkColList neq "">
 			<cfloop list="#variables.pkColList#" index="variables.pkc">
@@ -2048,13 +2046,13 @@ limitations under the License.
 		<cfset variables.extraCols = "">
 		<cfloop list="#valuelist(getCols.column_name)#" index="variables.c">
 			<cfif variables.c neq fld
-			  and not listfindnocase("collection_cde,description", variables.c)
-			  and (variables.pkColList eq "" or not listfindnocase(variables.pkColList, variables.c))>
+				and not listfindnocase("collection_cde,description", variables.c)
+				and (variables.pkColList eq "" or not listfindnocase(variables.pkColList, variables.c))>
 				<cfset variables.extraCols = listAppend(variables.extraCols, variables.c)>
 			</cfif>
 		</cfloop>
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select #fld# as data 
+			SELECT #fld# as data 
 			<cfif variables.pkExtraCols neq "">
 				,#variables.pkExtraCols#
 			</cfif>
@@ -2067,7 +2065,7 @@ limitations under the License.
 			<cfif hasDescn gt 0>
 				,description
 			</cfif>
-			from #tbl#
+			FROM #tbl#
 			ORDER BY
 			<cfif collcde gt 0>
 				collection_cde,
