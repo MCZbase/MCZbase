@@ -180,7 +180,7 @@ limitations under the License.
 										<input type="button" class="btn btn-xs btn-primary mr-1" value="Save"
 											onclick="document.getElementById('#variables.fid#').elements['action'].value='saveEdit';document.getElementById('#variables.fid#').submit();">
 										<input type="button" class="btn btn-xs btn-danger" value="Delete"
-											onclick="if(confirm('Delete this mapping?')){document.getElementById('#variables.fid#').elements['action'].value='deleteValue';document.getElementById('#variables.fid#').submit();}">
+											onclick="deleteMapping('#variables.fid#')">
 									</div>
 								</form>
 							</cfloop>
@@ -192,4 +192,12 @@ limitations under the License.
 	</div>
 </main>
 </cfoutput>
+<script>
+function deleteMapping(formId) {
+	confirmDialog('Delete this mapping?', 'Confirm Delete', function() {
+		document.getElementById(formId).elements['action'].value = 'deleteValue';
+		document.getElementById(formId).submit();
+	});
+}
+</script>
 <cfinclude template="/shared/_footer.cfm">

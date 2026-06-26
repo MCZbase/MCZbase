@@ -134,24 +134,25 @@ function saveCtPartName() {
  * @param {number} ctspnid - primary key of the record to delete
  */
 function deleteCtPartName(ctspnid) {
-	if (!confirm('Delete this part name?')) { return; }
-	$.ajax({
-		url: '/vocabularies/component/functions.cfc',
-		data: {
-			method: 'deleteCtPartName',
-			ctspnid: ctspnid,
-			returnformat: 'json'
-		},
-		dataType: 'json',
-		success: function(result) {
-			if (result.STATUS === 1) {
-				$('#r' + ctspnid).remove();
-			} else {
-				messageDialog(result.MESSAGE, 'Delete Failed');
+	confirmDialog('Delete this part name?', 'Confirm Delete', function() {
+		$.ajax({
+			url: '/vocabularies/component/functions.cfc',
+			data: {
+				method: 'deleteCtPartName',
+				ctspnid: ctspnid,
+				returnformat: 'json'
+			},
+			dataType: 'json',
+			success: function(result) {
+				if (result.STATUS === 1) {
+					$('#r' + ctspnid).remove();
+				} else {
+					messageDialog(result.MESSAGE, 'Delete Failed');
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				messageDialog(error, 'Delete Failed');
 			}
-		},
-		error: function(jqXHR, textStatus, error) {
-			messageDialog(error, 'Delete Failed');
-		}
+		});
 	});
 }
