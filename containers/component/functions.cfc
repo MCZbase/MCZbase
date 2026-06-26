@@ -34,19 +34,25 @@ children of the given container, suitable for rendering a tree node.
 	<cftry>
 		<cfquery name="variables.qChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
-				container_id,
-				parent_container_id,
-				container_type,
-				label,
-				barcode,
-				description
+				c.container_id,
+				c.parent_container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				c.description
 			FROM
-				container
+				container c
 			WHERE
-				parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-				AND container_type <> 'collection object'
+				c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+				AND c.container_type <> 'collection object'
 			ORDER BY
-				label
+				CASE WHEN EXISTS (
+					SELECT 1 FROM container sub
+					WHERE sub.parent_container_id = c.container_id
+					AND sub.container_type <> 'collection object'
+				) THEN 0 ELSE 1 END,
+				c.container_type,
+				c.label
 		</cfquery>
 		<cfset variables.i = 1>
 		<cfloop query="variables.qChildren">

@@ -185,6 +185,7 @@ function formatContainerDisplay(barcode, label) {
  */
 function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
 	$(document).ready(function() {
+		$('#containerBrowseContext').text('Top-level containers');
 		loadContainerNode(1, browsePanel, feedbackEl);
 	});
 }
@@ -264,7 +265,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			.addClass('btn btn-xs btn-outline-secondary ml-1')
 			.text('Browse contents')
 			.on('click', function() {
-				loadLeafPanel(cid, 'containerLeafPanel', feedbackId, 1);
+				loadLeafPanel(cid, 'containerLeafPanel', feedbackId, 1, displayName);
 			});
 		li.append(browseBtn);
 
@@ -282,8 +283,9 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
  * @param {string} leafPanelId - the id of the div for the leaf panel (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
  * @param {number} [page=1] - the page number to load (1-based).
+ * @param {string} [containerLabel] - optional display name of the container being browsed.
  */
-function loadLeafPanel(containerId, leafPanelId, feedbackId, page) {
+function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabel) {
 	page = page || 1;
 	$('#' + leafPanelId).removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
@@ -297,7 +299,10 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page) {
 			var currentPage = data.page || 1;
 
 			var panel = $('<div class="container-leaf-panel"></div>');
-			panel.append('<h3 class="h5">Contents (' + totalRows + ' collection objects)</h3>');
+			var heading = containerLabel
+				? 'Contents of ' + containerLabel + ' (' + totalRows + ' collection objects)'
+				: 'Contents (' + totalRows + ' collection objects)';
+			panel.append($('<h3 class="h5"></h3>').text(heading));
 
 			if (rows.length === 0) {
 				panel.append('<p class="text-muted">No collection objects found.</p>');
@@ -340,7 +345,7 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page) {
 			var leafEl = $('#' + leafPanelId);
 			leafEl.html(panel);
 			leafEl.off('click.leafpage').on('click.leafpage', '.leaf-page-btn', function() {
-				loadLeafPanel($(this).data('cid'), leafPanelId, feedbackId, $(this).data('page'));
+				loadLeafPanel($(this).data('cid'), leafPanelId, feedbackId, $(this).data('page'), containerLabel);
 			});
 		},
 		error: function(jqXHR, textStatus, error) {

@@ -65,6 +65,7 @@ limitations under the License.
 
 	<section>
 		<h2 class="h4">Container Hierarchy</h2>
+		<p id="containerBrowseContext" class="text-muted small mb-2"></p>
 		<div id="containerBrowsePanel">
 			<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>
 		</div>
