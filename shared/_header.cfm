@@ -678,7 +678,7 @@ limitations under the License.
 										
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
 										
-											<a class="dropdown-item" href="/vocabularies/manageControlledVocabulary.cfm">Code Table Editor</a>
+											<a class="dropdown-item" href="/vocabularies/manageControlledVocabulary.cfm">Controlled Vocabulary Editor</a>
 											<a class="dropdown-item" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attributes Hierarchies</a>
 											<!--- TODO: Need another role for report management --->
 											<cfif targetMenu EQ "production">
