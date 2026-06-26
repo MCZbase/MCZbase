@@ -2,8 +2,8 @@
 <!---
 /Admin/ctmedia_license.cfm
 
-Manage the ctmedia_license controlled vocabulary table. Provides insert, update,
-and delete for media license records (display name, description, URI).
+Manage ctmedia_license code table: media license display names, descriptions, and URIs.
+Provides insert, update, and delete of media license records.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
@@ -19,122 +19,137 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 --->
-<cfinclude template="/shared/_header.cfm">
-
 <cfset variables.action = "entryPoint">
 <cfif isDefined("form.action") AND len(trim(form.action)) GT 0>
-<cfset variables.action = trim(form.action)>
+	<cfset variables.action = trim(form.action)>
 <cfelseif isDefined("url.action") AND len(trim(url.action)) GT 0>
-<cfset variables.action = trim(url.action)>
+	<cfset variables.action = trim(url.action)>
 </cfif>
 
 <cfif variables.action IS "delete">
-<cfif isDefined("form.media_license_id") AND isNumeric(form.media_license_id)>
- name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-FROM ctmedia_license
-media_license_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.media_license_id#">
->
-</cfif>
-<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
+	<cfif isDefined("form.media_license_id") AND isNumeric(form.media_license_id)>
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM ctmedia_license
+			WHERE media_license_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.media_license_id#">
+		</cfquery>
+	</cfif>
+	<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
 </cfif>
 
 <cfif variables.action IS "save">
-<cfif isDefined("form.media_license_id") AND isNumeric(form.media_license_id)
-D isDefined("form.display") AND isDefined("form.description") AND isDefined("form.uri")>
- name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-ctmedia_license SET
-     = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.display)#">,
- = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.description)#">,
-        = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.uri)#">
-media_license_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.media_license_id#">
->
-</cfif>
-<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
+	<cfif isDefined("form.media_license_id") AND isNumeric(form.media_license_id)
+		AND isDefined("form.display") AND isDefined("form.description") AND isDefined("form.uri")>
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE ctmedia_license SET
+				display      = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.display)#">,
+				description  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.description)#">,
+				uri          = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.uri)#">
+			WHERE media_license_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#form.media_license_id#">
+		</cfquery>
+	</cfif>
+	<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
 </cfif>
 
 <cfif variables.action IS "insert">
-<cfif isDefined("form.display") AND len(trim(form.display)) GT 0
-D isDefined("form.description") AND isDefined("form.uri")>
- name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-SERT INTO ctmedia_license (display, description, uri)
-(
-param cfsqltype="CF_SQL_VARCHAR" value="#trim(form.display)#">,
-param cfsqltype="CF_SQL_VARCHAR" value="#trim(form.description)#">,
-param cfsqltype="CF_SQL_VARCHAR" value="#trim(form.uri)#">
->
-</cfif>
-<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
+	<cfif isDefined("form.display") AND len(trim(form.display)) GT 0
+		AND isDefined("form.description") AND isDefined("form.uri")>
+		<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO ctmedia_license (display, description, uri)
+			VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.display)#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.description)#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.uri)#">
+			)
+		</cfquery>
+	</cfif>
+	<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
 </cfif>
 
 <cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-SELECT media_license_id, display, description, uri
-FROM ctmedia_license
-ORDER BY display
+	SELECT media_license_id, display, description, uri
+	FROM ctmedia_license
+	ORDER BY display
 </cfquery>
 
+<cfinclude template="/shared/_header.cfm">
 <cfoutput>
 <main id="content" aria-labelledby="pageHeading">
-<div class="container-fluid">
-class="row">
-class="col-12">
-id="pageHeading" class="h3 mt-3 mb-2">Media Licenses</h1>
-class="text-muted small mb-3">Manage the list of media licenses available for attachment to media records. Each license has a display name, description, and URI.</p>
+	<div class="row">
+		<div class="col-12">
+			<h1 id="pageHeading" class="h3 mt-3 mb-1">Media Licenses</h1>
+			<p class="text-muted small">Manage media license display names, descriptions, and URIs used for specimen media.</p>
+		</div>
+	</div>
 
- aria-labelledby="addLicenseHeading">
-id="addLicenseHeading" class="h5 mt-3 mb-2 text-success">Add Media License</h2>
-class="row border rounded my-2 mx-1 p-2 bg-light">
-method="post" action="/Admin/ctmedia_license.cfm">
-put type="hidden" name="action" value="insert">
-class="form-row mb-2 flex-nowrap align-items-end">
-class="col">
-class="form-label" for="new_display">Display Name</label>
-put id="new_display" class="data-entry-input reqdClr w-100" type="text" name="display" required>
-class="col">
-class="form-label" for="new_description">Description</label>
-id="new_description" class="data-entry-textarea reqdClr w-100" name="description" rows="2" required></textarea>
-class="col">
-class="form-label" for="new_uri">URI</label>
-put id="new_uri" class="data-entry-input reqdClr w-100" type="text" name="uri">
-class="col-auto">
-put type="submit" value="Insert" class="btn btn-xs btn-secondary mt-4">
->
+	<section aria-labelledby="addHeading">
+		<h2 id="addHeading" class="h5 mt-3 mb-2 text-success">Add Media License</h2>
+		<div class="border rounded p-3 bg-light mb-4">
+			<form method="post" action="/Admin/ctmedia_license.cfm">
+				<input type="hidden" name="action" value="insert">
+				<div class="form-row align-items-end">
+					<div class="col-auto">
+						<label class="col-form-label-sm font-weight-bold" for="newDisplay">Display Name <span class="text-danger">*</span></label>
+						<input type="text" class="form-control form-control-sm" id="newDisplay" name="display" required>
+					</div>
+					<div class="col-auto">
+						<label class="col-form-label-sm font-weight-bold" for="newUri">URI</label>
+						<input type="text" class="form-control form-control-sm" id="newUri" name="uri">
+					</div>
+					<div class="col">
+						<label class="col-form-label-sm font-weight-bold" for="newDescription">Description</label>
+						<textarea class="form-control form-control-sm" id="newDescription" name="description" rows="2"></textarea>
+					</div>
+					<div class="col-auto">
+						<button type="submit" class="btn btn-sm btn-success">Add</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
 
- aria-labelledby="editLicensesHeading">
-id="editLicensesHeading" class="h5 mt-3 mb-2">Edit Media Licenses</h2>
-q.recordCount EQ 0>
-class="text-muted">No media licenses have been defined yet.</p>
-class="row border rounded my-2 mx-1 p-2">
-class="d-table w-100">
-class="d-table-row bg-light border-bottom">
-class="d-table-cell fw-bold small text-muted pb-1 pr-3">Display Name</div>
-class="d-table-cell fw-bold small text-muted pb-1 pr-3">Description</div>
-class="d-table-cell fw-bold small text-muted pb-1 pr-3">URI</div>
-class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
-query="q">
-variables.fid = "lic" & q.media_license_id>
-class="d-table-row" name="#variables.fid#" id="#variables.fid#" method="post" action="/Admin/ctmedia_license.cfm">
-put type="hidden" name="action" value="">
-put type="hidden" name="media_license_id" value="#q.media_license_id#">
-class="d-table-cell py-1 pr-3 align-middle" style="min-width:8rem">
-class="sr-only" for="display_#q.media_license_id#">Display Name</label>
-put id="display_#q.media_license_id#" class="data-entry-input reqdClr w-100" type="text" name="display" value="#HTMLEditFormat(q.display)#" required>
-class="d-table-cell py-1 pr-3 align-middle" style="min-width:12rem">
-class="sr-only" for="desc_#q.media_license_id#">Description</label>
-id="desc_#q.media_license_id#" class="data-entry-textarea w-100" name="description" rows="2">#HTMLEditFormat(q.description)#</textarea>
-class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
-class="sr-only" for="uri_#q.media_license_id#">URI</label>
-put id="uri_#q.media_license_id#" class="data-entry-input w-100" type="text" name="uri" value="#HTMLEditFormat(q.uri)#">
-class="d-table-cell py-1 align-middle text-nowrap">
-put type="button"
- btn-xs btn-primary"
-click="#variables.fid#.action.value='save';#variables.fid#.submit();">
-put type="button"
- btn-xs btn-danger"
-click="if(confirm('Delete this license?')){#variables.fid#.action.value='delete';#variables.fid#.submit();}">
->
-
->
+	<section aria-labelledby="editHeading">
+		<h2 id="editHeading" class="h5 mt-2 mb-2">Edit Media Licenses</h2>
+		<div class="d-table w-100 border rounded">
+			<div class="d-table-row bg-light font-weight-bold">
+				<div class="d-table-cell p-2 border-bottom">Display Name</div>
+				<div class="d-table-cell p-2 border-bottom">URI</div>
+				<div class="d-table-cell p-2 border-bottom">Description</div>
+				<div class="d-table-cell p-2 border-bottom">Actions</div>
+			</div>
+			<cfset variables.fid = "">
+			<cfloop query="q">
+				<cfset variables.fid = "lic" & media_license_id>
+				<form
+					class="d-table-row"
+					name="#variables.fid#"
+					id="#variables.fid#"
+					method="post"
+					action="/Admin/ctmedia_license.cfm">
+					<input type="hidden" name="action" value="">
+					<input type="hidden" name="media_license_id" value="#media_license_id#">
+					<div class="d-table-cell p-2 align-middle">
+						<label class="sr-only" for="#variables.fid#_display">Display Name</label>
+						<input type="text" class="form-control form-control-sm" id="#variables.fid#_display" name="display" value="#encodeForHTML(display)#" required>
+					</div>
+					<div class="d-table-cell p-2 align-middle">
+						<label class="sr-only" for="#variables.fid#_uri">URI</label>
+						<input type="text" class="form-control form-control-sm" id="#variables.fid#_uri" name="uri" value="#encodeForHTML(uri)#">
+					</div>
+					<div class="d-table-cell p-2 align-middle">
+						<label class="sr-only" for="#variables.fid#_description">Description</label>
+						<textarea class="form-control form-control-sm" id="#variables.fid#_description" name="description" rows="2">#encodeForHTML(description)#</textarea>
+					</div>
+					<div class="d-table-cell p-2 align-middle text-nowrap">
+						<button type="submit" class="btn btn-xs btn-primary mr-1"
+							onclick="document.getElementById('#variables.fid#').elements['action'].value='save';">Save</button>
+						<button type="submit" class="btn btn-xs btn-danger"
+							onclick="document.getElementById('#variables.fid#').elements['action'].value='delete'; return confirm('Delete this license?');">Delete</button>
+					</div>
+				</form>
+			</cfloop>
+		</div>
+	</section>
+</main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
