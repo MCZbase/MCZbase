@@ -147,7 +147,7 @@ limitations under the License.
 										<input type="button" class="btn btn-xs btn-primary mr-1" value="Save"
 											onclick="document.getElementById('#variables.fid#').elements['action'].value='save';document.getElementById('#variables.fid#').submit();">
 										<input type="button" class="btn btn-xs btn-danger" value="Delete"
-											onclick="deleteLicense('#variables.fid#')">
+											onclick="deleteLicense('#variables.fid#','#JSStringFormat(display)#')">
 									</div>
 								</form>
 							</cfloop>
@@ -160,8 +160,8 @@ limitations under the License.
 </main>
 </cfoutput>
 <script>
-function deleteLicense(formId) {
-	confirmDialog('Delete this license?', 'Confirm Delete', function() {
+function deleteLicense(formId, displayName) {
+	confirmDialog('Delete the media license \u201c' + displayName + '\u201d?', 'Confirm Delete', function() {
 		document.getElementById(formId).elements['action'].value = 'delete';
 		document.getElementById(formId).submit();
 	});

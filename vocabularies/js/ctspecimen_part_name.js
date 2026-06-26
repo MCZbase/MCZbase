@@ -134,7 +134,8 @@ function saveCtPartName() {
  * @param {number} ctspnid - primary key of the record to delete
  */
 function deleteCtPartName(ctspnid) {
-	confirmDialog('Delete this part name?', 'Confirm Delete', function() {
+	var partName = $('#r' + ctspnid).data('part-name') || 'this part name';
+	confirmDialog('Delete the part name \u201c' + partName + '\u201d?', 'Confirm Delete', function() {
 		$.ajax({
 			url: '/vocabularies/component/functions.cfc',
 			data: {

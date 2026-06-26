@@ -180,7 +180,7 @@ limitations under the License.
 										<input type="button" class="btn btn-xs btn-primary mr-1" value="Save"
 											onclick="document.getElementById('#variables.fid#').elements['action'].value='saveEdit';document.getElementById('#variables.fid#').submit();">
 										<input type="button" class="btn btn-xs btn-danger" value="Delete"
-											onclick="deleteMapping('#variables.fid#')">
+											onclick="deleteMapping('#variables.fid#','#JSStringFormat(thisRec.attribute_type)#')">
 									</div>
 								</form>
 							</cfloop>
@@ -193,8 +193,8 @@ limitations under the License.
 </main>
 </cfoutput>
 <script>
-function deleteMapping(formId) {
-	confirmDialog('Delete this mapping?', 'Confirm Delete', function() {
+function deleteMapping(formId, attributeType) {
+	confirmDialog('Delete the attribute type mapping \u201c' + attributeType + '\u201d?', 'Confirm Delete', function() {
 		document.getElementById(formId).elements['action'].value = 'deleteValue';
 		document.getElementById(formId).submit();
 	});
