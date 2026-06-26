@@ -422,7 +422,7 @@ limitations under the License.
 														</cfif>
 													</div>
 												</div>		
-												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mx-0">
+												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-1 mx-0">
 													<div class="col-12 col-md-3 mb-1">
 														<label for="fixedCollection">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
