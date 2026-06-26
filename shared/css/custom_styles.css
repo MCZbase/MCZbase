@@ -1934,7 +1934,7 @@ input#readMore_check_id {
     vertical-align: middle;
     border-radius: .2rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    line-height: 0.8rem;
+    line-height: 0.85rem;
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
