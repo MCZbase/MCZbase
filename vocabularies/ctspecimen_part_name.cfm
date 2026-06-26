@@ -173,11 +173,11 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 form-label font-weight-bold" for="editPartUpAllTiss">Update is_tissue for all parts with this name?</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartUpAllTiss">Apply is_tissue change to all vocabulary entries with this part name (all collections)?</label>
 						<div class="col-sm-8">
 							<select class="data-entry-select" id="editPartUpAllTiss">
-								<option value="0">Just this one</option>
-								<option value="1">Yes, update all</option>
+								<option value="0">This collection only</option>
+								<option value="1">All collections with this part name</option>
 							</select>
 						</div>
 					</div>
@@ -188,11 +188,11 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-group row mb-2">
-						<label class="col-sm-4 form-label font-weight-bold" for="editPartUpAllDesc">Update description for all parts with this name?</label>
+						<label class="col-sm-4 form-label font-weight-bold" for="editPartUpAllDesc">Apply description change to all vocabulary entries with this part name (all collections)?</label>
 						<div class="col-sm-8">
 							<select class="data-entry-select" id="editPartUpAllDesc">
-								<option value="0">Just this one</option>
-								<option value="1">Yes, update all</option>
+								<option value="0">This collection only</option>
+								<option value="1">All collections with this part name</option>
 							</select>
 						</div>
 					</div>
