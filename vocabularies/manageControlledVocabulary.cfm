@@ -172,9 +172,9 @@ limitations under the License.
 														<td>
 															<cfif getCTName.inbound_fk_count EQ 0 AND getCTName.composite_pk EQ 0>
 																<cfif getRowCounts.ct EQ 0>
-																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span> Deprecate
+																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span>&nbsp;Deprecate
 																<cfelseif getRowCounts.ct GT 0>
-																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span> Add FKs
+																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span>&nbsp;Add&nbsp;FKs
 																</cfif>
 															</cfif>
 														</td>
