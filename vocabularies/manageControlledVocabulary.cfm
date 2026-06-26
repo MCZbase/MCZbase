@@ -22,10 +22,12 @@ limitations under the License.
 
 --->
 <cfinclude template="/shared/_header.cfm">
+<script src="/lib/misc/sorttable.js"></script>
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
 <cfset tbl="">
+<cfset variables.hasGlobalAdmin = isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
 <!--- obtain tbl variable from form post or get parameter with url scope taking precedence, and force to uppercase --->
 <cfif isdefined("url.tbl")>
 	<cfset tbl = ucase(url.tbl)>
@@ -36,47 +38,155 @@ limitations under the License.
 <cfif action is "entryPoint"><cfset action="listTables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
+	<main id="content" aria-labelledby="pageHeading">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
 
-				<cfswitch expression="#action#">
-					<cfcase value="listTables">
-						<cfquery name="getCTName" datasource="uam_god">
+					<cfswitch expression="#action#">
+						<cfcase value="listTables">
+							<cfquery name="getCTName" datasource="uam_god">
 								SELECT
-									distinct(table_name) table_name 
-								FROM
-									sys.user_tables 
-								WHERE
-									table_name like 'CT%'
-								UNION 
-								SELECT 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
-			 					ORDER BY table_name
-						</cfquery>
-						<h1 class="h3 mt-2">Manage Controlled Vocabularies</h1>
-						<div class="my-2">
-							<ul>
-								<cfloop query="getCTName">
-									<cfif getCTName.table_name is "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
-										<cfset variables.showCount = false>
-										<cfset variables.rowCount = 0>
+									t.table_name,
+									nvl(c.comments,'') comments,
+									nvl(cc.has_collection_cde, 0) has_collection_cde,
+									nvl(fk.inbound_fk_count, 0) inbound_fk_count,
+									CASE WHEN nvl(pk.pk_col_count,0) > 1 THEN 1 ELSE 0 END composite_pk
+								FROM (
+									SELECT distinct(table_name) table_name
+									FROM sys.user_tables
+									WHERE table_name like 'CT%'
+									UNION
+									SELECT 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name FROM dual
+								) t
+								LEFT JOIN all_tab_comments c ON c.table_name = t.table_name AND c.owner = 'MCZBASE'
+								LEFT JOIN (
+									SELECT
+										table_name,
+										1 has_collection_cde
+									FROM all_tab_columns
+									WHERE
+										owner = 'MCZBASE'
+										AND table_name like 'CT%'
+										AND column_name = 'COLLECTION_CDE'
+								) cc ON cc.table_name = t.table_name
+								LEFT JOIN (
+									SELECT
+										p.table_name,
+										count(distinct fk.constraint_name) inbound_fk_count
+									FROM all_constraints fk
+									JOIN all_constraints p ON fk.r_owner = p.owner AND fk.r_constraint_name = p.constraint_name
+									WHERE
+										fk.owner = 'MCZBASE'
+										AND fk.constraint_type = 'R'
+										AND p.owner = 'MCZBASE'
+									GROUP BY p.table_name
+								) fk ON fk.table_name = t.table_name
+								LEFT JOIN (
+									SELECT
+										ac.table_name,
+										count(acc.column_name) pk_col_count
+									FROM all_constraints ac
+									JOIN all_cons_columns acc ON ac.owner = acc.owner AND ac.constraint_name = acc.constraint_name
+									WHERE
+										ac.owner = 'MCZBASE'
+										AND ac.constraint_type = 'P'
+									GROUP BY ac.table_name
+								) pk ON pk.table_name = t.table_name
+			 					ORDER BY t.table_name
+							</cfquery>
+							<h1 id="pageHeading" class="h3 mt-2">Manage Controlled Vocabularies</h1>
+							<section aria-labelledby="controlledVocabularyNotesHeading" class="my-2">
+								<h2 id="controlledVocabularyNotesHeading" class="sr-only">Controlled Vocabulary Notes</h2>
+								<div class="alert alert-info py-2 px-3 mb-2">
+									<cfif variables.hasGlobalAdmin>
+										<p class="mb-1 small">This table lists editable controlled vocabularies with metadata checks. <strong>Collection Specific</strong> is <strong>Yes</strong> when a table contains a <code>collection_cde</code> field.</p>
+										<ul class="mb-0 small">
+											<li><strong>Inbound FK Count</strong> is the number of incoming foreign keys to the table.</li>
+											<li><strong>Composite PK</strong> is <strong>Yes</strong> when the table primary key has more than one column.</li>
+											<li><strong>Status</strong> values:
+												<ul class="mb-0">
+													<li><span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span> <strong>Deprecate</strong> for empty tables with no composite PK and no inbound FKs.</li>
+													<li><span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span> <strong>Add FKs</strong> for non-empty tables with no composite PK and no inbound FKs.</li>
+												</ul>
+											</li>
+										</ul>
 									<cfelse>
-										<cfquery name="getRowCounts" datasource="uam_god">
-											SELECT count(*) ct
-											FROM #getCTName.table_name#
-										</cfquery>
-										<cfset variables.rowCount = getRowCounts.ct>
-										<cfset variables.showCount = true>
+										<p class="mb-0 small">This table lists editable controlled vocabularies and in comments, descriptions of the vocabularies. In the MCZbase database, these controlled vocabularies are in tables prefixed with the letters CT (for Code Table), e.g. AGENT_RANK values are found in CTAGENT_RANK.</p>
+										<ul class="mb-0 small">
+											<li><strong>Collection Specific</strong> is <strong>Yes</strong> when a table contains a <code>collection_cde</code> field and can set collection specific values.</li>
+											<li><strong>Records</strong> is the number of values in the controlled vocabulary table.</li>
+											<li>Edit with care.  You should be able to safely add new values to department specific controlled vocabularies such as SEX_CDE to support new data entry needs for your collection.  Some controlled vocabularies are used for functional purposes and changing values may break functionality.  Changes to existing controlled values that are in use in other tables are likely to fail, and alterations to a controlled vocabulary will almost certainly involve a data cleanup project.  If you are unsure, please file a bug report.</li>
+										</ul>
 									</cfif>
-									<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
-									<li>
-										<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><cfif variables.showCount> (#variables.rowCount#)</cfif>
-									</li>
-								</cfloop>
-							</ul>
-						</div>
-					</cfcase>
-				</cfswitch>
+								</div>
+							</section>
+							<section aria-labelledby="controlledVocabularyListHeading" class="my-2">
+								<h2 id="controlledVocabularyListHeading" class="h5">Editable Controlled Vocabulary Tables</h2>
+								<div class="table-responsive">
+									<table id="controlledVocabularyListTable" class="sortable table table-striped table-sm d-xl-table">
+										<thead>
+											<tr>
+												<th scope="col">Table</th>
+												<th scope="col">Records</th>
+												<th scope="col">Actions</th>
+												<th scope="col">Comment</th>
+												<th scope="col">Collection Specific</th>
+												<cfif variables.hasGlobalAdmin>
+													<th scope="col">Inbound FK Count</th>
+													<th scope="col">Composite PK</th>
+													<th scope="col">Status</th>
+												</cfif>
+											</tr>
+										</thead>
+										<tbody>
+											<cfloop query="getCTName">
+												<cfquery name="getRowCounts" datasource="uam_god">
+													SELECT count(*) ct
+													FROM
+													<cfif getCTName.table_name is "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
+														GEOLOGY_ATTRIBUTE_HIERARCHY
+													<cfelse>
+														#getCTName.table_name#
+													</cfif>
+												</cfquery>
+												<cfset variables.displayName = REReplace(getCTName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+												<tr>
+													<td>#variables.displayName#</td>
+													<td>#getRowCounts.ct#</td>
+													<td class="text-nowrap">
+														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
+														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
+													</td>
+													<td>
+														<cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#</cfif>
+													</td>
+													<td>
+														<cfif getCTName.has_collection_cde EQ 1>Yes</cfif>
+													</td>
+													<cfif variables.hasGlobalAdmin>
+														<td>#getCTName.inbound_fk_count#</td>
+														<td>
+															<cfif getCTName.composite_pk EQ 1>Yes<cfelse>No</cfif>
+														</td>
+														<td>
+															<cfif getCTName.inbound_fk_count EQ 0 AND getCTName.composite_pk EQ 0>
+																<cfif getRowCounts.ct EQ 0>
+																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span>&nbsp;Deprecate
+																<cfelseif getRowCounts.ct GT 0>
+																	<span class="text-warning" aria-hidden="true">&##9888;</span><span class="sr-only">Warning</span>&nbsp;Add&nbsp;FKs
+																</cfif>
+															</cfif>
+														</td>
+													</cfif>
+												</tr>
+											</cfloop>
+										</tbody>
+									</table>
+								</div>
+							</section>
+						</cfcase>
+					</cfswitch>
 
 <cfif action is "edit">
 	<cfset variables.editTitle = trim(replaceNoCase(REReplace(tbl, "(?i)^CT", ""), "_", " ", "ALL"))>
@@ -146,7 +256,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>
@@ -201,11 +311,11 @@ limitations under the License.
 					<div class="d-table-cell py-1 align-middle text-nowrap">
 						<input type="button" 
 							value="Save" 
-							class="savBtn"
+							class="btn btn-xs btn-primary"
 						 	onclick="att#i#.action.value='saveEdit';submit();">	
 						<input type="button" 
 							value="Delete" 
-							class="delBtn"
+							class="btn btn-xs btn-danger"
 							onclick="att#i#.action.value='deleteValue';submit();">	
 					</div>
 				</form>
@@ -214,7 +324,7 @@ limitations under the License.
 			</div>
 		</div>
 	<cfelseif tbl is "ctcountry_code"><!---------------------------------------------------->
-                <p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
+		<p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
 		<!---   Country/Country Code code table includes fields for country and country code, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select country, code from ctcountry_code order by code, country
@@ -227,16 +337,16 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_code">Country Code</label>
-						<input id="add_code" class="data-entry-input" type="text" name="code" maxlength="3">
+						<input id="add_code" class="data-entry-input reqdClr" type="text" name="code" maxlength="3" required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_newData">Country</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -265,11 +375,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -340,7 +450,7 @@ limitations under the License.
 					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn">
+							class="btn btn-xs btn-secondary">
 					</div>
 				</div>
 			</div>
@@ -415,13 +525,13 @@ limitations under the License.
 							<div class="col">
 								<input type="button" 
 									value="Save" 
-									class="savBtn"
+									class="btn btn-xs btn-primary"
 									onclick="#tbl##i#.action.value='saveEdit';submit();">
 							</div>
 							<div class="col">
 								<input type="button" 
 									value="Delete" 
-									class="delBtn"
+									class="btn btn-xs btn-danger"
 									onclick="#tbl##i#.action.value='deleteValue';submit();">
 							</div>
 						</div>
@@ -444,23 +554,23 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Loan Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_scope">Loan/Gift</label>
-						<select id="add_scope" class="data-entry-select" name="scope">
+						<select id="add_scope" class="data-entry-select reqdClr" name="scope" required>
 							<option value="Loan">Loan</option>
 							<option value="Gift">Gift</option>
 						</select>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_ordinal">Sort Order</label>
-						<input id="add_ordinal" class="data-entry-input" type="text" name="ordinal">
+						<input id="add_ordinal" class="data-entry-input reqdClr" type="text" name="ordinal" required>
 					</div>
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -503,11 +613,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -532,7 +642,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Specific Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" size=80 >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData" size=80  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_permit_type">General Type</label>
@@ -553,7 +663,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -594,11 +704,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -625,7 +735,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Authorship Role</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_ordinal">Sort Order</label>
@@ -644,7 +754,7 @@ limitations under the License.
 						<input id="add_description" class="data-entry-input" type="text" name="description" title="description">
 					</div>
 					<div class="col">
-						<input type="submit" value="Insert" class="insBtn mt-4">
+						<input type="submit" value="Insert" class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -687,11 +797,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -702,9 +812,9 @@ limitations under the License.
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select type_status, description, category, ordinal 
-			from ctcitation_type_status 
-			order by category, ordinal, type_status
+			SELECT type_status, description, category, ordinal 
+			FROM ctcitation_type_status 
+			ORDER by category, ordinal, type_status
 		</cfquery>
 		<h2>Citation type, type status terms and other kinds of citation</h2>
 		<h3 class="h5 mt-3 mb-2 text-success">Add Citation Type Status</h3>
@@ -715,7 +825,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Type Status</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_category">Kind of Type</label>
@@ -724,9 +834,9 @@ limitations under the License.
 							<option value="Secondary">Secondary</option>
 							<option value="Voucher">Voucher (non-type)</option>
 							<option value="Voucher Not">Not Voucher (non-type)</option>
-                            <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
-                            <!---  NOTE: Alphabetic sort of these values is used to order Primary/Secondary/other type status --->
-                            <!---  If new category values are added for non-types, they should sort after Secondary. --->
+							<!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+							<!---  NOTE: Alphabetic sort of these values is used to order Primary/Secondary/other type status --->
+							<!---  If new category values are added for non-types, they should sort after Secondary. --->
 						</select>
 					</div>
 					<div class="col">
@@ -740,7 +850,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -782,7 +892,7 @@ limitations under the License.
 								<cfset scopevouselected = "">
 								<cfset scopenvouselected = "selected='selected'">
 							<cfelse>
-                                <!-- caution, failover case will select Voucher as the value --->
+								<!-- Caution: failover case will select Voucher as the value --->
 								<cfset scopepriselected = "">
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "selected='selected'">
@@ -805,11 +915,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -823,7 +933,7 @@ limitations under the License.
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
 		</cfquery>
-<a class="btn-xs btn-secondary px-2 float-right" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
+<a class="btn btn-xs btn-secondary px-2 float-right" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
 		
 					<h2>Geological attribute types, and their categories.</h2>
 					<h4>Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h4>
@@ -835,7 +945,7 @@ limitations under the License.
 							<div class="form-row mb-1">
 								<div class="col">
 									<label class="form-label" for="add_newData">Geology Attribute</label>
-									<input id="add_newData" type="text" name="newData" class="data-entry-input">
+									<input id="add_newData" type="text" name="newData" class="data-entry-input reqdClr" required>
 								</div>
 								<div class="col">
 									<label class="form-label" for="add_type">Category</label>
@@ -843,7 +953,7 @@ limitations under the License.
 										<option value="lithologic">Lithologic</option>
 										<option value="lithostratigraphic">Lithostratigraphic</option>
 										<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
-								 <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+								 		<!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
 									</select>
 								</div>
 								<div class="col">
@@ -857,7 +967,7 @@ limitations under the License.
 								<div class="col">
 									<input type="submit" 
 										value="Insert" 
-										class="insBtn mt-4">
+										class="btn btn-xs btn-secondary mt-4">
 								</div>
 							</div>
 						</div>
@@ -912,11 +1022,11 @@ limitations under the License.
 									<div class="d-table-cell py-1 align-middle text-nowrap">
 										<input type="button" 
 											value="Save" 
-											class="savBtn btn-xs btn-primary"
+											class="btn btn-xs btn-primary"
 											onclick="#tbl##i#.action.value='saveEdit';submit();">
 										<input type="button" 
 											value="Delete" 
-											class="delBtn btn-xs btn-danger px-2"
+											class="btn btn-xs btn-danger px-2"
 											onclick="#tbl##i#.action.value='deleteValue';submit();">
 									</div>
 								</form>
@@ -924,8 +1034,6 @@ limitations under the License.
 						</cfloop>
 						</div>
 					</div>
-			
-
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
@@ -941,7 +1049,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Publication Attribute</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -959,7 +1067,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -996,11 +1104,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1020,7 +1128,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 						<div class="col">
 							<label class="form-label" for="add_newData">Relationship</label>
-							<input id="add_newData" class="data-entry-input" type="text" name="newData" size="50">
+							<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData" size="50" required>
 						</div>
 						<div class="col">
 							<label class="form-label" for="add_inverse_relation">Inverse Relation</label>
@@ -1037,7 +1145,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1086,11 +1194,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1110,7 +1218,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">ID Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1130,7 +1238,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">					
+							class="btn btn-xs btn-secondary mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1176,11 +1284,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1210,7 +1318,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Taxon Relationship</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1223,7 +1331,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">					
+							class="btn btn-xs btn-secondary mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1256,12 +1364,12 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<cfif q.ct EQ 0>
 								<input type="button" 
 									value="Delete" 
-									class="delBtn"
+									class="btn btn-xs btn-danger"
 									onclick="#tbl##i#.action.value='deleteValue';submit();">
 							</cfif>
 						</div>
@@ -1285,7 +1393,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Nomenclatural Code</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1298,7 +1406,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">					
+							class="btn btn-xs btn-secondary mt-4">					
 					</div>
 				</div>
 			</div>
@@ -1330,11 +1438,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1389,7 +1497,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>	
@@ -1429,11 +1537,11 @@ limitations under the License.
 					<div class="d-table-cell py-1 align-middle text-nowrap">
 						<input type="button" 
 							value="Save" 
-							class="savBtn"
+							class="btn btn-xs btn-primary"
 							onclick="part#i#.action.value='saveEdit';submit();">	
 						<input type="button" 
 							value="Delete" 
-							class="delBtn"
+							class="btn btn-xs btn-danger"
 						 	onclick="part#i#.action.value='deleteValue';submit();">	
 					</div>
 				</form>
@@ -1458,7 +1566,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_description">Description</label>
@@ -1471,7 +1579,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Create" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>	
@@ -1503,11 +1611,11 @@ limitations under the License.
 					<div class="d-table-cell py-1 align-middle text-nowrap">
 						<input type="button" 
 							value="Save" 
-							class="savBtn"
+							class="btn btn-xs btn-primary"
 							onclick="type#i#.action.value='saveEdit';submit();">	
 						<input type="button" 
 							value="Delete" 
-							class="delBtn"
+							class="btn btn-xs btn-danger"
 						 	onclick="type#i#.action.value='deleteValue';submit();">	
 					</div>
 				</form>
@@ -1551,7 +1659,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1592,11 +1700,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1620,7 +1728,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Media Relationship</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_label">Label</label>
@@ -1633,7 +1741,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1670,11 +1778,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1697,7 +1805,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Taxon Category</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_category_type">Category Type</label>
@@ -1717,7 +1825,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1764,11 +1872,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1791,7 +1899,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Taxon Attribute Type</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_hidden_fg">Visibility</label>
@@ -1807,7 +1915,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1850,11 +1958,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1880,7 +1988,7 @@ limitations under the License.
 				<div class="form-row mb-1">
 					<div class="col">
 						<label class="form-label" for="add_newData">Annotation State</label>
-						<input id="add_newData" class="data-entry-input" type="text" name="newData" >
+						<input id="add_newData" class="data-entry-input reqdClr" type="text" name="newData"  required>
 					</div>
 					<div class="col">
 						<label class="form-label" for="add_state_curie">Mapped to CURIE</label>
@@ -1893,7 +2001,7 @@ limitations under the License.
 					<div class="col">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">
+							class="btn btn-xs btn-secondary mt-4">
 					</div>
 				</div>
 			</div>
@@ -1926,11 +2034,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -1951,14 +2059,14 @@ limitations under the License.
 			FROM sys.user_constraints uc
 			JOIN sys.user_cons_columns ucc ON uc.constraint_name = ucc.constraint_name
 			WHERE uc.table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
-			  AND uc.constraint_type = 'P'
+				AND uc.constraint_type = 'P'
 			ORDER BY ucc.position
 		</cfquery>
 		<cfset variables.pkColList = valuelist(getPKCols.column_name)>
 		<cfset collcde = listfindnocase(valuelist(getCols.column_name), "collection_cde")>
 		<cfset hasDescn = listfindnocase(valuelist(getCols.column_name), "description")>
 		<!--- fld: first non-collection_cde PK column by PK position;
-		      fallback to first non-collection_cde/description column if no PK is defined --->
+				fallback to first non-collection_cde/description column if no PK is defined --->
 		<cfset fld = "">
 		<cfif variables.pkColList neq "">
 			<cfloop list="#variables.pkColList#" index="variables.pkc">
@@ -1978,7 +2086,7 @@ limitations under the License.
 			<cfset fld = listFirst(valuelist(getCols.column_name))>
 		</cfif>
 		<!--- pkExtraCols: additional PK columns that are not fld and not collection_cde;
-		      included in WHERE clauses for uniqueness with multi-column primary keys --->
+				included in WHERE clauses for uniqueness with multi-column primary keys --->
 		<cfset variables.pkExtraCols = "">
 		<cfif variables.pkColList neq "">
 			<cfloop list="#variables.pkColList#" index="variables.pkc">
@@ -1991,13 +2099,13 @@ limitations under the License.
 		<cfset variables.extraCols = "">
 		<cfloop list="#valuelist(getCols.column_name)#" index="variables.c">
 			<cfif variables.c neq fld
-			  and not listfindnocase("collection_cde,description", variables.c)
-			  and (variables.pkColList eq "" or not listfindnocase(variables.pkColList, variables.c))>
+				and not listfindnocase("collection_cde,description", variables.c)
+				and (variables.pkColList eq "" or not listfindnocase(variables.pkColList, variables.c))>
 				<cfset variables.extraCols = listAppend(variables.extraCols, variables.c)>
 			</cfif>
 		</cfloop>
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select #fld# as data 
+			SELECT #fld# as data 
 			<cfif variables.pkExtraCols neq "">
 				,#variables.pkExtraCols#
 			</cfif>
@@ -2010,7 +2118,7 @@ limitations under the License.
 			<cfif hasDescn gt 0>
 				,description
 			</cfif>
-			from #tbl#
+			FROM #tbl#
 			ORDER BY
 			<cfif collcde gt 0>
 				collection_cde,
@@ -2043,7 +2151,7 @@ limitations under the License.
 					</cfif>
 					<div class="col">
 						<label class="form-label" for="newData_#tbl#">#fld#</label>
-						<input class="data-entry-input" type="text" name="newData" id="newData_#tbl#">
+						<input class="data-entry-input reqdClr" type="text" name="newData" id="newData_#tbl#" required>
 					</div>
 					<cfif variables.pkExtraCols neq "">
 						<cfloop list="#variables.pkExtraCols#" index="variables.pkc">
@@ -2070,7 +2178,7 @@ limitations under the License.
 					<div class="col-auto">
 						<input type="submit" 
 							value="Insert" 
-							class="insBtn mt-4">	
+							class="btn btn-xs btn-secondary mt-4">	
 					</div>
 				</div>
 			</form>
@@ -2149,11 +2257,11 @@ limitations under the License.
 						<div class="d-table-cell py-1 align-middle text-nowrap">
 							<input type="button" 
 								value="Save" 
-								class="savBtn"
+								class="btn btn-xs btn-primary"
 								onclick="#tbl##i#.Action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
-								class="delBtn"
+								class="btn btn-xs btn-danger"
 								onclick="#tbl##i#.Action.value='deleteValue';submit();">
 						</div>
 					</form>
@@ -2851,8 +2959,9 @@ limitations under the License.
 	</cfif>
 	<cflocation url="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#tbl#" addtoken="false">
 </cfif>
+				</div>
 			</div>
 		</div>
-	</div>
+	</main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
