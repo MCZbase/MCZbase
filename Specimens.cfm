@@ -1968,7 +1968,7 @@ limitations under the License.
 																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '14px', width: '100%' });
+															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '16px', width: '100%' });
 															setKeywordCollectionValues();
 														});
 													</script> 
@@ -2266,9 +2266,9 @@ limitations under the License.
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" class="data-entry-label">Search Field</label>
+														<label for="field1">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
-														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
+														<select title="Select Field to search..." name="field1" id="field1" required>
 															<cfif len(field1) EQ 0>
 																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 															</cfif>
@@ -2317,15 +2317,15 @@ limitations under the License.
 													<div class="col-12 col-md-3">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
-														<label for="searchText1" class="data-entry-label">Search For</label>
+														<label for="searchText1">Search For</label>
 														<input type="text" class="form-control-sm d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<div class="col-6 col-md-1">
-														<label class="data-entry-label" for="closeParens1">&nbsp;)&nbsp;</label>
+														<label for="closeParens1">&nbsp;)&nbsp;</label>
 														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
-														<select name="closeParens1" id="closeParens1" class="data-entry-select">
+														<select name="closeParens1" id="closeParens1">
 															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2366,7 +2366,7 @@ limitations under the License.
 																	&nbsp;(&nbsp;
 																</div>
 																<div class="col-8 col-md-1">
-																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
+																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
 																			<cfset andSel = "">
@@ -2384,7 +2384,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#" class="data-entry-select">
+																	<select id="openParens#row#" name="openParens#row#">
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2401,7 +2401,7 @@ limitations under the License.
 																</div>
 																<!--- " --->
 																<div class="col-12 col-md-4">
-																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
+																	<select title="Select Field..." name="field#row#" id="field#row#">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
@@ -2442,7 +2442,7 @@ limitations under the License.
 																<div class="col-12 col-md-3">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
-																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
+																	<input type="text" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-6 col-md-1">
@@ -2451,7 +2451,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset closeParens = 0>
 																	</cfif>
-																	<select id="closeParens#row#" name="closeParens#row#" class="data-entry-select">
+																	<select id="closeParens#row#" name="closeParens#row#">
 																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif closeParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
