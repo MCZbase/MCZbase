@@ -193,7 +193,7 @@ function formatContainerDisplay(barcode, label) {
  */
 function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
 	$(document).ready(function() {
-		$('#containerBrowseContext').text('Institutions');
+		$('#containerBrowseContext').text('Container Hierarchy');
 		$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 		$.ajax({
 			url: '/containers/component/functions.cfc',

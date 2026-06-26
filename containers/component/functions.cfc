@@ -349,8 +349,6 @@ Orphaned leaf nodes are collection-object containers placed directly at root lev
 			<cfset variables.inst["description"] = variables.qInstitutions.description>
 			<cfset variables.inst["direct_structural_children"] = variables.qInstitutions.direct_structural_children>
 			<cfset variables.inst["direct_leaf_children"] = variables.qInstitutions.direct_leaf_children>
-			<cfset variables.inst["single_child_barcode"] = "">
-			<cfset variables.inst["single_child_label"] = "">
 			<cfset variables.campusArr = ArrayNew(1)>
 			<cfset variables.campusIdx = 1>
 			<cfloop query="variables.qCampuses">
@@ -364,8 +362,6 @@ Orphaned leaf nodes are collection-object containers placed directly at root lev
 					<cfset variables.campus["description"] = variables.qCampuses.description>
 					<cfset variables.campus["direct_structural_children"] = variables.qCampuses.direct_structural_children>
 					<cfset variables.campus["direct_leaf_children"] = variables.qCampuses.direct_leaf_children>
-					<cfset variables.campus["single_child_barcode"] = "">
-					<cfset variables.campus["single_child_label"] = "">
 					<cfset variables.campusArr[variables.campusIdx] = variables.campus>
 					<cfset variables.campusIdx = variables.campusIdx + 1>
 				</cfif>
