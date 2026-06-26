@@ -104,7 +104,12 @@ limitations under the License.
 										<ul class="mb-0 small">
 											<li><strong>Inbound FK Count</strong> is the number of incoming foreign keys to the table.</li>
 											<li><strong>Composite PK</strong> is <strong>Yes</strong> when the table primary key has more than one column.</li>
-											<li><strong>Status</strong> shows <span class="text-warning" aria-hidden="true">&#9888;</span><span class="sr-only">Warning: </span> <strong>Deprecate</strong> for empty tables with no composite PK and no inbound FKs, and <span class="text-warning" aria-hidden="true">&#9888;</span><span class="sr-only">Warning: </span> <strong>Add FKs</strong> for non-empty tables with no composite PK and no inbound FKs.</li>
+											<li><strong>Status</strong> values:
+												<ul class="mb-0">
+													<li><span class="text-warning" aria-hidden="true">&#9888;</span><span class="sr-only">Warning: </span> <strong>Deprecate</strong> for empty tables with no composite PK and no inbound FKs.</li>
+													<li><span class="text-warning" aria-hidden="true">&#9888;</span><span class="sr-only">Warning: </span> <strong>Add FKs</strong> for non-empty tables with no composite PK and no inbound FKs.</li>
+												</ul>
+											</li>
 										</ul>
 									<cfelse>
 										<p class="mb-0 small">This table lists editable controlled vocabularies and comments. <strong>Collection Specific</strong> is <strong>Yes</strong> when a table contains a <code>collection_cde</code> field.</p>
