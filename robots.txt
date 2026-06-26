@@ -60,7 +60,7 @@ Disallow: /bulkCollEvent.cfm
 Disallow: /bulkLocality.cfm
 Disallow: /checkContainerMovement.cfm
 Disallow: /Citation.cfm
-Disallow: /CodeTableEditor.cfm
+Disallow: /vocabularies/manageControlledVocabulary.cfm
 Disallow: /ContainerBrowse.cfm
 Disallow: /ContainerDetails.cfm
 Disallow: /containerPositions.cfm

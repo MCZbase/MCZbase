@@ -3,7 +3,7 @@
 /vocabularies/manageControlledVocabulary.cfm
 
 Manage controlled vocabulary (code table) values. Provides list view of all CT* tables
-and edit/add/delete forms for each, replacing /CodeTableEditor.cfm.
+and edit/add/delete forms for each.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
@@ -19,6 +19,171 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+--->
+<!---
+
+MAINTAINABILITY REFERENCE: manageControlledVocabulary.cfm
+==========================================================
+
+This file provides a list view of all CT* (code table) database tables and a
+unified edit/add/delete interface for each. 
+
+Note that many changes to code tables can be handled without changing this 
+file, see: GENERIC SCHEMA-DRIVEN HANDLING below.
+
+The entry point for editing a table is:
+  /vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=<TABLENAME>
+
+The file uses three handling approaches for different tables:
+
+--------------------------------------------------------------------------------
+1. EXTERNALLY MANAGED - handled by cflocation redirect to another page
+--------------------------------------------------------------------------------
+These tables have dedicated UIs elsewhere; this file redirects to those pages
+when selected from the list.
+
+  CTGEOLOGY_ATTRIBUTE_HIERARCHY  -> /vocabularies/GeologicalHierarchies.cfm
+    Reason: Hierarchical/tree structure requires dedicated tree-editing UI.
+
+  CTJOURNAL_NAME                 -> /publications/Journals.cfm
+    Reason: Journal name management is integrated with publication management
+            and requires a dedicated search/picker UI.
+
+  ctspecimen_part_name           -> /vocabularies/ctspecimen_part_name.cfm
+    Reason: Has a boolean is_tissue field, per-collection scoping, and uses
+            a jquery-ui dialog for edit and AJAX for delete; dedicated page.
+
+  ctspec_part_att_att            -> /vocabularies/ctspec_part_att_att.cfm
+    Reason: Maps attribute types to code tables (value + unit selects populated
+            from all CT* tables); dedicated page.
+
+  ctmedia_license                -> /vocabularies/ctmedia_license.cfm
+    Reason: Has dedicated display/description/URI fields not in the generic
+            pattern; dedicated page.
+
+--------------------------------------------------------------------------------
+2. INLINE SPECIAL CASES - handled by table-specific branches in this file
+--------------------------------------------------------------------------------
+These tables require custom form layouts, hard-coded domain selects, cross-table
+FK selects, or essential contextual help text that cannot be inferred from
+schema metadata alone.  These each have dedicated branches in this file using 
+cfif blocks evaluating #tbl# is "<TABLENAME>" to provide the custom handling.
+
+  ctattribute_code_tables
+    Reason: Composite PK (attribute_type + optional code table references);
+            two FK selects (value_code_table, units_code_table) populated from
+            all CT* tables; NULL handling in composite WHERE clauses.
+
+  ctcountry_code
+    Reason: Two-column layout (code + country); country is the natural PK
+            value but code is the functional key. Clear separation needed.
+
+  ctguid_type
+    Reason: Eight specialized fields including pattern_regex, resolver_regex,
+            resolver_replacement, and search_uri with contextual explanations
+            that are essential for correct data entry. Not inferable from schema.
+
+  ctloan_type
+    Reason: Hard-coded scope select domain (Loan/Gift). The two-value domain
+            is not stored in the schema and is functionally significant.
+
+  ctspecific_permit_type
+    Reason: FK select for permit_type (from ctpermit_type); boolean select
+            for accn_show_on_shipment. Cannot infer domain from schema.
+
+  CTAUTHORSHIP_ROLE
+    Reason: FK select for nomenclatural_code (from ctnomenclatural_code);
+            ordinal field with integer semantics.
+
+  ctcitation_type_status
+    Reason: Hard-coded category select (Primary/Secondary/Voucher/Voucher Not)
+            with specific sort-order semantics; values are not in schema.
+            NOTE: If new categories are added, update BOTH the add and edit
+            picklists in this file.
+
+  ctgeology_attributes
+    Reason: Hard-coded type select (lithologic/lithostratigraphic/
+            chronostratigraphic). Values are not stored in schema.
+            NOTE: If new type values are added, update BOTH picklists.
+
+  ctpublication_attribute
+    Reason: FK select for control (from all CT* tables); extra field
+            (mcz_publication_fg) with decimal semantics.
+
+  ctbiol_relations
+    Reason: Hard-coded rel_type select (biological/curatorial/functional).
+            Values are semantically significant and not in schema.
+
+  ctcoll_other_id_type
+    Reason: Boolean select for encumber_as_field_num; boolean semantics
+            need a select for clarity rather than a text input.
+
+  cttaxon_relation
+    Reason: Delete is suppressed when taxon_relations usage count > 0;
+            this business rule requires the join and conditional button logic.
+
+  ctnomenclatural_code
+    Reason: Has sort_order (integer) field with numeric ordering semantics.
+
+  ctspecimen_part_list_order
+    Reason: Composite PK (partname + list_order); partname select is
+            populated from ctspecimen_part_name (cross-table FK).
+
+  ctunderscore_collection_type
+    Reason: Retained for contextual description text ("Types of Named Groups
+            of Cataloged Items") that is operationally important.
+
+  ctunderscore_coll_agent_role
+    Reason: Has ordinal (integer) field and label/inverse_label fields with
+            specific semantics.
+
+  ctmedia_relationship
+    Reason: Essential help text ("Last word in Media Relationship must be a
+            table name... Adding new relationship also involves code changes
+            to MCZBASE.get_media_descriptor and MCZBASE.get_media_title")
+            cannot be lost; code-change warnings require inline documentation.
+
+  CTTAXON_CATEGORY
+    Reason: hidden_fg boolean select; category_type field with specific
+            functional meaning.
+
+  CTTAXON_ATTRIBUTE_TYPE
+    Reason: hidden_fg boolean select controlling public/hidden visibility.
+
+  CTSTATE
+    Reason: state_curie field with CURIE-format semantics; contextual
+            explanation of CURIE format is important for correct data entry.
+
+--------------------------------------------------------------------------------
+3. GENERIC SCHEMA-DRIVEN HANDLING - the cfelse branch (line ~2049)
+--------------------------------------------------------------------------------
+All CT* tables not matched above fall through to generic handling, which:
+  - Queries sys.user_tab_columns to discover all columns for the table.
+  - Identifies the primary key column(s) via sys.user_constraints.
+  - Identifies whether collection_cde and description columns are present.
+  - Builds insert/update/delete queries dynamically using cfqueryparam.
+  - Renders text inputs for all non-PK, non-collection_cde, non-description
+    columns (labeled with column name).
+  - Renders a collection_cde select (from ctcollection_cde) if present.
+  - Renders a description textarea if present.
+
+What generic handling supports without editing this file:
+  - Adding new CT* tables with simple text/varchar fields and a single string PK.
+  - Tables with an optional collection_cde column (automatically collection-scoped).
+  - Tables with an optional description column (rendered as textarea).
+  - Tables with a composite PK: all PK columns are included in WHERE clauses.
+  - Tables with extra non-PK non-description columns: rendered as text inputs.
+
+What still requires file edits:
+  - Any table needing a hard-coded select domain (e.g., enum-like values).
+  - Any table needing a cross-table FK select (populated from another table).
+  - Any table with integer/numeric semantics (ordinal, boolean flags) that
+    should be selects or validated as numbers rather than free-text inputs.
+  - Any table requiring contextual help text, field-level instructions, or
+    business rule validation not expressible via schema constraints.
+  - Any table with delete-protection rules (e.g., check usage count first).
+
 
 --->
 <cfinclude template="/shared/_header.cfm">
@@ -95,6 +260,53 @@ limitations under the License.
 								) pk ON pk.table_name = t.table_name
 			 					ORDER BY t.table_name
 							</cfquery>
+							<!--- Pre-compute edit permissions for the 5 externally managed vocabulary pages.
+								  Uses the same role-check logic as /CustomTags/rolecheck.cfm. --->
+							<cfquery name="variables.qExtPerms" datasource="uam_god" cachedWithin="#CreateTimeSpan(1,0,0,0)#">
+								SELECT DISTINCT form_path, role_name FROM cf_form_permissions
+								WHERE form_path IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR"
+									value="/vocabularies/GeologicalHierarchies.cfm,/publications/Journals.cfm,/vocabularies/ctspecimen_part_name.cfm,/vocabularies/ctspec_part_att_att.cfm,/vocabularies/ctmedia_license.cfm"
+									list="yes">)
+							</cfquery>
+							<!--- Build form_path -> comma-separated required roles --->
+							<cfset variables.extPathRoles = structNew()>
+							<cfloop query="variables.qExtPerms">
+								<cfif NOT structKeyExists(variables.extPathRoles, variables.qExtPerms.form_path)>
+									<cfset variables.extPathRoles[variables.qExtPerms.form_path] = "">
+								</cfif>
+								<cfset variables.extPathRoles[variables.qExtPerms.form_path] = listAppend(variables.extPathRoles[variables.qExtPerms.form_path], variables.qExtPerms.role_name)>
+							</cfloop>
+							<!--- Default all 5 external tables to no-access; updated below where permissions exist --->
+							<cfset variables.externalCanEdit = structNew()>
+							<cfset variables.externalCanEdit["CTGEOLOGY_ATTRIBUTE_HIERARCHY"] = false>
+							<cfset variables.externalCanEdit["CTJOURNAL_NAME"] = false>
+							<cfset variables.externalCanEdit["CTSPECIMEN_PART_NAME"] = false>
+							<cfset variables.externalCanEdit["CTSPEC_PART_ATT_ATT"] = false>
+							<cfset variables.externalCanEdit["CTMEDIA_LICENSE"] = false>
+							<cfset variables.extCheckMap = {
+								"CTGEOLOGY_ATTRIBUTE_HIERARCHY": "/vocabularies/GeologicalHierarchies.cfm",
+								"CTJOURNAL_NAME":                "/publications/Journals.cfm",
+								"CTSPECIMEN_PART_NAME":          "/vocabularies/ctspecimen_part_name.cfm",
+								"CTSPEC_PART_ATT_ATT":           "/vocabularies/ctspec_part_att_att.cfm",
+								"CTMEDIA_LICENSE":               "/vocabularies/ctmedia_license.cfm"
+							}>
+							<cfloop collection="#variables.extCheckMap#" item="variables.extCheckTbl">
+								<cfset variables.extCheckPath = variables.extCheckMap[variables.extCheckTbl]>
+								<cfif structKeyExists(variables.extPathRoles, variables.extCheckPath)>
+									<cfset variables.extCheckRoles = variables.extPathRoles[variables.extCheckPath]>
+									<cfif listLen(variables.extCheckRoles) EQ 1 AND listFirst(variables.extCheckRoles) EQ "public">
+										<cfset variables.externalCanEdit[variables.extCheckTbl] = true>
+									<cfelse>
+										<cfset variables.extCheckOK = true>
+										<cfloop list="#variables.extCheckRoles#" index="variables.extCheckRole">
+											<cfif NOT listfindnocase(session.roles, variables.extCheckRole)>
+												<cfset variables.extCheckOK = false>
+											</cfif>
+										</cfloop>
+										<cfset variables.externalCanEdit[variables.extCheckTbl] = variables.extCheckOK>
+									</cfif>
+								</cfif>
+							</cfloop>
 							<h1 id="pageHeading" class="h3 mt-2">Manage Controlled Vocabularies</h1>
 							<section aria-labelledby="controlledVocabularyNotesHeading" class="my-2">
 								<h2 id="controlledVocabularyNotesHeading" class="sr-only">Controlled Vocabulary Notes</h2>
@@ -155,7 +367,11 @@ limitations under the License.
 													<td>#variables.displayName#</td>
 													<td>#getRowCounts.ct#</td>
 													<td class="text-nowrap">
-														<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
+														<cfif structKeyExists(variables.externalCanEdit, getCTName.table_name) AND NOT variables.externalCanEdit[getCTName.table_name]>
+															<span class="btn btn-xs btn-primary disabled" aria-disabled="true" title="You do not have permission to edit this vocabulary">Edit</span>
+														<cfelse>
+															<a href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=#getCTName.table_name#" class="btn btn-xs btn-primary">Edit</a>
+														</cfif>
 														<a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#" class="btn btn-xs btn-outline-primary">View</a>
 													</td>
 													<td>
@@ -199,11 +415,12 @@ limitations under the License.
 	<cfelseif tbl is "CTJOURNAL_NAME"><!---------------------------------------------------->
 		<cflocation url="/publications/Journals.cfm" addtoken="false">
 	<cfelseif tbl is "ctspecimen_part_name"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctspecimen_part_name.cfm" addtoken="false">
 	<cfelseif tbl is "ctspec_part_att_att"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctspec_part_att_att.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctspec_part_att_att.cfm" addtoken="false">
 	<cfelseif tbl is "ctmedia_license"><!---------------------------------------------------->
-		<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
+		<cflocation url="/vocabularies/ctmedia_license.cfm" addtoken="false">
+	<!--- RETAINED SPECIAL CASE: Composite PK; two FK selects (value_code_table, units_code_table) from all CT* tables; NULL in composite WHERE clauses. --->
 	<cfelseif tbl is "ctattribute_code_tables"><!---------------------------------------------------->
 		<cfquery name="ctAttribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct(attribute_type) from ctAttribute_type
@@ -323,6 +540,7 @@ limitations under the License.
 		</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Dual-key layout (country + code); contextual help text about ISO codes and historical name exclusions. --->
 	<cfelseif tbl is "ctcountry_code"><!---------------------------------------------------->
 		<p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
 		<!---   Country/Country Code code table includes fields for country and country code, thus needs custom form  --->
@@ -388,6 +606,7 @@ limitations under the License.
 			</div>
 		</div>
 
+	<!--- RETAINED SPECIAL CASE: Eight specialized fields (pattern_regex, resolver_regex, resolver_replacement, search_uri, etc.) with per-field contextual help text. --->
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
@@ -541,6 +760,7 @@ limitations under the License.
 			</cfloop>
 		</div>
 
+	<!--- RETAINED SPECIAL CASE: Hard-coded scope select domain (Loan/Gift); not stored in schema. --->
 	<cfelseif tbl is "ctloan_type"><!---------------------------------------------------->
 		<!---   Loan type code table includes fields for scope (loan or gift) and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -625,6 +845,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: FK select for permit_type from ctpermit_type; boolean select for accn_show_on_shipment. --->
 	<cfelseif tbl is "ctspecific_permit_type">
 		<!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -716,6 +937,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: FK select for nomenclatural_code from ctnomenclatural_code; ordinal integer field. --->
 	<cfelseif tbl is "CTAUTHORSHIP_ROLE"><!-------------------------------------------------------->
 		<!--- Authorship Role code table includes fields for nomenclatural code and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -809,6 +1031,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Hard-coded category select (Primary/Secondary/Voucher/Voucher Not); values not in schema. --->
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -927,6 +1150,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Hard-coded type select (lithologic/lithostratigraphic/chronostratigraphic); values not in schema. --->
 	<cfelseif tbl is "ctgeology_attributes"><!---------------------------------------------------->
 		<!---  geology attributes code table includes fields for typing and sort order, thus needs custom form  --->
 		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
@@ -1034,6 +1258,7 @@ limitations under the License.
 						</cfloop>
 						</div>
 					</div>
+	<!--- RETAINED SPECIAL CASE: FK select for control from all CT* tables; mcz_publication_fg decimal field. --->
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
@@ -1116,6 +1341,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Hard-coded rel_type select (biological/curatorial/functional); values not in schema. --->
 	<cfelseif tbl is "ctbiol_relations"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctbiol_relations order by biol_indiv_relationship
@@ -1206,6 +1432,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Boolean select for encumber_as_field_num; boolean semantics need select not free-text. --->
 	<cfelseif tbl is "ctcoll_other_id_type"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctcoll_other_id_type order by other_id_type
@@ -1296,6 +1523,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Delete suppressed when taxon_relations usage count > 0; business rule requires cross-table join and conditional button. --->
 	<cfelseif tbl is "cttaxon_relation"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(taxon_relations.taxon_name_id) ct, cttaxon_relation.taxon_relationship, description, inverse_relation
@@ -1381,6 +1609,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: sort_order integer field with numeric ordering semantics. --->
 	<cfelseif tbl is "ctnomenclatural_code"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select nomenclatural_code, description, sort_order from ctnomenclatural_code order by sort_order
@@ -1549,6 +1778,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Important contextual description text for operators; operational help required. --->
 	<cfelseif tbl is "ctunderscore_collection_type">
 		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * FROM ctunderscore_collection_type 
@@ -1623,6 +1853,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: ordinal integer field; label/inverse_label fields with specific semantics. --->
 	<cfelseif tbl is "ctunderscore_coll_agent_role"><!---------------------------------------------------->
 		<!---   underscore_collection agent role table has sort order and labels, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1712,6 +1943,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: Essential warning text: last word must be a table name; adding new relationship requires code changes to MCZBASE.get_media_descriptor and MCZBASE.get_media_title. --->
 	<cfelseif tbl is "ctmedia_relationship"><!---------------------------------------------------->
 		<!---  Media relationship code table includes field for label, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1790,6 +2022,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: hidden_fg boolean select; category_type field with functional meaning. --->
 	<cfelseif tbl is "CTTAXON_CATEGORY"><!---------------------------------------------------->
 		<!---  taxon category code table includes field for category type, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1884,6 +2117,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: hidden_fg boolean select controlling public/hidden visibility. --->
 	<cfelseif tbl is "CTTAXON_ATTRIBUTE_TYPE"><!---------------------------------------------------->
 		<!---  taxon attribute type table includes field for visibility, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1970,6 +2204,7 @@ limitations under the License.
 			</cfloop>
 			</div>
 		</div>
+	<!--- RETAINED SPECIAL CASE: state_curie field with CURIE-format semantics; important format explanation for correct data entry. --->
 	<cfelseif tbl is "CTSTATE"><!---------------------------------------------------->
 		<!---  ctstate annotation state table includes field for state_curie, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
