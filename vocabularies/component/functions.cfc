@@ -583,7 +583,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 						<a class="nav-link btn-xs btn-secondary px-2 py-1 d-block" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hierarchically</a>
 					</li>
 					<li class="nav-item border mr-2 rounded" role="presentation">
-						<a class="nav-link btn-xs px-2 py-1 btn-secondary d-block" role="button" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
+						<a class="nav-link btn-xs px-2 py-1 btn-secondary d-block" role="button" href="/vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
 		

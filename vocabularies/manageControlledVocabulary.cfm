@@ -3,7 +3,7 @@
 /vocabularies/manageControlledVocabulary.cfm
 
 Manage controlled vocabulary (code table) values. Provides list view of all CT* tables
-and edit/add/delete forms for each, replacing /CodeTableEditor.cfm.
+and edit/add/delete forms for each.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
@@ -27,8 +27,12 @@ MAINTAINABILITY REFERENCE: manageControlledVocabulary.cfm
 ==========================================================
 
 This file provides a list view of all CT* (code table) database tables and a
-unified edit/add/delete interface for each. It replaces the legacy
-/CodeTableEditor.cfm page. The entry point for editing a table is:
+unified edit/add/delete interface for each. 
+
+Note that many changes to code tables can be handled without changing this 
+file, see: GENERIC SCHEMA-DRIVEN HANDLING below.
+
+The entry point for editing a table is:
   /vocabularies/manageControlledVocabulary.cfm?action=edit&tbl=<TABLENAME>
 
 The file uses three handling approaches for different tables:
@@ -59,11 +63,12 @@ when selected from the list.
             pattern; dedicated page.
 
 --------------------------------------------------------------------------------
-2. INLINE SPECIAL CASES - handled by tbl-specific branches in this file
+2. INLINE SPECIAL CASES - handled by table-specific branches in this file
 --------------------------------------------------------------------------------
 These tables require custom form layouts, hard-coded domain selects, cross-table
 FK selects, or essential contextual help text that cannot be inferred from
-schema metadata alone.
+schema metadata alone.  These each have dedicated branches in this file using 
+cfif blocks evaluating #tbl# is "<TABLENAME>" to provide the custom handling.
 
   ctattribute_code_tables
     Reason: Composite PK (attribute_type + optional code table references);
