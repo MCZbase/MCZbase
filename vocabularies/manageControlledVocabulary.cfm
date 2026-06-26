@@ -49,6 +49,7 @@ limitations under the License.
 								SELECT
 									t.table_name,
 									nvl(c.comments,'') comments,
+									nvl(cc.has_collection_cde, 0) has_collection_cde,
 									nvl(fk.inbound_fk_count, 0) inbound_fk_count,
 									CASE WHEN nvl(pk.pk_col_count,0) > 1 THEN 1 ELSE 0 END composite_pk
 								FROM (
@@ -59,6 +60,16 @@ limitations under the License.
 									SELECT 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name FROM dual
 								) t
 								LEFT JOIN all_tab_comments c ON c.table_name = t.table_name AND c.owner = 'MCZBASE'
+								LEFT JOIN (
+									SELECT
+										table_name,
+										1 has_collection_cde
+									FROM all_tab_columns
+									WHERE
+										owner = 'MCZBASE'
+										AND column_name = 'COLLECTION_CDE'
+									GROUP BY table_name
+								) cc ON cc.table_name = t.table_name
 								LEFT JOIN (
 									SELECT
 										p.table_name,
@@ -95,6 +106,7 @@ limitations under the License.
 												<th scope="col">Records</th>
 												<th scope="col">Actions</th>
 												<th scope="col">Comment</th>
+												<th scope="col">Collection Specific</th>
 												<cfif variables.hasGlobalAdmin>
 													<th scope="col">Inbound FK Count</th>
 													<th scope="col">Composite PK</th>
@@ -122,6 +134,9 @@ limitations under the License.
 													</td>
 													<td>
 														<cfif len(trim(getCTName.comments)) GT 0>#getCTName.comments#</cfif>
+													</td>
+													<td>
+														<cfif getCTName.has_collection_cde EQ 1>Yes</cfif>
 													</td>
 													<cfif variables.hasGlobalAdmin>
 														<td>#getCTName.inbound_fk_count#</td>
