@@ -251,4 +251,231 @@ Shape logic mirrors getContainerShapeHotspots in search.cfc:
 	<cfreturn serializeJSON(variables.result)>
 </cffunction>
 
+<!---
+Function getTopLevelBrowse.  Returns the data needed to render the initial container browse view:
+institution nodes (children of the root container, container_id=1) with their direct campus
+children embedded, plus counts of orphaned nodes at root level.
+
+Orphaned structural nodes are structural containers at root level that are not of type
+'institution' (e.g. building, room, freezer placed directly at the top of the tree).
+Orphaned leaf nodes are collection-object containers placed directly at root level.
+
+@return a JSON object with keys:
+  institutions - array of institution node objects, each having a campus_children array.
+    Each node has: container_id, container_type, label, barcode, description,
+    direct_structural_children, direct_leaf_children.
+  orphaned_structural_count - count of non-institution structural nodes at root level.
+  orphaned_leaf_count       - count of collection-object nodes at root level.
+--->
+<cffunction name="getTopLevelBrowse" access="remote" returntype="any" returnformat="json">
+	<cfset variables.result = StructNew()>
+	<cftry>
+		<!--- Institution nodes at root level (parent_container_id = 1) with child counts --->
+		<cfquery name="variables.qInstitutions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				c.container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				c.description,
+				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children
+			FROM container c
+			LEFT JOIN (
+				SELECT
+					parent_container_id,
+					SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
+					SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+			WHERE c.parent_container_id = 1
+				AND c.container_type = 'institution'
+			ORDER BY c.label
+		</cfquery>
+		<!--- Campus children of all top-level institutions with child counts --->
+		<cfquery name="variables.qCampuses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				c.container_id,
+				c.parent_container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				c.description,
+				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children
+			FROM container c
+			LEFT JOIN (
+				SELECT
+					parent_container_id,
+					SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
+					SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+			WHERE c.parent_container_id IN (
+				SELECT container_id
+				FROM container
+				WHERE parent_container_id = 1
+					AND container_type = 'institution'
+			)
+				AND c.container_type = 'campus'
+			ORDER BY c.parent_container_id, c.label
+		</cfquery>
+		<!--- Count orphaned structural nodes: non-institution structural nodes at root level --->
+		<cfquery name="variables.qOrphanStruct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS cnt
+			FROM container
+			WHERE parent_container_id = 1
+				AND container_type <> 'institution'
+				AND container_type <> 'collection object'
+		</cfquery>
+		<!--- Count orphaned leaf nodes: collection-object nodes at root level --->
+		<cfquery name="variables.qOrphanLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS cnt
+			FROM container
+			WHERE parent_container_id = 1
+				AND container_type = 'collection object'
+		</cfquery>
+		<!--- Build institution array with embedded campus children --->
+		<cfset variables.institutions = ArrayNew(1)>
+		<cfset variables.instIdx = 1>
+		<cfloop query="variables.qInstitutions">
+			<cfset variables.inst = StructNew()>
+			<cfset variables.inst["container_id"] = variables.qInstitutions.container_id>
+			<cfset variables.inst["container_type"] = variables.qInstitutions.container_type>
+			<cfset variables.inst["label"] = variables.qInstitutions.label>
+			<cfset variables.inst["barcode"] = variables.qInstitutions.barcode>
+			<cfset variables.inst["description"] = variables.qInstitutions.description>
+			<cfset variables.inst["direct_structural_children"] = variables.qInstitutions.direct_structural_children>
+			<cfset variables.inst["direct_leaf_children"] = variables.qInstitutions.direct_leaf_children>
+			<cfset variables.inst["single_child_barcode"] = "">
+			<cfset variables.inst["single_child_label"] = "">
+			<cfset variables.campusArr = ArrayNew(1)>
+			<cfset variables.campusIdx = 1>
+			<cfloop query="variables.qCampuses">
+				<cfif variables.qCampuses.parent_container_id EQ variables.qInstitutions.container_id>
+					<cfset variables.campus = StructNew()>
+					<cfset variables.campus["container_id"] = variables.qCampuses.container_id>
+					<cfset variables.campus["parent_container_id"] = variables.qCampuses.parent_container_id>
+					<cfset variables.campus["container_type"] = variables.qCampuses.container_type>
+					<cfset variables.campus["label"] = variables.qCampuses.label>
+					<cfset variables.campus["barcode"] = variables.qCampuses.barcode>
+					<cfset variables.campus["description"] = variables.qCampuses.description>
+					<cfset variables.campus["direct_structural_children"] = variables.qCampuses.direct_structural_children>
+					<cfset variables.campus["direct_leaf_children"] = variables.qCampuses.direct_leaf_children>
+					<cfset variables.campus["single_child_barcode"] = "">
+					<cfset variables.campus["single_child_label"] = "">
+					<cfset variables.campusArr[variables.campusIdx] = variables.campus>
+					<cfset variables.campusIdx = variables.campusIdx + 1>
+				</cfif>
+			</cfloop>
+			<cfset variables.inst["campus_children"] = variables.campusArr>
+			<cfset variables.institutions[variables.instIdx] = variables.inst>
+			<cfset variables.instIdx = variables.instIdx + 1>
+		</cfloop>
+		<cfset variables.result["institutions"] = variables.institutions>
+		<cfset variables.result["orphaned_structural_count"] = variables.qOrphanStruct.cnt>
+		<cfset variables.result["orphaned_leaf_count"] = variables.qOrphanLeaf.cnt>
+		<cfreturn serializeJSON(variables.result)>
+	<cfcatch>
+		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset variables.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#variables.function_called#", error_message="#variables.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(variables.result)>
+</cffunction>
+
+<!---
+Function getOrphanedTopLevelStructural.  Returns the non-institution structural containers
+that are direct children of the root container (parent_container_id = 1).  These are nodes
+such as buildings, rooms, or freezers placed directly at the top of the hierarchy instead
+of under an institution and campus.  Returned in the same structure as getDirectStructuralChildren
+so that renderTreeNodes can render them unchanged.
+
+@return a JSON array of objects with keys: container_id, parent_container_id, container_type,
+  label, barcode, description, direct_structural_children, direct_leaf_children,
+  single_child_barcode, single_child_label.
+--->
+<cffunction name="getOrphanedTopLevelStructural" access="remote" returntype="any" returnformat="json">
+	<cfset variables.data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="variables.qOrphans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				c.container_id,
+				c.parent_container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				c.description,
+				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				sc.single_child_barcode,
+				sc.single_child_label
+			FROM container c
+			LEFT JOIN (
+				SELECT
+					parent_container_id,
+					SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
+					SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+			LEFT JOIN (
+				SELECT parent_container_id, barcode AS single_child_barcode, label AS single_child_label
+				FROM (
+					SELECT
+						parent_container_id,
+						barcode,
+						label,
+						ROW_NUMBER() OVER (PARTITION BY parent_container_id ORDER BY label) AS rn
+					FROM container
+					WHERE container_type = 'collection object'
+						AND parent_container_id IN (
+							SELECT container_id
+							FROM container
+							WHERE parent_container_id = 1
+								AND container_type <> 'institution'
+								AND container_type <> 'collection object'
+						)
+				)
+				WHERE rn = 1
+			) sc ON sc.parent_container_id = c.container_id
+			WHERE c.parent_container_id = 1
+				AND c.container_type <> 'institution'
+				AND c.container_type <> 'collection object'
+			ORDER BY
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
+				c.container_type,
+				c.label
+		</cfquery>
+		<cfset variables.i = 1>
+		<cfloop query="variables.qOrphans">
+			<cfset variables.row = StructNew()>
+			<cfset variables.row["container_id"] = variables.qOrphans.container_id>
+			<cfset variables.row["parent_container_id"] = variables.qOrphans.parent_container_id>
+			<cfset variables.row["container_type"] = variables.qOrphans.container_type>
+			<cfset variables.row["label"] = variables.qOrphans.label>
+			<cfset variables.row["barcode"] = variables.qOrphans.barcode>
+			<cfset variables.row["description"] = variables.qOrphans.description>
+			<cfset variables.row["direct_structural_children"] = variables.qOrphans.direct_structural_children>
+			<cfset variables.row["direct_leaf_children"] = variables.qOrphans.direct_leaf_children>
+			<cfset variables.row["single_child_barcode"] = variables.qOrphans.single_child_barcode>
+			<cfset variables.row["single_child_label"] = variables.qOrphans.single_child_label>
+			<cfset variables.data[variables.i] = variables.row>
+			<cfset variables.i = variables.i + 1>
+		</cfloop>
+		<cfreturn serializeJSON(variables.data)>
+	<cfcatch>
+		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset variables.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#variables.function_called#", error_message="#variables.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(variables.data)>
+</cffunction>
+
 </cfcomponent>

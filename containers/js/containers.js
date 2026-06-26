@@ -184,17 +184,187 @@ function formatContainerDisplay(barcode, label) {
 }
 
 /**
- * Initializes the container browse panel and loads the top-level structural
- * children (container_id=1) on page load.
+ * Initializes the container browse panel.  Calls getTopLevelBrowse to retrieve
+ * institution nodes (pre-opened to campus level) plus counts of orphaned nodes,
+ * then delegates rendering to renderTopLevelBrowse.
  * @param {string} browsePanel - the id of the div to render the tree into (without leading #).
  * @param {string} leafPanel - the id of the div for the leaf browser panel (without leading #).
  * @param {string} feedbackEl - the id of the output element for status feedback (without leading #).
  */
 function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
 	$(document).ready(function() {
-		$('#containerBrowseContext').text('Top-level containers');
-		loadContainerNode(1, browsePanel, feedbackEl);
+		$('#containerBrowseContext').text('Institutions');
+		$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			data: { method: 'getTopLevelBrowse' },
+			dataType: 'json',
+			success: function(data) {
+				renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl);
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'loading top-level container browse');
+			}
+		});
 	});
+}
+
+/**
+ * Renders the initial top-level browse view returned by getTopLevelBrowse.
+ * Shows institution nodes pre-expanded to display their campus children.
+ * Appends a button to browse orphaned structural nodes (if any) and a button
+ * to browse orphaned top-level collection objects (if any).
+ *
+ * Orphaned structural nodes are non-institution structural containers placed
+ * directly at the root of the hierarchy.  They are loaded on demand via
+ * getOrphanedTopLevelStructural and rendered with renderTreeNodes.
+ * Orphaned leaf nodes are collection-object containers at root level; they
+ * are browsed via loadLeafPanel (same pattern as the Browse contents button).
+ *
+ * @param {Object} data - response from getTopLevelBrowse.
+ * @param {string} browsePanel - id of the container browse panel div.
+ * @param {string} leafPanel - id of the leaf browser panel div.
+ * @param {string} feedbackEl - id of the status feedback output element.
+ */
+function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
+	var institutions = data.institutions || [];
+	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
+	var orphanLeafCount   = parseInt(data.orphaned_leaf_count, 10) || 0;
+	var orphanStructDivId = 'ctree-orphan-structural';
+	var wrapper = $('<div></div>');
+
+	if (institutions.length === 0 && orphanStructCount === 0 && orphanLeafCount === 0) {
+		wrapper.html('<p class="text-muted my-2">No containers found.</p>');
+		$('#' + browsePanel).html(wrapper);
+		return;
+	}
+
+	/* Institution tree */
+	if (institutions.length > 0) {
+		var instUl = $('<ul class="container-tree" role="tree"></ul>');
+		$.each(institutions, function(idx, inst) {
+			var instDisplay = formatContainerDisplay(inst.barcode, inst.label);
+			var instCid     = inst.container_id;
+			var campuses    = inst.campus_children || [];
+			var childUlId   = 'ctree-children-' + instCid;
+			var toggleId    = 'ctree-toggle-' + instCid;
+			var nodeRow     = $('<div class="d-flex align-items-center flex-wrap tree-node-row"></div>');
+
+			/* Expand toggle — shown only when institution has structural children */
+			if (parseInt(inst.direct_structural_children, 10) > 0) {
+				var instToggle = $('<button></button>')
+					.attr('id', toggleId)
+					.attr('aria-expanded', 'true')
+					.attr('aria-controls', childUlId)
+					.attr('aria-label', 'Collapse ' + instDisplay)
+					.addClass('tree-node-toggle btn btn-xs btn-link mr-1');
+				instToggle.on('click', function() {
+					var expanded = $(this).attr('aria-expanded') === 'true';
+					if (!expanded && $('#' + childUlId).children().length === 0) {
+						loadContainerNode(instCid, childUlId, feedbackEl);
+					}
+					$('#' + childUlId).toggleClass('collapse');
+					$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+				});
+				nodeRow.append(instToggle);
+			}
+
+			nodeRow.append($('<span class="tree-node-label"></span>').text(instDisplay));
+			nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + inst.container_type + ']'));
+
+			/* Campus children pre-rendered (institution starts expanded) */
+			var campusUl = $('<ul></ul>').attr('id', childUlId).addClass('container-tree');
+			if (campuses.length > 0) {
+				$.each(campuses, function(ci, campus) {
+					var campusDisplay = formatContainerDisplay(campus.barcode, campus.label);
+					var campusCid     = campus.container_id;
+					var campusChildId = 'ctree-children-' + campusCid;
+					var campusTogId   = 'ctree-toggle-' + campusCid;
+					var campusRow     = $('<div class="d-flex align-items-center flex-wrap tree-node-row"></div>');
+
+					if (parseInt(campus.direct_structural_children, 10) > 0) {
+						var campusToggle = $('<button></button>')
+							.attr('id', campusTogId)
+							.attr('aria-expanded', 'false')
+							.attr('aria-controls', campusChildId)
+							.attr('aria-label', 'Expand ' + campusDisplay)
+							.addClass('tree-node-toggle btn btn-xs btn-link mr-1');
+						campusToggle.on('click', function() {
+							var expanded = $(this).attr('aria-expanded') === 'true';
+							if (!expanded && $('#' + campusChildId).children().length === 0) {
+								loadContainerNode(campusCid, campusChildId, feedbackEl);
+							}
+							$('#' + campusChildId).toggleClass('collapse');
+							$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+						});
+						campusRow.append(campusToggle);
+					}
+
+					campusRow.append($('<span class="tree-node-label"></span>').text(campusDisplay));
+					campusRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + campus.container_type + ']'));
+
+					if (parseInt(campus.direct_leaf_children, 10) > 0) {
+						var campusBrowseBtn = $('<button></button>')
+							.addClass('btn btn-xs btn-outline-secondary ml-1')
+							.text('Browse contents')
+							.on('click', function() {
+								loadLeafPanel(campusCid, leafPanel, feedbackEl, 1, campusDisplay);
+							});
+						campusRow.append(campusBrowseBtn);
+					}
+
+					var campusChildUl = $('<ul></ul>').attr('id', campusChildId).addClass('collapse container-tree');
+					var campusLi = $('<li role="treeitem"></li>').append(campusRow).append(campusChildUl);
+					campusUl.append(campusLi);
+				});
+			} else if (parseInt(inst.direct_structural_children, 10) > 0) {
+				/* Institution has structural children but none are campuses; mark for lazy load */
+				campusUl.addClass('collapse');
+			}
+
+			var instLi = $('<li role="treeitem"></li>').append(nodeRow).append(campusUl);
+			instUl.append(instLi);
+		});
+		wrapper.append(instUl);
+	}
+
+	/* Button: browse orphaned structural nodes */
+	if (orphanStructCount > 0) {
+		var orphanStructLabel = 'Browse ' + orphanStructCount + ' other structural container' + (orphanStructCount !== 1 ? 's' : '') + ' not placed under an institution';
+		var orphanStructDiv = $('<div class="mt-2" id="' + orphanStructDivId + '"></div>');
+		var orphanStructBtn = $('<button class="btn btn-xs btn-outline-secondary"></button>').text(orphanStructLabel);
+		orphanStructBtn.on('click', function() {
+			var btn = $(this);
+			btn.prop('disabled', true).text('Loading\u2026');
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				data: { method: 'getOrphanedTopLevelStructural' },
+				dataType: 'json',
+				success: function(nodes) {
+					btn.remove();
+					renderTreeNodes(nodes, orphanStructDivId, feedbackEl);
+				},
+				error: function(jqXHR, textStatus, error) {
+					btn.prop('disabled', false).text(orphanStructLabel);
+					handleFail(jqXHR, textStatus, error, 'loading orphaned structural containers');
+				}
+			});
+		});
+		orphanStructDiv.append(orphanStructBtn);
+		wrapper.append(orphanStructDiv);
+	}
+
+	/* Button: browse orphaned leaf nodes (collection objects at root level) */
+	if (orphanLeafCount > 0) {
+		var orphanLeafLabel = 'Browse ' + orphanLeafCount + ' unplaced collection object' + (orphanLeafCount !== 1 ? 's' : '');
+		var orphanLeafBtn = $('<button class="btn btn-xs btn-outline-secondary mt-2"></button>').text(orphanLeafLabel);
+		orphanLeafBtn.on('click', function() {
+			loadLeafPanel(1, leafPanel, feedbackEl, 1, 'Unplaced collection objects');
+		});
+		wrapper.append(orphanLeafBtn);
+	}
+
+	$('#' + browsePanel).html(wrapper);
 }
 
 /**
@@ -265,7 +435,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 				.attr('aria-expanded', 'false')
 				.attr('aria-controls', childUlId)
 				.attr('aria-label', 'Expand ' + displayName)
-				.addClass('tree-node-toggle btn-link');
+				.addClass('tree-node-toggle btn btn-xs btn-link mr-1');
 
 			toggle.on('click', function() {
 				var expanded = $(this).attr('aria-expanded') === 'true';
