@@ -949,7 +949,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="geo_att_value" class="data-entry-label small">Geological Attribute</label>
+																<label for="geo_att_value"">Geological Attribute</label>
 																<cfif not isdefined("geo_att_value")><cfset geo_att_value=""></cfif>
 																<!--- TODO, possibly, implement attribute type, might not be needed --->
 																<input type="hidden" id="geology_attribute" name="geology_attribute" value="">
@@ -1055,7 +1055,7 @@ limitations under the License.
 																</cfloop>
 															</cfif>
 														</cfif>
-														<input type="text" id="collector" name="collector" class="data-entry-input inputHeight" value="#encodeForHtml(collector)#">
+														<input type="text" id="collector" name="collector" value="#encodeForHtml(collector)#">
 														<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
 														<script>
 															jQuery(document).ready(function() {
@@ -1136,7 +1136,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
-														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Specimen</h2>
+														<h2 class="px-3 px-xl-2">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
@@ -1440,8 +1440,8 @@ limitations under the License.
 														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
 														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
 														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
-														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
-														<input type="text" id="underscore_collection" name="underscore_collection" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection)#" >
+														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" value="#encodeForHtml(underscore_collection_id)#" >
+														<input type="text" id="underscore_collection" name="underscore_collection" value="#encodeForHtml(underscore_collection)#" >
 														<script>
 															jQuery(document).ready(function() {
 																makeNamedCollectionPicker('underscore_collection','underscore_collection_id',false);
@@ -1478,7 +1478,7 @@ limitations under the License.
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
-															<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">
+															<h2 class="px-3 px-xl-2">
 																Transactions
 															</h2>
 															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
@@ -1500,7 +1500,7 @@ limitations under the License.
 																</cfif>
 															</cfif>
 															<label for="accn_number">Accession ##</label>
-															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
+															<input type="text" name="accn_number" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
@@ -1512,7 +1512,7 @@ limitations under the License.
                                                             <label for="accn_status">Accn Status</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_status').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span>
                                                             </a>
-															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
+															<input type="text" name="accn_status" id="accn_status" value="#encodeForHtml(accn_status)#" >
 															<script>
 																jQuery(document).ready(function() {
 																	makeCTFieldSearchAutocomplete("accn_status","ACCN_STATUS");
@@ -1523,7 +1523,7 @@ limitations under the License.
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
                                                             <label for="accn_type">Accn Type</label>
                                                             <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##accn_type').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span></a>
-															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
+															<input type="text" name="accn_type" id="accn_type" value="#encodeForHtml(accn_type)#" >
 															<script>
 																jQuery(document).ready(function() {
 																	makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
@@ -1545,12 +1545,12 @@ limitations under the License.
 																</cfif>
 															</cfif>
 															<label for="loan_number">Loan ##</label>
-															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+															<input type="text" name="loan_number" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
 															<label for="deaccession_number">Deaccession ##</label>
-															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
+															<input type="text" name="deaccession_number" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
                                                         <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
@@ -1561,7 +1561,7 @@ limitations under the License.
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
 																	<label for="permit_num">Permit Number</label>
-																	<input type="text" id="permit_num" name="permit_num" class="data-entry-input inputHeight" value="#encodeForHtml(permit_num)#">
+																	<input type="text" id="permit_num" name="permit_num" value="#encodeForHtml(permit_num)#">
 																	<script>
 																		jQuery(document).ready(function() {
 																			makePermitNumberAutocomplete("permit_num");
@@ -1571,7 +1571,7 @@ limitations under the License.
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
 																	<label for="permit_title">Document Title</label>
-																	<input type="text" id="permit_title" name="permit_title" class="data-entry-input inputHeight" value="#encodeForHtml(permit_title)#">
+																	<input type="text" id="permit_title" name="permit_title" value="#encodeForHtml(permit_title)#">
 																	<script>
 																		jQuery(document).ready(function() {
 																			makePermitTitleAutocomplete("permit_title");
@@ -1582,14 +1582,14 @@ limitations under the License.
 																	<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
 																	<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
 																	<label for="IssuedByAgent">Issued By</label>
-																	<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedByAgent)#">
+																	<input type="text" id="IssuedByAgent" name="IssuedByAgent" value="#encodeForHtml(IssuedByAgent)#">
 																	<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
 																</div>
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
 																	<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
 																	<label for="IssuedToAgent">Issued To</label>
-																	<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="data-entry-input inputHeight" value="#encodeForHtml(IssuedToAgent)#">
+																	<input type="text" id="IssuedToAgent" name="IssuedToAgent" value="#encodeForHtml(IssuedToAgent)#">
 																	<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#encodeForHtml(issued_to_agent_id)#">
 																</div>
 																<script>
@@ -1603,7 +1603,7 @@ limitations under the License.
                                                                     <label for="permit_type">Document Category</label>
 																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></a>
 																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></a>
-																	<input type="text" id="permit_type" name="permit_type" class="data-entry-input inputHeight" value="#encodeForHtml(permit_type)#">
+																	<input type="text" id="permit_type" name="permit_type" value="#encodeForHtml(permit_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
 																			makeCTFieldSearchAutocomplete('permit_type','PERMIT_TYPE');
@@ -1615,7 +1615,7 @@ limitations under the License.
 																    <label for="specific_type">Specific Type</label>
 																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></a>
 																    <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></a>
-																	<input type="text" id="specific_type" name="specific_type" class="data-entry-input inputHeight" value="#encodeForHtml(specific_type)#">
+																	<input type="text" id="specific_type" name="specific_type" value="#encodeForHtml(specific_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
 																			makeCTFieldSearchAutocomplete('specific_type','SPECIFIC_TYPE');
@@ -1979,13 +1979,13 @@ limitations under the License.
 													<cfset searchCollClasses = "col-sm-7 col-md-7 col-xl-9">
 												</cfif>
 												<div class="col-12 #searchCollClasses# pl-md-0 mt-1 mt-sm-0">
-													<label for="searchText" class="data-entry-label">Keyword(s)</label>
-													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
+													<label for="searchText">Keyword(s)</label>
+													<input id="searchText" type="text" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2 px-0 mt-1 mt-sm-0">
-														<label class="data-entry-label" for="debug2">Debug</label>
-														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
+														<label for="debug2">Debug</label>
+														<select title="debug" name="debug" id="debug2">
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
@@ -2318,7 +2318,7 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<label for="searchText1" class="data-entry-label">Search For</label>
-														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
+														<input type="text" class="form-control-sm d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
@@ -2348,8 +2348,8 @@ limitations under the License.
 													</script> 
 													<div class="col-12 col-md-1">
 														<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-															<label class="data-entry-label" for="debug3">Debug</label>
-															<select title="debug" name="debug" id="debug3" class="data-entry-select">
+															<label for="debug3">Debug</label>
+															<select title="debug" name="debug" id="debug3">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
