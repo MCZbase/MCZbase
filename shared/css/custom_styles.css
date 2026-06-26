@@ -1904,6 +1904,7 @@ input#readMore_check_id {
     background-color: rgb(199 251 255 / .35)!important;
     border: 1px solid #dee2e6 !important;
     margin: 0;
+    display: block !important;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
@@ -1913,7 +1914,7 @@ input#readMore_check_id {
 	display: block;
 }
 .tab-content label {
-	font-weight: 500;
+	font-weight: 400;
     font-size: 0.85em;
     border: none;
     padding: 0 0 0 .25rem;
