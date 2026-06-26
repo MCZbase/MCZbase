@@ -951,11 +951,11 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			DELETE FROM ctspecimen_part_name
 			WHERE ctspnid = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.ctspnid#">
 		</cfquery>
-		<cfset result.status = 1>
+		<cfset result.STATUS = 1>
 		<cfset result.ctspnid = arguments.ctspnid>
 		<cfset result.message = "Deleted">
 	<cfcatch>
-		<cfset result.status = 0>
+		<cfset result.STATUS = 0>
 		<cfset result.ctspnid = arguments.ctspnid>
 		<cfset result.message = cfcatch.message & ": " & cfcatch.detail>
 	</cfcatch>
@@ -999,7 +999,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 				</cfquery>
 			</cfif>
 		</cftransaction>
-		<cfset result.status = 1>
+		<cfset result.STATUS = 1>
 		<cfset result.ctspnid = arguments.ctspnid>
 		<cfset result.collection_cde = arguments.collection_cde>
 		<cfset result.part_name = arguments.part_name>
@@ -1009,7 +1009,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 		<cfset result.upAllTiss = arguments.upAllTiss>
 		<cfset result.message = "Saved">
 	<cfcatch>
-		<cfset result.status = 0>
+		<cfset result.STATUS = 0>
 		<cfset result.ctspnid = arguments.ctspnid>
 		<cfset result.message = cfcatch.message & ": " & cfcatch.detail>
 	</cfcatch>

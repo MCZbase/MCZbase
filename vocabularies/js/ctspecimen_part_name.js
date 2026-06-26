@@ -96,8 +96,8 @@ function saveCtPartName() {
 		},
 		dataType: 'json',
 		success: function(result) {
-			if (result.STATUS == 1) {
-				if (result.UPALLDESC == 1 || result.UPALLTISS == 1) {
+			if (result.STATUS === 1) {
+				if (result.UPALLDESC === 1 || result.UPALLTISS === 1) {
 					document.location.reload();
 				} else {
 					var row = $('#r' + ctspnid);
@@ -107,7 +107,7 @@ function saveCtPartName() {
 					row.data('description', result.DESCRIPTION);
 					row.find('.col-cde').text(result.COLLECTION_CDE);
 					row.find('.col-part').text(result.PART_NAME);
-					row.find('.col-tissue').text(result.IS_TISSUE == 1 ? 'yes' : 'no');
+					row.find('.col-tissue').text(result.IS_TISSUE === 1 ? 'yes' : 'no');
 					row.find('.col-desc').text(result.DESCRIPTION);
 					$('#editPartDialog').dialog('close');
 				}
@@ -144,7 +144,7 @@ function deleteCtPartName(ctspnid) {
 		},
 		dataType: 'json',
 		success: function(result) {
-			if (result.STATUS == 1) {
+			if (result.STATUS === 1) {
 				$('#r' + ctspnid).remove();
 			} else {
 				messageDialog(result.MESSAGE, 'Delete Failed');
