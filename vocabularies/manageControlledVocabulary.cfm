@@ -112,7 +112,12 @@ limitations under the License.
 											</li>
 										</ul>
 									<cfelse>
-										<p class="mb-0 small">This table lists editable controlled vocabularies and comments. <strong>Collection Specific</strong> is <strong>Yes</strong> when a table contains a <code>collection_cde</code> field.</p>
+										<p class="mb-0 small">This table lists editable controlled vocabularies and in comments, descriptions of the vocabularies. In the MCZbase database, these controlled vocabularies are in tables prefixed with the letters CT (for Code Table), e.g. AGENT_RANK values are found in CTAGENT_RANK.</p>
+										<ul class="mb-0 small">
+											<li><strong>Collection Specific</strong> is <strong>Yes</strong> when a table contains a <code>collection_cde</code> field and can set collection specific values.</li>
+											<li><strong>Records</strong> is the number of values in the controlled vocabulary table.</li>
+											<li>Edit with care.  You should be able to safely add new values to department specific controlled vocabularies such as SEX_CDE to support new data entry needs for your collection.  Some controlled vocabularies are used for functional purposes and changing values may break functionality.  Changes to existing controlled values that are in use in other tables are likely to fail, and alterations to a controlled vocabulary will almost certainly involve a data cleanup project.  If you are unsure, please file a bug report.</li>
+										</ul>
 									</cfif>
 								</div>
 							</section>
