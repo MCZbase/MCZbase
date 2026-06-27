@@ -85,5 +85,5 @@ limitations under the License.
 
 /* Downwards arrow pointing right prefix for tree node descriptions */
 .arrowprefix::before {
-  content: "↳ ";
+  content: " ↳ ";
 }
