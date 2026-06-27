@@ -3077,11 +3077,6 @@ limitations under the License.
 								<cfelse>
 									<!--- No static map available, show the google map div directly --->
 									<div id="mapdiv_#loc_collevent.locality_id#" class="interactive-map" aria-label="Google Map of specimen collection location"></div>
-									<script>
-										$(document).ready(function() {
-											loadInteractiveMap();
-										});
-									</script>
 								</cfif>
 							</div>
 							<script>
@@ -3353,7 +3348,9 @@ limitations under the License.
 										}
 									}
 								};
-								<cfif staticMapUrl NEQ "">
+								<cfif staticMapUrl EQ "">
+									loadInteractiveMap();
+								<cfelse>
 									<!--- Lazy-load interactive Google Map on hover/click --->
 									staticImg.addEventListener("mouseenter", loadInteractiveMap);
 									staticImg.addEventListener("click", loadInteractiveMap);
