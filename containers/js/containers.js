@@ -526,9 +526,9 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 		dataType: 'json',
 		success: function(data) {
 			var rows = data.rows || [];
-			var totalRows = data.totalRows || 0;
-			var pageSize = data.pageSize || 50;
-			var currentPage = data.page || 1;
+			var totalRows = parseInt(data.totalRows, 10) || 0;
+			var pageSize  = parseInt(data.pageSize, 10) || 50;
+			var currentPage = parseInt(data.page, 10) || 1;
 			var totalPages = Math.ceil(totalRows / pageSize);
 
 			var panel = $('<div class="container-leaf-panel"></div>');
@@ -536,6 +536,12 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 				? 'Contents of ' + containerLabel + ' (' + totalRows + ' collection objects)'
 				: 'Contents (' + totalRows + ' collection objects)';
 			panel.append($('<h3 class="h5"></h3>').text(heading));
+
+			if (totalPages > 1) {
+				panel.append(
+					$('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages)
+				);
+			}
 
 			/* Builds a First/Prev/Next/Last navigation bar. */
 			function buildPagingNav(extraClass) {
