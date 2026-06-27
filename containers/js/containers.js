@@ -173,6 +173,27 @@ var CONTAINER_PAGE_SIZE = 50;
 var MAX_DESCRIPTION_LENGTH = 80;
 
 /**
+ * Human-readable labels for the A/B/AB shape classification used internally.
+ * A  - container holds only structural (sub-container) children.
+ * B  - container holds a large number of collection objects directly (no structural children).
+ * AB - container holds both structural children and collection objects directly (mixed).
+ */
+var SHAPE_LABELS = { A: 'Structural', B: 'Object-bearing', AB: 'Mixed' };
+
+/**
+ * Returns a URL to the fixed specimen search pre-filtered by container barcode.
+ * Opens Specimens.cfm in fixed-search mode for all specimens in containers
+ * that are hierarchically under the container with the given barcode.
+ * Returns empty string when barcode is empty.
+ * @param {string} barcode - the container barcode to search within.
+ * @returns {string} URL string, or '' when barcode is falsy.
+ */
+function specimenSearchUrl(barcode) {
+	if (!barcode) { return ''; }
+	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=' + encodeURIComponent(barcode);
+}
+
+/**
  * Formats a container's display name using barcode as the primary identifier,
  * appending the label in parentheses when it differs from the barcode.
  * Falls back to label alone, or to '(unknown container)' if both are empty.
@@ -316,9 +337,11 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 						var campusBrowseBtn = $('<button></button>')
 							.addClass('btn btn-xs btn-outline-secondary ml-1')
 							.text('Browse contents')
-							.on('click', function() {
-								loadLeafPanel(campusCid, campusLeafDivId, feedbackEl, 1, campusDisplay);
-							});
+								.on('click', (function(cid, label, bcode, ldivId) {
+									return function() {
+										loadLeafPanel(cid, ldivId, feedbackEl, 1, label, bcode);
+									};
+								})(campusCid, campusDisplay, campus.barcode || '', campusLeafDivId));
 						campusRow.append(campusBrowseBtn);
 					}
 
@@ -372,7 +395,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 		var orphanLeafLabel = 'Browse ' + orphanLeafCount + ' unplaced collection object' + (orphanLeafCount !== 1 ? 's' : '');
 		var orphanLeafBtn = $('<button class="btn btn-xs btn-outline-secondary mt-2"></button>').text(orphanLeafLabel);
 		orphanLeafBtn.on('click', function() {
-			loadLeafPanel(1, leafPanel, feedbackEl, 1, 'Unplaced collection objects');
+			loadLeafPanel(1, leafPanel, feedbackEl, 1, 'Unplaced collection objects', '');
 		});
 		wrapper.append(orphanLeafBtn);
 	}
@@ -473,8 +496,8 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		/* Empty node marker */
 		if (structuralChildren === 0 && leafChildren === 0) {
 			nodeRow.append(
-				$('<span class="badge badge-light border text-muted ml-1"></span>')
-					.attr('title', 'Empty container')
+				$('<span class="badge badge-light border text-muted small ml-1"></span>')
+					.attr('title', 'Empty container — no children')
 					.text('empty')
 			);
 		}
@@ -482,25 +505,25 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		/* Misplaced marker: single-occupant type with more than one leaf child */
 		if (isSingleOccupant && leafChildren > 1) {
 			nodeRow.append(
-				$('<span class="badge badge-warning ml-1"></span>')
+				$('<span class="badge badge-warning ml-1 small"></span>')
 					.attr('title', 'Single-occupant type with multiple children \u2014 may be misplaced')
 					.text('!')
 			);
 		}
 
-		/* AB shape badge */
+		/* Mixed node badge: has both structural children and collection objects */
 		if (leafChildren > 0 && structuralChildren > 0) {
 			nodeRow.append(
-				$('<span class="badge badge-warning ml-1 tree-leaf-badge"></span>')
-					.attr('title', 'Contains both structural containers and collection objects')
-					.text('AB')
+				$('<span class="badge badge-warning ml-1 small"></span>')
+					.attr('title', 'Contains both structural containers and collection objects (mixed)')
+					.text('Mixed')
 			);
 		}
 
 		/* Leaf count badge (only when no structural children) */
 		if (leafChildren > 0 && structuralChildren === 0) {
 			nodeRow.append(
-				$('<span class="badge badge-secondary ml-1 tree-leaf-badge"></span>')
+				$('<span class="badge badge-info ml-1 small"></span>')
 					.text(leafChildren + ' obj')
 			);
 		}
@@ -508,7 +531,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		/* Structural count badge */
 		if (structuralChildren > 0) {
 			nodeRow.append(
-				$('<span class="badge badge-light border ml-1 tree-leaf-badge"></span>')
+				$('<span class="badge badge-light border text-muted ml-1 small"></span>')
 					.text(structuralChildren + ' containers')
 			);
 		}
@@ -520,10 +543,24 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			var browseBtn = $('<button></button>')
 				.addClass('btn btn-xs btn-outline-secondary ml-1')
 				.text('Browse contents')
-				.on('click', function() {
-					loadLeafPanel(cid, leafDivId, feedbackId, 1, displayName);
-				});
+				.on('click', (function(nodeId, nodeName, nodeBarcode, panelId) {
+					return function() {
+						loadLeafPanel(nodeId, panelId, feedbackId, 1, nodeName, nodeBarcode);
+					};
+				})(cid, displayName, barcode, leafDivId));
 			nodeRow.append(browseBtn);
+		}
+
+		/* Specimen search link: any node with leaf children and a barcode gets a
+		   "View specimens" link pointing to the fixed specimen search. */
+		if (leafChildren > 0 && barcode) {
+			var specUrl = specimenSearchUrl(barcode);
+			nodeRow.append(
+				$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+					.attr('href', specUrl)
+					.attr('title', 'Search for specimens in this container')
+					.text('Specimens')
+			);
 		}
 
 		var childUl = $('<ul></ul>')
@@ -552,11 +589,21 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			var childLabel = node.single_child_label || '';
 			if (childBarcode || childLabel) {
 				var childDisplay = formatContainerDisplay(childBarcode, childLabel);
-				li.append(
-					$('<div class="tree-node-inline-leaf"></div>').append(
-						$('<span class="tree-node-leaf-info small text-muted"></span>').text('\u2937 ' + childDisplay)
-					)
+				var inlineLeafDiv = $('<div class="tree-node-inline-leaf"></div>');
+				inlineLeafDiv.append(
+					$('<span class="tree-node-leaf-info small text-muted"></span>').text('\u2937 ' + childDisplay)
 				);
+				/* Link to specimen search using the collection object container barcode */
+				var childSpecUrl = specimenSearchUrl(childBarcode || barcode);
+				if (childSpecUrl) {
+					inlineLeafDiv.append(
+						$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+							.attr('href', childSpecUrl)
+							.attr('title', 'View this specimen in the specimen search')
+							.text('View specimen')
+					);
+				}
+				li.append(inlineLeafDiv);
 			}
 		}
 
@@ -571,14 +618,18 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
  * in leafPanelId.  Shows the leaf panel; hides it on error.
  * Includes First/Previous/Next/Last page navigation both above and below the
  * table when totalRows > pageSize.
+ * Each collection-object row includes a link to the specimen search.
  * @param {number} containerId - the container_id whose leaf children to browse.
  * @param {string} leafPanelId - the id of the div for the leaf panel (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
  * @param {number} [page=1] - the page number to load (1-based).
  * @param {string} [containerLabel] - optional display name of the container being browsed.
+ * @param {string} [containerBarcode] - optional barcode of the parent container, used to generate
+ *   a "View all specimens" link for all objects in the container hierarchy.
  */
-function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabel) {
+function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabel, containerBarcode) {
 	page = page || 1;
+	containerBarcode = containerBarcode || '';
 	$('#' + leafPanelId).removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
 		url: '/containers/component/functions.cfc',
@@ -592,10 +643,22 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 			var totalPages = Math.ceil(totalRows / pageSize);
 
 			var panel = $('<div class="container-leaf-panel"></div>');
+			var headingDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
 			var heading = containerLabel
 				? 'Contents of ' + containerLabel + ' (' + totalRows + ' collection objects)'
 				: 'Contents (' + totalRows + ' collection objects)';
-			panel.append($('<h3 class="h5"></h3>').text(heading));
+			headingDiv.append($('<h3 class="h5 mr-2 mb-0"></h3>').text(heading));
+			/* "View all specimens" link when the container has a barcode */
+			var allSpecUrl = specimenSearchUrl(containerBarcode);
+			if (allSpecUrl && totalRows > 0) {
+				headingDiv.append(
+					$('<a class="btn btn-xs btn-outline-info" target="_blank" rel="noopener noreferrer"></a>')
+						.attr('href', allSpecUrl)
+						.attr('title', 'View all specimens in this container in the specimen search')
+						.text('View all in Specimen Search')
+				);
+			}
+			panel.append(headingDiv);
 
 			if (totalPages > 1) {
 				panel.append(
@@ -643,10 +706,22 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 					var tr = $('<tr></tr>');
 					tr.append($('<td></td>').text(rowDisplay));
 					tr.append($('<td></td>').text(row.description));
+					var actionTd = $('<td></td>');
+					/* Link to specimen search using this collection object's own barcode */
+					var rowSpecUrl = specimenSearchUrl(row.barcode);
+					if (rowSpecUrl) {
+						actionTd.append(
+							$('<a class="btn btn-xs btn-outline-info" target="_blank" rel="noopener noreferrer"></a>')
+								.attr('href', rowSpecUrl)
+								.attr('title', 'View this specimen in the specimen search')
+								.text('View specimen')
+						);
+					}
+					tr.append(actionTd);
 					tbody.append(tr);
 				});
 				var table = $('<table class="table table-sm table-striped"></table>');
-				table.append('<thead><tr><th>Container</th><th>Description</th></tr></thead>');
+				table.append('<thead><tr><th>Container</th><th>Description</th><th>Actions</th></tr></thead>');
 				table.append(tbody);
 				panel.append(table);
 
@@ -658,7 +733,7 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 			var leafEl = $('#' + leafPanelId);
 			leafEl.removeClass('d-none').html(panel);
 			leafEl.off('click.leafpage').on('click.leafpage', '.leaf-page-btn', function() {
-				loadLeafPanel($(this).data('cid'), leafPanelId, feedbackId, $(this).data('page'), containerLabel);
+				loadLeafPanel($(this).data('cid'), leafPanelId, feedbackId, $(this).data('page'), containerLabel, containerBarcode);
 			});
 		},
 		error: function(jqXHR, textStatus, error) {
@@ -829,9 +904,10 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 /**
  * Submits the container search form fields to searchContainers in search.cfc and
  * renders the results as a table in the browse panel.
- * Results show columns: Type, Name/Barcode, Shape, Structural Children, Leaf Children, Description.
- * Each row has Explore, Browse, and Locate action buttons depending on the node's children.
+ * Results show columns: Type, Name/Barcode, Contents, Description, Actions.
+ * Each row has Explore, Browse, Specimens, and Locate action buttons as applicable.
  * Includes prev/next pagination when totalRows > pageSize.
+ * A "Browse Hierarchy" button allows the user to return to the default tree view.
  * @param {string} browsePanel - the id of the container browse panel div (without leading #).
  * @param {string} leafPanel - the id of the leaf panel div (without leading #).
  * @param {string} feedbackId - the id of the feedback output element (without leading #).
@@ -872,7 +948,19 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			var totalPages = Math.ceil(totalRows / pageSize);
 
 			var panel = $('<div></div>');
-			panel.append($('<h2 class="h4 mt-2"></h2>').text('Search Results (' + totalRows + ' containers found)'));
+
+			/* Header row: title + Browse Hierarchy button to return to default tree view */
+			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
+			var browseHierarchyBtn = $('<button class="btn btn-xs btn-outline-secondary mt-1"></button>')
+				.text('\u2302 Browse Hierarchy')
+				.attr('title', 'Return to the default container hierarchy view')
+				.on('click', function() {
+					initContainerBrowse(browsePanel, leafPanel, feedbackId);
+					$('#' + leafPanel).addClass('d-none').html('');
+				});
+			headerDiv.append(browseHierarchyBtn);
+			panel.append(headerDiv);
 
 			if (totalPages > 1) {
 				panel.append(
@@ -920,12 +1008,14 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 						descText = descText.substring(0, MAX_DESCRIPTION_LENGTH) + '\u2026';
 					}
 
-					/* Shape badge */
+					/* Contents summary badge: show user-friendly shape label */
 					var shapeClass = row.shape_class || 'A';
-					var shapeBadgeClass = 'badge-secondary';
+					var shapeLabel = SHAPE_LABELS[shapeClass] || shapeClass;
+						var shapeBadgeClass;
 					if (shapeClass === 'AB') { shapeBadgeClass = 'badge-warning'; }
-					if (shapeClass === 'B') { shapeBadgeClass = 'badge-danger'; }
-					var shapeBadge = $('<span class="badge"></span>').addClass(shapeBadgeClass).text(shapeClass);
+					else if (shapeClass === 'B') { shapeBadgeClass = 'badge-info'; }
+					else { shapeBadgeClass = 'badge-light border text-muted'; }
+					var shapeBadge = $('<span class="badge small"></span>').addClass(shapeBadgeClass).text(shapeLabel);
 
 					var actionCell = $('<td></td>');
 
@@ -941,19 +1031,30 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 
 					if (leafKids > 0 && !isSingle) {
 						var browseBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1"></button>').text('Browse');
-						(function(nodeId, nodeName) {
+						(function(nodeId, nodeName, nodeBarcode) {
 							browseBtn.on('click', function() {
 								var leafDivId = 'search-leaf-' + nodeId;
 								if ($('#' + leafDivId).length === 0) {
 									$('#' + leafPanel).removeClass('d-none').append($('<div></div>').attr('id', leafDivId));
 								}
-								loadLeafPanel(nodeId, leafDivId, feedbackId, 1, nodeName);
+								loadLeafPanel(nodeId, leafDivId, feedbackId, 1, nodeName, nodeBarcode);
 							});
-						})(cid, displayName);
+						})(cid, displayName, row.barcode || '');
 						actionCell.append(browseBtn);
 					}
 
-					var locateBtn = $('<button class="btn btn-xs btn-outline-info"></button>').text('Locate');
+					/* Specimens link: any row with leaf children and a barcode */
+					if (leafKids > 0 && row.barcode) {
+						var specUrl = specimenSearchUrl(row.barcode);
+						actionCell.append(
+							$('<a class="btn btn-xs btn-outline-info mr-1" target="_blank" rel="noopener noreferrer"></a>')
+								.attr('href', specUrl)
+								.attr('title', 'View specimens in this container in the specimen search')
+								.text('Specimens')
+						);
+					}
+
+					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary"></button>').text('Locate');
 					(function(nodeId, bPanel) {
 						locateBtn.on('click', function() {
 							showContainerBreadcrumb(nodeId, feedbackId, bPanel);
@@ -961,19 +1062,27 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					})(cid, browsePanel);
 					actionCell.append(locateBtn);
 
+					/* Contents summary cell: shape badge + child counts */
+					var contentsTd = $('<td></td>');
+					contentsTd.append(shapeBadge);
+					if (structKids > 0) {
+						contentsTd.append($('<span class="ml-1 small text-muted"></span>').text(structKids + ' containers'));
+					}
+					if (leafKids > 0) {
+						contentsTd.append($('<span class="ml-1 small text-muted"></span>').text(leafKids + ' obj'));
+					}
+
 					var tr = $('<tr></tr>');
 					tr.append($('<td></td>').text(row.container_type));
 					tr.append($('<td></td>').text(displayName));
-					tr.append($('<td></td>').append(shapeBadge));
-					tr.append($('<td class="text-right"></td>').text(structKids));
-					tr.append($('<td class="text-right"></td>').text(leafKids));
+					tr.append(contentsTd);
 					tr.append($('<td></td>').text(descText));
 					tr.append(actionCell);
 					tbody.append(tr);
 				});
 
 				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
-				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Shape</th><th>Structural</th><th>Objects</th><th>Description</th><th>Actions</th></tr></thead>');
+				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Contents</th><th>Description</th><th>Actions</th></tr></thead>');
 				table.append(tbody);
 				panel.append(table);
 
