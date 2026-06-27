@@ -303,18 +303,25 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 					campusRow.append($('<span class="tree-node-label"></span>').text(campusDisplay));
 					campusRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + campus.container_type + ']'));
 
+					var campusLeafDiv = null;
 					if (parseInt(campus.direct_leaf_children, 10) > 0) {
+						var campusLeafDivId = 'ctree-leaf-' + campusCid;
+						campusLeafDiv = $('<div class="d-none mt-1"></div>').attr('id', campusLeafDivId);
 						var campusBrowseBtn = $('<button></button>')
 							.addClass('btn btn-xs btn-outline-secondary ml-1')
 							.text('Browse contents')
 							.on('click', function() {
-								loadLeafPanel(campusCid, leafPanel, feedbackEl, 1, campusDisplay);
+								loadLeafPanel(campusCid, campusLeafDivId, feedbackEl, 1, campusDisplay);
 							});
 						campusRow.append(campusBrowseBtn);
 					}
 
 					var campusChildUl = $('<ul></ul>').attr('id', campusChildId).addClass('collapse container-tree');
-					var campusLi = $('<li role="treeitem"></li>').append(campusRow).append(campusChildUl);
+					var campusLi = $('<li role="treeitem"></li>').append(campusRow);
+					if (campusLeafDiv) {
+						campusLi.append(campusLeafDiv);
+					}
+					campusLi.append(campusChildUl);
 					campusUl.append(campusLi);
 				});
 			} else if (parseInt(inst.direct_structural_children, 10) > 0) {
@@ -454,12 +461,15 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		/* Container type as secondary metadata. */
 		nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + ctype + ']'));
 
+		var nodeLeafDiv = null;
 		if (leafChildren > 0 && !isSingleOccupant) {
+			var leafDivId = 'ctree-leaf-' + cid;
+			nodeLeafDiv = $('<div class="d-none mt-1"></div>').attr('id', leafDivId);
 			var browseBtn = $('<button></button>')
 				.addClass('btn btn-xs btn-outline-secondary ml-1')
 				.text('Browse contents')
 				.on('click', function() {
-					loadLeafPanel(cid, 'containerLeafPanel', feedbackId, 1, displayName);
+					loadLeafPanel(cid, leafDivId, feedbackId, 1, displayName);
 				});
 			nodeRow.append(browseBtn);
 		}
@@ -468,7 +478,11 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			.attr('id', childUlId)
 			.addClass('collapse container-tree');
 
-		var li = $('<li role="treeitem"></li>').append(nodeRow).append(childUl);
+		var li = $('<li role="treeitem"></li>').append(nodeRow);
+		if (nodeLeafDiv) {
+			li.append(nodeLeafDiv);
+		}
+		li.append(childUl);
 
 		/* For single-occupant container types, render the contained collection object
 		   inline using data already returned by getDirectStructuralChildren — no extra
@@ -495,7 +509,8 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
  * Loads the first page of direct collection-object children for containerId
  * from functions.cfc?method=getDirectLeafChildren and renders them as a table
  * in leafPanelId.  Shows the leaf panel; hides it on error.
- * Includes Previous/Next page navigation when totalRows > pageSize.
+ * Includes First/Previous/Next/Last page navigation both above and below the
+ * table when totalRows > pageSize.
  * @param {number} containerId - the container_id whose leaf children to browse.
  * @param {string} leafPanelId - the id of the div for the leaf panel (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
@@ -514,6 +529,7 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 			var totalRows = data.totalRows || 0;
 			var pageSize = data.pageSize || 50;
 			var currentPage = data.page || 1;
+			var totalPages = Math.ceil(totalRows / pageSize);
 
 			var panel = $('<div class="container-leaf-panel"></div>');
 			var heading = containerLabel
@@ -521,9 +537,38 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 				: 'Contents (' + totalRows + ' collection objects)';
 			panel.append($('<h3 class="h5"></h3>').text(heading));
 
+			/* Builds a First/Prev/Next/Last navigation bar. */
+			function buildPagingNav(extraClass) {
+				var nav = $('<div></div>').addClass('d-flex flex-wrap' + (extraClass ? ' ' + extraClass : ''));
+				var firstBtn = $('<button class="btn btn-xs btn-secondary mr-1">\u00ab First</button>');
+				var prevBtn  = $('<button class="btn btn-xs btn-secondary mr-1">\u2039 Prev</button>');
+				var nextBtn  = $('<button class="btn btn-xs btn-secondary mr-1">Next \u203a</button>');
+				var lastBtn  = $('<button class="btn btn-xs btn-secondary">Last \u00bb</button>');
+				if (currentPage <= 1) {
+					firstBtn.prop('disabled', true);
+					prevBtn.prop('disabled', true);
+				} else {
+					firstBtn.addClass('leaf-page-btn').data('cid', containerId).data('page', 1);
+					prevBtn.addClass('leaf-page-btn').data('cid', containerId).data('page', currentPage - 1);
+				}
+				if (currentPage >= totalPages) {
+					nextBtn.prop('disabled', true);
+					lastBtn.prop('disabled', true);
+				} else {
+					nextBtn.addClass('leaf-page-btn').data('cid', containerId).data('page', currentPage + 1);
+					lastBtn.addClass('leaf-page-btn').data('cid', containerId).data('page', totalPages);
+				}
+				nav.append(firstBtn).append(prevBtn).append(nextBtn).append(lastBtn);
+				return nav;
+			}
+
 			if (rows.length === 0) {
 				panel.append('<p class="text-muted">No collection objects found.</p>');
 			} else {
+				if (totalRows > pageSize) {
+					panel.append(buildPagingNav('mb-1'));
+				}
+
 				var tbody = $('<tbody></tbody>');
 				$.each(rows, function(i, row) {
 					var rowDisplay = formatContainerDisplay(row.barcode, row.label);
@@ -536,27 +581,10 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 				table.append('<thead><tr><th>Container</th><th>Description</th></tr></thead>');
 				table.append(tbody);
 				panel.append(table);
-			}
 
-			if (totalRows > pageSize) {
-				var nav = $('<div class="mt-2"></div>');
-				if (currentPage > 1) {
-					nav.append(
-						$('<button class="btn btn-xs btn-secondary mr-1">Previous</button>')
-							.data('cid', containerId)
-							.data('page', currentPage - 1)
-							.addClass('leaf-page-btn')
-					);
+				if (totalRows > pageSize) {
+					panel.append(buildPagingNav('mt-2'));
 				}
-				if (currentPage * pageSize < totalRows) {
-					nav.append(
-						$('<button class="btn btn-xs btn-secondary">Next</button>')
-							.data('cid', containerId)
-							.data('page', currentPage + 1)
-							.addClass('leaf-page-btn')
-					);
-				}
-				panel.append(nav);
 			}
 
 			var leafEl = $('#' + leafPanelId);
