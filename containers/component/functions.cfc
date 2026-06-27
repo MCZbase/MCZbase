@@ -75,13 +75,12 @@ children of the given container, suitable for rendering a tree node.
 					WHERE rn = 1
 				) sc ON sc.parent_container_id = c.container_id
 				LEFT JOIN (
-					SELECT CONNECT_BY_ROOT container_id AS root_id
+					SELECT DISTINCT CONNECT_BY_ROOT container_id AS root_id
 					FROM container
 					WHERE container_type = 'collection object'
 					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 					       AND container_type <> 'collection object'
 					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-					GROUP BY CONNECT_BY_ROOT container_id
 				) leafd ON leafd.root_id = c.container_id
 			WHERE
 				c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
@@ -328,7 +327,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
 			LEFT JOIN (
-				SELECT CONNECT_BY_ROOT container_id AS root_id
+				SELECT DISTINCT CONNECT_BY_ROOT container_id AS root_id
 				FROM container
 				WHERE container_type = 'collection object'
 				START WITH parent_container_id IN (
@@ -336,7 +335,6 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					WHERE parent_container_id = 0 AND container_type = 'institution'
 				) AND container_type = 'campus'
 				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-				GROUP BY CONNECT_BY_ROOT container_id
 			) leafd ON leafd.root_id = c.container_id
 			WHERE c.parent_container_id IN (
 				SELECT container_id
@@ -481,7 +479,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				WHERE rn = 1
 			) sc ON sc.parent_container_id = c.container_id
 			LEFT JOIN (
-				SELECT CONNECT_BY_ROOT container_id AS root_id
+				SELECT DISTINCT CONNECT_BY_ROOT container_id AS root_id
 				FROM container
 				WHERE container_type = 'collection object'
 				START WITH parent_container_id IN (
@@ -489,7 +487,6 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 					WHERE parent_container_id = 0 AND container_type = 'institution'
 				) AND container_type NOT IN ('campus', 'collection object')
 				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-				GROUP BY CONNECT_BY_ROOT container_id
 			) leafd ON leafd.root_id = c.container_id
 			WHERE c.parent_container_id IN (
 				SELECT container_id
