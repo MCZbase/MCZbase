@@ -669,12 +669,17 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 }
 
 /**
- * Shows the breadcrumb path for a given container in the containerBrowseContext paragraph.
- * Calls getContainerBreadcrumb in search.cfc and renders it as type: label > type: label > ...
+ * Shows the breadcrumb path for a given container in both the containerBrowseContext
+ * paragraph and prominently in the browse panel.
+ * Calls getContainerBreadcrumb in search.cfc and renders the full path from root to container.
  * @param {number} containerId - the container_id to show the breadcrumb for.
  * @param {string} feedbackId - the id of the feedback output element (without leading #).
+ * @param {string} [browsePanel] - optional id of the browse panel div (without leading #).
+ *   Defaults to 'containerBrowsePanel'.
  */
-function showContainerBreadcrumb(containerId, feedbackId) {
+function showContainerBreadcrumb(containerId, feedbackId, browsePanel) {
+	var targetPanel = browsePanel || 'containerBrowsePanel';
+	$('#' + targetPanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading location\u2026</div>');
 	$.ajax({
 		url: '/containers/component/search.cfc',
 		data: { method: 'getContainerBreadcrumb', container_id: containerId },
@@ -685,13 +690,140 @@ function showContainerBreadcrumb(containerId, feedbackId) {
 				var display = formatContainerDisplay(node.barcode, node.label);
 				parts.push(node.container_type + ': ' + display);
 			});
-			$('#containerBrowseContext').text(parts.join(' > '));
-			$('#' + feedbackId).text('Showing location of container ID ' + containerId);
+			var pathText = parts.join(' \u203a ');
+			$('#containerBrowseContext').text('Location');
+
+			var panel = $('<div></div>');
+			panel.append($('<h2 class="h4 mt-2"></h2>').text('Container Location'));
+			var breadcrumbDiv = $('<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap"></ol>');
+			$.each(data, function(i, node) {
+				var display = formatContainerDisplay(node.barcode, node.label);
+				var crumbText = node.container_type + ': ' + display;
+				var crumbLi = $('<li class="breadcrumb-item"></li>');
+				if (i === data.length - 1) {
+					crumbLi.addClass('active').attr('aria-current', 'location').text(crumbText);
+				} else {
+					crumbLi.text(crumbText);
+				}
+				breadcrumbDiv.append(crumbLi);
+			});
+			panel.append(breadcrumbDiv);
+			$('#' + targetPanel).html(panel);
+			$('#' + feedbackId).text('');
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
 		}
 	});
+}
+
+/**
+ * Opens the full container hierarchy tree, expands the path from the root down to
+ * containerId, and highlights the target node.  Used by the Explore button in search
+ * results to give the full tree context for a found container.
+ * @param {number} containerId - the container_id to explore.
+ * @param {string} displayName - human-readable name for the container (for context label).
+ * @param {string} browsePanel - the id of the browse panel div (without leading #).
+ * @param {string} leafPanel - the id of the leaf panel div (without leading #).
+ * @param {string} feedbackId - the id of the feedback output element (without leading #).
+ */
+function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel, feedbackId) {
+	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading\u2026</div>');
+	$('#' + leafPanel).addClass('d-none').html('');
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: { method: 'getContainerBreadcrumb', container_id: containerId },
+		dataType: 'json',
+		success: function(breadcrumbs) {
+			if (!breadcrumbs || breadcrumbs.length === 0) {
+				/* No path — fall back to showing just this node's children */
+				$('#containerBrowseContext').text('Exploring: ' + displayName);
+				loadContainerNode(containerId, browsePanel, feedbackId);
+				return;
+			}
+			$('#containerBrowseContext').text('Exploring: ' + displayName);
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				data: { method: 'getTopLevelBrowse' },
+				dataType: 'json',
+				success: function(data) {
+					renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackId);
+					/* Expand each ancestor level then highlight the target */
+					expandBreadcrumbPath(breadcrumbs, 0, feedbackId, containerId);
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'loading top-level container browse for exploration');
+				}
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb for exploration');
+		}
+	});
+}
+
+/**
+ * Recursively expands tree nodes along a breadcrumb path, loading children on demand,
+ * until the target node is visible and highlighted.
+ * Called after the top-level browse has been rendered by renderTopLevelBrowse.
+ * @param {Array} breadcrumbs - ordered array of path nodes (root first, target last).
+ *   Each element has container_id, container_type, label, barcode.
+ * @param {number} index - current position in the breadcrumbs array.
+ * @param {string} feedbackId - the id of the feedback output element (without leading #).
+ * @param {number} targetId - container_id of the final node to highlight.
+ */
+function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
+	/* When we reach the last breadcrumb (the target itself), just highlight it */
+	if (index >= breadcrumbs.length - 1) {
+		/* The target node's li contains #ctree-children-{targetId} as a descendant */
+		var targetLi = $('#ctree-children-' + targetId).closest('li');
+		if (targetLi.length > 0) {
+			var targetLabel = targetLi.children('.tree-node-row').find('.tree-node-label').first();
+			targetLabel.addClass('tree-node-highlighted');
+			var el = targetLabel[0];
+			if (el) {
+				el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+			}
+		}
+		return;
+	}
+
+	var node = breadcrumbs[index];
+	var nodeId = node.container_id;
+	var childDivId = 'ctree-children-' + nodeId;
+	var childDiv = $('#' + childDivId);
+
+	if (childDiv.length === 0) {
+		/* Node is not in the DOM — cannot expand further */
+		return;
+	}
+
+	/* Un-collapse this node's children list */
+	childDiv.removeClass('collapse');
+	var toggle = $('#ctree-toggle-' + nodeId);
+	if (toggle.length > 0) {
+		toggle.attr('aria-expanded', 'true');
+	}
+
+	/* If children are not yet loaded (no li children), load them first */
+	if (childDiv.children('li').length === 0) {
+		childDiv.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading\u2026</div>');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			data: { method: 'getDirectStructuralChildren', container_id: nodeId },
+			dataType: 'json',
+			success: function(data) {
+				renderTreeNodes(data, childDivId, feedbackId);
+				expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'loading container children for exploration');
+			}
+		});
+	} else {
+		/* Children already loaded — proceed to next level */
+		expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
+	}
 }
 
 /**
@@ -712,6 +844,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var barcode = $('#barcode').val() || '';
 	var description = $('#description').val() || '';
 	var department = $('#department').val() || '';
+	var treeProperty = $('#tree_property').val() || '';
 
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
@@ -726,6 +859,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			barcode: barcode,
 			description: description,
 			department: department,
+			tree_property: treeProperty,
 			page: page,
 			pageSize: CONTAINER_PAGE_SIZE
 		},
@@ -799,8 +933,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 						var exploreBtn = $('<button class="btn btn-xs btn-outline-primary mr-1"></button>').text('Explore');
 						(function(nodeId, nodeName) {
 							exploreBtn.on('click', function() {
-								$('#containerBrowseContext').text('Exploring: ' + nodeName);
-								loadContainerNode(nodeId, browsePanel, feedbackId);
+								exploreContainerInTree(nodeId, nodeName, browsePanel, leafPanel, feedbackId);
 							});
 						})(cid, displayName);
 						actionCell.append(exploreBtn);
@@ -821,11 +954,11 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					}
 
 					var locateBtn = $('<button class="btn btn-xs btn-outline-info"></button>').text('Locate');
-					(function(nodeId) {
+					(function(nodeId, bPanel) {
 						locateBtn.on('click', function() {
-							showContainerBreadcrumb(nodeId, feedbackId);
+							showContainerBreadcrumb(nodeId, feedbackId, bPanel);
 						});
-					})(cid);
+					})(cid, browsePanel);
 					actionCell.append(locateBtn);
 
 					var tr = $('<tr></tr>');

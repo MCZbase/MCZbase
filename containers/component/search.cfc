@@ -450,6 +450,11 @@ a paginated JSON result for display in the browse panel.
 @param barcode optional substring to match against barcode (case-insensitive).
 @param description optional substring to match against description OR container_remarks (case-insensitive).
 @param department optional prefix to match against label (case-insensitive, appends % wildcard).
+@param tree_property optional filter by tree shape property:
+  empty         - no structural or leaf children (excludes collection objects)
+  misplaced     - single-occupant type (pin/slide/cryovial) with more than one leaf child
+  mixed         - has both structural children and collection-object children (AB shape)
+  unplaced_leaf - collection object with no parent container
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
@@ -462,6 +467,7 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="barcode" type="string" required="no" default="">
 	<cfargument name="description" type="string" required="no" default="">
 	<cfargument name="department" type="string" required="no" default="">
+	<cfargument name="tree_property" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
 	<cfset variables.result = StructNew()>
@@ -471,10 +477,23 @@ a paginated JSON result for display in the browse panel.
 		<cfset variables.barcodeUpper = ucase(trim(arguments.barcode))>
 		<cfset variables.descUpper = ucase(trim(arguments.description))>
 		<cfset variables.deptUpper = ucase(trim(arguments.department))>
+		<cfset variables.treeProperty = trim(arguments.tree_property)>
+		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
+		<cfset variables.needsChildJoin = listFindNoCase("empty,misplaced,mixed", variables.treeProperty) GT 0>
 		<!--- Total row count --->
 		<cfquery name="variables.qCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS total_rows
 			FROM container c
+			<cfif variables.needsChildJoin>
+				LEFT JOIN (
+					SELECT
+						parent_container_id,
+						SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children,
+						SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children
+					FROM container
+					GROUP BY parent_container_id
+				) ch ON ch.parent_container_id = c.container_id
+			</cfif>
 			WHERE 1=1
 			<cfif len(variables.searchUpper) GT 0>
 				AND (
@@ -496,6 +515,20 @@ a paginated JSON result for display in the browse panel.
 			</cfif>
 			<cfif len(variables.deptUpper) GT 0>
 				AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.deptUpper#%">
+			</cfif>
+			<cfif variables.treeProperty EQ "empty">
+				AND c.container_type <> 'collection object'
+				AND NVL(ch.direct_structural_children, 0) = 0
+				AND NVL(ch.direct_leaf_children, 0) = 0
+			<cfelseif variables.treeProperty EQ "misplaced">
+				AND c.container_type IN ('pin', 'slide', 'cryovial')
+				AND NVL(ch.direct_leaf_children, 0) > 1
+			<cfelseif variables.treeProperty EQ "mixed">
+				AND NVL(ch.direct_structural_children, 0) > 0
+				AND NVL(ch.direct_leaf_children, 0) > 0
+			<cfelseif variables.treeProperty EQ "unplaced_leaf">
+				AND c.container_type = 'collection object'
+				AND c.parent_container_id IS NULL
 			</cfif>
 		</cfquery>
 		<cfset variables.totalRows = variables.qCount.total_rows>
@@ -557,6 +590,20 @@ a paginated JSON result for display in the browse panel.
 					</cfif>
 					<cfif len(variables.deptUpper) GT 0>
 						AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.deptUpper#%">
+					</cfif>
+					<cfif variables.treeProperty EQ "empty">
+						AND c.container_type <> 'collection object'
+						AND NVL(ch.direct_structural_children, 0) = 0
+						AND NVL(ch.direct_leaf_children, 0) = 0
+					<cfelseif variables.treeProperty EQ "misplaced">
+						AND c.container_type IN ('pin', 'slide', 'cryovial')
+						AND NVL(ch.direct_leaf_children, 0) > 1
+					<cfelseif variables.treeProperty EQ "mixed">
+						AND NVL(ch.direct_structural_children, 0) > 0
+						AND NVL(ch.direct_leaf_children, 0) > 0
+					<cfelseif variables.treeProperty EQ "unplaced_leaf">
+						AND c.container_type = 'collection object'
+						AND c.parent_container_id IS NULL
 					</cfif>
 					ORDER BY c.label, c.barcode
 				)

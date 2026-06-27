@@ -26,6 +26,7 @@ limitations under the License.
 <cfparam name="url.barcode" default="">
 <cfparam name="url.description" default="">
 <cfparam name="url.department" default="">
+<cfparam name="url.tree_property" default="">
 <cfparam name="url.execute" default="">
 <cfset pageTitle = "Containers">
 <cfset pageHasContainers = true>
@@ -94,6 +95,29 @@ limitations under the License.
 									placeholder="e.g. IZ, Ent, Mala"
 									value="#encodeForHtml(url.department)#">
 							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="tree_property" class="data-entry-label">Tree Property</label>
+								<cfset variables.selEmpty = "">
+								<cfset variables.selMisplaced = "">
+								<cfset variables.selMixed = "">
+								<cfset variables.selUnplacedLeaf = "">
+								<cfif url.tree_property EQ "empty">
+									<cfset variables.selEmpty = " selected">
+								<cfelseif url.tree_property EQ "misplaced">
+									<cfset variables.selMisplaced = " selected">
+								<cfelseif url.tree_property EQ "mixed">
+									<cfset variables.selMixed = " selected">
+								<cfelseif url.tree_property EQ "unplaced_leaf">
+									<cfset variables.selUnplacedLeaf = " selected">
+								</cfif>
+								<select id="tree_property" name="tree_property" class="data-entry-select col-12">
+									<option value="">(any)</option>
+									<option value="empty"#variables.selEmpty#>Empty (no children)</option>
+									<option value="misplaced"#variables.selMisplaced#>! Misplaced (single-occupant with &gt;1 object)</option>
+									<option value="mixed"#variables.selMixed#>AB Mixed (structural + object children)</option>
+									<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
+								</select>
+							</div>
 						</div>
 						<div class="form-row">
 							<div class="col-12 mb-2">
@@ -139,6 +163,7 @@ $(document).ready(function() {
 		len(trim(url.barcode)) GT 0 OR
 		len(trim(url.description)) GT 0 OR
 		len(trim(url.department)) GT 0 OR
+		len(trim(url.tree_property)) GT 0 OR
 		url.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>
