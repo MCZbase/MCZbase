@@ -215,11 +215,11 @@ function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
  * Appends a button to browse orphaned structural nodes (if any) and a button
  * to browse orphaned top-level collection objects (if any).
  *
- * Orphaned structural nodes are non-institution structural containers placed
- * directly at the root of the hierarchy.  They are loaded on demand via
- * getOrphanedTopLevelStructural and rendered with renderTreeNodes.
- * Orphaned leaf nodes are collection-object containers at root level; they
- * are browsed via loadLeafPanel (same pattern as the Browse contents button).
+ * Orphaned structural nodes are non-campus structural containers placed directly
+ * under an institution node instead of under a campus.  They are loaded on demand
+ * via getOrphanedTopLevelStructural and rendered with renderTreeNodes.
+ * Orphaned leaf nodes are collection-object containers placed directly under an
+ * institution; they are browsed via loadLeafPanel (same pattern as the Browse contents button).
  *
  * @param {Object} data - response from getTopLevelBrowse.
  * @param {string} browsePanel - id of the container browse panel div.
@@ -330,7 +330,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 
 	/* Button: browse orphaned structural nodes */
 	if (orphanStructCount > 0) {
-		var orphanStructLabel = 'Browse ' + orphanStructCount + ' other structural container' + (orphanStructCount !== 1 ? 's' : '') + ' not placed under an institution';
+		var orphanStructLabel = 'Browse ' + orphanStructCount + ' other structural container' + (orphanStructCount !== 1 ? 's' : '') + ' not placed under a campus';
 		var orphanStructDiv = $('<div class="mt-2" id="' + orphanStructDivId + '"></div>');
 		var orphanStructBtn = $('<button class="btn btn-xs btn-outline-secondary"></button>').text(orphanStructLabel);
 		orphanStructBtn.on('click', function() {

@@ -253,24 +253,26 @@ Shape logic mirrors getContainerShapeHotspots in search.cfc:
 
 <!---
 Function getTopLevelBrowse.  Returns the data needed to render the initial container browse view:
-institution nodes (children of the root container, container_id=1) with their direct campus
-children embedded, plus counts of orphaned nodes at root level.
+institution nodes (containers with parent_container_id = 0 and container_type = 'institution')
+with their direct campus children embedded, plus counts of orphaned nodes that are direct
+children of institution nodes but are not campus nodes.
 
-Orphaned structural nodes are structural containers at root level that are not of type
-'institution' (e.g. building, room, freezer placed directly at the top of the tree).
-Orphaned leaf nodes are collection-object containers placed directly at root level.
+In the MCZbase container hierarchy, root containers have parent_container_id = 0.  Institution
+nodes are at root level.  Campus nodes are direct children of institutions.  Orphaned structural
+nodes are non-campus structural containers placed directly under an institution instead of under
+a campus.  Orphaned leaf nodes are collection-object containers placed directly under an institution.
 
 @return a JSON object with keys:
   institutions - array of institution node objects, each having a campus_children array.
     Each node has: container_id, container_type, label, barcode, description,
     direct_structural_children, direct_leaf_children.
-  orphaned_structural_count - count of non-institution structural nodes at root level.
-  orphaned_leaf_count       - count of collection-object nodes at root level.
+  orphaned_structural_count - count of non-campus structural nodes that are direct children of institutions.
+  orphaned_leaf_count       - count of collection-object nodes that are direct children of institutions.
 --->
 <cffunction name="getTopLevelBrowse" access="remote" returntype="any" returnformat="json">
 	<cfset variables.result = StructNew()>
 	<cftry>
-		<!--- Institution nodes at root level (parent_container_id = 1) with child counts --->
+		<!--- Institution nodes at root level (parent_container_id = 0) with child counts --->
 		<cfquery name="variables.qInstitutions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				c.container_id,
@@ -289,11 +291,11 @@ Orphaned leaf nodes are collection-object containers placed directly at root lev
 				FROM container
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
-			WHERE c.parent_container_id = 1
+			WHERE c.parent_container_id = 0
 				AND c.container_type = 'institution'
 			ORDER BY c.label
 		</cfquery>
-		<!--- Campus children of all top-level institutions with child counts --->
+		<!--- Campus children of all institutions with child counts --->
 		<cfquery name="variables.qCampuses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				c.container_id,
@@ -316,7 +318,7 @@ Orphaned leaf nodes are collection-object containers placed directly at root lev
 			WHERE c.parent_container_id IN (
 				SELECT container_id
 				FROM container
-				WHERE parent_container_id = 1
+				WHERE parent_container_id = 0
 					AND container_type = 'institution'
 			)
 				AND c.container_type = 'campus'
@@ -326,15 +328,25 @@ Orphaned leaf nodes are collection-object containers placed directly at root lev
 		<cfquery name="variables.qOrphanStruct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
 			FROM container
-			WHERE parent_container_id = 1
-				AND container_type <> 'institution'
+			WHERE parent_container_id IN (
+				SELECT container_id
+				FROM container
+				WHERE parent_container_id = 0
+					AND container_type = 'institution'
+			)
+				AND container_type <> 'campus'
 				AND container_type <> 'collection object'
 		</cfquery>
 		<!--- Count orphaned leaf nodes: collection-object nodes at root level --->
 		<cfquery name="variables.qOrphanLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
 			FROM container
-			WHERE parent_container_id = 1
+			WHERE parent_container_id IN (
+				SELECT container_id
+				FROM container
+				WHERE parent_container_id = 0
+					AND container_type = 'institution'
+			)
 				AND container_type = 'collection object'
 		</cfquery>
 		<!--- Build institution array with embedded campus children --->
@@ -385,11 +397,10 @@ Orphaned leaf nodes are collection-object containers placed directly at root lev
 </cffunction>
 
 <!---
-Function getOrphanedTopLevelStructural.  Returns the non-institution structural containers
-that are direct children of the root container (parent_container_id = 1).  These are nodes
-such as buildings, rooms, or freezers placed directly at the top of the hierarchy instead
-of under an institution and campus.  Returned in the same structure as getDirectStructuralChildren
-so that renderTreeNodes can render them unchanged.
+Function getOrphanedTopLevelStructural.  Returns non-campus structural containers that are
+direct children of institution nodes.  These are nodes such as buildings, rooms, or freezers
+placed directly under an institution instead of under a campus.  Returned in the same structure
+as getDirectStructuralChildren so that renderTreeNodes can render them unchanged.
 
 @return a JSON array of objects with keys: container_id, parent_container_id, container_type,
   label, barcode, description, direct_structural_children, direct_leaf_children,
@@ -432,15 +443,25 @@ so that renderTreeNodes can render them unchanged.
 						AND parent_container_id IN (
 							SELECT container_id
 							FROM container
-							WHERE parent_container_id = 1
-								AND container_type <> 'institution'
+							WHERE parent_container_id IN (
+								SELECT container_id
+								FROM container
+								WHERE parent_container_id = 0
+									AND container_type = 'institution'
+							)
+								AND container_type <> 'campus'
 								AND container_type <> 'collection object'
 						)
 				)
 				WHERE rn = 1
 			) sc ON sc.parent_container_id = c.container_id
-			WHERE c.parent_container_id = 1
-				AND c.container_type <> 'institution'
+			WHERE c.parent_container_id IN (
+				SELECT container_id
+				FROM container
+				WHERE parent_container_id = 0
+					AND container_type = 'institution'
+			)
+				AND c.container_type <> 'campus'
 				AND c.container_type <> 'collection object'
 			ORDER BY
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
