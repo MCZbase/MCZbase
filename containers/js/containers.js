@@ -408,6 +408,8 @@ function loadContainerNode(containerId, targetDivId, feedbackId) {
  * direct_leaf_children > 0. For single-occupant container types (pin, slide,
  * cryovial) the contained collection object is shown inline using data already
  * returned by getDirectStructuralChildren — no additional AJAX request is needed.
+ * Badges are added to indicate empty nodes, misplaced items, AB shape,
+ * leaf counts, and structural counts.
  * @param {Array} nodes - array of node objects from getDirectStructuralChildren.
  * @param {string} targetDivId - the id of the element to render into (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
@@ -425,6 +427,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		var cid = node.container_id;
 		var structuralChildren = parseInt(node.direct_structural_children, 10) || 0;
 		var leafChildren = parseInt(node.direct_leaf_children, 10) || 0;
+		var nodeDescription = node.description || '';
 		var childUlId = 'ctree-children-' + cid;
 		var toggleId = 'ctree-toggle-' + cid;
 		var isSingleOccupant = SINGLE_OCCUPANT_TYPES.indexOf(ctype) !== -1;
@@ -461,6 +464,49 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		/* Container type as secondary metadata. */
 		nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + ctype + ']'));
 
+		/* Empty node marker */
+		if (structuralChildren === 0 && leafChildren === 0) {
+			nodeRow.append(
+				$('<span class="badge badge-light border text-muted ml-1"></span>')
+					.attr('title', 'Empty container')
+					.text('empty')
+			);
+		}
+
+		/* Misplaced marker: single-occupant type with more than one leaf child */
+		if (isSingleOccupant && leafChildren > 1) {
+			nodeRow.append(
+				$('<span class="badge badge-warning ml-1"></span>')
+					.attr('title', 'Single-occupant type with multiple children \u2014 may be misplaced')
+					.text('!')
+			);
+		}
+
+		/* AB shape badge */
+		if (leafChildren > 0 && structuralChildren > 0) {
+			nodeRow.append(
+				$('<span class="badge badge-warning ml-1 tree-leaf-badge"></span>')
+					.attr('title', 'Contains both structural containers and collection objects')
+					.text('AB')
+			);
+		}
+
+		/* Leaf count badge (only when no structural children) */
+		if (leafChildren > 0 && structuralChildren === 0) {
+			nodeRow.append(
+				$('<span class="badge badge-secondary ml-1 tree-leaf-badge"></span>')
+					.text(leafChildren + ' obj')
+			);
+		}
+
+		/* Structural count badge */
+		if (structuralChildren > 0) {
+			nodeRow.append(
+				$('<span class="badge badge-light border ml-1 tree-leaf-badge"></span>')
+					.text(structuralChildren + ' containers')
+			);
+		}
+
 		var nodeLeafDiv = null;
 		if (leafChildren > 0 && !isSingleOccupant) {
 			var leafDivId = 'ctree-leaf-' + cid;
@@ -479,6 +525,14 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			.addClass('collapse container-tree');
 
 		var li = $('<li role="treeitem"></li>').append(nodeRow);
+
+		/* Description line below the node row */
+		if (nodeDescription) {
+			li.append(
+				$('<div class="tree-node-desc small text-muted fst-italic"></div>').text(nodeDescription)
+			);
+		}
+
 		if (nodeLeafDiv) {
 			li.append(nodeLeafDiv);
 		}
@@ -604,6 +658,199 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 		error: function(jqXHR, textStatus, error) {
 			$('#' + leafPanelId).addClass('d-none');
 			handleFail(jqXHR, textStatus, error, 'loading leaf container contents');
+		}
+	});
+}
+
+/**
+ * Shows the breadcrumb path for a given container in the containerBrowseContext paragraph.
+ * Calls getContainerBreadcrumb in search.cfc and renders it as type: label > type: label > ...
+ * @param {number} containerId - the container_id to show the breadcrumb for.
+ * @param {string} feedbackId - the id of the feedback output element (without leading #).
+ */
+function showContainerBreadcrumb(containerId, feedbackId) {
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: { method: 'getContainerBreadcrumb', container_id: containerId },
+		dataType: 'json',
+		success: function(data) {
+			var parts = [];
+			$.each(data, function(i, node) {
+				var display = formatContainerDisplay(node.barcode, node.label);
+				parts.push(node.container_type + ': ' + display);
+			});
+			$('#containerBrowseContext').text(parts.join(' > '));
+			$('#' + feedbackId).text('Showing location of container ID ' + containerId);
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
+		}
+	});
+}
+
+/**
+ * Submits the container search form fields to searchContainers in search.cfc and
+ * renders the results as a table in the browse panel.
+ * Results show columns: Type, Name/Barcode, Shape, Structural Children, Leaf Children, Description.
+ * Each row has Explore, Browse, and Locate action buttons depending on the node's children.
+ * Includes prev/next pagination when totalRows > pageSize.
+ * @param {string} browsePanel - the id of the container browse panel div (without leading #).
+ * @param {string} leafPanel - the id of the leaf panel div (without leading #).
+ * @param {string} feedbackId - the id of the feedback output element (without leading #).
+ * @param {number} [page=1] - page number (1-based).
+ */
+function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
+	page = page || 1;
+	var searchTerm = $('#search_term').val() || '';
+	var containerType = $('#container_type').val() || '';
+	var barcode = $('#barcode').val() || '';
+	var description = $('#description').val() || '';
+	var department = $('#department').val() || '';
+
+	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
+	$('#containerBrowseContext').text('Search results');
+	$('#' + leafPanel).addClass('d-none').html('');
+
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: {
+			method: 'searchContainers',
+			search_term: searchTerm,
+			container_type: containerType,
+			barcode: barcode,
+			description: description,
+			department: department,
+			page: page,
+			pageSize: 50
+		},
+		dataType: 'json',
+		success: function(data) {
+			var rows = data.rows || [];
+			var totalRows = parseInt(data.totalRows, 10) || 0;
+			var pageSize = parseInt(data.pageSize, 10) || 50;
+			var currentPage = parseInt(data.page, 10) || 1;
+			var totalPages = Math.ceil(totalRows / pageSize);
+
+			var panel = $('<div></div>');
+			panel.append($('<h2 class="h4 mt-2"></h2>').text('Search Results (' + totalRows + ' containers found)'));
+
+			if (totalPages > 1) {
+				panel.append(
+					$('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages)
+				);
+			}
+
+			/* Inline pagination nav builder */
+			function buildSearchNav(extraClass) {
+				var nav = $('<nav></nav>')
+					.attr('aria-label', 'Search results page navigation')
+					.addClass('d-flex flex-wrap' + (extraClass ? ' ' + extraClass : ''));
+				var prevBtn = $('<button class="btn btn-xs btn-secondary mr-1">\u2039 Prev</button>').attr('aria-label', 'Previous page');
+				var nextBtn = $('<button class="btn btn-xs btn-secondary">Next \u203a</button>').attr('aria-label', 'Next page');
+				if (currentPage <= 1) {
+					prevBtn.prop('disabled', true);
+				} else {
+					prevBtn.addClass('search-page-btn').data('page', currentPage - 1);
+				}
+				if (currentPage >= totalPages) {
+					nextBtn.prop('disabled', true);
+				} else {
+					nextBtn.addClass('search-page-btn').data('page', currentPage + 1);
+				}
+				nav.append(prevBtn).append(nextBtn);
+				return nav;
+			}
+
+			if (rows.length === 0) {
+				panel.append('<p class="text-muted my-2">No containers matched your search.</p>');
+			} else {
+				if (totalRows > pageSize) {
+					panel.append(buildSearchNav('mb-2'));
+				}
+
+				var tbody = $('<tbody></tbody>');
+				$.each(rows, function(i, row) {
+					var cid = row.container_id;
+					var structKids = parseInt(row.direct_structural_children, 10) || 0;
+					var leafKids = parseInt(row.direct_leaf_children, 10) || 0;
+					var isSingle = SINGLE_OCCUPANT_TYPES.indexOf(row.container_type) !== -1;
+					var displayName = formatContainerDisplay(row.barcode, row.label);
+					var descText = row.description || '';
+					if (descText.length > 80) {
+						descText = descText.substring(0, 80) + '\u2026';
+					}
+
+					/* Shape badge */
+					var shapeClass = row.shape_class || 'A';
+					var shapeBadgeClass = 'badge-secondary';
+					if (shapeClass === 'AB') { shapeBadgeClass = 'badge-warning'; }
+					if (shapeClass === 'B') { shapeBadgeClass = 'badge-danger'; }
+					var shapeBadge = $('<span class="badge"></span>').addClass(shapeBadgeClass).text(shapeClass);
+
+					var actionCell = $('<td></td>');
+
+					if (structKids > 0) {
+						var exploreBtn = $('<button class="btn btn-xs btn-outline-primary mr-1"></button>').text('Explore');
+						(function(nodeId, nodeName) {
+							exploreBtn.on('click', function() {
+								$('#containerBrowseContext').text('Exploring: ' + nodeName);
+								loadContainerNode(nodeId, browsePanel, feedbackId);
+							});
+						})(cid, displayName);
+						actionCell.append(exploreBtn);
+					}
+
+					if (leafKids > 0 && !isSingle) {
+						var browseBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1"></button>').text('Browse');
+						(function(nodeId, nodeName) {
+							browseBtn.on('click', function() {
+								var leafDivId = 'search-leaf-' + nodeId;
+								if ($('#' + leafDivId).length === 0) {
+									$('#' + leafPanel).removeClass('d-none').append($('<div></div>').attr('id', leafDivId));
+								}
+								loadLeafPanel(nodeId, leafDivId, feedbackId, 1, nodeName);
+							});
+						})(cid, displayName);
+						actionCell.append(browseBtn);
+					}
+
+					var locateBtn = $('<button class="btn btn-xs btn-outline-info"></button>').text('Locate');
+					(function(nodeId) {
+						locateBtn.on('click', function() {
+							showContainerBreadcrumb(nodeId, feedbackId);
+						});
+					})(cid);
+					actionCell.append(locateBtn);
+
+					var tr = $('<tr></tr>');
+					tr.append($('<td></td>').text(row.container_type));
+					tr.append($('<td></td>').text(displayName));
+					tr.append($('<td></td>').append(shapeBadge));
+					tr.append($('<td class="text-right"></td>').text(structKids));
+					tr.append($('<td class="text-right"></td>').text(leafKids));
+					tr.append($('<td></td>').text(descText));
+					tr.append(actionCell);
+					tbody.append(tr);
+				});
+
+				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
+				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Shape</th><th>Structural</th><th>Objects</th><th>Description</th><th>Actions</th></tr></thead>');
+				table.append(tbody);
+				panel.append(table);
+
+				if (totalRows > pageSize) {
+					panel.append(buildSearchNav('mt-2'));
+				}
+			}
+
+			var browsePanelEl = $('#' + browsePanel);
+			browsePanelEl.html(panel);
+			browsePanelEl.off('click.searchpage').on('click.searchpage', '.search-page-btn', function() {
+				executeContainerSearch(browsePanel, leafPanel, feedbackId, $(this).data('page'));
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'searching containers');
 		}
 	});
 }

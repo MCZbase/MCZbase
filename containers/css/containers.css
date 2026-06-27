@@ -69,3 +69,9 @@ limitations under the License.
 	background-color: #f8f9fa;
 	padding: 1rem;
 }
+
+/* Tree node description line */
+.container-tree .tree-node-desc {
+	padding-left: 1.5em;
+	margin-bottom: 0.1em;
+}

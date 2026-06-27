@@ -22,8 +22,18 @@ limitations under the License.
 <cfparam name="url.action" default="">
 <cfparam name="url.container_id" default="">
 <cfparam name="url.search_term" default="">
+<cfparam name="url.container_type" default="">
+<cfparam name="url.barcode" default="">
+<cfparam name="url.description" default="">
+<cfparam name="url.department" default="">
+<cfparam name="url.execute" default="">
 <cfset pageTitle = "Containers">
 <cfset pageHasContainers = true>
+<cfquery name="ctcontainer_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT container_type
+	FROM ctcontainer_type
+	ORDER BY container_type
+</cfquery>
 <cfinclude template="/shared/_header.cfm">
 <link rel="stylesheet" href="/containers/css/containers.css">
 
@@ -37,16 +47,52 @@ limitations under the License.
 				<div class="col-12 px-3 py-3">
 					<cfoutput>
 					<form id="containerSearchForm" name="containerSearch"
-						method="get" onsubmit="return false;">
+						method="get" action="Containers.cfm">
 						<div class="form-row">
-							<div class="col-12 col-md-5 col-xl-4 mb-2">
-								<label for="search_term" class="data-entry-label">Label, barcode, or container ID</label>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="container_type" class="data-entry-label">Container Type</label>
+								<select id="container_type" name="container_type" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfloop query="ctcontainer_type">
+										<cfset variables.selectedType = "">
+										<cfif ctcontainer_type.container_type EQ url.container_type>
+											<cfset variables.selectedType = " selected">
+										</cfif>
+										<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
 								<input type="text" id="search_term" name="search_term"
 									class="data-entry-input col-12"
-									placeholder="Label, barcode, or container ID"
+									placeholder="Label or barcode"
 									value="#encodeForHtml(url.search_term)#">
 								<input type="hidden" id="container_id" name="container_id"
 									value="#encodeForHtml(url.container_id)#">
+							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="barcode" class="data-entry-label">Unique Identifier (barcode)</label>
+								<input type="text" id="barcode" name="barcode"
+									class="data-entry-input col-12"
+									placeholder="Barcode substring"
+									value="#encodeForHtml(url.barcode)#">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="description" class="data-entry-label">Description / Remarks</label>
+								<input type="text" id="description" name="description"
+									class="data-entry-input col-12"
+									placeholder="Description or remarks"
+									value="#encodeForHtml(url.description)#">
+							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="department" class="data-entry-label">Department (label prefix, e.g. IZ, Ent)</label>
+								<input type="text" id="department" name="department"
+									class="data-entry-input col-12"
+									placeholder="e.g. IZ, Ent, Mala"
+									value="#encodeForHtml(url.department)#">
 							</div>
 						</div>
 						<div class="form-row">
@@ -77,10 +123,31 @@ limitations under the License.
 	</section>
 </main>
 
+<cfoutput>
 <script>
 $(document).ready(function() {
-	initContainerBrowse("containerBrowsePanel", "containerLeafPanel", "containerBrowseFeedback");
+	makeContainerAutocompleteMeta('search_term', 'container_id');
+
+	$('##containerSearchForm').on('submit', function(e) {
+		e.preventDefault();
+		executeContainerSearch('containerBrowsePanel', 'containerLeafPanel', 'containerBrowseFeedback', 1);
+	});
+
+	<cfset variables.hasSearchParams = (
+		len(trim(url.search_term)) GT 0 OR
+		len(trim(url.container_type)) GT 0 OR
+		len(trim(url.barcode)) GT 0 OR
+		len(trim(url.description)) GT 0 OR
+		len(trim(url.department)) GT 0 OR
+		url.execute EQ "true"
+	)>
+	<cfif variables.hasSearchParams>
+		executeContainerSearch('containerBrowsePanel', 'containerLeafPanel', 'containerBrowseFeedback', 1);
+	<cfelse>
+		initContainerBrowse("containerBrowsePanel", "containerLeafPanel", "containerBrowseFeedback");
+	</cfif>
 });
 </script>
+</cfoutput>
 
 <cfinclude template="/shared/_footer.cfm">
