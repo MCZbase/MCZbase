@@ -469,51 +469,84 @@ limitations under the License.
 	@param lng (numeric, required): The longitude coordinate of the locality, used to center the map.
 	@param layout (string, optional, default="3col"): The layout of the page where the map will be displayed. This can be used to adjust the size of the map if needed.
 	@param forceRefresh (boolean, optional, default=false): If true, the function will bypass the cache and generate a new map image even if one already exists for the locality.
+	@param createIfMissing (boolean, optional, default=true): If true, the function will create a new map image if one does not already exist for the locality. If false and the image is missing, an empty string will be returned instead.
+	@return (string): The URL of the static map image for the locality, or an empty string if the image could not be generated or retrieved.
 --->
 <cffunction name="getOrCreateStaticMapForLocality" access="public" returntype="string">
-    <cfargument name="locality_id"  type="numeric" required="true">
-    <cfargument name="lat"          type="numeric" required="true">
-    <cfargument name="lng"          type="numeric" required="true">
-    <cfargument name="layout"       type="string"  required="false" default="3col">
-    <cfargument name="forceRefresh" type="boolean" required="false" default="false">
+	<cfargument name="locality_id"  type="numeric" required="true">
+	<cfargument name="lat"          type="numeric" required="true">
+	<cfargument name="lng"          type="numeric" required="true">
+	<cfargument name="layout"       type="string"  required="false" default="3col">
+	<cfargument name="forceRefresh" type="boolean" required="false" default="false">
+	<cfargument name="createIfMissing" type="boolean" required="false" default="true">
 
-    <!-- one size / zoom -->
-    <cfset var mapWidth  = 320>
-    <cfset var mapHeight = 180>
-    <cfset var zoom      = 10>
+	<!-- one size / zoom -->
+	<cfset var mapWidth  = 320>
+	<cfset var mapHeight = 180>
+	<cfset var zoom      = 10>
 
-    <cfset var mapDir      = expandPath("/cache/static_maps/")>
-    <cfset var mapFileName = "locality-#arguments.locality_id#-#arguments.layout#.png">
-    <cfset var mapFilePath = mapDir & mapFileName>
-    <cfset var mapUrl      = "#Application.serverRootUrl#/cache/static_maps/#mapFileName#">
-    <cfset var apiKey      = application.gmap_api_key>
-    <cfset var staticUrl   = "">
-    <cfset var httpRes     = "">
+	<cfset var mapDir      = expandPath("/cache/static_maps/")>
+	<cfset var mapFileName = "locality-#arguments.locality_id#-#arguments.layout#.png">
+	<cfset var mapFilePath = mapDir & mapFileName>
+	<cfset var mapUrl      = "#Application.serverRootUrl#/cache/static_maps/#mapFileName#">
+	<cfset var apiKey      = application.gmap_api_key>
+	<cfset var staticUrl   = "">
+	<cfset var httpRes     = "">
+	<cfset var fileSize    = 0>
+	<!-- tune these as you like -->
+	<cfset var badSize     = 8123>   <!-- size (bytes) of known Google error tile -->
+	<cfset var minGoodSize = 2000>   <!-- ignore tiny “images” that are likely errors -->
 
-    <!-- existing file -->
-    <cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
-        <cfreturn mapUrl>
-    </cfif>
+	<cfset retval = ""><!--- default return value is empty string indicating a problem --->
 
-    <!-- plain static map: center + marker, no polygons -->
-    <cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
-        & "?center=#arguments.lat#,#arguments.lng#"
-        & "&zoom=#zoom#"
-        & "&scale=1"
-        & "&size=#mapWidth#x#mapHeight#"
-        & "&maptype=roadmap"
-        & "&markers=color:red|#arguments.lat#,#arguments.lng#"
-        & "&key=#apiKey#">
+	<cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
+		<!---  If we already have a file and no refresh is requested, just use it --->
+	  <cfset retval = mapUrl>
+	<cfelseif NOT fileExists(mapFilePath) AND NOT arguments.createIfMissing>
+		<!--- If file is missing and caller is not allowed to create it return an empty string --->
+		<cfreturn "">
+	<cfelse>
+		<!--- Build Google Static Maps URL, then get it, then validate the result --->
+		<cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
+			& "?center=#arguments.lat#,#arguments.lng#"
+			& "&zoom=#zoom#"
+			& "&scale=1"
+			& "&size=#mapWidth#x#mapHeight#"
+			& "&maptype=roadmap"
+			& "&markers=color:red|#arguments.lat#,#arguments.lng#"
+			& "&key=#apiKey#">
 
-    <cfhttp url="#staticUrl#" method="get" timeout="10"
-        path="#GetDirectoryFromPath(mapFilePath)#"
-        file="#GetFileFromPath(mapFilePath)#"
-        result="httpRes" />
+		<!--- Make sure cache directory exists --->
+		<cfif NOT directoryExists(mapDir)>
+			<cfdirectory action="create" directory="#mapDir#">
+		</cfif>
 
-    <cfif httpRes.statusCode CONTAINS "200">
-        <cfreturn mapUrl>
-    <cfelse>
-        <cfreturn "/shared/images/map-placeholder.jpg">
-    </cfif>
-        
+		<!--- Call Google and stream directly to disk --->
+		<cfhttp url="#staticUrl#" method="get" timeout="10"
+			path="#GetDirectoryFromPath(mapFilePath)#"
+			file="#GetFileFromPath(mapFilePath)#"
+			result="httpRes" />
+
+		<!--- Non‑200 http response: delete whatever was written, return an empty string --->
+		<cfif NOT (httpRes.statusCode CONTAINS "200")>
+			<cfif fileExists(mapFilePath)>
+				<cffile action="delete" file="#mapFilePath#">
+			</cfif>
+			<cfset retval = "">
+		<cfelseif fileExists(mapFilePath)>
+			<!--- validate that the file is a reasonable size, delete and return an empty string if not --->
+			<cfset fileInfo = getFileInfo(mapFilePath)>
+			<cfif fileInfo.size EQ badSize OR fileInfo.size LT minGoodSize>
+				<!--- looks like the Google error tile or bad content --->
+				<cffile action="delete" file="#mapFilePath#">
+		 		<cfset retval = "">
+			<cfelse>
+				<!--- successfully created and validated, return the URL for the cached map file --->
+				<cfset retval = mapUrl>
+			</cfif>
+		</cfif>
+	</cfif>
+
+	<!--- return the result --->
+	<cfreturn retval>
 </cffunction>
