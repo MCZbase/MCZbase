@@ -44,7 +44,7 @@ children of the given container, suitable for rendering a tree node.
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
 				sc.single_child_label,
-				CASE WHEN leafd.root_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM
 				container c
 				LEFT JOIN (
@@ -74,14 +74,6 @@ children of the given container, suitable for rendering a tree node.
 					)
 					WHERE rn = 1
 				) sc ON sc.parent_container_id = c.container_id
-				LEFT JOIN (
-					SELECT DISTINCT CONNECT_BY_ROOT container_id AS root_id
-					FROM container
-					WHERE container_type = 'collection object'
-					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-					       AND container_type <> 'collection object'
-					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-				) leafd ON leafd.root_id = c.container_id
 			WHERE
 				c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 				AND c.container_type <> 'collection object'
@@ -276,8 +268,13 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
   institutions - array of institution node objects, each having a campus_children array.
     Each node has: container_id, container_type, label, barcode, description,
     direct_structural_children, direct_leaf_children.
+    Each campus child also has: has_leaf_descendants.
   orphaned_structural_count - count of non-campus structural nodes that are direct children of institutions.
   orphaned_leaf_count       - count of collection-object nodes that are direct children of institutions.
+  top_level_other           - array of root-level containers that are not of type institution
+    (e.g., a Deaccessioned campus placed at root level).  Each node has: container_id,
+    container_type, label, barcode, description, direct_structural_children,
+    direct_leaf_children, has_leaf_descendants.
 --->
 <cffunction name="getTopLevelBrowse" access="remote" returntype="any" returnformat="json">
 	<cfset variables.result = StructNew()>
@@ -316,7 +313,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
-				CASE WHEN leafd.root_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT
@@ -326,16 +323,6 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				FROM container
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
-			LEFT JOIN (
-				SELECT DISTINCT CONNECT_BY_ROOT container_id AS root_id
-				FROM container
-				WHERE container_type = 'collection object'
-				START WITH parent_container_id IN (
-					SELECT container_id FROM container
-					WHERE parent_container_id = 0 AND container_type = 'institution'
-				) AND container_type = 'campus'
-				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-			) leafd ON leafd.root_id = c.container_id
 			WHERE c.parent_container_id IN (
 				SELECT container_id
 				FROM container
@@ -344,6 +331,30 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 			)
 				AND c.container_type = 'campus'
 			ORDER BY c.parent_container_id, c.label
+		</cfquery>
+		<!--- Root-level non-institution containers (e.g., a Deaccessioned campus at root level) --->
+		<cfquery name="variables.qRootOther" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				c.container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				c.description,
+				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
+			FROM container c
+			LEFT JOIN (
+				SELECT
+					parent_container_id,
+					SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
+					SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
+				FROM container
+				GROUP BY parent_container_id
+			) ch ON ch.parent_container_id = c.container_id
+			WHERE c.parent_container_id = 0
+				AND c.container_type <> 'institution'
+			ORDER BY c.label
 		</cfquery>
 		<!--- Count orphaned structural nodes: non-institution structural nodes at root level --->
 		<cfquery name="variables.qOrphanStruct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -407,6 +418,23 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 		<cfset variables.result["institutions"] = variables.institutions>
 		<cfset variables.result["orphaned_structural_count"] = variables.qOrphanStruct.cnt>
 		<cfset variables.result["orphaned_leaf_count"] = variables.qOrphanLeaf.cnt>
+		<!--- Build root-level non-institution nodes array --->
+		<cfset variables.rootOtherArr = ArrayNew(1)>
+		<cfset variables.rootOtherIdx = 1>
+		<cfloop query="variables.qRootOther">
+			<cfset variables.rootOther = StructNew()>
+			<cfset variables.rootOther["container_id"] = variables.qRootOther.container_id>
+			<cfset variables.rootOther["container_type"] = variables.qRootOther.container_type>
+			<cfset variables.rootOther["label"] = variables.qRootOther.label>
+			<cfset variables.rootOther["barcode"] = variables.qRootOther.barcode>
+			<cfset variables.rootOther["description"] = variables.qRootOther.description>
+			<cfset variables.rootOther["direct_structural_children"] = variables.qRootOther.direct_structural_children>
+			<cfset variables.rootOther["direct_leaf_children"] = variables.qRootOther.direct_leaf_children>
+			<cfset variables.rootOther["has_leaf_descendants"] = variables.qRootOther.has_leaf_descendants>
+			<cfset variables.rootOtherArr[variables.rootOtherIdx] = variables.rootOther>
+			<cfset variables.rootOtherIdx = variables.rootOtherIdx + 1>
+		</cfloop>
+		<cfset variables.result["top_level_other"] = variables.rootOtherArr>
 		<cfreturn serializeJSON(variables.result)>
 	<cfcatch>
 		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
@@ -443,7 +471,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
 				sc.single_child_label,
-				CASE WHEN leafd.root_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT
@@ -478,16 +506,6 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				)
 				WHERE rn = 1
 			) sc ON sc.parent_container_id = c.container_id
-			LEFT JOIN (
-				SELECT DISTINCT CONNECT_BY_ROOT container_id AS root_id
-				FROM container
-				WHERE container_type = 'collection object'
-				START WITH parent_container_id IN (
-					SELECT container_id FROM container
-					WHERE parent_container_id = 0 AND container_type = 'institution'
-				) AND container_type NOT IN ('campus', 'collection object')
-				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-			) leafd ON leafd.root_id = c.container_id
 			WHERE c.parent_container_id IN (
 				SELECT container_id
 				FROM container

@@ -257,6 +257,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	var institutions = data.institutions || [];
 	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
 	var orphanLeafCount   = parseInt(data.orphaned_leaf_count, 10) || 0;
+	var topLevelOther     = data.top_level_other || [];
 	var orphanStructDivId = 'ctree-orphan-structural';
 	var wrapper = $('<div></div>');
 
@@ -422,6 +423,17 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			loadLeafPanel(1, leafPanel, feedbackEl, 1, 'Unplaced collection objects', '');
 		});
 		wrapper.append(orphanLeafBtn);
+	}
+
+	/* Root-level non-institution containers (e.g., Deaccessioned campus at root level) */
+	if (topLevelOther.length > 0) {
+		var rootOtherDiv = $('<div class="mt-3"></div>');
+		rootOtherDiv.append($('<h3 class="h5 text-muted"></h3>').text('Other Top-Level Containers'));
+		var rootOtherDivId = 'ctree-root-other';
+		var rootOtherUlDiv = $('<div></div>').attr('id', rootOtherDivId);
+		rootOtherDiv.append(rootOtherUlDiv);
+		wrapper.append(rootOtherDiv);
+		renderTreeNodes(topLevelOther, rootOtherDivId, feedbackEl);
 	}
 
 	$('#' + browsePanel).html(wrapper);
@@ -988,18 +1000,34 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 
 			var panel = $('<div></div>');
 
-			/* Header row: title + Browse Hierarchy button to return to default tree view */
-			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
-			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
-			var browseHierarchyBtn = $('<button class="btn btn-xs btn-outline-secondary mt-1"></button>')
-				.text('\u2302 Browse Hierarchy')
-				.attr('title', 'Return to the default container hierarchy view')
-				.on('click', function() {
-					initContainerBrowse(browsePanel, leafPanel, feedbackId);
-					$('#' + leafPanel).addClass('d-none').html('');
-				});
-			headerDiv.append(browseHierarchyBtn);
-			panel.append(headerDiv);
+				/* Build "link to this search" URL from current form values */
+				var searchLinkParts = ['execute=true'];
+				if (containerType) { searchLinkParts.push('container_type=' + encodeURIComponent(containerType)); }
+				if (searchTerm)    { searchLinkParts.push('search_term=' + encodeURIComponent(searchTerm)); }
+				if (barcode)       { searchLinkParts.push('barcode=' + encodeURIComponent(barcode)); }
+				if (description)   { searchLinkParts.push('description=' + encodeURIComponent(description)); }
+				if (department)    { searchLinkParts.push('department=' + encodeURIComponent(department)); }
+				if (treeProperty)  { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
+				var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
+
+				/* Header row: title + link to this search + Browse Hierarchy button */
+				var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+				headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
+				headerDiv.append(
+					$('<a class="small ml-1 mt-1 mr-2" target="_blank" rel="noopener noreferrer"></a>')
+						.attr('href', searchLinkUrl)
+						.attr('title', 'Link to this search (opens in new tab)')
+						.text('Link to this search')
+				);
+				var browseHierarchyBtn = $('<button class="btn btn-xs btn-outline-secondary mt-1"></button>')
+					.text('\u2302 Browse Hierarchy')
+					.attr('title', 'Return to the default container hierarchy view')
+					.on('click', function() {
+						initContainerBrowse(browsePanel, leafPanel, feedbackId);
+						$('#' + leafPanel).addClass('d-none').html('');
+					});
+				headerDiv.append(browseHierarchyBtn);
+				panel.append(headerDiv);
 
 			if (totalPages > 1) {
 				panel.append(
