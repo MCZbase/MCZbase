@@ -518,6 +518,10 @@ a paginated JSON result for display in the browse panel.
 						c.container_remarks,
 						NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 						NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+						<!--- Shape classification mirrors getContainerShapeHotspots:
+						  B = dense leaf-only node (>=1000 direct collection objects, no structural children)
+						  AB = mixed node (both structural children and collection objects present)
+						  A = all other cases (structural only, or sparse leaf-only) --->
 						CASE
 							WHEN NVL(ch.direct_leaf_children, 0) >= 1000 AND NVL(ch.direct_structural_children, 0) = 0 THEN 'B'
 							WHEN NVL(ch.direct_leaf_children, 0) > 0 AND NVL(ch.direct_structural_children, 0) > 0 THEN 'AB'

@@ -166,6 +166,12 @@ function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeContro
  */
 var SINGLE_OCCUPANT_TYPES = ['pin', 'slide', 'cryovial'];
 
+/** Default page size for container search results and leaf browser. */
+var CONTAINER_PAGE_SIZE = 50;
+
+/** Maximum description length (characters) shown in search result rows. */
+var MAX_DESCRIPTION_LENGTH = 80;
+
 /**
  * Formats a container's display name using barcode as the primary identifier,
  * appending the label in parentheses when it differs from the barcode.
@@ -721,13 +727,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			description: description,
 			department: department,
 			page: page,
-			pageSize: 50
+			pageSize: CONTAINER_PAGE_SIZE
 		},
 		dataType: 'json',
 		success: function(data) {
 			var rows = data.rows || [];
 			var totalRows = parseInt(data.totalRows, 10) || 0;
-			var pageSize = parseInt(data.pageSize, 10) || 50;
+			var pageSize = parseInt(data.pageSize, 10) || CONTAINER_PAGE_SIZE;
 			var currentPage = parseInt(data.page, 10) || 1;
 			var totalPages = Math.ceil(totalRows / pageSize);
 
@@ -776,8 +782,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var isSingle = SINGLE_OCCUPANT_TYPES.indexOf(row.container_type) !== -1;
 					var displayName = formatContainerDisplay(row.barcode, row.label);
 					var descText = row.description || '';
-					if (descText.length > 80) {
-						descText = descText.substring(0, 80) + '\u2026';
+					if (descText.length > MAX_DESCRIPTION_LENGTH) {
+						descText = descText.substring(0, MAX_DESCRIPTION_LENGTH) + '\u2026';
 					}
 
 					/* Shape badge */
