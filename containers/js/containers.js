@@ -676,7 +676,9 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
  * in leafPanelId.  Shows the leaf panel; hides it on error.
  * Includes First/Previous/Next/Last page navigation both above and below the
  * table when totalRows > pageSize.
- * Each collection-object row includes a link to the specimen search.
+ * Each collection-object row includes a Specimen column showing the GUID link
+ * (institution_acronym:collection_cde:cat_num), scientific name, and part name when
+ * the container is linked to a cataloged specimen, plus a link to the specimen search.
  * @param {number} containerId - the container_id whose leaf children to browse.
  * @param {string} leafPanelId - the id of the div for the leaf panel (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).

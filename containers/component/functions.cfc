@@ -118,6 +118,9 @@ of the given container, for use in the leaf browser panel.
 @param page the page number to return (1-based), defaults to 1.
 @param pageSize the number of rows per page, defaults to 50.
 @return a JSON object with keys: rows (array), page, pageSize, totalRows.
+  Each row object contains: container_id, label, barcode, description,
+  cat_num, collection_cde, institution_acronym, part_name, scientific_name.
+  The specimen fields are NULL when the collection object container has no linked specimen.
 --->
 <cffunction name="getDirectLeafChildren" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
