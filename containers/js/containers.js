@@ -527,7 +527,7 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 		success: function(data) {
 			var rows = data.rows || [];
 			var totalRows = parseInt(data.totalRows, 10) || 0;
-			var pageSize  = parseInt(data.pageSize, 10) || 50;
+			var pageSize = parseInt(data.pageSize, 10) || 50;
 			var currentPage = parseInt(data.page, 10) || 1;
 			var totalPages = Math.ceil(totalRows / pageSize);
 
