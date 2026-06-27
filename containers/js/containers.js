@@ -701,7 +701,7 @@ function showContainerBreadcrumb(containerId, feedbackId, browsePanel) {
 				var crumbText = node.container_type + ': ' + display;
 				var crumbLi = $('<li class="breadcrumb-item"></li>');
 				if (i === data.length - 1) {
-					crumbLi.addClass('active').attr('aria-current', 'location').text(crumbText);
+					crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText);
 				} else {
 					crumbLi.text(crumbText);
 				}

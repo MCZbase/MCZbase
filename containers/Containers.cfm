@@ -113,7 +113,7 @@ limitations under the License.
 								<select id="tree_property" name="tree_property" class="data-entry-select col-12">
 									<option value="">(any)</option>
 									<option value="empty"#variables.selEmpty#>Empty (no children)</option>
-									<option value="misplaced"#variables.selMisplaced#>! Misplaced (single-occupant with &gt;1 object)</option>
+									<option value="misplaced"#variables.selMisplaced#>Misplaced (single-occupant with &gt;1 object)</option>
 									<option value="mixed"#variables.selMixed#>AB Mixed (structural + object children)</option>
 									<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
 								</select>
