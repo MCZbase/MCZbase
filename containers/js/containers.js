@@ -593,9 +593,11 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 				inlineLeafDiv.append(
 					$('<span class="tree-node-leaf-info small text-muted"></span>').text('\u2937 ' + childDisplay)
 				);
-				/* Link to specimen search using the collection object container barcode */
-				var childSpecUrl = specimenSearchUrl(childBarcode || barcode);
-				if (childSpecUrl) {
+				/* Link to specimen search using the collection object container's own barcode.
+					   Only show when the child barcode is known; do not fall back to the parent
+					   barcode as that would search the entire parent hierarchy. */
+					var childSpecUrl = specimenSearchUrl(childBarcode);
+					if (childSpecUrl) {
 					inlineLeafDiv.append(
 						$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
 							.attr('href', childSpecUrl)
