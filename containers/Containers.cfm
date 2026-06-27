@@ -69,15 +69,17 @@ limitations under the License.
 <cfelse>
 	<cfset variables.execute = trim(url.execute)>
 </cfif>
+
 <cfset pageTitle = "Containers">
 <cfset pageHasContainers = true>
+<cfinclude template="/shared/_header.cfm">
+<link rel="stylesheet" href="/containers/css/containers.css">
+
 <cfquery name="ctcontainer_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT container_type
 	FROM ctcontainer_type
 	ORDER BY container_type
 </cfquery>
-<cfinclude template="/shared/_header.cfm">
-<link rel="stylesheet" href="/containers/css/containers.css">
 
 <main id="content" class="container-fluid">
 	<section class="container-fluid" role="search">
@@ -180,6 +182,8 @@ limitations under the License.
 		</div>
 		<p id="containerBrowseContext" class="text-muted small mb-2"></p>
 		<div id="containerBrowsePanel">
+			<!--- if no search, this will be populated by initContainerBrowse() --->
+			<!--- if executing a search, this will be populated by executeContainerSearch() --->
 			<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>
 		</div>
 		<div id="containerLeafPanel" class="d-none container-leaf-panel mt-2"></div>
