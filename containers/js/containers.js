@@ -425,18 +425,24 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 		wrapper.append(orphanLeafBtn);
 	}
 
-	/* Root-level non-institution containers (e.g., Deaccessioned campus at root level) */
+	/* Root-level non-institution containers (e.g., Deaccessioned campus at root level)
+	   Build the container div and append it to wrapper BEFORE inserting wrapper into the
+	   DOM so that renderTreeNodes (which selects by DOM id) can find the element. */
+	var rootOtherDivId = 'ctree-root-other';
 	if (topLevelOther.length > 0) {
 		var rootOtherDiv = $('<div class="mt-3"></div>');
 		rootOtherDiv.append($('<h3 class="h5 text-muted"></h3>').text('Other Top-Level Containers'));
-		var rootOtherDivId = 'ctree-root-other';
 		var rootOtherUlDiv = $('<div></div>').attr('id', rootOtherDivId);
 		rootOtherDiv.append(rootOtherUlDiv);
 		wrapper.append(rootOtherDiv);
-		renderTreeNodes(topLevelOther, rootOtherDivId, feedbackEl);
 	}
 
+	/* Insert wrapper into the DOM first, then call renderTreeNodes so the target div exists. */
 	$('#' + browsePanel).html(wrapper);
+
+	if (topLevelOther.length > 0) {
+		renderTreeNodes(topLevelOther, rootOtherDivId, feedbackEl);
+	}
 }
 
 /**
