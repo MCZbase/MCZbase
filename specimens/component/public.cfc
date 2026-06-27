@@ -3066,7 +3066,7 @@ limitations under the License.
 						<cfcatch>
 							<!--- consume any exception and leave staticMapUrl as empty string --->
 						</cfcatch>
-						<cftry>
+						</cftry>
 						<div class="col-12 col-md-5 float-right px-1">
 							<div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap #twocol#">
 								<cfif staticMapUrl NEQ "">
@@ -3084,181 +3084,233 @@ limitations under the License.
 									</script>
 								</cfif>
 							</div>
-
-					<script>
-						(function() {
-							var localityId = "#loc_collevent.locality_id#";
-							var lat = #coordlookup.dec_lat#;
-							var lng = #coordlookup.dec_long#;
-							var staticImg  = document.getElementById("static-map-" + localityId);
-							var mapDiv = document.getElementById("mapdiv_" + localityId);
-							var loaded = false;
-
-							function loadInteractiveMap() {
-								if (loaded) return;
-								loaded = true;
-
-								mapDiv.style.display = "block";
-								staticImg.style.opacity = "0.0"; // optional fade-out
-
-								var script = document.createElement("script");
-								script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry&callback=initLocalityMap_" + localityId;
-								script.async = true;
-								document.head.appendChild(script);
-							}
-
-							window["initLocalityMap_" + localityId] = function() {
-							var center = { lat: lat, lng: lng };
-
-							var mapOptions = {
-								  zoom: 10,
-								  center: new google.maps.LatLng(lat, lng),
-								  mapTypeId: google.maps.MapTypeId.ROADMAP,
-								  panControl: false,
-								  scaleControl: true,
-								  fullscreenControl: true,
-								  zoomControl: true
-							};
-							var map = new google.maps.Map(mapDiv, mapOptions);
-							var bounds = new google.maps.LatLngBounds();
-							var georefs  = null;
-							var georefsBounds;
-							var georefsLoaded = false;
-							var polygonLoaded = false;
-							var higherLoaded = false;
-							var uncertaintypoly = null;
-							var errorcircle = null;
-							var enclosingpoly = null;
-							var uncertaintyPolygonArray = [];
-							var enclosingPolygonArray = [];
-						
-						// ---- 1) Accepted / not‑accepted georefs from GeoJSON ----
-						$.getJSON("/localities/component/georefUtilities.cfc", {
-							method : "getGeorefsGeoJSON",
-							locality_id : localityId,
-							returnformat: "json"
-						},
-						function (result) {
-							if (result) {
-								map.data.addGeoJson(result, { idPropertyName: "id" } );
-								map.data.setStyle(function(feature) {
-									var accepted = feature.getProperty('accepted');
-									var determiner = feature.getProperty('determiner');
-									var loc = feature.getProperty('spec_locality');
-									var opacity = 1.0;
-									var label= '';
-									var icon;
-									var zindex;
-									var title;
-									if (accepted == 'Yes') {
-										zindex = 15;
-										opacity = 1.0;
-										title = 'Accepted.';
-									} else {
-										label  = { text: 'n' };
-										icon   = '/shared/images/map_pin_grey.png';
-										opacity = 0.6;
-										zindex  = 3;
-										title   = 'Not Accepted.';
+							<script>
+								(function() {
+									var localityId = "#loc_collevent.locality_id#";
+									var lat = #coordlookup.dec_lat#;
+									var lng = #coordlookup.dec_long#;
+									var staticImg  = document.getElementById("static-map-" + localityId);
+									var mapDiv = document.getElementById("mapdiv_" + localityId);
+									var loaded = false;
+		
+									function loadInteractiveMap() {
+										if (loaded) return;
+										loaded = true;
+		
+										mapDiv.style.display = "block";
+										staticImg.style.opacity = "0.0"; // optional fade-out
+		
+										var script = document.createElement("script");
+										script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry&callback=initLocalityMap_" + localityId;
+										script.async = true;
+										document.head.appendChild(script);
 									}
-									title = title + ' ' + loc + ' Determiner: ' + determiner;
-									var style = {
-										zIndex : zindex,
-										opacity: opacity,
-										label  : label,
-										title  : title
+		
+									window["initLocalityMap_" + localityId] = function() {
+									var center = { lat: lat, lng: lng };
+		
+									var mapOptions = {
+										  zoom: 10,
+										  center: new google.maps.LatLng(lat, lng),
+										  mapTypeId: google.maps.MapTypeId.ROADMAP,
+										  panControl: false,
+										  scaleControl: true,
+										  fullscreenControl: true,
+										  zoomControl: true
 									};
-									if (accepted != 'Yes') {
-										style.icon = icon;
-									}
-									return style;
-								});
-								bounds = new google.maps.LatLngBounds(); 
-								map.data.forEach(function(feature){
-									feature.getGeometry().forEachLatLng(function(latlng){
-										bounds.extend(latlng);
-									});
-									var accepted = feature.getProperty('accepted');
-									if (accepted == 'Yes') {
-										feature.getGeometry().forEachLatLng(function(latlng){
-											georefs = latlng;
+									var map = new google.maps.Map(mapDiv, mapOptions);
+									var bounds = new google.maps.LatLngBounds();
+									var georefs  = null;
+									var georefsBounds;
+									var georefsLoaded = false;
+									var polygonLoaded = false;
+									var higherLoaded = false;
+									var uncertaintypoly = null;
+									var errorcircle = null;
+									var enclosingpoly = null;
+									var uncertaintyPolygonArray = [];
+									var enclosingPolygonArray = [];
+								
+								// ---- 1) Accepted / not‑accepted georefs from GeoJSON ----
+								$.getJSON("/localities/component/georefUtilities.cfc", {
+									method : "getGeorefsGeoJSON",
+									locality_id : localityId,
+									returnformat: "json"
+								},
+								function (result) {
+									if (result) {
+										map.data.addGeoJson(result, { idPropertyName: "id" } );
+										map.data.setStyle(function(feature) {
+											var accepted = feature.getProperty('accepted');
+											var determiner = feature.getProperty('determiner');
+											var loc = feature.getProperty('spec_locality');
+											var opacity = 1.0;
+											var label= '';
+											var icon;
+											var zindex;
+											var title;
+											if (accepted == 'Yes') {
+												zindex = 15;
+												opacity = 1.0;
+												title = 'Accepted.';
+											} else {
+												label  = { text: 'n' };
+												icon   = '/shared/images/map_pin_grey.png';
+												opacity = 0.6;
+												zindex  = 3;
+												title   = 'Not Accepted.';
+											}
+											title = title + ' ' + loc + ' Determiner: ' + determiner;
+											var style = {
+												zIndex : zindex,
+												opacity: opacity,
+												label  : label,
+												title  : title
+											};
+											if (accepted != 'Yes') {
+												style.icon = icon;
+											}
+											return style;
 										});
+										bounds = new google.maps.LatLngBounds(); 
+										map.data.forEach(function(feature){
+											feature.getGeometry().forEachLatLng(function(latlng){
+												bounds.extend(latlng);
+											});
+											var accepted = feature.getProperty('accepted');
+											if (accepted == 'Yes') {
+												feature.getGeometry().forEachLatLng(function(latlng){
+													georefs = latlng;
+												});
+											}
+										});
+										map.fitBounds(bounds);
+										georefsBounds  = bounds;
+										georefsLoaded  = true;
+										postLoadCheck();
 									}
 								});
-								map.fitBounds(bounds);
-								georefsBounds  = bounds;
-								georefsLoaded  = true;
-								postLoadCheck();
-							}
-						});
-
-						// ---- 2) Point‑radius uncertainty circle ----
-						$.getJSON("/localities/component/georefUtilities.cfc", {
-							method : "getPointRadiusJSON",
-							locality_id : localityId,
-							returnformat: "json"
-						  },
-						  function (result) {
-							if (result) { 
-							  var dec_lat = result.dec_lat;
-							  var dec_long = result.dec_long;
-							  var radius = result.coordinateuncertaintyinmeters;
-							  if (radius) { 
-								var c = new google.maps.LatLng(dec_lat,dec_long);
-								bounds.extend(c);
-								if (parseInt(radius) > 0){
-								  var circleoptn = {
-									strokeColor  : '##FF0000',
-									strokeOpacity: 0.8,
-									strokeWeight : 2,
-									fillColor : '##FF0000',
-									fillOpacity  : 0.15,
-									map : map,
-									center : c,
-									radius : parseInt(radius),
-									zIndex : -99
-								  };
-								  errorcircle = new google.maps.Circle(circleoptn);
-								  bounds.union(errorcircle.getBounds());
-								  map.fitBounds(bounds);
-								}
-							  }
-							}
-						  }
-						);
-
-						// ---- 3) Footprint polygon (error region) ----
-						$.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&libraries=geometry&locality_id=" + localityId,
-							function(wkt) {
-								if (wkt.length > 0){
-									var regex   = /\(([^()]+)\)/g;
-									var RingsErr = [];
-									var results;
-									while( results = regex.exec(wkt) ) {
-										RingsErr.push( results[1] );
-									}
-									var uncertaintyPointsArray = [];
-									for (var i = 0; i < RingsErr.length; i++){
-										var lary = [];
-										var da   = RingsErr[i].split(",");
-										for (var j = 0; j < da.length; j++){
-											var xy = da[j].trim().split(" ");
-											var pt = new google.maps.LatLng(xy[1], xy[0]);
-											lary.push(pt);
-											bounds.extend(pt);
+		
+								// ---- 2) Point‑radius uncertainty circle ----
+								$.getJSON("/localities/component/georefUtilities.cfc", {
+									method : "getPointRadiusJSON",
+									locality_id : localityId,
+									returnformat: "json"
+								  },
+								  function (result) {
+									if (result) { 
+									  var dec_lat = result.dec_lat;
+									  var dec_long = result.dec_long;
+									  var radius = result.coordinateuncertaintyinmeters;
+									  if (radius) { 
+										var c = new google.maps.LatLng(dec_lat,dec_long);
+										bounds.extend(c);
+										if (parseInt(radius) > 0){
+										  var circleoptn = {
+											strokeColor  : '##FF0000',
+											strokeOpacity: 0.8,
+											strokeWeight : 2,
+											fillColor : '##FF0000',
+											fillOpacity  : 0.15,
+											map : map,
+											center : c,
+											radius : parseInt(radius),
+											zIndex : -99
+										  };
+										  errorcircle = new google.maps.Circle(circleoptn);
+										  bounds.union(errorcircle.getBounds());
+										  map.fitBounds(bounds);
 										}
-										uncertaintyPointsArray.push(lary);
+									  }
 									}
-							  uncertaintypoly = new google.maps.Polygon({
-								  paths : uncertaintyPointsArray,
-								  strokeColor : '##7412A4',
-								  strokeOpacity: 0.9,
-								  strokeWeight: 2,
-								  fillColor   : '##CF6FFF',
-								  fillOpacity : 0.35
-							  });
-									uncertaintypoly.setMap(map);
-									uncertaintyPolygonArray.push(uncertaintypoly);
+								  }
+								);
+		
+								// ---- 3) Footprint polygon (error region) ----
+								$.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&libraries=geometry&locality_id=" + localityId,
+									function(wkt) {
+										if (wkt.length > 0){
+											var regex   = /\(([^()]+)\)/g;
+											var RingsErr = [];
+											var results;
+											while( results = regex.exec(wkt) ) {
+												RingsErr.push( results[1] );
+											}
+											var uncertaintyPointsArray = [];
+											for (var i = 0; i < RingsErr.length; i++){
+												var lary = [];
+												var da   = RingsErr[i].split(",");
+												for (var j = 0; j < da.length; j++){
+													var xy = da[j].trim().split(" ");
+													var pt = new google.maps.LatLng(xy[1], xy[0]);
+													lary.push(pt);
+													bounds.extend(pt);
+												}
+												uncertaintyPointsArray.push(lary);
+											}
+									  uncertaintypoly = new google.maps.Polygon({
+										  paths : uncertaintyPointsArray,
+										  strokeColor : '##7412A4',
+										  strokeOpacity: 0.9,
+										  strokeWeight: 2,
+										  fillColor   : '##CF6FFF',
+										  fillOpacity : 0.35
+									  });
+											uncertaintypoly.setMap(map);
+											uncertaintyPolygonArray.push(uncertaintypoly);
+											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+												bounds.extend(extendPoint1);
+												bounds.extend(extendPoint2);
+											}
+											if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) {
+												bounds = google.maps.LatLngBounds.MAX_BOUNDS;
+											}
+											map.fitBounds(bounds);
+										} else {
+											$("##mapdiv_" + localityId).addClass('noErrorWKT');
+										}
+										polygonLoaded = true;
+										postLoadCheck();
+									}
+								);
+		
+								// ---- 4) Enclosing higher geography polygon ----
+								$.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&libraries=geometry&locality_id=" + localityId,
+								  function(wkt) {
+									if (wkt.length > 0){
+										var regex = /\(([^()]+)\)/g;
+										var Rings = [];
+										var results;
+										while( results = regex.exec(wkt) ) {
+											Rings.push( results[1] );
+										}
+										var enclosingPointsArray = [];
+										for (var i = 0; i < Rings.length; i++){
+											var lary = [];
+											var da   = Rings[i].split(",");
+											for (var j = 0; j < da.length; j++){
+												var xy = da[j].trim().split(" ");
+												var pt = new google.maps.LatLng(xy[1], xy[0]);
+												lary.push(pt);
+												bounds.extend(pt);
+											}
+											enclosingPointsArray.push(lary);
+										}
+										enclosingpoly = new google.maps.Polygon({
+											paths : enclosingPointsArray,
+											strokeColor : '##1E90FF',
+											strokeOpacity : 0.8,
+											strokeWeight : 2,
+											fillColor : '##1E90FF',
+											fillOpacity : 0.25
+										});
+										enclosingpoly.setMap(map);
+										enclosingPolygonArray.push(enclosingpoly);
+									} else {
+										$("##mapdiv_" + localityId).addClass('noWKT');
+									}
 									if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 										var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
 										var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
@@ -3269,98 +3321,45 @@ limitations under the License.
 										bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 									}
 									map.fitBounds(bounds);
-								} else {
-									$("##mapdiv_" + localityId).addClass('noErrorWKT');
-								}
-								polygonLoaded = true;
-								postLoadCheck();
-							}
-						);
-
-						// ---- 4) Enclosing higher geography polygon ----
-						$.get("/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&libraries=geometry&locality_id=" + localityId,
-						  function(wkt) {
-							if (wkt.length > 0){
-								var regex = /\(([^()]+)\)/g;
-								var Rings = [];
-								var results;
-								while( results = regex.exec(wkt) ) {
-									Rings.push( results[1] );
-								}
-								var enclosingPointsArray = [];
-								for (var i = 0; i < Rings.length; i++){
-									var lary = [];
-									var da   = Rings[i].split(",");
-									for (var j = 0; j < da.length; j++){
-										var xy = da[j].trim().split(" ");
-										var pt = new google.maps.LatLng(xy[1], xy[0]);
-										lary.push(pt);
-										bounds.extend(pt);
-									}
-									enclosingPointsArray.push(lary);
-								}
-								enclosingpoly = new google.maps.Polygon({
-									paths : enclosingPointsArray,
-									strokeColor : '##1E90FF',
-									strokeOpacity : 0.8,
-									strokeWeight : 2,
-									fillColor : '##1E90FF',
-									fillOpacity : 0.25
+									higherLoaded = true;
+									postLoadCheck();
 								});
-								enclosingpoly.setMap(map);
-								enclosingPolygonArray.push(enclosingpoly);
-							} else {
-								$("##mapdiv_" + localityId).addClass('noWKT');
-							}
-							if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-								var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-								var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-								bounds.extend(extendPoint1);
-								bounds.extend(extendPoint2);
-							}
-							if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) {
-								bounds = google.maps.LatLngBounds.MAX_BOUNDS;
-							}
-							map.fitBounds(bounds);
-							higherLoaded = true;
-							postLoadCheck();
-						});
-								
-						// ---- 5) Boundary checks (inside polygons?) ----
-						function postLoadCheck() {
-							if (georefsLoaded && polygonLoaded && higherLoaded && georefs) {
-								var hasProblem = false;
-								for (var a = 0; a < enclosingPolygonArray.length; a++){
-									if (!google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a])) {
-										hasProblem = true;
-										$("##mapMetadataUL").append(
-											"<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>"
-										);
+										
+								// ---- 5) Boundary checks (inside polygons?) ----
+								function postLoadCheck() {
+									if (georefsLoaded && polygonLoaded && higherLoaded && georefs) {
+										var hasProblem = false;
+										for (var a = 0; a < enclosingPolygonArray.length; a++){
+											if (!google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a])) {
+												hasProblem = true;
+												$("##mapMetadataUL").append(
+													"<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>"
+												);
+											}
+										}
+										for (var b = 0; b < uncertaintyPolygonArray.length; b++){
+											if (!google.maps.geometry.poly.containsLocation(georefs, uncertaintyPolygonArray[b])) {
+												hasProblem = true;
+												$("##mapMetadataUL").append(
+													"<li class='list-style-circle'>Georeference for locality is outside of Footprint Polygon.</li>"
+												);
+											}
+										}
+										if (hasProblem) {
+											$("##mapdiv_" + localityId).addClass('uglyGeoSPatData');
+										} else {
+											$("##mapdiv_" + localityId).addClass('niceGeoSPatData');
+											}
+										}
 									}
-								}
-								for (var b = 0; b < uncertaintyPolygonArray.length; b++){
-									if (!google.maps.geometry.poly.containsLocation(georefs, uncertaintyPolygonArray[b])) {
-										hasProblem = true;
-										$("##mapMetadataUL").append(
-											"<li class='list-style-circle'>Georeference for locality is outside of Footprint Polygon.</li>"
-										);
-									}
-								}
-								if (hasProblem) {
-									$("##mapdiv_" + localityId).addClass('uglyGeoSPatData');
-								} else {
-									$("##mapdiv_" + localityId).addClass('niceGeoSPatData');
-									}
-								}
-							}
-						};
+								};
 								<cfif staticMapUrl NEQ "">
-					<!--- Lazy-load interactive Google Map on hover/click --->
-							staticImg.addEventListener("mouseenter", loadInteractiveMap);
-							staticImg.addEventListener("click", loadInteractiveMap);
+									<!--- Lazy-load interactive Google Map on hover/click --->
+									staticImg.addEventListener("mouseenter", loadInteractiveMap);
+									staticImg.addEventListener("click", loadInteractiveMap);
 								</cfif>
-						})();
-					</script>
+							})();
+						</script>
 					</div>
 				<cfelse>
 					<cfset leftOfMapClass = "col-12">
