@@ -1,7 +1,8 @@
-/**
- * Scripts related to the container heirarchy.
+/** containers/js/containers.js
 
-Copyright 2023 President and Fellows of Harvard College
+Scripts supporting display of the the MCZbase container heirarchy.
+
+Copyright 2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -1173,45 +1174,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 
 					var actionCell = $('<td></td>');
 
-					if (structKids > 0) {
-						var exploreBtn = $('<button class="btn btn-xs btn-outline-primary mr-1"></button>').text('Explore');
-						(function(nodeId, nodeName) {
-							exploreBtn.on('click', function() {
-								exploreContainerInTree(nodeId, nodeName, browsePanel, leafPanel, feedbackId);
-							});
-						})(cid, displayName);
-						actionCell.append(exploreBtn);
-					}
-
-					if (leafKids > 0 && !isSingle) {
-						var browseBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1"></button>').text('Browse');
-						(function(nodeId, nodeName, nodeBarcode) {
-							browseBtn.on('click', function() {
-								var leafDivId = 'search-leaf-' + nodeId;
-								if ($('#' + leafDivId).length === 0) {
-									$('#' + leafPanel).removeClass('d-none').append($('<div></div>').attr('id', leafDivId));
-								}
-								loadLeafPanel(nodeId, leafDivId, feedbackId, 1, nodeName, nodeBarcode);
-							});
-						})(cid, displayName, row.barcode || '');
-						actionCell.append(browseBtn);
-					}
-
-					/* Specimens link: any row with any children (direct or structural) and a barcode.
-						   For direct leaf children the link is certain to return results; for containers
-						   with only structural children it is a best-effort proxy — the search may return
-						   0 results if the subtree contains no specimens, but most structural containers
-						   in a collection management system do contain specimens. */
-						if ((leafKids > 0 || structKids > 0) && row.barcode) {
-						var specUrl = specimenSearchUrl(row.barcode);
-						actionCell.append(
-							$('<a class="btn btn-xs btn-outline-info mr-1" target="_blank" rel="noopener noreferrer"></a>')
-								.attr('href', specUrl)
-								.attr('title', 'View specimens in this container in the specimen search')
-								.text('Specimens')
-						);
-					}
-
+					// locate button is expected to occur on every row, even if the container has no children, place it first in the action cell
 					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary"></button>').text('Locate');
 					(function(nodeId) {
 						locateBtn.on('click', function() {
@@ -1258,6 +1221,47 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 						});
 					})(cid);
 					actionCell.append(locateBtn);
+
+					// other buttons may or may not be shown depending on whether the container has children
+					if (structKids > 0) {
+						var exploreBtn = $('<button class="btn btn-xs btn-outline-primary mr-1"></button>').text('Explore');
+						(function(nodeId, nodeName) {
+							exploreBtn.on('click', function() {
+								exploreContainerInTree(nodeId, nodeName, browsePanel, leafPanel, feedbackId);
+							});
+						})(cid, displayName);
+						actionCell.append(exploreBtn);
+					}
+
+					if (leafKids > 0 && !isSingle) {
+						var browseBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1"></button>').text('Browse');
+						(function(nodeId, nodeName, nodeBarcode) {
+							browseBtn.on('click', function() {
+								var leafDivId = 'search-leaf-' + nodeId;
+								if ($('#' + leafDivId).length === 0) {
+									$('#' + leafPanel).removeClass('d-none').append($('<div></div>').attr('id', leafDivId));
+								}
+								loadLeafPanel(nodeId, leafDivId, feedbackId, 1, nodeName, nodeBarcode);
+							});
+						})(cid, displayName, row.barcode || '');
+						actionCell.append(browseBtn);
+					}
+
+					/* Specimens link: any row with any children (direct or structural) and a barcode.
+						   For direct leaf children the link is certain to return results; for containers
+						   with only structural children it is a best-effort proxy — the search may return
+						   0 results if the subtree contains no specimens, but most structural containers
+						   in a collection management system do contain specimens. */
+					if ((leafKids > 0 || structKids > 0) && row.barcode) {
+						var specUrl = specimenSearchUrl(row.barcode);
+						actionCell.append(
+							$('<a class="btn btn-xs btn-outline-info mr-1" target="_blank" rel="noopener noreferrer"></a>')
+								.attr('href', specUrl)
+								.attr('title', 'View specimens in this container in the specimen search')
+								.text('Specimens')
+						);
+					}
+
 
 					/* Contents summary cell: shape badge + child counts */
 					var contentsTd = $('<td></td>');
