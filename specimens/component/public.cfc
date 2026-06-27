@@ -3093,7 +3093,9 @@ limitations under the License.
 										loaded = true;
 		
 										mapDiv.style.display = "block";
-										staticImg.style.opacity = "0.0"; // optional fade-out
+										if (staticImg) {
+											staticImg.style.opacity = "0.0"; // optional fade-out
+										}
 		
 										var script = document.createElement("script");
 										script.src = "#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry&callback=initLocalityMap_" + localityId;
