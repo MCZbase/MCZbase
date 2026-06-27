@@ -337,13 +337,37 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 						var campusBrowseBtn = $('<button></button>')
 							.addClass('btn btn-xs btn-outline-secondary ml-1')
 							.text('Browse contents')
-								.on('click', (function(cid, label, bcode, ldivId) {
+								.on('click', (function(ncid, nlabel, nbcode, ldivId) {
 									return function() {
-										loadLeafPanel(cid, ldivId, feedbackEl, 1, label, bcode);
+										var btn = $(this);
+										var panel = $('#' + ldivId);
+										if (panel.hasClass('d-none')) {
+											if (!btn.data('loaded')) {
+												loadLeafPanel(ncid, ldivId, feedbackEl, 1, nlabel, nbcode);
+												btn.data('loaded', true);
+											} else {
+												panel.removeClass('d-none');
+											}
+											btn.text('Hide contents');
+										} else {
+											panel.addClass('d-none');
+											btn.text('Browse contents');
+										}
 									};
 								})(campusCid, campusDisplay, campus.barcode || '', campusLeafDivId));
-						campusRow.append(campusBrowseBtn);
-					}
+							campusRow.append(campusBrowseBtn);
+						}
+
+						/* Specimen search link: campus node with leaf descendants at any depth */
+						if (parseInt(campus.has_leaf_descendants, 10) > 0 && campus.barcode) {
+							var campusSpecUrl = specimenSearchUrl(campus.barcode);
+							campusRow.append(
+								$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+									.attr('href', campusSpecUrl)
+									.attr('title', 'Search for specimens in this campus')
+									.text('Specimens')
+							);
+						}
 
 					var campusChildUl = $('<ul></ul>').attr('id', campusChildId).addClass('collapse container-tree');
 					var campusLi = $('<li role="treeitem"></li>').append(campusRow);
@@ -456,6 +480,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		var cid = node.container_id;
 		var structuralChildren = parseInt(node.direct_structural_children, 10) || 0;
 		var leafChildren = parseInt(node.direct_leaf_children, 10) || 0;
+		var hasLeafDescendants = parseInt(node.has_leaf_descendants, 10) > 0;
 		var nodeDescription = node.description || '';
 		var childUlId = 'ctree-children-' + cid;
 		var toggleId = 'ctree-toggle-' + cid;
@@ -545,15 +570,27 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 				.text('Browse contents')
 				.on('click', (function(nodeId, nodeName, nodeBarcode, panelId) {
 					return function() {
-						loadLeafPanel(nodeId, panelId, feedbackId, 1, nodeName, nodeBarcode);
+						var btn = $(this);
+						var panel = $('#' + panelId);
+						if (panel.hasClass('d-none')) {
+							if (!btn.data('loaded')) {
+								loadLeafPanel(nodeId, panelId, feedbackId, 1, nodeName, nodeBarcode);
+								btn.data('loaded', true);
+							} else {
+								panel.removeClass('d-none');
+							}
+							btn.text('Hide contents');
+						} else {
+							panel.addClass('d-none');
+							btn.text('Browse contents');
+						}
 					};
 				})(cid, displayName, barcode, leafDivId));
 			nodeRow.append(browseBtn);
 		}
 
-		/* Specimen search link: any node with leaf children and a barcode gets a
-		   "View specimens" link pointing to the fixed specimen search. */
-		if (leafChildren > 0 && barcode) {
+		/* Specimen search link: any node with leaf descendants at any depth and a barcode. */
+		if (hasLeafDescendants && barcode) {
 			var specUrl = specimenSearchUrl(barcode);
 			nodeRow.append(
 				$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
@@ -1045,8 +1082,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 						actionCell.append(browseBtn);
 					}
 
-					/* Specimens link: any row with leaf children and a barcode */
-					if (leafKids > 0 && row.barcode) {
+					/* Specimens link: any row with any children (direct or structural) and a barcode */
+						if ((leafKids > 0 || structKids > 0) && row.barcode) {
 						var specUrl = specimenSearchUrl(row.barcode);
 						actionCell.append(
 							$('<a class="btn btn-xs btn-outline-info mr-1" target="_blank" rel="noopener noreferrer"></a>')

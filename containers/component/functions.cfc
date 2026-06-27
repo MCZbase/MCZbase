@@ -43,7 +43,8 @@ children of the given container, suitable for rendering a tree node.
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
-				sc.single_child_label
+				sc.single_child_label,
+				CASE WHEN leafd.root_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM
 				container c
 				LEFT JOIN (
@@ -73,6 +74,15 @@ children of the given container, suitable for rendering a tree node.
 					)
 					WHERE rn = 1
 				) sc ON sc.parent_container_id = c.container_id
+				LEFT JOIN (
+					SELECT CONNECT_BY_ROOT container_id AS root_id
+					FROM container
+					WHERE container_type = 'collection object'
+					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					       AND container_type <> 'collection object'
+					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+					GROUP BY CONNECT_BY_ROOT container_id
+				) leafd ON leafd.root_id = c.container_id
 			WHERE
 				c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 				AND c.container_type <> 'collection object'
@@ -94,6 +104,7 @@ children of the given container, suitable for rendering a tree node.
 			<cfset variables.row["direct_leaf_children"] = variables.qChildren.direct_leaf_children>
 			<cfset variables.row["single_child_barcode"] = variables.qChildren.single_child_barcode>
 			<cfset variables.row["single_child_label"] = variables.qChildren.single_child_label>
+			<cfset variables.row["has_leaf_descendants"] = variables.qChildren.has_leaf_descendants>
 			<cfset variables.data[variables.i] = variables.row>
 			<cfset variables.i = variables.i + 1>
 		</cfloop>
@@ -305,7 +316,8 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				c.barcode,
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
-				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				CASE WHEN leafd.root_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT
@@ -315,6 +327,17 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				FROM container
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
+			LEFT JOIN (
+				SELECT CONNECT_BY_ROOT container_id AS root_id
+				FROM container
+				WHERE container_type = 'collection object'
+				START WITH parent_container_id IN (
+					SELECT container_id FROM container
+					WHERE parent_container_id = 0 AND container_type = 'institution'
+				) AND container_type = 'campus'
+				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+				GROUP BY CONNECT_BY_ROOT container_id
+			) leafd ON leafd.root_id = c.container_id
 			WHERE c.parent_container_id IN (
 				SELECT container_id
 				FROM container
@@ -374,6 +397,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					<cfset variables.campus["description"] = variables.qCampuses.description>
 					<cfset variables.campus["direct_structural_children"] = variables.qCampuses.direct_structural_children>
 					<cfset variables.campus["direct_leaf_children"] = variables.qCampuses.direct_leaf_children>
+					<cfset variables.campus["has_leaf_descendants"] = variables.qCampuses.has_leaf_descendants>
 					<cfset variables.campusArr[variables.campusIdx] = variables.campus>
 					<cfset variables.campusIdx = variables.campusIdx + 1>
 				</cfif>
@@ -404,7 +428,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 
 @return a JSON array of objects with keys: container_id, parent_container_id, container_type,
   label, barcode, description, direct_structural_children, direct_leaf_children,
-  single_child_barcode, single_child_label.
+  single_child_barcode, single_child_label, has_leaf_descendants.
 --->
 <cffunction name="getOrphanedTopLevelStructural" access="remote" returntype="any" returnformat="json">
 	<cfset variables.data = ArrayNew(1)>
@@ -420,7 +444,8 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
-				sc.single_child_label
+				sc.single_child_label,
+				CASE WHEN leafd.root_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT
@@ -455,6 +480,17 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				)
 				WHERE rn = 1
 			) sc ON sc.parent_container_id = c.container_id
+			LEFT JOIN (
+				SELECT CONNECT_BY_ROOT container_id AS root_id
+				FROM container
+				WHERE container_type = 'collection object'
+				START WITH parent_container_id IN (
+					SELECT container_id FROM container
+					WHERE parent_container_id = 0 AND container_type = 'institution'
+				) AND container_type NOT IN ('campus', 'collection object')
+				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+				GROUP BY CONNECT_BY_ROOT container_id
+			) leafd ON leafd.root_id = c.container_id
 			WHERE c.parent_container_id IN (
 				SELECT container_id
 				FROM container
@@ -481,6 +517,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 			<cfset variables.row["direct_leaf_children"] = variables.qOrphans.direct_leaf_children>
 			<cfset variables.row["single_child_barcode"] = variables.qOrphans.single_child_barcode>
 			<cfset variables.row["single_child_label"] = variables.qOrphans.single_child_label>
+			<cfset variables.row["has_leaf_descendants"] = variables.qOrphans.has_leaf_descendants>
 			<cfset variables.data[variables.i] = variables.row>
 			<cfset variables.i = variables.i + 1>
 		</cfloop>
