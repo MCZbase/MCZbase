@@ -1238,10 +1238,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 										var display = formatContainerDisplay(node.barcode, node.label);
 										var crumbText = node.container_type + ': ' + display;
 										var crumbLi = $('<li class="breadcrumb-item arrowprefix small"></li>');
+										// Add a visually hidden prefix for screen readers to indicate the breadcrumb relationship
+										crumbLi.append(
+											$('<span class="sr-only">Contained within: </span>')
+										);
+										crumbLi.append(document.createTextNode(crumbText));
 										if (i === data.length - 1) {
-											crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText);
-										} else {
-											crumbLi.text(crumbText);
+											crumbLi.addClass('active').attr('aria-current', 'page');
 										}
 										breadcrumbEl.append(crumbLi);
 									});
