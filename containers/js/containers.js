@@ -195,13 +195,64 @@ function specimenSearchUrl(barcode) {
 }
 
 /**
- * Formats a container's display name using barcode as the primary identifier,
- * appending the label in parentheses when it differs from the barcode.
- * Falls back to label alone, or to '(unknown container)' if both are empty.
- * @param {string} barcode - the container's barcode value.
- * @param {string} label - the container's label/name value.
- * @returns {string} a human-readable display name for the container.
+ * Builds and returns a jQuery element for the Specimens button/link.
+ * When barcode is absent or hasLeafDescendants is 0, returns null.
+ * When directLeafChildren > 0 the node certainly contains specimens: returns
+ * a plain anchor link that opens immediately.
+ * Otherwise (only structural children present), returns a button that triggers
+ * a lazy AJAX check via checkHasLeafDescendants on first click; if no specimen
+ * descendants exist the button is updated to a disabled "No Specimens" label.
+ * @param {number} nodeId - container_id of the node.
+ * @param {string} barcode - node barcode for the specimen search URL.
+ * @param {number} directLeafChildren - count of direct collection-object children.
+ * @param {number} hasLeafDescendants - 1 when node has any children (fast proxy), 0 if empty.
+ * @returns {jQuery|null} jQuery element to append to the node row, or null.
  */
+function buildSpecimensButton(nodeId, barcode, directLeafChildren, hasLeafDescendants) {
+	if (!hasLeafDescendants || !barcode) { return null; }
+	var specUrl = specimenSearchUrl(barcode);
+	if (directLeafChildren > 0) {
+		/* Direct collection object children confirmed: link opens without a pre-check */
+		return $('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+			.attr('href', specUrl)
+			.attr('title', 'Search for specimens in this container')
+			.text('Specimens');
+	}
+	/* Only structural children: lazy check for specimen descendants on first click */
+	var specBtn = $('<button class="btn btn-xs btn-outline-info ml-1"></button>').text('Specimens');
+	specBtn.on('click', function() {
+		var btn = $(this);
+		if (btn.data('checked')) {
+			window.open(specUrl, '_blank', 'noopener,noreferrer');
+			return;
+		}
+		btn.prop('disabled', true).text('Checking\u2026');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			data: { method: 'checkHasLeafDescendants', container_id: nodeId },
+			dataType: 'json',
+			success: function(data) {
+				btn.prop('disabled', false);
+				if (parseInt(data.has_leaf_descendants, 10) > 0) {
+					btn.data('checked', true).text('Specimens');
+					window.open(specUrl, '_blank', 'noopener,noreferrer');
+				} else {
+					btn.text('No Specimens')
+						.removeClass('btn-outline-info')
+						.addClass('btn-outline-secondary')
+						.prop('disabled', true);
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				btn.prop('disabled', false).text('Specimens');
+				handleFail(jqXHR, textStatus, error, 'checking for specimen descendants');
+			}
+		});
+	});
+	return specBtn;
+}
+
+
 function formatContainerDisplay(barcode, label) {
 	var b = barcode || '';
 	var l = label || '';
@@ -360,54 +411,14 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 							campusRow.append(campusBrowseBtn);
 						}
 
-						/* Specimen search link: campus node with any children.
-						   - Direct leaf children: link opens without pre-check.
-						   - Structural children only: lazy check on first click. */
-						if (parseInt(campus.has_leaf_descendants, 10) > 0 && campus.barcode) {
-							var campusSpecUrl = specimenSearchUrl(campus.barcode);
-							var campusDirectLeaf = parseInt(campus.direct_leaf_children, 10) || 0;
-							if (campusDirectLeaf > 0) {
-								campusRow.append(
-									$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
-										.attr('href', campusSpecUrl)
-										.attr('title', 'Search for specimens in this campus')
-										.text('Specimens')
-								);
-							} else {
-								var campusSpecBtn = $('<button class="btn btn-xs btn-outline-info ml-1"></button>').text('Specimens');
-								(function(nodeId, url, btn) {
-									btn.on('click', function() {
-										if (btn.data('checked')) {
-											window.open(url, '_blank', 'noopener,noreferrer');
-											return;
-										}
-										btn.prop('disabled', true).text('Checking\u2026');
-										$.ajax({
-											url: '/containers/component/functions.cfc',
-											data: { method: 'checkHasLeafDescendants', container_id: nodeId },
-											dataType: 'json',
-											success: function(data) {
-												btn.prop('disabled', false);
-												if (parseInt(data.has_leaf_descendants, 10) > 0) {
-													btn.data('checked', true).text('Specimens');
-													window.open(url, '_blank', 'noopener,noreferrer');
-												} else {
-													btn.text('No Specimens')
-														.removeClass('btn-outline-info')
-														.addClass('btn-outline-secondary')
-														.prop('disabled', true);
-												}
-											},
-											error: function(jqXHR, textStatus, error) {
-												btn.prop('disabled', false).text('Specimens');
-												handleFail(jqXHR, textStatus, error, 'checking for specimen descendants');
-											}
-										});
-									});
-								})(campusCid, campusSpecUrl, campusSpecBtn);
-								campusRow.append(campusSpecBtn);
-							}
-						}
+						/* Specimen search link: built by buildSpecimensButton */
+						var campusSpecEl = buildSpecimensButton(
+							campusCid,
+							campus.barcode || '',
+							parseInt(campus.direct_leaf_children, 10) || 0,
+							parseInt(campus.has_leaf_descendants, 10)
+						);
+						if (campusSpecEl) { campusRow.append(campusSpecEl); }
 
 					var campusChildUl = $('<ul></ul>').attr('id', campusChildId).addClass('collapse container-tree');
 					var campusLi = $('<li role="treeitem"></li>').append(campusRow);
@@ -646,58 +657,9 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			nodeRow.append(browseBtn);
 		}
 
-		/* Specimen search link: node that has any children (structural or leaf).
-		   has_leaf_descendants = 1 is a fast proxy (any children present).
-		   - If the node has direct leaf children the link is certain to return results.
-		   - If the node has only structural children, the first click triggers a lazy
-		     check via checkHasLeafDescendants; if no specimens are found the button
-		     is replaced with a disabled "No Specimens" label. */
-		if (hasLeafDescendants && barcode) {
-			var specUrl = specimenSearchUrl(barcode);
-			if (leafChildren > 0) {
-				/* Direct collection object children confirmed — link opens without pre-check */
-				nodeRow.append(
-					$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
-						.attr('href', specUrl)
-						.attr('title', 'Search for specimens in this container')
-						.text('Specimens')
-				);
-			} else {
-				/* Only structural children — check for specimen descendants before opening */
-				var specBtn = $('<button class="btn btn-xs btn-outline-info ml-1"></button>').text('Specimens');
-				(function(nodeId, url, btn) {
-					btn.on('click', function() {
-						if (btn.data('checked')) {
-							window.open(url, '_blank', 'noopener,noreferrer');
-							return;
-						}
-						btn.prop('disabled', true).text('Checking\u2026');
-						$.ajax({
-							url: '/containers/component/functions.cfc',
-							data: { method: 'checkHasLeafDescendants', container_id: nodeId },
-							dataType: 'json',
-							success: function(data) {
-								btn.prop('disabled', false);
-								if (parseInt(data.has_leaf_descendants, 10) > 0) {
-									btn.data('checked', true).text('Specimens');
-									window.open(url, '_blank', 'noopener,noreferrer');
-								} else {
-									btn.text('No Specimens')
-										.removeClass('btn-outline-info')
-										.addClass('btn-outline-secondary')
-										.prop('disabled', true);
-								}
-							},
-							error: function(jqXHR, textStatus, error) {
-								btn.prop('disabled', false).text('Specimens');
-								handleFail(jqXHR, textStatus, error, 'checking for specimen descendants');
-							}
-						});
-					});
-				})(cid, specUrl, specBtn);
-				nodeRow.append(specBtn);
-			}
-		}
+		/* Specimen search link: built by buildSpecimensButton based on child counts */
+		var specEl = buildSpecimensButton(cid, barcode, leafChildren, hasLeafDescendants ? 1 : 0);
+		if (specEl) { nodeRow.append(specEl); }
 
 		var childUl = $('<ul></ul>')
 			.attr('id', childUlId)

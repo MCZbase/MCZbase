@@ -625,7 +625,7 @@ container with no direct leaf children), keeping page-load performance fast.
 	<cfargument name="container_id" type="numeric" required="yes">
 	<cfset variables.result = StructNew()>
 	<cftry>
-		<cfquery name="variables.qCheck" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+		<cfquery name="variables.qCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT CASE WHEN EXISTS (
 				SELECT 1
 				FROM container
