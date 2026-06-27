@@ -360,7 +360,8 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 							campusRow.append(campusBrowseBtn);
 						}
 
-						/* Specimen search link: campus node with direct collection object children */
+						/* Specimen search link: campus node whose has_leaf_descendants flag is 1,
+						   meaning the campus has direct collection object children (see functions.cfc). */
 						if (parseInt(campus.has_leaf_descendants, 10) > 0 && campus.barcode) {
 							var campusSpecUrl = specimenSearchUrl(campus.barcode);
 							campusRow.append(
@@ -608,7 +609,10 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			nodeRow.append(browseBtn);
 		}
 
-		/* Specimen search link: node that directly contains collection object children and has a barcode. */
+		/* Specimen search link: node that directly contains collection object children and has a barcode.
+		   has_leaf_descendants is set to 1 only when direct_leaf_children > 0 (direct collection object
+		   children), not recursively — the variable name reflects the original intent but the check
+		   is limited to direct children for performance. */
 		if (hasLeafDescendants && barcode) {
 			var specUrl = specimenSearchUrl(barcode);
 			nodeRow.append(
