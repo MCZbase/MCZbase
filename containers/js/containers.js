@@ -1236,7 +1236,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 									var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
 									$.each(data, function(i, node) {
 										var display = formatContainerDisplay(node.barcode, node.label);
-										var crumbText = node.container_type + ': ' + display;
+										var crumbText = '&#8627;' + node.container_type + ': ' + display;
 										var crumbLi = $('<li class="breadcrumb-item small"></li>');
 										if (i === data.length - 1) {
 											crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText);
