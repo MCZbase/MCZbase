@@ -3053,7 +3053,7 @@ limitations under the License.
 					</cfif>
 					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
-						<!--- check to see if a static map can be created or obtained --->
+						<!--- check to see if a static map exists or can be created  --->
 						<cfset staticMapUrl = "">
 						<cftry>
 							<cfset staticMapUrl = getOrCreateStaticMapForLocality(
@@ -3069,16 +3069,19 @@ limitations under the License.
 						</cftry>
 						<div class="col-12 col-md-5 float-right px-1">
 							<div id="map-wrapper-#loc_collevent.locality_id#" class="tinymap #twocol#">
-								<cfif staticMapUrl NEQ "">
-									<!--- Static thumbnail always shown if it exists --->
-									<img id="static-map-#loc_collevent.locality_id#" src="#encodeForHtmlAttribute(staticMapUrl)#" alt="Map of specimen collection locality #loc_collevent.locality_id#" class="static-map">
-									<!--- Interactive map, hidden until user interacts--->
+								<cfif staticMapUrl EQ "">
+									<!--- No static map available, show the google map div directly --->
 									<div id="mapdiv_#loc_collevent.locality_id#" class="interactive-map" aria-label="Google Map of specimen collection location"></div>
 								<cfelse>
-									<!--- No static map available, show the google map div directly --->
+									<!--- Static thumbnail always shown if it exists ---> 
+									<!--- bound to a mouseover event to load the interactive map when the user hovers over the static map below --->
+									<img id="static-map-#loc_collevent.locality_id#" src="#encodeForHtmlAttribute(staticMapUrl)#" alt="Map of specimen collection locality #loc_collevent.locality_id#" class="static-map">
+									<!--- Interactive map, hidden until user interacts --->
 									<div id="mapdiv_#loc_collevent.locality_id#" class="interactive-map" aria-label="Google Map of specimen collection location"></div>
 								</cfif>
 							</div>
+							<!--- Handle the map loading and initialization with JavaScript in an immediately invoked function expression (IIFE) to avoid polluting the global namespace --->
+							<!--- The end of this IIFE also includes a cfif staticMapUrl EQ "" evaluation to accompany the choice made above --->
 							<script>
 								(function() {
 									var localityId = "#loc_collevent.locality_id#";
