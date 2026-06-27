@@ -20,11 +20,13 @@ limitations under the License.
 .container-tree {
 	list-style: none;
 	padding: 0;
+	font-size: 1rem;
 }
 
 .container-tree ul {
 	list-style: none;
 	padding-left: 1.5em;
+	font-size: 1rem;
 }
 
 .container-tree li {

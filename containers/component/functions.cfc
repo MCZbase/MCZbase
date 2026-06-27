@@ -44,7 +44,7 @@ children of the given container, suitable for rendering a tree node.
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
 				sc.single_child_label,
-				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM
 				container c
 				LEFT JOIN (
@@ -354,7 +354,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
-				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT
@@ -385,7 +385,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
-				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT
@@ -533,7 +533,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
 				sc.single_child_label,
-				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT

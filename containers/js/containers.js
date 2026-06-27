@@ -360,7 +360,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 							campusRow.append(campusBrowseBtn);
 						}
 
-						/* Specimen search link: campus node with leaf descendants at any depth */
+						/* Specimen search link: campus node with direct collection object children */
 						if (parseInt(campus.has_leaf_descendants, 10) > 0 && campus.barcode) {
 							var campusSpecUrl = specimenSearchUrl(campus.barcode);
 							campusRow.append(
@@ -608,7 +608,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			nodeRow.append(browseBtn);
 		}
 
-		/* Specimen search link: any node with leaf descendants at any depth and a barcode. */
+		/* Specimen search link: node that directly contains collection object children and has a barcode. */
 		if (hasLeafDescendants && barcode) {
 			var specUrl = specimenSearchUrl(barcode);
 			nodeRow.append(
