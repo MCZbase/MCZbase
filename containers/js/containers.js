@@ -1082,7 +1082,11 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 						actionCell.append(browseBtn);
 					}
 
-					/* Specimens link: any row with any children (direct or structural) and a barcode */
+					/* Specimens link: any row with any children (direct or structural) and a barcode.
+						   For direct leaf children the link is certain to return results; for containers
+						   with only structural children it is a best-effort proxy — the search may return
+						   0 results if the subtree contains no specimens, but most structural containers
+						   in a collection management system do contain specimens. */
 						if ((leafKids > 0 || structKids > 0) && row.barcode) {
 						var specUrl = specimenSearchUrl(row.barcode);
 						actionCell.append(
