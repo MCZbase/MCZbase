@@ -89,3 +89,12 @@ limitations under the License.
 .arrowprefix::before {
   content: " ↳ ";
 }
+
+/* Bold ⇒ indicator shown before the target node when exploring from search results */
+.tree-node-target-arrow {
+	font-size: 2rem;
+	font-weight: bold;
+	line-height: 1;
+	vertical-align: middle;
+	margin-right: 0.15rem;
+}

@@ -44,7 +44,7 @@ children of the given container, suitable for rendering a tree node.
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
 				sc.single_child_label,
-				CASE WHEN leaf_desc.child_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM
 				container c
 				LEFT JOIN (
@@ -74,14 +74,6 @@ children of the given container, suitable for rendering a tree node.
 					)
 					WHERE rn = 1
 				) sc ON sc.parent_container_id = c.container_id
-				LEFT JOIN (
-					SELECT DISTINCT CONNECT_BY_ROOT container_id AS child_id
-					FROM container
-					WHERE container_type = 'collection object'
-					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-						AND container_type <> 'collection object'
-					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-				) leaf_desc ON leaf_desc.child_id = c.container_id
 			WHERE
 				c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 				AND c.container_type <> 'collection object'
@@ -351,20 +343,6 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				AND c.container_type = 'institution'
 			ORDER BY c.label
 		</cfquery>
-		<!--- Compute all structural container IDs that are ancestors of at least one
-		      collection object, traversing the full hierarchy upward from every leaf.
-		      Used to set has_leaf_descendants for campus and root-level-other nodes. --->
-		<cfquery name="variables.qLeafAncestors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT DISTINCT container_id AS ancestor_id
-			FROM container
-			WHERE container_type <> 'collection object'
-			START WITH container_type = 'collection object'
-			CONNECT BY NOCYCLE PRIOR parent_container_id = container_id
-		</cfquery>
-		<cfset variables.leafAncestorSet = StructNew()>
-		<cfloop query="variables.qLeafAncestors">
-			<cfset variables.leafAncestorSet[variables.qLeafAncestors.ancestor_id] = 1>
-		</cfloop>
 		<!--- Campus children of all institutions with child counts --->
 		<cfquery name="variables.qCampuses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
@@ -488,7 +466,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					<cfset variables.campus["description"] = variables.qCampuses.description>
 					<cfset variables.campus["direct_structural_children"] = variables.qCampuses.direct_structural_children>
 					<cfset variables.campus["direct_leaf_children"] = variables.qCampuses.direct_leaf_children>
-					<cfset variables.campus["has_leaf_descendants"] = StructKeyExists(variables.leafAncestorSet, variables.qCampuses.container_id) ? 1 : 0>
+					<cfset variables.campus["has_leaf_descendants"] = (variables.qCampuses.direct_structural_children GT 0 OR variables.qCampuses.direct_leaf_children GT 0) ? 1 : 0>
 					<cfset variables.campusArr[variables.campusIdx] = variables.campus>
 					<cfset variables.campusIdx = variables.campusIdx + 1>
 				</cfif>
@@ -512,7 +490,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 			<cfset variables.rootOther["description"] = variables.qRootOther.description>
 			<cfset variables.rootOther["direct_structural_children"] = variables.qRootOther.direct_structural_children>
 			<cfset variables.rootOther["direct_leaf_children"] = variables.qRootOther.direct_leaf_children>
-			<cfset variables.rootOther["has_leaf_descendants"] = StructKeyExists(variables.leafAncestorSet, variables.qRootOther.container_id) ? 1 : 0>
+			<cfset variables.rootOther["has_leaf_descendants"] = (variables.qRootOther.direct_structural_children GT 0 OR variables.qRootOther.direct_leaf_children GT 0) ? 1 : 0>
 			<cfset variables.rootOtherArr[variables.rootOtherIdx] = variables.rootOther>
 			<cfset variables.rootOtherIdx = variables.rootOtherIdx + 1>
 		</cfloop>
@@ -553,7 +531,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 				sc.single_child_barcode,
 				sc.single_child_label,
-				CASE WHEN la.ancestor_id IS NOT NULL THEN 1 ELSE 0 END AS has_leaf_descendants
+				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM container c
 			LEFT JOIN (
 				SELECT
@@ -590,13 +568,6 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				)
 				WHERE rn = 1
 			) sc ON sc.parent_container_id = c.container_id
-			LEFT JOIN (
-				SELECT DISTINCT container_id AS ancestor_id
-				FROM container
-				WHERE container_type <> 'collection object'
-				START WITH container_type = 'collection object'
-				CONNECT BY NOCYCLE PRIOR parent_container_id = container_id
-			) la ON la.ancestor_id = c.container_id
 			WHERE (
 				c.parent_container_id IN (
 					SELECT container_id
@@ -638,6 +609,42 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 	</cfcatch>
 	</cftry>
 	<cfreturn serializeJSON(variables.data)>
+</cffunction>
+
+<!---
+Function checkHasLeafDescendants.  Returns whether the given container has any collection
+object container descendants at any depth in its subtree.  Uses a hierarchical traversal
+via CONNECT BY, but is called only on-demand (when the Specimens button is clicked for a
+container with no direct leaf children), keeping page-load performance fast.
+
+@param container_id the container_id to check.
+@return a JSON object with key has_leaf_descendants (1 if any collection object descendant
+  exists at any depth, 0 otherwise).
+--->
+<cffunction name="checkHasLeafDescendants" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfset variables.result = StructNew()>
+	<cftry>
+		<cfquery name="variables.qCheck" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			SELECT CASE WHEN EXISTS (
+				SELECT 1
+				FROM container
+				WHERE container_type = 'collection object'
+				START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+			) THEN 1 ELSE 0 END AS has_leaf_descendants
+			FROM DUAL
+		</cfquery>
+		<cfset variables.result["has_leaf_descendants"] = variables.qCheck.has_leaf_descendants>
+		<cfreturn serializeJSON(variables.result)>
+	<cfcatch>
+		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset variables.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#variables.function_called#", error_message="#variables.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(variables.result)>
 </cffunction>
 
 </cfcomponent>

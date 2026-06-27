@@ -360,16 +360,53 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 							campusRow.append(campusBrowseBtn);
 						}
 
-						/* Specimen search link: campus node whose has_leaf_descendants flag is 1,
-						   meaning the campus has collection object descendants at any depth. */
+						/* Specimen search link: campus node with any children.
+						   - Direct leaf children: link opens without pre-check.
+						   - Structural children only: lazy check on first click. */
 						if (parseInt(campus.has_leaf_descendants, 10) > 0 && campus.barcode) {
 							var campusSpecUrl = specimenSearchUrl(campus.barcode);
-							campusRow.append(
-								$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
-									.attr('href', campusSpecUrl)
-									.attr('title', 'Search for specimens in this campus')
-									.text('Specimens')
-							);
+							var campusDirectLeaf = parseInt(campus.direct_leaf_children, 10) || 0;
+							if (campusDirectLeaf > 0) {
+								campusRow.append(
+									$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+										.attr('href', campusSpecUrl)
+										.attr('title', 'Search for specimens in this campus')
+										.text('Specimens')
+								);
+							} else {
+								var campusSpecBtn = $('<button class="btn btn-xs btn-outline-info ml-1"></button>').text('Specimens');
+								(function(nodeId, url, btn) {
+									btn.on('click', function() {
+										if (btn.data('checked')) {
+											window.open(url, '_blank', 'noopener,noreferrer');
+											return;
+										}
+										btn.prop('disabled', true).text('Checking\u2026');
+										$.ajax({
+											url: '/containers/component/functions.cfc',
+											data: { method: 'checkHasLeafDescendants', container_id: nodeId },
+											dataType: 'json',
+											success: function(data) {
+												btn.prop('disabled', false);
+												if (parseInt(data.has_leaf_descendants, 10) > 0) {
+													btn.data('checked', true).text('Specimens');
+													window.open(url, '_blank', 'noopener,noreferrer');
+												} else {
+													btn.text('No Specimens')
+														.removeClass('btn-outline-info')
+														.addClass('btn-outline-secondary')
+														.prop('disabled', true);
+												}
+											},
+											error: function(jqXHR, textStatus, error) {
+												btn.prop('disabled', false).text('Specimens');
+												handleFail(jqXHR, textStatus, error, 'checking for specimen descendants');
+											}
+										});
+									});
+								})(campusCid, campusSpecUrl, campusSpecBtn);
+								campusRow.append(campusSpecBtn);
+							}
 						}
 
 					var campusChildUl = $('<ul></ul>').attr('id', campusChildId).addClass('collapse container-tree');
@@ -609,17 +646,57 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 			nodeRow.append(browseBtn);
 		}
 
-		/* Specimen search link: node that has collection object descendants at any depth and has a barcode.
-		   has_leaf_descendants is 1 when the container has collection objects anywhere in its subtree
-		   (full hierarchical check in functions.cfc). */
+		/* Specimen search link: node that has any children (structural or leaf).
+		   has_leaf_descendants = 1 is a fast proxy (any children present).
+		   - If the node has direct leaf children the link is certain to return results.
+		   - If the node has only structural children, the first click triggers a lazy
+		     check via checkHasLeafDescendants; if no specimens are found the button
+		     is replaced with a disabled "No Specimens" label. */
 		if (hasLeafDescendants && barcode) {
 			var specUrl = specimenSearchUrl(barcode);
-			nodeRow.append(
-				$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
-					.attr('href', specUrl)
-					.attr('title', 'Search for specimens in this container')
-					.text('Specimens')
-			);
+			if (leafChildren > 0) {
+				/* Direct collection object children confirmed — link opens without pre-check */
+				nodeRow.append(
+					$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+						.attr('href', specUrl)
+						.attr('title', 'Search for specimens in this container')
+						.text('Specimens')
+				);
+			} else {
+				/* Only structural children — check for specimen descendants before opening */
+				var specBtn = $('<button class="btn btn-xs btn-outline-info ml-1"></button>').text('Specimens');
+				(function(nodeId, url, btn) {
+					btn.on('click', function() {
+						if (btn.data('checked')) {
+							window.open(url, '_blank', 'noopener,noreferrer');
+							return;
+						}
+						btn.prop('disabled', true).text('Checking\u2026');
+						$.ajax({
+							url: '/containers/component/functions.cfc',
+							data: { method: 'checkHasLeafDescendants', container_id: nodeId },
+							dataType: 'json',
+							success: function(data) {
+								btn.prop('disabled', false);
+								if (parseInt(data.has_leaf_descendants, 10) > 0) {
+									btn.data('checked', true).text('Specimens');
+									window.open(url, '_blank', 'noopener,noreferrer');
+								} else {
+									btn.text('No Specimens')
+										.removeClass('btn-outline-info')
+										.addClass('btn-outline-secondary')
+										.prop('disabled', true);
+								}
+							},
+							error: function(jqXHR, textStatus, error) {
+								btn.prop('disabled', false).text('Specimens');
+								handleFail(jqXHR, textStatus, error, 'checking for specimen descendants');
+							}
+						});
+					});
+				})(cid, specUrl, specBtn);
+				nodeRow.append(specBtn);
+			}
 		}
 
 		var childUl = $('<ul></ul>')
@@ -964,11 +1041,21 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
 			renderTreeNodes(nodeArr, targetDivId, feedbackId);
 			/* Highlight the target node after a brief delay to allow renderTreeNodes to complete */
 			setTimeout(function() {
-				var label = $('#ctree-children-' + containerId).closest('li')
-					.children('.tree-node-row').find('.tree-node-label').first();
-				if (label.length > 0) {
-					label.addClass('tree-node-highlighted');
-					var el = label[0];
+				var targetLi = $('#ctree-children-' + containerId).closest('li');
+				if (targetLi.length === 0) {
+					/* Fallback: find li via toggle when no children ul exists */
+					targetLi = $('#ctree-toggle-' + containerId).closest('li');
+				}
+				if (targetLi.length > 0) {
+					var targetRow = targetLi.children('.tree-node-row');
+					var targetLabel = targetRow.find('.tree-node-label').first();
+					targetLabel.addClass('tree-node-highlighted');
+					/* Bold ⇒ arrow prepended before the expand toggle button */
+					targetRow.prepend($('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>'));
+					/* Accessibility announcement for the selected node */
+					var nodeDisplay = formatContainerDisplay(containerNode.barcode, containerNode.label);
+					targetLi.prepend($('<span class="sr-only" role="status"></span>').text('Selected container: ' + nodeDisplay));
+					var el = targetLabel[0];
 					if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
 				}
 			}, 50);
@@ -990,13 +1077,20 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
  * @param {number} targetId - container_id of the final node to highlight.
  */
 function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
-	/* When we reach the last breadcrumb (the target itself), just highlight it */
+	/* When we reach the last breadcrumb (the target itself), highlight it */
 	if (index >= breadcrumbs.length - 1) {
 		/* The target node's li contains #ctree-children-{targetId} as a descendant */
 		var targetLi = $('#ctree-children-' + targetId).closest('li');
 		if (targetLi.length > 0) {
-			var targetLabel = targetLi.children('.tree-node-row').find('.tree-node-label').first();
+			var targetRow = targetLi.children('.tree-node-row');
+			var targetLabel = targetRow.find('.tree-node-label').first();
 			targetLabel.addClass('tree-node-highlighted');
+			/* Bold ⇒ arrow prepended before the expand toggle button */
+			targetRow.prepend($('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>'));
+			/* Accessibility announcement for the selected node */
+			var targetNode = breadcrumbs[breadcrumbs.length - 1];
+			var targetDisplay = formatContainerDisplay(targetNode.barcode, targetNode.label);
+			targetLi.prepend($('<span class="sr-only" role="status"></span>').text('Selected container: ' + targetDisplay));
 			var el = targetLabel[0];
 			if (el) {
 				el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
