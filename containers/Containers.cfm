@@ -177,8 +177,6 @@ limitations under the License.
 	<section>
 		<div class="d-flex align-items-center flex-wrap mb-1">
 			<h2 class="h4 mr-2 mb-0">Container Hierarchy</h2>
-			<button class="btn btn-xs btn-outline-secondary mt-1" title="Return to the default container hierarchy view"
-				onclick="initContainerBrowse('containerBrowsePanel','containerLeafPanel','containerBrowseFeedback'); $('#containerLeafPanel').addClass('d-none').html('');">&#8962; Browse Hierarchy</button>
 		</div>
 		<p id="containerBrowseContext" class="text-muted small mb-2"></p>
 		<div id="containerBrowsePanel">

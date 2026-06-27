@@ -135,27 +135,60 @@ of the given container, for use in the leaf browser panel.
 				AND container_type = 'collection object'
 		</cfquery>
 		<cfset variables.totalRows = variables.qCount.total_rows>
-		<!--- Paginated rows using Oracle ROWNUM subquery --->
-		<cfquery name="variables.qLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT container_id, label, barcode, description
+				<!--- Paginated rows with specimen info via LEFT JOIN.
+		      The spec subquery uses GROUP BY on container_id to guarantee one row per container
+		      even if coll_obj_cont_hist has anomalous duplicate current entries. --->
+		<cfquery name="variables.qLeaf" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, description,
+				cat_num, collection_cde, institution_acronym, part_name, scientific_name
 			FROM (
 				SELECT
 					container_id,
 					label,
 					barcode,
 					description,
+					cat_num,
+					collection_cde,
+					institution_acronym,
+					part_name,
+					scientific_name,
 					ROWNUM AS rn
 				FROM (
 					SELECT
-						container_id,
-						label,
-						barcode,
-						description
-					FROM container
-					WHERE
-						parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-						AND container_type = 'collection object'
-					ORDER BY label
+						c.container_id,
+						c.label,
+						c.barcode,
+						c.description,
+						spec.cat_num,
+						spec.collection_cde,
+						spec.institution_acronym,
+						spec.part_name,
+						spec.scientific_name
+					FROM container c
+					LEFT JOIN (
+						SELECT
+							coch.container_id,
+							MAX(ci.cat_num) AS cat_num,
+							MAX(ci.collection_cde) AS collection_cde,
+							MAX(col.institution_acronym) AS institution_acronym,
+							MAX(sp.part_name) AS part_name,
+							MAX(id_sub.scientific_name) AS scientific_name
+						FROM coll_obj_cont_hist coch
+						LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+						LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
+						LEFT JOIN collection col ON col.collection_id = ci.collection_id
+						LEFT JOIN (
+							SELECT collection_object_id, MIN(scientific_name) AS scientific_name
+							FROM identification
+							WHERE accepted_id_fg = 1
+							GROUP BY collection_object_id
+						) id_sub ON id_sub.collection_object_id = ci.collection_object_id
+						WHERE coch.current_container_fg = 1
+						GROUP BY coch.container_id
+					) spec ON spec.container_id = c.container_id
+					WHERE c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+						AND c.container_type = 'collection object'
+					ORDER BY c.label
 				)
 				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.offset + arguments.pageSize#">
 			)
@@ -169,6 +202,11 @@ of the given container, for use in the leaf browser panel.
 			<cfset variables.row["label"] = variables.qLeaf.label>
 			<cfset variables.row["barcode"] = variables.qLeaf.barcode>
 			<cfset variables.row["description"] = variables.qLeaf.description>
+			<cfset variables.row["cat_num"] = variables.qLeaf.cat_num>
+			<cfset variables.row["collection_cde"] = variables.qLeaf.collection_cde>
+			<cfset variables.row["institution_acronym"] = variables.qLeaf.institution_acronym>
+			<cfset variables.row["part_name"] = variables.qLeaf.part_name>
+			<cfset variables.row["scientific_name"] = variables.qLeaf.scientific_name>
 			<cfset variables.rows[variables.i] = variables.row>
 			<cfset variables.i = variables.i + 1>
 		</cfloop>
@@ -332,8 +370,10 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				AND c.container_type = 'campus'
 			ORDER BY c.parent_container_id, c.label
 		</cfquery>
-		<!--- Root-level non-institution containers (e.g., a Deaccessioned campus at root level) --->
-		<cfquery name="variables.qRootOther" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				<!--- Root-level campus containers (e.g., Deaccessioned campus at root level).
+		      Only campus-type containers are shown separately; other non-institution root-level
+		      containers are subsumed into the orphaned structural / leaf count buttons. --->
+		<cfquery name="variables.qRootOther" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
 			SELECT
 				c.container_id,
 				c.container_type,
@@ -353,33 +393,52 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
 			WHERE c.parent_container_id = 0
-				AND c.container_type <> 'institution'
+				AND c.container_type = 'campus'
 			ORDER BY c.label
 		</cfquery>
-		<!--- Count orphaned structural nodes: non-institution structural nodes at root level --->
-		<cfquery name="variables.qOrphanStruct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<!--- Count orphaned structural nodes: non-campus structural containers that are either
+		      direct children of institution nodes OR are at root level (parent_container_id = 0)
+		      but are not institution or campus type. --->
+		<cfquery name="variables.qOrphanStruct" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
-			FROM container
-			WHERE parent_container_id IN (
+			FROM (
+				SELECT container_id
+				FROM container
+				WHERE parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+					AND container_type <> 'campus'
+					AND container_type <> 'collection object'
+				UNION ALL
 				SELECT container_id
 				FROM container
 				WHERE parent_container_id = 0
-					AND container_type = 'institution'
+					AND container_type NOT IN ('institution', 'campus', 'collection object')
 			)
-				AND container_type <> 'campus'
-				AND container_type <> 'collection object'
 		</cfquery>
-		<!--- Count orphaned leaf nodes: collection-object nodes at root level --->
-		<cfquery name="variables.qOrphanLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<!--- Count orphaned leaf nodes: collection-object containers that are either direct
+		      children of institution nodes OR are at root level (parent_container_id = 0). --->
+		<cfquery name="variables.qOrphanLeaf" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
-			FROM container
-			WHERE parent_container_id IN (
+			FROM (
+				SELECT container_id
+				FROM container
+				WHERE parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+					AND container_type = 'collection object'
+				UNION ALL
 				SELECT container_id
 				FROM container
 				WHERE parent_container_id = 0
-					AND container_type = 'institution'
+					AND container_type = 'collection object'
 			)
-				AND container_type = 'collection object'
 		</cfquery>
 		<!--- Build institution array with embedded campus children --->
 		<cfset variables.institutions = ArrayNew(1)>
@@ -494,26 +553,30 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 						AND parent_container_id IN (
 							SELECT container_id
 							FROM container
-							WHERE parent_container_id IN (
-								SELECT container_id
-								FROM container
-								WHERE parent_container_id = 0
-									AND container_type = 'institution'
+							WHERE (
+								parent_container_id IN (
+									SELECT container_id
+									FROM container
+									WHERE parent_container_id = 0
+										AND container_type = 'institution'
+								)
+								OR parent_container_id = 0
 							)
-								AND container_type <> 'campus'
-								AND container_type <> 'collection object'
+								AND container_type NOT IN ('institution', 'campus', 'collection object')
 						)
 				)
 				WHERE rn = 1
 			) sc ON sc.parent_container_id = c.container_id
-			WHERE c.parent_container_id IN (
-				SELECT container_id
-				FROM container
-				WHERE parent_container_id = 0
-					AND container_type = 'institution'
+			WHERE (
+				c.parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+				OR c.parent_container_id = 0
 			)
-				AND c.container_type <> 'campus'
-				AND c.container_type <> 'collection object'
+				AND c.container_type NOT IN ('institution', 'campus', 'collection object')
 			ORDER BY
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
 				c.container_type,
