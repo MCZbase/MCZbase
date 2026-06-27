@@ -539,11 +539,13 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 
 			/* Builds a First/Prev/Next/Last navigation bar. */
 			function buildPagingNav(extraClass) {
-				var nav = $('<div></div>').addClass('d-flex flex-wrap' + (extraClass ? ' ' + extraClass : ''));
-				var firstBtn = $('<button class="btn btn-xs btn-secondary mr-1">\u00ab First</button>');
-				var prevBtn  = $('<button class="btn btn-xs btn-secondary mr-1">\u2039 Prev</button>');
-				var nextBtn  = $('<button class="btn btn-xs btn-secondary mr-1">Next \u203a</button>');
-				var lastBtn  = $('<button class="btn btn-xs btn-secondary">Last \u00bb</button>');
+				var nav = $('<nav></nav>')
+					.attr('aria-label', 'Page navigation')
+					.addClass('d-flex flex-wrap' + (extraClass ? ' ' + extraClass : ''));
+				var firstBtn = $('<button class="btn btn-xs btn-secondary mr-1">\u00ab First</button>').attr('aria-label', 'Go to first page');
+				var prevBtn  = $('<button class="btn btn-xs btn-secondary mr-1">\u2039 Prev</button>').attr('aria-label', 'Go to previous page');
+				var nextBtn  = $('<button class="btn btn-xs btn-secondary mr-1">Next \u203a</button>').attr('aria-label', 'Go to next page');
+				var lastBtn  = $('<button class="btn btn-xs btn-secondary">Last \u00bb</button>').attr('aria-label', 'Go to last page');
 				if (currentPage <= 1) {
 					firstBtn.prop('disabled', true);
 					prevBtn.prop('disabled', true);
@@ -588,7 +590,7 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 			}
 
 			var leafEl = $('#' + leafPanelId);
-			leafEl.html(panel);
+			leafEl.removeClass('d-none').html(panel);
 			leafEl.off('click.leafpage').on('click.leafpage', '.leaf-page-btn', function() {
 				loadLeafPanel($(this).data('cid'), leafPanelId, feedbackId, $(this).data('page'), containerLabel);
 			});
