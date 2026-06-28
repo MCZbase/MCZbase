@@ -933,6 +933,7 @@ function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel
 		dataType: 'json',
 		success: function(breadcrumbs) {
 			$('#containerBrowseContext').text('Exploring: ' + displayName);
+			$('#containerBrowseContext').append($('<a href="#" class="ml-2">[View location]</a>').on('click', function(e) { expandBreadcrumbPath(breadcrumbs, 0, feedbackId, containerId); e.preventDefault(); }));
 			/* Detect "unplaced" containers: those without a campus ancestor.
 			   These are not in the pre-rendered institution/campus tree so trying to
 			   expand the breadcrumb path in the full tree would silently fail.
