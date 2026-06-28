@@ -132,7 +132,7 @@ limitations under the License.
 									value="#encodeForHtml(variables.description)#">
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(7,0,0,0)#">
 									SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
 									FROM container 
 									WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
