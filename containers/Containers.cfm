@@ -132,11 +132,23 @@ limitations under the License.
 									value="#encodeForHtml(variables.description)#">
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
+									FROM container 
+									WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
+									GROUP BY nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
+								</cfquery>
 								<label for="department" class="data-entry-label">Department (label prefix, e.g. IZ, Ent)</label>
-								<input type="text" id="department" name="department"
-									class="data-entry-input col-12"
-									placeholder="e.g. IZ, Ent, Mala"
-									value="#encodeForHtml(variables.department)#">
+								<select id="department" name="department" class="data-entry-select col-12">
+									<option value=""></option>
+									<cfloop query="fixturePrefixes">
+										<cfset variables.selectedPrefix = "">
+										<cfif fixturePrefixes.prefix EQ variables.department>
+											<cfset variables.selectedPrefix = " selected">
+										</cfif>
+										<option value="#encodeForHtml(fixturePrefixes.prefix)#"#variables.selectedPrefix#>#encodeForHtml(fixturePrefixes.prefix)#</option>
+									</cfloop>
+								</select>
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
 								<label for="tree_property" class="data-entry-label">Tree Property</label>
