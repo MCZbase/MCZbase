@@ -674,57 +674,52 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<!--- TODO: Review administrative functions --->
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-									<div>
-										
-										<div class="h5 dropdown-header px-4 text-danger">Data</div>
-										
+										<div>
+											<div class="h5 dropdown-header px-4 text-danger">Data</div>
 											<a class="dropdown-item" href="/vocabularies/manageControlledVocabulary.cfm">Controlled Vocabulary Editor</a>
 											<a class="dropdown-item" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attributes Hierarchies</a>
+	
 											<!--- TODO: Need another role for report management --->
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Reports/reporter.cfm">Label/Report Management</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
 											</cfif>
-									
-											<!--- TODO: are the rest of these DBA or another role? --->
-									
+										
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Download Tables</a>
 											</cfif>
 									
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
-											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
-											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
-											<a class="dropdown-item" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<a class="dropdown-item" href="/tools/listImages.cfm">Image List</a>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
-											<a class="dropdown-item" href="/containers/containerDiagnostics.cfm">Container Diagnostics</a>
-											<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
-										</cfif>
-									</div>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+												<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
+												<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
+												<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
+												<a class="dropdown-item" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
+												<a class="dropdown-item" href="/tools/listImages.cfm">Image List</a>
+											</cfif>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+												<a class="dropdown-item" href="/containers/containerDiagnostics.cfm">Container Diagnostics</a>
+												<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
+											</cfif>
+										</div>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-									<div>
-								
-									<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Audit SQL</a>
-										</cfif>
-										<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">User Role Report</a>
-										</cfif>
-										<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+										<div>
+											<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Audit SQL</a>
+											</cfif>
+											<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">User Role Report</a>
+											</cfif>
+											<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
 											<!---
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
@@ -738,14 +733,10 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">User Loan Management</a>
 											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">List of All Users</a>
-											</cfif>
-										</cfif>
-									</div>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"GLOBAL_ADMIN")>
+											<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
+										</div>
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Application</div>
 											<a class="dropdown-item" href="/Admin/Collection.cfm">Manage Collections</a>
@@ -753,40 +744,39 @@ limitations under the License.
 											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 										</div>
 									</cfif>
-									</cfif>
 								</li>
 							</ul>
 						</li>
 					</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
-					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
-						<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
-							</cfif>
-							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
-							<a class="dropdown-item" href="/info/HowToCite.cfm">Citing MCZbase</a>
-							<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-								<a class="dropdown-item" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Specimen Search Builder Help</a>
-							<cfelse>
-								<a class="dropdown-item" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=PUBLIC">Specimen Search Builder Help</a>
-							</cfif>
-							<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-								<a class="dropdown-item" href="/Reports/listReports.cfm">List of Label Reports</a>
-							</cfif>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-								<a class="dropdown-item" href="https://github.com/MCZbase/MCZbase/blob/master/documentation/README.md">Developer&##39;guide</a>
-							</cfif>
-							<a class="dropdown-item" href="/info/api.cfm">API</a>
-							<cfif targetMenu NEQ "production">
-								<a class="dropdown-item bg-warning" href="">Technical Details</a>
-							</cfif>
-						</ul>
-					</li>
-				</cfif>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
+								</cfif>
+								<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
+								<a class="dropdown-item" href="/info/HowToCite.cfm">Citing MCZbase</a>
+								<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<a class="dropdown-item" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Specimen Search Builder Help</a>
+								<cfelse>
+									<a class="dropdown-item" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=PUBLIC">Specimen Search Builder Help</a>
+								</cfif>
+								<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+									<a class="dropdown-item" href="/Reports/listReports.cfm">List of Label Reports</a>
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<a class="dropdown-item" href="https://github.com/MCZbase/MCZbase/blob/master/documentation/README.md">Developer&##39;guide</a>
+								</cfif>
+								<a class="dropdown-item" href="/info/api.cfm">API</a>
+								<cfif targetMenu NEQ "production">
+									<a class="dropdown-item bg-warning" href="">Technical Details</a>
+								</cfif>
+							</ul>
+						</li>
+					</cfif>
 				</ul>
 				<ul class="navbar-nav ml-auto">
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
