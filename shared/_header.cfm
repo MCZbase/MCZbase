@@ -738,11 +738,7 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">User Loan Management</a>
 											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">List of All Users</a>
-											</cfif>
+											<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
 										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"GLOBAL_ADMIN")>
