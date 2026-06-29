@@ -497,10 +497,9 @@ a paginated JSON result for display in the browse panel.
 			</cfif>
 			WHERE 1=1
 			<cfif len(local.searchUpper) GT 0>
-				<!--- if frst character is = then do an exact match search on the rest of the term, otherwise like search with wildcards --->
 				<cfif left(local.searchUpper,1) EQ "=">
 					AND (
-						UPPER(c.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1))#">
+						UPPER(c.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1)#">
 						OR UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1)#">
 					)
 				<cfelse>
@@ -514,7 +513,6 @@ a paginated JSON result for display in the browse panel.
 				AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
 			</cfif>
 			<cfif len(local.barcodeUpper) GT 0>
-				<!--- if frst character is = then do an exact match search on the rest of the term, otherwise like search with wildcards --->
 				<cfif left(local.barcodeUpper,1) EQ "=">
 					AND UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.barcodeUpper, 1, 1)#">
 				<cfelse>
