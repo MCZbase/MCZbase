@@ -1280,7 +1280,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 										} else {
 											// Non-last items: link the display portion
 											var link = document.createElement('a');
-											link.addClass('pl-1');
+											link.classList.add('pl-1');
 											var baseUrl = '/containers/Containers.cfm';
 											// Build query string safely
 											var params = new URLSearchParams({
