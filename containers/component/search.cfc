@@ -403,9 +403,10 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 --->
 <cffunction name="getContainerBreadcrumb" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
-	<cfset variables.data = ArrayNew(1)>
+
+	<cfset local.retval = ArrayNew(1)>
 	<cftry>
-		<cfquery name="variables.qBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="queryGetBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				container_id,
 				container_type,
@@ -419,25 +420,248 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 				parent_container_id = container_id
 			ORDER BY LEVEL DESC
 		</cfquery>
-		<cfset variables.i = 1>
-		<cfloop query="variables.qBreadcrumb">
-			<cfset variables.row = StructNew()>
-			<cfset variables.row["container_id"] = variables.qBreadcrumb.container_id>
-			<cfset variables.row["container_type"] = variables.qBreadcrumb.container_type>
-			<cfset variables.row["label"] = variables.qBreadcrumb.label>
-			<cfset variables.row["barcode"] = variables.qBreadcrumb.barcode>
-			<cfset variables.data[variables.i] = variables.row>
-			<cfset variables.i = variables.i + 1>
+		<cfset local.i = 1>
+		<cfloop query="queryGetBreadcrumb">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_id"] = queryGetBreadcrumb.container_id>
+			<cfset local.row["container_type"] = queryGetBreadcrumb.container_type>
+			<cfset local.row["label"] = queryGetBreadcrumb.label>
+			<cfset local.row["barcode"] = queryGetBreadcrumb.barcode>
+			<cfset local.retval[local.i] = local.row>
+			<cfset local.i = local.i + 1>
 		</cfloop>
-		<cfreturn serializeJSON(variables.data)>
 	<cfcatch>
-		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset variables.function_called = "#GetFunctionCalledName()#">
-		<cfscript>reportError(function_called="#variables.function_called#", error_message="#variables.error_message#");</cfscript>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn serializeJSON(variables.data)>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+
+<!---
+Function searchContainers.  Searches containers by one or more criteria and returns
+a paginated JSON result for display in the browse panel.
+
+@param search_term optional substring to match against label OR barcode (case-insensitive).
+@param container_type optional exact match on container_type.
+@param barcode optional substring to match against barcode (case-insensitive).
+@param description optional substring to match against description OR container_remarks (case-insensitive).
+@param department optional prefix to match against label (case-insensitive, appends % wildcard).
+@param tree_property optional filter by tree shape property:
+  empty         - no structural or leaf children (excludes collection objects)
+  misplaced     - single-occupant type (pin/slide/cryovial) with more than one leaf child
+  mixed         - has both structural children and collection-object children (AB shape)
+  unplaced_leaf - collection object with no parent container
+@param page page number (1-based), default 1.
+@param pageSize rows per page, default 50.
+@return JSON object: { rows: [...], page, pageSize, totalRows }
+  Each row: container_id, container_type, label, barcode, description, container_remarks,
+             direct_structural_children, direct_leaf_children, shape_class
+--->
+<cffunction name="searchContainers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="search_term" type="string" required="no" default="">
+	<cfargument name="container_type" type="string" required="no" default="">
+	<cfargument name="barcode" type="string" required="no" default="">
+	<cfargument name="description" type="string" required="no" default="">
+	<cfargument name="department" type="string" required="no" default="">
+	<cfargument name="tree_property" type="string" required="no" default="">
+	<cfargument name="page" type="numeric" required="no" default="1">
+	<cfargument name="pageSize" type="numeric" required="no" default="50">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfset local.offset = (arguments.page - 1) * arguments.pageSize>
+		<cfset local.searchUpper = ucase(trim(arguments.search_term))>
+		<cfset local.barcodeUpper = ucase(trim(arguments.barcode))>
+		<cfset local.descUpper = ucase(trim(arguments.description))>
+		<cfset local.deptUpper = ucase(trim(arguments.department))>
+		<cfset local.treeProperty = trim(arguments.tree_property)>
+		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
+		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
+		<!--- Total row count --->
+		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS total_rows
+			FROM container c
+			<cfif local.needsChildJoin>
+				LEFT JOIN (
+					SELECT
+						parent_container_id,
+						SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children,
+						SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children
+					FROM container
+					GROUP BY parent_container_id
+				) ch ON ch.parent_container_id = c.container_id
+			</cfif>
+			WHERE 1=1
+			<cfif len(local.searchUpper) GT 0>
+				<cfif left(local.searchUpper,1) EQ "=">
+					AND (
+						UPPER(c.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1)#">
+						OR UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1)#">
+					)
+				<cfelse>
+					AND (
+						UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+						OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+					)
+				</cfif>
+			</cfif>
+			<cfif len(arguments.container_type) GT 0>
+				AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
+			</cfif>
+			<cfif len(local.barcodeUpper) GT 0>
+				<cfif left(local.barcodeUpper,1) EQ "=">
+					AND UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.barcodeUpper, 1, 1)#">
+				<cfelse>
+					AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.barcodeUpper#%">
+				</cfif>
+			</cfif>
+			<cfif len(local.descUpper) GT 0>
+				AND (
+					UPPER(c.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
+					OR UPPER(c.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
+				)
+			</cfif>
+			<cfif len(local.deptUpper) GT 0>
+				AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
+			</cfif>
+			<cfif local.treeProperty EQ "empty">
+				AND c.container_type <> 'collection object'
+				AND NVL(ch.direct_structural_children, 0) = 0
+				AND NVL(ch.direct_leaf_children, 0) = 0
+			<cfelseif local.treeProperty EQ "misplaced">
+				AND c.container_type IN ('pin', 'slide', 'cryovial')
+				AND NVL(ch.direct_leaf_children, 0) > 1
+			<cfelseif local.treeProperty EQ "mixed">
+				AND NVL(ch.direct_structural_children, 0) > 0
+				AND NVL(ch.direct_leaf_children, 0) > 0
+			<cfelseif local.treeProperty EQ "unplaced_leaf">
+				AND c.container_type = 'collection object'
+				AND c.parent_container_id IS NULL
+			</cfif>
+		</cfquery>
+		<cfset local.totalRows = queryGetCount.total_rows>
+		<!--- Paginated rows using Oracle ROWNUM two-level subquery --->
+		<cfquery name="queryGetSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, container_type, label, barcode, description,
+				container_remarks, direct_structural_children, direct_leaf_children, shape_class
+			FROM (
+				SELECT
+					container_id, container_type, label, barcode, description,
+					container_remarks, direct_structural_children, direct_leaf_children, shape_class,
+					ROWNUM AS rn
+				FROM (
+					SELECT
+						c.container_id,
+						c.container_type,
+						c.label,
+						c.barcode,
+						c.description,
+						c.container_remarks,
+						NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+						NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+						<!--- Shape classification mirrors getContainerShapeHotspots:
+						  B = dense leaf-only node (>=1000 direct collection objects, no structural children)
+						  AB = mixed node (both structural children and collection objects present)
+						  A = all other cases (structural only, or sparse leaf-only) --->
+						CASE
+							WHEN NVL(ch.direct_leaf_children, 0) >= 1000 AND NVL(ch.direct_structural_children, 0) = 0 THEN 'B'
+							WHEN NVL(ch.direct_leaf_children, 0) > 0 AND NVL(ch.direct_structural_children, 0) > 0 THEN 'AB'
+							ELSE 'A'
+						END AS shape_class
+					FROM container c
+					LEFT JOIN (
+						SELECT
+							parent_container_id,
+							SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children,
+							SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children
+						FROM container
+						GROUP BY parent_container_id
+					) ch ON ch.parent_container_id = c.container_id
+					WHERE 1=1
+					<cfif len(local.searchUpper) GT 0>
+						<cfif left(local.searchUpper,1) EQ "=">
+							AND (
+								UPPER(c.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1)#">
+								OR UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1)#">
+							)
+						<cfelse>
+							AND (
+								UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+								OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+							)
+						</cfif>
+					</cfif>
+					<cfif len(arguments.container_type) GT 0>
+						AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
+					</cfif>
+					<cfif len(local.barcodeUpper) GT 0>
+						<cfif left(local.barcodeUpper,1) EQ "=">
+							AND UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.barcodeUpper, 1, 1)#">
+						<cfelse>
+							AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.barcodeUpper#%">
+						</cfif>
+					</cfif>
+					<cfif len(local.descUpper) GT 0>
+						AND (
+							UPPER(c.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
+							OR UPPER(c.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
+						)
+					</cfif>
+					<cfif len(local.deptUpper) GT 0>
+						AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
+					</cfif>
+					<cfif local.treeProperty EQ "empty">
+						AND c.container_type <> 'collection object'
+						AND NVL(ch.direct_structural_children, 0) = 0
+						AND NVL(ch.direct_leaf_children, 0) = 0
+					<cfelseif local.treeProperty EQ "misplaced">
+						AND c.container_type IN ('pin', 'slide', 'cryovial')
+						AND NVL(ch.direct_leaf_children, 0) > 1
+					<cfelseif local.treeProperty EQ "mixed">
+						AND NVL(ch.direct_structural_children, 0) > 0
+						AND NVL(ch.direct_leaf_children, 0) > 0
+					<cfelseif local.treeProperty EQ "unplaced_leaf">
+						AND c.container_type = 'collection object'
+						AND c.parent_container_id IS NULL
+					</cfif>
+					ORDER BY c.label, c.barcode
+				)
+				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset + arguments.pageSize#">
+			)
+			WHERE rn > <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset#">
+		</cfquery>
+		<cfset local.rows = ArrayNew(1)>
+		<cfset local.i = 1>
+		<cfloop query="queryGetSearch">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_id"] = queryGetSearch.container_id>
+			<cfset local.row["container_type"] = queryGetSearch.container_type>
+			<cfset local.row["label"] = queryGetSearch.label>
+			<cfset local.row["barcode"] = queryGetSearch.barcode>
+			<cfset local.row["description"] = queryGetSearch.description>
+			<cfset local.row["container_remarks"] = queryGetSearch.container_remarks>
+			<cfset local.row["direct_structural_children"] = queryGetSearch.direct_structural_children>
+			<cfset local.row["direct_leaf_children"] = queryGetSearch.direct_leaf_children>
+			<cfset local.row["shape_class"] = queryGetSearch.shape_class>
+			<cfset local.rows[local.i] = local.row>
+			<cfset local.i = local.i + 1>
+		</cfloop>
+		<cfset local.retval["rows"] = local.rows>
+		<cfset local.retval["page"] = arguments.page>
+		<cfset local.retval["pageSize"] = arguments.pageSize>
+		<cfset local.retval["totalRows"] = local.totalRows>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
 </cfcomponent>
