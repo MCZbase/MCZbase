@@ -1947,10 +1947,10 @@ input#readMore_check_id {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     line-height: 0.875rem;
 }
-#searchFormDiv button {
+/*#searchFormDiv button {
     border: none;
     background-color: transparent !important;
-}
+}*/
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
 	box-shadow: none;
