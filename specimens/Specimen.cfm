@@ -1104,7 +1104,7 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
+							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#",twoThreeColumnClasses="#twoThreeColumnClasses#")>
 							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 								<div class="card-body" id="localityCardBody">
 									#blocklocality# 
