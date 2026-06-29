@@ -340,7 +340,7 @@ limitations under the License.
 			}
 
 			function reloadLocality() { 
-				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody');
+				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody', $("##editControlsDiv").data("twoThreeColumnClassesData"));
 				reloadHeadingBar();
 			}
 			function reloadPreparators() { 
@@ -498,7 +498,7 @@ limitations under the License.
 		<div id="encumbranceEditDialog"></div>
 
 		<!--- controls for editing record --->
-		<div class="container-fluid d-none d-xl-block" id="editControlsDiv">
+		<div class="container-fluid d-none d-xl-block" id="editControlsDiv"><!--- WARNING: do not change this id=editControlsDiv, it is referenced in reloadLocality() --->
 			<div class="row mt-1" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
@@ -733,7 +733,15 @@ limitations under the License.
 				<div id="mediaDialog"></div>
 				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
-
+			<!--- store the value of twoThreeColumnClasses in a data attribute of the editControlsDiv 
+				so that it can be used in the reloadLocality function to determine the width of the 
+				locality card body on an ajax reload --->
+			<script>
+				$(document).ready(function() {
+					$("##editControlsDiv").data("twoThreeColumnClassesData", "#twoThreeColumnClasses#");
+				});
+			</script>
+			
 			<!----------------------------- two right columns ---------------------------------->
 			<div class="col-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
 
