@@ -1913,7 +1913,7 @@ input#readMore_check_id {
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
-.tab-content label, .searchFormDiv label {
+.tab-content label, #searchFormDiv label {
 	font-weight: 400;
     font-size: 0.85em;
     border: none;
