@@ -1261,7 +1261,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 									// build a breadcrumb trail with links for all but the last item, which is plain text
 									$.each(data, function(i, node) {
 										var display = formatContainerDisplay(node.barcode, node.label);
-										if (i === 1) {
+										if (i === 0) {
 											var crumbLi = $('<li class="breadcrumb-item arrowprefix small"></li>');
 											// visually hidden prefix for screen readers to accopany the arrow icon
 											crumbLi.append(
