@@ -208,8 +208,8 @@ limitations under the License.
 											<div class="form-row mb-0">
 												<div class="form-group mb-0 col-12 col-md-4">
                                                     <label for="scientific_name">Scientific Name</label>
-                                                    (<a type="button" tabindex="-1" aria-hidden="true" class="btnLink small" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></a>,
-                                                    <button type="button" tabindex="-1" aria-hidden="true" class="" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+                                                    (<a type="button" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></a>,
+                                                    <button type="button" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
                                                     </span>
 													<input type="text" class="" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
 												</div>
