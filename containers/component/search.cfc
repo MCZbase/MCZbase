@@ -497,16 +497,29 @@ a paginated JSON result for display in the browse panel.
 			</cfif>
 			WHERE 1=1
 			<cfif len(local.searchUpper) GT 0>
-				AND (
-					UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
-					OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
-				)
+				<!--- if frst character is = then do an exact match search on the rest of the term, otherwise like search with wildcards --->
+				<cfif left(local.searchUpper,1) EQ "=">
+					AND (
+						UPPER(c.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1))#">
+						OR UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.searchUpper, 1, 1)#">
+					)
+				<cfelse>
+					AND (
+						UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+						OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+					)
+				</cfif>
 			</cfif>
 			<cfif len(arguments.container_type) GT 0>
 				AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
 			</cfif>
 			<cfif len(local.barcodeUpper) GT 0>
-				AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.barcodeUpper#%">
+				<!--- if frst character is = then do an exact match search on the rest of the term, otherwise like search with wildcards --->
+				<cfif left(local.barcodeUpper,1) EQ "=">
+					AND UPPER(c.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.barcodeUpper, 1, 1)#">
+				<cfelse>
+					AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.barcodeUpper#%">
+				</cfif>
 			</cfif>
 			<cfif len(local.descUpper) GT 0>
 				AND (

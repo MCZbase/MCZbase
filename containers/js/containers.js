@@ -1280,11 +1280,12 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 										} else {
 											// Non-last items: link the display portion
 											var link = document.createElement('a');
+											link.addClass('pl-1');
 											var baseUrl = '/containers/Containers.cfm';
 											// Build query string safely
 											var params = new URLSearchParams({
 												execute: 'true',
-												search_term: display // or node.label, if that's what should be searched
+												barcode: "=" + display
 											});
 											link.href = baseUrl + '?' + params.toString();
 											// Link text is untrusted, so use createTextNode

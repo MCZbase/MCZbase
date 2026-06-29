@@ -90,8 +90,7 @@ limitations under the License.
 				</div>
 				<div class="col-12 px-3 py-3">
 					<cfoutput>
-					<form id="containerSearchForm" name="containerSearch"
-						method="get" action="Containers.cfm">
+					<form id="containerSearchForm" name="containerSearch" method="get" action="/containers/Containers.cfm">
 						<div class="form-row">
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
 								<label for="container_type" class="data-entry-label">Container Type</label>
