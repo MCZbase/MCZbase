@@ -403,9 +403,10 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 --->
 <cffunction name="getContainerBreadcrumb" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
-	<cfset variables.data = ArrayNew(1)>
+
+	<cfset local.retval = ArrayNew(1)>
 	<cftry>
-		<cfquery name="variables.qBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="queryGetBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				container_id,
 				container_type,
@@ -419,25 +420,24 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 				parent_container_id = container_id
 			ORDER BY LEVEL DESC
 		</cfquery>
-		<cfset variables.i = 1>
-		<cfloop query="variables.qBreadcrumb">
-			<cfset variables.row = StructNew()>
-			<cfset variables.row["container_id"] = variables.qBreadcrumb.container_id>
-			<cfset variables.row["container_type"] = variables.qBreadcrumb.container_type>
-			<cfset variables.row["label"] = variables.qBreadcrumb.label>
-			<cfset variables.row["barcode"] = variables.qBreadcrumb.barcode>
-			<cfset variables.data[variables.i] = variables.row>
-			<cfset variables.i = variables.i + 1>
+		<cfset local.i = 1>
+		<cfloop query="queryGetBreadcrumb">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_id"] = queryGetBreadcrumb.container_id>
+			<cfset local.row["container_type"] = queryGetBreadcrumb.container_type>
+			<cfset local.row["label"] = queryGetBreadcrumb.label>
+			<cfset local.row["barcode"] = queryGetBreadcrumb.barcode>
+			<cfset local.retval[local.i] = local.row>
+			<cfset local.i = local.i + 1>
 		</cfloop>
-		<cfreturn serializeJSON(variables.data)>
 	<cfcatch>
-		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset variables.function_called = "#GetFunctionCalledName()#">
-		<cfscript>reportError(function_called="#variables.function_called#", error_message="#variables.error_message#");</cfscript>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn serializeJSON(variables.data)>
+	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
 
@@ -470,21 +470,22 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="tree_property" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
-	<cfset variables.result = StructNew()>
+
+	<cfset local.retval = StructNew()>
 	<cftry>
-		<cfset variables.offset = (arguments.page - 1) * arguments.pageSize>
-		<cfset variables.searchUpper = ucase(trim(arguments.search_term))>
-		<cfset variables.barcodeUpper = ucase(trim(arguments.barcode))>
-		<cfset variables.descUpper = ucase(trim(arguments.description))>
-		<cfset variables.deptUpper = ucase(trim(arguments.department))>
-		<cfset variables.treeProperty = trim(arguments.tree_property)>
+		<cfset local.offset = (arguments.page - 1) * arguments.pageSize>
+		<cfset local.searchUpper = ucase(trim(arguments.search_term))>
+		<cfset local.barcodeUpper = ucase(trim(arguments.barcode))>
+		<cfset local.descUpper = ucase(trim(arguments.description))>
+		<cfset local.deptUpper = ucase(trim(arguments.department))>
+		<cfset local.treeProperty = trim(arguments.tree_property)>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
-		<cfset variables.needsChildJoin = listFindNoCase("empty,misplaced,mixed", variables.treeProperty) GT 0>
+		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
 		<!--- Total row count --->
-		<cfquery name="variables.qCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS total_rows
 			FROM container c
-			<cfif variables.needsChildJoin>
+			<cfif local.needsChildJoin>
 				LEFT JOIN (
 					SELECT
 						parent_container_id,
@@ -495,45 +496,45 @@ a paginated JSON result for display in the browse panel.
 				) ch ON ch.parent_container_id = c.container_id
 			</cfif>
 			WHERE 1=1
-			<cfif len(variables.searchUpper) GT 0>
+			<cfif len(local.searchUpper) GT 0>
 				AND (
-					UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.searchUpper#%">
-					OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.searchUpper#%">
+					UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+					OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
 				)
 			</cfif>
 			<cfif len(arguments.container_type) GT 0>
 				AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
 			</cfif>
-			<cfif len(variables.barcodeUpper) GT 0>
-				AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.barcodeUpper#%">
+			<cfif len(local.barcodeUpper) GT 0>
+				AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.barcodeUpper#%">
 			</cfif>
-			<cfif len(variables.descUpper) GT 0>
+			<cfif len(local.descUpper) GT 0>
 				AND (
-					UPPER(c.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.descUpper#%">
-					OR UPPER(c.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.descUpper#%">
+					UPPER(c.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
+					OR UPPER(c.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
 				)
 			</cfif>
-			<cfif len(variables.deptUpper) GT 0>
-				AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.deptUpper#%">
+			<cfif len(local.deptUpper) GT 0>
+				AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
 			</cfif>
-			<cfif variables.treeProperty EQ "empty">
+			<cfif local.treeProperty EQ "empty">
 				AND c.container_type <> 'collection object'
 				AND NVL(ch.direct_structural_children, 0) = 0
 				AND NVL(ch.direct_leaf_children, 0) = 0
-			<cfelseif variables.treeProperty EQ "misplaced">
+			<cfelseif local.treeProperty EQ "misplaced">
 				AND c.container_type IN ('pin', 'slide', 'cryovial')
 				AND NVL(ch.direct_leaf_children, 0) > 1
-			<cfelseif variables.treeProperty EQ "mixed">
+			<cfelseif local.treeProperty EQ "mixed">
 				AND NVL(ch.direct_structural_children, 0) > 0
 				AND NVL(ch.direct_leaf_children, 0) > 0
-			<cfelseif variables.treeProperty EQ "unplaced_leaf">
+			<cfelseif local.treeProperty EQ "unplaced_leaf">
 				AND c.container_type = 'collection object'
 				AND c.parent_container_id IS NULL
 			</cfif>
 		</cfquery>
-		<cfset variables.totalRows = variables.qCount.total_rows>
+		<cfset local.totalRows = queryGetCount.total_rows>
 		<!--- Paginated rows using Oracle ROWNUM two-level subquery --->
-		<cfquery name="variables.qSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="queryGetSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, container_type, label, barcode, description,
 				container_remarks, direct_structural_children, direct_leaf_children, shape_class
 			FROM (
@@ -570,76 +571,75 @@ a paginated JSON result for display in the browse panel.
 						GROUP BY parent_container_id
 					) ch ON ch.parent_container_id = c.container_id
 					WHERE 1=1
-					<cfif len(variables.searchUpper) GT 0>
+					<cfif len(local.searchUpper) GT 0>
 						AND (
-							UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.searchUpper#%">
-							OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.searchUpper#%">
+							UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
+							OR UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.searchUpper#%">
 						)
 					</cfif>
 					<cfif len(arguments.container_type) GT 0>
 						AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
 					</cfif>
-					<cfif len(variables.barcodeUpper) GT 0>
-						AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.barcodeUpper#%">
+					<cfif len(local.barcodeUpper) GT 0>
+						AND UPPER(c.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.barcodeUpper#%">
 					</cfif>
-					<cfif len(variables.descUpper) GT 0>
+					<cfif len(local.descUpper) GT 0>
 						AND (
-							UPPER(c.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.descUpper#%">
-							OR UPPER(c.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.descUpper#%">
+							UPPER(c.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
+							OR UPPER(c.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.descUpper#%">
 						)
 					</cfif>
-					<cfif len(variables.deptUpper) GT 0>
-						AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.deptUpper#%">
+					<cfif len(local.deptUpper) GT 0>
+						AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
 					</cfif>
-					<cfif variables.treeProperty EQ "empty">
+					<cfif local.treeProperty EQ "empty">
 						AND c.container_type <> 'collection object'
 						AND NVL(ch.direct_structural_children, 0) = 0
 						AND NVL(ch.direct_leaf_children, 0) = 0
-					<cfelseif variables.treeProperty EQ "misplaced">
+					<cfelseif local.treeProperty EQ "misplaced">
 						AND c.container_type IN ('pin', 'slide', 'cryovial')
 						AND NVL(ch.direct_leaf_children, 0) > 1
-					<cfelseif variables.treeProperty EQ "mixed">
+					<cfelseif local.treeProperty EQ "mixed">
 						AND NVL(ch.direct_structural_children, 0) > 0
 						AND NVL(ch.direct_leaf_children, 0) > 0
-					<cfelseif variables.treeProperty EQ "unplaced_leaf">
+					<cfelseif local.treeProperty EQ "unplaced_leaf">
 						AND c.container_type = 'collection object'
 						AND c.parent_container_id IS NULL
 					</cfif>
 					ORDER BY c.label, c.barcode
 				)
-				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.offset + arguments.pageSize#">
+				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset + arguments.pageSize#">
 			)
-			WHERE rn > <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.offset#">
+			WHERE rn > <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset#">
 		</cfquery>
-		<cfset variables.rows = ArrayNew(1)>
-		<cfset variables.i = 1>
-		<cfloop query="variables.qSearch">
-			<cfset variables.row = StructNew()>
-			<cfset variables.row["container_id"] = variables.qSearch.container_id>
-			<cfset variables.row["container_type"] = variables.qSearch.container_type>
-			<cfset variables.row["label"] = variables.qSearch.label>
-			<cfset variables.row["barcode"] = variables.qSearch.barcode>
-			<cfset variables.row["description"] = variables.qSearch.description>
-			<cfset variables.row["container_remarks"] = variables.qSearch.container_remarks>
-			<cfset variables.row["direct_structural_children"] = variables.qSearch.direct_structural_children>
-			<cfset variables.row["direct_leaf_children"] = variables.qSearch.direct_leaf_children>
-			<cfset variables.row["shape_class"] = variables.qSearch.shape_class>
-			<cfset variables.rows[variables.i] = variables.row>
-			<cfset variables.i = variables.i + 1>
+		<cfset local.rows = ArrayNew(1)>
+		<cfset local.i = 1>
+		<cfloop query="queryGetSearch">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_id"] = queryGetSearch.container_id>
+			<cfset local.row["container_type"] = queryGetSearch.container_type>
+			<cfset local.row["label"] = queryGetSearch.label>
+			<cfset local.row["barcode"] = queryGetSearch.barcode>
+			<cfset local.row["description"] = queryGetSearch.description>
+			<cfset local.row["container_remarks"] = queryGetSearch.container_remarks>
+			<cfset local.row["direct_structural_children"] = queryGetSearch.direct_structural_children>
+			<cfset local.row["direct_leaf_children"] = queryGetSearch.direct_leaf_children>
+			<cfset local.row["shape_class"] = queryGetSearch.shape_class>
+			<cfset local.rows[local.i] = local.row>
+			<cfset local.i = local.i + 1>
 		</cfloop>
-		<cfset variables.result["rows"] = variables.rows>
-		<cfset variables.result["page"] = arguments.page>
-		<cfset variables.result["pageSize"] = arguments.pageSize>
-		<cfset variables.result["totalRows"] = variables.totalRows>
-		<cfreturn serializeJSON(variables.result)>
+		<cfset local.retval["rows"] = local.rows>
+		<cfset local.retval["page"] = arguments.page>
+		<cfset local.retval["pageSize"] = arguments.pageSize>
+		<cfset local.retval["totalRows"] = local.totalRows>
 	<cfcatch>
-		<cfset variables.error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset variables.function_called = "#GetFunctionCalledName()#">
-		<cfscript>reportError(function_called="#variables.function_called#", error_message="#variables.error_message#");</cfscript>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn serializeJSON(variables.result)>
+	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
 </cfcomponent>
