@@ -1014,8 +1014,12 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
 					var targetRow = targetLi.children('.tree-node-row');
 					var targetLabel = targetRow.find('.tree-node-label').first();
 					targetLabel.addClass('tree-node-highlighted');
-					/* Bold ⇒ arrow prepended before the expand toggle button */
-					targetRow.prepend($('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>'));
+					/* Bold ⇒ arrow just after the expand toggle button */
+					var arrow = $('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>');
+					var toggleBtn = targetRow.find('.tree-node-toggle').first();
+					if (toggleBtn.length) {
+						arrow.insertAfter(toggleBtn);
+					}
 					/* Accessibility announcement for the selected node */
 					var nodeDisplay = formatContainerDisplay(containerNode.barcode, containerNode.label);
 					targetLi.prepend($('<span class="sr-only" role="status"></span>').text('Selected container: ' + nodeDisplay));
