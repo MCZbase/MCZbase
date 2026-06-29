@@ -20,11 +20,13 @@ limitations under the License.
 .container-tree {
 	list-style: none;
 	padding: 0;
+	font-size: 1rem;
 }
 
 .container-tree ul {
 	list-style: none;
 	padding-left: 1.5em;
+	font-size: 1rem;
 }
 
 .container-tree li {
@@ -59,7 +61,6 @@ limitations under the License.
 
 .container-tree .tree-leaf-badge {
 	font-size: 0.8em;
-	color: #6c757d;
 }
 
 /* Leaf browser panel */
@@ -68,4 +69,38 @@ limitations under the License.
 	border-radius: 0.25rem;
 	background-color: #f8f9fa;
 	padding: 1rem;
+}
+
+/* Tree node description line */
+.container-tree .tree-node-desc {
+	padding-left: 1.5em;
+	margin-bottom: 0.1em;
+}
+
+/* Highlighted node when exploring from search results */
+.container-tree .tree-node-highlighted {
+	background-color: #fff3cd;
+	border-radius: 0.2em;
+	padding: 0 0.2em;
+	font-weight: bold;
+}
+
+/* Downwards arrow pointing right prefix for tree node descriptions */
+.arrowprefix::before {
+  content: " ↳ ";
+}
+
+/* Bold ⇒ indicator shown before the target node when exploring from search results */
+.tree-node-target-arrow {
+	font-size: 2rem;
+	font-weight: bold;
+	line-height: 1;
+	vertical-align: middle;
+	margin-right: 0.15rem;
+}
+
+/* Breadcrumb navigation, stronger presentation than default bootstrap. */
+.breadcrumb-item.active {
+  color: black;
+  font-weight: bold;
 }
