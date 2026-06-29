@@ -1913,14 +1913,14 @@ input#readMore_check_id {
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
-.tab-content label {
+.tab-content label, .searchFormDiv label {
 	font-weight: 400;
     font-size: 0.85em;
     border: none;
     padding: 0 0 0 .25rem;
     margin-bottom: 0;
 }
-.tab-content input {
+.tab-content input, .searchFormDiv input {
     display: block;
     width: 100%;
     padding: 1px .5rem 1px .5rem;
@@ -1933,7 +1933,7 @@ input#readMore_check_id {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
     line-height: 1.15rem;    
 }
-.tab-content select {
+.tab-content select, .searchFormDiv select {
     display: block;
     width: 100%!important;
     font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1946,6 +1946,10 @@ input#readMore_check_id {
     border-radius: .2rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     line-height: 0.875rem;
+}
+.searchFormDiv button {
+    border: none;
+    background-color: transparent !important;
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
