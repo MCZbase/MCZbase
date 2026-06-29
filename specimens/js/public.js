@@ -494,12 +494,13 @@ function loadAttributes(collection_object_id,targetDivId) {
 	});
 }
 
-function loadLocality(collection_object_id,targetDivId) { 
+function loadLocality(collection_object_id,targetDivId,twoThreeColumnClasses) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
 			method : "getLocalityHTML",
 			collection_object_id: collection_object_id,
+			twoThreeColumnClasses: twoThreeColumnClasses
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
