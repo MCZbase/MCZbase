@@ -2742,12 +2742,14 @@ limitations under the License.
 <!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
  geography information for a specified cataloged item
  @param collection_object_id for the cataloged item for which to return spatial/temporal information.
+ @param twoThreeColumClasses the bootstrap classes to use for the two and three column layouts, respectively, for the locality information.
  @return a block of html with the spatial/temporal information or an error message, the case
    of no information is not handled, as the chain of foreign key constraints from cataloged item
    to geog_auth_rec all have not null constraints.
 --->
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="twoThreeColumnClasses" type="string" required="yes">
 
 	<cfthread name="getLocalityThread">
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
