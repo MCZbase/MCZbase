@@ -1015,11 +1015,7 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
 					var targetLabel = targetRow.find('.tree-node-label').first();
 					targetLabel.addClass('tree-node-highlighted');
 					/* Bold ⇒ arrow just after the expand toggle button */
-					var arrow = $('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>');
-					var toggleBtn = targetRow.find('.tree-node-toggle').first();
-					if (toggleBtn.length) {
-						arrow.insertAfter(toggleBtn);
-					}
+					addTargetArrow(targetRow);
 					/* Accessibility announcement for the selected node */
 					var nodeDisplay = formatContainerDisplay(containerNode.barcode, containerNode.label);
 					targetLi.prepend($('<span class="sr-only" role="status"></span>').text('Selected container: ' + nodeDisplay));
@@ -1032,6 +1028,20 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
 			handleFail(jqXHR, textStatus, error, 'loading unplaced container info');
 		}
 	});
+}
+
+/** 
+ * Prepends a right-arrow symbol to the target row to indicate it is the selected node.
+ * @param {jQuery} targetRow - the jQuery object for the target row to highlight.
+ */
+function addTargetArrow(targetRow) {
+	var arrow = $('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>');
+	var toggleBtn = targetRow.find('.tree-node-toggle').first();
+	if (toggleBtn.length) {
+		arrow.insertAfter(toggleBtn);
+	} else {
+		targetRow.prepend(arrow);
+	}
 }
 
 /**
@@ -1054,7 +1064,7 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 			var targetLabel = targetRow.find('.tree-node-label').first();
 			targetLabel.addClass('tree-node-highlighted');
 			/* Bold ⇒ arrow prepended before the expand toggle button */
-			targetRow.prepend($('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>'));
+			addTargetArrow(targetRow);
 			/* Accessibility announcement for the selected node */
 			var targetNode = breadcrumbs[breadcrumbs.length - 1];
 			var targetDisplay = formatContainerDisplay(targetNode.barcode, targetNode.label);
