@@ -1258,17 +1258,38 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 								dataType: 'json',
 								success: function(data) {
 									var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
+									// build a breadcrumb trail with links for all but the last item, which is plain text
 									$.each(data, function(i, node) {
 										var display = formatContainerDisplay(node.barcode, node.label);
-										var crumbText = node.container_type + ': ' + display;
-										var crumbLi = $('<li class="breadcrumb-item arrowprefix small"></li>');
-										// Add a visually hidden prefix for screen readers to indicate the breadcrumb relationship
-										crumbLi.append(
-											$('<span class="sr-only">Contained within: </span>')
-										);
-										crumbLi.append(document.createTextNode(crumbText));
+										if (i === 1) {
+											var crumbLi = $('<li class="breadcrumb-item arrowprefix small"></li>');
+											// visually hidden prefix for screen readers to accopany the arrow icon
+											crumbLi.append(
+												$('<span class="sr-only">Contained within: </span>')
+											);
+										} else {
+											var crumbLi = $('<li class="breadcrumb-item small"></li>');
+										}
+										// Always start with "container_type: "
+										crumbLi.append(document.createTextNode(node.container_type + ': '));
+										// Last item: plain text (no link)
 										if (i === data.length - 1) {
 											crumbLi.addClass('active').attr('aria-current', 'page');
+											// Safe text node for the display value
+											crumbLi.append(document.createTextNode(display));
+										} else {
+											// Non-last items: link the display portion
+											var link = document.createElement('a');
+											var baseUrl = '/containers/Containers.cfm';
+											// Build query string safely
+											var params = new URLSearchParams({
+												execute: 'true',
+												search_term: display // or node.label, if that's what should be searched
+											});
+											link.href = baseUrl + '?' + params.toString();
+											// Link text is untrusted, so use createTextNode
+											link.appendChild(document.createTextNode(display));
+											crumbLi.append(link);
 										}
 										breadcrumbEl.append(crumbLi);
 									});
