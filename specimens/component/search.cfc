@@ -1541,6 +1541,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="issued_to_agent_id" type="string" required="no">
 	<cfargument name="permit_type" type="string" required="no">
 	<cfargument name="specific_type" type="string" required="no">
+	<cfargument name="accession_agent" type="string" required="no">
+	<cfargument name="accession_agent_id" type="string" required="no">
+	<cfargument name="loan_agent" type="string" required="no">
+	<cfargument name="loan_agent_id" type="string" required="no">
+	<cfargument name="deacession_agent" type="string" required="no">
+	<cfargument name="deacession_agent_id" type="string" required="no">
 
 	<cfargument name="debug" type="string" required="no">
 	<cfargument name="recordstartindex" type="string" required="no">
@@ -2423,6 +2429,44 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
+	<cfif isDefined("accession_agent_id") AND len(accession_agent_id) GT 0>
+		<cfset field = '"field": "ACCESSIONS_AGENT_ID"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accession_agent_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelseif isDefined("accession_agent") AND len(accession_agent) GT 0>
+		<cfset field = '"field": "ACCESSIONS_AGENT_NAME"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accession_agent#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("loan_agent_id") AND len(loan_agent_id) GT 0>
+		<cfset field = '"field": "LOAN_AGENT_ID"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#loan_agent_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelseif isDefined("loan_agent") AND len(loan_agent) GT 0>
+		<cfset field = '"field": "LOAN_AGENT_NAME"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#loan_agent#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("deaccession_agent_id") AND len(acession_agent_id) GT 0>
+		<cfset field = '"field": "DEACC_AGENT_ID"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_agent_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelseif isDefined("deaccession_agent") AND len(acession_agent) GT 0>
+		<cfset field = '"field": "DEACC_AGENT_NAME"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_agent#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+
+	name="loan_agent" type="string" required="no">
+	name="loan_agent_id" type="string" required="no">
+	name="deacession_agent" type="string" required="no">
+	name="deacession_agent_id" type="string" required="no">
 
 	<cfset search_json = "#search_json#]">
 	<cfif isdefined("debug") AND len(debug) GT 0>
