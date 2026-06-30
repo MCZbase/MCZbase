@@ -1507,7 +1507,7 @@ limitations under the License.
 													OR (isDefined("accession_agent_id") and len(accession_agent_id) GT 0)
 													OR (isDefined("loan_agent") and len(loan_agent) GT 0)
 													OR (isDefined("loan_agent_id") and len(loan_agent_id) GT 0)
-													OR (isDefined("deaccession_agent") and len(deaccesion_agent) GT 0)
+													OR (isDefined("deaccession_agent") and len(deaccession_agent) GT 0)
 													OR (isDefined("deaccession_agent_id") and len(deaccession_agent_id) GT 0)
 												>
 													<cfset hiddenHaveValue = true>
