@@ -874,7 +874,7 @@ limitations under the License.
 																</script>
 															</div>
 													
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="ocean_region">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
 																<input type="text" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
@@ -884,7 +884,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="ocean_subregion" class="px-md-0">Ocean Sub-Region</label>
 																<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 																<input type="text" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
@@ -894,7 +894,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 col-xl-2 mb-1">
                                                                 <label for="sea">Sea</label>
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > 
                                                                         (&##8595;) <span class="sr-only">open pick list</span>
