@@ -949,7 +949,7 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
-																<label for="geo_att_value"">Geological Attribute</label>
+																<label for="geo_att_value">Geological Attribute</label>
 																<cfif not isdefined("geo_att_value")><cfset geo_att_value=""></cfif>
 																<!--- TODO, possibly, implement attribute type, might not be needed --->
 																<input type="hidden" id="geology_attribute" name="geology_attribute" value="">
@@ -961,7 +961,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="verificationstatus">Georeference Verification</label>
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																<cfif not isdefined("verificationstatus")><cfset verificationstatus=""></cfif>
