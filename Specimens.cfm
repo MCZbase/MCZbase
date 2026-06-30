@@ -417,7 +417,8 @@ limitations under the License.
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
-													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
+													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
@@ -572,7 +573,8 @@ limitations under the License.
 													OR (isDefined("citation") and len(citation) GT 0)
 													OR (isDefined("identification_remarks") and len(identification_remarks) GT 0)
 													OR (isDefined("common_name") and len(common_name) GT 0)
-													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)>
+													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
@@ -806,7 +808,8 @@ limitations under the License.
 													OR (isDefined("min_depth_in_m") and len(min_depth_in_m) GT 0)
 													OR (isDefined("max_depth_in_m") and len(max_depth_in_m) GT 0)
 													OR (isDefined("min_elev_in_m") and len(min_elev_in_m) GT 0)
-													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)>
+													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
@@ -1023,7 +1026,8 @@ limitations under the License.
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
-													OR (isDefined("verbatim_locality") and len(verbatim_locality) GT 0)>
+													OR (isDefined("verbatim_locality") and len(verbatim_locality) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
@@ -1144,13 +1148,14 @@ limitations under the License.
 													OR (isDefined("preparator") and len(preparator) GT 0)
 													OR (isDefined("preparator_agent_id") and len(preparator_agent_id) GT 0)
 													OR (isDefined("lot_count") and len(lot_count) GT 0)
-													OR (isDefined("coll_obj_disposition") and len(coll_obj_disposition) GT 0)>
+													OR (isDefined("coll_obj_disposition") and len(coll_obj_disposition) GT 0)
 													OR (isDefined("disposition_remarks") and len(disposition_remarks) GT 0)
 													OR (isDefined("condition_remarks") and len(condition_remarks) GT 0)
 													OR (isDefined("condition") and len(condition) GT 0)
 													OR (isDefined("root_container_type") and len(root_container_type) GT 0)
 													OR (isDefined("root_container_barcode") and len(root_container_barcode) GT 0)
 													OR (isDefined("root_container_label") and len(root_container_label) GT 0)
+												>
 													<cfset hiddenHaveValue = "true">
 												</cfif>
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
@@ -1497,13 +1502,14 @@ limitations under the License.
 													OR (isDefined("IssuedToAgent") and len(IssuedToAgent) GT 0)
 													OR (isDefined("issued_to_agent_id") and len(issued_to_agent_id) GT 0)
 													OR (isDefined("permit_type") and len(permit_type) GT 0)
-													OR (isDefined("specific_type") and len(specific_type) GT 0)>
+													OR (isDefined("specific_type") and len(specific_type) GT 0)
 													OR (isDefined("accession_agent") and len(accession_agent) GT 0)
-													OR (isDefined("accession_agent_id") and len(accession_agent_id) GT 0)>
+													OR (isDefined("accession_agent_id") and len(accession_agent_id) GT 0)
 													OR (isDefined("loan_agent") and len(loan_agent) GT 0)
-													OR (isDefined("loan_agent_id") and len(loan_agent_id) GT 0)>
+													OR (isDefined("loan_agent_id") and len(loan_agent_id) GT 0)
 													OR (isDefined("deaccession_agent") and len(deaccesion_agent) GT 0)
-													OR (isDefined("deaccession_agent_id") and len(deaccession_agent_id) GT 0)>
+													OR (isDefined("deaccession_agent_id") and len(deaccession_agent_id) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"TransactionDetail") GT 0 OR hiddenHaveValue>
