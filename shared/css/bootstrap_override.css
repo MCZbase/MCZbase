@@ -2203,7 +2203,7 @@ button.help-btnA-SearchWiki {
     border-radius: 0 0 6px 6px; /* adjust 6px as desired */
     border-color: black;
 }
-button.help-btnSearchWiki {
+button.help-btnSp-SearchWiki {
     background-color: #1b1b1b;
     color: white;
     -webkit-backface-visibility: hidden;
@@ -2639,26 +2639,26 @@ a.btn-sm {
 input, select, textarea {
 		font-size: 16px;
 	}
-    .wiki-drawer {
-        width: 90vw;
-        max-width: 90vw;
-        transform: translateX(-90vw);   /* start fully off-screen */
-    }
-    .wiki-drawer.open {
-        transform: translateX(0);
-    }
-    #content.pushed {/* Ignore the "pushed" class on small screens */
-        margin-left: 0;
-        width: 100%;
-    }
-    /* Let dialogs behave normally on small screens */
-    body.wiki-open .ui-dialog {
-        width: auto;        /* remove our large-screen overrides */
-        max-width: 100vw;
-        left: 0;
-        right: 0;
-        box-sizing: border-box;
-    }
+.wiki-drawer {
+    width: 90vw;
+    max-width: 90vw;
+    transform: translateX(-90vw);   /* start fully off-screen */
+}
+.wiki-drawer.open {
+    transform: translateX(0);
+}
+#content.pushed {/* Ignore the "pushed" class on small screens */
+    margin-left: 0;
+    width: 100%;
+}
+/* Let dialogs behave normally on small screens */
+body.wiki-open .ui-dialog {
+    width: auto;        /* remove our large-screen overrides */
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+}
 
 
 /* Base (xs) test */
