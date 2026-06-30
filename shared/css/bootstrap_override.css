@@ -2636,7 +2636,29 @@ a.btn-sm {
 	margin-left: -100px;
 	border: 1px solid white;
 }
-
+input, select, textarea {
+		font-size: 16px;
+	}
+    .wiki-drawer {
+        width: 90vw;
+        max-width: 90vw;
+        transform: translateX(-90vw);   /* start fully off-screen */
+    }
+    .wiki-drawer.open {
+        transform: translateX(0);
+    }
+    #content.pushed {/* Ignore the "pushed" class on small screens */
+        margin-left: 0;
+        width: 100%;
+    }
+    /* Let dialogs behave normally on small screens */
+    body.wiki-open .ui-dialog {
+        width: auto;        /* remove our large-screen overrides */
+        max-width: 100vw;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
 
 
 /* Base (xs) test */
