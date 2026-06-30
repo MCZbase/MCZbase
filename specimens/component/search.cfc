@@ -1545,8 +1545,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="accession_agent_id" type="string" required="no">
 	<cfargument name="loan_agent" type="string" required="no">
 	<cfargument name="loan_agent_id" type="string" required="no">
-	<cfargument name="deacession_agent" type="string" required="no">
-	<cfargument name="deacession_agent_id" type="string" required="no">
+	<cfargument name="deaccession_agent" type="string" required="no">
+	<cfargument name="deaccession_agent_id" type="string" required="no">
 
 	<cfargument name="debug" type="string" required="no">
 	<cfargument name="recordstartindex" type="string" required="no">
@@ -2451,12 +2451,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
-	<cfif isDefined("deaccession_agent_id") AND len(acession_agent_id) GT 0>
+	<cfif isDefined("deaccession_agent_id") AND len(deaccession_agent_id) GT 0>
 		<cfset field = '"field": "DEACC_AGENT_ID"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_agent_id#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-	<cfelseif isDefined("deaccession_agent") AND len(acession_agent) GT 0>
+	<cfelseif isDefined("deaccession_agent") AND len(deaccession_agent) GT 0>
 		<cfset field = '"field": "DEACC_AGENT_NAME"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_agent#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
