@@ -1144,7 +1144,7 @@ limitations under the License.
 												</div>
 													
 												<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
-													<div class="col-12 mb-1 col-md-4 mb-1">
+													<div class="col-12 mb-1 col-md-3 mb-1">
                                                         <cfif not isdefined("part_name")><cfset part_name=""></cfif>
                                                         <label for="part_name">Part Name</label>
                                                         <input type="text" id="part_name" name="part_name" value="#encodeForHtml(part_name)#">
