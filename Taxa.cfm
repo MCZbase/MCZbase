@@ -272,50 +272,50 @@ limitations under the License.
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
 													<label for="kingdom">Kingdom</label>
 												    <button class="btn-link small" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
-												    <button type="button" aria-hidden="true" tabindex="-1" class="btn-link small" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
+												    <button type="button" class="btn-link" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
 													<input type="text" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
                                                     <label for="phylum">Phylum</label> 
                                                     <button class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
-                                                    (<button type="button" class="btn-link small" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
-                                                    <button type="button" class="btn-link small" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    (<button type="button" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
+                                                    <button type="button" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
                                                     <label for="subphylum">Subphylum</label>
-												    (<button type="button" aria-hidden="true" tabindex="-1" class="btn-link small" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
-												    <button type="button" class="btn-link small" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+												    (<button type="button" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
+												    <button type="button" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="small" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="superclass">Superclass</label>
-													(<button type="button" class="btn-link small" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">=</button>,
-													<button type="button" class="btn-link small" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													(<button type="button" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">=</button>,
+													<button type="button" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="small" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="phylclass">Class</label>
-													(<button type="button" class="btn-link small" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
-												    <button type="button" class="btn-link small" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													(<button type="button" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">=</button>,
+												    <button type="button" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" placeholder="class">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="subclass">Subclass</label>
-												    (<button type="button" class="btn-link small" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
+												    (<button type="button" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
                                                     <button type="button" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>
 													<input type="text" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
                                                     <label for="infraclass">Infraclass</label>
-													(<button type="button" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
-													<button type="button" class="btn-link border-0 p-0" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													(<button type="button" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
+													<button type="button" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												    <input type="text" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#" placeholder="infraclass">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="superorder">Superorder</label> 
-													(<button type="button" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
-												    <button type="button" class="btn-link border-0 p-0" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													(<button type="button" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
+												    <button type="button" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												    </span>
 													<input type="text" id="superorder" name="superorder" value="#encodeForHtml(superorder)#" placeholder="superorder">
 												</div>
@@ -329,9 +329,7 @@ limitations under the License.
 													<label for="suborder">Suborder</label>
 													(<button type="button" class="btn-link" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="btn-link" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    </span>
-													
-													<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
+								                	<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="infraorder">Infraorder</label>  
@@ -343,21 +341,19 @@ limitations under the License.
                                                     <label for="superfamily">Superfamily</label>
 													(<button type="button" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    </span>
 													<input type="text" class="data-entry-input py-0" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
 												</div> 
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 												    <label for="family">Family</label> 
 													(<button type="button" class="btn-link" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 												    <button type="button" class="btn-link" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    </span>
 													<input type="text" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="subfamily">Subfamily</label> 
 													(<button type="button" class="btn-link" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="btn-link" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-													<input type="text" class="data-entry-input py-0" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
+													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="tribe">Tribe</label> 
@@ -495,19 +491,19 @@ limitations under the License.
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="validFGChecked" class="btn-link smaller-text d-block" style="position:relative;">
-																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; top:0.2rem">
+																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; right: 1rem; top:0.2rem">
 																<span class="font-weight-bold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="validFGUnchecked" class="btn-link smaller-text d-block" style="position:relative;">
-																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1" class="position-absolute" style="left:0; top:0.2rem">
+																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1" class="position-absolute" style="left:0; right: 1rem; top:0.2rem">
 																<span class="d-inline-block ps-4 font-weight-bold">Show only taxa currently accepted for data entry</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
 															<label for="validFGNot" class="btn-link smaller-text d-block" style="position:relative;">
-																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute"   style="left:0; top:0.2rem">
+																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute"   style="left:0; right: 1rem; top:0.2rem">
 																<span class="font-weight-bold">Show only taxa not accepted for data entry</span>
 															</label>
 														</li>
