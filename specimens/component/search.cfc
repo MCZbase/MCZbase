@@ -2463,11 +2463,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 	</cfif>
 
-	name="loan_agent" type="string" required="no">
-	name="loan_agent_id" type="string" required="no">
-	name="deacession_agent" type="string" required="no">
-	name="deacession_agent_id" type="string" required="no">
-
 	<cfset search_json = "#search_json#]">
 	<cfif isdefined("debug") AND len(debug) GT 0>
 		<cfdump var="#search_json#">
