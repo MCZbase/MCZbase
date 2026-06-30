@@ -286,13 +286,13 @@ limitations under the License.
                                                     <label for="subphylum">Subphylum</label>
 												    (<button type="button" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">=</button>,
 												    <button type="button" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-													<input type="small" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
+													<input type="text" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#" placeholder="subphylum">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="superclass">Superclass</label>
 													(<button type="button" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">=</button>,
 													<button type="button" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-													<input type="small" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
+													<input type="text" id="superclass" name="superclass" value="#encodeForHtml(superclass)#" placeholder="superclass">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="phylclass">Class</label>
