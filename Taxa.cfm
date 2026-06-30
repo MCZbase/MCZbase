@@ -303,7 +303,7 @@ limitations under the License.
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="subclass">Subclass</label>
 												    (<button type="button" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
-                                                    <button type="button" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>
+                                                    <button type="button" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#" placeholder="subclass">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
