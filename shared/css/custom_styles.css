@@ -2821,7 +2821,7 @@ div.toctitle {
     z-index: 2;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width:1200px) {
     #content.pushed {
         margin-left: 305px;
         width: calc(100% - 305px);
@@ -2981,11 +2981,6 @@ ul li.list-unstyled span:last-child {
 .col-xxl-1 {max-width: 12%}
 .col-xxl-11 {max-width: 88%; padding-left: .25rem}
 }
-/* 
-Max width before this PARTICULAR table gets nasty
-This query will take effect for any screen smaller than 760px
-and also iPads specifically.
-*/
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 	.step-arrow {
 		background-color: #deebec;
