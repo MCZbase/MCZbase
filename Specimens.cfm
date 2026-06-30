@@ -487,10 +487,10 @@ limitations under the License.
 														<label for="other_id_number">Other ID Numbers</label>
 														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 
 													<!---IDENTIFIER DETAIL--->		
-													<div id="IDDetail" class="col-9 col-md-10 col-lg-12 my-0 px-0 py-0" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-9 col-md-10 my-0 px-0 py-0" style="#IDDetailStyle#">
 														<div class="form-row col-12 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -636,9 +636,9 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													<!---TAXONOMY DETAIL--->
-													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-9 col-md-10 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-2 mb-1">
                                                                 <label for="phylum">Phylum</label>
@@ -1088,10 +1088,10 @@ limitations under the License.
 													</div>
 														
 													<!---COLLECTING EVENT DETAIL--->										
-													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left btn-link" onclick="toggleCollDetail(#toggleTo#);">
+													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left btn-link" onclick="toggleCollDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 													</button>
-													<div id="CollDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
+													<div id="CollDetail" class="col-9 col-md-10 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
