@@ -1951,6 +1951,7 @@ input#readMore_check_id {
     border: none;
     background-color: transparent !important;
     padding: 0;
+    font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
