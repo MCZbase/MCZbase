@@ -1933,6 +1933,11 @@ input#readMore_check_id {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
     line-height: 1.15rem;    
 }
+#searchFormDiv fieldset input[type="radio"] {
+    position: absolute;
+    left:0; 
+    top:0.2rem;
+}
 .tab-content select, #searchFormDiv fieldset select {
     display: block;
     width: 100%!important;
