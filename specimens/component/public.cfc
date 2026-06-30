@@ -121,7 +121,7 @@ limitations under the License.
 						FROM vpd_collection_locality
 						WHERE 
 							collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#checkForVPDError_1.collection_id#">
-							locality_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#checkForVPDError_1.locality_id#">
+							AND locality_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#checkForVPDError_1.locality_id#">
 					</cfquery>
 					<cfif checkForVPDError_2.ct EQ 0>
 						<cfthrow message="Error loading cataloged item data, vpd_collection_locality is missing a row.  Please file a bug report.">
