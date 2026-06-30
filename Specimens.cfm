@@ -812,11 +812,11 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset GeogButton = '<i class="fas fa-caret-right" style="vertical-align: middle"></i>'><!--- " --->
+													<cfset GeogButton = '<i class="fas fa-caret-right" style="vertical-align: middle"></i>'><!--- ' --->
 												<cfelse>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'><!--- " --->
+													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'><!--- ' --->
 												</cfif>
 
 												<!---GEOGRAPHY SECTION--->
@@ -1029,11 +1029,11 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>">
+													<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
+													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>"><!--- " --->
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
