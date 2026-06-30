@@ -1498,7 +1498,7 @@ limitations under the License.
 													OR (isDefined("issued_to_agent_id") and len(issued_to_agent_id) GT 0)
 													OR (isDefined("permit_type") and len(permit_type) GT 0)
 													OR (isDefined("specific_type") and len(specific_type) GT 0)>
-													OR (isDevined("accession_agent") and len(accession_agent) GT 0)
+													OR (isDefined("accession_agent") and len(accession_agent) GT 0)
 													OR (isDefined("accession_agent_id") and len(accession_agent_id) GT 0)>
 													OR (isDefined("loan_agent") and len(loan_agent) GT 0)
 													OR (isDefined("loan_agent_id") and len(loan_agent_id) GT 0)>
