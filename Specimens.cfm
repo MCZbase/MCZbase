@@ -1144,7 +1144,7 @@ limitations under the License.
 												</div>
 													
 												<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
-													<div class="col-12 mb-1 col-md-3 mb-1">
+													<div class="col-12 mb-1 col-md-4 mb-1">
                                                         <cfif not isdefined("part_name")><cfset part_name=""></cfif>
                                                         <label for="part_name">Part Name</label>
                                                         <input type="text" id="part_name" name="part_name" value="#encodeForHtml(part_name)#">
@@ -1154,7 +1154,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-3 mb-1">
+													<div class="col-12 col-md-4 col-xl-3 mb-1">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method">Preserve Method</label>
 												        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -1165,7 +1165,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-3 mb-1">
+													<div class="col-12 col-md-4 col-xl-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
                                                         <label for="biol_indiv_relationship">Has Relationship</label>
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
@@ -1179,7 +1179,7 @@ limitations under the License.
                                                             });
                                                         </script>
 													</div>
-													<div class="col-12 col-md-3 mb-1">
+													<div class="col-12 col-md-4 col-xl-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
                                                         <label for="media_type">Media Type</label>
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
@@ -1194,24 +1194,24 @@ limitations under the License.
 														</script>
 													</div>
 													<!--- SPECIMEN DETAILS --->
-													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-xl-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
 													<div id="SpecDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
-															<div class="col-12 col-md-3 col-xl-32 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="coll_object_remarks">
                                                                     Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span>Object Remarks
                                                                 </label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="part_remarks">Part Remarks</label>
 																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																<input type="text" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="preparator">Preparator</label>
 																<cfif not isdefined("preparator")>
 																	<cfset preparator="">
@@ -1254,12 +1254,12 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="lot_count">Lot Count</label>
 																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
 																<input type="text" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="coll_obj_disposition">Disposition</label>
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
@@ -1270,12 +1270,12 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="disposition_remarks">Disposition Remarks</label>
 																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																<input type="text" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_type">Part Attribute Type</label>
                                                                 <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
                                                                 <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > 
@@ -1289,7 +1289,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_value">Part Attribute Value</label>
                                                                 <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > 
                                                                     (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
@@ -1297,7 +1297,7 @@ limitations under the License.
 																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																<input type="text" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_units">Part Attribute Units</label>
                                                                 <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
                                                                 <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;"> (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -1310,14 +1310,14 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_remarks">Part Attribute Remarks</label>
                                                                 <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;"> (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span>
                                                                 </a>
 																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																<input type="text" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 															</div>
-															<div class="col-12 col-md-3 col-xl-3 mb-1">
+															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<!--- TODO: Add an autocomplete when controlled --->
 																<label for="condition">Condition</label>
 																<cfif not isdefined("condition")><cfset condition=""></cfif>
@@ -1325,14 +1325,14 @@ limitations under the License.
 															</div>
 															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 																<!--- TODO: Add when popluated --->
-																<div class="col-12 col-md-3 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-3 mb-1">
 																	<label for="condition_remarks">Condition Remarks</label>
 																	<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
 																	<input type="text" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
 																</div>
 															</cfif>
 															<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-																<div class="col-12 col-md-3 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-3 mb-1">
 																	<label for="root_container_label">In Container Labeled</label>
 																	<cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
 																	<input type="text" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
@@ -1342,7 +1342,7 @@ limitations under the License.
 																	<cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
 																	<input type="text" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
 																</div>
-																<div class="col-12 col-md-3 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-3 mb-1">
 																	<label for="root_container_type">In Container of Type</label>
 																	<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
 																	<select title="root_container_type" name="root_container_type" id="root_container_type" class="col-sm-12 pl-2">
