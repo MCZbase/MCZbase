@@ -278,8 +278,8 @@ limitations under the License.
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
                                                     <label for="phylum">Phylum</label> 
                                                     <button class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
-                                                    (<button type="button" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
-                                                    <button type="button" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+                                                    (<button type="button" class="btn-link small95" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">=</button>,
+                                                    <button type="button" class="btn-link small95" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" placeholder="phylum">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
