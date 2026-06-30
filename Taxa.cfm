@@ -198,7 +198,7 @@ limitations under the License.
 							<div class="search-box-header">
 								<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
-							<div id="searchFormDiv">
+							<div id="searchFormDiv" class="small95">
 								<form name="searchForm" id="searchForm">
 									<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 									<input type="hidden" name="action" value="search">
