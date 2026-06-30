@@ -408,7 +408,7 @@ limitations under the License.
 													<cfset toggleTo = "0">
 														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
-													<cfset IDDetailStyle="display:none;color: ##0460c1 !important;text-decoration: underline;text-decoration: underline dotted #aaa;">
+													<cfset IDDetailStyle="display:none;color: ##0460c1 !important;text-decoration: underline;text-decoration: underline dotted ##aaa;">
 													<cfset toggleTo = "1">
 														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif> 
