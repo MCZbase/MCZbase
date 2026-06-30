@@ -490,7 +490,7 @@ limitations under the License.
 													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 
 													<!---IDENTIFIER DETAIL--->		
-													<div id="IDDetail" class="col-9 col-md-10 my-0 px-0 py-0" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-9 col-md-10 col-xl-12 my-0 px-0 py-0" style="#IDDetailStyle#">
 														<div class="form-row col-12 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
