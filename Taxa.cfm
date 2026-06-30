@@ -503,7 +503,7 @@ limitations under the License.
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
 															<label for="validFGNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
-																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute" style="left:0; top:0.2rem">
+																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
 																<span class="font-weight-bold">Show only taxa not accepted for data entry</span>
 															</label>
 														</li>
