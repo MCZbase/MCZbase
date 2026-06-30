@@ -1935,8 +1935,8 @@ input#readMore_check_id {
 }
 #searchFormDiv fieldset input[type="radio"] {
     position: absolute;
-    left:0; 
-    top:0.2rem;
+    left: 0; 
+    top: 0.2rem;
 }
 .tab-content select, #searchFormDiv fieldset select {
     display: block;
