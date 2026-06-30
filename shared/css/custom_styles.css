@@ -2721,7 +2721,7 @@ html,body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 305px;
+	width: 355px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
@@ -2729,7 +2729,7 @@ html,body {
 	z-index: 1051;
 	overflow-y: auto;
 	overflow-x: hidden; 
-	transform: translateX(-305px);
+	transform: translateX(-355px);
 	transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
@@ -2741,21 +2741,21 @@ html,body {
 	box-sizing: border-box;
 }
 #content.pushed {
-	margin-left: 305px;
-	width: calc(100% - 305px);
+	margin-left: 355px;
+	width: calc(100% - 355px);
 }
 body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
     width: auto !important;
-    max-width: calc(100vw - 305px) !important;
-    left: 305px !important;      /* start right after the drawer */
+    max-width: calc(100vw - 355px) !important;
+    left: 355px !important;      /* start right after the drawer */
     right: 0 !important;
   
     box-sizing: border-box;   /* ensure it stays within viewport */
 }
 body.wiki-open .ui-dialog {
     width: auto !important;   /* Override jQuery UI's inline width */
-    max-width: calc(100vw - 305px) !important;
-    left: 305px !important;      /* start right after the drawer */
+    max-width: calc(100vw - 355px) !important;
+    left: 355px !important;      /* start right after the drawer */
     right: 0 !important;
     box-sizing: border-box;    /* ensure it stays within viewport */
 }
@@ -2959,16 +2959,16 @@ div.toctitle {
 know if they should be removed.  
 If added back to media query, it may not 
 have intented effects************/
-a.wrapurl {
+/*a.wrapurl {
 	overflow-wrap:anywhere;
 }
 ul li.list-unstyled span:last-child {
 	display:none;
-}
+}*/
 /*fas is for the arrow up and down (more and less on form sections*/
-.fas {
+/*.fas {
 	font-size: 16px;
-}
+}*/
 /*for the */
 @media screen and (max-width: 678px) {
 	.animation-element {
@@ -3540,87 +3540,48 @@ and also iPads specifically.
 	}
 }
 @media (min-width:1200px) and (max-width: 1700px) {
-/*
-   #searchHelpTextBlock {
-		width: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		list-style-type: none;
-		font-size: .875rem;
-		margin-bottom: 1rem;
-	}
-	div span.ilt {
-		display: block;
-		height: 100%;
-		text-decoration: none;
-		color: #0460c1 !important;
-		padding-left: 0px;
-		position: relative;
-		-webkit-transition: background .3s;
-		transition: background .3s;
-	}
-	div span.ilt:hover {
-		background: #cdcbc4;
-	}
-	.readMore {
-		position: relative;
-		height: auto;
-		border-top: 0;
-	}
-	#searchHelpTextBlock[type="checkbox"] {
-		position: absolute;
-		left: -9999px;
-	}
-	label.read {
-		background: aliceblue;
-		display: block;
-		width: 70px;
-		cursor: pointer;
-		position: relative;
-		float: right;
-		right: 1rem;
-	}
-	label.read:before, label.read:after {
-		position: absolute;
-		
-	}
-	label.read:before {
-		right: -7px;
-		font-family: "Font Awesome 5 Free"; 
-		font-weight: 900; 
-		content: "\f0d7";
-		font-size: 1.3rem;
-		color: #0460c1 !important;
-	}
-	label.read:after {
-		content: "more";
-		right: 10px;
-		-webkit-animation: sudo .85s linear infinite alternate;
-		animation: sudo .85s linear infinite alternate;
-		color: #0460c1 !important;
-	}
-	.readMore [type="checkbox"] ~ span.ilt {
-		width: 100%;
-		display: none;
-	}
-	.readMore [type="checkbox"]:checked ~ span.ilt {
-		display: block;
-	}
-	.readMore [type="checkbox"]:checked + label.read {
-		position: absolute;
-		top: 100%;
-	}
-	.readMore [type="checkbox"]:checked + label.read:before {
-		font-family: "Font Awesome 5 Free"; 
-		font-weight: 900; 
-		content: "\f0d8";
-		font-size: 1.3rem;
-		color: #0460c1 !important;
-	}
-	.readMore [type="checkbox"]:checked + label.read:after {
-		content: "less";
-	}
-*/
+    .wiki-drawer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 305px;
+        max-width: 90vw;
+        height: 100vh;
+        background: #fff;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+        z-index: 1051;
+        overflow-y: auto;
+        overflow-x: hidden; 
+        transform: translateX(-305px);
+        transition: transform 0.3s ease;
+    }
+    .wiki-drawer.open {
+	    transform: translateX(0);
+    }
+    #content {
+        transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    #content.pushed {
+        margin-left: 305px;
+        width: calc(100% - 305px);
+    }
+    body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
+        width: auto !important;
+        max-width: calc(100vw - 305px) !important;
+        left: 305px !important;      /* start right after the drawer */
+        right: 0 !important;
+
+        box-sizing: border-box;   /* ensure it stays within viewport */
+    }
+    body.wiki-open .ui-dialog {
+        width: auto !important;   /* Override jQuery UI's inline width */
+        max-width: calc(100vw - 305px) !important;
+        left: 305px !important;      /* start right after the drawer */
+        right: 0 !important;
+        box-sizing: border-box;    /* ensure it stays within viewport */
+    }
 }
 @media(min-width:768px) {
 	.footer-col-4-md {
