@@ -1915,9 +1915,9 @@ input#readMore_check_id {
 }
 .tab-content label, #searchFormDiv fieldset label {
 	font-weight: 400;
-    font-size: 0.85em;
+    font-size: 0.83em;
     border: none;
-    padding: 0 0 0 .25rem;
+    padding: 0 0 0 .15rem;
     margin-bottom: 0;
 }
 .tab-content input, #searchFormDiv fieldset input[type="text"] {
