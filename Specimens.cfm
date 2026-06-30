@@ -728,7 +728,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-4 mb-1">
+															<div class="col-12 col-md-3 mb-1">
 																<label for="publication_id">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
@@ -753,7 +753,7 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</div>
-															<div class="col-12 col-md-4 mb-1">
+															<div class="col-12 col-md-3 mb-1">
 																<label for="identification_remarks">ID Remarks</label>
 																<cfif not isdefined("identification_remarks")><cfset identification_remarks=""></cfif>
 																<input type="text" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
