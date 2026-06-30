@@ -1737,7 +1737,7 @@ limitations under the License.
 																		</cfif>
 																	</cfif>
 																	<input type="hidden" id="loan_agent_id" name="loan_agent_id" value="#encodeForHtml(loan_agent_id)#">
-																	<label for="loan_agent" class="data-entry-label small font-weight-bold">Accession Agent</label>
+																	<label for="loan_agent" class="data-entry-label small font-weight-bold">Loan Agent</label>
 																	<input type="text" name="loan_agent" class="data-entry-input inputHeight" id="loan_agent" placeholder="Dyyyy-n-Col" value="#encodeForHtml(loan_agent)#">
 																</div>
 																<div class="col-12 col-md-3 col-xl-2 mb-1">
@@ -1774,7 +1774,7 @@ limitations under the License.
 																		</cfif>
 																	</cfif>
 																	<input type="hidden" id="deaccession_agent_id" name="deaccession_agent_id" value="#encodeForHtml(deaccession_agent_id)#">
-																	<label for="deaccession_agent" class="data-entry-label small font-weight-bold">Accession Agent</label>
+																	<label for="deaccession_agent" class="data-entry-label small font-weight-bold">Deaccession Agent</label>
 																	<input type="text" name="deaccession_agent" class="data-entry-input inputHeight" id="deaccession_agent" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_agent)#">
 																</div>
 																<script>
