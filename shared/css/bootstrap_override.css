@@ -2538,12 +2538,104 @@ div.vslider-item[aria-hidden="true"]{
 input[disabled] {
 	color:#9e9e9e;
 }
+.caption-sm {
+    overflow-y: visible;
+    height: auto;
+}
+.MediaAccordionHide {
+    display: none;
+}
+.MediaAccordionShow {
+    display: block;
+}
+.count {
+    display: inline-block;
+    line-height: 1rem;
+}
+.align-left-center {
+    text-align: center;
+}
+.align-right-center {
+    text-align: center;
+}
+.col-form-label {
+    padding-bottom: 0;
+    line-height: 1;
+}
+#map {
+    height: 350px;
+}
+.variedHeight {
+    height: 210px;
+}
+a.btn-sm {
+    height: calc(1.5rem + .5rem + 1px);
+}
+#searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
+    font-size: .78rem;
+    height: 5rem;
+}
+.html_desc {
+    width: 100%!important;
+}  
+/* styles for locality maps */
+.uglyGeoSPatData{
+	border:4px solid red;
+}
+.niceGeoSPatData{
+	border:3px solid green;
+}
+.noWKT{
+	border:3px solid yellow;
+}
+/* end styles for locality maps */
 
-
-
-
-
-
+/* styles for geolocate frame */
+.editAppBox {
+	border: 1px solid gray;
+	z-index: 9998;
+	position: fixed;
+	top: 1%;
+	left: 2%;
+	width: 95%;
+	height: 96%;
+	background-color: lightgray;
+	overflow: auto;
+}
+.editFrame {
+	border-top: 1px solid gray;
+	position: fixed;
+	top: 40px;
+	left: 2%;
+	width: 95%;
+	height: 90%;
+	z-index: 9998;
+}
+.popDiv {
+	border: 3px solid green;
+	z-index: 9999;
+	position: absolute;
+	background-color: white;
+	overflow: auto;
+}
+.fancybox-close {
+	background: url("/shared/images/fancybox.png") repeat scroll -40px 0 transparent;
+	cursor: pointer;
+	height: 30px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 30px;
+	z-index: 10999;
+}
+.centeredImage {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -25px;
+	margin-left: -100px;
+	border: 1px solid white;
+}
 
 
 
