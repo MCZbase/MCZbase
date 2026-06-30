@@ -638,7 +638,7 @@ limitations under the License.
 													</div>
 													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													<!---TAXONOMY DETAIL--->
-													<div id="TaxaDetail" class="col-9 col-md-10 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-2 mb-1">
                                                                 <label for="phylum">Phylum</label>
@@ -653,7 +653,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 mb-1">
 																<label for="phylclass">Class</label>
 																<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
 																<input id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" >
@@ -663,7 +663,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 mb-1">
 																<label for="phylorder">Order</label>
 																<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
 																<input id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" >
@@ -673,7 +673,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 mb-1">
 																<label for="family">Family</label>
 																<cfif not isdefined("family")><cfset family=""></cfif>
 																<input type="text" id="family" name="family" value="#encodeForHtml(family)#" >
@@ -683,7 +683,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 mb-1">
 																<label for="genus">Genus</label>
 																<cfif not isdefined("genus")><cfset genus=""></cfif>
 																<input type="text" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -693,7 +693,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 mb-1">
 																<label for="species">Specific Name</label>
 																<cfif not isdefined("species")><cfset species=""></cfif>
 																<input type="text" id="species" name="species" value="#encodeForHtml(species)#">
