@@ -829,9 +829,9 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													<!---GEOGRAPHY DETAIL--->
-													<div id="GeogDetail" class="col-9 col-md-10 col-lg-12 my-0 px-0 py-0 float-left" style="#GeogDetailStyle#">
+													<div id="GeogDetail" class="col-9 col-md-10 my-0 px-0 py-0 float-left" style="#GeogDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
@@ -1552,11 +1552,11 @@ limitations under the License.
 															<label for="deaccession_number">Deaccession ##</label>
 															<input type="text" name="deaccession_number" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
-                                                        <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTransactionDetail(#toggleTo#);">
+                                                        <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													    </button> 
 														<!--- TRANSACTION DETAIL --->
-														<div id="TransactionDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
+														<div id="TransactionDetail" class="col-9 col-md-10 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
 															<div class="form-row col-12 mb-1 px-0 mx-0">
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
