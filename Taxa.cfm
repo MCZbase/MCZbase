@@ -347,32 +347,27 @@ limitations under the License.
 													<input type="text" class="data-entry-input py-0" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
 												</div> 
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
-													<span class="data-entry-label small">
-                                                        <label for="family">Family</label> 
-														(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-												        <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+												    <label for="family">Family</label> 
+													(<button type="button" class="btn-link" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+												    <button type="button" class="btn-link" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												    </span>
-													<input type="text" class="data-entry-input py-0" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
+													<input type="text" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
-													<span class="data-entry-label small">
-                                                        <label for="subfamily">Subfamily</label> 
-														(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-														<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    </span>
+													<label for="subfamily">Subfamily</label> 
+													(<button type="button" class="btn-link" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" class="btn-link" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" class="data-entry-input py-0" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
-													<span class="data-entry-label small">
-                                                        <label for="tribe">Tribe</label> 
-														(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-														<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    </span>
-													<input type="text" class="data-entry-input py-0" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
+                                                    <label for="tribe">Tribe</label> 
+													(<button type="button" class="btn-link" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" class="btn-link" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<input type="text" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 mb-1 pb-0">
-                                                    <label for="nomenclatural_code" class="data-entry-label small">Nomenclatural Code</label>
-                                                    <select name="nomenclatural_code" class="data-entry-select py-0" id="nomenclatural_code">
+                                                    <label for="nomenclatural_code">Nomenclatural Code</label>
+                                                    <select name="nomenclatural_code" id="nomenclatural_code">
                                                         <option></option>
                                                         <cfloop query="ctnomenclatural_code">
                                                             <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -381,8 +376,8 @@ limitations under the License.
                                                     </select>
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 mb-1 pb-0">
-													<label for="taxon_status" class="data-entry-label small">Nomenclatural Status</label>
-													<select name="taxon_status" id="taxon_status" class="data-entry-select py-0" size="1">
+													<label for="taxon_status">Nomenclatural Status</label>
+													<select name="taxon_status" id="taxon_status" size="1">
 														<option></option>
 														<cfloop query="cttaxon_status">
 															<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -499,20 +494,19 @@ limitations under the License.
 															<cfset validFlagNotSelected = ''>
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="validFGChecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="validFGChecked" class="btn-link smaller-text d-block" style="position:relative;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="font-weight-bold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															
-															<label for="validFGUnchecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="validFGUnchecked" class="btn-link smaller-text d-block" style="position:relative;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="d-inline-block ps-4 font-weight-bold">Show only taxa currently accepted for data entry</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
-															<label for="validFGNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="validFGNot" class="btn-link smaller-text d-block" style="position:relative;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute"   style="left:0; top:0.2rem">
 																<span class="font-weight-bold">Show only taxa not accepted for data entry</span>
 															</label>
