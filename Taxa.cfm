@@ -490,19 +490,19 @@ limitations under the License.
 															<cfset validFlagNotSelected = ''>
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="validFGChecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="validFGChecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="font-weight-bold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="validFGUnchecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="validFGUnchecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="d-inline-block ps-4 font-weight-bold">Show only taxa currently accepted for data entry</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
-															<label for="validFGNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="validFGNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="font-weight-bold">Show only taxa not accepted for data entry</span>
 															</label>
@@ -531,19 +531,19 @@ limitations under the License.
 															<cfset usedInIdNotSelected = ''>
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="wehavesomeAll" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="wehavesomeAll" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="" class="position-absolute"   style="left:0; top:0.2rem">
 																<span class="font-weight-bold">Show all taxa without regard for use</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="wehavesomeHave" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="wehavesomeHave" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1" class="position-absolute"   style="left:0; top:0.2rem">
 																<span class="font-weight-bold">Show only taxa for which cataloged items exist</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
-															<label for="wehavesomeNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.4rem;">
+															<label for="wehavesomeNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0" class="position-absolute"   style="left:0; top:0.2rem">
 																<span class="font-weight-bold">Show only taxa not used in identifications</span>
 															</label>
