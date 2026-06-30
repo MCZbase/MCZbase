@@ -1194,10 +1194,10 @@ limitations under the License.
 														</script>
 													</div>
 													<!--- SPECIMEN DETAILS --->
-													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-xl-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-xl-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
-													<div id="SpecDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
+													<div id="SpecDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="coll_object_remarks">
