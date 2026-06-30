@@ -214,7 +214,7 @@ limitations under the License.
 												</div>
 												<div class="form-group mb-0 col-12 col-md-4">
                                                     <label for="full_taxon_name">Any part of name or classification</label>
-												    (<button type="button" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
+												    (<button type="button" class="btn-link" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
 													<input type="text" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#encodeForHtml(full_taxon_name)#">
 												</div>
 												<div class="form-group mb-0 col-12 col-md-4">
