@@ -1154,7 +1154,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-4 col-xl-3 mb-1">
+													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method">Preserve Method</label>
 												        <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -1165,7 +1165,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-4 col-xl-3 mb-1">
+													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
                                                         <label for="biol_indiv_relationship">Has Relationship</label>
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
@@ -1179,7 +1179,7 @@ limitations under the License.
                                                             });
                                                         </script>
 													</div>
-													<div class="col-12 col-md-4 col-xl-3 mb-1">
+													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
                                                         <label for="media_type">Media Type</label>
                                                         <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
