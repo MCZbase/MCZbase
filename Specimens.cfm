@@ -408,7 +408,7 @@ limitations under the License.
 													<cfset toggleTo = "0">
 														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
-													<cfset IDDetailStyle="display:none;color: ##0460c1 !important;text-decoration: underline;text-decoration: underline dotted ##aaa;">
+													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
 														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif> 
@@ -418,7 +418,7 @@ limitations under the License.
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>		
@@ -487,7 +487,7 @@ limitations under the License.
 														<label for="other_id_number">Other ID Numbers</label>
 														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 
 													<!---IDENTIFIER DETAIL--->		
 													<div id="IDDetail" class="col-9 col-md-10 col-lg-12 my-0 px-0 py-0" style="#IDDetailStyle#">
@@ -562,14 +562,14 @@ limitations under the License.
 													<cfset toggleTo = "0">
 														<cfset TaxaButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
-													<cfset TaxaDetailStyle="display:none;color: ##0460c1 !important;text-decoration: underline;text-decoration: underline dotted ##aaa;">
+													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
 														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
-														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0">	
@@ -636,7 +636,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													<!---TAXONOMY DETAIL--->
 													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
@@ -805,7 +805,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
-														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0">
@@ -829,7 +829,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													<!---GEOGRAPHY DETAIL--->
 													<div id="GeogDetail" class="col-9 col-md-10 col-lg-12 my-0 px-0 py-0 float-left" style="#GeogDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
@@ -1018,7 +1018,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="px-3 px-xl-2">Coll. Event</h2>
-														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
+														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-0 mx-0">
@@ -1088,7 +1088,7 @@ limitations under the License.
 													</div>
 														
 													<!---COLLECTING EVENT DETAIL--->										
-													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left" onclick="toggleCollDetail(#toggleTo#);">
+													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left btn-link" onclick="toggleCollDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
 													<div id="CollDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
@@ -1137,7 +1137,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
 														<h2 class="px-3 px-xl-2">Specimen</h2>
-														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller btn-link" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													</div>
@@ -1194,7 +1194,7 @@ limitations under the License.
 														</script>
 													</div>
 													<!--- SPECIMEN DETAILS --->
-													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-xl-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-xl-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleSpecDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													</button>
 													<div id="SpecDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
@@ -1481,7 +1481,7 @@ limitations under the License.
 															<h2 class="px-3 px-xl-2">
 																Transactions
 															</h2>
-															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
+															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
 														</div>
 													</div>
 													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">	
@@ -1552,7 +1552,7 @@ limitations under the License.
 															<label for="deaccession_number">Deaccession ##</label>
 															<input type="text" name="deaccession_number" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
-                                                        <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small" onclick="toggleTransactionDetail(#toggleTo#);">
+                                                        <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 													    </button> 
 														<!--- TRANSACTION DETAIL --->
