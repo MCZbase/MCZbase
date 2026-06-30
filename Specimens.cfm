@@ -1693,7 +1693,7 @@ limitations under the License.
 																			WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accession_agent_id#">
 																				AND rownum < 2
 																		</cfquery>
-																		<cfif accessionLookup.recordcount GT 0>
+																		<cfif accessionAgentNameLookup.recordcount GT 0>
 																			<cfloop query="accessionAgentNameLookup">
 																				<cfset accession_agent = accessionAgentNameLookup.agent_name>
 																			</cfloop>
@@ -1730,7 +1730,7 @@ limitations under the License.
 																			WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_agent_id#">
 																				AND rownum < 2
 																		</cfquery>
-																		<cfif loanLookup.recordcount GT 0>
+																		<cfif loanAgentNameLookup.recordcount GT 0>
 																			<cfloop query="loanAgentNameLookup">
 																				<cfset loan_agent = loanAgentNameLookup.agent_name>
 																			</cfloop>
@@ -1767,7 +1767,7 @@ limitations under the License.
 																			WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession_agent_id#">
 																				AND rownum < 2
 																		</cfquery>
-																		<cfif deaccessionLookup.recordcount GT 0>
+																		<cfif deaccessionAgentNameLookup.recordcount GT 0>
 																			<cfloop query="deaccessionAgentNameLookup">
 																				<cfset deaccession_agent = deaccessionAgentNameLookup.agent_name>
 																			</cfloop>
