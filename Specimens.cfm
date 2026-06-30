@@ -400,7 +400,8 @@ limitations under the License.
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
-													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
+													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
@@ -554,7 +555,8 @@ limitations under the License.
 													OR (isDefined("citation") and len(citation) GT 0)
 													OR (isDefined("identification_remarks") and len(identification_remarks) GT 0)
 													OR (isDefined("common_name") and len(common_name) GT 0)
-													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)>
+													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
@@ -788,17 +790,18 @@ limitations under the License.
 													OR (isDefined("min_depth_in_m") and len(min_depth_in_m) GT 0)
 													OR (isDefined("max_depth_in_m") and len(max_depth_in_m) GT 0)
 													OR (isDefined("min_elev_in_m") and len(min_elev_in_m) GT 0)
-													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)>
+													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset GeogButton = '<i class="fas fa-caret-right" style="vertical-align: middle"></i>'><!--- " --->
+													<cfset GeogButton = '<i class="fas fa-caret-right" style="vertical-align: middle"></i>'><!--- ' --->
 												<cfelse>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'><!--- " --->
+													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'><!--- ' --->
 												</cfif>
 
 												<!---GEOGRAPHY SECTION--->
@@ -1003,17 +1006,18 @@ limitations under the License.
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
-													OR (isDefined("verbatim_locality") and len(verbatim_locality) GT 0)>
+													OR (isDefined("verbatim_locality") and len(verbatim_locality) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
+													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>"><!--- '" --->
 												<cfelse>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>">
+													<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!--- '" --->
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
@@ -1120,9 +1124,17 @@ limitations under the License.
 												<cfset hiddenHaveValue = "false">
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
 													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
+													OR (isDefined("preparator") and len(preparator) GT 0)
+													OR (isDefined("preparator_agent_id") and len(preparator_agent_id) GT 0)
 													OR (isDefined("lot_count") and len(lot_count) GT 0)
+													OR (isDefined("coll_obj_disposition") and len(coll_obj_disposition) GT 0)
 													OR (isDefined("disposition_remarks") and len(disposition_remarks) GT 0)
-													OR (isDefined("coll_obj_disposition") and len(coll_obj_disposition) GT 0)>
+													OR (isDefined("condition_remarks") and len(condition_remarks) GT 0)
+													OR (isDefined("condition") and len(condition) GT 0)
+													OR (isDefined("root_container_type") and len(root_container_type) GT 0)
+													OR (isDefined("root_container_barcode") and len(root_container_barcode) GT 0)
+													OR (isDefined("root_container_label") and len(root_container_label) GT 0)
+												>
 													<cfset hiddenHaveValue = "true">
 												</cfif>
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
@@ -1462,7 +1474,14 @@ limitations under the License.
 													OR (isDefined("IssuedToAgent") and len(IssuedToAgent) GT 0)
 													OR (isDefined("issued_to_agent_id") and len(issued_to_agent_id) GT 0)
 													OR (isDefined("permit_type") and len(permit_type) GT 0)
-													OR (isDefined("specific_type") and len(specific_type) GT 0)>
+													OR (isDefined("specific_type") and len(specific_type) GT 0)
+													OR (isDefined("accession_agent") and len(accession_agent) GT 0)
+													OR (isDefined("accession_agent_id") and len(accession_agent_id) GT 0)
+													OR (isDefined("loan_agent") and len(loan_agent) GT 0)
+													OR (isDefined("loan_agent_id") and len(loan_agent_id) GT 0)
+													OR (isDefined("deaccession_agent") and len(deaccession_agent) GT 0)
+													OR (isDefined("deaccession_agent_id") and len(deaccession_agent_id) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"TransactionDetail") GT 0 OR hiddenHaveValue>
@@ -1622,6 +1641,124 @@ limitations under the License.
 																		});
 																	</script>
 																</div>
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																	<cfif not isdefined("accession_agent")><cfset accession_agent=""></cfif>
+																	<cfif not isdefined("accession_agent_id")><cfset accession_agent_id=""></cfif>
+																	<cfif len(accession_agent_id) EQ 0>
+																		<cfif len(accession_agent) EQ 0>
+																			<cfset accession_agent_id ="">
+																		<cfelse>
+																			<cfset accession_agent_id ="">
+																			<!--- lookup accession agent_id --->
+																			<cfquery name="accessionAgentLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																				SELECT agent_id 
+																				FROM preferred_agent_name 
+																				WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accession#"> 
+																					AND rownum < 2
+																			</cfquery>
+																			<cfloop query="accessionAgentLookup">
+																				<cfset accession_agent_id = accessionAgentLookup.agent_id>
+																			</cfloop>
+																		</cfif>
+																	<cfelse>
+																		<!--- lookup accession agent name  --->
+																		<cfquery name="accessionAgentNameLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																			SELECT agent_name 
+																			FROM preferred_agent_name 
+																			WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accession_agent_id#">
+																				AND rownum < 2
+																		</cfquery>
+																		<cfif accessionAgentNameLookup.recordcount GT 0>
+																			<cfloop query="accessionAgentNameLookup">
+																				<cfset accession_agent = accessionAgentNameLookup.agent_name>
+																			</cfloop>
+																		</cfif>
+																	</cfif>
+																	<input type="hidden" id="accession_agent_id" name="accession_agent_id" value="#encodeForHtml(accession_agent_id)#">
+																	<label for="accession_agent" class="data-entry-label small font-weight-bold">Accession Agent</label>
+																	<input type="text" name="accession_agent" class="data-entry-input inputHeight" id="accession_agent" placeholder="Dyyyy-n-Col" value="#encodeForHtml(accession_agent)#">
+																</div>
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																	<cfif not isdefined("loan_agent")><cfset loan_agent=""></cfif>
+																	<cfif not isdefined("loan_agent_id")><cfset loan_agent_id=""></cfif>
+																	<cfif len(loan_agent_id) EQ 0>
+																		<cfif len(loan_agent) EQ 0>
+																			<cfset loan_agent_id ="">
+																		<cfelse>
+																			<cfset loan_agent_id ="">
+																			<!--- lookup loan agent_id --->
+																			<cfquery name="loanAgentLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																				SELECT agent_id 
+																				FROM preferred_agent_name 
+																				WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan#"> 
+																					AND rownum < 2
+																			</cfquery>
+																			<cfloop query="loanAgentLookup">
+																				<cfset loan_agent_id = loanAgentLookup.agent_id>
+																			</cfloop>
+																		</cfif>
+																	<cfelse>
+																		<!--- lookup loan agent name  --->
+																		<cfquery name="loanAgentNameLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																			SELECT agent_name 
+																			FROM preferred_agent_name 
+																			WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_agent_id#">
+																				AND rownum < 2
+																		</cfquery>
+																		<cfif loanAgentNameLookup.recordcount GT 0>
+																			<cfloop query="loanAgentNameLookup">
+																				<cfset loan_agent = loanAgentNameLookup.agent_name>
+																			</cfloop>
+																		</cfif>
+																	</cfif>
+																	<input type="hidden" id="loan_agent_id" name="loan_agent_id" value="#encodeForHtml(loan_agent_id)#">
+																	<label for="loan_agent" class="data-entry-label small font-weight-bold">Loan Agent</label>
+																	<input type="text" name="loan_agent" class="data-entry-input inputHeight" id="loan_agent" placeholder="Dyyyy-n-Col" value="#encodeForHtml(loan_agent)#">
+																</div>
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																	<cfif not isdefined("deaccession_agent")><cfset deaccession_agent=""></cfif>
+																	<cfif not isdefined("deaccession_agent_id")><cfset deaccession_agent_id=""></cfif>
+																	<cfif len(deaccession_agent_id) EQ 0>
+																		<cfif len(deaccession_agent) EQ 0>
+																			<cfset deaccession_agent_id ="">
+																		<cfelse>
+																			<cfset deaccession_agent_id ="">
+																			<!--- lookup deaccession agent_id --->
+																			<cfquery name="deaccessionAgentLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																				SELECT agent_id 
+																				FROM preferred_agent_name 
+																				WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deaccession#"> 
+																					AND rownum < 2
+																			</cfquery>
+																			<cfloop query="deaccessionAgentLookup">
+																				<cfset deaccession_agent_id = deaccessionAgentLookup.agent_id>
+																			</cfloop>
+																		</cfif>
+																	<cfelse>
+																		<!--- lookup deaccession agent name  --->
+																		<cfquery name="deaccessionAgentNameLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																			SELECT agent_name 
+																			FROM preferred_agent_name 
+																			WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession_agent_id#">
+																				AND rownum < 2
+																		</cfquery>
+																		<cfif deaccessionAgentNameLookup.recordcount GT 0>
+																			<cfloop query="deaccessionAgentNameLookup">
+																				<cfset deaccession_agent = deaccessionAgentNameLookup.agent_name>
+																			</cfloop>
+																		</cfif>
+																	</cfif>
+																	<input type="hidden" id="deaccession_agent_id" name="deaccession_agent_id" value="#encodeForHtml(deaccession_agent_id)#">
+																	<label for="deaccession_agent" class="data-entry-label small font-weight-bold">Deaccession Agent</label>
+																	<input type="text" name="deaccession_agent" class="data-entry-input inputHeight" id="deaccession_agent" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_agent)#">
+																</div>
+																<script>
+																	jQuery(document).ready(function() {
+																		makeConstrainedAgentPicker("accession_agent", "accession_agent_id","transactions_agent");
+																		makeConstrainedAgentPicker("loan_agent", "loan_agent_id","transactions_agent");
+																		makeConstrainedAgentPicker("deaccession_agent", "deaccession_agent_id","transactions_agent");
+																	});
+																</script>
 															</div>
 														</div>
 														<!--- END TRANSACTION DETAIL --->
