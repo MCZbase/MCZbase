@@ -640,7 +640,7 @@ limitations under the License.
 													<!---TAXONOMY DETAIL--->
 													<div id="TaxaDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
-															<div class="col-12 col-md-2 mb-1">
+															<div class="col-12 col-md-3 mb-1">
                                                                 <label for="phylum">Phylum</label>
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick=" $('##phylum').autocomplete('search','%%%'); return false;"> 
                                                                         (&##8595;) <span class="sr-only">open pick list</span>
