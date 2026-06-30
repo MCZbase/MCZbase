@@ -808,7 +808,7 @@ limitations under the License.
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0">
+												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0 mb-1">
 													<div class="col-12 col-md-4 mb-1">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography">Any Geography (keywords)</label>
@@ -1021,7 +1021,7 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
-												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-0 mx-0">
+												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-1 mx-0">
 													<div class="col-12 col-md-3 mb-1">
 														<label for="collector">Collector</label>
 														<cfif not isdefined("collector")><cfset collector=""></cfif>
@@ -1143,7 +1143,7 @@ limitations under the License.
 													</div>
 												</div>
 													
-												<div class="form-row col-12 col-xxl-11 pt-1 mx-0">
+												<div class="form-row col-12 col-xxl-11 pt-1 mx-0 mb-1">
 													<div class="col-12 mb-1 col-md-3 mb-1">
                                                         <cfif not isdefined("part_name")><cfset part_name=""></cfif>
                                                         <label for="part_name">Part Name</label>
@@ -1368,7 +1368,7 @@ limitations under the License.
 														General
 													</h2>
 												</div>
-												<div class="form-row col-12 col-xxl-11 mx-0 py-1 mb-0">
+												<div class="form-row col-12 col-xxl-11 mx-0 py-1 mb-1">
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("keyword")><cfset keyword=""></cfif>
 														<label for="keyword">Keyword Search</label>
@@ -1484,7 +1484,7 @@ limitations under the License.
 															<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-11 pt-1 mx-0">	
+													<div class="form-row col-12 col-xxl-11 pt-1 mx-0 mb-1">	
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
