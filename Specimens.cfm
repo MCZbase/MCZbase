@@ -406,11 +406,11 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
+														<cfset IDButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
+														<cfset IDButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif> 
 
 												<!---IDENTIFIER SECTION--->	
@@ -487,7 +487,7 @@ limitations under the License.
 														<label for="other_id_number">Other ID Numbers</label>
 														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 
 													<!---IDENTIFIER DETAIL--->		
 													<div id="IDDetail" class="col-9 col-md-10 col-lg-12 my-0 px-0 py-0" style="#IDDetailStyle#">
@@ -560,11 +560,11 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset TaxaButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
+														<cfset TaxaButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
+													<cfset TaxaButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
@@ -636,7 +636,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="TaxaDetailCtl1" class="col-3 col-md-2 col-lg-1 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													<!---TAXONOMY DETAIL--->
 													<div id="TaxaDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
@@ -805,7 +805,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
-														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0">
@@ -829,7 +829,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="GeogDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 text-center btn btn-xs small p-0 float-left btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													<!---GEOGRAPHY DETAIL--->
 													<div id="GeogDetail" class="col-9 col-md-10 col-lg-12 my-0 px-0 py-0 float-left" style="#GeogDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
@@ -1009,16 +1009,16 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>">
+														<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
 												<cfelse>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
+													<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="px-3 px-xl-2">Coll. Event</h2>
-														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
+														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-0 mx-0">
@@ -1089,7 +1089,7 @@ limitations under the License.
 														
 													<!---COLLECTING EVENT DETAIL--->										
 													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 col-lg-1 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left btn-link" onclick="toggleCollDetail(#toggleTo#);">
-														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+														show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 													</button>
 													<div id="CollDetail" class="col-9 col-md-10 col-lg-12 px-0 my-0 py-0 float-left" style="#CollDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
@@ -1128,17 +1128,17 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset SpecButton = '<i class="fas fa-caret-right" style="vertical-align: middle;"></i>'><!--- ' --->
+													<cfset SpecButton = 'show less <i class="fas fa-caret-down" style="vertical-align: middle;"></i>'><!--- ' --->
 												<cfelse>
 													<cfset SpecDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'><!--- ' --->
+													<cfset SpecButton = 'show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>'><!--- ' --->
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
 														<h2 class="px-3 px-xl-2">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller btn-link" onclick="toggleSpecDetail(#toggleTo#);">
-															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+															show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 														</button>
 													</div>
 												</div>
@@ -1195,7 +1195,7 @@ limitations under the License.
 													</div>
 													<!--- SPECIMEN DETAILS --->
 													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-xl-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleSpecDetail(#toggleTo#);">
-														show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+														show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 													</button>
 													<div id="SpecDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
@@ -1468,11 +1468,11 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TransactionDetail") GT 0 OR hiddenHaveValue>
 													<cfset TransactionDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset TransactionButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
+														<cfset TransactionButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
 												<cfelse>
 													<cfset TransactionDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TransactionButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
+													<cfset TransactionButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
 
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
@@ -1733,12 +1733,12 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
-									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
-									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="fewer fields"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="fewer fields"></i></span>');
+									$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1760,12 +1760,12 @@ limitations under the License.
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1787,12 +1787,12 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1814,12 +1814,12 @@ limitations under the License.
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1841,12 +1841,12 @@ limitations under the License.
 							function toggleSpecDetail(onOff) {
 								if (onOff==0) {
 									$("##SpecDetail").hide();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##SpecDetail").show();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1868,12 +1868,12 @@ limitations under the License.
 							function toggleTransactionDetail(onOff) {
 								if (onOff==0) {
 									$("##TransactionDetail").hide();
-									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
-									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
+									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
 								} else {
 									$("##TransactionDetail").show();
-									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-right" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
+									$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
