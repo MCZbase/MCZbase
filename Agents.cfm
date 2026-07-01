@@ -186,20 +186,19 @@ limitations under the License.
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-1 mt-0 pr-md-0 form-group">
-											<label for="anyName" id="anyName_label">
-												Any part of any name
-											        (match entire name with: <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
-													comma separated list)
-												</span>
-											</label>
-											<input type="text" id="anyName" name="anyName" class="data-entry-input py-0" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
+                                            <label for="anyName" id="anyName_label">Any part of any name</label>
+                                            <span class="text-success">
+                                                (match entire name with: <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
+                                                comma separated list)
+                                            </span>
+											<input type="text" id="anyName" name="anyName" value="#encodeForHtml(anyName)#">
 										</div>
 										<div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 mt-0">
 											<div class="form-row mb-0">
 												<div class="col-12 col-md-7 col-xl-8  pr-md-0 form-group mb-0 pb-0">
 													<label for="specificagent">Specific Agent</label>
-													<input type="text" id="specificagent" name="specificagent" class="data-entry-input py-0" value="#encodeForHtml(specificagent)#">
+													<input type="text" id="specificagent" name="specificagent" value="#encodeForHtml(specificagent)#">
 													<script>
 														$(document).ready(function() {
 															makeAgentAutocompleteMeta("specificagent", "agent_id", true);
