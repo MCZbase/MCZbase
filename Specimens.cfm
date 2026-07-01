@@ -2207,7 +2207,6 @@ limitations under the License.
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
 													</div>
-
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
@@ -2223,14 +2222,12 @@ limitations under the License.
 									</div>
 								</div>
 							</section> <!--- end keyword search/results panel --->
-
 							<!---Query Builder tab panel--->
 							<!--- 
 								Query:
 									country = France
 									and (family = 'Mustelidae' or family = 'Lophiidae')
 									and collector = 'Brendan Haley'
-
 								Old Target JSON:
 									[{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 							--->
