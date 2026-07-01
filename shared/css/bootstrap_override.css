@@ -2741,7 +2741,7 @@ div.toctitle {
 /* ≥ md test */
 @media (min-width: 768px) {
     
-     .help-btnSp-SearchWiki {
+    button.help-btnSp-SearchWiki {
         -webkit-transform: none;
         -moz-transform: none;
         -o-transform: none;
@@ -2750,11 +2750,17 @@ div.toctitle {
         -moz-transform-origin: center center;
         -o-transform-origin: center center;
         transform-origin: center center;
-
         /* optionally reset positioning so it sits in normal flow */
         position: static;   /* or relative, depending on layout */
-        top: 0;
         right: 1rem;
+        margin-bottom: 15px;
+        top: -11.5rem;
+        right: 0px;
+        z-index: 1; 
+        padding-top: .75rem;
+        padding-bottom: .15rem; 
+        margin-top: 0;
+        overflow: hidden;    
     }
     
   .my-thing { color: blue; }
