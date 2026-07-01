@@ -1906,7 +1906,7 @@ look the way they do. */
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
-#searchFormDiv fieldset label {
+.tab-content label, #searchFormDiv fieldset label {
 	font-weight: 400;
     font-size: 0.85em;
     border: none;
@@ -1915,7 +1915,7 @@ look the way they do. */
 }
 /* These styles are for all search pages (e.g., specimen search, taxonomy, agents). 
 The #searchFormDiv is on all search pages to control form fields, labels, select, and buttons. */
-#searchFormDiv fieldset input[type="text"] {
+.tab-content input[type="text"], #searchFormDiv fieldset input[type="text"] {
     display: block;
     width: 100%;
     padding: 1px .5rem 1px .5rem;
@@ -1928,11 +1928,11 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
     line-height: 1.15rem;    
 }
-#searchFormDiv fieldset input[type="button"]{
+.tab-content input[type="button"] #searchFormDiv fieldset input[type="button"]{
     border: none;
     padding: 0 .15rem;
 }
-#searchFormDiv fieldset select {
+.tab-content select, #searchFormDiv fieldset select {
     display: block;
     width: 100%!important;
     font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1946,7 +1946,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     line-height: 0.875rem;
 }
-#searchFormDiv button.rules[type="button"] {
+.tab-content button.rules, #searchFormDiv button.rules[type="button"] {
     border: none;
     padding: 0;
     font-size: .9rem;
