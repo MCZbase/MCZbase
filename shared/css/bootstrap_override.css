@@ -2757,8 +2757,7 @@ div.toctitle {
         top: 2.1rem;
         z-index: 1; 
         padding-top: .55rem;
-        padding-bottom: .15rem; 
-        margin-top: 0;
+        padding-bottom: .25rem; 
         overflow: hidden;    
     }
     
