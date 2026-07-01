@@ -205,11 +205,11 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-6 col-md-2 col-xl-2 mb-1 form-group mb-0 pb-0 pb-md-1">
+												<div class="col-6 col-md-2 col-xl-2 mb-1 form-group mb-0 pb-0">
 													<label for="specificagent">Agent ID</label>
 													<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#">
 												</div>
-												<div class="col-6 col-md-3 col-xl-2 form-group mb-0 pb-1 pb-md-1">
+												<div class="col-6 col-md-3 col-xl-2 form-group mb-0 pb-0">
 													<label for="agent_type">Agent Type</label>
 													<select id="agent_type" name="agent_type">
 														<option></option>
