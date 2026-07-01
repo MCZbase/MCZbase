@@ -1959,7 +1959,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     left: 0; 
     top: 0.2rem;
 }
-/* for Specimen Details section headers (e.g., citations)*/
+/* for Specimen Details section headers and cards (e.g., citations)*/
 .headerLnk {
 	color: #212529 !important;
 	text-decoration: none;
@@ -1999,7 +1999,6 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-/*	content: "\f067";*/
 	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
@@ -2009,28 +2008,16 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	/*content: "\f068";*/
 	content: "\f146";/*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
 	float: left !important;
 	cursor: pointer;
 }
-/* need to figure out where these .formerID are used */
-.formerID:nth-child(2) {
+/* These are used on the identifications block of the specimen record .formerID are used */
+.formerID:nth-child(2),.formerID:nth-child(3), .formerID:nth-child(4), .formerID:nth-child(5), .formerID:nth-child(6) {
 	display: block!important;
-}
-.formerID:nth-child(3) {
-	display:none!important;
-}
-.formerID:nth-child(4) {
-	display:none!important;
-}
-.formerID:nth-child(5) {
-	display:none!important;
-}
-.formerID:nth-child(6) {
-	display:none!important;
+    color: #444;
 }
 .accordion .card-header h3 button:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
