@@ -1954,10 +1954,11 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	/*text-decoration: underline;*/
 	text-decoration: underline dotted #0460c1;  
 }
-/*button[tabindex="-1"]:focus {
-	outline: 0 !important;
-	box-shadow: none;
-}*/
+#searchFormDiv input[type="radio"] {
+    position: absolute;
+    left: 0; 
+    top: 0.2rem;
+}
 /* for Specimen Details section headers (e.g., citations)*/
 .headerLnk {
 	color: #212529 !important;
