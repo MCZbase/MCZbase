@@ -2014,12 +2014,16 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	float: left !important;
 	cursor: pointer;
 }
-.card-body div.formerID:nth-child(1) {
+.card-body > .formerID:nth-child(1) {
     display:block !important;
     color: #18780b !important;
 }
 /* These are used on the identifications block of the specimen record .formerID are used */
-.card-body div.formerID:nth-child(2),.card-body div.formerID:nth-child(3), .card-body div.formerID:nth-child(4),.card-body div.formerID:nth-child(5), .card-body div.formerID:nth-child(6) {
+.card-body > .formerID:nth-child(2),
+.card-body > .formerID:nth-child(3), 
+.card-body > .formerID:nth-child(4),
+.card-body > .formerID:nth-child(5), 
+.card-body > .formerID:nth-child(6) {
 	display: block !important;
     color: #444444 !important; 
 }
