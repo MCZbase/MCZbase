@@ -2813,6 +2813,21 @@ div.toctitle {
         right: 0 !important;
         box-sizing: border-box;    /* ensure it stays within viewport */
     }
+    .wiki-drawer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 325px;
+        max-width: 90vw;
+        height: 100vh;
+        background: #fff;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+        z-index: 1051;
+        overflow-y: auto;
+        overflow-x: hidden; 
+        transform: translateX(-325px);
+        transition: transform 0.3s ease;
+    }
     .my-thing { color: orange; } 
 }
 
