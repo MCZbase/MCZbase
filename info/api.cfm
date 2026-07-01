@@ -121,8 +121,12 @@
 		</ul>		
 	</div>
 	<div class="col-12">
+		<h2 class="h3">Specimens</h2>
+		You may search Specimens using the <a href="/api/specimensrch">Specimen Search API</a>
+	</div>
+	<div class="col-12">
 		<h2 class="h3">Media</h2>
-		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
+		You may search Media using the <a href="/api/mediasrch">Media Search API</a>
 	</div>
 	<!--- TODO: Add support when HUHbase goes live.
 	<p>
@@ -348,55 +352,598 @@
 		</table>
 	</div>
 </cfif>
-<!---  cfif variables.action is "specsrch">
-	<!--- Never actually documented.  Expected to be replaced in redesign --->
-	<cfquery name="st" datasource="cf_dbuser">
-		select * from cf_search_terms order by term
-	</cfquery>
-		Base URL: #Application.serverRootUrl#/SpecimenResults.cfm
-	<table border>
-		<tr>
-			<th>term</th>
-			<th>display</th>
-			<th>values</th>
-			<th>comment</th>
-		</tr>
-		<cfloop query="st">
-			<cfif left(code_table,2) is "CT">
-				<cftry>
-				<!--- cfquery name="docs" datasource="cf_dbuser">
-					select * from #code_table#
-				</cfquery --->
-				<cfloop list="#docs.columnlist#" index="colName">
-					<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
-						<cfset theColumnName = #colName#>
-					</cfif>
-				</cfloop>
-				<!--- cfquery name="theRest" dbtype="query">
-					select #theColumnName# from docs
-						group by #theColumnName#
-						order by #theColumnName#
-				</cfquery --->
-				<cfset ct="">
-				<cfloop query="theRest">
-					<cfset ct=ct & evaluate(theColumnName) & "<br>">
-				</cfloop>
-				<cfcatch>
-					<cfset ct="fail: #code_table#: #cfcatch.message# #cfcatch.detail# #cfcatch.sql#">
-				</cfcatch>
-				</cftry>
-			<cfelse>
-				<cfset ct=code_table>
-			</cfif>
-			<tr>				
-				<td valign="top">#term#</td>
-				<td valign="top">#display#</td>
-				<td valign="top">#ct#</td>
-				<td valign="top">#definition#</td>
-			</tr>
-		</cfloop>
-	</table>
-</cfif --->
+<cfif variables.action is "specimensrch">
+	<div class="col-12">
+		<h1 class="h2" >Specimen Search API</h1>
+		<p>
+		  This document describes HTTP <strong>GET</strong>-based usage of two search endpoints implemented in 
+		  <code>/specimens/component/search.cfc</code>:
+		</p>
+		<ul>
+		  <li><code>executeFixedSearch</code> – “form-style” fixed-field specimen search.</li>
+		  <li><code>executeBuilderSearch</code> – dynamically constructed “search builder” specimen search.</li>
+		</ul>
+		
+		<p>
+		  Both endpoints:
+		</p>
+		<ul>
+		  <li>Return JSON (stringified) by default (<code>returnformat="json"</code>).</li>
+		  <li>Operate on the currently logged-in user’s context (via <code>session.dbuser</code>, roles, <code>session.flatTableName</code>, etc.).</li>
+		  <li>Write results into the table <code>user_search_table</code> keyed by a caller-supplied <code>result_id</code>, and then read 
+		      paged / sorted results from that table joined to <code>FLAT</code> or <code>FILTERED_FLAT</code>.</li>
+		  <li>Return an array of row objects, each containing all visible “result columns” 
+		      (as defined in <code>cf_spec_res_cols_r</code>) plus a <code>recordcount</code> field with the total number of matching rows.</li>
+		</ul>
+		
+		<p><strong>Base URL pattern</strong> (GET):</p>
+		<pre>GET /specimens/component/search.cfc?method=&lt;methodName&gt;&amp;returnformat=json&amp;{parameters}</pre>
+		
+		
+		<hr>
+		<h2>1. <code>executeFixedSearch</code></h2>
+		
+		<h3>Overview</h3>
+		<p>
+		  Executes a “fixed form” specimen search. Each supported filter corresponds to a named CFML argument on the function.
+		  The method:
+		</p>
+		<ol>
+		  <li>Builds a JSON query description (<code>search_json</code>).</li>
+		  <li>Calls stored procedure <code>build_query_dbms_sql_nest</code> (if the <code>result_id</code> has not been used before for the current user).</li>
+		  <li>Counts and selects matching records from <code>FLAT</code> or <code>FILTERED_FLAT</code>, with optional paging and sorting.</li>
+		  <li>Returns results as JSON (an array of records).</li>
+		</ol>
+		
+		<h3>Endpoint</h3>
+		<pre>GET /specimens/component/search.cfc?method=executeFixedSearch&amp;returnformat=json&amp;{parameters}</pre>
+		
+		<h3>Required parameters</h3>
+		<table>
+		  <tr>
+		    <th>Parameter</th>
+		    <th>Type</th>
+		    <th>Required</th>
+		    <th>Description</th>
+		  </tr>
+		  <tr>
+		    <td><code>result_id</code></td>
+		    <td>string</td>
+		    <td>Yes</td>
+		    <td>
+		      A caller-generated UUID-like string that identifies this search instance. This value is used as a key
+		      in <code>user_search_table</code>. If the same <code>result_id</code> is reused, the existing prepared search
+		      may be reused instead of rebuilding.
+		    </td>
+		  </tr>
+		</table>
+		
+		<h3>Optional core search parameters</h3>
+		<p>
+		  All of the following map to individual conditions in the underlying SQL via 
+		  <code>constructJsonForField</code>, or custom logic in this method. Only a subset is shown here; 
+		  the full list is taken from the function’s arguments.
+		</p>
+		
+		<table>
+		  <tr>
+		    <th>Parameter</th>
+		    <th>Type</th>
+		    <th>Notes / Behavior</th>
+		  </tr>
+		  <tr>
+		    <td><code>collection</code></td>
+		    <td>string</td>
+		    <td>
+		      One or more collection codes (e.g. <code>MCZ:Herp</code>), comma-separated. Translated to 
+		      <code>collection_cde IN (…)</code>.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>cat_num</code></td>
+		    <td>string</td>
+		    <td>
+		      Catalog number or ranges with optional prefixes, such as:
+		      <ul>
+		        <li><code>123</code></li>
+		        <li><code>123,125-130</code></li>
+		        <li><code>A-1-3</code> (prefix with range)</li>
+		      </ul>
+		      Parsed by <code>ScriptPrefixedNumberListToJSON</code> into conditions on 
+		      <code>CAT_NUM_INTEGER</code>, <code>CAT_NUM_PREFIX</code>, and <code>CAT_NUM_SUFFIX</code>.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>media_type</code></td>
+		    <td>string</td>
+		    <td>Filter by media type (e.g. image, sound) via <code>media_type</code> LIKE/IN/etc.</td>
+		  </tr>
+		  <tr>
+		    <td><code>other_id_type</code>, <code>other_id_number</code>,<br>
+		        <code>other_id_type_1</code>, <code>other_id_number_1</code></td>
+		    <td>string</td>
+		    <td>
+		      Allow searching on “other IDs”, with fairly complex nesting:
+		      <ul>
+		        <li>If both a type and number are given for one “slot”, they are grouped by parentheses.</li>
+		        <li>If both 0/1 slots are used, they are combined as 
+		          <code>(type0 &amp; num0) OR (type1 &amp; num1)</code>.</li>
+		        <li>Numbers can be literal, prefixed, or ranges and are parsed via 
+		          <code>ScriptPrefixedNumberListToJSON</code>.</li>
+		        <li>If the number begins with <code>=</code> or <code>!</code>, it is matched against <code>DISPLAY_VALUE</code>.</li>
+		      </ul>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>coll_object_entered_date</code></td>
+		    <td>string</td>
+		    <td>
+		      Date or date range for when the cataloged item was entered. The value is first passed
+		      to <code>reformatDateSearchTerm</code>, which supports formats like:
+		      <ul>
+		        <li><code>YYYY</code> → <code>YYYY-01-01/YYYY-12-31</code></li>
+		        <li><code>YYYY-MM</code> → first-to-last day of month</li>
+		        <li><code>YYYY-MM-DD</code>, <code>&gt;YYYY-MM-DD</code>, <code>&lt;YYYY-MM-DD</code></li>
+		        <li><code>YYYY/YYYY</code>, <code>YYYY-MM/YYYY-MM</code>, etc.</li>
+		      </ul>
+		      Then it is wrapped as an equality/range on <code>coll_object_entered_date</code>.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>last_edit_date</code></td>
+		    <td>string</td>
+		    <td>Same date behavior as above, applied to <code>last_edit_date</code>.</td>
+		  </tr>
+		  <tr>
+		    <td><code>date_collected</code></td>
+		    <td>string</td>
+		    <td>
+		      Interpreted as a date or date range and applied to <strong>both</strong> 
+		      <code>date_began_date</code> and <code>date_ended_date</code>.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>date_began_date</code>, <code>date_ended_date</code>,<br>
+		        <code>received_date</code>, <code>coll_object_entered_date</code>, 
+		        etc.</td>
+		    <td>string</td>
+		    <td>Date or date-range parameters, all using <code>reformatDateSearchTerm</code> to expand year or month input.</td>
+		  </tr>
+		  <tr>
+		    <td><code>lot_count</code>, <code>min_depth_in_m</code>,<br>
+		        <code>max_depth_in_m</code>, <code>min_elev_in_m</code>,<br>
+		        <code>max_elev_in_m</code></td>
+		    <td>string</td>
+		    <td>
+		      Numeric filters. <code>constructJsonForField</code> interprets prefixes:
+		      <ul>
+		        <li><code>&gt;N</code>, <code>&gt;=N</code>, <code>&lt;N</code>, <code>&lt;=N</code></li>
+		        <li><code>N1-N2</code> → a between clause via <code>ScriptNumberListToJSON</code>.</li>
+		        <li><code>=N</code> → equality.</li>
+		      </ul>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>scientific_name</code>, <code>any_taxa_term</code>, <code>species</code>, 
+		        <code>genus</code>, <code>family</code>, etc.</td>
+		    <td>string</td>
+		    <td>
+		      Taxonomy-related textual filters; generally interpreted as LIKE/IN comparisons according
+		      to <code>constructJsonForField</code> rules.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>any_geography</code></td>
+		    <td>string</td>
+		    <td>
+		      Free-text geography search using Oracle Text (<code>CONTAINS</code>):
+		      <ul>
+		        <li><code>!</code> → NOT (converted to <code>~</code>)</li>
+		        <li><code>$</code> → SOUNDEX (converted to <code>!</code>)</li>
+		        <li><code>##</code> → stemming (converted to <code>$</code>)</li>
+		      </ul>
+		      Comparator is empty (<code>""</code>): the stored procedure interprets as a context (keyword) search.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>keyword</code></td>
+		    <td>string</td>
+		    <td>
+		      Keyword / full-text search on <code>KEYWORD</code>, with the same operator conversions as 
+		      <code>any_geography</code>, and comparator forced to <code>""</code> (CTXKEYWORD mode).
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>current_id_only</code></td>
+		    <td>string</td>
+		    <td>
+		      If set to <code>current</code>, adds <code>ACCEPTED_ID_FG = 1</code> to the query, limiting
+		      to current identifications.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>type_status</code></td>
+		    <td>string</td>
+		    <td>
+		      Filters on <code>citations_type_status</code>. Special textual values:
+		      <ul>
+		        <li><code>any</code> → <code>NOT NULL</code> (any type).</li>
+		        <li><code>any type</code> → all type statuses in categories Primary or Secondary.</li>
+		        <li><code>any primary type</code> → only Primary category type statuses.</li>
+		      </ul>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>Numerous others…</td>
+		    <td></td>
+		    <td>
+		      The method exposes many more arguments (e.g. geography, agents, permits, loans, accessions, containers).
+		      Each is mapped to an appropriate internal field and comparator using <code>constructJsonForField</code>,
+		      often with the same operator conventions as above.
+		    </td>
+		  </tr>
+		</table>
+		
+		<h3>Optional paging and sorting parameters</h3>
+		
+		<table>
+		  <tr>
+		    <th>Parameter</th>
+		    <th>Type</th>
+		    <th>Default</th>
+		    <th>Description</th>
+		  </tr>
+		  <tr>
+		    <td><code>pagesize</code></td>
+		    <td>integer</td>
+		    <td><code>0</code> (no paging)</td>
+		    <td>
+		      If &gt; 0, enables server-side paging using <code>ROW_NUMBER()</code>. The query returns only rows between
+		      <code>recordstartindex + 1</code> and <code>recordendindex</code>.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>pagenum</code></td>
+		    <td>integer</td>
+		    <td>empty</td>
+		    <td>Used by the client to derive <code>recordstartindex</code> / <code>recordendindex</code>; not directly used here.</td>
+		  </tr>
+		  <tr>
+		    <td><code>recordstartindex</code></td>
+		    <td>integer</td>
+		    <td>not set</td>
+		    <td>
+		      Starting row index (0-based from the client). Internally incremented by 1 before use, so that
+		      the Oracle BETWEEN is inclusive (1-based).
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>recordendindex</code></td>
+		    <td>integer</td>
+		    <td>not set</td>
+		    <td>Final row number (inclusive) for paging.</td>
+		  </tr>
+		  <tr>
+		    <td><code>sortdatafield</code></td>
+		    <td>string</td>
+		    <td>empty</td>
+		    <td>
+		      Column name to sort on. Must match a <code>column_name</code> in <code>cf_spec_res_cols_r</code> that is visible 
+		      to the current user; otherwise is ignored. For <code>guid</code> a custom numeric sort is used.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>sortorder</code></td>
+		    <td>string</td>
+		    <td><code>asc</code></td>
+		    <td><code>asc</code> or <code>desc</code>.</td>
+		  </tr>
+		  <tr>
+		    <td><code>returnallrecords</code></td>
+		    <td>string</td>
+		    <td>empty</td>
+		    <td>
+		      If set to <code>true</code>, disables server-side paging and sorting:
+		      <ul>
+		        <li><code>pagesize = 0</code></li>
+		        <li><code>pagenum = ""</code></li>
+		        <li><code>sortdatafield = ""</code></li>
+		        <li><code>sortorder = "asc"</code></li>
+		      </ul>
+		    </td>
+		  </tr>
+		</table>
+		
+		<h3>Response format</h3>
+		
+		<p>
+		  On success, JSON representing an array of rows:
+		</p>
+		<pre>[
+		  {
+		    "RECORDCOUNT": "123",
+		    "GUID": "MCZ:Herp:12345",
+		    "SCIENTIFIC_NAME": "Rana catesbeiana",
+		    "SPEC_LOCALITY": "USA: Massachusetts: Middlesex Co.",
+		    "...": "..."
+		  },
+		  {
+		    "RECORDCOUNT": "123",
+		    "GUID": "MCZ:Herp:12346",
+		    ...
+		  }
+		]</pre>
+		
+		<ul>
+		  <li><code>RECORDCOUNT</code> is the total number of rows matching the search (same value on every returned row).</li>
+		  <li>All other keys correspond to the uppercase column aliases defined in <code>cf_spec_res_cols_r</code>.</li>
+		</ul>
+		
+		<h3>Error handling</h3>
+		<ul>
+		  <li>If <code>search_json</code> is not valid JSON, the method throws an exception.</li>
+		  <li>If all search arguments are empty (so <code>search_json == []</code>), the method throws 
+		      “You must enter some search criteria.”</li>
+		  <li>Any caught exception is logged via <code>reportError</code> and returned as an HTTP 500.</li>
+		</ul>
+		
+		<h3>Example: simple fixed search (GET)</h3>
+		
+		<pre>
+		GET /specimens/component/search.cfc
+		    ?method=executeFixedSearch
+		    &amp;returnformat=json
+		    &amp;result_id=4c603b0a-5678-4e2f-9c55-123456789abc
+		    &amp;collection=MCZ:Herp
+		    &amp;scientific_name=%25Rana%25
+		    &amp;country=United%20States
+		    &amp;pagesize=50
+		    &amp;recordstartindex=0
+		    &amp;recordendindex=49
+		</pre>
+		
+		
+		<hr>
+		<h2>2. <code>executeBuilderSearch</code></h2>
+		
+		<h3>Overview</h3>
+		<p>
+		  Executes a search built from multiple dynamic rows of criteria, as in an interactive “advanced search builder”.
+		  Each row has:
+		</p>
+		<ul>
+		  <li>a field selector (referencing <code>cf_spec_search_cols</code>),</li>
+		  <li>a join operator (<code>AND</code>/<code>OR</code>),</li>
+		  <li>text input (or a hidden ID field),</li>
+		  <li>and open/close parenthesis counts for grouping.</li>
+		</ul>
+		
+		<p>
+		  The method:
+		</p>
+		<ol>
+		  <li>Reads <code>builderMaxRows</code> to know how many numbered row slots to examine.</li>
+		  <li>For each <code>i</code> from 1 to <code>builderMaxRows</code>, attempts to evaluate:
+		    <code>field{i}</code>, <code>searchText{i}</code>, <code>openParens{i}</code>, <code>closeParens{i}</code>,
+		    <code>joinOperator{i}</code>, and optionally <code>searchId{i}</code>.</li>
+		  <li>Matches each <code>field{i}</code> against <code>table_name:column_alias</code> from <code>cf_spec_search_cols</code>.</li>
+		  <li>Builds <code>search_json</code> using <code>constructJsonForField</code> and <code>reformatDateSearchTerm</code> as needed.</li>
+		  <li>Calls <code>build_query_dbms_sql_nest</code>, counts and selects results, and returns JSON rows just like <code>executeFixedSearch</code>.</li>
+		</ol>
+		
+		<h3>Endpoint</h3>
+		<pre>GET /specimens/component/search.cfc?method=executeBuilderSearch&amp;returnformat=json&amp;{parameters}</pre>
+		
+		<h3>Required parameters</h3>
+		<table>
+		  <tr>
+		    <th>Parameter</th>
+		    <th>Type</th>
+		    <th>Required</th>
+		    <th>Description</th>
+		  </tr>
+		  <tr>
+		    <td><code>result_id</code></td>
+		    <td>string</td>
+		    <td>Yes</td>
+		    <td>Identifier for this search instance, as in <code>executeFixedSearch</code>.</td>
+		  </tr>
+		  <tr>
+		    <td><code>builderMaxRows</code></td>
+		    <td>string (numeric)</td>
+		    <td>Yes</td>
+		    <td>
+		      Maximum number of search rows the server should look for (1..N). Must be numeric; otherwise an error is thrown.
+		      For each <code>i</code> in <code>[1, builderMaxRows]</code>, the method attempts to read <code>field{i}</code>, 
+		      <code>searchText{i}</code>, etc.
+		    </td>
+		  </tr>
+		</table>
+		
+		<h3>Row-level (indexed) parameters</h3>
+		
+		<p>
+		  For each row <code>i</code> (1 ≤ i ≤ <code>builderMaxRows</code>) the following form fields are expected:
+		</p>
+		
+		<table>
+		  <tr>
+		    <th>Parameter pattern</th>
+		    <th>Example</th>
+		    <th>Required for row?</th>
+		    <th>Description</th>
+		  </tr>
+		  <tr>
+		    <td><code>field{i}</code></td>
+		    <td><code>field1=flatTableName:GUID</code></td>
+		    <td>Yes (for that row)</td>
+		    <td>
+		      Must be a string of the form <code>table_name:column_alias</code> corresponding to a record in 
+		      <code>cf_spec_search_cols</code> accessible to the user. If it does not match any entry, an 
+		      “Unknown search field” error is thrown.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>searchText{i}</code></td>
+		    <td><code>searchText1=%25Rana%25</code></td>
+		    <td>Yes (for that row)</td>
+		    <td>
+		      User-entered text. Interpreted according to:
+		      <ul>
+		        <li>Data type (from <code>cf_spec_search_cols.data_type</code>, e.g. DATE vs NUMERIC vs normal text).</li>
+		        <li>Operator prefixes (see below and <code>constructJsonForField</code>).</li>
+		      </ul>
+		      If empty, that row is skipped.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>searchId{i}</code></td>
+		    <td><code>searchId1=12345</code></td>
+		    <td>No</td>
+		    <td>
+		      Hidden ID, typically used with autocomplete. If present and non-empty:
+		      <ul>
+		        <li>If <code>searchText{i}</code> begins with <code>!</code>, a leading <code>!</code> is carried forward.</li>
+		        <li>Otherwise, <code>searchText{i}</code> is replaced with <code>=searchId{i}</code> to force equality matches.</li>
+		      </ul>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>joinOperator{i}</code></td>
+		    <td><code>joinOperator1=AND</code></td>
+		    <td>No</td>
+		    <td>
+		      Join operator used between this row and the previous one:
+		      <ul>
+		        <li><code>AND</code> → <code>"join":"and"</code></li>
+		        <li><code>OR</code> → <code>"join":"or"</code></li>
+		        <li>Any other value (or empty) → no join (applied to the first row).</li>
+		      </ul>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>openParens{i}</code></td>
+		    <td><code>openParens1=1</code></td>
+		    <td>No</td>
+		    <td>
+		      Number of opening parentheses to apply to this row’s clause. Stored as 
+		      <code>"openParens":"{n}"</code> in the JSON and interpreted by <code>build_query_dbms_sql_nest</code>.
+		      If empty, defaults to 0.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><code>closeParens{i}</code></td>
+		    <td><code>closeParens1=0</code></td>
+		    <td>No</td>
+		    <td>
+		      Number of closing parentheses to apply after this row’s clause. Stored as 
+		      <code>"closeParens":"{n}"</code>. If empty, defaults to 0.
+		    </td>
+		  </tr>
+		</table>
+		
+		<p>
+		  A row is considered “present” if both <code>field{i}</code> and <code>searchText{i}</code> can be evaluated and are non-empty.
+		  All invalid or missing rows are silently skipped.
+		</p>
+		
+		<h3>Operator and data-type behavior per row</h3>
+		
+		<p>
+		  Each matched row uses the <code>data_type</code> from <code>cf_spec_search_cols</code> and feeds the field name,
+		  the raw value, and the nesting information into <code>constructJsonForField</code>. Important behaviors:
+		</p>
+		
+		<ul>
+		  <li>Numeric (<code>data_type = "NUMERIC"</code>):
+		    <ul>
+		      <li><code>&gt;N</code>, <code>&gt;=N</code>, <code>&lt;N</code>, <code>&lt;=N</code> → comparison operators.</li>
+		      <li><code>N1-N2</code> → range via <code>ScriptNumberListToJSON</code> (two clauses: ≥N1 AND ≤N2).</li>
+		      <li><code>=N</code> → equality.</li>
+		      <li>Comma lists like <code>1,2,3</code> → <code>IN</code> comparisons.</li>
+		    </ul>
+		  </li>
+		  <li>Date (<code>data_type = "DATE"</code>):
+		    <ul>
+		      <li>Value is first passed to <code>reformatDateSearchTerm</code>, supporting year/month-only inputs as for
+		          <code>executeFixedSearch</code>.</li>
+		    </ul>
+		  </li>
+		  <li>CTXKEYWORD (<code>data_type = "CTXKEYWORD"</code>):
+		    <ul>
+		      <li>Comparator is forced to empty string (<code>""</code>), allowing stored procedures to interpret 
+		          it as a full-text context search (Oracle Text).</li>
+		    </ul>
+		  </li>
+		  <li>General text:
+		    <ul>
+		      <li><code>=value</code> → equality.</li>
+		      <li><code>!value</code> → <code>NOT LIKE</code>.</li>
+		      <li><code>~value</code> → Jaro–Winkler similarity.</li>
+		      <li><code>!~value</code> → NOT Jaro–Winkler.</li>
+		      <li><code>$value</code> → SOUNDEX.</li>
+		      <li><code>!$value</code> → NOT SOUNDEX.</li>
+		      <li>Comma lists of letters or numbers (<code>a,b,c</code> / <code>1,2,3</code>) → <code>IN</code>.</li>
+		      <li>Otherwise → <code>LIKE</code>.</li>
+		    </ul>
+		  </li>
+		</ul>
+		
+		<h3>Paging and sorting</h3>
+		
+		<p>
+		  <code>executeBuilderSearch</code> uses the same paging and sorting arguments as <code>executeFixedSearch</code>:
+		</p>
+		<ul>
+		  <li><code>pagesize</code>, <code>recordstartindex</code>, <code>recordendindex</code>, <code>pagenum</code></li>
+		  <li><code>sortdatafield</code>, <code>sortorder</code></li>
+		  <li><code>returnallrecords</code></li>
+		</ul>
+		
+		<h3>Response format</h3>
+		
+		<p>Identical to <code>executeFixedSearch</code>: an array of row objects with <code>recordcount</code> and one key per selected column.</p>
+		
+		<h3>Error handling</h3>
+		<ul>
+		  <li>If <code>builderMaxRows</code> is not numeric, throws “Value provided for builderMaxRows is not a number”.</li>
+		  <li>If <code>search_json</code> is not valid JSON, throws “unable to construct valid json for query”.</li>
+		  <li>If no valid rows were provided, throws “At least one search field and value must be provided.”</li>
+		  <li>If a <code>field{i}</code> does not match any <code>cf_spec_search_cols</code> entry, throws 
+		      “Unknown search field [ ... ].”</li>
+		  <li>All exceptions are logged via <code>reportError</code> and delivered as HTTP 500.</li>
+		</ul>
+		
+		<h3>Example: two-row builder search (GET)</h3>
+		
+		<p>Example building a query roughly equivalent to:</p>
+		<pre>(SCIENTIFIC_NAME LIKE '%Rana%') AND (COUNTRY = 'United States')</pre>
+		
+		<pre>
+		GET /specimens/component/search.cfc
+		    ?method=executeBuilderSearch
+		    &amp;returnformat=json
+		    &amp;result_id=93a1e51b-3cec-4ae1-9bc7-abcdef123456
+		    &amp;builderMaxRows=2
+		
+		    &amp;field1=FLAT:IDENTIFICATIONS_SCIENTIFIC_NAME
+		    &amp;searchText1=%25Rana%25
+		    &amp;joinOperator1=
+		    &amp;openParens1=1
+		    &amp;closeParens1=0
+		
+		    &amp;field2=FLAT:COUNTRY
+		    &amp;searchText2==United%20States
+		    &amp;joinOperator2=AND
+		    &amp;openParens2=0
+		    &amp;closeParens2=1
+		
+		    &amp;pagesize=100
+		    &amp;recordstartindex=0
+		    &amp;recordendindex=99
+		</pre>
+	</div>
+</cfif>
 <cfif variables.action is "kml">
 	<div class="col-12">
 		<h1 class="h3">You may open KML files of MCZbase data using the KML API</h1>
