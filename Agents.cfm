@@ -187,7 +187,7 @@ limitations under the License.
 									<div class="form-row pt-2">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-1 mt-0 pr-md-0 form-group">
                                             <label for="anyName" id="anyName_label">Any part of any name</label>
-                                            <span class="text-success">
+                                            <span class="text-success small">
                                                 (match entire name with: <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
                                                 comma separated list)
@@ -254,14 +254,14 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
 											<label for="first_name">First</label>
-								            <span class="small text-success">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+								            <span class="small text-secondary">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 								            <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)</span>											
 											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 										</div>	
 										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
                                             <label for="middle_name">Middle</label>
-								            <span class="small text-success">
+								            <span class="small text-secondary">
                                                 (accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
@@ -270,7 +270,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
 											<label for="last_name">Last</label> 
-                                            <span class="small text-success">
+                                            <span class="small text-secondary">
 												(accepts <button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
