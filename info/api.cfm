@@ -412,8 +412,9 @@
 		    <td>Yes</td>
 		    <td>
 		      A caller-generated UUID string that identifies this search instance. This value is used as a key
-		      in <code>user_search_table</code>. <strong>Warning</strong> if the same <code>result_id</code> is reused, 
-				the existing search results under that result_id will be appended to, which is almost certainly not the desired action.
+		      in <code>user_search_table</code>. <strong>Note:</strong> if the same <code>result_id</code> is reused, 
+				existing search results under that result_id will returned, this is a feature to allow paging and 
+				sorting of results. If you want to start a new search, generate a new UUID for result_id.
 				Example: result_id=c2b940f1-99de-4ef1-8164-95651e9329c9
 		    </td>
 		  </tr>
