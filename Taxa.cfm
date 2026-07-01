@@ -189,9 +189,9 @@ limitations under the License.
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
 					 <div class="d-flex flex-wrap mb-0 mr-0 ml-0 mr-md-3 mr-xl-4 ml-xl-3">
-						<div class="search-box mt-4">
+						<div class="search-box mt-0">
 							<div class="search-box-header">
-								<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+								<h1 class="h3 text-white mt-4" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<div id="searchFormDiv" class="small95">
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
