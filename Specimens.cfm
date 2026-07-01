@@ -321,7 +321,7 @@ limitations under the License.
 							<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
 							<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
-						<div class="tab-content mt-0 px-0 pb-0">
+						<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div class="d-flex justify-content-end px-0"> 
@@ -627,7 +627,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                         <label for="type_status">Type Status/Citation</label>
-												        <button type="button" class="btn-link small" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
+												        <button type="button" class="rules" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
                                                                 (&##8595;) <span class="sr-only">open pick list</span>
                                                         </button>
                                                        	<cfif not isdefined("type_status")><cfset type_status=""></cfif>
@@ -1069,7 +1069,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 mb-1">
                                                        <label for="collecting_source">Collecting Source</label>
-                                                        <button type="button" class="btn-link small" onclick="$('##collecting_source').autocomplete('search','%'); return false;" >  
+                                                        <button type="button" class="rules" onclick="$('##collecting_source').autocomplete('search','%'); return false;" >  
                                                            (&##8595;) <span class="sr-only">open pick list</span>
                                                         </button>
 														<cfif not isdefined("collecting_source")><cfset collecting_source=""></cfif>
