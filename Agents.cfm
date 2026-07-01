@@ -264,7 +264,7 @@ limitations under the License.
 								            <span class="small text-secondary">
                                                 (accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NULL';"> NULL</button>, <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NULL';">NOT NULL</button>)
+											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NULL';"> NULL</button>, <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NOT NULL';">NOT NULL</button>)
                                             </span>
                                             <input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
