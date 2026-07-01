@@ -2740,23 +2740,8 @@ div.toctitle {
 
 /* ≥ md test */
 @media (min-width: 768px) {
-  .my-thing { color: blue; }
-}
-
-/* ≥ lg test */
-@media (min-width: 992px) {
-  .my-thing { color: red; }
-}
-
-/* ≥ xl (1200px) test */
-@media (min-width: 1200px) { 
-    .my-thing { color: orange; } 
-}
-
-
-/* ≥ xxl (1400px, in BS5) test */
-@media (min-width: 1400px) { 
-    button.help-btnSp-SearchWiki {
+    
+     button.help-btnSp-SearchWiki {
         background-color: #1b1b1b;
         color: white;
         float: right;
@@ -2773,6 +2758,24 @@ div.toctitle {
         border-radius: 0 0 6px 6px; /* adjust 6px as desired */
         border-color: black;
     }
+    
+  .my-thing { color: blue; }
+}
+
+/* ≥ lg test */
+@media (min-width: 992px) {
+  .my-thing { color: red; }
+}
+
+/* ≥ xl (1200px) test */
+@media (min-width: 1200px) { 
+    .my-thing { color: orange; } 
+}
+
+
+/* ≥ xxl (1400px, in BS5) test */
+@media (min-width: 1400px) { 
+   
     
     .my-thing { color: red; } 
 }
