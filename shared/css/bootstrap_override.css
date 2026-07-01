@@ -1943,6 +1943,7 @@ input#readMore_check_id {
 }
 .tab-content button[type="button"], #searchFormDiv button[type="button"] {
     border: none;
+    padding: 0;
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;

@@ -271,7 +271,7 @@ limitations under the License.
 											<div class="form-row mt-0">
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
 													<label for="kingdom">Kingdom</label>
-												    <button class="btn-link small95" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
+												    <button type="button" class="btn-link small95" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
 												    <button type="button" class="btn-link" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
 													<input type="text" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#" placeholder="kingdom">
 												</div>
