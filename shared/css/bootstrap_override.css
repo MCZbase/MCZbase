@@ -2689,20 +2689,6 @@ body.wiki-open .ui-dialog {
     right: 0;
     box-sizing: border-box;
 }
-/*body.wiki-open .ui-dialog {  
-    width: auto !important;
-    max-width: calc(100vw - 325px) !important;
-    left: 325px !important;      
-    right: 0 !important;
-    box-sizing: border-box;  
-}
-body.wiki-open .ui-dialog {
-    width: auto !important;  
-    max-width: calc(100vw - 325px) !important;
-    left: 325px !important;      
-    right: 0 !important;
-    box-sizing: border-box;    
-}*/
 div.mw-parser-output h1 {
 	font-size: 20px;
 	font-weight:bold;
@@ -2756,9 +2742,17 @@ div.toctitle {
         margin-bottom: 15px;
         top: 2.1rem;
         z-index: 1; 
-        padding-top: .55rem;
+        padding-top: .5rem;
         padding-bottom: .25rem; 
         overflow: hidden;    
+    }
+
+    body.wiki-open .ui-dialog {
+        width: auto !important;  
+        max-width: calc(100vw - 375px) !important;
+        left: 375px !important;      
+        right: 0 !important;
+        box-sizing: border-box;    
     }
     
   .my-thing { color: blue; }
