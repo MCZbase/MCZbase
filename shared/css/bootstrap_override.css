@@ -2740,6 +2740,9 @@ div.toctitle {
         padding-bottom: .25rem; 
         overflow: hidden;    
     }
+    .btnSp-shim {
+        margin-top: -1.55rem;
+    }
 
     body.wiki-open .ui-dialog {
         width: auto !important;  
