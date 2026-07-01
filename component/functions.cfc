@@ -1948,6 +1948,7 @@
 				left join container p on c.parent_container_id=p.container_id
 				<cfif other_id_type is not "catalog_number">
 					join coll_obj_other_id_num on cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
+				</cfif>
 			WHERE
 				cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				<cfif other_id_type is not "catalog_number">
