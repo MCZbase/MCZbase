@@ -2735,8 +2735,8 @@ div.toctitle {
 
     body.wiki-open .ui-dialog {
         width: auto !important;  
-        max-width: calc(100vw - 375px) !important;
-        left: 375px !important;      
+        max-width: calc(100vw - 400px) !important;
+        left: 400px !important;      
         right: 0 !important;
         box-sizing: border-box;    
     }
@@ -2744,7 +2744,7 @@ div.toctitle {
         position: fixed;
         top: 0;
         left: 0;
-        width: 375px;
+        width: 400px;
         max-width: 90vw;
         height: 100vh;
         background: #fff;
@@ -2752,7 +2752,7 @@ div.toctitle {
         z-index: 1051;
         overflow-y: auto;
         overflow-x: hidden; 
-        transform: translateX(-375px);
+        transform: translateX(-400px);
         transition: transform 0.3s ease;
     }
     
