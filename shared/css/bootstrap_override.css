@@ -1951,7 +1951,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     padding: 0;
     font-size: .9rem;
     color: #0460c1 !important;
-	text-decoration: underline;
+	/*text-decoration: underline;*/
 	text-decoration: underline dotted #0460c1;  
 }
 /*button[tabindex="-1"]:focus {
