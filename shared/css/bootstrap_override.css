@@ -2752,7 +2752,7 @@ div.toctitle {
         z-index: 1051;
         overflow-y: auto;
         overflow-x: hidden; 
-        transform: translateX(-400px);
+        transform: translateX(-500px);
         transition: transform 0.3s ease;
     }
     
