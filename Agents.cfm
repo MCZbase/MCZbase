@@ -254,37 +254,33 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
-											<label for="first_name" class="data-entry-label mb-0 font-weight-bold" id="first_name_label">
-												First
-													(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
-													NULL, NOT NULL)
-												</span>
-											</label>
+											<label for="first_name">First</label>
+								            <span class="text-success">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+								            <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)</span>											
 											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 										</div>	
 										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
-											<label for="middle_name" class="data-entry-label mb-0 font-weight-bold" id="middle_name_label">
-												Middle
-												(accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+                                            <label for="middle_name">Middle</label>
+								            <span class="text-success">
+                                                (accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
-											</label>
-											<input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
+                                            </span>
+                                            <input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
 										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
-											<label for="last_name" class="data-entry-label font-weight-bold" id="last_name_label">
-												Last 
+											<label for="last_name" class="data-entry-label font-weight-bold" id="last_name_label">Last</label> 
+                                            <span class="text-success">
 												(accepts <button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
-											</label>
-											<input type="text" id="last_name" name="last_name" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label">
+											</span>
+											<input type="text" id="last_name" name="last_name" value="#encodeForHtml(last_name)#">
 										</div>
 										<div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 mb-1 mb-md-0">
 											<div class="form-group mb-0 pb-2">
-												<label for="suffix" id="suffix_label">Suffix</label>
+												<label for="suffix">Suffix</label>
 												<select id="suffix" name="suffix">
 													<option></option>
 													<cfloop query="dist_suffix">
@@ -322,11 +318,11 @@ limitations under the License.
 										<div class="col-12 col-md-4 px-0 mt-0">
 											<div class="form-group pt-2 pb-1 mb-0">
 												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 mx-0 rounded justify-content-center">
-													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 font-weight-bold" for="birth_date">#dateWord# Of Birth</label>
-													<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+													<label for="birth_date">#dateWord# Of Birth</label>
+													<input type="text" name="birth_date" id="birth_date" type="text" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
 													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-													<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>
-													<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+													<label for="to_birth_date">end of search range for date of birth</label>
+													<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput w-100 col-5" placeholder="end #dateplaceholder#" title="end of date range">
 												</div>
 											</div>
 										</div>
