@@ -2770,6 +2770,20 @@ div.toctitle {
 
 /* ≥ lg test */
 @media (min-width: 992px) {
+    /* Don’t push content on these sizes */
+    #content.pushed {
+        margin-left: 0;
+        width: 100%;
+    }
+    /* Let dialogs behave normally on these widths */
+    body.wiki-open .ui-dialog {
+        width: auto;
+        max-width: 100vw;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
+    
   .my-thing { color: red; }
 }
 
