@@ -154,7 +154,7 @@ limitations under the License.
 	<cfoutput>
 		<main id="content">
 			<cftry>
-				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnA-SearchWiki border-0")#</cfoutput>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim border-0")#</cfoutput>
 				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 			</cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
