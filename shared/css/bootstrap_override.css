@@ -2850,7 +2850,7 @@ div.toctitle {
     }
     #content.pushed {
 	    margin-left: 400px;
-	    width: calc(100% - 325px);
+	    width: calc(100% - 400px);
     }
     body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
         width: auto !important;
