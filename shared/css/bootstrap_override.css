@@ -2753,8 +2753,8 @@ div.toctitle {
 
         /* optionally reset positioning so it sits in normal flow */
         position: static;   /* or relative, depending on layout */
-        top: auto;
-        right: auto;
+        top: 0;
+        right: 1rem;
     }
     
   .my-thing { color: blue; }
