@@ -342,11 +342,11 @@ limitations under the License.
 									<div class="col-12 col-md-4 px-0 mt-0">
 										  <div class="form-group pt-2 mb-0 pb-1">
 											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
-												<label for="collected_date">Dates Collected</label>
-												<input name="collected_date" id="collected_date" type="text" class="datetimeinput w-100 col-5" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
+												<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
+												<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="sr-only" for="to_collected_date">end of search range for dates collected</label>
-												<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+												<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#"  class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 											</div>
 										</div>
 									</div>
@@ -365,8 +365,8 @@ limitations under the License.
 										<div class="form-row mt-2">
 											<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
 												<div class="form-group mb-1 pb-0">
-													<label for="collector_collection" class="data-entry-label font-weight-bold" id="edited_label">Collector in Collection</label>
-													<select id="collector_collection" name="collector_collection" class="data-entry-select py-0">
+													<label for="collector_collection" id="edited_label">Collector in Collection</label>
+													<select id="collector_collection" name="collector_collection">
 														<option></option>
 														<cfif collector_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
 														<option value="NULL" #selected#>Not a Collector</option>
@@ -381,8 +381,8 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
 												<div class="form-group mb-1 pb-0">
-													<label for="author_collection" class="data-entry-label font-weight-bold" id="edited_label">Author in Collection </label>
-													<select id="author_collection" name="author_collection" class="data-entry-select py-0">
+													<label for="author_collection">Author in Collection </label>
+													<select id="author_collection" name="author_collection">
 														<option></option>
 														<cfif author_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
 														<option value="NULL" #selected#>Not an Author</option>
@@ -398,8 +398,8 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 												<div class="col-12 col-md-4 col-xl-2 mt-0">
 													<div class="form-group mb-1 pb-0">
-														<label for="trans_agent_collection" class="data-entry-label font-weight-bold" id="edited_label">Collection Transactions</label>
-														<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select py-0">
+														<label for="trans_agent_collection">Collection Transactions</label>
+														<select id="trans_agent_collection" name="trans_agent_collection">
 															<option></option>
 															<cfif trans_agent_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
 															<option value="NULL" #selected#>No Transaction Roles</option>
@@ -414,8 +414,8 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-6 col-xl-3 mt-0">
 													<div class="form-group mb-1 pb-0">
-														<label for="trans_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Transaction Role</label>
-														<select id="trans_agent_role" name="trans_agent_role" class="data-entry-select py-0">
+														<label for="trans_agent_role">Transaction Role</label>
+														<select id="trans_agent_role" name="trans_agent_role">
 															<option></option>
 															<cfif variables.trans_agent_role EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
 															<option value="NULL" #selected#>No Transaction Roles</option>
@@ -434,8 +434,8 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-6 col-xl-3 mt-0">
 													<div class="form-group mb-1 pb-0">
-														<label for="permit_agent_role" class="data-entry-label font-weight-bold" id="edited_label">Permissions &amp; Rights</label>
-														<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select py-0">
+														<label for="permit_agent_role">Permissions &amp; Rights</label>
+														<select id="permit_agent_role" name="permit_agent_role">
 															<option></option>
 															<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 															<option value="issued by" #sel# >Issued By</option>
