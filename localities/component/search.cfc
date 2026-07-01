@@ -3109,7 +3109,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @param field SQL field/expression to query.
 @param value user supplied numeric query value to parse with setupNumericClause.
 @param paramBase trusted internal base name used when creating named parameters;
-	never pass user-provided content.
+   never pass user-provided content.
 @param scale optional numeric scale for decimal bindings.
 @return updated whereClauses array including appended clause.
 --->
@@ -3120,8 +3120,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="paramBase" type="string" required="yes">
 	<cfargument name="scale" type="numeric" required="no">
+
 	<cfset var setup = setupNumericClause(field=arguments.field,value=arguments.value)>
 	<cfset var clause = "">
+	<!--- Determine if this should be treated as a list binding (e.g. "1,2,3") --->
+	<cfset var isList = ( structKeyExists(setup,"list") AND setup["list"] EQ "yes" ) OR ( Find(",", setup["value"]) GT 0 )>
+
 	<cfif len(setup["value"]) EQ 0>
 		<cfset clause = "#setup['pre']# #setup['post']#">
 	<cfelseif setup["between"] EQ "true">
@@ -3132,11 +3136,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfif>
 	<cfelse>
 		<cfif structKeyExists(arguments,"scale")>
-			<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_DECIMAL',list=(setup['list'] EQ 'yes'),scale=arguments.scale)# #setup['post']#">
+			<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_DECIMAL',list=isList,scale=arguments.scale)# #setup['post']#">
 		<cfelse>
-			<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_DECIMAL',list=(setup['list'] EQ 'yes'))# #setup['post']#">
+			<cfset clause = "#setup['pre']# #addNamedQueryParam(params=arguments.params,paramBase=arguments.paramBase,value=setup['value'],cfsqltype='CF_SQL_DECIMAL',list=isList)# #setup['post']#">
 		</cfif>
 	</cfif>
+
 	<cfset arrayAppend(arguments.whereClauses,trim(clause))>
 	<cfreturn arguments.whereClauses>
 </cffunction>
