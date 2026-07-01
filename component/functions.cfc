@@ -1909,7 +1909,17 @@
 	</cfif>
 	<cfreturn "Success:#form#:#role#:#onoff#">
 </cffunction>
+
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- getParts given a collection_id and a catalog_number or other_id_type and oidnum, return a query of parts for that specimen. 
+  @param collection_id: the collection_id of the specimen
+  @param other_id_type: the other_id_type of the specimen, or "catalog_number" if using catalog number
+  @param oidnum: the catalog number or other_id_num of the specimen
+  @param noBarcode: if true, only return parts that are not in a container
+  @param noSubsample: if true, only return parts that are not subsamples
+  @return: a query result object containing a PART_NAME element with the name 
+    of parts for the specimen, or an error message if no parts found or multiple specimens found
+--->
 <cffunction name="getParts" access="remote">
 	<cfargument name="collection_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -1917,7 +1927,8 @@
 	<cfargument name="noBarcode" type="string" required="yes">
 	<cfargument name="noSubsample" type="string" required="yes">
 	<cftry>
-		<cfset t="select
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
 				cataloged_item.collection_object_id,
 				specimen_part.collection_object_id partID,
 				decode(p.barcode,'0',null,p.barcode) barcode,
@@ -1928,38 +1939,30 @@
 				collection,
 				concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 				'#session.CustomOtherIdentifier#' as CustomIdType
-			from
-				specimen_part,
-				cataloged_item,
-				collection,
-				coll_obj_cont_hist,
-				container c,
-				container p">
-		<cfset w = "where
-				specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
-				cataloged_item.collection_id=collection.collection_id and
-				specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
-				coll_obj_cont_hist.container_id=c.container_id and
-				c.parent_container_id=p.container_id (+) and
-				cataloged_item.collection_id=#collection_id#">
-		<cfif other_id_type is not "catalog_number">
-			<cfset t=t&" ,coll_obj_other_id_num">
-			<cfset w=w & " and cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id and
-					coll_obj_other_id_num.other_id_type='#other_id_type#' and
-					coll_obj_other_id_num.display_value='#oidnum#'">
-		<cfelse>
-			<cfset w=w & " and cataloged_item.cat_num='#oidnum#'">
-		</cfif>
-		<cfif noBarcode is true>
-			<cfset w=w & " and (c.parent_container_id = 0 or c.parent_container_id is null or c.parent_container_id=476089)">
-				<!--- 476089 is barcode 0 - our universal trashcan --->
-		</cfif>
-		<cfif noSubsample is true>
-			<cfset w=w & " and specimen_part.SAMPLED_FROM_OBJ_ID is null">
-		</cfif>
-		<cfset q = t & " " & w & " order by part_name">
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(q)#
+			FROM
+				specimen_part
+				join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+				join collection on cataloged_item.collection_id=collection.collection_id
+				join coll_obj_cont_hist on specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id 
+				join container c on coll_obj_cont_hist.container_id=c.container_id 
+				left join container p on c.parent_container_id=p.container_id
+				<cfif other_id_type is not "catalog_number">
+					join coll_obj_other_id_num on cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
+			WHERE
+				cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				<cfif other_id_type is not "catalog_number">
+					AND coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#">
+					AND coll_obj_other_id_num.display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidnum#">
+				<cfelse>
+					AND cataloged_item.cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidnum#">
+				</cfif>
+				<cfif noBarcode is true>
+					AND (c.parent_container_id = 0 or c.parent_container_id IS NULL)
+				</cfif>
+				<cfif noSubsample is true>
+					AND specimen_part.SAMPLED_FROM_OBJ_ID IS NULL
+				</cfif>
+			ORDER BY part_name
 		</cfquery>
 		<cfquery name="u" dbtype="query">
 			select count(distinct(collection_object_id)) c from q
@@ -1975,12 +1978,6 @@
 			<cfset t = QuerySetCell(q, "PART_NAME", "Error: #u.c# specimens match", 1)>
 		</cfif>
 	<cfcatch>
-		<!---
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "collection_object_id", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "typeList", "#cfcatch.detail#", 1)>
-		<cfreturn theResult>
-		--->
 		<cfset q=queryNew("PART_NAME")>
 		<cfset t = queryaddrow(q,1)>
 		<cfset t = QuerySetCell(q, "PART_NAME", "Error: #cfcatch.Message# #cfcatch.detail#", 1)>
@@ -1988,6 +1985,7 @@
 	</cftry>
 	<cfreturn q>
 </cffunction>
+
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getSpecimen" access="remote">
 	<cfargument name="collection_id" type="string" required="yes">
