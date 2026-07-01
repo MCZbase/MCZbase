@@ -782,7 +782,7 @@ limitations under the License.
 				<div class="#divClasses#">
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-						<div class="d-inline-block my-0 h5 formerID">Current Identification</div>
+						<div class="d-inline-block my-0 h5 currentID">Current Identification</div>
 					<cfelse>
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
