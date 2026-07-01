@@ -1446,7 +1446,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 												        <label for="underscore_collection">Named Group</label>
-														<button type="button" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></button>
+														<button type="button" class="rules" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></button>
 														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
 														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
 														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" value="#encodeForHtml(underscore_collection_id)#" >
@@ -1526,7 +1526,7 @@ limitations under the License.
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
                                                             <label for="accn_status">Accn Status</label>
-                                                            <button type="button" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span>
+                                                            <button type="button" class="rules" onclick="$('##accn_status').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span>
                                                             </button>
 															<input type="text" name="accn_status" id="accn_status" value="#encodeForHtml(accn_status)#" >
 															<script>
@@ -1538,7 +1538,7 @@ limitations under the License.
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
                                                             <label for="accn_type">Accn Type</label>
-                                                            <button type="button" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span></button>
+                                                            <button type="button" class="rules" onclick="$('##accn_type').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only">open pick list</span></button>
 															<input type="text" name="accn_type" id="accn_type" value="#encodeForHtml(accn_type)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1617,8 +1617,8 @@ limitations under the License.
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
                                                                     <label for="permit_type">Document Category</label>
-																    <button type="button" class="btn-link" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></button>
-																    <button type="button" class="btn-link" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></button>
+																    <button type="button" class="rules" onclick="$('##permit_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for document category</span></button>
+																    <button type="button" class="rules" onclick="$('##permit_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related document category</span></button>
 																	<input type="text" id="permit_type" name="permit_type" value="#encodeForHtml(permit_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1629,8 +1629,8 @@ limitations under the License.
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 																    <label for="specific_type">Specific Type</label>
-																    <button type="button" class="btn-link small" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></button>
-																    <button type="button" class="btn-link small" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></button>
+																    <button type="button" class="rules" onclick="$('##specific_type').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only">open pick list for specific document type</span></button>
+																    <button type="button" class="rules" onclick="$('##specific_type').val('NOT NULL'); return false;">(Any)<span class="sr-only">use NOT NULL to find any related specific document type</span></button>
 																	<input type="text" id="specific_type" name="specific_type" value="#encodeForHtml(specific_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1672,8 +1672,8 @@ limitations under the License.
 																		</cfif>
 																	</cfif>
 																	<input type="hidden" id="accession_agent_id" name="accession_agent_id" value="#encodeForHtml(accession_agent_id)#">
-																	<label for="accession_agent" class="data-entry-label small font-weight-bold">Accession Agent</label>
-																	<input type="text" name="accession_agent" class="data-entry-input inputHeight" id="accession_agent" value="#encodeForHtml(accession_agent)#">
+																	<label for="accession_agent">Accession Agent</label>
+																	<input type="text" name="accession_agent" id="accession_agent" value="#encodeForHtml(accession_agent)#">
 																</div>
 																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<cfif not isdefined("loan_agent")><cfset loan_agent=""></cfif>
@@ -1709,8 +1709,8 @@ limitations under the License.
 																		</cfif>
 																	</cfif>
 																	<input type="hidden" id="loan_agent_id" name="loan_agent_id" value="#encodeForHtml(loan_agent_id)#">
-																	<label for="loan_agent" class="data-entry-label small font-weight-bold">Loan Agent</label>
-																	<input type="text" name="loan_agent" class="data-entry-input inputHeight" id="loan_agent" value="#encodeForHtml(loan_agent)#">
+																	<label for="loan_agent">Loan Agent</label>
+																	<input type="text" name="loan_agent" id="loan_agent" value="#encodeForHtml(loan_agent)#">
 																</div>
 																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<cfif not isdefined("deaccession_agent")><cfset deaccession_agent=""></cfif>
@@ -1746,8 +1746,8 @@ limitations under the License.
 																		</cfif>
 																	</cfif>
 																	<input type="hidden" id="deaccession_agent_id" name="deaccession_agent_id" value="#encodeForHtml(deaccession_agent_id)#">
-																	<label for="deaccession_agent" class="data-entry-label small font-weight-bold">Deaccession Agent</label>
-																	<input type="text" name="deaccession_agent" class="data-entry-input inputHeight" id="deaccession_agent" value="#encodeForHtml(deaccession_agent)#">
+																	<label for="deaccession_agent">Deaccession Agent</label>
+																	<input type="text" name="deaccession_agent" id="deaccession_agent" value="#encodeForHtml(deaccession_agent)#">
 																</div>
 																<script>
 																	jQuery(document).ready(function() {
