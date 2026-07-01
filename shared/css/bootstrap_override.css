@@ -2194,8 +2194,7 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-
-button.help-btnA-SearchWiki {
+/*button.help-btnA-SearchWiki {
     background-color: #1b1b1b;
     color: white;
     float: right;
@@ -2209,9 +2208,9 @@ button.help-btnA-SearchWiki {
     margin-top: 0;
     position: absolute;
     overflow: hidden;
-    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-radius: 0 0 6px 6px; 
     border-color: black;
-}
+}*/
 button.help-btnSp-SearchWiki {
     background-color: #1b1b1b;
     color: white;
