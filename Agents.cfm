@@ -185,7 +185,7 @@ limitations under the License.
 									<fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
-										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 pr-md-0 form-group">
+										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 form-group">
                                             <label for="anyName" id="anyName_label">Any part of any name</label>
                                             <span class="text-secondary small">
                                                 (match entire name with: <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -231,7 +231,7 @@ limitations under the License.
 								<!--- ========== SECTION 2: Name components ========== --->
 								<fieldset class="mb-0 px-3 pb-0 border-right border-bottom border-left field-set">
 									<legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
-									<div class="form-row mb-0 pt-2">
+									<div class="form-row mb-0 pt-0">
 										<div class="col-12 col-md-3 col-lg-2 col-xl-2 mb-0 mb-md-1 mt-0">
 											<div class="form-group mb-1 pb-0 mt-0">
 												<label for="prefix">Prefix</label>
