@@ -2742,15 +2742,19 @@ div.toctitle {
 @media (min-width: 768px) {
     
      button.help-btnSp-SearchWiki {
-        background-color: #1b1b1b;
-        color: white;
-        margin-bottom: 15px;
-        padding-top: .75rem;
-        padding-bottom: .35rem; 
-        font-size: 13.5px;
-        border-radius: 0 0 6px 6px; /* adjust 6px as desired */
-        border-color: black;
-        position: static;
+        -webkit-transform: none;
+        -moz-transform: none;
+        -o-transform: none;
+        transform: none;
+        -webkit-transform-origin: center center;
+        -moz-transform-origin: center center;
+        -o-transform-origin: center center;
+        transform-origin: center center;
+
+        /* optionally reset positioning so it sits in normal flow */
+        position: static;   /* or relative, depending on layout */
+        top: auto;
+        right: auto;
     }
     
   .my-thing { color: blue; }
