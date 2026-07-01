@@ -317,11 +317,11 @@ limitations under the License.
 										<div class="col-12 col-md-4 px-0 mt-0">
 											<div class="form-group pt-2 pb-1 mb-0">
 												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 mx-0 rounded justify-content-center">
-													<label for="birth_date">#dateWord# Of Birth</label>
-													<input type="text" name="birth_date" id="birth_date" type="text" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 font-weight-bold" for="birth_date">#dateWord# Of Birth</label>
+													<input type="text" name="birth_date" id="birth_date" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
 													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-													<label for="to_birth_date">end of search range for date of birth</label>
-													<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput w-100 col-5" placeholder="end #dateplaceholder#" title="end of date range">
+													<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>
+													<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput data-entry-input w-100 col-5" placeholder="end #dateplaceholder#" title="end of date range">
 												</div>
 											</div>
 										</div>
