@@ -260,7 +260,7 @@
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"api","/")>
 			<cfif listlen(rdurl,"/") gt 1>
-				<cfset action = listgetat(rdurl,gPos+1,"/")>
+				<cfset variables.action = listgetat(rdurl,gPos+1,"/")>
 			</cfif>
 			<cfinclude template="/info/api.cfm">
 			<cfcatch>
