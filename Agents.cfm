@@ -185,7 +185,7 @@ limitations under the License.
 									<fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
-										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-1 mt-0 pr-md-0 form-group">
+										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 pr-md-0 form-group">
                                             <label for="anyName" id="anyName_label">Any part of any name</label>
                                             <span class="text-secondary small">
                                                 (match entire name with: <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -205,7 +205,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-6 col-md-2 col-xl-2 mb-1 form-group mb-0 pb-1 pb-md-1">
+												<div class="col-6 col-md-2 col-xl-2 mb-1 form-group mb-0 pb-0 pb-md-1">
 													<label for="specificagent">Agent ID</label>
 													<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#">
 												</div>
