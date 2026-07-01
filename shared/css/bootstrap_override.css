@@ -2741,7 +2741,7 @@ div.toctitle {
         overflow: hidden;    
     }
     .btnSp-shim {
-        margin-top: -1.55rem;
+        margin-top: -1.55rem !important;
     }
 
     body.wiki-open .ui-dialog {
