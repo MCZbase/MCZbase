@@ -627,8 +627,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                         <label for="type_status">Type Status/Citation</label>
-												        <button type="button" class="rules" onclick=" $('##type_status').autocomplete('search','%%%'); return false;"> 
-                                                                (&##8595;) <span class="sr-only">open pick list</span>
+												        <button type="button" class="rules" onclick=" $('##type_status').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
                                                         </button>
                                                        	<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 														<input type="text" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
@@ -644,11 +643,10 @@ limitations under the License.
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
                                                                 <label for="phylum">Phylum</label>
-																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick=" $('##phylum').autocomplete('search','%%%'); return false;"> 
-                                                                        (&##8595;) <span class="sr-only">open pick list</span>
-                                                                </a>
+																<button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
+                                                                </button>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
-																<input id="phylum" name="phylum" value="#encodeForHtml(phylum)#" >
+																<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeTaxonSearchAutocomplete('phylum','phylum');
@@ -658,7 +656,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="phylclass">Class</label>
 																<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
-																<input id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" >
+																<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeTaxonSearchAutocomplete('phylclass','class');
@@ -668,7 +666,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="phylorder">Order</label>
 																<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
-																<input id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" >
+																<input type="text" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeTaxonSearchAutocomplete('phylorder','order');
@@ -808,7 +806,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
-														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0 mb-1">
@@ -899,8 +897,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
                                                                 <label for="sea">Sea</label>
-																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > 
-                                                                        (&##8595;) <span class="sr-only">open pick list</span>
+																<button type="button" class="rules" onclick=" $('##sea').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
                                                                 </a>
                                                                 </span>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
@@ -966,7 +963,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="verificationstatus">Georeference Verification</label>
-																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link small" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																<button type="button" class="rules" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																<cfif not isdefined("verificationstatus")><cfset verificationstatus=""></cfif>
 																<input type="text" id="verificationstatus" name="verificationstatus" value="#encodeForHtml(verificationstatus)#">
 																<script>
@@ -1022,7 +1019,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 														<h2 class="px-3 px-xl-2">Coll. Event</h2>
-														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
+														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 												<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-1 mx-0">
