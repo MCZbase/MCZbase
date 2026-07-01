@@ -2640,26 +2640,78 @@ input, select, textarea {
 		font-size: 16px;
 	}
 .wiki-drawer {
-    width: 90vw;
-    max-width: 90vw;
-    transform: translateX(-90vw);   /* start fully off-screen */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 325px;
+	max-width: 90vw;
+	height: 100vh;
+	background: #fff;
+	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	z-index: 1051;
+	overflow-y: auto;
+	overflow-x: hidden; 
+	transform: translateX(-325px);
+	transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
-    transform: translateX(0);
+	transform: translateX(0);
 }
-#content.pushed {/* Ignore the "pushed" class on small screens */
-    margin-left: 0;
-    width: 100%;
+#content {
+	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+	width: 100%;
+	box-sizing: border-box;
 }
-/* Let dialogs behave normally on small screens */
+#content.pushed {
+	margin-left: 325px;
+	width: calc(100% - 325px);
+}
+body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
+    width: auto !important;
+    max-width: calc(100vw - 325px) !important;
+    left: 325px !important;      /* start right after the drawer */
+    right: 0 !important;
+  
+    box-sizing: border-box;   /* ensure it stays within viewport */
+}
 body.wiki-open .ui-dialog {
-    width: auto;        /* remove our large-screen overrides */
-    max-width: 100vw;
-    left: 0;
-    right: 0;
-    box-sizing: border-box;
+    width: auto !important;   /* Override jQuery UI's inline width */
+    max-width: calc(100vw - 325px) !important;
+    left: 325px !important;      /* start right after the drawer */
+    right: 0 !important;
+    box-sizing: border-box;    /* ensure it stays within viewport */
 }
-
+div.mw-parser-output h1 {
+	font-size: 20px;
+	font-weight:bold;
+	border-top:1px solid black;
+	padding-top:36px;
+}
+div.mw-parser-output h2 {
+	font-size: 16px;
+}
+div.mw-parser-output h3 {
+	font-size: 15px;
+	font-weight: 720;
+	text-decoration: underline;
+}
+div.mw-parser-output h4 {
+	font-size: 14px;
+	text-decoration: underline;
+	margin-top: 1rem;
+}
+div.mw-parser-output dt {
+	font-weight:650;
+}
+div.toctitle {
+    margin-bottom:0;
+}
+.thumbinner {
+    display:none;
+}
+.mw-toc-heading {
+	margin-bottom: 0;
+}
 
 /* Base (xs) test */
 .my-thing { color: black; }
