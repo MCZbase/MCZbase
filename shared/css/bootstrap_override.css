@@ -2762,7 +2762,7 @@ div.toctitle {
         float:left;
         display: inline-block;
         min-width: 25px!important;
-        margin-right: 1rem;
+        margin-right: .5rem;
     }
     
   .my-thing { color: blue; }
@@ -2828,7 +2828,16 @@ div.toctitle {
         transform: translateX(-325px);
         transition: transform 0.3s ease;
     }
-    .my-thing { color: orange; } 
+    .col-xxl-1 {
+        max-width: 12%;
+    }
+    .col-xxl-11 {
+        max-width: 88%; 
+        padding-left: .25rem;
+    }
+    .my-thing { 
+        color: orange; 
+    } 
 }
 
 
