@@ -1805,6 +1805,9 @@ input#readMore_check_id {
 .MediaAccordionShow {
 	display: none;
 }
+/* These styles are for the Specimen Search page. 
+They make the tabs and general tab content areas 
+look the way they do. */
 .tabpanel {
 	margin: 20px;
 	padding: 0;
@@ -1903,13 +1906,15 @@ input#readMore_check_id {
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
-.tab-content label, #searchFormDiv fieldset label {
+#searchFormDiv fieldset label {
 	font-weight: 400;
     font-size: 0.85em;
     border: none;
     padding: 0 0 0 .25rem;
     margin-bottom: 0;
 }
+/* These styles are for all search pages (e.g., specimen search, taxonomy, agents). 
+The #searchFormDiv is on all search pages to control form fields, labels, select, and buttons. */
 #searchFormDiv fieldset input[type="text"] {
     display: block;
     width: 100%;
@@ -1949,10 +1954,11 @@ input#readMore_check_id {
 	text-decoration: underline;
 	text-decoration: underline dotted #aaa;  
 }
-button[tabindex="-1"]:focus {
+/*button[tabindex="-1"]:focus {
 	outline: 0 !important;
 	box-shadow: none;
-}
+}*/
+
 .headerLnk {
 	color: #212529 !important;
 	text-decoration: none;
