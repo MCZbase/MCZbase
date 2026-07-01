@@ -2,10 +2,10 @@
 <cfinclude template="/shared/_header.cfm">
        
 <cfif isdefined("url.action")>
-	<cfset action = url.action>
+	<cfset variables.action = url.action>
 <cfelse>
 	<cfif not isdefined("variables.action")>
-		<cfset action = "entryPoint">
+		<cfset variables.action = "entryPoint">
 	</cfif>
 </cfif>
 
@@ -13,7 +13,7 @@
 	<main class="container" id="content">
 		<section class="row mb-5">
         
-<cfif action is "entryPoint">
+<cfif variables.action is "entryPoint">
  
 	<h2 class="h2 mt-3">
 		Partial list of ways to talk to MCZbase
@@ -128,111 +128,108 @@
 			DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
 		</p>
 	</div>
-	<!--- 
+	<!--- TODO: Add support when HUHbase goes live.
 	<p>
 		You may link to specific <a href="/api/collections">collection&##39;s portals</a>.
 	</p>
 	--->
 </cfif>
-<cfif action is "collections">
-	<p>
-		Specimen data in MCZbase/Arctos is segregated into Virtual Private Databases. The default public user has
-		access to all portals (all collections) simultaneously. It is also possible to form URLs specific to
-		individual portals.
-	</p>
-	You may redirect users (those without overriding login preferences) to a specific "portal" by using the links from 
-	<a href="/home.cfm">#Application.serverRootUrl#/home.cfm</a>
-	<p>
-		Generally, all collections have a portal of the format
-		<ul class="labels">
-			<li>
-				#Application.serverRootUrl#/{institution_acronym}_{collection_cde}
-				<ul>
-					<li>
-						Example: #Application.serverRootUrl#/uam_mamm
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</p>
-	<p>
-		The default all-access portal is #Application.serverRootUrl#/
-	</p>
+<cfif variables.action is "collections">
+	<div class="col-12">
+		<h1 class="h3">You may link to specific collection portals</h1>
+		<p>
+			Specimen data in MCZbase/Arctos is segregated into Virtual Private Databases. 
+			The default public user has access to all portals (all collections) simultaneously. 
+		</p>
+		<p>
+			Currently, only the default all-access portal is #Application.serverRootUrl#/ is supported in MCZbase.
+		</p>
+	</div>
 </cfif>
 
-<cfif action is "mediasrch">
-	Base URL: #Application.serverRootUrl#/MediaSearch.cfm?action=search
-	<table border>
-		<tr>
-			<th>term</th>
-			<th>values</th>
-			<th>comment</th>
-		</tr>
-		<tr>
-			<td>media_uri</td>
-			<td>&nbsp;</td>
-			<td>substring match on URI where Media is stored</td>
-		</tr>
-		<cfquery name="ct" datasource="cf_dbuser">
-			select media_type data from ctmedia_type order by media_type
-		</cfquery>
-		<tr>
-			<td>media_type</td>
-			<td>#valuelist(ct.data,"<br>")#</td>
-			<td>&nbsp;</td>
-		</tr>
-		<cfquery name="ct" datasource="cf_dbuser">
-			select mime_type data from ctmime_type order by mime_type
-		</cfquery>
-		<tr>
-			<td>mime_type</td>
-			<td>#valuelist(ct.data,"<br>")#</td>
-			<td>&nbsp;</td>
-		</tr>
-		<cfquery name="ct" datasource="cf_dbuser">
-			select media_relationship data from ctmedia_relationship order by media_relationship
-		</cfquery>
-		<tr>
-			<td>relationship</td>
-			<td>#valuelist(ct.data,"<br>")#</td>
-			<td>substring searches are supported</td>
-		</tr>
-		<tr>
-			<td>related_to</td>
-			<td>&nbsp;</td>
-			<td>
-				Display value of relationship. Examples include:
-				<ul>
-					<li><strong>MVZ Birds 182924 (Buteogallus anthracinus anthracinus)</strong> (cataloged_item)</li>
-					<li><strong>Stan Moore</strong> (agent)</li>
-					<li><strong>North America, United States, California, Alameda County: STRAWBERRY CANYON, BERKELEY</strong> (locality)</li>
-					<li><strong>A molecular view of pinniped relationships with particular emphasis on the true seals.</strong> (project)</li>
-				</ul>
-			</td>
-		</tr>
-		<cfquery name="ct" datasource="cf_dbuser">
-			select media_label data from ctmedia_label order by media_label
-		</cfquery>
-		<tr>
-			<td>label</td>
-			<td>#valuelist(ct.data,"<br>")#</td>
-			<td>substring searches are supported</td>
-		</tr>
-		<tr>
-			<td>label_value</td>
-			<td>&nbsp;</td>
-			<td>
-				Display value of label. Examples include:
-				<ul>
-					<li><strong>10 Jul 2007</strong> (made date)</li>
-					<li><strong>prepared specimen</strong> (subject)</li>
-					<li><strong>5000</strong> (image number)</li>
-				</ul>
-			</td>
-		</tr>		
-	</table>
+<cfif variables.action is "mediasrch">
+	<div class="col-12">
+		<h1 class="h3">Base URL: #Application.serverRootUrl#/MediaSearch.cfm?action=search</h1>
+		<table border>
+			<tr>
+				<th>term</th>
+				<th>values</th>
+				<th>comment</th>
+			</tr>
+			<tr>
+				<td>media_uri</td>
+				<td>&nbsp;</td>
+				<td>substring match on URI where Media is stored</td>
+			</tr>
+			<tr>
+				<cfquery name="ct" datasource="cf_dbuser">
+					SELECT media_type data 
+					FROM ctmedia_type 
+					ORDER BY media_type
+				</cfquery>
+				<td>media_type</td>
+				<td>#valuelist(ct.data,"<br>")#</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<cfquery name="ct" datasource="cf_dbuser">
+					SELECT mime_type data 
+					FROM ctmime_type 
+					ORDER BY mime_type
+				</cfquery>
+				<td>mime_type</td>
+				<td>#valuelist(ct.data,"<br>")#</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<cfquery name="ct" datasource="cf_dbuser">
+					SELECT media_relationship data 
+					FROM ctmedia_relationship 
+					ORDER BY media_relationship
+				</cfquery>
+				<td>relationship</td>
+				<td>#valuelist(ct.data,"<br>")#</td>
+				<td>substring searches are supported</td>
+			</tr>
+			<tr>
+				<td>related_to</td>
+				<td>&nbsp;</td>
+				<td>
+					Display value of relationship. Examples include:
+					<ul>
+						<li><strong>MVZ Birds 182924 (Buteogallus anthracinus anthracinus)</strong> (cataloged_item)</li>
+						<li><strong>Stan Moore</strong> (agent)</li>
+						<li><strong>North America, United States, California, Alameda County: STRAWBERRY CANYON, BERKELEY</strong> (locality)</li>
+						<li><strong>A molecular view of pinniped relationships with particular emphasis on the true seals.</strong> (project)</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<cfquery name="ct" datasource="cf_dbuser">
+					SELECT media_label data 
+					FROM ctmedia_label 
+					ORDER BY media_label
+				</cfquery>
+				<td>label</td>
+				<td>#valuelist(ct.data,"<br>")#</td>
+				<td>substring searches are supported</td>
+			</tr>
+			<tr>
+				<td>label_value</td>
+				<td>&nbsp;</td>
+				<td>
+					Display value of label. Examples include:
+					<ul>
+						<li><strong>10 Jul 2007</strong> (made date)</li>
+						<li><strong>prepared specimen</strong> (subject)</li>
+						<li><strong>5000</strong> (image number)</li>
+					</ul>
+				</td>
+			</tr>		
+		</table>
+	</div>
 </cfif>
-<cfif action is "taxsrch">
+<cfif variables.action is "taxsrch">
 	<div class="col-12">
 		<h3 class="h3">You may search taxonomy using the Taxonomy API</h3>
 		<h1>NAME API:</h1>
@@ -350,7 +347,7 @@
 		</table>
 	</div>
 </cfif>
-<!---  cfif action is "specsrch">
+<!---  cfif variables.action is "specsrch">
 	<!--- Never actually documented.  Expected to be replaced in redesign --->
 	<cfquery name="st" datasource="cf_dbuser">
 		select * from cf_search_terms order by term
@@ -399,92 +396,95 @@
 		</cfloop>
 	</table>
 </cfif --->
-<cfif action is "kml">
-	Base URL: #Application.serverRootUrl#/bnhmMaps/kml.cfm?action=newReq
-	<table border>
-		<tr>
-			<th>Variable</th>
-			<th>Values</th>
-			<th>Explanation</th>
-		</tr>		
-		<tr>
-			<td>{search criteria}</td>
-			<td>{various}</td>
-			<td>{see SpecimenSearch}</td>
-		</tr>		
-		<tr>
-			<td>userFileName</td>
-			<td>Any string</td>
-			<td>Non-default file name. Will be URL-encoded, so use alphanumeric characters for predictability.</td>
-		</tr>		
-		<tr>
-			<td rowspan="3">next</td>
-			<td>nothing</td>
-			<td>Proceed to a form where you may set all other criteria</td>
-		</tr>
-		<tr>		
-			<td>colorByCollection</td>
-			<td>Map points are arranged by collection</td>
-		</tr>
-		<tr>		
-			<td>colorBySpecies</td>
-			<td>Map points are arranged by collection</td>
-		</tr>
+<cfif variables.action is "kml">
+	<div class="col-12">
+		<h1 class="h3">You may open KML files of MCZbase data using the KML API</h1>
+		<p>Base URL: #Application.serverRootUrl#/bnhmMaps/kml.cfm?action=newReq</p>
+		<table border>
+			<tr>
+				<th>Variable</th>
+				<th>Values</th>
+				<th>Explanation</th>
+			</tr>		
+			<tr>
+				<td>{search criteria}</td>
+				<td>{various}</td>
+				<td>{see /Specimens.cfm}</td>
+			</tr>		
+			<tr>
+				<td>userFileName</td>
+				<td>Any string</td>
+				<td>Non-default file name. Will be URL-encoded, so use alphanumeric characters for predictability.</td>
+			</tr>		
+			<tr>
+				<td rowspan="3">next</td>
+				<td>nothing</td>
+				<td>Proceed to a form where you may set all other criteria</td>
+			</tr>
+			<tr>		
+				<td>colorByCollection</td>
+				<td>Map points are arranged by collection</td>
+			</tr>
+			<tr>		
+				<td>colorBySpecies</td>
+				<td>Map points are arranged by collection</td>
+			</tr>
+
+			<tr>
+				<td rowspan="3">method</td>
+				<td>download</td>
+				<td>Download a full KML file</td>
+			</tr>
+			<tr>		
+				<td>gmap</td>
+				<td>Map in Google Maps</td>
+			</tr>
+			<tr>		
+				<td>link</td>
+				<td>Download a KML Linkfile</td>
+			</tr>
+
+			<tr>
+				<td rowspan="2">includeTimeSpan</td>
+				<td>0</td>
+				<td>Do not include time information</td>
+			</tr>
+			<tr>		
+				<td>1</td>
+				<td>Include time information</td>
+			</tr>
+
+			<tr>
+				<td rowspan="2">showUnaccepted</td>
+				<td>0</td>
+				<td>Include only accepted coordinate determinations</td>
+			</tr>
+			<tr>		
+				<td>1</td>
+				<td>Include unaccepted coordinate determinations</td>
+			</tr>
 		
-		<tr>
-			<td rowspan="3">method</td>
-			<td>download</td>
-			<td>Download a full KML file</td>
-		</tr>
-		<tr>		
-			<td>gmap</td>
-			<td>Map in Google Maps</td>
-		</tr>
-		<tr>		
-			<td>link</td>
-			<td>Download a KML Linkfile</td>
-		</tr>
+			<tr>
+				<td rowspan="2">mapByLocality</td>
+				<td>0</td>
+				<td>Show only those specimens matching search criteria</td>
+			</tr>
+			<tr>		
+				<td>1</td>
+				<td>Include all specimens from each locality</td>
+			</tr>
 		
-		<tr>
-			<td rowspan="2">includeTimeSpan</td>
-			<td>0</td>
-			<td>Do not include time information</td>
-		</tr>
-		<tr>		
-			<td>1</td>
-			<td>Include time information</td>
-		</tr>
-		
-		<tr>
-			<td rowspan="2">showUnaccepted</td>
-			<td>0</td>
-			<td>Include only accepted coordinate determinations</td>
-		</tr>
-		<tr>		
-			<td>1</td>
-			<td>Include unaccepted coordinate determinations</td>
-		</tr>
-		
-		<tr>
-			<td rowspan="2">mapByLocality</td>
-			<td>0</td>
-			<td>Show only those specimens matching search criteria</td>
-		</tr>
-		<tr>		
-			<td>1</td>
-			<td>Include all specimens from each locality</td>
-		</tr>
-		
-		<tr>
-			<td rowspan="2">showErrors</td>
-			<td>0</td>
-			<td>Map points only</td>
-		</tr>
-		<tr>		
-			<td>1</td>
-			<td>Include error radii as circles</td>
-		</tr>
-	</table>
+			<tr>
+				<td rowspan="2">showErrors</td>
+				<td>0</td>
+				<td>Map points only</td>
+			</tr>
+			<tr>		
+				<td>1</td>
+				<td>Include error radii as circles</td>
+			</tr>
+		</table>
+	</div>
 </cfif>
  
 		<section>
