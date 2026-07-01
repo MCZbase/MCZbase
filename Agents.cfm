@@ -255,14 +255,14 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
 											<label for="first_name">First</label>
-								            <span class="text-success">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+								            <span class="small text-success">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 								            <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)</span>											
 											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 										</div>	
 										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
                                             <label for="middle_name">Middle</label>
-								            <span class="text-success">
+								            <span class="small text-success">
                                                 (accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
@@ -271,7 +271,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
 											<label for="last_name" class="data-entry-label font-weight-bold" id="last_name_label">Last</label> 
-                                            <span class="text-success">
+                                            <span class="small text-success">
 												(accepts <button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
