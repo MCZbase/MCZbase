@@ -707,8 +707,8 @@ limitations under the License.
 											<label for="media_relationship_type" class="data-entry-label mb-0" id="nedia_relationship_type_label">Relationship
 												<span class="small">
 													(
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</a><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
+													<button class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+													<button class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
 													)
 												</span>
 											</label>

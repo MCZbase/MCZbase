@@ -248,7 +248,7 @@ limitations under the License.
 													<cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 													<option value="NULL" #sel# >NULL</option>
 													<cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="NOT NULL" #sel#>NOT NULL</option>
+													<option value="NOT NULL" #sel# >NOT NULL</option>
 												</select>
 											</div>
 										</div>
@@ -264,7 +264,7 @@ limitations under the License.
 								            <span class="small text-secondary">
                                                 (accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
+											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,<button class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';"> NULL</button>, <button class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NOT NULL</button>)
                                             </span>
                                             <input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
