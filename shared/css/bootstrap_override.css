@@ -2676,25 +2676,33 @@ input, select, textarea {
 	width: 100%;
 	box-sizing: border-box;
 }
+/* Don’t push content on these sizes */
 #content.pushed {
-	margin-left: 325px;
-	width: calc(100% - 325px);
+    margin-left: 0;
+    width: 100%;
 }
-body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
+/* Let dialogs behave normally on these widths */
+body.wiki-open .ui-dialog {
+    width: auto;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+}
+/*body.wiki-open .ui-dialog {  
     width: auto !important;
     max-width: calc(100vw - 325px) !important;
-    left: 325px !important;      /* start right after the drawer */
+    left: 325px !important;      
     right: 0 !important;
-  
-    box-sizing: border-box;   /* ensure it stays within viewport */
+    box-sizing: border-box;  
 }
 body.wiki-open .ui-dialog {
-    width: auto !important;   /* Override jQuery UI's inline width */
+    width: auto !important;  
     max-width: calc(100vw - 325px) !important;
-    left: 325px !important;      /* start right after the drawer */
+    left: 325px !important;      
     right: 0 !important;
-    box-sizing: border-box;    /* ensure it stays within viewport */
-}
+    box-sizing: border-box;    
+}*/
 div.mw-parser-output h1 {
 	font-size: 20px;
 	font-weight:bold;
