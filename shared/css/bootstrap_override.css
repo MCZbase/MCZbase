@@ -2639,7 +2639,7 @@ a.btn-sm {
 input, select, textarea {
 		font-size: 16px;
 	}
-.wiki-drawer {
+/*.wiki-drawer {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -2653,6 +2653,11 @@ input, select, textarea {
 	overflow-x: hidden; 
 	transform: translateX(-325px);
 	transition: transform 0.3s ease;
+}*/
+.wiki-drawer {
+    width: 95vw;                  /* drawer almost full width */
+    max-width: 95vw;
+    transform: translateX(-95vw); /* fully hidden when closed */
 }
 .wiki-drawer.open {
 	transform: translateX(0);
