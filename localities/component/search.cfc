@@ -198,6 +198,12 @@ limitations under the License.
 			<cfset pre = "#field# = ">
 			<cfset outvalue="#bits[1]#">
 		</cfif>
+	<cfelseif refind('^[0-9.,]+$',value) GT 0 and find(',',value) GT 0>
+		<!--- comma separated list of integers, list=true, in (value) --->
+		<cfset pre = "#field# in (">
+		<cfset outvalue="#value#">
+		<cfset post = ")">
+		<cfset list="yes">
 	<cfelse>
 		<cfset pre = "#field# = ">
 		<cfset outvalue="#value#">
@@ -3124,7 +3130,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset var setup = setupNumericClause(field=arguments.field,value=arguments.value)>
 	<cfset var clause = "">
 	<!--- Determine if this should be treated as a list binding (e.g. "1,2,3") --->
-	<cfset var isList = ( structKeyExists(setup,"list") AND setup["list"] EQ "yes" ) OR ( Find(",", setup["value"]) GT 0 )>
+	<cfset var isList = ( structKeyExists(setup,"list") AND setup["list"] EQ "yes" )>
 
 	<cfif len(setup["value"]) EQ 0>
 		<cfset clause = "#setup['pre']# #setup['post']#">
