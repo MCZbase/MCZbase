@@ -2744,19 +2744,13 @@ div.toctitle {
      button.help-btnSp-SearchWiki {
         background-color: #1b1b1b;
         color: white;
-        float: right;
         margin-bottom: 15px;
-        top: 2.1rem;
-        right: 1.75rem;
-        z-index: 1; 
-        padding-top: .5rem;
+        padding-top: .75rem;
         padding-bottom: .35rem; 
         font-size: 13.5px;
-        margin-top: 0;
-        position: absolute;
-        overflow: hidden;
         border-radius: 0 0 6px 6px; /* adjust 6px as desired */
         border-color: black;
+        position: static;
     }
     
   .my-thing { color: blue; }
