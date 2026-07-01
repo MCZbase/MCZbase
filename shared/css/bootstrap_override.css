@@ -2752,11 +2752,11 @@ div.toctitle {
         transform-origin: center center;
         /* optionally reset positioning so it sits in normal flow */
         position: abosolute;   /* or relative, depending on layout */
-        right: 1rem;
+        right: 1.85rem;
         margin-bottom: 15px;
-        top: 1rem;
+        top: 2.1rem;
         z-index: 1; 
-        padding-top: .75rem;
+        padding-top: .55rem;
         padding-bottom: .15rem; 
         margin-top: 0;
         overflow: hidden;    
