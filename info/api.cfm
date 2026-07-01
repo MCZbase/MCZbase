@@ -579,9 +579,32 @@
 		    <td>Numerous others…</td>
 		    <td></td>
 		    <td>
+				<p>
 		      The method exposes many more arguments (e.g. geography, agents, permits, loans, accessions, containers).
 		      Each is mapped to an appropriate internal field and comparator using <code>constructJsonForField</code>,
 		      often with the same operator conventions as above.
+				</p>
+				<p>
+				  Additional supported search arguments include (all map to internal fields via
+				  <code>constructJsonForField</code> and follow the same operator rules):
+				</p>
+				<ul>
+				  <li><strong>Taxonomy</strong>: <code>full_taxon_name</code>, <code>phylorder</code>, <code>phylclass</code>, <code>phylum</code>, <code>kingdom</code>, <code>author_text</code>, <code>taxon_name_id</code></li>
+				  <li><strong>Geography</strong>: <code>higher_geog</code>, <code>continent_ocean</code>, <code>ocean_region</code>, <code>ocean_subregion</code>, <code>sea</code>, <code>state_prov</code>, <code>county</code>, <code>island_group</code>, <code>island</code>, <code>feature</code>, <code>water_feature</code>, <code>geo_att_value</code>, <code>verificationstatus</code>, <code>spec_locality</code>, <code>verbatim_locality</code></li>
+				  <li><strong>Parts &amp; attributes</strong>: <code>part_name</code>, <code>part_attribute_type</code>, <code>part_attribute_value</code>, <code>part_attribute_units</code>, <code>part_attribute_remarks</code>, <code>condition</code>, <code>condition_remarks</code>, <code>part_remarks</code>, <code>preserve_method</code>, <code>biol_indiv_relationship</code></li>
+				  <li><strong>Collection object &amp; disposition</strong>: <code>coll_object_remarks</code>, <code>coll_obj_disposition</code>, <code>disposition_remarks</code></li>
+				  <li><strong>Agents – data entry / editing</strong>: <code>entered_by</code>, <code>entered_by_agent_id</code>, <code>last_edited_person</code>, <code>last_edited_person_agent_id</code></li>
+				  <li><strong>Agents – collecting &amp; preparing</strong>: <code>collector</code>, <code>collector_agent_id</code>, <code>preparator</code>, <code>preparator_agent_id</code></li>
+				  <li><strong>Agents – identifications</strong>: <code>determiner</code>, <code>determiner_id</code>, <code>nature_of_id</code>, <code>identification_remarks</code></li>
+				  <li><strong>Agents – transactions</strong>: <code>accession_agent</code>, <code>accession_agent_id</code>, <code>loan_agent</code>, <code>loan_agent_id</code>, <code>deaccession_agent</code>, <code>deaccession_agent_id</code></li>
+				  <li><strong>Collecting event details</strong>: <code>verbatim_date</code>, <code>collecting_source</code>, <code>collecting_method</code></li>
+				  <li><strong>Transactions – loans, accessions, deaccessions</strong>: <code>loan_number</code>, <code>accession_number</code>, <code>deaccession_number</code>, <code>received_date</code></li>
+				  <li><strong>Publications &amp; citations</strong>: <code>publication_id</code>, <code>citation</code></li>
+				  <li><strong>Common names</strong>: <code>common_name</code></li>
+				  <li><strong>Other collections / groups</strong>: <code>underscore_collection_id</code>, <code>underscore_collection</code></li>
+				  <li><strong>Containers</strong>: <code>root_container_label</code>, <code>root_container_barcode</code>, <code>root_container_type</code></li>
+				  <li><strong>Permits</strong>: <code>permit_num</code>, <code>permit_title</code>, <code>IssuedByAgent</code>, <code>issued_by_agent_id</code>, <code>IssuedToAgent</code>, <code>issued_to_agent_id</code>, <code>permit_type</code>, <code>specific_type</code></li>
+				</ul>
 		    </td>
 		  </tr>
 		</table>
@@ -748,7 +771,7 @@
 		    <td><code>result_id</code></td>
 		    <td>string</td>
 		    <td>Yes</td>
-		    <td>Identifier for this search instance, as in <code>executeFixedSearch</code>.</td>
+		    <td>Identifier for this search instance, a UUID as in <code>executeFixedSearch</code>.</td>
 		  </tr>
 		  <tr>
 		    <td><code>builderMaxRows</code></td>
@@ -783,6 +806,7 @@
 		      Must be a string of the form <code>table_name:column_alias</code> corresponding to a record in 
 		      <code>cf_spec_search_cols</code> accessible to the user. If it does not match any entry, an 
 		      “Unknown search field” error is thrown.
+				See: <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE" target="_blank">Specimen Search Builder Help</a> for the supported table_name:column_alias [Column Name] values (e.g. <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&search_category=&table_name=CATALOGED_ITEM&column_name=CAT_NUM&label=&access_role=!HIDE&description=&ui_function=" target="_blank">CATALOGED_ITEM:CAT_NUM</a>. 
 		    </td>
 		  </tr>
 		  <tr>
