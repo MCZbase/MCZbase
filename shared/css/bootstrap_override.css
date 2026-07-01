@@ -2762,6 +2762,7 @@ div.toctitle {
         float:left;
         display: inline-block;
         min-width: 25px!important;
+        margin-right: 1rem;
     }
     
   .my-thing { color: blue; }
