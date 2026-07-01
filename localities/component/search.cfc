@@ -2464,202 +2464,43 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfif isdefined("collection_id") and len(collection_id) gt 0>
 					<cfif collnOper is "usedOnlyBy">
 						AND locality.locality_id in
-							(
-								select locality_id
-								from vpd_collection_locality
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+								(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND locality.locality_id not in
-							(
-								select locality_id
-								from vpd_collection_locality
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id not in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-									and collection_id <> 0
-							)
+								(select locality_id from vpd_collection_locality where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 					<cfelseif collnOper is "usedBy">
 						AND locality.locality_id in
-							(
-								select locality_id
-								from vpd_collection_locality
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 					<cfelseif collnOper is "notUsedBy">
-						AND locality.locality_id not in
-							(
-								select locality_id
-								from vpd_collection_locality
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+						AND locality.locality_id  not in
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 					<cfelseif collnOper is "eventUsedOnlyBy"><!--- event..By terms from old API --->
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND collecting_event.collecting_event_id not in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id not in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-									and collection_id <> 0
-							)
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 					<cfelseif collnOper is "eventUsedBy">
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 					<cfelseif collnOper is "eventSharedOnlyBy">
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id not in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-									and collection_id <> 0
-							)
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 					</cfif>
 					<!--- collnEvOper from new API for event...By terms --->
 					<cfif collnEvOper IS "eventUsedOnlyBy">
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND collecting_event.collecting_event_id not in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id not in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-									and collection_id <> 0
-							)
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 					<cfelseif collnEvOper IS "eventUsedBy">
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 					<cfelseif collnEvOper IS "eventSharedOnlyBy">
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-							)
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND collecting_event.collecting_event_id in
-							(
-								select collecting_event_id
-								from cataloged_item
-								where
-									<cfif Find(",",collection_id) GT 0>
-										collection_id not in (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">
-										)
-									<cfelse>
-										collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-									</cfif>
-									and collection_id <> 0
-							)
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 					</cfif>
 				</cfif>
 				<cfif isdefined("geology_attribute") and len(#geology_attribute#) gt 0>
