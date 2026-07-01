@@ -578,7 +578,7 @@ limitations under the License.
 													<div class="col-9 col-md-9 col-xl-3 mb-1">
 														<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 														<label for="any_taxa_term">Any Taxonomic Element</label>
-														<input id="any_taxa_term" name="any_taxa_term" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
+														<input type="text" id="any_taxa_term" name="any_taxa_term" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 													</div>
 													<div class="col-3 col-md-3 col-xl-1 pl-0 mb-1">
 														<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
@@ -618,7 +618,7 @@ limitations under the License.
 													<div class="col-12 col-md-4 col-xl-2 mb-1">
 														<label for="author_text">Authorship</label>
 														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-														<input id="author_text" name="author_text" value="#encodeForHtml(author_text)#" >
+														<input type="text" id="author_text" name="author_text" value="#encodeForHtml(author_text)#" >
 														<script>
 															jQuery(document).ready(function() {
 																makeTaxonSearchAutocomplete('author_text','author_text');
