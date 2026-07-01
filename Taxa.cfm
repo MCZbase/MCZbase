@@ -185,12 +185,7 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
 		<main id="content">
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cftry>
-					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki pr-2 border-0")#</cfoutput>
-					<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-				</cftry>
-			</cfif>
+		
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
 					 <div class="d-flex flex-wrap mb-0 mr-0 ml-0 mr-md-3 mr-xl-4 ml-xl-3">
@@ -199,6 +194,12 @@ limitations under the License.
 								<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<div id="searchFormDiv" class="small95">
+                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                    <cftry>
+                                        <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki pr-2 border-0")#</cfoutput>
+                                        <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+                                    </cftry>
+                                </cfif>
 								<form name="searchForm" id="searchForm">
 									<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 									<input type="hidden" name="action" value="search">
