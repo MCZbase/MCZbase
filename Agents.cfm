@@ -270,7 +270,7 @@ limitations under the License.
                                             <input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
 										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
-											<label for="last_name" class="data-entry-label font-weight-bold" id="last_name_label">Last</label> 
+											<label for="last_name">Last</label> 
                                             <span class="small text-success">
 												(accepts <button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
@@ -331,11 +331,11 @@ limitations under the License.
 										<!--- Death range, always shown --->
 										<div class="form-group pt-2 pb-1 mb-0">
 											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 font-weight-bold" for="death_date">#dateWord# Of Death</label>
-												<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input py-0 w-100 col-5 px-1" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
+												<label class="" for="death_date">#dateWord# Of Death</label>
+												<input name="death_date" id="death_date" type="text" class="datetimeinput w-100 col-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>	
-												<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+												<label for="to_death_date" class="sr-only">end of search range for #dateWord# of death</label>	
+												<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput w-100 col-5" placeholder="end #dateplaceholder#" title="end of date range">
 											</div>
 										</div>
 									</div>
@@ -343,10 +343,10 @@ limitations under the License.
 									<div class="col-12 col-md-4 px-0 mt-0">
 										  <div class="form-group pt-2 mb-0 pb-1">
 											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0 font-weight-bold" for="collected_date">Dates Collected</label>
-												<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input py-0 w-100 col-5 px-1" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
+												<label for="collected_date">Dates Collected</label>
+												<input name="collected_date" id="collected_date" type="text" class="datetimeinput w-100 col-5" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
+												<label class="sr-only" for="to_collected_date">end of search range for dates collected</label>
 												<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput w-100 col-5 px-1 py-0 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 											</div>
 										</div>
