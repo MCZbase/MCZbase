@@ -2741,7 +2741,7 @@ div.toctitle {
 /* ≥ md test */
 @media (min-width: 768px) {
     
-     button.help-btnSp-SearchWiki {
+     .help-btnSp-SearchWiki {
         -webkit-transform: none;
         -moz-transform: none;
         -o-transform: none;
