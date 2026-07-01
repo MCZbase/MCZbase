@@ -2754,7 +2754,7 @@ div.toctitle {
         position: relative;   /* or relative, depending on layout */
         right: 1rem;
         margin-bottom: 15px;
-        top: -11.5rem;
+        top: 1rem;
         z-index: 1; 
         padding-top: .75rem;
         padding-bottom: .15rem; 
