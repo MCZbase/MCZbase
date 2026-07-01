@@ -2755,6 +2755,14 @@ div.toctitle {
         transform: translateX(-500px);
         transition: transform 0.3s ease;
     }
+    #wikiDrawer h2.headerSm {
+        font-size: 1.25rem;
+    }
+    #wikiDrawer dt {
+        float:left;
+        display: inline-block;
+        min-width: 25px!important;
+    }
     
   .my-thing { color: blue; }
 }
