@@ -963,7 +963,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="verificationstatus">Georeference Verification</label>
-																<button type="button" class="rules" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																<button type="button" class="rules" onclick="$('##verificationstatus').autocomplete('search','%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span></button>
 																<cfif not isdefined("verificationstatus")><cfset verificationstatus=""></cfif>
 																<input type="text" id="verificationstatus" name="verificationstatus" value="#encodeForHtml(verificationstatus)#">
 																<script>
@@ -1177,7 +1177,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
                                                         <label for="biol_indiv_relationship">Has Relationship</label>
-                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></a>
+                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></button>
                                                         <button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;"> (&##8595;) <span class="sr-only">open pick list</span></button>
                                                         <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" value="#encodeForHtml(biol_indiv_relationship)#" >
                                                         <script>
