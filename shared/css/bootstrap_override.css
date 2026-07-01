@@ -2751,7 +2751,7 @@ div.toctitle {
         -o-transform-origin: center center;
         transform-origin: center center;
         /* optionally reset positioning so it sits in normal flow */
-        position: relative;   /* or relative, depending on layout */
+        position: abosolute;   /* or relative, depending on layout */
         right: 1rem;
         margin-bottom: 15px;
         top: 1rem;
