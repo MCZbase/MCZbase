@@ -2054,7 +2054,7 @@ div[aria-hidden='false'] {
 .show {
 	display: block;
 }
-/* Identification section */
+/* Identification section of specimen details page */
 .currentID {
     display:block !important;
     color: #18780b !important;
