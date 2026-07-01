@@ -898,8 +898,7 @@ limitations under the License.
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
                                                                 <label for="sea">Sea</label>
 																<button type="button" class="rules" onclick=" $('##sea').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
-                                                                </a>
-                                                                </span>
+                                                                </button>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
 																<input type="text" id="sea" name="sea" value="#encodeForHtml(sea)#">
 																<script>
