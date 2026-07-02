@@ -186,7 +186,7 @@ limitations under the License.
 					SELECT count(*) AS leaf_descendants
 					FROM container
 					WHERE container_type = 'collection object'
-					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.container_id#">
 					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
 				</cfquery>
 				<cfif queryCountCOChildren.leaf_descendants EQ 0>
