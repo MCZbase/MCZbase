@@ -188,8 +188,8 @@ limitations under the License.
 			<div id="specimenButtonDiv" aria-label="Specimen actions"></div>
 			<script>
 				$(document).ready(function() {
-					$("#specimenButtonDiv").html(
-						buildSpecimensButtonImmediate(,"#encodeForJS(getContainer.container_id)#", "#encodeForJS(getContainer.barcode)#", #encodeForJS(getContainer.direct_leaf_children)#, #encodeForJS(variables.containerFunctions.hasLeafDescendants(getContainer.container_id))#);
+					$("##specimenButtonDiv").html(
+						buildSpecimensButtonImmediate("#encodeForJS(getContainer.container_id)#", "#encodeForJS(getContainer.barcode)#", #encodeForJS(getContainer.direct_leaf_children)#, #encodeForJS(variables.containerFunctions.hasLeafDescendants(getContainer.container_id))#);
 					);
 				});
 			</script>
