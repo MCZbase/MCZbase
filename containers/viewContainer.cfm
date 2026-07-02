@@ -127,7 +127,7 @@ limitations under the License.
 		<output id ="container_breadcrumb_feedback"></output>
 		<script>
 			$(document).ready(function() {
-				showContainerBreadcrumb(getContainer.containerId, "container_breadcrumb_feedback", "container_breadcrumb_nav") {
+				showContainerBreadcrumb(getContainer.containerId, "container_breadcrumb_feedback", "container_breadcrumb_nav");
 			});
 		</script>
 		<div class="form-row">
