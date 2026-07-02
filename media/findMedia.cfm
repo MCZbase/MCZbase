@@ -643,11 +643,13 @@ limitations under the License.
                                             <input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
                                         </div>
                                         <div class="col-12 col-md-6 col-xl-4">
-                                            <label for="media_relationship_type">Relationship</label>
-                                            (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                            <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                            <span class="w-100">   
+                                                <label for="media_relationship_type">Relationship</label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                            </span> 
                                             <cfset selectedrelationship_type= "#media_relationship_type#">
-                                            <select id="media_relationship_type" name="media_relationship_type" class="data-entry-select col-6">
+                                            <select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
                                                 <option></option>
                                                 <cfloop query="ctmedia_relationship">
                                                     <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
@@ -658,7 +660,7 @@ limitations under the License.
                                                     <option value="#media_relationship#" #selected#>#media_relationship#</option>
                                                 </cfloop>
                                             </select>
-                                            <input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value)#">
+                                            <input type="text" id="media_relationship_value" name="media_relationship_value" class="float-left d-inline col-6" value="#encodeForHtml(media_relationship_value)#">
                                             <input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
                                             <script>
                                                 $(document).ready(function() {
