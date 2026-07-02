@@ -27,7 +27,9 @@ limitations under the License.
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
-
+<style>
+    .rules { font-size: .8rem; }    
+</style>
 <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select media_type  from ctmedia_type
 </cfquery>
