@@ -100,7 +100,6 @@ limitations under the License.
 </cfquery>
 
 <cfset variables.containerSearch = createObject("component", "containers.component.search")>
-<cfset variables.breadcrumb = deserializeJSON(variables.containerSearch.getContainerBreadcrumb(container_id=val(getContainer.container_id)))>
 <cfset variables.pageTitleDisplay = "Unnamed container">
 <cfif len(trim(getContainer.label)) GT 0>
 	<cfset variables.pageTitleDisplay = getContainer.label>
@@ -124,26 +123,13 @@ limitations under the License.
 
 	<section class="mb-3" aria-labelledby="containerContextHeading">
 		<h2 class="h4" id="containerContextHeading">Context</h2>
-		<nav aria-label="Container breadcrumb" class="mb-2">
-			<cfif arrayLen(variables.breadcrumb) GT 0>
-				<cfloop from="1" to="#arrayLen(variables.breadcrumb)#" index="variables.i">
-					<cfset variables.crumb = variables.breadcrumb[variables.i]>
-					<cfset variables.crumbDisplay = "Unnamed container">
-					<cfif len(trim(variables.crumb.label)) GT 0>
-						<cfset variables.crumbDisplay = variables.crumb.label>
-					</cfif>
-					<cfif len(trim(variables.crumb.barcode)) GT 0>
-						<cfset variables.crumbDisplay = variables.crumb.barcode>
-						<cfif variables.crumb.barcode NEQ variables.crumb.label AND len(trim(variables.crumb.label)) GT 0>
-							<cfset variables.crumbDisplay = "#variables.crumbDisplay# (#variables.crumb.label#)">
-						</cfif>
-					</cfif>
-					<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.crumb.container_id)#">
-						#encodeForHtml(variables.crumb.container_type)#: #encodeForHtml(variables.crumbDisplay)#
-					</a><cfif variables.i LT arrayLen(variables.breadcrumb)> &gt; </cfif>
-				</cfloop>
-			</cfif>
-		</nav>
+		<nav aria-label="Container breadcrumb" class="mb-2" id="container_breadcrumb_nav"></nav>
+		<output id ="container_breadcrumb_feedback"></output>
+		<script>
+			$(document).ready(function() {
+				showContainerBreadcrumb(getContainer.containerId, "container_breadcrumb_feedback", "container_breadcrumb_nav") {
+			});
+		</script>
 		<div class="form-row">
 			<div class="col-12 col-lg-6 mb-2">
 				<strong>Current Parent:</strong>
