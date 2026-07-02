@@ -170,9 +170,9 @@ limitations under the License.
 		"loaded directly without loading=async" console warning, which is acceptable here.
 	--->
 	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization"></script>
-	<script src="/shared/js/deck.gl.min.js"></script>
-	<script src="/shared/js/deckgl-aggregation-layers.min.js"></script>
-	<script src="/shared/js/deckgl-google-maps.min.js"></script>
+	<script src="/lib/deckgl/deck.gl.min.js"></script>
+	<script src="/lib/deckgl/deckgl-aggregation-layers.min.js"></script>
+	<script src="/lib/deckgl/deckgl-google-maps.min.js"></script>
 	<script src="/shared/js/mcz-heatmap-distMap.js"></script>
 </cfif>
 <cfif isdefined("addheaderresource")>
