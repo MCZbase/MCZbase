@@ -647,4 +647,620 @@ container with no direct leaf children), keeping page-load performance fast.
 	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
+<!---
+Function getContainerForEdit.  Returns all editable fields for a single container record,
+plus the parent container's label and barcode for pre-populating the parent picker.
+Used to populate the Container.cfm edit form via AJAX or direct CFC call.
+
+@param container_id the container_id to load.
+@return a JSON object with all container fields plus parent_label and parent_barcode.
+--->
+<cffunction name="getContainerForEdit" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="queryGetContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				c.container_id,
+				c.parent_container_id,
+				c.container_type,
+				c.label,
+				c.description,
+				c.parent_install_date,
+				c.container_remarks,
+				c.barcode,
+				c.print_fg,
+				c.width,
+				c.height,
+				c.length,
+				c.number_positions,
+				c.locked_position,
+				c.institution_acronym,
+				p.label AS parent_label,
+				p.barcode AS parent_barcode
+			FROM
+				container c
+				LEFT JOIN container p ON c.parent_container_id = p.container_id
+			WHERE
+				c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfif queryGetContainer.recordcount EQ 0>
+			<cfset local.retval["container_id"] = "">
+			<cfset local.retval["error"] = "Container not found.">
+		<cfelse>
+			<cfset local.retval["container_id"] = queryGetContainer.container_id>
+			<cfset local.retval["parent_container_id"] = queryGetContainer.parent_container_id>
+			<cfset local.retval["container_type"] = queryGetContainer.container_type>
+			<cfset local.retval["label"] = queryGetContainer.label>
+			<cfset local.retval["description"] = queryGetContainer.description>
+			<cfif isDate(queryGetContainer.parent_install_date)>
+				<cfset local.retval["parent_install_date"] = dateFormat(queryGetContainer.parent_install_date, "yyyy-mm-dd")>
+			<cfelse>
+				<cfset local.retval["parent_install_date"] = "">
+			</cfif>
+			<cfset local.retval["container_remarks"] = queryGetContainer.container_remarks>
+			<cfset local.retval["barcode"] = queryGetContainer.barcode>
+			<cfset local.retval["print_fg"] = queryGetContainer.print_fg>
+			<cfset local.retval["width"] = queryGetContainer.width>
+			<cfset local.retval["height"] = queryGetContainer.height>
+			<cfset local.retval["length"] = queryGetContainer.length>
+			<cfset local.retval["number_positions"] = queryGetContainer.number_positions>
+			<cfset local.retval["locked_position"] = queryGetContainer.locked_position>
+			<cfset local.retval["institution_acronym"] = queryGetContainer.institution_acronym>
+			<cfset local.retval["parent_label"] = queryGetContainer.parent_label>
+			<cfset local.retval["parent_barcode"] = queryGetContainer.parent_barcode>
+		</cfif>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["container_id"] = "">
+		<cfset local.retval["error"] = cfcatch.message>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function createContainer.  Creates a new container record.
+
+@return JSON object with status and container_id on success.
+--->
+<cffunction name="createContainer" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_type" type="string" required="yes">
+	<cfargument name="label" type="string" required="yes">
+	<cfargument name="parent_container_id" type="string" required="yes">
+	<cfargument name="barcode" type="string" required="no" default="">
+	<cfargument name="description" type="string" required="no" default="">
+	<cfargument name="parent_install_date" type="string" required="no" default="">
+	<cfargument name="container_remarks" type="string" required="no" default="">
+	<cfargument name="width" type="string" required="no" default="">
+	<cfargument name="height" type="string" required="no" default="">
+	<cfargument name="length" type="string" required="no" default="">
+	<cfargument name="number_positions" type="string" required="no" default="">
+	<cfargument name="institution_acronym" type="string" required="no" default="MCZ">
+
+	<cfset local.retval = StructNew()>
+	<cfif len(trim(arguments.container_type)) EQ 0 OR len(trim(arguments.label)) EQ 0 OR len(trim(arguments.parent_container_id)) EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container type, label, and parent container are required.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif NOT isNumeric(arguments.parent_container_id)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Parent container must be numeric.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif len(trim(arguments.parent_install_date)) GT 0 AND NOT isDate(arguments.parent_install_date)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Placement date must be a valid date in yyyy-mm-dd format.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif (len(trim(arguments.width)) GT 0 AND NOT isNumeric(arguments.width))
+			OR (len(trim(arguments.height)) GT 0 AND NOT isNumeric(arguments.height))
+			OR (len(trim(arguments.length)) GT 0 AND NOT isNumeric(arguments.length))
+			OR (len(trim(arguments.number_positions)) GT 0 AND NOT isNumeric(arguments.number_positions))>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Width, height, length, and number of positions must be numeric when provided.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif len(trim(arguments.institution_acronym)) EQ 0>
+		<cfset arguments.institution_acronym = "MCZ">
+	</cfif>
+
+	<cftry>
+		<cfquery name="queryNextId" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				sq_container_id.nextval AS next_container_id
+			FROM
+				dual
+		</cfquery>
+		<cfquery name="queryInsertContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			INSERT INTO container (
+				container_id,
+				parent_container_id,
+				container_type,
+				label,
+				description,
+				parent_install_date,
+				container_remarks,
+				barcode,
+				width,
+				height,
+				length,
+				number_positions,
+				locked_position,
+				institution_acronym
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryNextId.next_container_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_type)#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.label)#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#" null="#len(trim(arguments.description)) EQ 0#">,
+				<cfif len(trim(arguments.parent_install_date)) GT 0>
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#createODBCDate(parseDateTime(arguments.parent_install_date))#">
+				<cfelse>
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="" null="yes">
+				</cfif>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#" null="#len(trim(arguments.barcode)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#" null="#len(trim(arguments.number_positions)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="0">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
+			)
+		</cfquery>
+		<cfset local.retval["status"] = "created">
+		<cfset local.retval["container_id"] = queryNextId.next_container_id>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = cfcatch.message>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function saveContainer.  Updates an existing container record.
+--->
+<cffunction name="saveContainer" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="string" required="yes">
+	<cfargument name="container_type" type="string" required="yes">
+	<cfargument name="label" type="string" required="yes">
+	<cfargument name="parent_container_id" type="string" required="yes">
+	<cfargument name="barcode" type="string" required="no" default="">
+	<cfargument name="description" type="string" required="no" default="">
+	<cfargument name="parent_install_date" type="string" required="no" default="">
+	<cfargument name="container_remarks" type="string" required="no" default="">
+	<cfargument name="width" type="string" required="no" default="">
+	<cfargument name="height" type="string" required="no" default="">
+	<cfargument name="length" type="string" required="no" default="">
+	<cfargument name="number_positions" type="string" required="no" default="">
+	<cfargument name="institution_acronym" type="string" required="no" default="MCZ">
+
+	<cfset local.retval = StructNew()>
+	<cfif len(trim(arguments.container_id)) EQ 0 OR NOT isNumeric(arguments.container_id)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container id is required.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif len(trim(arguments.container_type)) EQ 0 OR len(trim(arguments.label)) EQ 0 OR len(trim(arguments.parent_container_id)) EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container type, label, and parent container are required.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif NOT isNumeric(arguments.parent_container_id)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Parent container must be numeric.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif len(trim(arguments.parent_install_date)) GT 0 AND NOT isDate(arguments.parent_install_date)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Placement date must be a valid date in yyyy-mm-dd format.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif (len(trim(arguments.width)) GT 0 AND NOT isNumeric(arguments.width))
+			OR (len(trim(arguments.height)) GT 0 AND NOT isNumeric(arguments.height))
+			OR (len(trim(arguments.length)) GT 0 AND NOT isNumeric(arguments.length))
+			OR (len(trim(arguments.number_positions)) GT 0 AND NOT isNumeric(arguments.number_positions))>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Width, height, length, and number of positions must be numeric when provided.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif len(trim(arguments.institution_acronym)) EQ 0>
+		<cfset arguments.institution_acronym = "MCZ">
+	</cfif>
+
+	<cftry>
+		<cfquery name="queryGetExisting" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				parent_container_id
+			FROM
+				container
+			WHERE
+				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfif queryGetExisting.recordcount EQ 0>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = "Container not found.">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+		<cfquery name="queryUpdateContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			UPDATE
+				container
+			SET
+				parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">,
+				container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_type)#">,
+				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.label)#">,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#" null="#len(trim(arguments.description)) EQ 0#">,
+				parent_install_date =
+					<cfif len(trim(arguments.parent_install_date)) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#createODBCDate(parseDateTime(arguments.parent_install_date))#">
+					<cfelse>
+						<cfqueryparam cfsqltype="CF_SQL_DATE" value="" null="yes">
+					</cfif>,
+				container_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
+				barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#" null="#len(trim(arguments.barcode)) EQ 0#">,
+				width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
+				height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
+				length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
+				number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#" null="#len(trim(arguments.number_positions)) EQ 0#">,
+				institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
+			WHERE
+				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfif val(queryGetExisting.parent_container_id) NEQ val(arguments.parent_container_id)>
+			<cfquery name="queryInsertHistory" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				INSERT INTO container_history (
+					container_id,
+					parent_container_id,
+					install_date
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryGetExisting.parent_container_id#">,
+					SYSDATE
+				)
+			</cfquery>
+		</cfif>
+		<cfset local.retval["status"] = "saved">
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = cfcatch.message>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function deleteContainer.  Deletes a container record.
+--->
+<cffunction name="deleteContainer" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfif len(trim(arguments.container_id)) EQ 0 OR NOT isNumeric(arguments.container_id)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container id is required.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="queryCheckChildren" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				COUNT(*) AS child_count
+			FROM
+				container
+			WHERE
+				parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfif queryCheckChildren.child_count GT 0>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = "Container cannot be deleted because it has children.">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+		<cfquery name="queryDeleteContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			DELETE FROM
+				container
+			WHERE
+				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfset local.retval["status"] = "deleted">
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = cfcatch.message>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function getContainerDetailsHtml.  Returns an HTML fragment with the read-only
+details of a container for use in dialogs and page components.
+--->
+<cffunction name="getContainerDetailsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset local.tn = REReplace(createUUID(), "-", "", "all")>
+	<cfthread name="getContainerDetailsHtmlThread#local.tn#" container_id="#arguments.container_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getContainerDetail" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						c.container_id,
+						c.parent_container_id,
+						c.container_type,
+						c.label,
+						c.description,
+						c.parent_install_date,
+						c.container_remarks,
+						c.barcode,
+						c.width,
+						c.height,
+						c.length,
+						c.number_positions,
+						c.locked_position,
+						c.institution_acronym,
+						NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+						NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+						p.container_type AS parent_container_type,
+						p.label AS parent_label,
+						p.barcode AS parent_barcode
+					FROM
+						container c
+						LEFT JOIN (
+							SELECT
+								parent_container_id,
+								SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
+								SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
+							FROM
+								container
+							GROUP BY
+								parent_container_id
+						) ch ON ch.parent_container_id = c.container_id
+						LEFT JOIN container p ON c.parent_container_id = p.container_id
+					WHERE
+						c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+				</cfquery>
+				<cfif getContainerDetail.recordcount EQ 0>
+					<p class="text-danger">Container not found.</p>
+				<cfelse>
+					<cfset lockedPositionText = "No">
+					<cfif val(getContainerDetail.locked_position) EQ 1>
+						<cfset lockedPositionText = "Yes">
+					</cfif>
+					<section class="mb-3" aria-labelledby="containerDetailsHeading">
+						<h2 class="h5" id="containerDetailsHeading">Details</h2>
+						<div class="form-row">
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Container Type:</strong> #encodeForHtml(getContainerDetail.container_type)#
+							</div>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Label:</strong> #encodeForHtml(getContainerDetail.label)#
+							</div>
+							<cfif len(trim(getContainerDetail.barcode)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Barcode:</strong> #encodeForHtml(getContainerDetail.barcode)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.description)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Description:</strong> #encodeForHtml(getContainerDetail.description)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.container_remarks)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Container Remarks:</strong> #encodeForHtml(getContainerDetail.container_remarks)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.width)) GT 0 OR len(trim(getContainerDetail.height)) GT 0 OR len(trim(getContainerDetail.length)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Width × Height × Length (cm):</strong>
+									#encodeForHtml(getContainerDetail.width)# × #encodeForHtml(getContainerDetail.height)# × #encodeForHtml(getContainerDetail.length)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.number_positions)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Number of Positions:</strong> #encodeForHtml(getContainerDetail.number_positions)#
+								</div>
+							</cfif>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Locked Position:</strong> #encodeForHtml(lockedPositionText)#
+							</div>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Institution Acronym:</strong> #encodeForHtml(getContainerDetail.institution_acronym)#
+							</div>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Placement Date:</strong>
+								<cfif isDate(getContainerDetail.parent_install_date)>
+									#encodeForHtml(dateFormat(getContainerDetail.parent_install_date, "yyyy-mm-dd"))#
+								</cfif>
+							</div>
+						</div>
+					</section>
+				</cfif>
+
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
+				<p class="text-danger">Unable to load container details.</p>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getContainerDetailsHtmlThread#local.tn#" />
+	<cfreturn cfthread["getContainerDetailsHtmlThread#local.tn#"].output>
+</cffunction>
+
+<!---
+Function getContainerEditHtml.  Returns an HTML fragment containing the container
+edit form suitable for rendering in a dialog box or embedded in another page.
+--->
+<cffunction name="getContainerEditHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="idSuffix" type="string" required="no" default="">
+
+	<cfset local.tn = REReplace(createUUID(), "-", "", "all")>
+	<cfset local.safeIdSuffix = REReplace(arguments.idSuffix, "[^A-Za-z0-9_-]", "", "all")>
+	<cfthread name="getContainerEditHtmlThread#local.tn#" container_id="#arguments.container_id#" idSuffix="#local.safeIdSuffix#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="ctContainerType" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						container_type
+					FROM
+						ctcontainer_type
+					ORDER BY
+						container_type
+				</cfquery>
+				<cfquery name="getContainerEdit" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						c.container_id,
+						c.parent_container_id,
+						c.container_type,
+						c.label,
+						c.description,
+						c.parent_install_date,
+						c.container_remarks,
+						c.barcode,
+						c.width,
+						c.height,
+						c.length,
+						c.number_positions,
+						c.institution_acronym,
+						p.label AS parent_label,
+						p.barcode AS parent_barcode
+					FROM
+						container c
+						LEFT JOIN container p ON c.parent_container_id = p.container_id
+					WHERE
+						c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+				</cfquery>
+				<cfif getContainerEdit.recordcount EQ 0>
+					<p class="text-danger">Container not found.</p>
+				<cfelse>
+					<cfset parentContainerText = "">
+					<cfif len(trim(getContainerEdit.parent_barcode)) GT 0>
+						<cfset parentContainerText = getContainerEdit.parent_barcode>
+					<cfelseif len(trim(getContainerEdit.parent_label)) GT 0>
+						<cfset parentContainerText = getContainerEdit.parent_label>
+					</cfif>
+					<cfset installDate = "">
+					<cfif isDate(getContainerEdit.parent_install_date)>
+						<cfset installDate = dateFormat(getContainerEdit.parent_install_date, "yyyy-mm-dd")>
+					</cfif>
+					<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerDialogFormHeading#encodeForHtml(idSuffix)#">
+						<div class="col-12">
+							<h2 class="h4 ml-3 mb-1" id="containerDialogFormHeading#encodeForHtml(idSuffix)#">Edit Container</h2>
+							<div class="mb-2" role="status" aria-live="polite">
+								<output id="containerSaveStatus#encodeForHtml(idSuffix)#">&nbsp;</output>
+							</div>
+							<form class="col-12 px-0" id="containerForm#encodeForHtml(idSuffix)#" name="containerForm#encodeForHtml(idSuffix)#" method="post" novalidate>
+								<input type="hidden" name="container_id" id="container_id#encodeForHtml(idSuffix)#" value="#encodeForHtml(getContainerEdit.container_id)#">
+								<div class="form-row">
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="container_type#encodeForHtml(idSuffix)#" class="data-entry-label">Container Type</label>
+										<select name="container_type" id="container_type#encodeForHtml(idSuffix)#" class="data-entry-select reqdClr col-12" required aria-required="true">
+											<option value=""></option>
+											<cfloop query="ctContainerType">
+												<cfset selectedType = "">
+												<cfif ctContainerType.container_type EQ getContainerEdit.container_type>
+													<cfset selectedType = " selected">
+												</cfif>
+												<option value="#encodeForHtml(ctContainerType.container_type)#"#selectedType#>#encodeForHtml(ctContainerType.container_type)#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="label#encodeForHtml(idSuffix)#" class="data-entry-label">Label</label>
+										<input type="text" name="label" id="label#encodeForHtml(idSuffix)#" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(getContainerEdit.label)#">
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="barcode#encodeForHtml(idSuffix)#" class="data-entry-label">Barcode</label>
+										<input type="text" name="barcode" id="barcode#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.barcode)#">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="parentContainerText#encodeForHtml(idSuffix)#" class="data-entry-label">Parent Container</label>
+										<input type="hidden" name="parent_container_id" id="parent_container_id#encodeForHtml(idSuffix)#" value="#encodeForHtml(getContainerEdit.parent_container_id)#">
+										<input type="text" name="parentContainerText" id="parentContainerText#encodeForHtml(idSuffix)#" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(parentContainerText)#">
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="parent_install_date#encodeForHtml(idSuffix)#" class="data-entry-label">Placement Date</label>
+										<input type="text" name="parent_install_date" id="parent_install_date#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(installDate)#">
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="description#encodeForHtml(idSuffix)#" class="data-entry-label">Description</label>
+										<input type="text" name="description" id="description#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.description)#">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 mb-2">
+										<label for="container_remarks#encodeForHtml(idSuffix)#" class="data-entry-label">Container Remarks</label>
+										<textarea name="container_remarks" id="container_remarks#encodeForHtml(idSuffix)#" rows="3" class="data-entry-input col-12">#encodeForHtml(getContainerEdit.container_remarks)#</textarea>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="width#encodeForHtml(idSuffix)#" class="data-entry-label">Width (cm)</label>
+										<input type="text" name="width" id="width#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.width)#">
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="height#encodeForHtml(idSuffix)#" class="data-entry-label">Height (cm)</label>
+										<input type="text" name="height" id="height#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.height)#">
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="length#encodeForHtml(idSuffix)#" class="data-entry-label">Length (cm)</label>
+										<input type="text" name="length" id="length#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.length)#">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="number_positions#encodeForHtml(idSuffix)#" class="data-entry-label">Number of Positions</label>
+										<input type="text" name="number_positions" id="number_positions#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.number_positions)#">
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 mb-2">
+										<label for="institution_acronym#encodeForHtml(idSuffix)#" class="data-entry-label">Institution Acronym</label>
+										<input type="text" name="institution_acronym" id="institution_acronym#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.institution_acronym)#">
+									</div>
+								</div>
+								<div class="form-row mb-4 mt-1">
+									<div class="col-12">
+										<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm#encodeForHtml(idSuffix)#', 'saveContainer', 'containerSaveStatus#encodeForHtml(idSuffix)#')">Save Changes</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</section>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
+				<p class="text-danger">Unable to load container edit form.</p>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getContainerEditHtmlThread#local.tn#" />
+	<cfreturn cfthread["getContainerEditHtmlThread#local.tn#"].output>
+</cffunction>
+
 </cfcomponent>
