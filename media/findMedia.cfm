@@ -671,16 +671,11 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-6 col-xl-4">
                                             <div class="form-row mx-0 mb-2">
-                                                <label for="media_relationship_type_1" class="data-entry-label mb-0" id="nedia_relationship_type_label_1">Relationship
-                                                    <span class="smaller">
-                                                        (
-                                                        <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                        <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
-                                                        )
-                                                    </span>
-                                                </label>
+                                                <label for="media_relationship_type_1" class="data-entry-label mb-0" id="media_relationship_type_label_1">Relationship</label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                 <cfset selectedrelationship_type= "#media_relationship_type_1#">
-                                                <select id="media_relationship_type_1" name="media_relationship_type_1" class="data-entry-select col-6">
+                                                <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left col-6">
                                                     <option></option>
                                                     <cfloop query="ctmedia_relationship">
                                                         <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
@@ -691,7 +686,7 @@ limitations under the License.
                                                         <option value="#media_relationship#" #selected#>#media_relationship#</option>
                                                     </cfloop>
                                                 </select>
-                                                <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value_1)#">
+                                                <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6" value="#encodeForHtml(media_relationship_value_1)#">
                                                 <input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
                                                 <script>
                                                     $(document).ready(function() {
