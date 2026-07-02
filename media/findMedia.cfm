@@ -539,10 +539,12 @@ limitations under the License.
                                         </cfif>
                                         <div class="col-12 col-md-4 col-xl-3">
                                             <div class="form-row mx-0 mb-2">
-                                                <label for="media_label_type" id="nedia_label_type_label">Any Other Label </label>
-                                                (<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                <div class="w-100">
+                                                    <label for="media_label_type">Any Other Label </label>
+                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                </div>
                                                 <cfset selectedmedia_label_type= "#media_label_type#">
                                                 <select id="media_label_type" name="media_label_type" class="col-6">
                                                     <option></option>
