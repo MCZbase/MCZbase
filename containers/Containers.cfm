@@ -96,7 +96,11 @@ limitations under the License.
 	</cfquery>
 	<cfif containerLookup.recordcount EQ 1>
 		<cfset variables.search_term = containerLookup.label>
-		<cfset variables.barcode = containerLookup.barcode>
+		<cfif len(containerLookup.barcode) GT 0>
+			<cfset variables.barcode = "=#containerLookup.barcode#">
+		<cfelse>
+			<cfset variables.barcode = "">
+		<cfif>
 	</cfif>
 </cfif>
 
