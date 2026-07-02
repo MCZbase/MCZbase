@@ -364,9 +364,10 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-3 col-xl-3">
                                             <div class="form-group mb-2">
-                                                <label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original File</label>
+                                                <label for="original_filename">Original File</label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                        NULL, NOT NULL)
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                 <input type="text" id="original_filename" name="original_filename" value="#encodeForHtml(original_filename)#">
                                             </div>
                                         </div>
@@ -382,21 +383,23 @@ limitations under the License.
                                         <div class="col-12 col-md-3">
                                             <div class="form-group mb-2">
                                                 <label for="description">Description</label>
-                                                (NULL, NOT NULL)
-                                                <input type="text" id="description" name="description" value="#encodeForHtml(description)#" aria-labelledby="description_label" >
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                <input type="text" id="description" name="description" value="#encodeForHtml(description)#">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-3">
                                             <div class="form-group mb-2">
                                                 <label for="keywords">Keywords</label>
                                                  <span class="small">(|,*,"",-)</span>
-                                                <input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-labelledby="keywords_label" >
+                                                <input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-#keycols#">
                                             <div class="form-group mb-2">
                                                 <label for="subject">Subject</label>
-                                                (NULL, NOT NULL)
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                 <input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
                                                 <script>
                                                     $(document).ready(function() {
