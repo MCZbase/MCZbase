@@ -161,7 +161,7 @@ limitations under the License.
 		<h2 class="h4" id="containerContentsSummaryHeading">Contents</h2>
 		<div class="form-row mb-1">
 			<div class="col-12 col-lg-4 mb-1">
-				<h3 class="h4>Structural Contents:</h3>
+				<h3 class="h4">Structural Contents:</h3>
 				<cfif val(getContainer.direct_structural_children) GT 0>
 					<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">
 						Browse #encodeForHtml(getContainer.direct_structural_children)# structural children in the tree
