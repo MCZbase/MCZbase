@@ -17,7 +17,8 @@ limitations under the License.
 
 --->
 <cfparam name="url.action" default="new">
-<cfparam name="url.container_id" default="">
+<cfparam name="url.container_id" default=""><!--- container_id for container to edit --->
+<cfparam name="url.barcode" default=""><!--- barcode is optional, but if provided and container_id is not, it will be used to look up the container_id for editing --->
 <cfparam name="url.parent_container_id" default="">
 <cf_rolecheck>
 
@@ -28,8 +29,25 @@ limitations under the License.
 <cfset variables.containerId = trim(url.container_id)>
 <cfset variables.parentContainerId = trim(url.parent_container_id)>
 
-<cfif variables.action EQ "edit" AND NOT isNumeric(variables.containerId)>
-	<cflocation url="/containers/Containers.cfm" addtoken="false">
+<cfif variables.action EQ "edit" AND (NOT isNumeric(variables.containerId) OR len(variables.containerId) EQ 0)>
+	<cfif len(url.barcode) GT 0>
+		<cfquery name="getContainerId" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				container_id
+			FROM
+				container
+			WHERE
+				barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.barcode#">
+		</cfquery>
+		<cfif getContainerId.recordcount EQ 1>
+			<cfset variables.containerId = getContainerId.container_id>
+		<cfelse>
+			<cfinclude template="/errors/404.cfm">
+			<cfabort>
+		</cfif>
+	<cfelse>
+		<cflocation url="/containers/Containers.cfm" addtoken="false">
+	</cfif>
 </cfif>
 <cfif len(variables.parentContainerId) GT 0 AND NOT isNumeric(variables.parentContainerId)>
 	<cfset variables.parentContainerId = "">

@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfparam name="url.container_id" default="">
+<cfparam name="url.container_id" default=""><!--- container_id is the surrogate numeric identifier for the container to view --->
+<cfparam name="url.barcode" default=""><!--- barcode uniquely identifies a container, if given has priority over container_id --->
 <cf_rolecheck>
 
 <cfif NOT isNumeric(url.container_id)>
@@ -55,7 +56,11 @@ limitations under the License.
 				parent_container_id
 		) ch ON ch.parent_container_id = c.container_id
 	WHERE
-		c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.container_id#">
+		<cfif len(trim(url.barcode)) GT 0>
+			c.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url.barcode#">
+		<cfelse>
+			c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.container_id#">
+		</cfif>
 </cfquery>
 
 <cfif getContainer.recordcount EQ 0>
@@ -89,13 +94,13 @@ limitations under the License.
 		container_history ch
 		LEFT JOIN container p ON ch.parent_container_id = p.container_id
 	WHERE
-		ch.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.container_id#">
+		ch.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.container_id#">
 	ORDER BY
 		ch.install_date DESC NULLS LAST
 </cfquery>
 
 <cfset variables.containerSearch = createObject("component", "containers.component.search")>
-<cfset variables.breadcrumb = deserializeJSON(variables.containerSearch.getContainerBreadcrumb(container_id=val(url.container_id)))>
+<cfset variables.breadcrumb = deserializeJSON(variables.containerSearch.getContainerBreadcrumb(container_id=val(getContainer.container_id)))>
 <cfset variables.pageTitleDisplay = "Unnamed container">
 <cfif len(trim(getContainer.label)) GT 0>
 	<cfset variables.pageTitleDisplay = getContainer.label>
@@ -197,7 +202,7 @@ limitations under the License.
 		</div>
 	</section>
 
-	#variables.containerFunctions.getContainerDetailsHtml(container_id=val(url.container_id))#
+	#variables.containerFunctions.getContainerDetailsHtml(container_id=val(getContainer.container_id))#
 
 	<section class="mb-3" aria-labelledby="placementHistoryHeading">
 		<h2 class="h4" id="placementHistoryHeading">Placement History</h2>
