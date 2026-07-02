@@ -438,7 +438,7 @@ limitations under the License.
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 col-xl-2">
                                             <div class="form-group mb-2">
-                                                <label for="height" class="data-entry-label mb-0" id="height_label">Height </label>
+                                                <label for="height">Height </label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
                                                         NULL, NOT NULL)
@@ -456,7 +456,7 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-4 col-xl-2">
                                             <div class="form-group mb-2">
-                                                <label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
+                                                <label for="light_source">Light Source 
                                                     <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                     <span class="small">
                                                         (<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
