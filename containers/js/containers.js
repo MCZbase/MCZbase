@@ -1400,3 +1400,188 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 		}
 	});
 }
+
+/**
+ * Submits the container create or edit form via AJAX to
+ * containers/component/functions.cfc and handles the response.
+ *
+ * When method is 'createContainer' and the save succeeds, redirects to
+ * viewContainer.cfm?container_id=N (or to redirectUrl if provided).
+ * When method is 'saveContainer', stays on page and uses setFeedbackControlState()
+ * on feedbackId to report saving/saved/error state.
+ *
+ * @param {string} formId - the id of the form element.
+ * @param {string} method - 'createContainer' or 'saveContainer'.
+ * @param {string} feedbackId - the id of the output/element for status feedback (without leading #).
+ * @param {string} [redirectUrl] - optional URL to redirect to on create success.
+ */
+function saveContainerForm(formId, method, feedbackId, redirectUrl) {
+	var $form = $('#' + formId);
+	var containerType = $.trim($form.find('[name=container_type]').val());
+	var label = $.trim($form.find('[name=label]').val());
+	var parentContainerId = $.trim($form.find('[name=parent_container_id]').val());
+	var params = $form.serializeArray();
+
+	if (containerType.length === 0 || label.length === 0 || parentContainerId.length === 0) {
+		setFeedbackControlState(feedbackId, 'error');
+		messageDialog('Container Type, Label, and Parent Container are required.', 'Validation Error');
+		return;
+	}
+
+	params.push({ name: 'method', value: method });
+	params.push({ name: 'returnformat', value: 'json' });
+	setFeedbackControlState(feedbackId, 'saving');
+
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'post',
+		dataType: 'json',
+		data: params,
+		success: function(resp) {
+			var status = resp.status || resp.STATUS || '';
+			var message = resp.message || resp.MESSAGE || 'Unknown error.';
+			var containerId = resp.container_id || resp.CONTAINER_ID || '';
+			if (status === 'created') {
+				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
+			} else if (status === 'saved') {
+				setFeedbackControlState(feedbackId, 'saved');
+			} else {
+				setFeedbackControlState(feedbackId, 'error');
+				messageDialog('Error: ' + message, 'Error Saving Container');
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			setFeedbackControlState(feedbackId, 'error');
+			handleFail(jqXHR, textStatus, error, 'saving container');
+		}
+	});
+}
+
+/**
+ * Shows a confirmation dialog before deleting a container.
+ * On confirm, POSTs to deleteContainer in functions.cfc.
+ * On success redirects to containers/Containers.cfm.
+ * On error calls setFeedbackControlState and handleFail.
+ *
+ * @param {number} containerId - the container_id to delete.
+ * @param {string} feedbackId - the id of the output element for status feedback.
+ */
+function confirmDeleteContainer(containerId, feedbackId) {
+	confirmDialog('Delete this container? This cannot be undone.', 'Delete Container', function() {
+		setFeedbackControlState(feedbackId, 'saving');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				method: 'deleteContainer',
+				returnformat: 'json',
+				container_id: containerId
+			},
+			success: function(resp) {
+				var status = resp.status || resp.STATUS || '';
+				var message = resp.message || resp.MESSAGE || 'Unknown error.';
+				if (status === 'deleted') {
+					window.location.href = '/containers/Containers.cfm';
+				} else {
+					setFeedbackControlState(feedbackId, 'error');
+					messageDialog('Error: ' + message, 'Error Deleting Container');
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				setFeedbackControlState(feedbackId, 'error');
+				handleFail(jqXHR, textStatus, error, 'deleting container');
+			}
+		});
+	});
+}
+
+/**
+ * Loads the HTML fragment for a container's read-only details into targetDivId.
+ * Calls getContainerDetailsHtml in functions.cfc.
+ *
+ * @param {number} containerId - the container_id to display.
+ * @param {string} targetDivId - the id of the div to render into (without leading #).
+ * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
+ */
+function loadContainerDetails(containerId, targetDivId, feedbackId) {
+	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		data: {
+			method: 'getContainerDetailsHtml',
+			returnformat: 'plain',
+			container_id: containerId
+		},
+		success: function(data) {
+			$('#' + targetDivId).html(data);
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading container details');
+		}
+	});
+}
+
+/**
+ * Loads the container edit form HTML fragment into targetDivId.
+ * Calls getContainerEditHtml in functions.cfc.
+ *
+ * @param {number} containerId - the container_id to edit.
+ * @param {string} targetDivId - the id of the div to render into (without leading #).
+ * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
+ * @param {string} [idSuffix] - optional suffix for form element IDs (default "").
+ */
+function loadContainerEditForm(containerId, targetDivId, feedbackId, idSuffix) {
+	var suffix = idSuffix || '';
+	var target = $('#' + targetDivId);
+
+	target.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		data: {
+			method: 'getContainerEditHtml',
+			returnformat: 'plain',
+			container_id: containerId,
+			idSuffix: suffix
+		},
+		success: function(data) {
+			var statusId = 'containerSaveStatus' + suffix;
+			var formId = 'containerForm' + suffix;
+
+			target.html(data);
+			makeContainerAutocompleteMetaExcludeCO('parentContainerText' + suffix, 'parent_container_id' + suffix);
+			$('#parent_install_date' + suffix).datepicker({ dateFormat: 'yy-mm-dd' });
+
+			$('#' + formId + ' input[type=text]').on('change', function() {
+				$('#' + statusId).html('Unsaved changes.');
+				$('#' + statusId).addClass('text-danger');
+				$('#' + statusId).removeClass('text-success');
+				$('#' + statusId).removeClass('text-warning');
+			});
+			$('#' + formId + ' select').on('change', function() {
+				$('#' + statusId).html('Unsaved changes.');
+				$('#' + statusId).addClass('text-danger');
+				$('#' + statusId).removeClass('text-success');
+				$('#' + statusId).removeClass('text-warning');
+			});
+			$('#' + formId + ' textarea').on('change', function() {
+				$('#' + statusId).html('Unsaved changes.');
+				$('#' + statusId).addClass('text-danger');
+				$('#' + statusId).removeClass('text-success');
+				$('#' + statusId).removeClass('text-warning');
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading container edit form');
+		}
+	});
+}
