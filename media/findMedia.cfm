@@ -28,7 +28,14 @@ limitations under the License.
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
 <style>
-    .rules { font-size: .75rem; }    
+.tab-content button.rules, #searchFormDiv button.rules[type="button"] {
+    border: none;
+    padding: 0;
+    font-size: .75rem;
+    color: #0460c1 !important;
+	/*text-decoration: underline;*/
+	text-decoration: underline dotted #0460c1;  
+}   
 </style>
 <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select media_type  from ctmedia_type
