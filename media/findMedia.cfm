@@ -31,7 +31,7 @@ limitations under the License.
 .tab-content button.rules, #searchFormDiv button.rules[type="button"] {
     border: none;
     padding: 0;
-    font-size: .78rem;
+    font-size: .875rem;
     color: #0460c1 !important;
 	/*text-decoration: underline;*/
 	text-decoration: underline dotted #0460c1;  
