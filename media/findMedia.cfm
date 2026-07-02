@@ -643,11 +643,11 @@ limitations under the License.
                                             <input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
                                         </div>
                                         <div class="col-12 col-md-6 col-xl-4">
-                                            <span class="w-100">   
+                                            <div class="w-100">   
                                                 <label for="media_relationship_type">Relationship</label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                            </span> 
+                                            </div> 
                                             <cfset selectedrelationship_type= "#media_relationship_type#">
                                             <select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
                                                 <option></option>
