@@ -47,7 +47,8 @@ limitations under the License.
  and the manage_transactions role, changing which role has those searches enabled will take a change there as well as here.
 --->
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-	select media_relationship  from ctmedia_relationship
+	select media_relationship 
+    from ctmedia_relationship
 	where media_relationship not in ('created by agent', 'shows cataloged_item')
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 		AND media_relationship is not null
@@ -55,6 +56,12 @@ limitations under the License.
 		AND media_relationship not like 'document%'
 		AND media_relationship not like '%permit'
 	</cfif>
+     <!--- special “virtual” values for searching --->
+    UNION
+    select '__IS_NULL__'  as media_relationship from dual
+    UNION
+    select '__IS_NOT_NULL__' as media_relationship from dual
+
 	union
 	select 'ANY cataloged_item' media_relationship from dual
 </cfquery>
