@@ -591,13 +591,11 @@ limitations under the License.
                                         <div class="form-row">
                                             <div class="col-12 col-md-4 col-xl-2">
                                                 <div class="form-group mb-2">
-                                                    <label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
-                                                        <span class="small">
-                                                            (<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                            NULL, NOT NULL)
-                                                        </span>
-                                                    </label>
-                                                    <input type="text" id="owner" name="owner" class="data-entry-input" value="#encodeForHtml(owner)#" aria-labelledby="owner_label" >
+                                                    <label for="owner" class="data-entry-label mb-0" id="owner_label">Owner </label>
+                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                    <input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
                                                     <script>
                                                         $(document).ready(function() {
                                                             makeMediaLabelAutocomplete("owner","owner");
@@ -607,11 +605,11 @@ limitations under the License.
                                             </div>
                                             <div class="col-12 col-md-4 col-xl-2">
                                                 <div class="form-group mb-2">
-                                                    <label for="credit" id="credit_label">Credit</label>
-                                                    (<button type="button" tabindex="-1" aria-hidden="true"  class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                        NULL, NOT NULL)
-                                                    </span>
-                                                    <input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#" aria-labelledby="credit_label" >
+                                                    <label for="credit">Credit</label>
+                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                    <input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
                                                     <script>
                                                         $(document).ready(function() {
                                                             makeMediaLabelAutocomplete("credit","credit");
@@ -622,7 +620,7 @@ limitations under the License.
                                             <div class="col-12 col-md-4 col-xl-2">
                                                 <div class="form-group mb-2">
                                                     <label for="md5hash">MD5 Hash</label>
-                                                    (<button type="button" tabindex="-1" aria-hidden="true" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
+                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
                                                     )
