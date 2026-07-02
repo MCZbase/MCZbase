@@ -1013,6 +1013,9 @@ details of a container for use in dialogs and page components.
 						c.width,
 						c.height,
 						c.length,
+						c.number_positions,
+						c.locked_position,
+						c.institution_acronym,
 						NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 						NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 						p.container_type AS parent_container_type,
@@ -1037,127 +1040,60 @@ details of a container for use in dialogs and page components.
 				<cfif getContainerDetail.recordcount EQ 0>
 					<p class="text-danger">Container not found.</p>
 				<cfelse>
-					<cfquery name="getBreadcrumb" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-						SELECT
-							container_id,
-							container_type,
-							label
-						FROM
-							container
-						START WITH
-							container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-						CONNECT BY PRIOR
-							parent_container_id = container_id
-						ORDER BY
-							LEVEL DESC
-					</cfquery>
-					<cfquery name="getRecentHistory" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-						SELECT
-							install_date,
-							parent_container_id,
-							container_type,
-							label,
-							barcode
-						FROM (
-							SELECT
-								ch.install_date,
-								ch.parent_container_id,
-								p.container_type,
-								p.label,
-								p.barcode
-							FROM
-								container_history ch
-								LEFT JOIN container p ON ch.parent_container_id = p.container_id
-							WHERE
-								ch.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-							ORDER BY
-								ch.install_date DESC NULLS LAST
-						)
-						WHERE
-							ROWNUM <= 5
-					</cfquery>
-					<cfset pageHeading = getContainerDetail.label>
-					<cfif len(trim(getContainerDetail.barcode)) GT 0 AND getContainerDetail.barcode NEQ getContainerDetail.label>
-						<cfset pageHeading = "#pageHeading# (#getContainerDetail.barcode#)">
-					</cfif>
-					<nav aria-label="Container breadcrumb" class="mb-3">
-						<cfloop query="getBreadcrumb">
-							<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getBreadcrumb.container_id)#">#encodeForHtml(getBreadcrumb.container_type)#: #encodeForHtml(getBreadcrumb.label)#</a><cfif getBreadcrumb.currentrow LT getBreadcrumb.recordcount> &gt; </cfif>
-						</cfloop>
-					</nav>
-					<h1 class="h3">#encodeForHtml(pageHeading)#</h1>
-					<section class="mb-3">
-						<h2 class="h5">Details</h2>
-						<ul class="list-unstyled">
-							<li><strong>Type:</strong> #encodeForHtml(getContainerDetail.container_type)#</li>
-							<li><strong>Label:</strong> #encodeForHtml(getContainerDetail.label)#</li>
-							<cfif len(trim(getContainerDetail.barcode)) GT 0>
-								<li><strong>Barcode:</strong> #encodeForHtml(getContainerDetail.barcode)#</li>
-							</cfif>
-							<cfif len(trim(getContainerDetail.description)) GT 0>
-								<li><strong>Description:</strong> #encodeForHtml(getContainerDetail.description)#</li>
-							</cfif>
-							<cfif len(trim(getContainerDetail.container_remarks)) GT 0>
-								<li><strong>Remarks:</strong> #encodeForHtml(getContainerDetail.container_remarks)#</li>
-							</cfif>
-							<cfif len(trim(getContainerDetail.width)) GT 0 OR len(trim(getContainerDetail.height)) GT 0 OR len(trim(getContainerDetail.length)) GT 0>
-								<li><strong>Dimensions (cm):</strong> #encodeForHtml(getContainerDetail.width)# × #encodeForHtml(getContainerDetail.height)# × #encodeForHtml(getContainerDetail.length)#</li>
-							</cfif>
-							<cfif isDate(getContainerDetail.parent_install_date)>
-								<li><strong>Placement Date:</strong> #encodeForHtml(dateFormat(getContainerDetail.parent_install_date, "yyyy-mm-dd"))#</li>
-							</cfif>
-							<li><strong>Direct Structural Children:</strong> #encodeForHtml(getContainerDetail.direct_structural_children)#</li>
-							<li><strong>Direct Leaf Children:</strong> #encodeForHtml(getContainerDetail.direct_leaf_children)#</li>
-						</ul>
-					</section>
-					<section class="mb-3">
-						<h2 class="h5">Current Parent</h2>
-						<cfif len(trim(getContainerDetail.parent_container_id)) GT 0>
-							<p>
-								<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.parent_container_id)#">
-									#encodeForHtml(getContainerDetail.parent_container_type)#:
-									#encodeForHtml(getContainerDetail.parent_label)#
-									<cfif len(trim(getContainerDetail.parent_barcode)) GT 0 AND getContainerDetail.parent_barcode NEQ getContainerDetail.parent_label>
-										(#encodeForHtml(getContainerDetail.parent_barcode)#)
-									</cfif>
-								</a>
-							</p>
-						<cfelse>
-							<p class="text-muted">No current parent found.</p>
-						</cfif>
-					</section>
-					<section class="mb-3">
-						<h2 class="h5">Recent Placement History</h2>
-						<cfif getRecentHistory.recordcount EQ 0>
-							<p class="text-muted">No placement history found.</p>
-						<cfelse>
-							<div class="table-responsive">
-								<table class="table table-sm table-striped">
-									<thead>
-										<tr>
-											<th scope="col">Date</th>
-											<th scope="col">Parent Container</th>
-											<th scope="col">Type</th>
-										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="getRecentHistory">
-											<tr>
-												<td><cfif isDate(getRecentHistory.install_date)>#encodeForHtml(dateFormat(getRecentHistory.install_date, "yyyy-mm-dd"))#<cfelse>Unknown</cfif></td>
-												<td>
-													<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getRecentHistory.parent_container_id)#">
-														<cfif len(trim(getRecentHistory.label)) GT 0>#encodeForHtml(getRecentHistory.label)#<cfelse>Container #encodeForHtml(getRecentHistory.parent_container_id)#</cfif>
-													</a>
-												</td>
-												<td><cfif len(trim(getRecentHistory.container_type)) GT 0>#encodeForHtml(getRecentHistory.container_type)#<cfelse>Unknown</cfif></td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</div>
-						</cfif>
-					</section>
-				</cfif>
+					<cfset lockedPositionText = "No">
+<cfif val(getContainerDetail.locked_position) EQ 1>
+	<cfset lockedPositionText = "Yes">
+</cfif>
+<section class="mb-3" aria-labelledby="containerDetailsHeading">
+	<h2 class="h5" id="containerDetailsHeading">Details</h2>
+	<div class="form-row">
+		<div class="col-12 col-md-6 col-xl-4 mb-2">
+			<strong>Container Type:</strong> #encodeForHtml(getContainerDetail.container_type)#
+		</div>
+		<div class="col-12 col-md-6 col-xl-4 mb-2">
+			<strong>Label:</strong> #encodeForHtml(getContainerDetail.label)#
+		</div>
+		<cfif len(trim(getContainerDetail.barcode)) GT 0>
+			<div class="col-12 col-md-6 col-xl-4 mb-2">
+				<strong>Barcode:</strong> #encodeForHtml(getContainerDetail.barcode)#
+			</div>
+		</cfif>
+		<cfif len(trim(getContainerDetail.description)) GT 0>
+			<div class="col-12 col-md-6 col-xl-4 mb-2">
+				<strong>Description:</strong> #encodeForHtml(getContainerDetail.description)#
+			</div>
+		</cfif>
+		<cfif len(trim(getContainerDetail.container_remarks)) GT 0>
+			<div class="col-12 col-md-6 col-xl-4 mb-2">
+				<strong>Container Remarks:</strong> #encodeForHtml(getContainerDetail.container_remarks)#
+			</div>
+		</cfif>
+		<cfif len(trim(getContainerDetail.width)) GT 0 OR len(trim(getContainerDetail.height)) GT 0 OR len(trim(getContainerDetail.length)) GT 0>
+			<div class="col-12 col-md-6 col-xl-4 mb-2">
+				<strong>Width × Height × Length (cm):</strong>
+				#encodeForHtml(getContainerDetail.width)# × #encodeForHtml(getContainerDetail.height)# × #encodeForHtml(getContainerDetail.length)#
+			</div>
+		</cfif>
+		<cfif len(trim(getContainerDetail.number_positions)) GT 0>
+			<div class="col-12 col-md-6 col-xl-4 mb-2">
+				<strong>Number of Positions:</strong> #encodeForHtml(getContainerDetail.number_positions)#
+			</div>
+		</cfif>
+		<div class="col-12 col-md-6 col-xl-4 mb-2">
+			<strong>Locked Position:</strong> #encodeForHtml(lockedPositionText)#
+		</div>
+		<div class="col-12 col-md-6 col-xl-4 mb-2">
+			<strong>Institution Acronym:</strong> #encodeForHtml(getContainerDetail.institution_acronym)#
+		</div>
+		<div class="col-12 col-md-6 col-xl-4 mb-2">
+			<strong>Placement Date:</strong>
+			<cfif isDate(getContainerDetail.parent_install_date)>
+				#encodeForHtml(dateFormat(getContainerDetail.parent_install_date, "yyyy-mm-dd"))#
+			</cfif>
+		</div>
+	</div>
+</section>
+
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">

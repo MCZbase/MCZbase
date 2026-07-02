@@ -206,6 +206,8 @@ limitations under the License.
 	</section>
 </main>
 
+<div id="containerDetailsDialog"></div>
+
 <cfoutput>
 <script>
 $(document).ready(function() {

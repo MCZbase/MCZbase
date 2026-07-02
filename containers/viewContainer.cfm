@@ -96,108 +96,108 @@ limitations under the License.
 
 <cfset variables.containerSearch = createObject("component", "containers.component.search")>
 <cfset variables.breadcrumb = deserializeJSON(variables.containerSearch.getContainerBreadcrumb(container_id=val(url.container_id)))>
-<cfset variables.pageHeading = getContainer.label>
-<cfif len(trim(getContainer.barcode)) GT 0 AND getContainer.barcode NEQ getContainer.label>
-	<cfset variables.pageHeading = "#variables.pageHeading# (#getContainer.barcode#)">
+<cfset variables.pageTitleDisplay = "Unnamed container">
+<cfif len(trim(getContainer.label)) GT 0>
+	<cfset variables.pageTitleDisplay = getContainer.label>
 </cfif>
+<cfif len(trim(getContainer.barcode)) GT 0>
+	<cfset variables.pageTitleDisplay = getContainer.barcode>
+	<cfif getContainer.barcode NEQ getContainer.label AND len(trim(getContainer.label)) GT 0>
+		<cfset variables.pageTitleDisplay = "#variables.pageTitleDisplay# (#getContainer.label#)">
+	</cfif>
+</cfif>
+<cfset variables.containerFunctions = createObject("component", "containers.component.functions")>
 
-<cfset pageTitle = "Container: #getContainer.label#">
+<cfset pageTitle = "Container: #variables.pageTitleDisplay#">
 <cfset pageHasContainers = true>
 <cfinclude template="/shared/_header.cfm">
 <link rel="stylesheet" href="/containers/css/containers.css">
 <main id="content" class="container-fluid">
 
 <cfoutput>
-	<nav aria-label="Container breadcrumb" class="mb-3">
-		<cfif arrayLen(variables.breadcrumb) GT 0>
-			<cfloop from="1" to="#arrayLen(variables.breadcrumb)#" index="variables.i">
-				<cfset variables.crumb = variables.breadcrumb[variables.i]>
-				<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.crumb.container_id)#">
-					#encodeForHtml(variables.crumb.container_type)#: #encodeForHtml(variables.crumb.label)#
-				</a><cfif variables.i LT arrayLen(variables.breadcrumb)> &gt; </cfif>
-			</cfloop>
-		</cfif>
-	</nav>
+	<h1 class="h2">#encodeForHtml(variables.pageTitleDisplay)#</h1>
 
-	<h1 class="h2">#encodeForHtml(variables.pageHeading)#</h1>
-
-	<section class="mb-3" aria-labelledby="containerDetailsHeading">
-		<h2 class="h4" id="containerDetailsHeading">Details</h2>
+	<section class="mb-3" aria-labelledby="containerContextHeading">
+		<h2 class="h4" id="containerContextHeading">Context</h2>
+		<nav aria-label="Container breadcrumb" class="mb-2">
+			<cfif arrayLen(variables.breadcrumb) GT 0>
+				<cfloop from="1" to="#arrayLen(variables.breadcrumb)#" index="variables.i">
+					<cfset variables.crumb = variables.breadcrumb[variables.i]>
+					<cfset variables.crumbDisplay = "Unnamed container">
+					<cfif len(trim(variables.crumb.label)) GT 0>
+						<cfset variables.crumbDisplay = variables.crumb.label>
+					</cfif>
+					<cfif len(trim(variables.crumb.barcode)) GT 0>
+						<cfset variables.crumbDisplay = variables.crumb.barcode>
+						<cfif variables.crumb.barcode NEQ variables.crumb.label AND len(trim(variables.crumb.label)) GT 0>
+							<cfset variables.crumbDisplay = "#variables.crumbDisplay# (#variables.crumb.label#)">
+						</cfif>
+					</cfif>
+					<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.crumb.container_id)#">
+						#encodeForHtml(variables.crumb.container_type)#: #encodeForHtml(variables.crumbDisplay)#
+					</a><cfif variables.i LT arrayLen(variables.breadcrumb)> &gt; </cfif>
+				</cfloop>
+			</cfif>
+		</nav>
 		<div class="form-row">
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Container Type:</strong> #encodeForHtml(getContainer.container_type)#
-			</div>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Label:</strong> #encodeForHtml(getContainer.label)#
-			</div>
-			<cfif len(trim(getContainer.barcode)) GT 0>
-				<div class="col-12 col-md-6 col-xl-4 mb-2">
-					<strong>Barcode:</strong> #encodeForHtml(getContainer.barcode)#
-				</div>
-			</cfif>
-			<cfif len(trim(getContainer.description)) GT 0>
-				<div class="col-12 col-md-6 col-xl-4 mb-2">
-					<strong>Description:</strong> #encodeForHtml(getContainer.description)#
-				</div>
-			</cfif>
-			<cfif len(trim(getContainer.container_remarks)) GT 0>
-				<div class="col-12 col-md-6 col-xl-4 mb-2">
-					<strong>Container Remarks:</strong> #encodeForHtml(getContainer.container_remarks)#
-				</div>
-			</cfif>
-			<cfif len(trim(getContainer.width)) GT 0 OR len(trim(getContainer.height)) GT 0 OR len(trim(getContainer.length)) GT 0>
-				<div class="col-12 col-md-6 col-xl-4 mb-2">
-					<strong>Width × Height × Length (cm):</strong>
-					#encodeForHtml(getContainer.width)# × #encodeForHtml(getContainer.height)# × #encodeForHtml(getContainer.length)#
-				</div>
-			</cfif>
-			<cfif len(trim(getContainer.number_positions)) GT 0>
-				<div class="col-12 col-md-6 col-xl-4 mb-2">
-					<strong>Number of Positions:</strong> #encodeForHtml(getContainer.number_positions)#
-				</div>
-			</cfif>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Locked Position:</strong> <cfif val(getContainer.locked_position) EQ 1>Yes<cfelse>No</cfif>
-			</div>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Institution Acronym:</strong> #encodeForHtml(getContainer.institution_acronym)#
-			</div>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Placement Date:</strong>
-				<cfif isDate(getContainer.parent_install_date)>
-					#encodeForHtml(dateFormat(getContainer.parent_install_date, "yyyy-mm-dd"))#
+			<div class="col-12 col-lg-6 mb-2">
+				<strong>Current Parent:</strong>
+				<cfif getParent.recordcount EQ 1>
+					<cfset variables.parentDisplay = "Unnamed container">
+					<cfif len(trim(getParent.label)) GT 0>
+						<cfset variables.parentDisplay = getParent.label>
+					</cfif>
+					<cfif len(trim(getParent.barcode)) GT 0>
+						<cfset variables.parentDisplay = getParent.barcode>
+						<cfif getParent.barcode NEQ getParent.label AND len(trim(getParent.label)) GT 0>
+							<cfset variables.parentDisplay = "#variables.parentDisplay# (#getParent.label#)">
+						</cfif>
+					</cfif>
+					<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getParent.container_id)#">
+						#encodeForHtml(getParent.container_type)#: #encodeForHtml(variables.parentDisplay)#
+					</a>
+				<cfelse>
+					<span class="text-muted">This container has no current parent container record.</span>
 				</cfif>
 			</div>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Direct Structural Children:</strong>
-				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">
-					Browse #encodeForHtml(getContainer.direct_structural_children)# structural children
-				</a>
-			</div>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Direct Leaf Children:</strong>
-				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">
-					Browse #encodeForHtml(getContainer.direct_leaf_children)# leaf children
-				</a>
+			<div class="col-12 col-lg-6 mb-2">
+				<strong>Hierarchy:</strong>
+				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">View this container in the tree</a>
 			</div>
 		</div>
 	</section>
 
-	<section class="mb-3" aria-labelledby="currentParentHeading">
-		<h2 class="h4" id="currentParentHeading">Current Parent</h2>
-		<cfif getParent.recordcount EQ 1>
-			<p>
-				<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getParent.container_id)#">
-					#encodeForHtml(getParent.container_type)#: #encodeForHtml(getParent.label)#
-					<cfif len(trim(getParent.barcode)) GT 0 AND getParent.barcode NEQ getParent.label>
-						(#encodeForHtml(getParent.barcode)#)
-					</cfif>
-				</a>
-			</p>
-		<cfelse>
-			<p class="text-muted">This container has no current parent container record.</p>
-		</cfif>
+	<section class="mb-3" aria-labelledby="containerContentsSummaryHeading">
+		<h2 class="h4" id="containerContentsSummaryHeading">Contents Summary</h2>
+		<div class="form-row">
+			<div class="col-12 col-lg-4 mb-2">
+				<strong>Structural Contents:</strong>
+				<cfif val(getContainer.direct_structural_children) GT 0>
+					<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">
+						Browse #encodeForHtml(getContainer.direct_structural_children)# structural children in the tree
+					</a>
+				<cfelse>
+					<span class="text-muted">0 structural children</span>
+				</cfif>
+			</div>
+			<div class="col-12 col-lg-4 mb-2">
+				<strong>Object Contents:</strong>
+				<cfif val(getContainer.direct_leaf_children) GT 0>
+					<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">
+						Browse #encodeForHtml(getContainer.direct_leaf_children)# direct leaf children
+					</a>
+				<cfelse>
+					<span class="text-muted">0 direct leaf children</span>
+				</cfif>
+			</div>
+			<div class="col-12 col-lg-4 mb-2">
+				<strong>Browse Container:</strong>
+				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Open in Container Tree</a>
+			</div>
+		</div>
 	</section>
+
+	#variables.containerFunctions.getContainerDetailsHtml(container_id=val(url.container_id))#
 
 	<section class="mb-3" aria-labelledby="placementHistoryHeading">
 		<h2 class="h4" id="placementHistoryHeading">Placement History</h2>
@@ -215,6 +215,16 @@ limitations under the License.
 					</thead>
 					<tbody>
 						<cfloop query="getHistory">
+							<cfset variables.historyDisplay = "Unnamed container">
+							<cfif len(trim(getHistory.label)) GT 0>
+								<cfset variables.historyDisplay = getHistory.label>
+							</cfif>
+							<cfif len(trim(getHistory.barcode)) GT 0>
+								<cfset variables.historyDisplay = getHistory.barcode>
+								<cfif getHistory.barcode NEQ getHistory.label AND len(trim(getHistory.label)) GT 0>
+									<cfset variables.historyDisplay = "#variables.historyDisplay# (#getHistory.label#)">
+								</cfif>
+							</cfif>
 							<tr>
 								<td>
 									<cfif isDate(getHistory.install_date)>
@@ -226,14 +236,7 @@ limitations under the License.
 								<td>
 									<cfif len(trim(getHistory.parent_container_id)) GT 0>
 										<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#">
-											<cfif len(trim(getHistory.label)) GT 0>
-												#encodeForHtml(getHistory.label)#
-											<cfelse>
-												Container #encodeForHtml(getHistory.parent_container_id)#
-											</cfif>
-											<cfif len(trim(getHistory.barcode)) GT 0 AND getHistory.barcode NEQ getHistory.label>
-												(#encodeForHtml(getHistory.barcode)#)
-											</cfif>
+											#encodeForHtml(variables.historyDisplay)#
 										</a>
 									<cfelse>
 										Unknown

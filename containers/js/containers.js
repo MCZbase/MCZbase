@@ -262,6 +262,40 @@ function formatContainerDisplay(barcode, label) {
 	return b || l || '(unknown container)';
 }
 
+function openContainerDetailsDialog(containerId, displayName, feedbackId) {
+	var dialogId = 'containerDetailsDialog';
+	var contentId = 'containerDetailsDialogContent';
+	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1000));
+	var dialogHeight = Math.max(320, Math.min($(window).height() - 40, 700));
+	var dialogTitle = 'Container Details';
+	if (displayName) {
+		dialogTitle = dialogTitle + ': ' + displayName;
+	}
+
+	$('#' + dialogId).html('<div id="' + contentId + '"></div>').dialog({
+		modal: true,
+		title: dialogTitle,
+		width: dialogWidth,
+		height: dialogHeight,
+		dialogClass: 'dialog_fixed ui-widget-header',
+		close: function() {
+			$('#' + contentId).html('');
+			$(this).dialog('destroy');
+		}
+	});
+	$('#' + dialogId).dialog('open');
+	$('#' + dialogId).dialog('moveToTop');
+	loadContainerDetails(containerId, contentId, feedbackId);
+}
+
+function buildContainerDetailsButton(containerId, displayName, feedbackId) {
+	return $('<button class="btn btn-xs btn-outline-primary ml-1"></button>')
+		.text('Details')
+		.on('click', function() {
+			openContainerDetailsDialog(containerId, displayName, feedbackId);
+		});
+}
+
 /**
  * Initializes the container browse panel.  Calls getTopLevelBrowse to retrieve
  * institution nodes (pre-opened to campus level) plus counts of orphaned nodes,
@@ -351,6 +385,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 
 			nodeRow.append($('<span class="tree-node-label"></span>').text(instDisplay));
 			nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + inst.container_type + ']'));
+			nodeRow.append(buildContainerDetailsButton(instCid, instDisplay, feedbackEl));
 
 			/* Campus children pre-rendered (institution starts expanded) */
 			var campusUl = $('<ul></ul>').attr('id', childUlId).addClass('container-tree');
@@ -382,6 +417,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 
 					campusRow.append($('<span class="tree-node-label"></span>').text(campusDisplay));
 					campusRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + campus.container_type + ']'));
+					campusRow.append(buildContainerDetailsButton(campusCid, campusDisplay, feedbackEl));
 
 					var campusLeafDiv = null;
 					if (parseInt(campus.direct_leaf_children, 10) > 0) {
@@ -585,6 +621,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		nodeRow.append($('<span class="tree-node-label"></span>').text(displayName));
 		/* Container type as secondary metadata. */
 		nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + ctype + ']'));
+		nodeRow.append(buildContainerDetailsButton(cid, displayName, feedbackId));
 
 		/* Empty node marker */
 		if (structuralChildren === 0 && leafChildren === 0) {
