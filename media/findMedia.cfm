@@ -56,11 +56,6 @@ limitations under the License.
 		AND media_relationship not like 'document%'
 		AND media_relationship not like '%permit'
 	</cfif>
-     <!--- special “virtual” values for searching --->
-    UNION
-    select '__IS_NULL__'  as media_relationship from dual
-    UNION
-    select '__IS_NOT_NULL__' as media_relationship from dual
 
 	union
 	select 'ANY cataloged_item' media_relationship from dual
@@ -220,19 +215,19 @@ limitations under the License.
 									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 									<div class="col-12 col-md-5">
 										<div class="form-group mb-2">
-											<label for="media_uri" class="data-entry-label mb-0" id="media_uri_label">Media URI</label>
-											<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#encodeForHtml(media_uri)#" aria-labelledby="media_uri_label" >
+											<label for="media_uri" id="media_uri_label">Media URI</label>
+											<input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#" aria-labelledby="media_uri_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
-											<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" class="data-entry-input" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
+											<label for="media_id">Media ID</label>
+											<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
+											<label for="media_type">Media Type</label>
 											<select id="media_type" name="media_type" class="data-entry-select">
 												<option></option>
 												<cfloop query="ctmedia_type">
@@ -615,13 +610,11 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
-												<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
-													<span class="small">
-														(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-														NULL, NOT NULL)
-													</span>
-												</label>
-												<input type="text" id="credit" name="credit" class="data-entry-input" value="#encodeForHtml(credit)#" aria-labelledby="credit_label" >
+                                                <label for="credit" id="credit_label">Credit</label>
+                                                (<button type="button" tabindex="-1" aria-hidden="true"  class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                    NULL, NOT NULL)
+                                                </span>
+												<input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#" aria-labelledby="credit_label" >
 												<script>
 													$(document).ready(function() {
 														makeMediaLabelAutocomplete("credit","credit");
@@ -631,13 +624,12 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
-												<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
-													<span class="small">
-														(<button type="button" tabindex="-1" aria-hidden="true" class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-														NULL, NOT NULL)
-													</span>
-												</label>
-												<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#encodeForHtml(md5hash)#" aria-labelledby="md5hash_label" >
+                                                <label for="md5hash">MD5 Hash</label>
+                                                (<button type="button" tabindex="-1" aria-hidden="true" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
+                                                )
+												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
 											</div>
 										</div>
 										<div class="col-12 col-md-4 col-xl-2">
@@ -699,28 +691,19 @@ limitations under the License.
 													</cfif>
 												</cfloop>
 											</cfif>
-											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item 
-												<span class="small">
-													(NOT NULL, accepts comma separated list)
-												</span>
-											</label>
-											<input type="text" name="related_cataloged_item" 
-												class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
-												onchange="$('##collection_object_id').val('');">
+											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item</label>
+								            (<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, accepts comma separated list)
+											<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 										</div>
 									</div>
 									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-row mx-0 mb-2">
-											<label for="media_relationship_type" class="data-entry-label mb-0" id="nedia_relationship_type_label">Relationship
-												<span class="small">
-													(
-													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
-													)
-												</span>
-											</label>
+											<label for="media_relationship_type">Relationship</label>
+                                            (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
+                                            )
 											<cfset selectedrelationship_type= "#media_relationship_type#">
-											<select id="media_relationship_type" name="media_relationship_type" class="data-entry-select col-6">
+											<select id="media_relationship_type" name="media_relationship_type">
 												<option></option>
 												<cfloop query="ctmedia_relationship">
 													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
@@ -731,7 +714,7 @@ limitations under the License.
 													<option value="#media_relationship#" #selected#>#media_relationship#</option>
 												</cfloop>
 											</select>
-											<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value)#">
+											<input type="text" id="media_relationship_value" name="media_relationship_value" value="#encodeForHtml(media_relationship_value)#">
 											<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
 											<script>
 												$(document).ready(function() {
@@ -745,7 +728,7 @@ limitations under the License.
 									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-row mx-0 mb-2">
 											<label for="media_relationship_type_1" class="data-entry-label mb-0" id="nedia_relationship_type_label_1">Relationship
-												<span class="small">
+												<span class="smaller">
 													(
 													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
