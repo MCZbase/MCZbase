@@ -439,26 +439,20 @@ limitations under the License.
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 col-xl-2">
                                             <div class="form-group mb-2">
-                                                <label for="height" class="data-entry-label mb-0" id="height_label">Height 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+                                                <label for="height" class="data-entry-label mb-0" id="height_label">Height </label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
                                                         NULL, NOT NULL)
-                                                    </span>
-                                                </label>
-                                                <input type="text" id="height" name="height" class="data-entry-input" value="#encodeForHtml(height)#" aria-labelledby="height_label" >
+                                                <input type="text" id="height" name="height" value="#encodeForHtml(height)#">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4 col-xl-2">
                                             <div class="form-group mb-2">
-                                                <label for="width" class="data-entry-label mb-0" id="width_label">Width 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-                                                        <button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+                                                <label for="width">Width </label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
                                                         NULL, NOT NULL)
-                                                    </span>
-                                                </label>
-                                                <input type="text" id="width" name="width" class="data-entry-input" value="#encodeForHtml(width)#" aria-labelledby="width_label" >
+                                                <input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4 col-xl-2">
@@ -466,11 +460,11 @@ limitations under the License.
                                                 <label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
                                                     <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
                                                     <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                        (<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                         NULL, NOT NULL)
                                                     </span>
                                                 </label>
-                                                <input type="text" id="light_source" name="light_source" class="data-entry-input" value="#encodeForHtml(light_source)#" aria-labelledby="light_source_label" >
+                                                <input type="text" id="light_source" name="light_source" value="#encodeForHtml(light_source)#" aria-labelledby="light_source_label" >
                                                 <script>
                                                     $(document).ready(function() {
                                                         makeMediaLabelAutocomplete("light_source","light source");
@@ -480,8 +474,8 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-4 col-xl-2">
                                             <div class="form-group mb-2">
-                                                <label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
-                                                <input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#encodeForHtml(preview_uri)#" aria-labelledby="preview_uri_label" >
+                                                <label for="preview_uri">Preview URI</label>
+                                                <input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
                                             </div>
                                         </div>
                                         <cfset remcolm="8">
@@ -491,15 +485,17 @@ limitations under the License.
                                             <cfset remcolx="2">
                                             <div class="col-12 col-md-4 col-xl-2">
                                                 <div class="form-group mb-2">
-                                                    <label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
-                                                    <input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#encodeForHtml(internal_remarks)#" aria-labelledby="internal_remarks_label" >
+                                                    <label for="internal_remarks">Internal Remarks </label>
+                                                        (NULL, NOT NULL)
+                                                    <input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
                                                 </div>
                                             </div>
                                         </cfif>
                                         <div class="col-12 col-md-#remcolm# col-xl-#remcolx#">
                                             <div class="form-group mb-2">
-                                                <label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
-                                                <input type="text" id="remarks" name="remarks" class="data-entry-input" value="#encodeForHtml(remarks)#" aria-labelledby="remarks_label" >
+                                                <label for="remarks">Remarks</label> 
+                                                (NULL, NOT NULL)
+                                                <input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
                                             </div>
                                         </div>
                                     </div>
