@@ -230,7 +230,7 @@ limitations under the License.
                                         <div class="col-12 col-md-2">
                                             <div class="form-group mb-2">
                                                 <label for="media_type">Media Type</label>
-                                                <select id="media_type" name="media_type" class="data-entry-select">
+                                                <select id="media_type" name="media_type">
                                                     <option></option>
                                                     <cfloop query="ctmedia_type">
                                                         <cfif in_media_type EQ ctmedia_type.media_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -245,9 +245,9 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-3">
                                             <div class="form-group mb-2">
-                                                <label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
+                                                <label for="mime_type">MIME Type</label>
                                                 <cfset selectedmimetypelist = "">
-                                                <select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
+                                                <select id="mime_type" name="mime_type" multiple="true">
                                                     <option></option>
                                                     <cfloop query="ctmime_type">
                                                         <cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
@@ -323,9 +323,9 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-2 col-xl-1">
                                             <div class="form-group mb-2">
-                                                <label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
+                                                <label for="extension">Extension</label>
                                                 <cfset selectedextensionlist = "">
-                                                <select id="extension" name="extension" class="data-entry-select" multiple="true">
+                                                <select id="extension" name="extension" multiple="true">
                                                     <option></option>
                                                     <cfloop query="distinctExtensions">
                                                         <cfif listFind(in_extension, distinctExtensions.extension) GT 0>
@@ -364,13 +364,10 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-3 col-xl-3">
                                             <div class="form-group mb-2">
-                                                <label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original File
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original File</label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                         NULL, NOT NULL)
-                                                    </span>
-                                                </label>
-                                                <input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#encodeForHtml(original_filename)#" aria-labelledby="original_filename_label" >
+                                                <input type="text" id="original_filename" name="original_filename" value="#encodeForHtml(original_filename)#">
                                             </div>
                                         </div>
                                     </div>
@@ -384,20 +381,23 @@ limitations under the License.
                                         </cfif>
                                         <div class="col-12 col-md-3">
                                             <div class="form-group mb-2">
-                                                <label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
-                                                <input type="text" id="description" name="description" class="data-entry-input" value="#encodeForHtml(description)#" aria-labelledby="description_label" >
+                                                <label for="description">Description</label>
+                                                (NULL, NOT NULL)
+                                                <input type="text" id="description" name="description" value="#encodeForHtml(description)#" aria-labelledby="description_label" >
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-3">
                                             <div class="form-group mb-2">
-                                                <label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
-                                                <input type="text" id="keywords" name="keywords" class="data-entry-input" value="#encodeForHtml(keywords)#" aria-labelledby="keywords_label" >
+                                                <label for="keywords">Keywords</label>
+                                                 <span class="small">(|,*,"",-)</span>
+                                                <input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-labelledby="keywords_label" >
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-#keycols#">
                                             <div class="form-group mb-2">
-                                                <label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
-                                                <input type="text" id="subject" name="subject" class="data-entry-input" value="#encodeForHtml(subject)#" aria-labelledby="subject_label" >
+                                                <label for="subject">Subject</label>
+                                                (NULL, NOT NULL)
+                                                <input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
                                                 <script>
                                                     $(document).ready(function() {
                                                         makeMediaLabelAutocomplete("subject","subject");
@@ -407,13 +407,12 @@ limitations under the License.
                                         </div>
                                         <div class="col-12 col-md-#keycols#">
                                             <div class="form-group mb-2">
-                                                <label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
-                                                    <span class="small">
-                                                        (<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <label for="aspect">Aspect</label> 
+                                                (<button type="button" class="rules" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                         NULL, NOT NULL)
                                                     </span>
                                                 </label>
-                                                <input type="text" id="aspect" name="aspect" class="data-entry-input" value="#encodeForHtml(aspect)#" aria-labelledby="aspect_label" >
+                                                <input type="text" id="aspect" name="aspect" value="#encodeForHtml(aspect)#">
                                                 <script>
                                                     $(document).ready(function() {
                                                         makeAspectAutocomplete("aspect");
@@ -424,8 +423,8 @@ limitations under the License.
                                         <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                             <div class="col-12 col-md-2">
                                                 <div class="form-group mb-2">
-                                                    <label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
-                                                    <select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
+                                                    <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
+                                                    <select id="mask_media_fg" name="mask_media_fg">
                                                         <option></option>
                                                         <cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
                                                         <option value="1" #sel#>Hidden</option>
