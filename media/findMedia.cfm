@@ -459,7 +459,7 @@ limitations under the License.
                                         <div class="col-12 col-md-4 col-xl-2">
                                             <div class="form-group mb-2">
                                                 <label for="light_source">Light Source </label>
-                                                <button class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
+                                                <button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
