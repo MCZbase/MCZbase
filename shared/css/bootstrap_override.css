@@ -1918,7 +1918,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 .tab-content input[type="text"], #searchFormDiv fieldset input[type="text"] {
     display: block;
     width: 100%;
-    padding: 1px .5rem 1px .5rem;
+    padding: 2px .5rem;
     color: black;
     border: 1px solid #ced4da;
     background-clip: padding-box;
@@ -1926,7 +1926,8 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     vertical-align: middle;
     font: 500 .875rem/1.4 apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
-    line-height: 1.15rem;    
+    line-height: 1.15rem;   
+    border-radius: .2rem;
 }
 .tab-content input[type="button"] #searchFormDiv fieldset input[type="button"]{
     border: none;
@@ -1936,7 +1937,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     display: block;
     width: 100%!important;
     font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    padding: 0 .5rem;
+    padding: 2px .5rem;
     color: rgba(0, 0, 0, .67);
     border: 1px solid #ced4da;
     background-clip: padding-box;
