@@ -177,10 +177,6 @@ limitations under the License.
 				<h1 class="h2 ml-3 mb-1" id="containerFormHeading">Create Container</h1>
 			</cfif>
 
-			<div class="mb-2" role="status" aria-live="polite">
-				<output id="containerSaveStatus">&nbsp;</output>
-			</div>
-
 			<form class="col-12 px-0" id="containerForm" name="containerForm" method="post" novalidate>
 				<cfif variables.action EQ "edit">
 					<input type="hidden" name="container_id" id="container_id" value="#encodeForHtml(variables.formData.container_id)#">
@@ -271,6 +267,7 @@ limitations under the License.
 							<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm', 'createContainer', 'containerSaveStatus')">Create Container</button>
 							<a class="btn btn-xs btn-warning ml-1" href="/containers/Containers.cfm">Cancel</a>
 						</cfif>
+						<output id="containerSaveStatus"></output>
 					</div>
 				</div>
 			</form>
