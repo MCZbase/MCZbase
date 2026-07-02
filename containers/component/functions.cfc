@@ -1041,58 +1041,59 @@ details of a container for use in dialogs and page components.
 					<p class="text-danger">Container not found.</p>
 				<cfelse>
 					<cfset lockedPositionText = "No">
-<cfif val(getContainerDetail.locked_position) EQ 1>
-	<cfset lockedPositionText = "Yes">
-</cfif>
-<section class="mb-3" aria-labelledby="containerDetailsHeading">
-	<h2 class="h5" id="containerDetailsHeading">Details</h2>
-	<div class="form-row">
-		<div class="col-12 col-md-6 col-xl-4 mb-2">
-			<strong>Container Type:</strong> #encodeForHtml(getContainerDetail.container_type)#
-		</div>
-		<div class="col-12 col-md-6 col-xl-4 mb-2">
-			<strong>Label:</strong> #encodeForHtml(getContainerDetail.label)#
-		</div>
-		<cfif len(trim(getContainerDetail.barcode)) GT 0>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Barcode:</strong> #encodeForHtml(getContainerDetail.barcode)#
-			</div>
-		</cfif>
-		<cfif len(trim(getContainerDetail.description)) GT 0>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Description:</strong> #encodeForHtml(getContainerDetail.description)#
-			</div>
-		</cfif>
-		<cfif len(trim(getContainerDetail.container_remarks)) GT 0>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Container Remarks:</strong> #encodeForHtml(getContainerDetail.container_remarks)#
-			</div>
-		</cfif>
-		<cfif len(trim(getContainerDetail.width)) GT 0 OR len(trim(getContainerDetail.height)) GT 0 OR len(trim(getContainerDetail.length)) GT 0>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Width × Height × Length (cm):</strong>
-				#encodeForHtml(getContainerDetail.width)# × #encodeForHtml(getContainerDetail.height)# × #encodeForHtml(getContainerDetail.length)#
-			</div>
-		</cfif>
-		<cfif len(trim(getContainerDetail.number_positions)) GT 0>
-			<div class="col-12 col-md-6 col-xl-4 mb-2">
-				<strong>Number of Positions:</strong> #encodeForHtml(getContainerDetail.number_positions)#
-			</div>
-		</cfif>
-		<div class="col-12 col-md-6 col-xl-4 mb-2">
-			<strong>Locked Position:</strong> #encodeForHtml(lockedPositionText)#
-		</div>
-		<div class="col-12 col-md-6 col-xl-4 mb-2">
-			<strong>Institution Acronym:</strong> #encodeForHtml(getContainerDetail.institution_acronym)#
-		</div>
-		<div class="col-12 col-md-6 col-xl-4 mb-2">
-			<strong>Placement Date:</strong>
-			<cfif isDate(getContainerDetail.parent_install_date)>
-				#encodeForHtml(dateFormat(getContainerDetail.parent_install_date, "yyyy-mm-dd"))#
-			</cfif>
-		</div>
-	</div>
-</section>
+					<cfif val(getContainerDetail.locked_position) EQ 1>
+						<cfset lockedPositionText = "Yes">
+					</cfif>
+					<section class="mb-3" aria-labelledby="containerDetailsHeading">
+						<h2 class="h5" id="containerDetailsHeading">Details</h2>
+						<div class="form-row">
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Container Type:</strong> #encodeForHtml(getContainerDetail.container_type)#
+							</div>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Label:</strong> #encodeForHtml(getContainerDetail.label)#
+							</div>
+							<cfif len(trim(getContainerDetail.barcode)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Barcode:</strong> #encodeForHtml(getContainerDetail.barcode)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.description)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Description:</strong> #encodeForHtml(getContainerDetail.description)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.container_remarks)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Container Remarks:</strong> #encodeForHtml(getContainerDetail.container_remarks)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.width)) GT 0 OR len(trim(getContainerDetail.height)) GT 0 OR len(trim(getContainerDetail.length)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Width × Height × Length (cm):</strong>
+									#encodeForHtml(getContainerDetail.width)# × #encodeForHtml(getContainerDetail.height)# × #encodeForHtml(getContainerDetail.length)#
+								</div>
+							</cfif>
+							<cfif len(trim(getContainerDetail.number_positions)) GT 0>
+								<div class="col-12 col-md-6 col-xl-4 mb-2">
+									<strong>Number of Positions:</strong> #encodeForHtml(getContainerDetail.number_positions)#
+								</div>
+							</cfif>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Locked Position:</strong> #encodeForHtml(lockedPositionText)#
+							</div>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Institution Acronym:</strong> #encodeForHtml(getContainerDetail.institution_acronym)#
+							</div>
+							<div class="col-12 col-md-6 col-xl-4 mb-2">
+								<strong>Placement Date:</strong>
+								<cfif isDate(getContainerDetail.parent_install_date)>
+									#encodeForHtml(dateFormat(getContainerDetail.parent_install_date, "yyyy-mm-dd"))#
+								</cfif>
+							</div>
+						</div>
+					</section>
+				</cfif>
 
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
