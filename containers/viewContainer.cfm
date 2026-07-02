@@ -187,7 +187,9 @@ limitations under the License.
 			<div class="col-12 col-lg-4 mb-1">
 			<div id="specimenButtonDiv" aria-label="Specimen actions"></div>
 			<script>
-				<cfset leafDescendants = checkHasLeafDescendants(getContainer.container_id)>
+				<cfset leafDescendantsJson = checkHasLeafDescendants(getContainer.container_id)>
+				<!--- returns json object: {"has_leaf_descendants":0} extract the number from the json --->
+				<cfset leafDescendants = deserializeJSON(leafDescendantsJson).has_leaf_descendants>
 				$(document).ready(function() {
 					$("##specimenButtonDiv").html(
 						buildSpecimensButtonImmediate("#getContainer.container_id#", "#getContainer.barcode#", #getContainer.direct_leaf_children#, #leafDescendants#);
