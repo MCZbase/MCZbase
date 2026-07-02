@@ -61,6 +61,11 @@ limitations under the License.
 	ORDER BY
 		container_type
 </cfquery>
+<cfquery name="getInstitutionAcronyms" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT distinct institution_acronym
+	FROM collection
+	WHERE institution_acronym IS NOT NULL
+</cfquery>
 
 <cfset variables.formData = StructNew()>
 <cfset variables.formData["container_id"] = variables.containerId>
@@ -138,6 +143,14 @@ limitations under the License.
 	<cfelseif len(trim(getContainer.parent_label)) GT 0>
 		<cfset variables.parentContainerText = getContainer.parent_label>
 	</cfif>
+	<cfif len(getContainer.barcode) GT 0>
+		<cfset variables.container_name = getContainer.barcode>
+	<cfelseif len(getContainer.label) GT 0>
+		<cfset variables.container_name = getContainer.label>
+	<cfelse>
+		<!--- This should not be possible from rules on the container table --->
+		<cfset variables.container_name = "Unnamed Container [#getContainer.container_id#]">
+	</cfif>
 <cfelseif len(variables.parentContainerId) GT 0>
 	<cfquery name="getPresetParent" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
@@ -172,9 +185,9 @@ limitations under the License.
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerFormHeading">
 		<div class="col-12">
 			<cfif variables.action EQ "edit">
-				<h1 class="h2 ml-3 mb-1" id="containerFormHeading">Edit Container</h1>
+				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)#</h1>
 			<cfelse>
-				<h1 class="h2 ml-3 mb-1" id="containerFormHeading">Create Container</h1>
+				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
 			</cfif>
 
 			<form class="col-12 px-0" id="containerForm" name="containerForm" method="post" novalidate>
@@ -251,7 +264,15 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="institution_acronym" class="data-entry-label">Institution Acronym</label>
-						<input type="text" name="institution_acronym" id="institution_acronym" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.institution_acronym)#">
+						<select name="institution_acronym" id="institution_acronym" class="data-entry-select col-12 reqdClr">
+							<cfloop query="getInstitutionAcronyms">
+								<cfset variables.selectedInst = "">
+								<cfif getInstitutionAcronyms.institution_acronym EQ variables.formData.institution_acronym>
+									<cfset variables.selectedInst = " selected">
+								</cfif>
+								<option value="#encodeForHtml(getInstitutionAcronyms.institution_acronym)#"#variables.selectedInst#>#encodeForHtml(getInstitutionAcronyms.institution_acronym)#</option>
+							</cfloop>
+						</select>
 					</div>
 				</div>
 
