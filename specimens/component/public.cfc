@@ -126,6 +126,7 @@ limitations under the License.
 					<cfif checkForVPDError_2.ct EQ 0>
 						<cfthrow message="Error loading cataloged item data, vpd_collection_locality is missing a row.  Please file a bug report.">
 					</cfif>
+					<!--- if we got here the cataloged item exists but the user does not have permissions to see it, so throw a generic error message --->
 					<cfthrow message="Error checking for cataloged item.">
 				</cfif>
 				<!--- check for mixed collection --->
