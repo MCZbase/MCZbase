@@ -100,7 +100,7 @@ limitations under the License.
 			<cfset variables.barcode = "=#containerLookup.barcode#">
 		<cfelse>
 			<cfset variables.barcode = "">
-		<cfif>
+		</cfif>
 	</cfif>
 </cfif>
 
