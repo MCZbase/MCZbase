@@ -675,7 +675,7 @@ limitations under the License.
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                 <cfset selectedrelationship_type= "#media_relationship_type_1#">
-                                                <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left col-6">
+                                                <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
                                                     <option></option>
                                                     <cfloop query="ctmedia_relationship">
                                                         <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
@@ -686,7 +686,7 @@ limitations under the License.
                                                         <option value="#media_relationship#" #selected#>#media_relationship#</option>
                                                     </cfloop>
                                                 </select>
-                                                <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6" value="#encodeForHtml(media_relationship_value_1)#">
+                                                <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_1)#">
                                                 <input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
                                                 <script>
                                                     $(document).ready(function() {
