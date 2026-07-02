@@ -504,11 +504,13 @@ limitations under the License.
                                                 <cfset asdate = "(as date)">
                                         </cfif>
                                         <div class="col-12 col-md-#datecolm# col-xl-#datecolx# mb-1">
-                                            <label for="made_date">Made Date Start #asdate#</label>
-                                            <input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
+                                            <div class="form-row mx-0">
+                                                <label for="made_date">Made Date Start #asdate#</label>
+                                                <input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
+                                            </div>
                                         </div>
-                                        <div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-                                            <div class="form-row mx-0 mb-2">
+                                        <div class="col-12 col-md-#datecolm# col-xl-#datecolx# mb-1">
+                                            <div class="form-row mx-0">
                                                 <label for="to_made_date">Made Date End #asdate#</label>
                                                 <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
                                             </div>
