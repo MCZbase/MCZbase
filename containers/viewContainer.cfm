@@ -122,7 +122,6 @@ limitations under the License.
 	<h1 class="h2">#encodeForHtml(variables.pageTitleDisplay)#</h1>
 
 	<section class="mb-3" aria-labelledby="containerContextHeading">
-		<h2 class="h4" id="containerContextHeading">Context</h2>
 		<nav aria-label="Container breadcrumb" class="mb-2" id="container_breadcrumb_nav"></nav>
 		<output id ="container_breadcrumb_feedback"></output>
 		<script>
@@ -144,24 +143,24 @@ limitations under the License.
 							<cfset variables.parentDisplay = "#variables.parentDisplay# (#getParent.label#)">
 						</cfif>
 					</cfif>
-					<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getParent.container_id)#">
-						#encodeForHtml(getParent.container_type)#: #encodeForHtml(variables.parentDisplay)#
-					</a>
+					#encodeForHtml(getParent.container_type)#: 
+					<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getParent.container_id)#">#encodeForHtml(variables.parentDisplay)#</a>
 				<cfelse>
 					<span class="text-muted">This container has no current parent container record.</span>
 				</cfif>
 			</div>
 			<div class="col-12 col-lg-6 mb-2">
-				<strong>Hierarchy:</strong>
-				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">View this container in the tree</a>
+				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true" class="btn btn-xs btn-info float-right mr-3">View this container in the tree</a>
 			</div>
 		</div>
 	</section>
 
+	#variables.containerFunctions.getContainerDetailsHtml(container_id=val(getContainer.container_id))#
+
 	<section class="mb-3" aria-labelledby="containerContentsSummaryHeading">
 		<h2 class="h4" id="containerContentsSummaryHeading">Contents Summary</h2>
-		<div class="form-row">
-			<div class="col-12 col-lg-4 mb-2">
+		<div class="form-row mb-1">
+			<div class="col-12 col-lg-4 mb-1">
 				<strong>Structural Contents:</strong>
 				<cfif val(getContainer.direct_structural_children) GT 0>
 					<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">
@@ -171,7 +170,7 @@ limitations under the License.
 					<span class="text-muted">0 structural children</span>
 				</cfif>
 			</div>
-			<div class="col-12 col-lg-4 mb-2">
+			<div class="col-12 col-lg-4 mb-1">
 				<strong>Object Contents:</strong>
 				<cfif val(getContainer.direct_leaf_children) GT 0>
 					<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">
@@ -181,14 +180,22 @@ limitations under the License.
 					<span class="text-muted">0 direct leaf children</span>
 				</cfif>
 			</div>
-			<div class="col-12 col-lg-4 mb-2">
+			<div class="col-12 col-lg-4 mb-1">
 				<strong>Browse Container:</strong>
 				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Open in Container Tree</a>
 			</div>
+			<div class="col-12 col-lg-4 mb-1">
+			<div id="specimenButtonDiv" aria-label="Specimen actions"></div>
+			<script>
+				$(document).ready(function() {
+					$("#specimenButtonDiv").html(
+						buildSpecimensButtonImmediate(,"#encodeForJS(getContainer.container_id)#", "#encodeForJS(getContainer.barcode)#", #encodeForJS(getContainer.direct_leaf_children)#, #encodeForJS(variables.containerFunctions.hasLeafDescendants(getContainer.container_id))#);
+					);
+				});
+			</script>
+			</div>
 		</div>
 	</section>
-
-	#variables.containerFunctions.getContainerDetailsHtml(container_id=val(getContainer.container_id))#
 
 	<section class="mb-3" aria-labelledby="placementHistoryHeading">
 		<h2 class="h4" id="placementHistoryHeading">Placement History</h2>

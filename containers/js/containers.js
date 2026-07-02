@@ -252,6 +252,81 @@ function buildSpecimensButton(nodeId, barcode, directLeafChildren, hasLeafDescen
 	return specBtn;
 }
 
+/**
+ * Builds and returns a jQuery element for the Specimens button/link.
+ * When barcode is absent or hasLeafDescendants is 0, returns null.
+ * When directLeafChildren > 0 the node certainly contains specimens: returns
+ * a plain anchor link that opens immediately.
+ * Otherwise (only structural children present), immediately triggers
+ * an AJAX check via checkHasLeafDescendants; if no specimen descendants
+ * exist the button is updated to a disabled "No Specimens" label, and if
+ * they do exist the button becomes enabled and opens the search URL on click.
+ * @param {number} nodeId - container_id of the node.
+ * @param {string} barcode - node barcode for the specimen search URL.
+ * @param {number} directLeafChildren - count of direct collection-object children.
+ * @param {number} hasLeafDescendants - 1 when node has any children (fast proxy), 0 if empty.
+ * @returns {jQuery|null} jQuery element to append to the node row, or null.
+ */
+function buildSpecimensButtonImmediate(nodeId, barcode, directLeafChildren, hasLeafDescendants) {
+	if (!hasLeafDescendants || !barcode) { return null; }
+	var specUrl = specimenSearchUrl(barcode);
+
+	if (directLeafChildren > 0) {
+		/* Direct collection object children confirmed: link opens without a pre-check */
+		return $('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+			.attr('href', specUrl)
+			.attr('title', 'Search for specimens in this container')
+			.text('Specimens');
+	}
+
+	/* Only structural children: eager check for specimen descendants on construction */
+	var specBtn = $('<button class="btn btn-xs btn-outline-info ml-1"></button>')
+		.text('Checking\u2026')
+		.prop('disabled', true);
+
+	/* Click opens only after the check has completed and confirmed descendants */
+	specBtn.on('click', function() {
+		var btn = $(this);
+		if (!btn.data('checked')) {
+			// Still checking or check failed; do nothing on click.
+			return;
+		}
+		window.open(specUrl, '_blank', 'noopener,noreferrer');
+	});
+
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: { method: 'checkHasLeafDescendants', container_id: nodeId },
+		dataType: 'json',
+		success: function(data) {
+			if (parseInt(data.has_leaf_descendants, 10) > 0) {
+				// Has specimen descendants: enable button and mark as checked
+				specBtn
+					.prop('disabled', false)
+					.text('Specimens')
+					.data('checked', true);
+			} else {
+				// No specimen descendants: update to a disabled "No Specimens" label
+				specBtn
+					.text('No Specimens')
+					.removeClass('btn-outline-info')
+					.addClass('btn-outline-secondary')
+					.prop('disabled', true)
+					.data('checked', false);
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			// Restore button appearance but leave unchecked so clicks do nothing
+			specBtn
+				.prop('disabled', false)
+				.text('Specimens')
+				.data('checked', false);
+			handleFail(jqXHR, textStatus, error, 'checking for specimen descendants');
+		}
+	});
+
+	return specBtn;
+}
 
 function formatContainerDisplay(barcode, label) {
 	var b = barcode || '';
