@@ -27,16 +27,7 @@ limitations under the License.
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
-<style>
-.tab-content button.rules, #searchFormDiv button.rules[type="button"] {
-    border: none;
-    padding: 0;
-    font-size: .875rem;
-    color: #0460c1 !important;
-	/*text-decoration: underline;*/
-	text-decoration: underline dotted #0460c1;  
-}   
-</style>
+    
 <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select media_type  from ctmedia_type
 </cfquery>
@@ -217,7 +208,7 @@ limitations under the License.
 							});
 						</script>
 
-						<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
+						<div class="col-12 p-3" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
                                 <fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
