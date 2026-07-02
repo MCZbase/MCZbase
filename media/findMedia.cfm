@@ -214,7 +214,7 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
                                 <fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-								    <legend class="h6 mb-0 px-3 border-top border-bottom border-left border-right field-set-legend w-auto bg-teal">Search accepted names:</legend> 
+								    <legend class="h6 mb-0 px-3 border-top border-bottom border-left border-right field-set-legend w-auto bg-teal sr-only">Search for Media</legend> 
                                     <div class="form-row">
                                         <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
                                         <div class="col-12 col-md-5 mb-1">
