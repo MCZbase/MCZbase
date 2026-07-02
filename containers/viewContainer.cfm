@@ -158,10 +158,10 @@ limitations under the License.
 	#getContainerDetailsHtml(container_id=val(getContainer.container_id))#
 
 	<section class="mb-3" aria-labelledby="containerContentsSummaryHeading">
-		<h2 class="h4" id="containerContentsSummaryHeading">Contents Summary</h2>
+		<h2 class="h4" id="containerContentsSummaryHeading">Contents</h2>
 		<div class="form-row mb-1">
 			<div class="col-12 col-lg-4 mb-1">
-				<strong>Structural Contents:</strong>
+				<h3 class="h4>Structural Contents:</h3>
 				<cfif val(getContainer.direct_structural_children) GT 0>
 					<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">
 						Browse #encodeForHtml(getContainer.direct_structural_children)# structural children in the tree
@@ -171,7 +171,7 @@ limitations under the License.
 				</cfif>
 			</div>
 			<div class="col-12 col-lg-4 mb-1">
-				<strong>Object Contents:</strong>
+				<h3 class="h4">Object Contents:</h3>
 				<cfif val(getContainer.direct_leaf_children) GT 0>
 					<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">
 						Browse #encodeForHtml(getContainer.direct_leaf_children)# direct leaf children
@@ -181,16 +181,25 @@ limitations under the License.
 				</cfif>
 			</div>
 			<div class="col-12 col-lg-4 mb-1">
-				<strong>Browse Container:</strong>
-				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Open in Container Tree</a>
-			</div>
-			<div class="col-12 col-lg-4 mb-1">
-			<div id="specimenButtonDiv" aria-label="Specimen actions"></div>
-			<script>
-				$(document).ready(function() {
-					$("##specimenButtonDiv").html( buildSpecimensButtonImmediate("#getContainer.container_id#", "#getContainer.barcode#", #getContainer.direct_leaf_children#, 1) );
-				});
-			</script>
+				<h3 class="h4">Collection Objects:</h3>
+				<cfquery name="queryCountCOChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT count(*) AS leaf_descendants
+					FROM container
+					WHERE container_type = 'collection object'
+					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+				</cfquery>
+				<cfif queryCountCOChildren.leaf_descendants EQ 0>
+					<span class="text-muted">No Collection Objects in this container or its children</span>
+				<cfelse>
+					<span class="text-muted">#encodeForHtml(queryCountCOChildren.leaf_descendants)# contained</span>
+					<span id="specimenButtonDiv" aria-label="Specimen actions"></span>
+					<script>
+						$(document).ready(function() {
+							$("##specimenButtonDiv").html( buildSpecimensButtonImmediate("#getContainer.container_id#", "#getContainer.barcode#", #getContainer.direct_leaf_children#, 1) );
+						});
+					</script>
+				</cfif>
 			</div>
 		</div>
 	</section>
