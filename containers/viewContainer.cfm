@@ -189,7 +189,7 @@ limitations under the License.
 			<script>
 				$(document).ready(function() {
 					$("##specimenButtonDiv").html(
-						buildSpecimensButtonImmediate("#encodeForJS(getContainer.container_id)#", "#encodeForJS(getContainer.barcode)#", #encodeForJS(getContainer.direct_leaf_children)#, #encodeForJS(variables.containerFunctions.hasLeafDescendants(getContainer.container_id))#);
+						buildSpecimensButtonImmediate("#encodeForJavaScript(getContainer.container_id)#", "#encodeForJavaScript(getContainer.barcode)#", #encodeForJavaScript(getContainer.direct_leaf_children)#, #encodeForJavaScript(variables.containerFunctions.hasLeafDescendants(getContainer.container_id))#);
 					);
 				});
 			</script>
