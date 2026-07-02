@@ -17,7 +17,6 @@ limitations under the License.
 
 --->
 <cfparam name="url.container_id" default="">
-<cfparam name="url.mode" default="">
 <cf_rolecheck>
 
 <cfif NOT isNumeric(url.container_id)>
@@ -102,13 +101,11 @@ limitations under the License.
 	<cfset variables.pageHeading = "#variables.pageHeading# (#getContainer.barcode#)">
 </cfif>
 
-<cfif url.mode NEQ "fragment">
-	<cfset pageTitle = "Container: #getContainer.label#">
-	<cfset pageHasContainers = true>
-	<cfinclude template="/shared/_header.cfm">
-	<link rel="stylesheet" href="/containers/css/containers.css">
-	<main id="content" class="container-fluid">
-</cfif>
+<cfset pageTitle = "Container: #getContainer.label#">
+<cfset pageHasContainers = true>
+<cfinclude template="/shared/_header.cfm">
+<link rel="stylesheet" href="/containers/css/containers.css">
+<main id="content" class="container-fluid">
 
 <cfoutput>
 	<nav aria-label="Container breadcrumb" class="mb-3">
@@ -268,7 +265,5 @@ limitations under the License.
 	</section>
 </cfoutput>
 
-<cfif url.mode NEQ "fragment">
-	</main>
-	<cfinclude template="/shared/_footer.cfm">
-</cfif>
+</main>
+<cfinclude template="/shared/_footer.cfm">

@@ -19,7 +19,6 @@ limitations under the License.
 <cfparam name="url.action" default="new">
 <cfparam name="url.container_id" default="">
 <cfparam name="url.parent_container_id" default="">
-<cfparam name="url.mode" default="">
 <cf_rolecheck>
 
 <cfset variables.action = lCase(trim(url.action))>
@@ -146,12 +145,10 @@ limitations under the License.
 	<cfset pageTitle = "Create Container">
 </cfif>
 
-<cfif url.mode NEQ "fragment">
-	<cfset pageHasContainers = true>
-	<cfinclude template="/shared/_header.cfm">
-	<link rel="stylesheet" href="/containers/css/containers.css">
-	<main id="content" class="container py-3">
-</cfif>
+<cfset pageHasContainers = true>
+<cfinclude template="/shared/_header.cfm">
+<link rel="stylesheet" href="/containers/css/containers.css">
+<main id="content" class="container py-3">
 
 <cfoutput>
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerFormHeading">
@@ -281,7 +278,5 @@ limitations under the License.
 	});
 </script>
 
-<cfif url.mode NEQ "fragment">
-	</main>
-	<cfinclude template="/shared/_footer.cfm">
-</cfif>
+</main>
+<cfinclude template="/shared/_footer.cfm">
