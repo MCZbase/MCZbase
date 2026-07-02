@@ -466,7 +466,8 @@ limitations under the License.
                                         <div class="col-12 col-md-#remcolm# col-xl-#remcolx#">
                                             <div class="form-group mb-2">
                                                 <label for="remarks">Remarks</label> 
-                                                (NULL, NOT NULL)
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                 <input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
                                             </div>
                                         </div>
@@ -500,47 +501,39 @@ limitations under the License.
                                             <cfset datecolx="2">
                                                 <cfset asdate = "(as date)">
                                         </cfif>
-                                        <div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-                                            <div class="form-row mx-0 mb-2">
-                                                <label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-                                                <input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
-                                            </div>
+                                        <div class="col-12 col-md-#datecolm# col-xl-#datecolx# mb-1">
+                                            <label for="made_date">Made Date Start #asdate#</label>
+                                            <input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
                                         </div>
                                         <div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
                                             <div class="form-row mx-0 mb-2">
-                                                <label class="data-entry-label mx-1 mb-0" for="to_made_date">Made Date End #asdate#</label>
-                                                <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+                                                <label for="to_made_date">Made Date End #asdate#</label>
+                                                <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
                                             </div>
                                         </div>
                                         <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
                                             <!--- hide search for date as text from most users, too confusing --->
-                                            <div class="col-12 col-md-4 col-xl-2">
-                                                <div class="form-group mb-2">
-                                                    <label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date 
-                                                        <span class="small">
-                                                            (as text) (<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                            NULL, NOT NULL)
-                                                        </span>
-                                                    </label>
-                                                    <input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#encodeForHtml(text_made_date)#" aria-labelledby="text_made_date_label" >
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            makeMediaLabelAutocomplete("text_made_date","made date");
-                                                        });
-                                                    </script>
-                                                </div>
+                                            <div class="col-12 col-md-4 col-xl-2 mb-1">
+                                                <label for="text_made_date">Made Date </label>
+                                                (as text) (<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                <input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        makeMediaLabelAutocomplete("text_made_date","made date");
+                                                    });
+                                                </script>
                                             </div>
                                         </cfif>
                                         <div class="col-12 col-md-4 col-xl-3">
                                             <div class="form-row mx-0 mb-2">
-                                                <label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
-                                                    <span class="small">
-                                                        (<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                        NULL, NOT NULL)
-                                                    </span>
-                                                </label>
+                                                <label for="media_label_type" id="nedia_label_type_label">Any Other Label </label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                 <cfset selectedmedia_label_type= "#media_label_type#">
-                                                <select id="media_label_type" name="media_label_type" class="data-entry-select col-6">
+                                                <select id="media_label_type" name="media_label_type">
                                                     <option></option>
                                                     <cfloop query="ctothermedia_label">
                                                         <cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
