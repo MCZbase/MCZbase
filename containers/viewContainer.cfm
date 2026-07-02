@@ -110,7 +110,7 @@ limitations under the License.
 		<cfset variables.pageTitleDisplay = "#variables.pageTitleDisplay# (#getContainer.label#)">
 	</cfif>
 </cfif>
-<cfset variables.containerFunctions = createObject("component", "containers.component.functions")>
+<cfinclude template="/containers/component/functions.cfc" runonce="true">
 
 <cfset pageTitle = "Container: #variables.pageTitleDisplay#">
 <cfset pageHasContainers = true>
@@ -155,7 +155,7 @@ limitations under the License.
 		</div>
 	</section>
 
-	#variables.containerFunctions.getContainerDetailsHtml(container_id=val(getContainer.container_id))#
+	#getContainerDetailsHtml(container_id=val(getContainer.container_id))#
 
 	<section class="mb-3" aria-labelledby="containerContentsSummaryHeading">
 		<h2 class="h4" id="containerContentsSummaryHeading">Contents Summary</h2>
@@ -189,7 +189,7 @@ limitations under the License.
 			<script>
 				$(document).ready(function() {
 					$("##specimenButtonDiv").html(
-						buildSpecimensButtonImmediate("#encodeForJavaScript(getContainer.container_id)#", "#encodeForJavaScript(getContainer.barcode)#", #encodeForJavaScript(getContainer.direct_leaf_children)#, #encodeForJavaScript(variables.containerFunctions.hasLeafDescendants(getContainer.container_id))#);
+						buildSpecimensButtonImmediate("#encodeForJavaScript(getContainer.container_id)#", "#encodeForJavaScript(getContainer.barcode)#", #encodeForJavaScript(getContainer.direct_leaf_children)#, #encodeForJavaScript(checkHasLeafDescendants(getContainer.container_id))#);
 					);
 				});
 			</script>
