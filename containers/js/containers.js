@@ -187,11 +187,11 @@ var SHAPE_LABELS = { A: 'Structural', B: 'Object-bearing', AB: 'Mixed' };
  * that are hierarchically under the container with the given barcode.
  * Returns empty string when barcode is empty.
  * @param {string} barcode - the container barcode to search within.
- * @returns {string} URL string, or '' when barcode is falsy.
+ * @returns {string} URL string with barcode prefixed with = for an exact match, or '' when barcode is falsy.
  */
 function specimenSearchUrl(barcode) {
 	if (!barcode) { return ''; }
-	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=' + encodeURIComponent(barcode);
+	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D' + encodeURIComponent(barcode);
 }
 
 /**
