@@ -196,7 +196,7 @@ limitations under the License.
 				</cfif>
 
 				<div class="form-row">
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
+					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="container_type" class="data-entry-label">Container Type</label>
 						<select name="container_type" id="container_type" class="data-entry-select reqdClr col-12" required aria-required="true">
 							<option value=""></option>
@@ -209,59 +209,21 @@ limitations under the License.
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
+					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="label" class="data-entry-label">Label</label>
 						<input type="text" name="label" id="label" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.formData.label)#">
 					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
+					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="barcode" class="data-entry-label">Barcode</label>
 						<input type="text" name="barcode" id="barcode" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.barcode)#">
 					</div>
-				</div>
-
-				<div class="form-row">
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
-						<label for="parentContainerText" class="data-entry-label">Parent Container</label>
-						<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
-						<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
-					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
-						<label for="parent_install_date" class="data-entry-label">Placement Date</label>
-						<input type="text" name="parent_install_date" id="parent_install_date" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.parent_install_date)#">
-					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
+					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="description" class="data-entry-label">Description</label>
 						<input type="text" name="description" id="description" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.description)#">
 					</div>
 				</div>
 
 				<div class="form-row">
-					<div class="col-12 mb-2">
-						<label for="container_remarks" class="data-entry-label">Container Remarks</label>
-						<textarea name="container_remarks" id="container_remarks" rows="3" class="data-entry-input col-12">#encodeForHtml(variables.formData.container_remarks)#</textarea>
-					</div>
-				</div>
-
-				<div class="form-row">
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
-						<label for="width" class="data-entry-label">Width (cm)</label>
-						<input type="text" name="width" id="width" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.width)#">
-					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
-						<label for="height" class="data-entry-label">Height (cm)</label>
-						<input type="text" name="height" id="height" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.height)#">
-					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
-						<label for="length" class="data-entry-label">Length (cm)</label>
-						<input type="text" name="length" id="length" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.length)#">
-					</div>
-				</div>
-
-				<div class="form-row">
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
-						<label for="number_positions" class="data-entry-label">Number of Positions</label>
-						<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
-					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="institution_acronym" class="data-entry-label">Institution Acronym</label>
 						<select name="institution_acronym" id="institution_acronym" class="data-entry-select col-12 reqdClr">
@@ -273,6 +235,41 @@ limitations under the License.
 								<option value="#encodeForHtml(getInstitutionAcronyms.institution_acronym)#"#variables.selectedInst#>#encodeForHtml(getInstitutionAcronyms.institution_acronym)#</option>
 							</cfloop>
 						</select>
+					</div>
+					<div class="col-12 col-md-6 col-xl-4 mb-2">
+						<label for="parentContainerText" class="data-entry-label">Parent Container</label>
+						<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
+						<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
+					</div>
+					<div class="col-12 col-md-6 col-xl-4 mb-2">
+						<label for="parent_install_date" class="data-entry-label">Placement Date</label>
+						<input type="text" name="parent_install_date" id="parent_install_date" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.parent_install_date)#">
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="col-12 mb-2">
+						<label for="container_remarks" class="data-entry-label">Container Remarks</label>
+						<textarea name="container_remarks" id="container_remarks" rows="3" class="data-entry-input col-12">#encodeForHtml(variables.formData.container_remarks)#</textarea>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="col-12 col-md-3 mb-2">
+						<label for="width" class="data-entry-label">Width (cm)</label>
+						<input type="text" name="width" id="width" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.width)#">
+					</div>
+					<div class="col-12 col-md-3 mb-2">
+						<label for="height" class="data-entry-label">Height (cm)</label>
+						<input type="text" name="height" id="height" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.height)#">
+					</div>
+					<div class="col-12 col-md-3 mb-2">
+						<label for="length" class="data-entry-label">Length (cm)</label>
+						<input type="text" name="length" id="length" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.length)#">
+					</div>
+					<div class="col-12 col-md-3 mb-2">
+						<label for="number_positions" class="data-entry-label">Number of Positions</label>
+						<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
 					</div>
 				</div>
 
