@@ -412,9 +412,8 @@ limitations under the License.
                                             <div class="form-group mb-2">
                                                 <label for="aspect">Aspect</label> 
                                                 (<button type="button" class="rules" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                        NULL, NOT NULL)
-                                                    </span>
-                                                </label>
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';">NOT NULL</button>
                                                 <input type="text" id="aspect" name="aspect" value="#encodeForHtml(aspect)#">
                                                 <script>
                                                     $(document).ready(function() {
