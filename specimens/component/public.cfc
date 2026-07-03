@@ -3073,7 +3073,7 @@ limitations under the License.
 								lat = coordlookup.dec_lat,
 								lng = coordlookup.dec_long,
 								layout = layoutFlag,
-								createIfMissing = false
+								createIfMissing = true
 							)>
 						<cfcatch>
 							<!--- consume any exception and leave staticMapUrl as empty string --->
