@@ -892,6 +892,7 @@ limitations under the License.
 										if ($('##pref_name').val()=='') { 
 											var fml = $('##prefix option:selected').text() + " " + $('##first_name').val() + " " + $('##middle_name').val() + " " + $('##last_name').val() + " " +  $('##suffix option:selected').text();
 											$('##pref_name').val(fml.trim().replace(/\s+/g," "));
+											checkNameExists($('##pref_name').val(),'name_matches',false);
 										} else { 
 											messageDialog("You must edit an existing preferred name by hand.");
 										} 
