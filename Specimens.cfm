@@ -2426,7 +2426,7 @@ limitations under the License.
 													<div class="col-6 col-md-1">
 														<label for="openParens1">&nbsp;(&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
-														<select id="openParens1" name="openParens1" style="height: 21px !important;">
+														<select id="openParens1" name="openParens1" style="height: 22px !important;">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif openParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2502,7 +2502,7 @@ limitations under the License.
 																	searchMode: 'containsignorecase',
 																	width: '100%',
 																	dropDownHeight: 400,
-																	height: '21px'
+																	height: '22px'
 																});
 																// bind an autocomplete, if one applies
 																handleFieldSetup('field1',1);
@@ -2523,14 +2523,14 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<label for="searchText1">Search For</label>
-														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
+														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" style="height: 22px !important;" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<div class="col-6 col-md-1">
 														<label for="closeParens1">&nbsp;)&nbsp;</label>
 														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
-														<select name="closeParens1" id="closeParens1" style="height: 21px !important;">
+														<select name="closeParens1" id="closeParens1" style="height: 22px !important;">
 															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2554,7 +2554,7 @@ limitations under the License.
 													<div class="col-12 col-md-1">
 														<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 															<label for="debug3">Debug</label>
-															<select title="debug" name="debug" id="debug3" style="height: 21px !important;">
+															<select title="debug" name="debug" id="debug3" style="height: 22px !important;">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
@@ -2571,7 +2571,7 @@ limitations under the License.
 																	&nbsp;(&nbsp;
 																</div>
 																<div class="col-8 col-md-1">
-																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="mx-0 d-flex" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 21px !important;">
+																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="mx-0 d-flex" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 22px !important;">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
 																			<cfset andSel = "">
@@ -2589,7 +2589,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 21px !important;">
+																	<select id="openParens#row#" name="openParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 22px !important;">
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2606,7 +2606,7 @@ limitations under the License.
 																</div>
 																<!--- " --->
 																<div class="col-12 col-md-4">
-																	<select title="Select Field..." name="field#row#" id="field#row#">
+																	<select title="Select Field..." name="field#row#" id="field#row#" style="height: 22px !important;">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
@@ -2633,7 +2633,7 @@ limitations under the License.
 																				searchMode: 'containsignorecase',
 																				width: '100%',
 																				dropDownHeight: 400,
-																				height: '21px';
+																				height: '22px';
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
