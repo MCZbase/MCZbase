@@ -2651,14 +2651,13 @@ a.btn-sm {
 input, select, textarea {
 		font-size: 16px;
 	}
-
 .wiki-drawer {
     position: absolute;
 	top: 0;
 	left: 0;
     width: 95vw;                  /* drawer almost full width */
     max-width: 95vw;
-    height: 700px;
+    bottom: 0;
     transform: translateX(-95vw); /* fully hidden when closed */
     background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
