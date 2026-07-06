@@ -2652,7 +2652,7 @@ input, select, textarea {
 		font-size: 16px;
 	}
 .wiki-drawer {
-    position: absolute;
+    position: fixed;
 	top: 0;
 	left: 0;
     width: 95vw;                  /* drawer almost full width */
@@ -2894,7 +2894,7 @@ END END END
         box-sizing: border-box;    /* ensure it stays within viewport */
     }
     .wiki-drawer {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         width: 400px;
