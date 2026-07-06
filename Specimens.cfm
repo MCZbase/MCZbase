@@ -2571,7 +2571,7 @@ limitations under the License.
 																	&nbsp;(&nbsp;
 																</div>
 																<div class="col-8 col-md-1">
-																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="mx-0 d-flex">
+																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="mx-0 d-flex" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;">>
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
 																			<cfset andSel = "">
@@ -2589,7 +2589,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#">
+																	<select id="openParens#row#" name="openParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;">
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2633,7 +2633,7 @@ limitations under the License.
 																				searchMode: 'containsignorecase',
 																				width: '100%',
 																				dropDownHeight: 400,
-																				height: '20px';
+																				height: '21px';
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
@@ -2648,7 +2648,7 @@ limitations under the License.
 																<div class="col-12 col-md-3">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
-																	<input type="text" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
+																	<input type="text" name="searchText#row#" id="searchText#row#" "Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-6 col-md-1">
@@ -2657,7 +2657,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset closeParens = 0>
 																	</cfif>
-																	<select id="closeParens#row#" name="closeParens#row#">
+																	<select id="closeParens#row#" name="closeParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;">>
 																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif closeParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
