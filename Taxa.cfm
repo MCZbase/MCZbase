@@ -389,7 +389,7 @@ limitations under the License.
 											<div class="form-row mt-0">
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-1 pb-0">
 														<label for="taxon_habitat">Habitat</label>
-														<select name="taxon_habitat" id="taxon_habitat">
+														<select name="taxon_habitat" id="taxon_habitat" style="height: 23px !important;">
 															<option></option>
 															<cfloop query="cttaxon_habitat_null">
 																<cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -403,7 +403,7 @@ limitations under the License.
 													</div>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 														<label for="taxon_category">Category</label>
-														<select name="taxon_category" id="taxon_category">
+														<select name="taxon_category" id="taxon_category" style="height: 23px !important;">
 															<option></option>
 															<cfloop query="cttaxon_category">
 																<cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -417,7 +417,7 @@ limitations under the License.
 													</div>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 														<label for="relationship">Has Relationship</label>
-														<select name="relationship" id="relationship" size="1">
+														<select name="relationship" id="relationship" size="1" style="height: 23px !important;">
 															<option></option>
 															<cfloop query="cttaxon_relation">
 																<cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -429,7 +429,7 @@ limitations under the License.
 													</div>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 														<label for="source_authority">Source Authority</label>
-														<select name="source_authority" id="source_authority" size="1" style="height: 22px !important;">
+														<select name="source_authority" id="source_authority" size="1" style="height: 23px !important;">
 															<option></option>
 															<cfloop query="CTTAXONOMIC_AUTHORITY">
 																<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
