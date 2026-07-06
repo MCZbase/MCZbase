@@ -4654,7 +4654,7 @@ limitations under the License.
 				$("##"+whichGrid+"saveDialogButton").html(
 				`<button id="`+gridId+`saveDialogOpener"
 						onclick=" populateSaveSearch('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`saveDialog').dialog('open'); " 
-						class="btn btn-xs btn-secondary px-2 my-1 mx-1" style="padding-top: 1px !important; padding-bottom: 1px !important;">Save Search</button>
+						class="btn btn-xs btn-secondary px-2 mx-1 my-2" style="padding-top: 1px !important; padding-bottom: 1px !important;">Save Search</button>
 				`);
 			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a search.
@@ -4683,19 +4683,19 @@ limitations under the License.
 			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 				<cfif oneOfUs EQ 1>
-					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " >Export to CSV</button>`);
+					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " style="padding-top: 1px !important; padding-bottom: 1px !important;" >Export to CSV</button>`);
 				<cfelse>
-					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadAgreeDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " >Export to CSV</button>`);
+					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadAgreeDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " style="padding-top: 1px !important; padding-bottom: 1px !important;">Export to CSV</button>`);
 				</cfif>
 			<cfelse>
-				$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="login or register to download">Login to Download</button>`);
+				$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="login or register to download" style="padding-top: 1px !important; padding-bottom: 1px !important;">Login to Download</button>`);
 			</cfif>
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 				console.log(#session.specimens_pin_guid#);
 				setPinColumnState(gridId,'GUID',true);
 			</cfif>
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
-				$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
+				$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper" style="padding-top: 1px !important; padding-bottom: 1px !important;">BerkeleyMapper</a>`);
 				loadGeoreferenceCount(result_uuid,whichGrid + 'BMMapButton','BerkeleyMapper (',')');
 			</cfif>
 			<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
