@@ -2802,7 +2802,7 @@ limitations under the License.
 														searchMode: 'containsignorecase',
 														width: '100%',
 														dropDownHeight: 400,
-														height: '22px'
+														height: '24px'
 													});
 													var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
 													$('##field'+row).on("change", function(event) { 
