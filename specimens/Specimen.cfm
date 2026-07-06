@@ -330,7 +330,7 @@ limitations under the License.
 			function reloadRemarks() { 
 				loadRemarks(#getCatalogedItem.collection_object_id#,'remarksCardBody');
 				// also reload microhabitat 
-				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody');
+				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody', $("##editControlsDiv").data("twoThreeColumnClassesData"));
 			}
 			function reloadMeta() { 
 				loadMeta(#getCatalogedItem.collection_object_id#,'metaCardBody');
