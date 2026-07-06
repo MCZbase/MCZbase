@@ -1090,7 +1090,13 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<label for="date_collected">Date Collected</label>
 														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
-														<input type="text" name="date_collected" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
+														<input type="text" name="date_collected" id="date_collected" 
+                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                               value="#encodeForHtml(date_collected)#"
+                                                               aria-describedby="dateCollected_help">
+                                                        <small id="dateCollected_help" class="sr-only"> 
+                                                            Example: yyyy-mm-dd/yyyy-mm-dd
+                                                        </small>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<label for="verbatim_date">Verbatim Date</label>
@@ -1107,12 +1113,25 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
-																<input type="text" name="date_began_date" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+																<input type="text" name="date_began_date" 
+                                                                    id="date_began_date" 
+                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                                    value="#encodeForHtml(date_began_date)#" aria-describedby="dateBegan_help">
+                                                                <small id="dateBegan_help" class="sr-only"> 
+                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
+                                                                </small>     
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_ended_date">Date Ended</label>
 																<cfif not isdefined("date_ended_date")><cfset date_ended_date=""></cfif>
-																<input type="text" name="date_ended_date" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+																<input type="text" name="date_ended_date" 
+                                                                    id="date_ended_date" 
+                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                                    value="#encodeForHtml(date_ended_date)#"
+                                                                    aria-describedby="dateEnded_help">
+                                                                <small id="dateEnded_help" class="sr-only"> 
+                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
+                                                                </small>
 															</div>
 															<div class="col-12 col-md-6 mb-1">
 																<label for="verbatim_locality">Verbatim Locality</label>
@@ -1393,7 +1412,15 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("coll_object_entered_date")><cfset coll_object_entered_date=""></cfif>
 														<label for="coll_object_entered_date">Date Entered</label>
-														<input type="text" name="coll_object_entered_date" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
+														<input type="text" 
+                                                               name="coll_object_entered_date" 
+                                                               id="coll_object_entered_date" 
+                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                               value="#encodeForHtml(coll_object_entered_date)#"
+                                                               aria-describedby="dateEntered_help">
+                                                        <small id="dateEntered_help" class="sr-only">
+                                                            Example: yyyy-mm-dd/yyyy-mm-dd
+                                                        </small>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="entered_by">Entered By</label>
