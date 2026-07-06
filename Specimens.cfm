@@ -1870,8 +1870,8 @@ limitations under the License.
 															};
 														</script>
 
-														<label class="d-inline w-auto mt-2" style="width: 75px !important;" for="fixedselectMode">Grid Select:</label>
-														<select class="d-inline w-auto mt-1" style="width: 275px !importance" id="fixedselectMode" onChange="fixedchangeSelectMode();">
+														<label class="d-inline mt-2" style="width: 75px !important;" for="fixedselectMode">Grid Select:</label>
+														<select class="d-inline mt-1" style="width: 275px !important" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
