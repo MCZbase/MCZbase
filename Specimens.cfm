@@ -2592,7 +2592,7 @@ limitations under the License.
 																</div>
 																<!--- " --->
 																<div class="col-12 col-md-4">
-																	<select title="Select Field..." name="field#row#" id="field#row#">
+																	<select title="Select Field..." name="field#row#" id="field#row#" style="height: 22px !important;">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
@@ -2619,7 +2619,7 @@ limitations under the License.
 																				searchMode: 'containsignorecase',
 																				width: '100%',
 																				dropDownHeight: 400,
-																				height: '21px';
+																				height: '22px';
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
