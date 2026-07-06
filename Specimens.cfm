@@ -2175,7 +2175,7 @@ limitations under the License.
 																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '22px', width: '100%' });
+															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '20px', width: '100%' });
 															setKeywordCollectionValues();
 														});
 													</script> 
