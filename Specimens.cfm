@@ -2800,7 +2800,7 @@ limitations under the License.
 													$('##field' + row).jqxComboBox({
 														autoComplete: true,
 														searchMode: 'containsignorecase',
-														width: '100%',
+														width: '99%',
 														dropDownHeight: 400,
 														height: '24px'
 													});
