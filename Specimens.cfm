@@ -455,7 +455,13 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 														<label for="catalogNum">Catalog Number</label>
-														<input id="catalogNum" type="text" name="cat_num" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
+														<input id="catalogNum" type="text" name="cat_num"
+                                                               value="#encodeForHtml(cat_num)#"
+                                                               placeholder="1,1-4,A-1,R1-4"
+                                                               aria-describedby="catalogNum_help">
+                                                        <small id="catalogNum_help" class="sr-only">
+                                                            Example: 1,1-4,A-1,R1-4
+                                                        </small>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
