@@ -2141,7 +2141,7 @@ limitations under the License.
 											<div class="input-group mt-1">
 												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
 													<label for="keywordCollection">Limit to Collection(s)</label>
-													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
+													<div name="collection_cde" id="keywordCollection" class="" style="height: 22px !important;"></div>
 													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
 													<cfset collection_array = ListToArray(collection_cde)>
 													<script>
@@ -2178,7 +2178,7 @@ limitations under the License.
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2 px-md-0 mt-1 mt-sm-0">
 														<label for="debug2">Debug</label>
-														<select title="debug" name="debug" id="debug2">
+														<select title="debug" name="debug" id="debug2" style="height: 22px !important;">>
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
