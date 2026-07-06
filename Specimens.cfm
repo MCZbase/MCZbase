@@ -1456,7 +1456,15 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("last_edit_date")><cfset last_edit_date=""></cfif>
 														<label for="last_edit_date">Last Updated on</label>
-														<input type="text" name="last_edit_date" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
+														<input type="text" 
+                                                               name="last_edit_date" 
+                                                               id="last_edit_date" 
+                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                               value="#encodeForHtml(last_edit_date)#"
+                                                               aria-describedby="lastEdit_help">
+                                                        <small id="lastEdit_help" class="sr-only">
+                                                            Example: yyyy-mm-dd/yyyy-mm-dd    
+                                                        </small>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="last_edited_person">Last Updated By</label>
@@ -1566,7 +1574,13 @@ limitations under the License.
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
 															<label for="received_date">Date Received</label>
-															<input type="text" name="received_date" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
+															<input type="text" 
+                                                                   name="received_date" 
+                                                                   id="received_date" 
+                                                                   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                                   value="#encodeForHtml(received_date)#"
+                                                                   aria-describedby="dateReceived_help">
+                                                            <small id="dateReceived_help" class="sr-only">yyyy-mm-dd/yyyy-mm-dd</small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
