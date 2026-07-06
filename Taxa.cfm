@@ -185,7 +185,6 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
 		<main id="content">
-		
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
 					 <div class="d-flex flex-wrap mb-0 mr-0 ml-0 mr-md-3 mr-xl-4 ml-xl-3">
