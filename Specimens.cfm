@@ -493,9 +493,13 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number">Other ID Numbers</label>
-														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#"
-                                                        aria-describedby="dateCollected_help">
-                                                        <small id="otherNum_help" class="sr-only">
+														<input type="text" 
+                                                               id="other_id_number" 
+                                                               name="other_id_number" 
+                                                               placeholder="10,20-30,=BT-782" 
+                                                               value="#encodeForHtml(other_id_number)#"
+                                                               aria-describedby="otherIDNum_help">
+                                                        <small id="otherIDNum_help" class="sr-only">
                                                             Example: 10,20-30,=BT-782
                                                         </small>
 													</div>
@@ -534,7 +538,8 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 																<label for="other_id_number_1">Other ID Numbers</label>
-																<input type="text" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
+																<input type="text" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#" aria-describedby="otherID_help">
+                                                                <small id="otherID_help" class="sr-only">Example: 10,20-30,=BT-78</small>
 															</div>
 															<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																<div class="col-12 col-md-4 mb-1">
@@ -1857,7 +1862,7 @@ limitations under the License.
 													</cfif>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedselectModeContainer" class="ml-3 mt-2" style="display: none;" >
+													<div id="fixedselectModeContainer" class="ml-3 mt-1" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val();
