@@ -2658,7 +2658,7 @@ input, select, textarea {
 	left: 0;
     width: 95vw;                  /* drawer almost full width */
     max-width: 95vw;
-    height: 750px;
+    height: 700px;
     transform: translateX(-95vw); /* fully hidden when closed */
     background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
@@ -2723,6 +2723,16 @@ div.toctitle {
 /* Base (xs) test */
 .my-thing { color: black; }
 
+
+/*******************************
+********************************
+END OF BASE/MOBILE STYLE
+************************
+END END END
+********************************
+*******************************/
+
+
 /* ≥ md test */
 @media (min-width: 768px) {
     
@@ -2748,7 +2758,6 @@ div.toctitle {
     .btnSp-shim {
         margin-top: -.5rem !important;
     }
-
     body.wiki-open .ui-dialog {
         width: auto !important;  
         max-width: calc(100vw - 500px) !important;
@@ -2780,7 +2789,9 @@ div.toctitle {
         min-width: 25px!important;
         margin-right: .5rem;
     }  
-  .my-thing { color: blue; }
+    .my-thing { 
+        color: blue; 
+    }
 }
 
 /* ≥ lg test */
@@ -2798,8 +2809,9 @@ div.toctitle {
         right: 0;
         box-sizing: border-box;
     }
-    
-  .my-thing { color: red; }
+    .my-thing { 
+        color: red; 
+    }
 }
 
 /* ≥ xl (1200px) test */
@@ -2834,7 +2846,7 @@ div.toctitle {
         left: 0;
         width: 325px;
         max-width: 90vw;
-        bottom:0;
+        bottom: 0;
         background: #fff;
         box-shadow: 2px 0 10px rgba(0,0,0,0.15);
         z-index: 1051;
@@ -2897,6 +2909,7 @@ div.toctitle {
         transform: translateX(-400px);
         transition: transform 0.3s ease;
     }
-    
-    .my-thing { color: red; } 
+    .my-thing { 
+        color: red; 
+    } 
 }
