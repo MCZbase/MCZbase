@@ -4730,7 +4730,8 @@ limitations under the License.
 							</tr>
 							<cfif len(coll_object_remarks) gt 0>
 							<tr>
-								<td colspan="6" class="w-100">Remarks:  #coll_object_remarks# </td>
+								<!--- if remarks contain a newline character render it as <br> to match display in edit textarea--->
+								<td colspan="6" class="w-100">Remarks:  #rereplace(coll_object_remarks,chr(10),'<br>','all')# </td>
 							</tr>
 							</cfif>
 						</cfloop>
