@@ -20,15 +20,15 @@ limitations under the License.
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 <cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml() --->
 
-<!---<cfset variables.mediaSearch      = createObject("component", "media.component.search")>--->
-<cfset variables.sharedFunctions  = createObject("component", "shared.component.functions")><!--- for getGuidLink() --->
-<cfset variables.mediaPublic      = createObject("component", "media.component.public")><!--- for getMediaBlockHtml --->
-<cfset variables.annotationFuncs  = createObject("component", "annotations.component.functions")><!--- for renderAnnotatorHtml() --->
+<!---<cfset variables.mediaSearch = createObject("component", "media.component.search")>--->
+<cfset variables.sharedFunctions = createObject("component", "shared.component.functions")><!--- for getGuidLink() --->
+<cfset variables.mediaPublic = createObject("component", "media.component.public")><!--- for getMediaBlockHtml --->
+<cfset variables.annotationFuncs = createObject("component", "annotations.component.functions")><!--- for renderAnnotatorHtml() --->
 
 <cfif NOT isDefined("reportError")>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
-    
+
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
@@ -126,8 +126,17 @@ limitations under the License.
 					<cfif checkForVPDError_2.ct EQ 0>
 						<cfthrow message="Error loading cataloged item data, vpd_collection_locality is missing a row.  Please file a bug report.">
 					</cfif>
-					<!--- if we got here the cataloged item exists but the user does not have permissions to see it, so throw a generic error message --->
-					<cfthrow message="Error checking for cataloged item.">
+					<cfif oneOfUs EQ 1>
+						<!--- if we got here the cataloged item exists but the internal user does not have permissions, return a 403 error --->
+						<cfscript>
+							getPageContext().forward("/errors/403.cfm");
+						</cfscript>
+					<cfelse>
+						<!--- if we got here the cataloged item exists but the user does not have permissions to see it redirect to 404 error--->
+						<cfscript>
+							getPageContext().forward("/errors/404.cfm");
+						</cfscript>
+					</cfif>
 				</cfif>
 				<!--- check for mixed collection --->
 				<cfset variables.isMixed = false>
@@ -1364,10 +1373,10 @@ limitations under the License.
 						agent.agent_id,
 						agentguid,
 						agentguid_guid_type,
-    					CASE
-    					    WHEN identification.collection_object_id IS NOT NULL THEN 1
-       					 ELSE 0
-    					END AS has_identification
+						CASE
+							WHEN identification.collection_object_id IS NOT NULL THEN 1
+							ELSE 0
+						END AS has_identification
 					from
 						specimen_part
 						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -1378,7 +1387,7 @@ limitations under the License.
 						left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
 						left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
 						left join agent on specimen_part_attribute.determined_by_agent_id = agent.agent_id
-    					LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
+						LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
 					where
 						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
@@ -2739,7 +2748,7 @@ limitations under the License.
 	<cfreturn getTransactionsThread.output>
 </cffunction>
 
-                        
+
 <!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
  geography information for a specified cataloged item
  @param collection_object_id for the cataloged item for which to return spatial/temporal information.
@@ -3064,7 +3073,7 @@ limitations under the License.
 								lat = coordlookup.dec_lat,
 								lng = coordlookup.dec_long,
 								layout = layoutFlag,
-								createIfMissing = false
+								createIfMissing = true
 							)>
 						<cfcatch>
 							<!--- consume any exception and leave staticMapUrl as empty string --->
@@ -3905,7 +3914,7 @@ limitations under the License.
 							<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">[Internal] collecting_event_id: </li>
 							<li class="list-group-item col-7 col-xl-7 pl-2 pr-0">#loc_collevent.collecting_event_id#</li>
 						</cfif>
-				    </ul>
+					</ul>
 				</div>
 				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
@@ -4152,9 +4161,9 @@ limitations under the License.
 <!--- getAnnotationsHTML get a block of html containing annotation conversations for a specified cataloged item.
  @param collection_object_id for the cataloged item for which to return annotation conversations.
  @return a block of html with collection object annotation conversations (root annotations with their
-         response annotations nested beneath at all depths), or if none, html with the text None.
-         Masked annotations are hidden from non-coldfusion_user sessions via sql; manage_specimens users
-         see the full annotation text; other users see the personal-info-stripped version.
+	response annotations nested beneath at all depths), or if none, html with the text None.
+	Masked annotations are hidden from non-coldfusion_user sessions via sql; manage_specimens users
+	see the full annotation text; other users see the personal-info-stripped version.
 --->
 <cffunction name="getAnnotationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
