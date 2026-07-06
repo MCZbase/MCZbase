@@ -307,70 +307,69 @@ select
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and
 				trans.collection_id = collection.collection_id AND
 				deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-        ---  get the shipment with the print flag set, failover to the first entered shipment
-        ---    (by shipment_id, assuming that is sequential) is the outgoing shipment
-        order by shipment.print_flag desc, shipment.shipment_id asc
-        ) where rownum < 2
+				---  get the shipment with the print flag set, failover to the first entered shipment
+				---  (by shipment_id, assuming that is sequential) is the outgoing shipment
+				order by shipment.print_flag desc, shipment.shipment_id asc
+		) where rownum < 2
 </cfquery>
 <!---  getDeaccItemsMCZ - information for deaccession item invoices.   --->
 <cfquery name="caller.getDeaccItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-       SELECT
+	SELECT distinct
 		cat_num, cataloged_item.collection_cde, collection.institution_acronym,
-                MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
-
-	        decode(
-	           MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
-	               MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),
-	           MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
-	           '',
-	           decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
-	                     MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
-	                ' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
-	                            MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
-	           )
-	        ) as typestatusname,
+		MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+		decode(
+			MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+			MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),
+			MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
+			'',
+			decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+				MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
+				' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+				MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
+			)
+		) as typestatusname,
 		concattransagent(deaccession.transaction_id, 'recipient institution')  recipientInstitutionName,
 		cataloged_item.collection_object_id,
-        collection.collection,
+		collection.collection,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		concatattributevalue(cataloged_item.collection_object_id,'sex') as sex,
 		decode (sampled_from_obj_id,
 			null,part_name,
 			part_name || ' sample') part_name,
-		 MCZBASE.CONCATPARTSINDEACC(cataloged_item.collection_object_id,deaccession.transaction_id) parts,
-		 part_modifier,
-		 preserve_method,
-		 lot_count,
+		MCZBASE.CONCATPARTSINDEACC(cataloged_item.collection_object_id,deaccession.transaction_id) parts,
+		part_modifier,
+		preserve_method,
+		lot_count,
 		condition,
-		 item_instructions,
-		 HTF.escape_sc(deacc_item_remarks) deacc_item_remarks,
-		 coll_obj_disposition,
-		 scientific_name,
-		 Encumbrance,
-		 agent_name,
-		 deacc_number,
-		 deacc_type,
-                 concattransagent(deaccession.transaction_id, 'received by')  recAgentName,
-		 HTF.escape_sc(spec_locality) spec_locality,
-		 higher_geog,
-                 GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
-                 GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
-		 orig_lat_long_units,
-		 lat_deg,
-		 lat_min,
-		 lat_sec,
-		 long_deg,
-		 long_min,
-		 long_sec,
-		 dec_lat_min,
-		 dec_long_min,
-		 lat_dir,
-		 long_dir,
-		 dec_lat,
-		 dec_long,
-		 max_error_distance,
-		 max_error_units,
-		 decode(orig_lat_long_units,
+		item_instructions,
+		HTF.escape_sc(deacc_item_remarks) deacc_item_remarks,
+		coll_obj_disposition,
+		scientific_name,
+		Encumbrance,
+		agent_name,
+		deacc_number,
+		deacc_type,
+		concattransagent(deaccession.transaction_id, 'received by')  recAgentName,
+		HTF.escape_sc(spec_locality) spec_locality,
+		higher_geog,
+		GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
+		GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
+		orig_lat_long_units,
+		lat_deg,
+		lat_min,
+		lat_sec,
+		long_deg,
+		long_min,
+		long_sec,
+		dec_lat_min,
+		dec_long_min,
+		lat_dir,
+		long_dir,
+		dec_lat,
+		dec_long,
+		max_error_distance,
+		max_error_units,
+		decode(orig_lat_long_units,
 				'decimal degrees',to_char(dec_lat) || '&deg; ',
 				'deg. min. sec.', to_char(lat_deg) || '&deg; ' || to_char(lat_min) || '&acute; ' || to_char(lat_sec) || '&acute;&acute; ' || lat_dir,
 				'degrees dec. minutes', to_char(lat_deg) || '&deg; ' || to_char(dec_lat_min) || '&acute; ' || lat_dir
@@ -381,7 +380,7 @@ select
 				'degrees dec. minutes', to_char(long_deg) || '&deg; ' || to_char(dec_long_min) || '&acute; ' || long_dir
 			)  VerbatimLongitude,
 		HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors
-	 from
+	 FROM
 		deacc_item,
 		deaccession,
 		specimen_part,
@@ -412,7 +411,7 @@ select
 		locality.locality_id = accepted_lat_long.locality_id (+) AND
 		cataloged_item.collection_id = collection.collection_id AND
 		deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-	  ORDER BY cat_num
+	ORDER BY cat_num
 </cfquery>
 <!---  getAccMCZ - information for accession invoice headers.   --->
 <cfquery name="caller.getAccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
