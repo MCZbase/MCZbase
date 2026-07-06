@@ -2175,7 +2175,7 @@ limitations under the License.
 																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '20px', width: '100%' });
+															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '22px', width: '100%' });
 															setKeywordCollectionValues();
 														});
 													</script> 
@@ -2187,12 +2187,15 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 #searchCollClasses# pl-md-0 mt-1 mt-sm-0">
 													<label for="searchText">Keyword(s)</label>
-													<input id="searchText" type="text" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
+													<input id="searchText" type="text" name="searchText" placeholder="Search term" value="#encodeForHtml(searchText)#" style="height: 22px !important;" aria-describedby="searchText_help">
+                                                    <small id="searchText_help" class="sr-only">
+                                                        Type Search Term
+                                                    </small>
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2 px-md-0 mt-1 mt-sm-0">
 														<label for="debug2">Debug</label>
-														<select title="debug" name="debug" id="debug2">
+														<select title="debug" name="debug" id="debug2" style="height: 22px !important;">
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
