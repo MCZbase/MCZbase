@@ -2833,7 +2833,7 @@ div.toctitle {
         left: 0;
         width: 325px;
         max-width: 90vw;
-        height: 100vh;
+        bottom:0;
         background: #fff;
         box-shadow: 2px 0 10px rgba(0,0,0,0.15);
         z-index: 1051;
