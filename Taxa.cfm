@@ -450,7 +450,7 @@ limitations under the License.
 														</cfif>
 													   <div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 															<label for="collection_cde">Used by Coll.</label>
-															<select name="collection_cde" aria-label="collection">
+															<select name="collection_cde" aria-label="collection" style="height: 22px !important;">
 																<option value="" class="text-dark">any collection</option>
 																<cfloop query="ctcollection">
 																	<cfif ctcollection.collection eq selectedCollection>
