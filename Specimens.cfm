@@ -2475,7 +2475,7 @@ limitations under the License.
 														</script>
 														<label for="field1">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
-														<select title="Select Field to search..." name="field1" id="field1" style="height: 21px !important;" required aria-required="true">
+														<select title="Select Field to search..." name="field1" id="field1" style="height: 21px !important;" required>
 															<cfif len(field1) EQ 0>
 																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 															</cfif>
@@ -2526,7 +2526,7 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<label for="searchText1">Search For</label>
-														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" style="height: 22px !important;" required  aria-required="true">
+														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" style="height: 22px !important;" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
