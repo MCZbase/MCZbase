@@ -1563,12 +1563,24 @@ limitations under the License.
 																</cfif>
 															</cfif>
 															<label for="accn_number">Accession ##</label>
-															<input type="text" name="accn_number" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
+															<input type="text" name="accn_number" id="accn_number" 
+                                                                   placeholder="nnnnn" 
+                                                                   value="#encodeForHtml(accn_number)#"
+                                                                   aria-describedby="accessionNum_help">
+                                                            <small id="accessionNum_help" class="sr-only">
+                                                                Example: nnnnn
+                                                            </small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
 															<label for="received_date">Date Received</label>
-															<input type="text" name="received_date" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
+															<input type="text" name="received_date" id="received_date" 
+                                                                   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                                   value="#encodeForHtml(received_date)#"
+                                                                   aria-describedby="dateReceived_help">
+                                                            <small id="dateReceived_help" class="sr-only">
+                                                                Example: yyyy-mm-dd/yyyy-mm-dd
+                                                            </small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
@@ -1608,12 +1620,26 @@ limitations under the License.
 																</cfif>
 															</cfif>
 															<label for="loan_number">Loan ##</label>
-															<input type="text" name="loan_number" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+															<input type="text" name="loan_number" 
+                                                                   id="loan_number" 
+                                                                   placeholder="yyyy-n-Col" 
+                                                                   value="#encodeForHtml(loan_number)#"
+                                                                   aria-describedby="loanNum_help">
+                                                            <small id="loanNum_help" class="sr-only">
+                                                                Example: yyyy-n-Col        
+                                                            </small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
 															<label for="deaccession_number">Deaccession ##</label>
-															<input type="text" name="deaccession_number" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
+															<input type="text" name="deaccession_number" 
+                                                                   id="deaccession_number" 
+                                                                   placeholder="Dyyyy-n-Col" 
+                                                                   value="#encodeForHtml(deaccession_number)#"
+                                                                   aria-describedby="deaccessionNum_help">
+                                                            <small id="deaccessionNum_help" class="sr-only">
+                                                                Example: Dyyyy-n-Col
+                                                            </small>
 														</div>
                                                         <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
