@@ -2412,7 +2412,7 @@ limitations under the License.
 													<div class="col-6 col-md-1">
 														<label for="openParens1">&nbsp;(&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
-														<select id="openParens1" name="openParens1" style="height: 22px !important;">>
+														<select id="openParens1" name="openParens1">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif openParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2458,7 +2458,7 @@ limitations under the License.
 														</script>
 														<label for="field1">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
-														<select title="Select Field to search..." name="field1" id="field1" required  style="height: 22px !important;">>
+														<select title="Select Field to search..." name="field1" id="field1" required>
 															<cfif len(field1) EQ 0>
 																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 															</cfif>
@@ -2487,8 +2487,7 @@ limitations under the License.
 																	autoComplete: true,
 																	searchMode: 'containsignorecase',
 																	width: '100%',
-																	dropDownHeight: 400,
-                                                                    height: '21px'
+																	dropDownHeight: 400
 																});
 																// bind an autocomplete, if one applies
 																handleFieldSetup('field1',1);
@@ -2516,7 +2515,7 @@ limitations under the License.
 													<div class="col-6 col-md-1">
 														<label for="closeParens1">&nbsp;)&nbsp;</label>
 														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
-														<select name="closeParens1" id="closeParens1" style="height: 22px !important;">>
+														<select name="closeParens1" id="closeParens1">
 															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2618,8 +2617,7 @@ limitations under the License.
 																				autoComplete: true,
 																				searchMode: 'containsignorecase',
 																				width: '100%',
-																				dropDownHeight: 400,
-																				height: '22px';
+																				dropDownHeight: 400
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
@@ -2747,7 +2745,7 @@ limitations under the License.
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-7 col-md-1">';
-													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="mx-0 d-flex" style="height:22px;"><option value="and">and</option><option value="or">or</option></select>';
+													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-6 col-md-1">';
 													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="">';
@@ -2758,7 +2756,7 @@ limitations under the License.
 													newControls = newControls + '</select>';
 													newControls = newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-4">';
-													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="" style="height: 22px;">';
+													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="">';
 													newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
 													<cfset category = "">
 													<cfset optgroupOpen = false>
@@ -2784,7 +2782,7 @@ limitations under the License.
 													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-6 col-md-1">';
-													newControls = newControls + '<select name="closeParens'+row+'" id="closeParens'+row+'" class="" style="height: 22px;">';
+													newControls = newControls + '<select name="closeParens'+row+'" id="closeParens'+row+'" class="">';
 													newControls = newControls + '<option value="0"></option><option value="1">)</option>';
 													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
 													newControls = newControls + '<option value="4">))))</option>';
