@@ -2778,8 +2778,7 @@ div.toctitle {
         display: inline-block;
         min-width: 25px!important;
         margin-right: .5rem;
-    }
-    
+    }  
   .my-thing { color: blue; }
 }
 
@@ -2883,7 +2882,7 @@ div.toctitle {
         box-sizing: border-box;    /* ensure it stays within viewport */
     }
     .wiki-drawer {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 400px;
