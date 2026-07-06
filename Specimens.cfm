@@ -4611,8 +4611,8 @@ limitations under the License.
 			$("##"+whichGrid+"columnPickDialogButton").html(
 				`<button id="columnPickDialogOpener" 
 					onclick=" populateColumnPicker('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`columnPickDialog').dialog('open'); " 
-					class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Select Columns</button>
-				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-2 my-2" >Pin GUID Column</button>
+					class="btn btn-xs btn-secondary my-2 mx-1 px-2" style="padding-top: 1px !important; padding-bottom: 1px !important;">Select Columns</button>
+				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-2 my-2"  style="padding-top: 1px !important; padding-bottom: 1px !important;">Pin GUID Column</button>
 				`
 			);
 			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
