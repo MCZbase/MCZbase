@@ -418,7 +418,7 @@ limitations under the License.
 												<!---IDENTIFIER SECTION--->	
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-default">Identifiers</h2>
+														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -455,13 +455,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 														<label for="catalogNum">Catalog Number</label>
-														<input id="catalogNum" type="text" name="cat_num"
-                                                               value="#encodeForHtml(cat_num)#"
-                                                               placeholder="1,1-4,A-1,R1-4"
-                                                               aria-describedby="catalogNum_help">
-                                                        <small id="catalogNum_help" class="sr-only">
-                                                            Example: 1,1-4,A-1,R1-4
-                                                        </small>
+														<input id="catalogNum" type="text" name="cat_num" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
@@ -493,11 +487,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number">Other ID Numbers</label>
-														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#"
-                                                        aria-describedby="dateCollected_help">
-                                                        <small id="otherNum_help" class="sr-only">
-                                                            Example: 10,20-30,=BT-782
-                                                        </small>
+														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
 													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 
@@ -581,7 +571,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
-														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-default bg-teal">Taxonomy</h2>
+														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -816,7 +806,7 @@ limitations under the License.
 												<!---GEOGRAPHY SECTION--->
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Geography</h2>
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -1090,13 +1080,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<label for="date_collected">Date Collected</label>
 														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
-														<input type="text" name="date_collected" id="date_collected" 
-                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                               value="#encodeForHtml(date_collected)#"
-                                                               aria-describedby="dateCollected_help">
-                                                        <small id="dateCollected_help" class="sr-only"> 
-                                                            Example: yyyy-mm-dd/yyyy-mm-dd
-                                                        </small>
+														<input type="text" name="date_collected" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<label for="verbatim_date">Verbatim Date</label>
@@ -1113,33 +1097,17 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
-																<input type="text" name="date_began_date" 
-                                                                    id="date_began_date" 
-                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                                    value="#encodeForHtml(date_began_date)#">
-                                                                <small id="dateEnded_help" class="sr-only"> 
-                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
-                                                                </small>                                        
+																<input type="text" name="date_began_date" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_ended_date">Date Ended</label>
 																<cfif not isdefined("date_ended_date")><cfset date_ended_date=""></cfif>
-																<input type="text" name="date_ended_date" 
-                                                                    id="date_ended_date" 
-                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                                    value="#encodeForHtml(date_ended_date)#"
-                                                                    aria-describedby="dateEnded_help">
-                                                                <small id="dateEnded_help" class="sr-only"> 
-                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
-                                                                </small>
+																<input type="text" name="date_ended_date" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
 															</div>
 															<div class="col-12 col-md-6 mb-1">
 																<label for="verbatim_locality">Verbatim Locality</label>
 																<cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
-																<input type="text" 
-                                                                    id="verbatim_locality" 
-                                                                    name="verbatim_locality" 
-                                                                    value="#encodeForHtml(verbatim_locality)#">
+																<input type="text" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
 															</div>
 														</div>
 													</div>
@@ -1402,7 +1370,7 @@ limitations under the License.
 										 	<!---GENERAL SECTION---> 
 											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px text-left text-xl-right border-default bg-teal">
+													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px text-left text-xl-right border-top border-right border-bottom border-left bg-teal">
 														General
 													</h2>
 												</div>
@@ -1415,15 +1383,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("coll_object_entered_date")><cfset coll_object_entered_date=""></cfif>
 														<label for="coll_object_entered_date">Date Entered</label>
-														<input type="text" 
-                                                               name="coll_object_entered_date" 
-                                                               id="coll_object_entered_date" 
-                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                               value="#encodeForHtml(coll_object_entered_date)#"
-                                                               aria-describedby="dateEntered_help">
-                                                        <small id="dateEntered_help" class="sr-only">
-                                                            Example: yyyy-mm-dd/yyyy-mm-dd
-                                                        </small>
+														<input type="text" name="coll_object_entered_date" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="entered_by">Entered By</label>
@@ -1454,14 +1414,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("last_edit_date")><cfset last_edit_date=""></cfif>
 														<label for="last_edit_date">Last Updated on</label>
-														<input type="text" 
-                                                               name="last_edit_date" 
-                                                               id="last_edit_date" 
-                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                               value="#encodeForHtml(last_edit_date)#">
-                                                        <small id="lastUpdateOn-help" class="sr-only">
-                                                            Example: yyyy-mm-dd/yyyy-mm-dd
-                                                        </small>
+														<input type="text" name="last_edit_date" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="last_edited_person">Last Updated By</label>
@@ -1480,10 +1433,7 @@ limitations under the License.
 															</cfif>
 														</cfif>
 														<input type="hidden" id="last_edited_person_id" name="last_edited_person_id" class="data-entry-input" value="#encodeForHtml(last_edited_person_id)#" >
-														<input type="text" 
-                                                               id="last_edited_person" 
-                                                               name="last_edited_person" 
-                                                               value="#encodeForHtml(last_edited_person)#" >
+														<input type="text" id="last_edited_person" name="last_edited_person" value="#encodeForHtml(last_edited_person)#" >
 														<script>
 															jQuery(document).ready(function() {
 																// backing doesn't include a join to support substring search, so use picker configured to clear both fields.
@@ -1563,24 +1513,12 @@ limitations under the License.
 																</cfif>
 															</cfif>
 															<label for="accn_number">Accession ##</label>
-															<input type="text" name="accn_number" id="accn_number" 
-                                                                   placeholder="nnnnn" 
-                                                                   value="#encodeForHtml(accn_number)#"
-                                                                   aria-describedby="accessionNum_help">
-                                                            <small id="accessionNum_help" class="sr-only">
-                                                                Example: nnnnn
-                                                            </small>
+															<input type="text" name="accn_number" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
 															<label for="received_date">Date Received</label>
-															<input type="text" name="received_date" id="received_date" 
-                                                                   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                                   value="#encodeForHtml(received_date)#"
-                                                                   aria-describedby="dateReceived_help">
-                                                            <small id="dateReceived_help" class="sr-only">
-                                                                Example: yyyy-mm-dd/yyyy-mm-dd
-                                                            </small>
+															<input type="text" name="received_date" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#">
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
@@ -1620,26 +1558,12 @@ limitations under the License.
 																</cfif>
 															</cfif>
 															<label for="loan_number">Loan ##</label>
-															<input type="text" name="loan_number" 
-                                                                   id="loan_number" 
-                                                                   placeholder="yyyy-n-Col" 
-                                                                   value="#encodeForHtml(loan_number)#"
-                                                                   aria-describedby="loanNum_help">
-                                                            <small id="loanNum_help" class="sr-only">
-                                                                Example: yyyy-n-Col        
-                                                            </small>
+															<input type="text" name="loan_number" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
 															<label for="deaccession_number">Deaccession ##</label>
-															<input type="text" name="deaccession_number" 
-                                                                   id="deaccession_number" 
-                                                                   placeholder="Dyyyy-n-Col" 
-                                                                   value="#encodeForHtml(deaccession_number)#"
-                                                                   aria-describedby="deaccessionNum_help">
-                                                            <small id="deaccessionNum_help" class="sr-only">
-                                                                Example: Dyyyy-n-Col
-                                                            </small>
+															<input type="text" name="deaccession_number" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#">
 														</div>
                                                         <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTransactionDetail(#toggleTo#);">
 														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
@@ -2155,7 +2079,7 @@ limitations under the License.
 											<div class="input-group mt-1">
 												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
 													<label for="keywordCollection">Limit to Collection(s)</label>
-													<div name="collection_cde" id="keywordCollection" style="height: 22px !important;"></div>
+													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
 													<cfset collection_array = ListToArray(collection_cde)>
 													<script>
@@ -2187,15 +2111,12 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 #searchCollClasses# pl-md-0 mt-1 mt-sm-0">
 													<label for="searchText">Keyword(s)</label>
-													<input id="searchText" type="text" name="searchText" placeholder="Search term" value="#encodeForHtml(searchText)#" style="height: 22px !important;" aria-describedby="searchText_help">
-                                                    <small id="searchText_help" class="sr-only">
-                                                        Type Search Term
-                                                    </small>
+													<input id="searchText" type="text" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
 												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2 px-md-0 mt-1 mt-sm-0">
 														<label for="debug2">Debug</label>
-														<select title="debug" name="debug" id="debug2" style="height: 22px !important;">
+														<select title="debug" name="debug" id="debug2">
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
@@ -2429,7 +2350,7 @@ limitations under the License.
 													<div class="col-6 col-md-1">
 														<label for="openParens1">&nbsp;(&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
-														<select id="openParens1" name="openParens1" style="height: 22px !important;">
+														<select id="openParens1" name="openParens1">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif openParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2475,7 +2396,7 @@ limitations under the License.
 														</script>
 														<label for="field1">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
-														<select title="Select Field to search..." name="field1" id="field1" style="height: 21px !important;" required>
+														<select title="Select Field to search..." name="field1" id="field1" required>
 															<cfif len(field1) EQ 0>
 																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 															</cfif>
@@ -2505,7 +2426,7 @@ limitations under the License.
 																	searchMode: 'containsignorecase',
 																	width: '100%',
 																	dropDownHeight: 400,
-																	height: '22px'
+																	height: '20px'
 																});
 																// bind an autocomplete, if one applies
 																handleFieldSetup('field1',1);
@@ -2526,14 +2447,14 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<label for="searchText1">Search For</label>
-														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" style="height: 22px !important;" required>
+														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<div class="col-6 col-md-1">
 														<label for="closeParens1">&nbsp;)&nbsp;</label>
 														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
-														<select name="closeParens1" id="closeParens1" style="height: 22px !important;">
+														<select name="closeParens1" id="closeParens1">
 															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2557,7 +2478,7 @@ limitations under the License.
 													<div class="col-12 col-md-1">
 														<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 															<label for="debug3">Debug</label>
-															<select title="debug" name="debug" id="debug3" style="height: 22px !important;">
+															<select title="debug" name="debug" id="debug3">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
@@ -2574,7 +2495,7 @@ limitations under the License.
 																	&nbsp;(&nbsp;
 																</div>
 																<div class="col-8 col-md-1">
-																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="mx-0 d-flex" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 22px !important;">
+																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
 																			<cfset andSel = "">
@@ -2592,7 +2513,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 22px !important;">
+																	<select id="openParens#row#" name="openParens#row#">
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2609,7 +2530,7 @@ limitations under the License.
 																</div>
 																<!--- " --->
 																<div class="col-12 col-md-4">
-																	<select title="Select Field..." name="field#row#" id="field#row#" style="height: 22px !important;">
+																	<select title="Select Field..." name="field#row#" id="field#row#">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
@@ -2636,7 +2557,7 @@ limitations under the License.
 																				searchMode: 'containsignorecase',
 																				width: '100%',
 																				dropDownHeight: 400,
-																				height: '22px';
+																				height: '20px';
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
@@ -2651,7 +2572,7 @@ limitations under the License.
 																<div class="col-12 col-md-3">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
-																	<input type="text" name="searchText#row#" id="searchText#row#" "Enter Value" value="#encodeForHtml(sval)#">
+																	<input type="text" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-6 col-md-1">
@@ -2660,7 +2581,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset closeParens = 0>
 																	</cfif>
-																	<select id="closeParens#row#" name="closeParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 21px !important;">>
+																	<select id="closeParens#row#" name="closeParens#row#">
 																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif closeParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -4409,7 +4330,7 @@ limitations under the License.
 				" <input type='hidden' value='"+uri+"' name='url'>" + 
 				" <div class='col-12 p-1'>" + 
 				"  <label for='search_name_input_"+whichGrid+"'>Search Name</label>" + 
-				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required  aria-required="true">" + 
+				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required>" + 
 				" </div>" + 
 				" <div class='col-12'>" + 
 				"  <label for='execute_input_"+whichGrid+"'>Execute Immediately</label>"+
