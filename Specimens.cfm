@@ -584,13 +584,13 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-2 float-left">
+												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
 														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0">	
+												<div class="form-row col-12 col-xxl-11 pt-1 px-1 mb-1 mx-0">	
 													<div class="col-9 col-md-9 col-xl-3 mb-1">
 														<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 														<label for="any_taxa_term">Any Taxonomic Element</label>
