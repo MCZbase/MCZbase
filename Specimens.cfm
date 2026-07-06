@@ -2575,7 +2575,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#">
+																	<select id="openParens#row#" name="openParens#row#" style="height: 22px !important;">>
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
