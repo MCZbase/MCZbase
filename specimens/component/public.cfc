@@ -1654,8 +1654,7 @@ limitations under the License.
 								<tr class="small90 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
 										<!--- if part_remarks contains newline characters change them to <br> for display --->
-										<cfset part_remarks = replace(part_remarks,chr(10),"<br>", "all")><!---" --->
-										<span class="pl-2 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<span class="pl-2 d-block"><span class="font-italic">Remarks:</span> #rereplace(part_remarks,chr(10),"<br>","all")#</span>
 									</td>
 								</tr>
 							</cfif>
