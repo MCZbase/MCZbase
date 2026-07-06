@@ -493,7 +493,11 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number">Other ID Numbers</label>
-														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+														<input type="text" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#"
+                                                        aria-describedby="dateCollected_help">
+                                                        <small id="otherNum_help" class="sr-only">
+                                                            Example: 10,20-30,=BT-782
+                                                        </small>
 													</div>
 													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 
@@ -1086,7 +1090,13 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<label for="date_collected">Date Collected</label>
 														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
-														<input type="text" name="date_collected" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#">
+														<input type="text" name="date_collected" id="date_collected" 
+                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                               value="#encodeForHtml(date_collected)#"
+                                                               aria-describedby="dateCollected_help">
+                                                        <small id="dateCollected_help" class="sr-only"> 
+                                                            Example: yyyy-mm-dd/yyyy-mm-dd
+                                                        </small>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<label for="verbatim_date">Verbatim Date</label>
@@ -1103,17 +1113,33 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
-																<input type="text" name="date_began_date" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+																<input type="text" name="date_began_date" 
+                                                                    id="date_began_date" 
+                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                                    value="#encodeForHtml(date_began_date)#">
+                                                                <small id="dateEnded_help" class="sr-only"> 
+                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
+                                                                </small>                                        
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_ended_date">Date Ended</label>
 																<cfif not isdefined("date_ended_date")><cfset date_ended_date=""></cfif>
-																<input type="text" name="date_ended_date" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+																<input type="text" name="date_ended_date" 
+                                                                    id="date_ended_date" 
+                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                                    value="#encodeForHtml(date_ended_date)#"
+                                                                    aria-describedby="dateEnded_help">
+                                                                <small id="dateEnded_help" class="sr-only"> 
+                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
+                                                                </small>
 															</div>
 															<div class="col-12 col-md-6 mb-1">
 																<label for="verbatim_locality">Verbatim Locality</label>
 																<cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
-																<input type="text" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
+																<input type="text" 
+                                                                    id="verbatim_locality" 
+                                                                    name="verbatim_locality" 
+                                                                    value="#encodeForHtml(verbatim_locality)#">
 															</div>
 														</div>
 													</div>
@@ -1389,7 +1415,15 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("coll_object_entered_date")><cfset coll_object_entered_date=""></cfif>
 														<label for="coll_object_entered_date">Date Entered</label>
-														<input type="text" name="coll_object_entered_date" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#">
+														<input type="text" 
+                                                               name="coll_object_entered_date" 
+                                                               id="coll_object_entered_date" 
+                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                               value="#encodeForHtml(coll_object_entered_date)#"
+                                                               aria-describedby="dateEntered_help">
+                                                        <small id="dateEntered_help" class="sr-only">
+                                                            Example: yyyy-mm-dd/yyyy-mm-dd
+                                                        </small>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="entered_by">Entered By</label>
@@ -1420,7 +1454,14 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<cfif not isdefined("last_edit_date")><cfset last_edit_date=""></cfif>
 														<label for="last_edit_date">Last Updated on</label>
-														<input type="text" name="last_edit_date" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#">
+														<input type="text" 
+                                                               name="last_edit_date" 
+                                                               id="last_edit_date" 
+                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+                                                               value="#encodeForHtml(last_edit_date)#">
+                                                        <small id="lastUpdateOn-help" class="sr-only">
+                                                            Example: yyyy-mm-dd/yyyy-mm-dd
+                                                        </small>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="last_edited_person">Last Updated By</label>
@@ -1439,7 +1480,10 @@ limitations under the License.
 															</cfif>
 														</cfif>
 														<input type="hidden" id="last_edited_person_id" name="last_edited_person_id" class="data-entry-input" value="#encodeForHtml(last_edited_person_id)#" >
-														<input type="text" id="last_edited_person" name="last_edited_person" value="#encodeForHtml(last_edited_person)#" >
+														<input type="text" 
+                                                               id="last_edited_person" 
+                                                               name="last_edited_person" 
+                                                               value="#encodeForHtml(last_edited_person)#" >
 														<script>
 															jQuery(document).ready(function() {
 																// backing doesn't include a join to support substring search, so use picker configured to clear both fields.
