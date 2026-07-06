@@ -1118,13 +1118,13 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
-																<input type="text" name="date_began_date" 
+															    <input type="text" name="date_began_date" 
                                                                     id="date_began_date" 
                                                                     placeholder="yyyy-mm-dd/yyyy-mm-dd" 
                                                                     value="#encodeForHtml(date_began_date)#" aria-describedby="dateBegan_help">
                                                                 <small id="dateBegan_help" class="sr-only"> 
                                                                     Example: yyyy-mm-dd/yyyy-mm-dd
-                                                                </small>     
+                                                                </small>      
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_ended_date">Date Ended</label>
