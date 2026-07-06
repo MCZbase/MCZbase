@@ -418,7 +418,7 @@ limitations under the License.
 												<!---IDENTIFIER SECTION--->	
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
+														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-default">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -581,7 +581,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
-														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
+														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-default bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -816,7 +816,7 @@ limitations under the License.
 												<!---GEOGRAPHY SECTION--->
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -1402,7 +1402,7 @@ limitations under the License.
 										 	<!---GENERAL SECTION---> 
 											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px text-left text-xl-right border-top border-right border-bottom border-left bg-teal">
+													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px text-left text-xl-right border-default bg-teal">
 														General
 													</h2>
 												</div>
@@ -2475,7 +2475,7 @@ limitations under the License.
 														</script>
 														<label for="field1">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
-														<select title="Select Field to search..." name="field1" id="field1" style="height: 21px !important;" required >
+														<select title="Select Field to search..." name="field1" id="field1" style="height: 21px !important;" required aria-required="true">
 															<cfif len(field1) EQ 0>
 																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 															</cfif>
@@ -2526,7 +2526,7 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<label for="searchText1">Search For</label>
-														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" style="height: 22px !important;" required>
+														<input type="text" class="d-flex mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" style="height: 22px !important;" required  aria-required="true">
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
@@ -4409,7 +4409,7 @@ limitations under the License.
 				" <input type='hidden' value='"+uri+"' name='url'>" + 
 				" <div class='col-12 p-1'>" + 
 				"  <label for='search_name_input_"+whichGrid+"'>Search Name</label>" + 
-				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required>" + 
+				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required  aria-required="true">" + 
 				" </div>" + 
 				" <div class='col-12'>" + 
 				"  <label for='execute_input_"+whichGrid+"'>Execute Immediately</label>"+

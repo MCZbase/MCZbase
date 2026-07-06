@@ -136,6 +136,9 @@ table td .small {
 .bg-lt-gray {
 	background-color: #F0F3F7 !important;
 }
+.border-default {
+    border: 1px solid #dee2e6 !important;
+}
 .border-white {
 	border: 1px solid white;
 }
