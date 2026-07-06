@@ -2658,7 +2658,7 @@ input, select, textarea {
 	left: 0;
     width: 95vw;                  /* drawer almost full width */
     max-width: 95vw;
-    height: 800px;
+    height: 750px;
     transform: translateX(-95vw); /* fully hidden when closed */
     background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
