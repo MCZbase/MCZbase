@@ -203,8 +203,8 @@ limitations under the License.
 									<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 									<input type="hidden" name="action" value="search">
 									<div class="col-12 px-2">
-										<fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 pt-1 pb-1 mt-3 mx-2">
-											<legend class="h6 mb-0 px-3 border-top border-bottom border-right border-left field-set-legend py-0 w-auto bg-teal font-weight-bold">General Taxonomy Search</legend>
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-3 mx-2">
+											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">General Taxonomy Search</legend>
 											<div class="form-row mb-0">
 												<div class="form-group mb-0 col-12 col-md-4">
                                                     <label for="scientific_name">Scientific Name</label>
@@ -224,8 +224,8 @@ limitations under the License.
 												</div>
 											</div>
 										</fieldset>
-										<fieldset class="bg-light border-right border-left border-top border-bottom field-set rounded px-2 pt-1 pb-1 mt-2 mx-2">
-											<legend class="h6 mb-0 px-3 border-top border-bottom border-right border-left field-set-legend w-auto py-0 bg-teal font-weight-bold">Scientific Name Search</legend>
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-2 mx-2">
+											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto py-0 bg-teal font-weight-bold">Scientific Name Search</legend>
 											<div class="form-row mt-0">
 												<div class="form-group col-12 col-sm-6 col-md-2 mb-0 pb-0">
                                                     <label for="genus">Genus</label>
@@ -266,8 +266,8 @@ limitations under the License.
 										</fieldset>
 									</div>
 									<div class="col-12 px-2">
-										<fieldset class="bg-light border-right border-left border-bottom border-top field-set rounded px-2 py-1 mt-2 mx-2">
-											<legend class="h6 mb-0 px-3 border-right border-top border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Classification and Other Filters </legend>	 
+										<fieldset class="bg-light border-right border-left border-top field-set rounded px-2 pt-1 mt-2 mx-2">
+											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal font-weight-bold">Classification and Other Filters </legend>	 
 											<div class="form-row mt-0">
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
 													<label for="kingdom">Kingdom</label>
@@ -385,7 +385,7 @@ limitations under the License.
 										</fieldset>
 									</div>
 									<div class="col-12 px-2"> 
-										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-1 pb-1 mt-0 mx-2">
+										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-0 pb-1 mt-0 mx-2">
 											<div class="form-row mt-0">
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-1 pb-0">
 														<label for="taxon_habitat">Habitat</label>
@@ -450,7 +450,7 @@ limitations under the License.
 														</cfif>
 													   <div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 															<label for="collection_cde">Used by Coll.</label>
-															<select name="collection_cde" aria-label="collection" style="height: 22px !important;">
+															<select name="collection_cde" aria-label="collection" style="height: 23px !important;">
 																<option value="" class="text-dark">any collection</option>
 																<cfloop query="ctcollection">
 																	<cfif ctcollection.collection eq selectedCollection>
@@ -472,8 +472,8 @@ limitations under the License.
 									</div>
 									<div class="form-row mx-0 mt-2">
 										<div class="col-12 col-xl-6 pl-xl-2 pr-xl-0">
-											<fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-												<legend class="h6 mb-0 px-3 border-top border-bottom border-left border-right field-set-legend w-auto bg-teal">Search accepted names:</legend> 
+											<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
+												<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Search accepted names:</legend> 
 												<div class="form-group mb-0 pb-0">
 													<ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
 														<cfif valid_catalog_term_fg EQ 1>
@@ -513,8 +513,8 @@ limitations under the License.
 										</div>
 								  
 										<div class="col-12 col-xl-6 pl-xl-0 pr-xl-2">
-											<fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-												<legend class="h6 px-3 mb-0 border-top border-bottom border-right border-left field-set-legend w-auto bg-teal">Search taxa used on specimen records:</legend>
+											<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
+												<legend class="h6 px-3 mb-0 border-default field-set-legend w-auto bg-teal">Search taxa used on specimen records:</legend>
 												<div class="form-group mb-0 pb-0">
 													<ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
 														<cfif we_have_some EQ 1>
