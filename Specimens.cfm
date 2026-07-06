@@ -2589,7 +2589,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;">
+																	<select id="openParens#row#" name="openParens#row#" style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;height: 20px !important;">
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
