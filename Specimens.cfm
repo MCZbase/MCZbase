@@ -2619,7 +2619,7 @@ limitations under the License.
 																				searchMode: 'containsignorecase',
 																				width: '100%',
 																				dropDownHeight: 400,
-																				height: '24px';
+																				height: '22px';
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
@@ -2758,7 +2758,7 @@ limitations under the License.
 													newControls = newControls + '</select>';
 													newControls = newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-4">';
-													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="">';
+													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="" style="height: 22px;">';
 													newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
 													<cfset category = "">
 													<cfset optgroupOpen = false>
@@ -2802,7 +2802,7 @@ limitations under the License.
 														searchMode: 'containsignorecase',
 														width: '100%',
 														dropDownHeight: 400,
-														height: '23px'
+														height: '22px'
 													});
 													var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
 													$('##field'+row).on("change", function(event) { 
