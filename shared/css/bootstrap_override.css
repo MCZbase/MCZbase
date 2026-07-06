@@ -2018,7 +2018,6 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	float: left !important;
 	cursor: pointer;
 }
-
 .accordion .card-header h3 button:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;
@@ -2026,7 +2025,6 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
-
 a.anchorFocus, button.anchorFocus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
@@ -2198,23 +2196,6 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-/*button.help-btnA-SearchWiki {
-    background-color: #1b1b1b;
-    color: white;
-    float: right;
-    margin-bottom: 15px;
-    top: 1.5rem;
-    right: 4rem;
-    z-index: 1; 
-    padding-top: .5rem;
-    padding-bottom: .35rem; 
-    font-size: 13.5px;
-    margin-top: 0;
-    position: absolute;
-    overflow: hidden;
-    border-radius: 0 0 6px 6px; 
-    border-color: black;
-}*/
 button.help-btnSp-SearchWiki {
     background-color: #1b1b1b;
     color: white;
@@ -2679,8 +2660,8 @@ input, select, textarea {
     margin-left: 0;
     width: 100%;
 }
-/* Let dialogs behave normally on these widths */
-body.wiki-open .ui-dialog {
+
+body.wiki-open .ui-dialog {/* Let dialogs behave normally on these widths */
     width: auto;
     max-width: 100vw;
     left: 0;
@@ -2757,27 +2738,17 @@ END END END
     .btnSp-shim {
         margin-top: -.5rem !important;
     }
-    body.wiki-open .ui-dialog {
+    body.wiki-open .ui-dialog {/*Dialog needs to be out of the way when the wiki drawer is open.  */
         width: auto !important;  
-        max-width: calc(100vw - 500px) !important;
-        left: 500px !important;      
+        max-width: calc(100vw - 500px) !important;/*Number should match drawer width.*/
+        left: 500px !important; /*Number should match drawer width.*/     
         right: 0 !important;
         box-sizing: border-box;    
     }
     .wiki-drawer {
-        position: fixed;
-        top: 0;
-        left: 0;
         width: 500px;
         max-width: 90vw;
-        bottom: 0;
-        background: #fff;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-        z-index: 1051;
-        overflow-y: auto;
-        overflow-x: hidden; 
         transform: translateX(-500px);
-        transition: transform 0.3s ease;
     }
     #wikiDrawer h2.headerSm {
         font-size: 1.25rem;
@@ -2788,9 +2759,6 @@ END END END
         min-width: 25px!important;
         margin-right: .5rem;
     }  
-    .my-thing { 
-        color: blue; 
-    }
 }
 
 /* ≥ lg test */
@@ -2807,9 +2775,6 @@ END END END
         left: 0;
         right: 0;
         box-sizing: border-box;
-    }
-    .my-thing { 
-        color: red; 
     }
 }
 
@@ -2829,7 +2794,6 @@ END END END
         max-width: calc(100vw - 325px) !important;
         left: 325px !important;      /* start right after the drawer */
         right: 0 !important;
-
         box-sizing: border-box;   /* ensure it stays within viewport */
     }
     body.wiki-open .ui-dialog {
@@ -2840,19 +2804,9 @@ END END END
         box-sizing: border-box;    /* ensure it stays within viewport */
     }
     .wiki-drawer {
-        position: fixed;
-        top: 0;
-        left: 0;
         width: 325px;
         max-width: 90vw;
-        bottom: 0;
-        background: #fff;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-        z-index: 1051;
-        overflow-y: auto;
-        overflow-x: hidden; 
         transform: translateX(-325px);
-        transition: transform 0.3s ease;
     }
     .col-xxl-1 {
         max-width: 12%;
@@ -2861,9 +2815,6 @@ END END END
         max-width: 88%; 
         padding-left: .25rem;
     }
-    .my-thing { 
-        color: orange; 
-    } 
 }
 
 
@@ -2894,21 +2845,8 @@ END END END
         box-sizing: border-box;    /* ensure it stays within viewport */
     }
     .wiki-drawer {
-        position: fixed;
-        top: 0;
-        left: 0;
         width: 400px;
         max-width: 90vw;
-        bottom: 0;
-        background: #fff;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-        z-index: 1051;
-        overflow-y: auto;
-        overflow-x: hidden; 
         transform: translateX(-400px);
-        transition: transform 0.3s ease;
     }
-    .my-thing { 
-        color: red; 
-    } 
 }
