@@ -429,7 +429,7 @@ limitations under the License.
 													</div>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 														<label for="source_authority">Source Authority</label>
-														<select name="source_authority" id="source_authority" size="1" style="height: 20px !important;">
+														<select name="source_authority" id="source_authority" size="1" style="height: 22px !important;">
 															<option></option>
 															<cfloop query="CTTAXONOMIC_AUTHORITY">
 																<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
