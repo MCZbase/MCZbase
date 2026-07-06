@@ -1,6 +1,8 @@
 <!---
 specimens/component/public.cfc
-Copyright 2021 President and Fellows of Harvard College
+
+Copyright 2021-2026 President and Fellows of Harvard College
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -10,6 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 --->
 <!--- publicly available functions to support /specimens/Specimen.cfm --->
 <cfcomponent>
@@ -19,11 +22,6 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 <cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml() --->
-
-<!---<cfset variables.mediaSearch = createObject("component", "media.component.search")>--->
-<cfset variables.sharedFunctions = createObject("component", "shared.component.functions")><!--- for getGuidLink() --->
-<cfset variables.mediaPublic = createObject("component", "media.component.public")><!--- for getMediaBlockHtml --->
-<cfset variables.annotationFuncs = createObject("component", "annotations.component.functions")><!--- for renderAnnotatorHtml() --->
 
 <cfif NOT isDefined("reportError")>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
@@ -1655,7 +1653,8 @@ limitations under the License.
 							<cfif len(part_remarks) gt 0>
 								<tr class="small90 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
-										<span class="pl-2 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<!--- if part_remarks contains newline characters change them to <br> for display --->
+										<span class="pl-2 d-block"><span class="font-italic">Remarks:</span> #rereplace(part_remarks,chr(10),"<br>","all")#</span>
 									</td>
 								</tr>
 							</cfif>
@@ -4730,7 +4729,8 @@ limitations under the License.
 							</tr>
 							<cfif len(coll_object_remarks) gt 0>
 							<tr>
-								<td colspan="6" class="w-100">Remarks:  #coll_object_remarks# </td>
+								<!--- if remarks contain a newline character render it as <br> to match display in edit textarea--->
+								<td colspan="6" class="w-100">Remarks:  #rereplace(coll_object_remarks,chr(10),'<br>','all')# </td>
 							</tr>
 							</cfif>
 						</cfloop>
