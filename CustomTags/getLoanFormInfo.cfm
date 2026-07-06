@@ -337,10 +337,17 @@ select
 			null,part_name,
 			part_name || ' sample') part_name,
 		MCZBASE.CONCATPARTSINDEACC(cataloged_item.collection_object_id,deaccession.transaction_id) parts,
-		part_modifier,
-		preserve_method,
-		lot_count,
-		condition,
+		'' as part_modifier,  -- provided by CONCATPARTSINDEACC
+		'' as preserve_method, -- provided by CONCATPARTSINDEACC
+		(
+		   SELECT SUM(co2.lot_count)
+			FROM coll_object co2
+				JOIN specimen_part sp2 ON co2.collection_object_id = sp2.collection_object_id
+				JOIN deacc_item di2 ON di2.collection_object_id = sp2.collection_object_id
+			WHERE sp2.derived_from_cat_item = cataloged_item.collection_object_id
+				AND di2.transaction_id = deaccession.transaction_id
+		) AS lot_count, -- lot_count summed across all parts of the cataloged item participating in the deaccession
+		'' as condition, -- provided by CONCATPARTSINDEACC
 		item_instructions,
 		HTF.escape_sc(deacc_item_remarks) deacc_item_remarks,
 		coll_obj_disposition,
