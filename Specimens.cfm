@@ -4654,7 +4654,7 @@ limitations under the License.
 				$("##"+whichGrid+"saveDialogButton").html(
 				`<button id="`+gridId+`saveDialogOpener"
 						onclick=" populateSaveSearch('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`saveDialog').dialog('open'); " 
-						class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Save Search</button>
+						class="btn btn-xs btn-secondary px-2 my-1 mx-1" style="padding-top: 1px !important; padding-bottom: 1px !important;">Save Search</button>
 				`);
 			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a search.
