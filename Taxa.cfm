@@ -203,7 +203,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 									<input type="hidden" name="action" value="search">
 									<div class="col-12 px-2">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-3 mx-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">General Taxonomy Search</legend>
 											<div class="form-row mb-0">
 												<div class="form-group mb-0 col-12 col-md-4">
@@ -224,7 +224,7 @@ limitations under the License.
 												</div>
 											</div>
 										</fieldset>
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-2 mx-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto py-0 bg-teal font-weight-bold">Scientific Name Search</legend>
 											<div class="form-row mt-0">
 												<div class="form-group col-12 col-sm-6 col-md-2 mb-0 pb-0">
