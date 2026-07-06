@@ -1851,7 +1851,7 @@ limitations under the License.
 													</cfif>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedselectModeContainer" class="ml-3 mt-1" style="display: none;" >
+													<div id="fixedselectModeContainer" class="ml-3 mt-2" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val();
@@ -1864,8 +1864,8 @@ limitations under the License.
 															};
 														</script>
 
-														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
+														<label class="d-inline w-auto mt-2" style="width: 75px !important;" for="fixedselectMode">Grid Select:</label>
+														<select class="d-inline w-auto mt-1" style="width: 275px !importance" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
