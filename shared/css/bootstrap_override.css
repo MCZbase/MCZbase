@@ -2653,11 +2653,12 @@ input, select, textarea {
 	}
 
 .wiki-drawer {
-    position: fixed;
+    position: absolute;
 	top: 0;
 	left: 0;
     width: 95vw;                  /* drawer almost full width */
     max-width: 95vw;
+    bottom: 0;
     transform: translateX(-95vw); /* fully hidden when closed */
     background: #fff;
 	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
@@ -2761,7 +2762,7 @@ div.toctitle {
         left: 0;
         width: 500px;
         max-width: 90vw;
-        bottom:0;
+        bottom: 0;
         background: #fff;
         box-shadow: 2px 0 10px rgba(0,0,0,0.15);
         z-index: 1051;
