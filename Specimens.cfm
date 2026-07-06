@@ -2619,7 +2619,7 @@ limitations under the License.
 																				searchMode: 'containsignorecase',
 																				width: '100%',
 																				dropDownHeight: 400,
-																				height: '23px';
+																				height: '24px';
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
