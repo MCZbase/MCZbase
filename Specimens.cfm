@@ -2575,7 +2575,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset openParens = 0>
 																	</cfif>
-																	<select id="openParens#row#" name="openParens#row#" style="height: 22px !important;">>
+																	<select id="openParens#row#" name="openParens#row#">
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2592,7 +2592,7 @@ limitations under the License.
 																</div>
 																<!--- " --->
 																<div class="col-12 col-md-4">
-																	<select title="Select Field..." name="field#row#" id="field#row#" style="height: 24px !important;">
+																	<select title="Select Field..." name="field#row#" id="field#row#">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
