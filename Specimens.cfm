@@ -2412,7 +2412,7 @@ limitations under the License.
 													<div class="col-6 col-md-1">
 														<label for="openParens1">&nbsp;(&nbsp;</label>
 														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
-														<select id="openParens1" name="openParens1">
+														<select id="openParens1" name="openParens1" style="height: 22px !important;">>
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif openParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2516,7 +2516,7 @@ limitations under the License.
 													<div class="col-6 col-md-1">
 														<label for="closeParens1">&nbsp;)&nbsp;</label>
 														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
-														<select name="closeParens1" id="closeParens1">
+														<select name="closeParens1" id="closeParens1" style="height: 22px !important;">>
 															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
 															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
