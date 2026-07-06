@@ -363,7 +363,7 @@ limitations under the License.
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="nomenclatural_code">Nomenclatural Code</label>
-                                                    <select name="nomenclatural_code" id="nomenclatural_code">
+                                                    <select name="nomenclatural_code" id="nomenclatural_code" style="height: 23px !important;">
                                                         <option></option>
                                                         <cfloop query="ctnomenclatural_code">
                                                             <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -373,7 +373,7 @@ limitations under the License.
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 mb-1 pb-0">
 													<label for="taxon_status">Nomenclatural Status</label>
-													<select name="taxon_status" id="taxon_status" size="1">
+													<select name="taxon_status" id="taxon_status" size="1" style="height: 23px !important;">
 														<option></option>
 														<cfloop query="cttaxon_status">
 															<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
