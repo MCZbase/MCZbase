@@ -2539,7 +2539,7 @@ limitations under the License.
 													<div class="col-12 col-md-1">
 														<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 															<label for="debug3">Debug</label>
-															<select title="debug" name="debug" id="debug3" style="height: 22px !important;">>
+															<select title="debug" name="debug" id="debug3">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
