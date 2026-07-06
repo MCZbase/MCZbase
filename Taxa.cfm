@@ -335,37 +335,37 @@ limitations under the License.
 													<label for="suborder">Suborder</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-								                	<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#" placeholder="suborder">
+								                	<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="infraorder">Infraorder</label>  
 													(<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    <input type="text" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#" placeholder="infraorder">
+												    <input type="text" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="superfamily">Superfamily</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-													<input type="text" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#" placeholder="superfamily">
+													<input type="text" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#">
 												</div> 
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 												    <label for="family">Family</label> 
 													(<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 												    <button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-													<input type="text" id="family" name="family" value="#encodeForHtml(family)#" placeholder="family">
+													<input type="text" id="family" name="family" value="#encodeForHtml(family)#">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="subfamily">Subfamily</label> 
-													(<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#" placeholder="subfamily">
+													(<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-describedby="subfamilyEquals_help">=<span id="subfamilyEquals_help" class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-descibedby="subfamilySoundsLike_help">$<span id="subfamilySoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#">
 												</div>
 												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="tribe">Tribe</label> 
-													(<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-													<input type="text" id="tribe" name="tribe" value="#encodeForHtml(tribe)#" placeholder="tribe">
+													(<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;" aria-describedby="tribeEquals_help">=<span id="tribeEquals_help" class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-describedby="tribeSoundsLike_help">$<span id="tribeSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<input type="text" id="tribe" name="tribe" value="#encodeForHtml(tribe)#">
 												</div>
 												<div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="nomenclatural_code">Nomenclatural Code</label>
@@ -471,7 +471,7 @@ limitations under the License.
 													</cfif>
 													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
                                                         <label for="taxon_remarks">Remarks</label>
-														<input type="text" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
+														<input type="text" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#">
 													</div>
 												</div>	
 										</fieldset>
@@ -496,21 +496,21 @@ limitations under the License.
 															<cfset validFlagNotSelected = ''>
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="validFGChecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
+															<label for="validFGChecked" class="smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; top:0.2rem">
-																<span class="font-weight-bold">Show all matches</span>
+																<span class="font-weight-lessbold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="validFGUnchecked" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
+															<label for="validFGUnchecked" class="smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1" class="position-absolute" style="left:0; top:0.2rem">
-																<span class="d-inline-block ps-4 font-weight-bold">Show only taxa currently accepted for data entry</span>
+																<span class="d-inline-block ps-4 font-weight-lessbold">Show only taxa currently accepted for data entry</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
-															<label for="validFGNot" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
+															<label for="validFGNot" class="smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute" style="left:0; top:0.2rem">
-																<span class="font-weight-bold">Show only taxa not accepted for data entry</span>
+																<span class="font-weight-lessbold">Show only taxa not accepted for data entry</span>
 															</label>
 														</li>
 													</ul>
@@ -539,7 +539,7 @@ limitations under the License.
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="wehavesomeAll" class="btn-link smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="" class="position-absolute"   style="left:0; top:0.2rem">
-																<span class="font-weight-bold">Show all taxa without regard for use</span>
+																<span class="font-weight-bold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
@@ -560,11 +560,11 @@ limitations under the License.
 										</div>  
 									</div>
 									<div class="col-12 px-3 py-2 float-left"> 
-										<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span></button>
-										<button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
-										<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
+										<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton">Search<span class="fa fa-search pl-1" aria-hidden="true"></span></button>
+										<button type="reset" class="btn btn-xs btn-warning mr-2 my-1">Reset</button>
+										<button type="button" class="btn btn-xs btn-warning mr-2 my-1" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-											<button type="button" class="btn btn-xs btn-warning my-1" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
+											<button type="button" class="btn btn-xs btn-warning my-1" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">Taxonomy QC Queries</button>
 										</cfif>
 									</div>
 								</form>
