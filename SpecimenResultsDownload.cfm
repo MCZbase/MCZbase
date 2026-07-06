@@ -41,7 +41,6 @@
 <table>
 
 <form method="post" action="SpecimenResultsDownload.cfm" name="dlForm">
-	<input type="hidden" name="user_id" value="#getUserData.user_id#">
 	<input type="hidden" name="tableName" value="#checkedTableName#">
 	
 	<input type="hidden" name="action" value="continue">
@@ -149,17 +148,14 @@ do not agree</font>.</a>
 		You haven't filled in all required values! Please use your browser's back button to try again.
 		<cfabort>
 	</cfif>
-	<!--- TODO: Don't trust userland assertion of user_id, look up from session.username anyway --->
-	<cfif NOT isdefined("user_id") or len(#user_id#) EQ 0>
-		<!--- user_id wasn't passed for some reason, look it up again --->
-		<cfquery name="getUserID" datasource="cf_dbuser">
-			SELECT cf_users.user_id
-			FROM cf_users
-			WHERE
-				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfset user_id = getUserID.user_id>
-	</cfif>
+	<!--- lookup user_id from session.username --->
+	<cfquery name="getUserID" datasource="cf_dbuser">
+		SELECT cf_users.user_id
+		FROM cf_users
+		WHERE
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfset user_id = getUserID.user_id>
 	<cfquery name="isUser" datasource="cf_dbuser">
 		select * from cf_user_data where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 	</cfquery>
