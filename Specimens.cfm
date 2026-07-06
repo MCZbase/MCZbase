@@ -1550,7 +1550,13 @@ limitations under the License.
 																</cfif>
 															</cfif>
 															<label for="accn_number">Accession ##</label>
-															<input type="text" name="accn_number" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#">
+															<input type="text" name="accn_number" id="accn_number" 
+                                                                   placeholder="nnnnn" 
+                                                                   value="#encodeForHtml(accn_number)#"
+                                                                   aria-describedby="accessionNum_help">
+                                                            <small id="accessionNum_help" class="sr-only">
+                                                                Example: nnnnn
+                                                            </small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
