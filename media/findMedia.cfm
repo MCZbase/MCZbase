@@ -417,7 +417,7 @@ limitations under the License.
                                             <button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)<strong></strong>
                                             <input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
                                         </div>
-                                        <div class="form-group col-12 col-md-4 col-xl-2">
+                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                             <label for="light_source">Light Source </label>
                                             <button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" aria-describedby="lightSEquals_help">=</button><span id="lightSEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -430,7 +430,7 @@ limitations under the License.
                                                 });
                                             </script>
                                         </div>
-                                        <div class="form-group col-12 col-md-4 col-xl-2">
+                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                             <label for="preview_uri">Preview URI</label>
                                             <input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
                                         </div>
@@ -446,14 +446,14 @@ limitations under the License.
                                                 <input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
                                             </div>
                                         </cfif>
-                                        <div class="col-12 col-md-#remcolm# col-xl-#remcolx# mb-1">
+                                        <div class="form-group col-12 col-md-#remcolm# col-xl-#remcolx# mb-1">
                                             <label for="remarks">Remarks</label> 
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                             <button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                             <input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
                                         </div>
-                                        <div class="form-group col-12 col-md-4 col-xl-3">
-											<div class="form-row mx-0 mb-2">
+                                        <div class="form-group col-12 col-md-4 col-xl-3 mb-1">
+											<div class="form-row mx-0 mb-0">
 												<div class="w-100">
 													<label for="media_label_type">Any Other Label </label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;" aria-describedby="anyOtherEquals_help">=</button><span id="anyOtherEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
