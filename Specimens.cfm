@@ -248,7 +248,11 @@ limitations under the License.
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					
-					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
+					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records 
+                        <span class="count font-italic color-green mx-0">
+                            <small> #getSpecimenCount.cnt# records</small>
+                            <small class="sr-only">Tab into search form</small>
+                        </span>
 						<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0 && isdefined("target_loan_number") and len(target_loan_number) GT 0>
 							to add to Loan #target_loan_number# (with manage)
 						</cfif>
@@ -386,7 +390,6 @@ limitations under the License.
                                 </aside>
                             </div>
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
-					
 								<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 									<form id="fixedSearchForm">
 										<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
@@ -401,24 +404,23 @@ limitations under the License.
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
-													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)
-												>
+													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
+													<cfset IDButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!---"--->
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-														<cfset IDButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
+													<cfset IDButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!---"--->
 												</cfif> 
 
 												<!---IDENTIFIER SECTION--->	
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small font-weight-bold mx-0 mb-0 py2px mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-right border-top border-bottom border-left">Identifiers</h2>
+														<h2 class="small font-weight-bold mx-0 mb-0 mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-default">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -538,7 +540,12 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 																<label for="other_id_number_1">Other ID Numbers</label>
-																<input type="text" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#" aria-describedby="otherID_help">
+																<input type="text" 
+                                                                       id="other_id_number_1" 
+                                                                       name="other_id_number_1" 
+                                                                       placeholder="10,20-30,=BT-782" 
+                                                                       value="#encodeForHtml(other_id_number_1)#" 
+                                                                       aria-describedby="otherID_help">
                                                                 <small id="otherID_help" class="sr-only">Example: 10,20-30,=BT-78</small>
 															</div>
 															<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -546,7 +553,11 @@ limitations under the License.
 																	<label for="debug1">Debug JSON</label>
 																	<select title="debug" name="debug" id="debug1">
 																		<option value=""></option>
-																		<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																		<cfif isdefined("debug") AND len(debug) GT 0>
+                                                                            <cfset selected=" selected ">
+                                                                        <cfelse>
+                                                                            <cfset selected="">
+                                                                        </cfif>
 																		<option value="true" #selected#>Debug JSON</option>
 																	</select>
 																</div>
@@ -578,15 +589,15 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset TaxaButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!--- " --->
+												    <cfset TaxaButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!---"--->
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TaxaButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
+													<cfset TaxaButton = "show more <i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!---"--->
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
-														<h2 class="small font-weight-bold m-0 py2px px-3 px-xl-2 d-block border-top border-right border-bottom border-left bg-teal">Taxonomy</h2>
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 d-block border-default bg-teal">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -659,7 +670,7 @@ limitations under the License.
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
                                                                 <label for="phylum">Phylum</label>
-																<button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
+																<button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" aria-describedby="phylumPick_help">(&##8595;)<span id="phylumPick_help" class="sr-only"> open pick list</span>
                                                                 </button>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
 																<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" >
@@ -913,7 +924,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
                                                                 <label for="sea">Sea</label>
-																<button type="button" class="rules" onclick=" $('##sea').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
+																<button type="button" class="rules" onclick=" $('##sea').autocomplete('search','%%%'); return false;" aria-describedby="seaPick_help">(&##8595;)<span id="seaPick_help" class="sr-only"> open pick list</span>
                                                                 </button>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
 																<input type="text" id="sea" name="sea" value="#encodeForHtml(sea)#">
