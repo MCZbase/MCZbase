@@ -468,13 +468,7 @@ limitations under the License.
                                 <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
 									<div class="form-row">
-										<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                            <label for="md5hash">MD5 Hash</label>
-                                            (<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
-                                            <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                            <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
-                                            <input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
-                                        </div>
+										
                                        
 										<!--- setup to hide search for date as text from most users --->
 										<cfset datecolm="2">
@@ -585,6 +579,13 @@ limitations under the License.
                                                             makeMediaLabelAutocomplete("credit","credit");
                                                         });
                                                     </script>
+                                                </div>
+                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                    <label for="md5hash">MD5 Hash</label>
+                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
+                                                    <input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
                                                 </div>
                                             </div>
                                         </cfif>  
