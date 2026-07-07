@@ -20,9 +20,7 @@ limitations under the License.
 <cfparam name="url.container_id" default=""><!--- container_id for container to edit --->
 <cfparam name="url.barcode" default=""><!--- barcode is optional, but if provided and container_id is not, it will be used to look up the container_id for editing --->
 <cfparam name="url.parent_container_id" default="">
-
 <cf_rolecheck>
-<cfinclude template="/containers/component/search.cfc" runOnce="true" /><!--- for getContainerBreadcrumb --->
 
 <cfset variables.action = lCase(trim(url.action))>
 <cfif NOT listFind("new,edit", variables.action)>
@@ -193,10 +191,7 @@ limitations under the License.
 			</cfif>
 			<cfif variables.action EQ "edit">
 				<section class="mb-3" aria-label="Container breadcrumb trail">
-					<nav aria-label="Container breadcrumb" class="mb-2" id="containerEditBreadcrumbNav">
-						<cfset variables.breadcrumb = getContainerBreadcrumb(container_id="#variables.containerId#")>
-						#variables.breadcrumb#
-					</nav>
+					<nav aria-label="Container breadcrumb" class="mb-2" id="containerEditBreadcrumbNav"></nav>
 					<output id="containerEditBreadcrumbFeedback"></output>
 				</section>
 			</cfif>
@@ -315,6 +310,9 @@ limitations under the License.
 		makeContainerAutocompleteMetaExcludeCO('parentContainerText', 'parent_container_id');
 		$('#parent_install_date').datepicker({ dateFormat: 'yy-mm-dd' });
 		<cfif variables.action EQ "edit">
+			<cfoutput>
+			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
+			</cfoutput>
 			$('#containerForm input[type=text]').on('change', changed);
 			$('#containerForm select').on('change', changed);
 			$('#containerForm textarea').on('change', changed);
