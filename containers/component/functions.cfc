@@ -1004,6 +1004,7 @@ details of a container for use in dialogs and page components.
 		<cfset local.safeDisplayMode = "page">
 	</cfif>
 	<cfset local.safeIdSuffix = REReplace(arguments.idSuffix, "[^A-Za-z0-9_-]", "", "all")>
+	<cfset local.safeIdSuffix = REReplace(local.safeIdSuffix, "^_+", "", "all")>
 	<cfthread
 		name="getContainerDetailsHtmlThread#local.tn#"
 		container_id="#arguments.container_id#"
@@ -1210,8 +1211,9 @@ details of a container for use in dialogs and page components.
 												#val(getContainerDetail.direct_leaf_children)#,
 												1
 											);
+											var specimenButtonTarget = "##" + "#encodeForJavaScript(specimenButtonDivId)#";
 											if (specimenButton) {
-												$("###encodeForJavaScript(specimenButtonDivId)#").html(specimenButton);
+												$(specimenButtonTarget).html(specimenButton);
 											}
 										});
 									</script>
