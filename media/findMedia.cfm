@@ -533,8 +533,8 @@ limitations under the License.
 												<div class="w-100">
 													<label for="media_label_type">Any Other Label </label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';"> NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
 												</div>
 												<cfset selectedmedia_label_type= "#media_label_type#">
 												<select id="media_label_type" name="media_label_type" class="col-6">
@@ -562,8 +562,8 @@ limitations under the License.
 											<div class="col-12 col-md-4 col-xl-2 mb-1">
 												<label for="owner">Owner </label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>)
 												<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
 												<script>
 													$(document).ready(function() {
