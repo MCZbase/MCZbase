@@ -3671,7 +3671,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="addCollector">
 											<input type="hidden" name="returnformat" value="json">
 											<input type="hidden" name="queryformat" value="column">
-											<div class="form-row mx-0 card-body">
+											<div class="form-row mx-0 pt-0 card-body">
 												<cfif target EQ "both">
 													<cfset colw ="4">
 												<cfelse>
@@ -3907,10 +3907,10 @@ limitations under the License.
 			<cfset i=1>
 			<cfloop query="getColls">
 				<div class="form-row mt-2 px-0 mx-0 rounded bg-light border">
-					<div class="col-12 border-bottom py-1 mb-2 mx-0 form-row bg-box-header-gray">
+					<div class="col-12 border-bottom py-1 mb-1 mx-0 form-row bg-box-header-gray">
 						<h3 class="h4 mt-0 mx-2 mb-0">Agent: #getColls.agent_name#</h3>
 					</div>
-					<div class="form-row mx-0 px-2">
+					<div class="form-row mx-0 px-2 mb-1">
 						<form name="colls#i#" id="colls#i#" class="form-row mx-0" onSubmit="return false;">
 							<input type="hidden" name="method" id="coll_method_#i#" value="">
 							<input type="hidden" name="returnformat" value="json">
