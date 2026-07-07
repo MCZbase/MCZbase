@@ -1562,16 +1562,19 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			if (status === 'created') {
 				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
 			} else if (status === 'saved') {
+				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
-				if (breadcrumbFeedbackId && breadcrumbTargetId && !isNaN(numericContainerId)) {
-					if (!responseContainerId && fallbackContainerId) {
-						console.warn('saveContainer did not return container_id; using form value to refresh the container breadcrumb.');
+				if (shouldRefreshBreadcrumb) {
+					if (!isNaN(numericContainerId)) {
+						if (!responseContainerId && fallbackContainerId) {
+							console.warn('saveContainer did not return container_id; using form value to refresh the container breadcrumb.');
+						}
+						showContainerBreadcrumb(numericContainerId, breadcrumbFeedbackId, breadcrumbTargetId);
+					} else if (!containerId) {
+						console.warn('Unable to refresh container breadcrumb after save: missing container_id.');
+					} else {
+						console.warn('Unable to refresh container breadcrumb after save: non-numeric container_id "' + containerId + '".');
 					}
-					showContainerBreadcrumb(numericContainerId, breadcrumbFeedbackId, breadcrumbTargetId);
-				} else if (breadcrumbFeedbackId && breadcrumbTargetId && containerId.length === 0) {
-					console.warn('Unable to refresh container breadcrumb after save: missing container_id.');
-				} else if (breadcrumbFeedbackId && breadcrumbTargetId && isNaN(numericContainerId)) {
-					console.warn('Unable to refresh container breadcrumb after save: non-numeric container_id "' + containerId + '".');
 				}
 			} else {
 				setFeedbackControlState(feedbackId, 'error');
