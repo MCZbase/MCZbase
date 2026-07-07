@@ -613,13 +613,14 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 
 <!---
 Function checkHasLeafDescendants.  Returns whether the given container has any collection
-object container descendants at any depth in its subtree.  Uses a hierarchical traversal
+object container leaves at any depth in its subtree, including the current container when
+it is itself a collection object container.  Uses a hierarchical traversal
 via CONNECT BY, but is called only on-demand (when the Specimens button is clicked for a
 container with no direct leaf children), keeping page-load performance fast.
 
 @param container_id the container_id to check.
-@return a JSON object with key has_leaf_descendants (1 if any collection object descendant
-  exists at any depth, 0 otherwise).
+@return a JSON object with key has_leaf_descendants (1 if any collection object leaf
+  exists at any depth in the subtree, 0 otherwise).
 --->
 <cffunction name="checkHasLeafDescendants" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -629,10 +630,18 @@ container with no direct leaf children), keeping page-load performance fast.
 		<cfquery name="queryGetCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT CASE WHEN EXISTS (
 				SELECT 1
-				FROM container
-				WHERE container_type = 'collection object'
-				START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-				CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+				FROM (
+					SELECT
+						container_type
+					FROM
+						container
+					START WITH
+						container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					CONNECT BY NOCYCLE PRIOR
+						container_id = parent_container_id
+				) subtree
+				WHERE
+					subtree.container_type = 'collection object'
 			) THEN 1 ELSE 0 END AS has_leaf_descendants
 			FROM DUAL
 		</cfquery>
@@ -997,6 +1006,7 @@ details of a container for use in dialogs and page components.
 	<cfargument name="container_id" type="numeric" required="yes">
 	<cfargument name="displayMode" type="string" required="no" default="page">
 	<cfargument name="idSuffix" type="string" required="no" default="">
+	<cfargument name="showBrowseAction" type="string" required="no" default="true">
 
 	<cfset local.tn = REReplace(createUUID(), "-", "", "all")>
 	<cfset local.safeDisplayMode = lCase(trim(arguments.displayMode))>
@@ -1005,11 +1015,18 @@ details of a container for use in dialogs and page components.
 	</cfif>
 	<cfset local.safeIdSuffix = REReplace(arguments.idSuffix, "[^A-Za-z0-9_-]", "", "all")>
 	<cfset local.safeIdSuffix = REReplace(local.safeIdSuffix, "^_+", "", "all")>
+	<cfset local.showBrowseAction = true>
+	<cfif isBoolean(arguments.showBrowseAction)>
+		<cfset local.showBrowseAction = javacast("boolean", arguments.showBrowseAction)>
+	<cfelseif listFindNoCase("0,false,no", trim(arguments.showBrowseAction))>
+		<cfset local.showBrowseAction = false>
+	</cfif>
 	<cfthread
 		name="getContainerDetailsHtmlThread#local.tn#"
 		container_id="#arguments.container_id#"
 		safeDisplayMode="#local.safeDisplayMode#"
 		safeIdSuffix="#local.safeIdSuffix#"
+		showBrowseAction="#local.showBrowseAction#"
 	>
 		<cfoutput>
 			<cftry>
@@ -1054,11 +1071,20 @@ details of a container for use in dialogs and page components.
 					<p class="text-danger">Container not found.</p>
 				<cfelse>
 					<cfquery name="queryCountCOChildren" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-						SELECT count(*) AS leaf_descendants
-						FROM container
-						WHERE container_type = 'collection object'
-						START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
-						CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+						SELECT
+							COUNT(*) AS leaf_descendants
+						FROM (
+							SELECT
+								container_type
+							FROM
+								container
+							START WITH
+								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
+							CONNECT BY NOCYCLE PRIOR
+								container_id = parent_container_id
+						) subtree
+						WHERE
+							subtree.container_type = 'collection object'
 					</cfquery>
 					<cfset formattedIdSuffix = "">
 					<cfif len(trim(safeIdSuffix)) GT 0>
@@ -1066,7 +1092,6 @@ details of a container for use in dialogs and page components.
 					</cfif>
 					<cfset breadcrumbNavId = "container_breadcrumb_nav#formattedIdSuffix#">
 					<cfset breadcrumbFeedbackId = "container_breadcrumb_feedback#formattedIdSuffix#">
-					<cfset specimenButtonDivId = "specimenButtonDiv#formattedIdSuffix#">
 					<cfset contextHeadingId = "containerContextHeading#formattedIdSuffix#">
 					<cfset detailsHeadingId = "containerDetailsHeading#formattedIdSuffix#">
 					<cfset contentsHeadingId = "containerContentsSummaryHeading#formattedIdSuffix#">
@@ -1074,6 +1099,10 @@ details of a container for use in dialogs and page components.
 					<cfset editContainerUrl = "/containers/Container.cfm?action=edit&container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
 					<cfset leafNodesUrl = "/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
+					<cfset specimenSearchUrl = "">
+					<cfif len(trim(getContainerDetail.barcode)) GT 0>
+						<cfset specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerDetail.barcode)#">
+					</cfif>
 					<cfset parentDisplay = "Unnamed container">
 					<cfif len(trim(getContainerDetail.parent_label)) GT 0>
 						<cfset parentDisplay = getContainerDetail.parent_label>
@@ -1100,9 +1129,9 @@ details of a container for use in dialogs and page components.
 									<cfif safeDisplayMode EQ "dialog">
 										<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 										<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
-										<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
-									<cfelse>
-										<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1">View this container in the tree</a>
+										<cfif showBrowseAction>
+											<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
+										</cfif>
 									</cfif>
 								</div>
 							</div>
@@ -1202,21 +1231,9 @@ details of a container for use in dialogs and page components.
 									<span class="text-muted">No Collection Objects in this container or its children</span>
 								<cfelse>
 									<span class="text-muted">#encodeForHtml(queryCountCOChildren.leaf_descendants)# contained</span>
-									<span id="#encodeForHtmlAttribute(specimenButtonDivId)#" aria-label="Specimen actions"></span>
-									<script>
-										$(document).ready(function() {
-											var specimenButton = buildSpecimensButtonImmediate(
-												"#encodeForJavaScript(getContainerDetail.container_id)#",
-												"#encodeForJavaScript(getContainerDetail.barcode)#",
-												#val(getContainerDetail.direct_leaf_children)#,
-												1
-											);
-											var specimenButtonTarget = $('#encodeForJavaScript(specimenButtonDivId)#');
-											if (specimenButton && specimenButtonTarget.length) {
-												specimenButtonTarget.html(specimenButton);
-											}
-										});
-									</script>
+									<cfif len(specimenSearchUrl) GT 0>
+										<a href="#specimenSearchUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Specimens</a>
+									</cfif>
 								</cfif>
 							</div>
 						</div>

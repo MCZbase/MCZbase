@@ -337,12 +337,13 @@ function formatContainerDisplay(barcode, label) {
 	return b || l || '(unknown container)';
 }
 
-function openContainerDetailsDialog(containerId, displayName, feedbackId) {
+function openContainerDetailsDialog(containerId, displayName, feedbackId, showBrowseAction) {
 	var dialogId = 'containerDetailsDialog';
 	var contentId = 'containerDetailsDialogContent';
 	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1000));
 	var dialogHeight = Math.max(320, Math.min($(window).height() - 40, 700));
 	var dialogTitle = 'Container Details';
+	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
 	if (displayName) {
 		dialogTitle = dialogTitle + ': ' + displayName;
 	}
@@ -360,14 +361,14 @@ function openContainerDetailsDialog(containerId, displayName, feedbackId) {
 	});
 	$('#' + dialogId).dialog('open');
 	$('#' + dialogId).dialog('moveToTop');
-	loadContainerDetails(containerId, contentId, feedbackId);
+	loadContainerDetails(containerId, contentId, feedbackId, browseActionEnabled);
 }
 
 function buildContainerDetailsButton(containerId, displayName, feedbackId) {
 	return $('<button class="btn btn-xs btn-outline-primary ml-1"></button>')
 		.text('Details')
 		.on('click', function() {
-			openContainerDetailsDialog(containerId, displayName, feedbackId);
+			openContainerDetailsDialog(containerId, displayName, feedbackId, false);
 		});
 }
 
@@ -1526,8 +1527,10 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
  * @param {string} method - 'createContainer' or 'saveContainer'.
  * @param {string} feedbackId - the id of the output/element for status feedback (without leading #).
  * @param {string} [redirectUrl] - optional URL to redirect to on create success.
+ * @param {string} [breadcrumbFeedbackId] - optional feedback element id for breadcrumb refresh after save.
+ * @param {string} [breadcrumbTargetId] - optional target element id for breadcrumb refresh after save.
  */
-function saveContainerForm(formId, method, feedbackId, redirectUrl) {
+function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId) {
 	var $form = $('#' + formId);
 	var containerType = $.trim($form.find('[name=container_type]').val());
 	var label = $.trim($form.find('[name=label]').val());
@@ -1557,6 +1560,9 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl) {
 				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
 			} else if (status === 'saved') {
 				setFeedbackControlState(feedbackId, 'saved');
+				if (breadcrumbFeedbackId && breadcrumbTargetId && containerId) {
+					showContainerBreadcrumb(containerId, breadcrumbFeedbackId, breadcrumbTargetId);
+				}
 			} else {
 				setFeedbackControlState(feedbackId, 'error');
 				messageDialog('Error: ' + message, 'Error Saving Container');
@@ -1615,8 +1621,10 @@ function confirmDeleteContainer(containerId, feedbackId) {
  * @param {number} containerId - the container_id to display.
  * @param {string} targetDivId - the id of the div to render into (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
+ * @param {boolean} [showBrowseAction] - whether to show the Browse in Hierarchy button in the fragment.
  */
-function loadContainerDetails(containerId, targetDivId, feedbackId) {
+function loadContainerDetails(containerId, targetDivId, feedbackId, showBrowseAction) {
+	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
 		url: '/containers/component/functions.cfc',
@@ -1626,7 +1634,8 @@ function loadContainerDetails(containerId, targetDivId, feedbackId) {
 			returnformat: 'plain',
 			container_id: containerId,
 			displayMode: 'dialog',
-			idSuffix: targetDivId
+			idSuffix: targetDivId,
+			showBrowseAction: browseActionEnabled ? 'true' : 'false'
 		},
 		success: function(data) {
 			$('#' + targetDivId).html(data);

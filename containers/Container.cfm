@@ -189,6 +189,12 @@ limitations under the License.
 			<cfelse>
 				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
 			</cfif>
+			<cfif variables.action EQ "edit">
+				<section class="mb-3" aria-label="Container breadcrumb trail">
+					<nav aria-label="Container breadcrumb" class="mb-2" id="containerEditBreadcrumbNav"></nav>
+					<output id="containerEditBreadcrumbFeedback"></output>
+				</section>
+			</cfif>
 
 			<form class="col-12 px-0" id="containerForm" name="containerForm" method="post" novalidate>
 				<cfif variables.action EQ "edit">
@@ -276,7 +282,7 @@ limitations under the License.
 				<div class="form-row mb-4 mt-1">
 					<div class="col-12">
 						<cfif variables.action EQ "edit">
-							<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus')">Save Changes</button>
+							<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
 							<a class="btn btn-xs btn-info ml-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
@@ -304,6 +310,7 @@ limitations under the License.
 		makeContainerAutocompleteMetaExcludeCO('parentContainerText', 'parent_container_id');
 		$('#parent_install_date').datepicker({ dateFormat: 'yy-mm-dd' });
 		<cfif variables.action EQ "edit">
+			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
 			$('#containerForm input[type=text]').on('change', changed);
 			$('#containerForm select').on('change', changed);
 			$('#containerForm textarea').on('change', changed);
