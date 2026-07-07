@@ -1555,14 +1555,21 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 		success: function(resp) {
 			var status = resp.status || resp.STATUS || '';
 			var message = resp.message || resp.MESSAGE || 'Unknown error.';
-			var containerId = resp.container_id || resp.CONTAINER_ID || $.trim($form.find('[name=container_id]').val()) || '';
+			var responseContainerId = resp.container_id || resp.CONTAINER_ID || '';
+			var fallbackContainerId = $.trim($form.find('[name=container_id]').val()) || '';
+			var containerId = responseContainerId || fallbackContainerId;
 			var numericContainerId = parseInt(containerId, 10);
 			if (status === 'created') {
 				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
 			} else if (status === 'saved') {
 				setFeedbackControlState(feedbackId, 'saved');
 				if (breadcrumbFeedbackId && breadcrumbTargetId && !isNaN(numericContainerId)) {
+					if (!responseContainerId && fallbackContainerId) {
+						console.warn('saveContainer did not return container_id; using form value to refresh the container breadcrumb.');
+					}
 					showContainerBreadcrumb(numericContainerId, breadcrumbFeedbackId, breadcrumbTargetId);
+				} else if (breadcrumbFeedbackId && breadcrumbTargetId) {
+					console.warn('Unable to refresh container breadcrumb after save: missing numeric container_id.');
 				}
 			} else {
 				setFeedbackControlState(feedbackId, 'error');
