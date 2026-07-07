@@ -995,9 +995,21 @@ details of a container for use in dialogs and page components.
 --->
 <cffunction name="getContainerDetailsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="displayMode" type="string" required="no" default="page">
+	<cfargument name="idSuffix" type="string" required="no" default="">
 
 	<cfset local.tn = REReplace(createUUID(), "-", "", "all")>
-	<cfthread name="getContainerDetailsHtmlThread#local.tn#" container_id="#arguments.container_id#">
+	<cfset local.safeDisplayMode = lCase(trim(arguments.displayMode))>
+	<cfif local.safeDisplayMode NEQ "dialog">
+		<cfset local.safeDisplayMode = "page">
+	</cfif>
+	<cfset local.safeIdSuffix = REReplace(arguments.idSuffix, "[^A-Za-z0-9_-]", "", "all")>
+	<cfthread
+		name="getContainerDetailsHtmlThread#local.tn#"
+		container_id="#arguments.container_id#"
+		displayMode="#local.safeDisplayMode#"
+		idSuffix="#local.safeIdSuffix#"
+	>
 		<cfoutput>
 			<cftry>
 				<cfquery name="getContainerDetail" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -1040,12 +1052,79 @@ details of a container for use in dialogs and page components.
 				<cfif getContainerDetail.recordcount EQ 0>
 					<p class="text-danger">Container not found.</p>
 				<cfelse>
+					<cfquery name="queryCountCOChildren" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						SELECT count(*) AS leaf_descendants
+						FROM container
+						WHERE container_type = 'collection object'
+						START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
+						CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+					</cfquery>
+					<cfset suffixText = "">
+					<cfif len(trim(idSuffix)) GT 0>
+						<cfset suffixText = "_#idSuffix#">
+					</cfif>
+					<cfset breadcrumbNavId = "container_breadcrumb_nav#suffixText#">
+					<cfset breadcrumbFeedbackId = "container_breadcrumb_feedback#suffixText#">
+					<cfset specimenButtonDivId = "specimenButtonDiv#suffixText#">
+					<cfset contextHeadingId = "containerContextHeading#suffixText#">
+					<cfset detailsHeadingId = "containerDetailsHeading#suffixText#">
+					<cfset contentsHeadingId = "containerContentsSummaryHeading#suffixText#">
+					<cfset viewContainerUrl = "/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
+					<cfset editContainerUrl = "/containers/Container.cfm?action=edit&container_id=#encodeForURL(getContainerDetail.container_id)#">
+					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
+					<cfset leafNodesUrl = "/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
+					<cfset parentDisplay = "Unnamed container">
+					<cfif len(trim(getContainerDetail.parent_label)) GT 0>
+						<cfset parentDisplay = getContainerDetail.parent_label>
+					</cfif>
+					<cfif len(trim(getContainerDetail.parent_barcode)) GT 0>
+						<cfset parentDisplay = getContainerDetail.parent_barcode>
+						<cfif getContainerDetail.parent_barcode NEQ getContainerDetail.parent_label AND len(trim(getContainerDetail.parent_label)) GT 0>
+							<cfset parentDisplay = "#parentDisplay# (#getContainerDetail.parent_label#)">
+						</cfif>
+					</cfif>
 					<cfset lockedPositionText = "No">
 					<cfif val(getContainerDetail.locked_position) EQ 1>
 						<cfset lockedPositionText = "Yes">
 					</cfif>
-					<section class="mb-3" aria-labelledby="containerDetailsHeading">
-						<h2 class="h5" id="containerDetailsHeading">Details</h2>
+					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contextHeadingId)#">
+						<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start">
+							<div class="flex-grow-1 mr-lg-3">
+								<h2 class="h4 mb-2" id="#encodeForHtmlAttribute(contextHeadingId)#">Context</h2>
+								<nav aria-label="Container breadcrumb" class="mb-2" id="#encodeForHtmlAttribute(breadcrumbNavId)#"></nav>
+								<output id="#encodeForHtmlAttribute(breadcrumbFeedbackId)#"></output>
+							</div>
+							<div class="mt-2 mt-lg-0 text-lg-right">
+								<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
+									<cfif displayMode EQ "dialog">
+										<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
+										<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
+										<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
+									<cfelse>
+										<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1">View this container in the tree</a>
+									</cfif>
+								</div>
+							</div>
+						</div>
+						<script>
+							$(document).ready(function() {
+								showContainerBreadcrumb("#encodeForJavaScript(getContainerDetail.container_id)#", "#encodeForJavaScript(breadcrumbFeedbackId)#", "#encodeForJavaScript(breadcrumbNavId)#");
+							});
+						</script>
+						<div class="form-row">
+							<div class="col-12 col-lg-8 mb-2">
+								<strong>Current Parent:</strong>
+								<cfif len(trim(getContainerDetail.parent_container_id)) GT 0>
+									#encodeForHtml(getContainerDetail.parent_container_type)#:
+									<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.parent_container_id)#">#encodeForHtml(parentDisplay)#</a>
+								<cfelse>
+									<span class="text-muted">This container has no current parent container record.</span>
+								</cfif>
+							</div>
+						</div>
+					</section>
+					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(detailsHeadingId)#">
+						<h2 class="h5" id="#encodeForHtmlAttribute(detailsHeadingId)#">Details</h2>
 						<div class="form-row">
 							<div class="col-12 col-md-6 col-xl-4 mb-2">
 								<strong>Container Type:</strong> #encodeForHtml(getContainerDetail.container_type)#
@@ -1093,8 +1172,54 @@ details of a container for use in dialogs and page components.
 							</div>
 						</div>
 					</section>
+					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contentsHeadingId)#">
+						<h2 class="h4" id="#encodeForHtmlAttribute(contentsHeadingId)#">Contents</h2>
+						<div class="form-row mb-1">
+							<div class="col-12 col-lg-4 mb-1">
+								<h3 class="h4">Structural Contents:</h3>
+								<cfif val(getContainerDetail.direct_structural_children) GT 0>
+									<a href="#browseTreeUrl#">
+										Browse #encodeForHtml(getContainerDetail.direct_structural_children)# structural children in the tree
+									</a>
+								<cfelse>
+									<span class="text-muted">0 structural children</span>
+								</cfif>
+							</div>
+							<div class="col-12 col-lg-4 mb-1">
+								<h3 class="h4">Object Contents:</h3>
+								<cfif val(getContainerDetail.direct_leaf_children) GT 0>
+									<a href="#leafNodesUrl#">
+										Browse #encodeForHtml(getContainerDetail.direct_leaf_children)# direct leaf children
+									</a>
+								<cfelse>
+									<span class="text-muted">0 direct leaf children</span>
+								</cfif>
+							</div>
+							<div class="col-12 col-lg-4 mb-1">
+								<h3 class="h4">Collection Objects:</h3>
+								<cfif queryCountCOChildren.leaf_descendants EQ 0>
+									<span class="text-muted">No Collection Objects in this container or its children</span>
+								<cfelse>
+									<span class="text-muted">#encodeForHtml(queryCountCOChildren.leaf_descendants)# contained</span>
+									<span id="#encodeForHtmlAttribute(specimenButtonDivId)#" aria-label="Specimen actions"></span>
+									<script>
+										$(document).ready(function() {
+											var specimenButton = buildSpecimensButtonImmediate(
+												"#encodeForJavaScript(getContainerDetail.container_id)#",
+												"#encodeForJavaScript(getContainerDetail.barcode)#",
+												#val(getContainerDetail.direct_leaf_children)#,
+												1
+											);
+											if (specimenButton) {
+												$("###encodeForJavaScript(specimenButtonDivId)#").html(specimenButton);
+											}
+										});
+									</script>
+								</cfif>
+							</div>
+						</div>
+					</section>
 				</cfif>
-
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">

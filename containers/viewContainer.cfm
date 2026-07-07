@@ -68,21 +68,6 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfquery name="getParent" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT
-		container_id,
-		parent_container_id,
-		container_type,
-		label,
-		description,
-		barcode,
-		institution_acronym
-	FROM
-		container
-	WHERE
-		container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.parent_container_id#">
-</cfquery>
-
 <cfquery name="getHistory" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		ch.install_date,
@@ -99,7 +84,6 @@ limitations under the License.
 		ch.install_date DESC NULLS LAST
 </cfquery>
 
-<cfset variables.containerSearch = createObject("component", "containers.component.search")>
 <cfset variables.pageTitleDisplay = "Unnamed container">
 <cfif len(trim(getContainer.label)) GT 0>
 	<cfset variables.pageTitleDisplay = getContainer.label>
@@ -121,88 +105,7 @@ limitations under the License.
 <cfoutput>
 	<h1 class="h2">#encodeForHtml(variables.pageTitleDisplay)#</h1>
 
-	<section class="mb-3" aria-labelledby="containerContextHeading">
-		<nav aria-label="Container breadcrumb" class="mb-2" id="container_breadcrumb_nav"></nav>
-		<output id ="container_breadcrumb_feedback"></output>
-		<script>
-			$(document).ready(function() {
-				showContainerBreadcrumb("#getContainer.container_id#", "container_breadcrumb_feedback", "container_breadcrumb_nav");
-			});
-		</script>
-		<div class="form-row">
-			<div class="col-12 col-lg-6 mb-2">
-				<strong>Current Parent:</strong>
-				<cfif getParent.recordcount EQ 1>
-					<cfset variables.parentDisplay = "Unnamed container">
-					<cfif len(trim(getParent.label)) GT 0>
-						<cfset variables.parentDisplay = getParent.label>
-					</cfif>
-					<cfif len(trim(getParent.barcode)) GT 0>
-						<cfset variables.parentDisplay = getParent.barcode>
-						<cfif getParent.barcode NEQ getParent.label AND len(trim(getParent.label)) GT 0>
-							<cfset variables.parentDisplay = "#variables.parentDisplay# (#getParent.label#)">
-						</cfif>
-					</cfif>
-					#encodeForHtml(getParent.container_type)#: 
-					<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getParent.container_id)#">#encodeForHtml(variables.parentDisplay)#</a>
-				<cfelse>
-					<span class="text-muted">This container has no current parent container record.</span>
-				</cfif>
-			</div>
-			<div class="col-12 col-lg-6 mb-2">
-				<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true" class="btn btn-xs btn-info float-right mr-3">View this container in the tree</a>
-			</div>
-		</div>
-	</section>
-
-	#getContainerDetailsHtml(container_id=val(getContainer.container_id))#
-
-	<section class="mb-3" aria-labelledby="containerContentsSummaryHeading">
-		<h2 class="h4" id="containerContentsSummaryHeading">Contents</h2>
-		<div class="form-row mb-1">
-			<div class="col-12 col-lg-4 mb-1">
-				<h3 class="h4">Structural Contents:</h3>
-				<cfif val(getContainer.direct_structural_children) GT 0>
-					<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">
-						Browse #encodeForHtml(getContainer.direct_structural_children)# structural children in the tree
-					</a>
-				<cfelse>
-					<span class="text-muted">0 structural children</span>
-				</cfif>
-			</div>
-			<div class="col-12 col-lg-4 mb-1">
-				<h3 class="h4">Object Contents:</h3>
-				<cfif val(getContainer.direct_leaf_children) GT 0>
-					<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">
-						Browse #encodeForHtml(getContainer.direct_leaf_children)# direct leaf children
-					</a>
-				<cfelse>
-					<span class="text-muted">0 direct leaf children</span>
-				</cfif>
-			</div>
-			<div class="col-12 col-lg-4 mb-1">
-				<h3 class="h4">Collection Objects:</h3>
-				<cfquery name="queryCountCOChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT count(*) AS leaf_descendants
-					FROM container
-					WHERE container_type = 'collection object'
-					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.container_id#">
-					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-				</cfquery>
-				<cfif queryCountCOChildren.leaf_descendants EQ 0>
-					<span class="text-muted">No Collection Objects in this container or its children</span>
-				<cfelse>
-					<span class="text-muted">#encodeForHtml(queryCountCOChildren.leaf_descendants)# contained</span>
-					<span id="specimenButtonDiv" aria-label="Specimen actions"></span>
-					<script>
-						$(document).ready(function() {
-							$("##specimenButtonDiv").html( buildSpecimensButtonImmediate("#getContainer.container_id#", "#getContainer.barcode#", #getContainer.direct_leaf_children#, 1) );
-						});
-					</script>
-				</cfif>
-			</div>
-		</div>
-	</section>
+	#getContainerDetailsHtml(container_id=val(getContainer.container_id), displayMode="page", idSuffix="page")#
 
 	<section class="mb-3" aria-labelledby="placementHistoryHeading">
 		<h2 class="h4" id="placementHistoryHeading">Placement History</h2>

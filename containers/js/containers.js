@@ -1624,7 +1624,9 @@ function loadContainerDetails(containerId, targetDivId, feedbackId) {
 		data: {
 			method: 'getContainerDetailsHtml',
 			returnformat: 'plain',
-			container_id: containerId
+			container_id: containerId,
+			displayMode: 'dialog',
+			idSuffix: targetDivId
 		},
 		success: function(data) {
 			$('#' + targetDivId).html(data);
