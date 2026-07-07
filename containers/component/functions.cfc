@@ -1007,8 +1007,8 @@ details of a container for use in dialogs and page components.
 	<cfthread
 		name="getContainerDetailsHtmlThread#local.tn#"
 		container_id="#arguments.container_id#"
-		displayMode="#local.safeDisplayMode#"
-		idSuffix="#local.safeIdSuffix#"
+		safeDisplayMode="#local.safeDisplayMode#"
+		safeIdSuffix="#local.safeIdSuffix#"
 	>
 		<cfoutput>
 			<cftry>
@@ -1060,8 +1060,8 @@ details of a container for use in dialogs and page components.
 						CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
 					</cfquery>
 					<cfset suffixText = "">
-					<cfif len(trim(idSuffix)) GT 0>
-						<cfset suffixText = "_#idSuffix#">
+					<cfif len(trim(safeIdSuffix)) GT 0>
+						<cfset suffixText = "_#safeIdSuffix#">
 					</cfif>
 					<cfset breadcrumbNavId = "container_breadcrumb_nav#suffixText#">
 					<cfset breadcrumbFeedbackId = "container_breadcrumb_feedback#suffixText#">
@@ -1096,7 +1096,7 @@ details of a container for use in dialogs and page components.
 							</div>
 							<div class="mt-2 mt-lg-0 text-lg-right">
 								<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
-									<cfif displayMode EQ "dialog">
+									<cfif safeDisplayMode EQ "dialog">
 										<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 										<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
 										<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
