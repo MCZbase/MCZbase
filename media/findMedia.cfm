@@ -400,18 +400,7 @@ limitations under the License.
                                                 });
                                             </script>
                                         </div>
-                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                            <div class="form-group col-12 col-md-2 mb-1">
-                                                <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
-                                                <select id="mask_media_fg" name="mask_media_fg">
-                                                    <option></option>
-                                                    <cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="1" #sel#>Hidden</option>
-                                                    <cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                    <option value="0" #sel#>Public</option>
-                                                </select>
-                                            </div>
-                                        </cfif>
+                                        
                                         <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                             <label for="height">Height </label>
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
@@ -587,6 +576,18 @@ limitations under the License.
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
                                                     <input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
                                                 </div>
+                                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                                    <div class="form-group col-12 col-md-2 mb-1">
+                                                        <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
+                                                        <select id="mask_media_fg" name="mask_media_fg">
+                                                            <option></option>
+                                                            <cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="1" #sel#>Hidden</option>
+                                                            <cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                            <option value="0" #sel#>Public</option>
+                                                        </select>
+                                                    </div>
+                                                </cfif>
                                             </div>
                                         </cfif>  
                                     </fieldset>
