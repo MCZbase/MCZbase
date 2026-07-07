@@ -1951,11 +1951,11 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     line-height: 0.875rem;
 }
 .jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
-    line-height: 21px !important;
-    height: 21px !important;
+    line-height: 23px !important;
+    height: 23px !important;
 }
 .jqx-combobox {
-    height: 21px !important;
+    height: 23px !important;
 }
 .tab-content button.rules, #searchFormDiv button.rules[type="button"] {
     border: none;
