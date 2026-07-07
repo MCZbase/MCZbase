@@ -1120,21 +1120,23 @@ details of a container for use in dialogs and page components.
 					</cfif>
 					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contextHeadingId)#">
 						<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start">
-							<div class="flex-grow-1 mr-lg-3">
+							<div class="flex-grow-1">
 								<h2 class="h4 mb-2" id="#encodeForHtmlAttribute(contextHeadingId)#">Context</h2>
+								<div class="mt-2 mt-lg-0 text-lg-right">
+									<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
+										<cfif safeDisplayMode EQ "dialog">
+											<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
+											<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
+											<cfif showBrowseAction>
+												<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
+											</cfif>
+										</cfif>
+									</div>
+								</div>
+							</div>
+							<div class="flex-grow-1">
 								<nav aria-label="Container breadcrumb" class="mb-2" id="#encodeForHtmlAttribute(breadcrumbNavId)#"></nav>
 								<output id="#encodeForHtmlAttribute(breadcrumbFeedbackId)#"></output>
-							</div>
-							<div class="mt-2 mt-lg-0 text-lg-right">
-								<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
-									<cfif safeDisplayMode EQ "dialog">
-										<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
-										<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
-										<cfif showBrowseAction>
-											<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
-										</cfif>
-									</cfif>
-								</div>
 							</div>
 						</div>
 						<script>
