@@ -181,7 +181,7 @@ limitations under the License.
 		<main id="content">
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
-					 <div class="d-flex flex-wrap mb-0 mr-0 ml-0 mr-md-3 mr-xl-4 ml-xl-3">
+					 <div class="d-flex flex-wrap mb-0 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
 						<div class="search-box mt-4">
 							<div class="search-box-header">
 								<h1 class="h3 text-white w-75" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
@@ -569,8 +569,8 @@ limitations under the License.
 			</section>
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
-				<div class="row">
-					<div class="col-12 mb-5">
+				<div class="row mr-xl-1">
+					<div class="col-12 mb-5 pr-xl-4">
 						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border p-2 mx-0">
 							<h1 class="h4 my-0 ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
