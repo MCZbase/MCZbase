@@ -1,6 +1,8 @@
 <!---
 /containers/viewContainer.cfm
 
+View container details and placement history for a container.
+
 Copyright 2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +21,7 @@ limitations under the License.
 <cfparam name="url.container_id" default=""><!--- container_id is the surrogate numeric identifier for the container to view --->
 <cfparam name="url.barcode" default=""><!--- barcode uniquely identifies a container, if given has priority over container_id --->
 <cf_rolecheck>
+<cfinclude template="/containers/component/functions.cfc" runonce="true">
 
 <cfif NOT isNumeric(url.container_id)>
 	<cflocation url="/containers/Containers.cfm" addtoken="false">
@@ -94,7 +97,6 @@ limitations under the License.
 		<cfset variables.pageTitleDisplay = "#variables.pageTitleDisplay# (#getContainer.label#)">
 	</cfif>
 </cfif>
-<cfinclude template="/containers/component/functions.cfc" runonce="true">
 
 <cfset pageTitle = "Container: #variables.pageTitleDisplay#">
 <cfset pageHasContainers = true>
@@ -103,7 +105,7 @@ limitations under the License.
 <main id="content" class="container-fluid">
 
 <cfoutput>
-	<h1 class="h2">#encodeForHtml(variables.pageTitleDisplay)#</h1>
+	<h1 class="h2">Container: #encodeForHtml(variables.pageTitleDisplay)#</h1>
 
 	#getContainerDetailsHtml(container_id=val(getContainer.container_id), displayMode="page", idSuffix="page")#
 

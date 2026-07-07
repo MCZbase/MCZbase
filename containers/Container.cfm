@@ -1,6 +1,8 @@
 <!---
 /containers/Container.cfm
 
+Edit or create a container record.
+
 Copyright 2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -190,6 +192,7 @@ limitations under the License.
 				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
 			</cfif>
 			<cfif variables.action EQ "edit">
+				<!--- This section is populated via an ajax call to the showContainerBreadcrumb() function in the script below as the backing method returns json --->
 				<section class="mb-0" aria-label="Container breadcrumb trail">
 					<nav aria-label="Container breadcrumb" class="mb-2" id="containerEditBreadcrumbNav"></nav>
 					<output id="containerEditBreadcrumbFeedback"></output>
