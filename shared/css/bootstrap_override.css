@@ -1958,13 +1958,20 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 .jqx-combobox {
     height: 23px !important;
 }
-.tab-content button.rules, #searchFormDiv button.rules[type="button"], #searchForm button.rules[type="button"], #searchForm span.rules {
+.tab-content button.rules, #searchFormDiv button.rules[type="button"], #searchForm button.rules[type="button"] {
     border: none;
     padding: 0;
     color: #0460c1 !important;
 	font-weight: 400;
     font-size: 0.85em;
 	text-decoration: underline dotted #0460c1;  
+}
+#searchForm span.rules {
+    border: none;
+    padding: 0;
+    color: #212529 !important;
+	font-weight: 400;
+    font-size: 0.85em;  
 }
 #searchFormDiv input[type="radio"] {
     position: absolute;
