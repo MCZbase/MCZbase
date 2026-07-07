@@ -190,7 +190,7 @@ limitations under the License.
 				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
 			</cfif>
 			<cfif variables.action EQ "edit">
-				<section class="mb-3" aria-label="Container breadcrumb trail">
+				<section class="mb-0" aria-label="Container breadcrumb trail">
 					<nav aria-label="Container breadcrumb" class="mb-2" id="containerEditBreadcrumbNav"></nav>
 					<output id="containerEditBreadcrumbFeedback"></output>
 				</section>
