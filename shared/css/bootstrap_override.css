@@ -1958,7 +1958,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 .jqx-combobox {
     height: 23px !important;
 }
-.tab-content button.rules, #searchFormDiv button.rules[type="button"], #searchFormDiv span.rules {
+.tab-content button.rules, #searchFormDiv button.rules[type="button"], span.rules {
     border: none;
     padding: 0;
     color: #0460c1 !important;
