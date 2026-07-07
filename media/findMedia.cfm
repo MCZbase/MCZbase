@@ -211,8 +211,8 @@ limitations under the License.
 						<div class="col-12 p-3" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
-								<fieldset class="bg-light border-top border-bottom border-right border-left field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-									<legend class="h6 mb-0 px-3 border-top border-bottom border-left border-right field-set-legend w-auto bg-teal sr-only">Search for Media</legend> 
+								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal sr-only">Search for Media</legend> 
 									<div class="form-row">
 										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 										<div class="col-12 col-md-5 mb-1">
@@ -362,7 +362,7 @@ limitations under the License.
 										</cfif>
 										<div class="col-12 col-md-3 mb-1">
 											 <label for="description">Description</label>
-											 (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">Null</button><span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+											 (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 											 <button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" aria-describedby="descrAny_help">Any</button><span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>)
 											 <input type="text" id="description" name="description" value="#encodeForHtml(description)#">
 										</div>
@@ -373,7 +373,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-#keycols# mb-1">
 											<label for="subject">Subject</label>
-											<span class="small">(<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">Null</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+											<span class="small">(<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">NULL</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)</span>
 											<input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
 											<script>
@@ -413,7 +413,7 @@ limitations under the License.
 												<label for="height">Height </label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';">Null</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)	 
 												<input type="text" id="height" name="height" value="#encodeForHtml(height)#">
 											</div>
@@ -423,7 +423,7 @@ limitations under the License.
 												<label for="width">Width </label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';">Null</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)<strong></strong>
 												<input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
 											</div>
@@ -433,7 +433,7 @@ limitations under the License.
 												<label for="light_source">Light Source </label>
 												<button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" aria-describedby="lightSEquals_help">=</button><span id="lightSEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';" aria-describedby="lightSNull_help">Null</button><span id="lightSNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';" aria-describedby="lightSNull_help">NULL</button><span id="lightSNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
 												<input type="text" id="light_source" name="light_source" value="#encodeForHtml(light_source)#">
 												<script>
@@ -457,7 +457,7 @@ limitations under the License.
 											<div class="col-12 col-md-4 col-xl-2">
 												<div class="form-group mb-2">
 													<label for="internal_remarks">Internal Remarks </label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';">Null</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+													(<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
 												</div>
@@ -466,7 +466,7 @@ limitations under the License.
 										<div class="col-12 col-md-#remcolm# col-xl-#remcolx#">
 											<div class="form-group mb-2">
 												<label for="remarks">Remarks</label> 
-												(<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';">Null</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												(<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
 											</div>
