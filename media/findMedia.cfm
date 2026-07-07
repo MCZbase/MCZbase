@@ -212,56 +212,59 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
 								<fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal sr-only">Search for Media</legend> 
-									<div class="form-row">
-										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-										<div class="col-12 col-md-5 mb-1">
-											<label for="media_uri">Media URI</label>
-											<input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
-										</div>
-										<div class="col-12 col-md-2 mb-1">
-											<label for="media_id">Media ID</label>
-											<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
-										</div>
-										<div class="col-12 col-md-2 mb-1">
-											<label for="media_type">Media Type</label>
-											<select id="media_type" name="media_type">
-												<option></option>
-												<cfloop query="ctmedia_type">
-													<cfif in_media_type EQ ctmedia_type.media_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#ctmedia_type.media_type#" #selected#>#ctmedia_type.media_type#</option>
-												</cfloop>
-												<cfloop query="ctmedia_type">
-													<cfif in_media_type EQ "!#ctmedia_type.media_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="!#ctmedia_type.media_type#" #selected#>not #ctmedia_type.media_type#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3 mb-1">
-											<label for="mime_type">MIME Type</label>
-											<cfset selectedmimetypelist = "">
-											<select id="mime_type" name="mime_type" multiple="true">
-												<option></option>
-												<cfloop query="ctmime_type">
-													<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
-														<cfset selected="selected='true'">
-														<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
-												</cfloop>
-											</select>
-											<script>
-												$(document).ready(function () {
-													$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%',  height: '20px',enableBrowserBoundsDetection: true });  
-													<cfloop list="#selectedmimetypelist#" index="mt">
-														$("##mime_type").jqxComboBox('selectItem', '#mt#');
-													</cfloop>
-												});
-											</script>
-										</div>
-									</div>
+                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal sr-only">Search for Media</legend> 
+                                    <div class="form-row mt-0">
+                                        <div class="form-group col-12 col-sm-6 col-md-2 mb-0 pb-0">
+                                        <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
+                                            <div class="col-12 col-md-5 mb-1">
+                                                <label for="media_uri">Media URI</label>
+                                                <input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
+                                            </div>
+                                            <div class="col-12 col-md-2 mb-1">
+                                                <label for="media_id">Media ID</label>
+                                                <input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
+                                            </div>
+                                            <div class="col-12 col-md-2 mb-1">
+                                                <label for="media_type">Media Type</label>
+                                                <select id="media_type" name="media_type">
+                                                    <option></option>
+                                                    <cfloop query="ctmedia_type">
+                                                        <cfif in_media_type EQ ctmedia_type.media_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="#ctmedia_type.media_type#" #selected#>#ctmedia_type.media_type#</option>
+                                                    </cfloop>
+                                                    <cfloop query="ctmedia_type">
+                                                        <cfif in_media_type EQ "!#ctmedia_type.media_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+                                                        <option value="!#ctmedia_type.media_type#" #selected#>not #ctmedia_type.media_type#</option>
+                                                    </cfloop>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-md-3 mb-1">
+                                                <label for="mime_type">MIME Type</label>
+                                                <cfset selectedmimetypelist = "">
+                                                <select id="mime_type" name="mime_type" multiple="true">
+                                                    <option></option>
+                                                    <cfloop query="ctmime_type">
+                                                        <cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
+                                                            <cfset selected="selected='true'">
+                                                            <cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
+                                                        <cfelse>
+                                                            <cfset selected="">
+                                                        </cfif>
+                                                        <option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
+                                                    </cfloop>
+                                                </select>
+                                                <script>
+                                                    $(document).ready(function () {
+                                                        $("##mime_type").jqxComboBox({  multiSelect: true, width: '100%',  height: '20px',enableBrowserBoundsDetection: true });  
+                                                        <cfloop list="#selectedmimetypelist#" index="mt">
+                                                            $("##mime_type").jqxComboBox('selectItem', '#mt#');
+                                                        </cfloop>
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
 									<div class="form-row">
 										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 										<div class="col-12 col-md-1 mb-1">
