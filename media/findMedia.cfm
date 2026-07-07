@@ -212,9 +212,9 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
 								<fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
-                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal sr-only">Search for Media</legend> 
+                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
                                     <div class="form-row mt-0">
-                                        <div class="form-group col-12 col-sm-6 col-md-2 mb-0 pb-0">
+                                        <div class="form-group col-12">
                                         <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
                                             <div class="col-12 col-md-5 mb-1">
                                                 <label for="media_uri">Media URI</label>
@@ -265,6 +265,8 @@ limitations under the License.
                                         </div>
                                     </div>
                                 </fieldset>
+                                <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                    
 									<div class="form-row">
 										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 										<div class="col-12 col-md-1 mb-1">
@@ -355,6 +357,7 @@ limitations under the License.
 											<input type="text" id="original_filename" name="original_filename" value="#encodeForHtml(original_filename)#">
 										</div>
 									</div>
+                                </fieldset>
 									<div class="form-row">
 										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 										<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
