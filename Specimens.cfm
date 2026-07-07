@@ -1227,7 +1227,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
                                                         <label for="biol_indiv_relationship">Has Relationship</label>
-                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" aria-describedby="relationshipAny_help"> (Any) <span id="relationshipAny_help" class="sr-only">use Any for NOT NULL to find cataloged items with relationships of any type</span></button>
+                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" aria-describedby="relationshipAny_help"> (Any) <span id="relationshipAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with relationships of any type</span></button>
                                                         <button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" aria-describedby="relationshipPick_help"> (&##8595;) <span id="relationshipPick_help" class="sr-only">open pick list</span></button>
                                                         <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" value="#encodeForHtml(biol_indiv_relationship)#" >
                                                         <script>
@@ -1239,7 +1239,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
                                                         <label for="media_type">Media Type</label>
-                                                        <button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" aria-describedby="mediaAny_help"> (Any) <span id="mediaAny_help" class="sr-only">use NOT NULL to find cataloged items with media of any type</span></button>
+                                                        <button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" aria-describedby="mediaAny_help"> (Any) <span id="mediaAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with media of any type</span></button>
                                                         <button type="button" class="rules" onclick="$('##media_type').autocomplete('search','%'); return false;" aria-describedby="mediaPick_help"> 
                                                             (&##8595;) <span id="mediaPick_help" class="sr-only">open pick list</span>
                                                         </button>
@@ -1334,7 +1334,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_type">Part Attribute Type</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-describedby="partAttTypeAny_help"> (Any) <span id="partAttTypeAny_help" class="sr-only">use Any for NOT NULL to find cataloged items with any part attribute</span></button>
+                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-describedby="partAttTypeAny_help"> (Any) <span id="partAttTypeAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with any part attribute</span></button>
                                                                 <button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" aria-describedby="partAttTypePick_help"> 
                                                                     (&##8595;) <span id="partAttTypePick_help" class="sr-only">open pick list</span>
                                                                 </button>
@@ -1706,7 +1706,7 @@ limitations under the License.
 																	<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
                                                                     <label for="permit_type">Document Category</label>
 																    <button type="button" class="rules" onclick="$('##permit_type').autocomplete('search','%%%'); return false;" aria-describedby="docCatPick_help">(&##8595;)<span id="docCatPick_help" class="sr-only">open pick list for document category</span></button>
-																    <button type="button" class="rules" onclick="$('##permit_type').val('NOT NULL'); return false;" aria-describedby="docCatAny_help">(Any)<span id="docCatAny_help" class="sr-only">use Any for NOT NULL to find any related document category</span></button>
+																    <button type="button" class="rules" onclick="$('##permit_type').val('NOT NULL'); return false;" aria-describedby="docCatAny_help">(Any)<span id="docCatAny_help" class="sr-only">click Any for NOT NULL to find any related document category</span></button>
 																	<input type="text" id="permit_type" name="permit_type" value="#encodeForHtml(permit_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
