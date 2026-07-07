@@ -373,8 +373,8 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-#keycols# mb-1">
 											<label for="subject">Subject</label>
-											(<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">Null</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
+											<span class="small">(<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">Null</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)</span>
 											<input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
 											<script>
 												$(document).ready(function() {
