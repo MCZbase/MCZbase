@@ -1949,6 +1949,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
     border-radius: .2rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     line-height: 0.875rem;
+    height: 23px;
 }
 .jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
     line-height: 23px !important;
