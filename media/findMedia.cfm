@@ -356,7 +356,7 @@ limitations under the License.
 										</div>
 									</div>
                                 </fieldset>
-                                <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-0 mt-1 mx-2">
+                                <fieldset class="bg-light border-default field-set rounded px-3 py-1 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Metadata</legend> 
                                     <div class="form-row mb-0">
                                         <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
@@ -593,73 +593,100 @@ limitations under the License.
                                             </div>
                                         </cfif>  
                                     </fieldset>
-                                    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                        <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
-                                        <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
-                                            <div class="form-row">
-                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                    <cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-                                                        <div class="form-check my-2">
-                                                            <input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
-                                                            <label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
-                                                        </div>
-                                                    </cfif>
-                                                </div>
-                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                    <cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-                                                        <div class="form-check my-2">
-                                                            <input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
-                                                            <label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
-                                                        </div>
-                                                    </cfif>
-                                                </div>
-                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                    <cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-                                                        <div class="form-check my-2">
-                                                            <input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
-                                                            <label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
-                                                        </div>
-                                                    </cfif>
-                                                </div>
-                                            </div>
-                                        </cfif>
-                                            <div class="form-group col-12 col-md-6 col-lg-5 col-xl-4 mb-1">
-                                                <input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
-                                                <cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-                                                    <cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
-                                                        select distinct guid 
-                                                        from 
-                                                            <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-                                                            left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-                                                        where 
-                                                            specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-                                                        OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-                                                    </cfquery>
-                                                    <cfloop query="guidLookup">
-                                                        <cfif not listContains(related_cataloged_item,guidLookup.guid)>
-                                                            <cfif len(related_cataloged_item) EQ 0>
-                                                                <cfset related_cataloged_item = guidLookup.guid>
-                                                            <cfelse>
-                                                                <cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
-                                                            </cfif>
-                                                        </cfif>
-                                                    </cfloop>
+                                    <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
+                                        <div class="form-row">
+                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                <cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                    <div class="form-check my-2">
+                                                        <input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
+                                                        <label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
+                                                    </div>
                                                 </cfif>
-                                                <label for="related_cataloged_item">Shows Cataloged Item</label>
-                                                (<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
-                                                <input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
                                             </div>
-                                            <div class="form-group col-12 col-md-6 col-xl-4">
-                                                <div class="w-100">   
-                                                    <label for="media_relationship_type">Relationship</label>
-                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                </div> 
-                                                <cfset selectedrelationship_type= "#media_relationship_type#">
-                                                <select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
+                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                <cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                    <div class="form-check my-2">
+                                                        <input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
+                                                        <label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
+                                                    </div>
+                                                </cfif>
+                                            </div>
+                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                <cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                    <div class="form-check my-2">
+                                                        <input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
+                                                        <label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
+                                                    </div>
+                                                </cfif>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-12 col-md-6 col-lg-5 col-xl-4 mb-1">
+                                            <input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
+                                            <cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+                                                <cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
+                                                    select distinct guid 
+                                                    from 
+                                                        <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+                                                        left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+                                                    where 
+                                                        specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+                                                    OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+                                                </cfquery>
+                                                <cfloop query="guidLookup">
+                                                    <cfif not listContains(related_cataloged_item,guidLookup.guid)>
+                                                        <cfif len(related_cataloged_item) EQ 0>
+                                                            <cfset related_cataloged_item = guidLookup.guid>
+                                                        <cfelse>
+                                                            <cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+                                                        </cfif>
+                                                    </cfif>
+                                                </cfloop>
+                                            </cfif>
+                                            <label for="related_cataloged_item">Shows Cataloged Item</label>
+                                            (<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
+                                            <input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
+                                        </div>
+                                        <div class="form-group col-12 col-md-6 col-xl-4">
+                                            <div class="w-100">   
+                                                <label for="media_relationship_type">Relationship</label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                            </div> 
+                                            <cfset selectedrelationship_type= "#media_relationship_type#">
+                                            <select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
+                                                <option></option>
+                                                <cfloop query="ctmedia_relationship">
+                                                    <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+                                                        <cfset selected="selected='true'">
+                                                    <cfelse>
+                                                        <cfset selected="">
+                                                    </cfif>
+                                                    <option value="#media_relationship#" #selected#>#media_relationship#</option>
+                                                </cfloop>
+                                            </select>
+                                            <input type="text" id="media_relationship_value" name="media_relationship_value" class="float-left d-inline col-6" value="#encodeForHtml(media_relationship_value)#">
+                                            <input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $('##media_relationship_type').change(function() {
+                                                        makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+                                                    });
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="form-group col-12 col-md-6 col-xl-4">
+                                                <span class="w-100">
+                                                    <label for="media_relationship_type_1">Relationship</label>
+                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                </span>
+                                                <cfset selectedrelationship_type= "#media_relationship_type_1#">
+                                                <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
                                                     <option></option>
                                                     <cfloop query="ctmedia_relationship">
                                                         <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
@@ -670,47 +697,18 @@ limitations under the License.
                                                         <option value="#media_relationship#" #selected#>#media_relationship#</option>
                                                     </cfloop>
                                                 </select>
-                                                <input type="text" id="media_relationship_value" name="media_relationship_value" class="float-left d-inline col-6" value="#encodeForHtml(media_relationship_value)#">
-                                                <input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
+                                                <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_1)#">
+                                                <input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
                                                 <script>
                                                     $(document).ready(function() {
-                                                        $('##media_relationship_type').change(function() {
-                                                            makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+                                                        $('##media_relationship_type_1').change(function() {
+                                                            makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
                                                         });
                                                     });
                                                 </script>
-                                            </div>
-                                            <div class="form-group col-12 col-md-6 col-xl-4">
-                                                <div class="form-row mx-0 mb-2">
-                                                    <span class="w-100">
-                                                        <label for="media_relationship_type_1">Relationship</label>
-                                                        (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                        <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                    </span>
-                                                    <cfset selectedrelationship_type= "#media_relationship_type_1#">
-                                                    <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
-                                                        <option></option>
-                                                        <cfloop query="ctmedia_relationship">
-                                                            <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
-                                                                <cfset selected="selected='true'">
-                                                            <cfelse>
-                                                                <cfset selected="">
-                                                            </cfif>
-                                                            <option value="#media_relationship#" #selected#>#media_relationship#</option>
-                                                        </cfloop>
-                                                    </select>
-                                                    <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_1)#">
-                                                    <input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            $('##media_relationship_type_1').change(function() {
-                                                                makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
-                                                            });
-                                                        });
-                                                    </script>
-                                                </div>
-                                            </div>
-                                        </fieldset>
+                                            
+                                        </div>
+                                    </fieldset>
 										<div class="col-12 pt-0">
 											<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
