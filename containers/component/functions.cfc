@@ -1060,16 +1060,15 @@ details of a container for use in dialogs and page components.
 						START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
 						CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
 					</cfquery>
-					<cfset suffixText = "">
 					<cfif len(trim(safeIdSuffix)) GT 0>
-						<cfset suffixText = "_#safeIdSuffix#">
+						<cfset safeIdSuffix = "_#safeIdSuffix#">
 					</cfif>
-					<cfset breadcrumbNavId = "container_breadcrumb_nav#suffixText#">
-					<cfset breadcrumbFeedbackId = "container_breadcrumb_feedback#suffixText#">
-					<cfset specimenButtonDivId = "specimenButtonDiv#suffixText#">
-					<cfset contextHeadingId = "containerContextHeading#suffixText#">
-					<cfset detailsHeadingId = "containerDetailsHeading#suffixText#">
-					<cfset contentsHeadingId = "containerContentsSummaryHeading#suffixText#">
+					<cfset breadcrumbNavId = "container_breadcrumb_nav#safeIdSuffix#">
+					<cfset breadcrumbFeedbackId = "container_breadcrumb_feedback#safeIdSuffix#">
+					<cfset specimenButtonDivId = "specimenButtonDiv#safeIdSuffix#">
+					<cfset contextHeadingId = "containerContextHeading#safeIdSuffix#">
+					<cfset detailsHeadingId = "containerDetailsHeading#safeIdSuffix#">
+					<cfset contentsHeadingId = "containerContentsSummaryHeading#safeIdSuffix#">
 					<cfset viewContainerUrl = "/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset editContainerUrl = "/containers/Container.cfm?action=edit&container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
@@ -1211,7 +1210,7 @@ details of a container for use in dialogs and page components.
 												#val(getContainerDetail.direct_leaf_children)#,
 												1
 											);
-											var specimenButtonTarget = $("[id='#encodeForJavaScript(specimenButtonDivId)#']");
+											var specimenButtonTarget = $('##' + '#encodeForJavaScript(specimenButtonDivId)#');
 											if (specimenButton && specimenButtonTarget.length) {
 												specimenButtonTarget.html(specimenButton);
 											}
