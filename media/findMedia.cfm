@@ -208,10 +208,10 @@ limitations under the License.
 							});
 						</script>
 
-						<div class="col-12 p-3" id="searchFormDiv">
+						<div class="col-12 p-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
-								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
+								<fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal sr-only">Search for Media</legend> 
 									<div class="form-row">
 										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
