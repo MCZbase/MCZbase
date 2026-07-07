@@ -532,9 +532,9 @@ limitations under the License.
 											<div class="form-row mx-0 mb-2">
 												<div class="w-100">
 													<label for="media_label_type">Any Other Label </label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';"> NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
+													(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;" aria-describedby="anyOtherEquals_help">=</button><span id="anyOtherEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';" aria-describedby="anyOtherNull_help">NULL</button><span id="anyOtherNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';" aria-describedby="anyOtherAny_help">Any</button><span id="anyOtherAny_help" class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
 												</div>
 												<cfset selectedmedia_label_type= "#media_label_type#">
 												<select id="media_label_type" name="media_label_type" class="col-6">
