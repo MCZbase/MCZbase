@@ -346,9 +346,9 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3 col-xl-3 mb-1">
 											<label for="original_filename">Original File</label>
-											(<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+											(<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" aria-describedby="origFileEquals_help">=</button><span id="origFileEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';" aria-describedby="origFileNull_help">NULL</button><span id="origFileNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NOT NULL';" aria-describedby="origFileAny_help">Any</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find media records with a relationship to any record</span>)
 											<input type="text" id="original_filename" name="original_filename" value="#encodeForHtml(original_filename)#">
 										</div>
 									</div>
