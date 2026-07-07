@@ -643,7 +643,7 @@ limitations under the License.
 												</cfloop>
 											</cfif>
 											<label for="related_cataloged_item">Shows Cataloged Item</label>
-											(<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
+											(<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, accepts comma separated list)
 											<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 										</div>
 										<div class="col-12 col-md-6 col-xl-4">
