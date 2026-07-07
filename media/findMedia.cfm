@@ -519,7 +519,7 @@ limitations under the License.
 												<label for="text_made_date">Made Date </label>
 												(as text) (<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+												<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 												<input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
 												<script>
 													$(document).ready(function() {
@@ -534,7 +534,7 @@ limitations under the License.
 													<label for="media_label_type">Any Other Label </label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 												</div>
 												<cfset selectedmedia_label_type= "#media_label_type#">
 												<select id="media_label_type" name="media_label_type" class="col-6">
@@ -563,7 +563,7 @@ limitations under the License.
 												<label for="owner">Owner </label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 												<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
 												<script>
 													$(document).ready(function() {
@@ -575,7 +575,7 @@ limitations under the License.
 												<label for="credit">Credit</label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 												<input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
 												<script>
 													$(document).ready(function() {
@@ -587,7 +587,7 @@ limitations under the License.
 													<label for="md5hash">MD5 Hash</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
+													<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
 													<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 mb-1">
@@ -643,14 +643,14 @@ limitations under the License.
 												</cfloop>
 											</cfif>
 											<label for="related_cataloged_item">Shows Cataloged Item</label>
-											(<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, accepts comma separated list)
+											(<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
 											<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 										</div>
 										<div class="col-12 col-md-6 col-xl-4">
 											<div class="w-100">   
 												<label for="media_relationship_type">Relationship</label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+												<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 											</div> 
 											<cfset selectedrelationship_type= "#media_relationship_type#">
 											<select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
