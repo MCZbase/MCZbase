@@ -310,7 +310,7 @@ limitations under the License.
 		makeContainerAutocompleteMetaExcludeCO('parentContainerText', 'parent_container_id');
 		$('#parent_install_date').datepicker({ dateFormat: 'yy-mm-dd' });
 		<cfif variables.action EQ "edit">
-			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
+			showContainerBreadcrumb("#encodeForJavaScript(variables.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
 			$('#containerForm input[type=text]').on('change', changed);
 			$('#containerForm select').on('change', changed);
 			$('#containerForm textarea').on('change', changed);
