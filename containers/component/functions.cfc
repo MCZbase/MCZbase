@@ -1004,6 +1004,7 @@ details of a container for use in dialogs and page components.
 		<cfset local.safeDisplayMode = "page">
 	</cfif>
 	<cfset local.safeIdSuffix = REReplace(arguments.idSuffix, "[^A-Za-z0-9_-]", "", "all")>
+	<cfset local.safeIdSuffix = REReplace(local.safeIdSuffix, "^_+", "", "all")>
 	<cfthread
 		name="getContainerDetailsHtmlThread#local.tn#"
 		container_id="#arguments.container_id#"
@@ -1059,9 +1060,9 @@ details of a container for use in dialogs and page components.
 						START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
 						CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
 					</cfquery>
-					<cfset suffixText = safeIdSuffix>
-					<cfif len(trim(suffixText)) GT 0 AND left(suffixText, 1) NEQ "_">
-						<cfset suffixText = "_#suffixText#">
+					<cfset suffixText = "">
+					<cfif len(trim(safeIdSuffix)) GT 0>
+						<cfset suffixText = "_#safeIdSuffix#">
 					</cfif>
 					<cfset breadcrumbNavId = "container_breadcrumb_nav#suffixText#">
 					<cfset breadcrumbFeedbackId = "container_breadcrumb_feedback#suffixText#">
@@ -1210,9 +1211,9 @@ details of a container for use in dialogs and page components.
 												#val(getContainerDetail.direct_leaf_children)#,
 												1
 											);
-											var specimenButtonTarget = document.getElementById("#encodeForJavaScript(specimenButtonDivId)#");
-											if (specimenButton && specimenButtonTarget) {
-												$(specimenButtonTarget).html(specimenButton);
+											var specimenButtonTarget = $("[id='#encodeForJavaScript(specimenButtonDivId)#']");
+											if (specimenButton && specimenButtonTarget.length) {
+												specimenButtonTarget.html(specimenButton);
 											}
 										});
 									</script>
