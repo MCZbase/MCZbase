@@ -1254,11 +1254,11 @@ limitations under the License.
 													<button type="button" id="SpecDetailCtl1" class="col-3 col-md-2 col-xl-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleSpecDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 													</button>
-													<div id="SpecDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#SpecDetailStyle#">
+													<div id="SpecDetail" class="col-9 col-md-10 col-xl-12 p-0 my-0 float-left" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="coll_object_remarks">
-                                                                    Coll<span class="d-inline-block d-xl-none">.</span><span class="d-none d-xl-inline-block">ection</span>Object Remarks
+                                                                    Collection Object Remarks
                                                                 </label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
@@ -1318,7 +1318,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="coll_obj_disposition">Disposition</label>
-																<button type="button" class="rules" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
+																<button type="button" class="rules" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" aria-describedby="dispoPick_help"> (&##8595;) <span id="dispoPick_help" class="sr-only">open pick list</span></button>
 																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 																<input type="text" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
 																<script>
@@ -1334,9 +1334,9 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_type">Part Attribute Type</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></button>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > 
-                                                                    (&##8595;) <span class="sr-only">open pick list</span>
+                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-describedby="partAttTypeAny_help"> (Any) <span id="partAny_help" class="sr-only">use Any for NOT NULL to find cataloged items with any part attribute</span></button>
+                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" aria-describedby="partAttTypePick_help"> 
+                                                                    (&##8595;) <span id="partAttTypePick_help" class="sr-only">open pick list</span>
                                                                 </button>
 																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
 																<input type="text" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
@@ -1348,16 +1348,15 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_value">Part Attribute Value</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > 
-                                                                    (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
+                                                                <button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" aria-describedby="partAttValAny_help"> (Any) <span id="partAttValAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
                                                                 </button>
 																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																<input type="text" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
                                                                 <label for="part_attribute_units">Part Attribute Units</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></button>
-                                                                <button type="button" tabindex="-1" aria-hidden="true" class="rules" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;"> (&##8595;) <span class="sr-only">open pick list</span></button>
+                                                                <button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" aria-describedby="partAttUnitAny_help"> (Any) <span id="partAttUnitAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></button>
+                                                                <button type="button" class="rules" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" aria-describedby="partAttUnits_help"> (&##8595;) <span id="partAttUnits_help" class="sr-only">open pick list</span></button>
 																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
 																<input type="text" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
 																<script>
