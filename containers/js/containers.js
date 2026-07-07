@@ -1568,8 +1568,10 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 						console.warn('saveContainer did not return container_id; using form value to refresh the container breadcrumb.');
 					}
 					showContainerBreadcrumb(numericContainerId, breadcrumbFeedbackId, breadcrumbTargetId);
-				} else if (breadcrumbFeedbackId && breadcrumbTargetId) {
-					console.warn('Unable to refresh container breadcrumb after save: missing numeric container_id.');
+				} else if (breadcrumbFeedbackId && breadcrumbTargetId && containerId.length === 0) {
+					console.warn('Unable to refresh container breadcrumb after save: missing container_id.');
+				} else if (breadcrumbFeedbackId && breadcrumbTargetId && isNaN(numericContainerId)) {
+					console.warn('Unable to refresh container breadcrumb after save: non-numeric container_id "' + containerId + '".');
 				}
 			} else {
 				setFeedbackControlState(feedbackId, 'error');
