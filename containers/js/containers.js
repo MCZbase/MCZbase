@@ -1555,13 +1555,14 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 		success: function(resp) {
 			var status = resp.status || resp.STATUS || '';
 			var message = resp.message || resp.MESSAGE || 'Unknown error.';
-			var containerId = resp.container_id || resp.CONTAINER_ID || '';
+			var containerId = resp.container_id || resp.CONTAINER_ID || $.trim($form.find('[name=container_id]').val()) || '';
+			var numericContainerId = parseInt(containerId, 10);
 			if (status === 'created') {
 				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
 			} else if (status === 'saved') {
 				setFeedbackControlState(feedbackId, 'saved');
-				if (breadcrumbFeedbackId && breadcrumbTargetId && containerId) {
-					showContainerBreadcrumb(containerId, breadcrumbFeedbackId, breadcrumbTargetId);
+				if (breadcrumbFeedbackId && breadcrumbTargetId && !isNaN(numericContainerId)) {
+					showContainerBreadcrumb(numericContainerId, breadcrumbFeedbackId, breadcrumbTargetId);
 				}
 			} else {
 				setFeedbackControlState(feedbackId, 'error');

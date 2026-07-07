@@ -940,6 +940,7 @@ Function saveContainer.  Updates an existing container record.
 			</cfquery>
 		</cfif>
 		<cfset local.retval["status"] = "saved">
+		<cfset local.retval["container_id"] = arguments.container_id>
 	<cfcatch>
 		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset local.function_called = "#GetFunctionCalledName()#">
@@ -1141,19 +1142,8 @@ details of a container for use in dialogs and page components.
 								showContainerBreadcrumb("#encodeForJavaScript(getContainerDetail.container_id)#", "#encodeForJavaScript(breadcrumbFeedbackId)#", "#encodeForJavaScript(breadcrumbNavId)#");
 							});
 						</script>
-						<div class="form-row">
-							<div class="col-12 col-lg-8 mb-2">
-								<strong>Current Parent:</strong>
-								<cfif val(getContainerDetail.parent_container_id) GT 0>
-									#encodeForHtml(getContainerDetail.parent_container_type)#:
-									<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.parent_container_id)#">#encodeForHtml(parentDisplay)#</a>
-								<cfelse>
-									<span class="text-muted">This container has no current parent container record.</span>
-								</cfif>
-							</div>
-						</div>
 					</section>
-					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(detailsHeadingId)#">
+					<section class="mb-3 border rounded bg-light p-3" aria-labelledby="#encodeForHtmlAttribute(detailsHeadingId)#">
 						<h2 class="h5" id="#encodeForHtmlAttribute(detailsHeadingId)#">Details</h2>
 						<div class="form-row">
 							<div class="col-12 col-md-6 col-xl-4 mb-2">
@@ -1198,6 +1188,15 @@ details of a container for use in dialogs and page components.
 								<strong>Placement Date:</strong>
 								<cfif isDate(getContainerDetail.parent_install_date)>
 									#encodeForHtml(dateFormat(getContainerDetail.parent_install_date, "yyyy-mm-dd"))#
+								</cfif>
+							</div>
+							<div class="col-12 mb-2">
+								<strong>Current Parent:</strong>
+								<cfif val(getContainerDetail.parent_container_id) GT 0>
+									#encodeForHtml(getContainerDetail.parent_container_type)#:
+									<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.parent_container_id)#">#encodeForHtml(parentDisplay)#</a>
+								<cfelse>
+									<span class="text-muted">This container has no current parent container record.</span>
 								</cfif>
 							</div>
 						</div>
