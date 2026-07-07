@@ -360,9 +360,9 @@ limitations under the License.
 										<cfelse>
 											<cfset keycols="3">
 										</cfif>
-										<div class="col-12 col-md-3 mb-1 small">
+										<div class="col-12 col-md-3 mb-1">
 											 <label for="description">Description</label>
-											 (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
+											 (<button type="button" class="rules small" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
 											 <button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" aria-describedby="descrAny_help">Any</button><span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>)
 											 <input type="text" id="description" name="description" value="#encodeForHtml(description)#">
 										</div>
