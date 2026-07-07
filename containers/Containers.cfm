@@ -28,6 +28,7 @@ limitations under the License.
 <cfparam name="url.department" default="">
 <cfparam name="url.tree_property" default="">
 <cfparam name="url.execute" default="">
+<cfparam name="url.container_id" default="">
 <!--- Resolve search params: form (POST) takes priority over url (GET) --->
 <cfif isDefined("form.search_term")>
 	<cfset variables.search_term = trim(form.search_term)>
@@ -69,6 +70,11 @@ limitations under the License.
 <cfelse>
 	<cfset variables.execute = trim(url.execute)>
 </cfif>
+<cfif isDefined("form.container_id")>
+	<cfset variables.container_id = trim(form.container_id)>
+<cfelse>
+	<cfset variables.container_id = trim(url.container_id)>
+</cfif>
 
 <cfset pageTitle = "Containers">
 <cfset pageHasContainers = true>
@@ -80,6 +86,23 @@ limitations under the License.
 	FROM ctcontainer_type
 	ORDER BY container_type
 </cfquery>
+
+<!--- if given a container_id lookup the container label and barcode and set the search_term and barcode to that label or barcode --->
+<cfif len(variables.container_id) GT 0>
+	<cfquery name="containerLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT label, barcode
+		FROM container
+		WHERE container_id = <cfqueryparam value="#variables.container_id#" cfsqltype="cf_sql_integer">
+	</cfquery>
+	<cfif containerLookup.recordcount EQ 1>
+		<cfset variables.search_term = containerLookup.label>
+		<cfif len(containerLookup.barcode) GT 0>
+			<cfset variables.barcode = "=#containerLookup.barcode#">
+		<cfelse>
+			<cfset variables.barcode = "">
+		</cfif>
+	</cfif>
+</cfif>
 
 <main id="content" class="container-fluid">
 	<section class="container-fluid" role="search">
@@ -205,6 +228,8 @@ limitations under the License.
 		<output id="containerBrowseFeedback">&nbsp;</output>
 	</section>
 </main>
+
+<div id="containerDetailsDialog"></div>
 
 <cfoutput>
 <script>
