@@ -412,50 +412,40 @@ limitations under the License.
                                                     </select>
                                                 </div>
                                             </cfif>
-                                        </div>
-                                    </fieldset>
-									<div class="form-row">
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="height">Height </label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)	 
-												<input type="text" id="height" name="height" value="#encodeForHtml(height)#">
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="width">Width </label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)<strong></strong>
-												<input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="light_source">Light Source </label>
-												<button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" aria-describedby="lightSEquals_help">=</button><span id="lightSEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';" aria-describedby="lightSNull_help">NULL</button><span id="lightSNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
-												<input type="text" id="light_source" name="light_source" value="#encodeForHtml(light_source)#">
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("light_source","light source");
-													});
-												</script>
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="preview_uri">Preview URI</label>
-												<input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
-											</div>
-										</div>
+                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                <label for="height">Height </label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)	 
+                                                <input type="text" id="height" name="height" value="#encodeForHtml(height)#">
+                                            </div>
+                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                <label for="width">Width </label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)<strong></strong>
+                                                <input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
+                                            </div>
+                                            <div class="form-group col-12 col-md-4 col-xl-2">
+                                                <label for="light_source">Light Source </label>
+                                                <button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" aria-describedby="lightSEquals_help">=</button><span id="lightSEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';" aria-describedby="lightSNull_help">NULL</button><span id="lightSNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
+                                                <input type="text" id="light_source" name="light_source" value="#encodeForHtml(light_source)#">
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        makeMediaLabelAutocomplete("light_source","light source");
+                                                    });
+                                                </script>
+                                            </div>
+                                            <div class="form-group col-12 col-md-4 col-xl-2">
+                                                <label for="preview_uri">Preview URI</label>
+                                                <input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
+                                            </div>
+                                         </fieldset>
 										<cfset remcolm="8">
 										<cfset remcolx="4">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
