@@ -187,12 +187,12 @@ limitations under the License.
 								<h1 class="h3 text-white w-75" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<div id="searchFormDiv" class="small95">
-                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"public")>
+                      
                                 <cftry>
                                     <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
                                     <cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
                                 </cftry>
-                                </cfif>
+                    
 								<form name="searchForm" id="searchForm">
 									<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 									<input type="hidden" name="action" value="search">
