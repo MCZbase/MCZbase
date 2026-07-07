@@ -457,7 +457,9 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 														<label for="catalogNum">Catalog Number</label>
-														<input id="catalogNum" type="text" name="cat_num"
+														<input id="catalogNum" 
+                                                               type="text" 
+                                                               name="cat_num"
                                                                value="#encodeForHtml(cat_num)#"
                                                                placeholder="1,1-4,A-1,R1-4"
                                                                aria-describedby="catalogNum_help">
@@ -832,7 +834,7 @@ limitations under the License.
 												<!---GEOGRAPHY SECTION--->
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-top border-bottom border-right border-left d-block bg-teal">Geography</h2>
+														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -1106,7 +1108,9 @@ limitations under the License.
 													<div class="col-12 col-md-3 mb-1">
 														<label for="date_collected">Date Collected</label>
 														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
-														<input type="text" name="date_collected" id="date_collected" 
+														<input type="text" 
+                                                               name="date_collected" 
+                                                               id="date_collected" 
                                                                placeholder="yyyy-mm-dd/yyyy-mm-dd" 
                                                                value="#encodeForHtml(date_collected)#"
                                                                aria-describedby="dateCollected_help">
@@ -1129,7 +1133,8 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
-															    <input type="text" name="date_began_date" 
+															    <input type="text" 
+                                                                    name="date_began_date" 
                                                                     id="date_began_date" 
                                                                     placeholder="yyyy-mm-dd/yyyy-mm-dd" 
                                                                     value="#encodeForHtml(date_began_date)#" aria-describedby="dateBegan_help">
@@ -1211,8 +1216,8 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method">Preserve Method</label>
-												        <button type="button" class="rules" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
-														<input type="text" id="preserve_method" name="preserve_method" value="#encodeForHtml(preserve_method)#" >
+												        <button type="button" class="rules" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" aria-describedby="preserveM_help"> (&##8595;) <span id="preserveM_help" class="sr-only">open pick list</span></button>
+														<input type="text" id="preserve_method" name="preserve_method" value="#encodeForHtml(preserve_method)#">
 														<script>
 															jQuery(document).ready(function() {
 																makePreserveMethodAutocompleteMeta('preserve_method');
@@ -1222,8 +1227,8 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
                                                         <label for="biol_indiv_relationship">Has Relationship</label>
-                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with relationships of any type</span></button>
-                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;"> (&##8595;) <span class="sr-only">open pick list</span></button>
+                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" aria-describedby="relationshipAny_help"> (Any) <span id="relationshipAny_help" class="sr-only">use Any for NOT NULL to find cataloged items with relationships of any type</span></button>
+                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" aria-describedby="relationshipPick_help"> (&##8595;) <span id="relationshipPick_help" class="sr-only">open pick list</span></button>
                                                         <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" value="#encodeForHtml(biol_indiv_relationship)#" >
                                                         <script>
                                                             jQuery(document).ready(function() {
@@ -1234,9 +1239,9 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
                                                         <label for="media_type">Media Type</label>
-                                                        <button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></button>
-                                                        <button type="button" class="rules" onclick="$('##media_type').autocomplete('search','%'); return false;" > 
-                                                            (&##8595;) <span class="sr-only">open pick list</span>
+                                                        <button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" aria-describedby="mediaAny_help"> (Any) <span id="mediaAny_help" class="sr-only">use NOT NULL to find cataloged items with media of any type</span></button>
+                                                        <button type="button" class="rules" onclick="$('##media_type').autocomplete('search','%'); return false;" aria-describedby="mediaPick_help"> 
+                                                            (&##8595;) <span id="mediaPick_help" class="sr-only">open pick list</span>
                                                         </button>
 														<input type="text" id="media_type" name="media_type" value="#encodeForHtml(media_type)#" >
 														<script>
@@ -1415,7 +1420,7 @@ limitations under the License.
 										 	<!---GENERAL SECTION---> 
 											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px text-left text-xl-right border-top border-right border-bottom border-left bg-teal">
+													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 text-left text-xl-right border-default bg-teal">
 														General
 													</h2>
 												</div>
