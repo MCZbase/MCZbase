@@ -764,7 +764,7 @@ limitations under the License.
 										};
 									</script>
 									<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
-									<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+									<select class="d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
 										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option #selected# value="none">Text</option>
 										<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1245,11 +1245,11 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary my-2 mx-1' >Show/Hide Columns</button>"
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 mx-1 my-2' style='padding-top: 1px !important; padding-bottom: 1px !important;'>Show/Hide Columns</button>"
 				);
 				<cfif Application.serverrole NEQ "production" >
 					$("##gridCardToggleButton").html(
-						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn btn-xs btn-secondary my-2 mx-1' >Grid/Card View</button>"
+						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn btn-xs btn-secondary px-2 my-2 mx-1' style='padding-top: 1px !important;padding-bottom: 1px !important;'>Grid/Card View</button>"
 					);
 				</cfif>
 
@@ -1292,7 +1292,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary mx-1 my-2" >Save Search</button>
+							class="btn btn-xs btn-secondary px-2 mx-1 my-2" style="padding-top: 1px !important; padding-bottom: 1px !important;">Save Search</button>
 					`);
 				</cfif>
 
@@ -1302,7 +1302,7 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary mx-1 my-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 mx-1 my-2" style="padding-top:1px !important; padding-bottom: 1px !important;" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 				$('##selectModeContainer').show();
 			}
 		</script> 
