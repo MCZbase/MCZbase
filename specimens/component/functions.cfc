@@ -3671,7 +3671,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="addCollector">
 											<input type="hidden" name="returnformat" value="json">
 											<input type="hidden" name="queryformat" value="column">
-											<div class="form-row mx-0 card-body">
+											<div class="form-row mx-0 pt-0 card-body">
 												<cfif target EQ "both">
 													<cfset colw ="4">
 												<cfelse>
