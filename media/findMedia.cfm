@@ -452,6 +452,41 @@ limitations under the License.
                                             <button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                             <input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
                                         </div>
+                                        <div class="form-group col-12 col-md-4 col-xl-3">
+											<div class="form-row mx-0 mb-2">
+												<div class="w-100">
+													<label for="media_label_type">Any Other Label </label>
+													(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;" aria-describedby="anyOtherEquals_help">=</button><span id="anyOtherEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';" aria-describedby="anyOtherNull_help">NULL</button><span id="anyOtherNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';" aria-describedby="anyOtherAny_help">Any</button><span id="anyOtherAny_help" class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
+												</div>
+												<cfset selectedmedia_label_type= "#media_label_type#">
+												<select id="media_label_type" name="media_label_type" class="col-6">
+													<option></option>
+													<cfloop query="ctothermedia_label">
+														<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
+															<cfset selected="selected='true'">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#media_label#" #selected#>#media_label#</option>
+													</cfloop>
+												</select>
+												<input type="text" id="media_label_value" name="media_label_value" class="col-6" value="#encodeForHtml(media_label_value)#">
+												<script>
+													$(document).ready(function() {
+														makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
+													});
+												</script>
+											</div>
+										</div>
+                                         <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <label for="md5hash">MD5 Hash</label>
+                                            (<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
+                                            <input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
+                                        </div>
                                     </div>
                                 </fieldset>
                                 <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
@@ -495,34 +530,7 @@ limitations under the License.
 												</script>
 											</div>
 										</cfif>
-										<div class="form-group col-12 col-md-4 col-xl-3">
-											<div class="form-row mx-0 mb-2">
-												<div class="w-100">
-													<label for="media_label_type">Any Other Label </label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;" aria-describedby="anyOtherEquals_help">=</button><span id="anyOtherEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';" aria-describedby="anyOtherNull_help">NULL</button><span id="anyOtherNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';" aria-describedby="anyOtherAny_help">Any</button><span id="anyOtherAny_help" class="sr-only">click any for NOT NULL to find media records with a relationship to any record</span>)
-												</div>
-												<cfset selectedmedia_label_type= "#media_label_type#">
-												<select id="media_label_type" name="media_label_type" class="col-6">
-													<option></option>
-													<cfloop query="ctothermedia_label">
-														<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
-															<cfset selected="selected='true'">
-														<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#media_label#" #selected#>#media_label#</option>
-													</cfloop>
-												</select>
-												<input type="text" id="media_label_value" name="media_label_value" class="col-6" value="#encodeForHtml(media_label_value)#">
-												<script>
-													$(document).ready(function() {
-														makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
-													});
-												</script>
-											</div>
-										</div>
+										
                                     </fieldset>
                                     <fieldset class="bg-light border-default field-set rounded px-3 py-1 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend>                
@@ -569,13 +577,7 @@ limitations under the License.
                                                         });
                                                     </script>
                                                 </div>
-                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                    <label for="md5hash">MD5 Hash</label>
-                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
-                                                    <input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
-                                                </div>
+                                               
                                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                                     <div class="form-group col-12 col-md-2 mb-1">
                                                         <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
