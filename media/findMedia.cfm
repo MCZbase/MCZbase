@@ -541,7 +541,11 @@ limitations under the License.
 											</div>
 										</div>
                                     </fieldset>
-                                             <div class="form-group col-12 col-md-4 col-xl-3">
+                                    <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend>                
+                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                            <div class="form-group col-12 col-md-4 col-xl-3">
+                                        
                                             <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
                                                 <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
                                             </label>
@@ -558,7 +562,7 @@ limitations under the License.
 												$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 											});
 										</script>
-                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                        
                                             <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                                 <label for="owner">Owner </label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -583,11 +587,9 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											
                                         </cfif>
-								
-                                 </fieldset>
-									
+                                     
+									   <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
 												<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
@@ -617,6 +619,8 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
+                                                
+                                    </fieldset>
                                     <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
                                         <div class="form-row">
