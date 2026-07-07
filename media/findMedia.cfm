@@ -356,9 +356,9 @@ limitations under the License.
 										</div>
 									</div>
                                 </fieldset>
-                                <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-0 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Metadata</legend> 
-                                    <div class="form-row">
+                                    <div class="form-row mb-0">
                                         <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
                                         <!--- Set columns for keywords control depending on whether mask search is enabled or not --->
                                         <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
