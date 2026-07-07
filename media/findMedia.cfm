@@ -264,10 +264,10 @@ limitations under the License.
                                     </div>
                                 </fieldset>
                                 <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
-                                    
+                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Storage/Location</legend> 
 									<div class="form-row">
 										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-										<div class="col-12 col-md-1 mb-1">
+										<div class="form-group col-12 col-md-1 mb-1">
 											<label for="keywords">Protocol<span></span></label>
 											<select id="protocol" name="protocol" class="data-entry-select">
 												<option></option>
@@ -281,7 +281,7 @@ limitations under the License.
 												<option value="NULL" #sel#>NULL</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-2 mb-1">
+										<div class="form-group col-12 col-md-2 mb-1">
 											<label for="hostname">Host<span></span></label>
 											<input type="text" id="hostname" name="hostname" value="#encodeForHtml(hostname)#">
 											<script>
@@ -290,7 +290,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-2 mb-1">
+										<div class="form-group col-12 col-md-2 mb-1">
 											<label for="path">Path<span></span></label>
 											<input type="text" id="path" name="path" value="#encodeForHtml(path)#">
 											<script>
@@ -299,7 +299,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-2 col-xl-3 mb-1">
+										<div class="form-group col-12 col-md-2 col-xl-3 mb-1">
 											<label for="filename">Filename</label>
 											<input type="text" id="filename" name="filename" value="#encodeForHtml(filename)#">
 											<script>
@@ -308,7 +308,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-2 col-xl-1 mb-1">
+										<div class="form-group col-12 col-md-2 col-xl-1 mb-1">
 											<label for="extension">Extension</label>
 											<cfset selectedextensionlist = "">
 											<select id="extension" name="extension" multiple="true">
@@ -347,7 +347,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-3 col-xl-3 mb-1">
+										<div class="form-group col-12 col-md-3 col-xl-3 mb-1">
 											<label for="original_filename">Original File</label>
 											(<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" aria-describedby="origFileEquals_help">=</button><span id="origFileEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';" aria-describedby="origFileNull_help">NULL</button><span id="origFileNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -356,61 +356,64 @@ limitations under the License.
 										</div>
 									</div>
                                 </fieldset>
-									<div class="form-row">
-										<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-										<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-											<cfset keycols="2">
-										<cfelse>
-											<cfset keycols="3">
-										</cfif>
-										<div class="col-12 col-md-3 mb-1">
-											 <label for="description">Description</label>
-											 (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
-											 <button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" aria-describedby="descrAny_help">Any</button><span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>)
-											 <input type="text" id="description" name="description" value="#encodeForHtml(description)#">
-										</div>
-										<div class="col-12 col-md-3 mb-1">
-											<label for="keywords">Keywords</label>
-											 <span class="small">(|,*,"",-)</span>
-											<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
-										</div>
-										<div class="col-12 col-md-#keycols# mb-1">
-											<label for="subject">Subject</label>
-											(<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">NULL</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
-											<input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("subject","subject");
-												});
-											</script>
-										</div>
-										<div class="col-12 col-md-#keycols# mb-1">
-											<label for="aspect">Aspect</label> 
-											(<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';">Any</button>)
-											<input type="text" id="aspect" name="aspect" value="#encodeForHtml(aspect)#">
-											<script>
-												$(document).ready(function() {
-													makeAspectAutocomplete("aspect");
-												});
-											</script>
-										</div>
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-											<div class="col-12 col-md-2 mb-1">
-												<label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
-												<select id="mask_media_fg" name="mask_media_fg">
-													<option></option>
-													<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="1" #sel#>Hidden</option>
-													<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="0" #sel#>Public</option>
-												</select>
-											</div>
-										</cfif>
-									</div>
+                                <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Storage/Location</legend> 
+									    <div class="form-row">
+                                            <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
+                                            <!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                                <cfset keycols="2">
+                                            <cfelse>
+                                                <cfset keycols="3">
+                                            </cfif>
+                                            <div class="form-group col-12 col-md-3 mb-1">
+                                                 <label for="description">Description</label>
+                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+                                                 <button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" aria-describedby="descrAny_help">Any</button><span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>)
+                                                 <input type="text" id="description" name="description" value="#encodeForHtml(description)#">
+                                            </div>
+                                            <div class="form-group col-12 col-md-3 mb-1">
+                                                <label for="keywords">Keywords</label>
+                                                 <span class="small">(|,*,"",-)</span>
+                                                <input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
+                                            </div>
+                                            <div class="form-group col-12 col-md-#keycols# mb-1">
+                                                <label for="subject">Subject</label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">NULL</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
+                                                <input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        makeMediaLabelAutocomplete("subject","subject");
+                                                    });
+                                                </script>
+                                            </div>
+                                            <div class="form-group col-12 col-md-#keycols# mb-1">
+                                                <label for="aspect">Aspect</label> 
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';">Any</button>)
+                                                <input type="text" id="aspect" name="aspect" value="#encodeForHtml(aspect)#">
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        makeAspectAutocomplete("aspect");
+                                                    });
+                                                </script>
+                                            </div>
+                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                                <div class="form-group col-12 col-md-2 mb-1">
+                                                    <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
+                                                    <select id="mask_media_fg" name="mask_media_fg">
+                                                        <option></option>
+                                                        <cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="1" #sel#>Hidden</option>
+                                                        <cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                        <option value="0" #sel#>Public</option>
+                                                    </select>
+                                                </div>
+                                            </cfif>
+                                        </div>
+                                    </fieldset>
 									<div class="form-row">
 										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
