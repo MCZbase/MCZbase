@@ -1871,7 +1871,7 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-3">
 												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 ml-2 ml-md-1 pt3px">
+													<h1 class="h4 ml-2 ml-md-1">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
