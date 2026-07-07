@@ -468,23 +468,14 @@ limitations under the License.
                                 <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
 									<div class="form-row">
-										<div class="form-group col-12 col-md-4 col-xl-3">
-                                            <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
-                                                <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-                                            </label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-                                                </div>
-                                                <input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
-                                                <input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
-											</div>
-										</div>
-										<script>
-											$(document).ready(function() {
-												$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
-											});
-										</script>
+										<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <label for="md5hash">MD5 Hash</label>
+                                            (<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
+                                            <input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
+                                        </div>
+                                       
 										<!--- setup to hide search for date as text from most users --->
 										<cfset datecolm="2">
 										<cfset datecolx="3">
@@ -549,20 +540,37 @@ limitations under the License.
 												</script>
 											</div>
 										</div>
-                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="form-row">
-											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-												<label for="owner">Owner </label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>)
-												<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("owner","owner");
-													});
-												</script>
+                                    </fieldset>
+                                             <div class="form-group col-12 col-md-4 col-xl-3">
+                                            <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
+                                                <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+                                                </div>
+                                                <input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+                                                <input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
 											</div>
+										</div>
+										<script>
+											$(document).ready(function() {
+												$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
+											});
+										</script>
+                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                <label for="owner">Owner </label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>)
+                                                <input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        makeMediaLabelAutocomplete("owner","owner");
+                                                    });
+                                                </script>
+                                            </div>
 											<div class="form-group col-12 col-md-4 col-xl-2">
 												<label for="credit">Credit</label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -575,14 +583,9 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-													<label for="md5hash">MD5 Hash</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
-													<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
-											</div>
-									</div>
+											
+                                        </cfif>
+								
                                  </fieldset>
 									
 											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
