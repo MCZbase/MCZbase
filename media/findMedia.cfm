@@ -562,7 +562,6 @@ limitations under the License.
 												$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 											});
 										</script>
-                                        
                                             <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                                 <label for="owner">Owner </label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -587,43 +586,41 @@ limitations under the License.
 													});
 												</script>
 											</div>
-                                        </cfif>
-                                     
-									   <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-												<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<div class="form-check my-2">
-														<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
-														<label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
-													</div>
-												</cfif>
-											</div>
-											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-												<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<div class="form-check my-2">
-														<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
-														<label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
-													</div>
-												</cfif>
-											</div>
-											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-												<cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<div class="form-check my-2">
-														<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
-														<label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
-													</div>
-												</cfif>
-											</div>
-										</div>
-									</cfif>
-                                                
+                                        </cfif>  
                                     </fieldset>
-                                    <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
-                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
-                                        <div class="form-row">
+                                    <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                        <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                        <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
+                                            <div class="form-row">
+                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                    <cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                        <div class="form-check my-2">
+                                                            <input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
+                                                            <label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
+                                                        </div>
+                                                    </cfif>
+                                                </div>
+                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                    <cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                        <div class="form-check my-2">
+                                                            <input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
+                                                            <label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
+                                                        </div>
+                                                    </cfif>
+                                                </div>
+                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                    <cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                                    <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                        <div class="form-check my-2">
+                                                            <input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
+                                                            <label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
+                                                        </div>
+                                                    </cfif>
+                                                </div>
+                                            </div>
+                                        </cfif>
                                             <div class="form-group col-12 col-md-6 col-lg-5 col-xl-4 mb-1">
                                                 <input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
                                                 <cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
