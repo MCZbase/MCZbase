@@ -2519,7 +2519,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 										} else {
 											var link = document.createElement('a');
 											link.classList.add('pl-1');
-											var params = new URLSearchParams({ execute: 'true', container_id: nodeId });
+											var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
 											link.href = '/containers/Containers.cfm?' + params.toString();
 											link.appendChild(document.createTextNode(display));
 											crumbLi.append(link);

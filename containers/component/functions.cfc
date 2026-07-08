@@ -1173,7 +1173,7 @@ details of a container for use in dialogs and page components.
 									roleBadgeTarget.innerHTML = getContainerRoleBadgeHtml("#encodeForJavaScript(getContainerDetail.container_type)#");
 								}
 								<cfif val(getContainerDetail.number_positions) GT 0>
-									loadPositionsGrid(#encodeForJavaScript(getContainerDetail.container_id)#, #encodeForJavaScript(getContainerDetail.number_positions)#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
+									loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
 								</cfif>
 							});
 						</script>
