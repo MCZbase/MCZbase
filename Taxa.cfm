@@ -180,7 +180,7 @@ limitations under the License.
 		<!--- Search form --->
 		<main id="content">
 			<cftry>
-            <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
 				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 			</cftry>
 			<section class="container-fluid" role="search">
@@ -199,25 +199,25 @@ limitations under the License.
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">General Taxonomy Search</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-4">
-                                                    <label for="scientific_name">Scientific Name</label>
-                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-describedby="scientificNameEquals_help">=<span id="scientificNameEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-describedby="scientificNameSoundsLike_help">~<span id="scientificNameSoundsLike_help" class="sr-only">prefix tilde for search for similar text</span></button>)
+													<label for="scientific_name">Scientific Name</label>
+													(<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-describedby="scientificNameEquals_help">=<span id="scientificNameEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-describedby="scientificNameSoundsLike_help">~<span id="scientificNameSoundsLike_help" class="sr-only">prefix tilde for search for similar text</span></button>)
 													<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHtml(scientific_name)#">
 												</div>
 												<div class="col-12 col-md-4">
-                                                    <label for="full_taxon_name">Any part of name or classification</label>
-												    (<button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" aria-describedby="nameNot">!<span id="nameNot" class="sr-only">prefix with exclamation point for not search</span></button>)
+													<label for="full_taxon_name">Any part of name or classification</label>
+													(<button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" aria-describedby="nameNot">!<span id="nameNot" class="sr-only">prefix with exclamation point for not search</span></button>)
 													<input type="text" 
-                                                           id="full_taxon_name" 
-                                                           name="full_taxon_name" 
-                                                           placeholder="name at any rank" 
-                                                           value="#encodeForHtml(full_taxon_name)#" 
-                                                           aria-describedby="name_help">
-                                                    <small id="name_help" class="sr-only">name at any rank</small>
+														id="full_taxon_name" 
+														name="full_taxon_name" 
+														placeholder="name at any rank" 
+														value="#encodeForHtml(full_taxon_name)#" 
+														aria-describedby="name_help">
+													<small id="name_help" class="sr-only">name at any rank</small>
 												</div>
 												<div class="col-12 col-md-4">
-                                                    <label for="common_name">Common Name</label>
-												    (<button type="button" class="rules" onclick="var e=document.getElementById('common_name');e.value='='+e.value;" aria-describedby="commonNameEquals_help">=<small id="commonNameEquals_help" class="sr-only">prefix equals sign for exact match search</small></button>)
+													<label for="common_name">Common Name</label>
+													(<button type="button" class="rules" onclick="var e=document.getElementById('common_name');e.value='='+e.value;" aria-describedby="commonNameEquals_help">=<small id="commonNameEquals_help" class="sr-only">prefix equals sign for exact match search</small></button>)
 													<input type="text" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
 												</div>
 											</div>
@@ -385,87 +385,87 @@ limitations under the License.
 									<div class="col-12 px-2"> 
 										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-0 pb-2 mt-0 mx-2">
 											<div class="form-row">
-                                                <div class="col-12 col-sm-4 col-xl-2">
-                                                    <label for="taxon_habitat">Habitat</label>
-                                                    <select name="taxon_habitat" id="taxon_habitat" style="height: 23px !important;">
-                                                        <option></option>
-                                                        <cfloop query="cttaxon_habitat_null">
-                                                            <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
-                                                        </cfloop>
-                                                        <cfloop query="cttaxon_habitat">
-                                                            <cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
-                                                        </cfloop>
-                                                    </select>
-                                                </div>
-                                                <div class="col-12 col-sm-4 col-xl-2">
-                                                    <label for="taxon_category">Category</label>
-                                                    <select name="taxon_category" id="taxon_category" style="height: 23px !important;">
-                                                        <option></option>
-                                                        <cfloop query="cttaxon_category">
-                                                            <cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#taxon_category#" #selected#>#taxon_category#</option>
-                                                        </cfloop>
-                                                        <cfif oneOfUs>
-                                                            <option value="NOT NULL" >Any Category</option>
-                                                            <option value="NULL" >No Category</option>
-                                                        </cfif>
-                                                    </select>
-                                                </div>
-                                                <div class="col-12 col-sm-4 col-xl-2">
-                                                    <label for="relationship">Has Relationship</label>
-                                                    <select name="relationship" id="relationship" size="1" style="height: 23px !important;">
-                                                        <option></option>
-                                                        <cfloop query="cttaxon_relation">
-                                                            <cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#cttaxon_relation.taxon_relationship#" #selected#>#cttaxon_relation.taxon_relationship# (#cttaxon_relation.ct#)</option>
-                                                        </cfloop>
-                                                        <cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                        <option value="NOT NULL" #selected# >Any Relationship</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-12 col-sm-4 col-xl-2">
-                                                    <label for="source_authority">Source Authority</label>
-                                                    <select name="source_authority" id="source_authority" size="1" style="height: 23px !important;">
-                                                        <option></option>
-                                                        <cfloop query="CTTAXONOMIC_AUTHORITY">
-                                                            <cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#source_authority#" #selected#>#source_authority#</option>
-                                                        </cfloop>
-                                                    </select>
-                                                </div>
-                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                                                    <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                                                        select collection, collection_cde, collection_id from collection order by collection
-                                                    </cfquery>
-                                                    <cfset selectedCollection = ''>
-                                                    <cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-                                                        <cfquery name="lookupCollection" dbtype="query">
-                                                            select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
-                                                        </cfquery>
-                                                        <cfset selectedCollection = lookupCollection.collection >
-                                                    </cfif>
-                                                   <div class="col-12 col-sm-4 col-xl-2">
-                                                        <label for="collection_cde">Used by Coll.</label>
-                                                        <select name="collection_cde" aria-label="collection" style="height: 23px !important;">
-                                                            <option value="" class="text-dark">any collection</option>
-                                                            <cfloop query="ctcollection">
-                                                                <cfif ctcollection.collection eq selectedCollection>
-                                                                    <cfset selected="selected">
-                                                                <cfelse>
-                                                                    <cfset selected="">
-                                                                </cfif>
-                                                                <option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
-                                                            </cfloop>
-                                                        </select>
-                                                    </div>
-                                                </cfif>
-                                                <div class="col-12 col-sm-4 col-xl-2">
-                                                    <label for="taxon_remarks">Remarks</label>
-                                                    <input type="text" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#">
-                                                </div>
-                                            </div>	
+												<div class="col-12 col-sm-4 col-xl-2">
+													<label for="taxon_habitat">Habitat</label>
+													<select name="taxon_habitat" id="taxon_habitat" style="height: 23px !important;">
+														<option></option>
+														<cfloop query="cttaxon_habitat_null">
+															<cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
+														</cfloop>
+														<cfloop query="cttaxon_habitat">
+															<cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-sm-4 col-xl-2">
+													<label for="taxon_category">Category</label>
+													<select name="taxon_category" id="taxon_category" style="height: 23px !important;">
+														<option></option>
+														<cfloop query="cttaxon_category">
+															<cfif in_taxon_category EQ taxon_category><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="#taxon_category#" #selected#>#taxon_category#</option>
+														</cfloop>
+														<cfif oneOfUs>
+															<option value="NOT NULL" >Any Category</option>
+															<option value="NULL" >No Category</option>
+														</cfif>
+													</select>
+												</div>
+												<div class="col-12 col-sm-4 col-xl-2">
+													<label for="relationship">Has Relationship</label>
+													<select name="relationship" id="relationship" size="1" style="height: 23px !important;">
+														<option></option>
+														<cfloop query="cttaxon_relation">
+															<cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="#cttaxon_relation.taxon_relationship#" #selected#>#cttaxon_relation.taxon_relationship# (#cttaxon_relation.ct#)</option>
+														</cfloop>
+														<cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="NOT NULL" #selected# >Any Relationship</option>
+													</select>
+												</div>
+												<div class="col-12 col-sm-4 col-xl-2">
+													<label for="source_authority">Source Authority</label>
+													<select name="source_authority" id="source_authority" size="1" style="height: 23px !important;">
+														<option></option>
+														<cfloop query="CTTAXONOMIC_AUTHORITY">
+															<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="#source_authority#" #selected#>#source_authority#</option>
+														</cfloop>
+													</select>
+												</div>
+												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+													<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+														select collection, collection_cde, collection_id from collection order by collection
+													</cfquery>
+													<cfset selectedCollection = ''>
+													<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
+														<cfquery name="lookupCollection" dbtype="query">
+															select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+														</cfquery>
+														<cfset selectedCollection = lookupCollection.collection >
+													</cfif>
+												   <div class="col-12 col-sm-4 col-xl-2">
+														<label for="collection_cde">Used by Coll.</label>
+														<select name="collection_cde" aria-label="collection" style="height: 23px !important;">
+															<option value="" class="text-dark">any collection</option>
+															<cfloop query="ctcollection">
+																<cfif ctcollection.collection eq selectedCollection>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+															</cfloop>
+														</select>
+													</div>
+												</cfif>
+												<div class="col-12 col-sm-4 col-xl-2">
+													<label for="taxon_remarks">Remarks</label>
+													<input type="text" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#">
+												</div>
+											</div>
 										</fieldset>
 									</div>
 									<div class="form-row mx-0 mt-2">
@@ -537,8 +537,8 @@ limitations under the License.
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="wehavesomeHave" class="d-block search-radio-buttons">
 																<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-                                                                Show only taxa for which cataloged items exist
-                                                            </label>
+																Show only taxa for which cataloged items exist
+															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
 															<label for="wehavesomeNot" class="d-block search-radio-buttons">
