@@ -208,7 +208,7 @@ limitations under the License.
 		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
 		<cfset returnContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 	<cfelse>
-		<!-- Full page fallback -->
+		<!--- Fallback: full page fetch using API --->
 		<cfset var url = "#local.wikiIRI#/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset returnContent = wikiContent.fileContent>
