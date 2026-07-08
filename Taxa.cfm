@@ -197,7 +197,7 @@ limitations under the License.
 									<div class="col-12 px-2">
 										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">General Taxonomy Search</legend>
-											<div class="form-row mb-0">
+											<div class="form-row">
 												<div class="col-12 col-md-4">
                                                     <label for="scientific_name">Scientific Name</label>
                                                     (<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-describedby="scientificNameEquals_help">=<span id="scientificNameEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
@@ -224,7 +224,7 @@ limitations under the License.
 										</fieldset>
 										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto py-0 bg-teal font-weight-bold">Scientific Name Search</legend>
-											<div class="form-row mt-0">
+											<div class="form-row">
 												<div class="col-12 col-sm-6 col-md-2">
                                                     <label for="genus">Genus</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='='+e.value;" aria-describedby="genusEquals_help">=<span id="genusEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>, 
@@ -266,7 +266,7 @@ limitations under the License.
 									<div class="col-12 px-2">
 										<fieldset class="bg-light border-right border-left border-top field-set rounded px-2 pt-1 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal font-weight-bold">Classification and Other Filters </legend>	 
-											<div class="form-row mt-0">
+											<div class="form-row">
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="kingdom">Kingdom</label>
 												    <button type="button" class="rules" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" aria-describedby="pickList_help"> (&##8595;) <span id="pickList_help" class="sr-only">open pick list</span></button>
@@ -384,7 +384,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 px-2"> 
 										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-0 pb-1 mt-0 mx-2">
-											<div class="form-row mt-0">
+											<div class="form-row">
 													<div class="col-12 col-sm-4 col-xl-2">
 														<label for="taxon_habitat">Habitat</label>
 														<select name="taxon_habitat" id="taxon_habitat" style="height: 23px !important;">
