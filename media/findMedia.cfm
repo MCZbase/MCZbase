@@ -221,7 +221,7 @@ limitations under the License.
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-											<div class="col-12 col-md-33">
+											<div class="col-12 col-md-3">
 												<label for="media_uri">Media URI</label>
 												<input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
 											</div>
