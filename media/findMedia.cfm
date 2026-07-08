@@ -513,20 +513,16 @@ limitations under the License.
                                             $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
                                         });
                                         </script>
-                                        <div class="bg-white p-2 mx-1">
-                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-1">
-                                                <div class="form-row mx-0">
-                                                    <label for="made_date">Made Date Start #asdate#</label>
-                                                    <input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-1">
-                                                <div class="form-row mx-0">
-                                                    <label for="to_made_date">Made Date End #asdate#</label>
-                                                    <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div class="form-group pt-2 pb-1 mb-0">
+											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
+												<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label for="to_made_date">Made Date End #asdate#</label>	
+												<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											</div>
+										</div>        
+                                        
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 											<!--- hide search for date as text from most users, too confusing --->
                                     
