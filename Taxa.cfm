@@ -267,99 +267,99 @@ limitations under the License.
 										<fieldset class="bg-light border-right border-left border-top field-set rounded px-2 pt-1 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal font-weight-bold">Classification and Other Filters </legend>	 
 											<div class="form-row mt-0">
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
 													<label for="kingdom">Kingdom</label>
 												    <button type="button" class="rules" onclick=" $('##kingdom').autocomplete('search','%%%'); return false;" aria-describedby="pickList_help"> (&##8595;) <span id="pickList_help" class="sr-only">open pick list</span></button>
 												    <button type="button" class="rules" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;" aria-describedby="kingdomEquals_help">(=)<small id="kingdomEquals_help" class="sr-only">prefix equals sign for exact match search</small></button>
 													<input type="text" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
                                                     <label for="phylum">Phylum</label> 
                                                     <button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" aria-describedby="phylumPickList_help"> (&##8595;) <span id="phylumPickList_help" class="sr-only">open pick list</span></button>
                                                     (<button type="button" class="rules" onclick="var e=document.getElementById('phylum');e.value='='+e.value;" aria-describedby="phylumEquals_help">=<small id="phylumEquals_help" class="sr-only">prefix equals sign for an exact match</small></button>,
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;" aria-describedby="phylumSoundsLike_help">$<span id="phylumSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span></button>)
 													<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
                                                     <label for="subphylum">Subphylum</label>
 												    (<button type="button" class="rules" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;" aria-describedby="subphylumEquals_help">=<small id="subphylumEquals_help" class="sr-only">prefix equals sign for exact match search</small></button>,
 												    <button type="button" class="rules" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;" aria-describedby="subphylumSoundsLike_help">$<span id="subphylumSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="superclass">Superclass</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='='+e.value;" aria-describedby="superclassEquals_help">=<small id="superclassEquals_help" class="sr-only">prefix equals sign for an exact match search</small></button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;" aria-describedby="superclassSoundsLike_help">$<span id="superclassSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="superclass" name="superclass" value="#encodeForHtml(superclass)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="phylclass">Class</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-describedby="classEquals_help">=<span id="classEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
 												    <button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-describedby="classSoundsLike_help">$<span id="phylumSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="subclass">Subclass</label>
 												    (<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-0 pb-0">
                                                     <label for="infraclass">Infraclass</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												    <input type="text" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="superorder">Superorder</label> 
 													(<button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
 												    <button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												    </span>
 													<input type="text" id="superorder" name="superorder" value="#encodeForHtml(superorder)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 											        <label for="phylorder">Order</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="suborder">Suborder</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 								                	<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="infraorder">Infraorder</label>  
 													(<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												    <input type="text" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="superfamily">Superfamily</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#">
 												</div> 
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 												    <label for="family">Family</label> 
 													(<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 												    <button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="family" name="family" value="#encodeForHtml(family)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
 													<label for="subfamily">Subfamily</label> 
 													(<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-describedby="subfamilyEquals_help">=<span id="subfamilyEquals_help" class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-descibedby="subfamilySoundsLike_help">$<span id="subfamilySoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#">
 												</div>
-												<div class="form-group col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-2 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="tribe">Tribe</label> 
 													(<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;" aria-describedby="tribeEquals_help">=<span id="tribeEquals_help" class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-describedby="tribeSoundsLike_help">$<span id="tribeSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 													<input type="text" id="tribe" name="tribe" value="#encodeForHtml(tribe)#">
 												</div>
-												<div class="form-group col-12 col-lg-3 col-md-3 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-3 col-md-3 col-sm-6 mb-1 pb-0">
                                                     <label for="nomenclatural_code">Nomenclatural Code</label>
                                                     <select name="nomenclatural_code" id="nomenclatural_code" style="height: 23px !important;">
                                                         <option></option>
@@ -369,7 +369,7 @@ limitations under the License.
                                                         </cfloop>
                                                     </select>
 												</div>
-												<div class="form-group col-12 col-lg-3 col-md-4 col-sm-6 mb-1 pb-0">
+												<div class="col-12 col-lg-3 col-md-4 col-sm-6 mb-1 pb-0">
 													<label for="taxon_status">Nomenclatural Status</label>
 													<select name="taxon_status" id="taxon_status" size="1" style="height: 23px !important;">
 														<option></option>
@@ -385,7 +385,7 @@ limitations under the License.
 									<div class="col-12 px-2"> 
 										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-0 pb-1 mt-0 mx-2">
 											<div class="form-row mt-0">
-													<div class="form-group col-12 col-sm-4 col-xl-2 mb-1 pb-0">
+													<div class="col-12 col-sm-4 col-xl-2 mb-1 pb-0">
 														<label for="taxon_habitat">Habitat</label>
 														<select name="taxon_habitat" id="taxon_habitat" style="height: 23px !important;">
 															<option></option>
@@ -399,7 +399,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
+													<div class="col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 														<label for="taxon_category">Category</label>
 														<select name="taxon_category" id="taxon_category" style="height: 23px !important;">
 															<option></option>
@@ -413,7 +413,7 @@ limitations under the License.
 															</cfif>
 														</select>
 													</div>
-													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
+													<div class="col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 														<label for="relationship">Has Relationship</label>
 														<select name="relationship" id="relationship" size="1" style="height: 23px !important;">
 															<option></option>
@@ -425,7 +425,7 @@ limitations under the License.
 															<option value="NOT NULL" #selected# >Any Relationship</option>
 														</select>
 													</div>
-													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
+													<div class="col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 														<label for="source_authority">Source Authority</label>
 														<select name="source_authority" id="source_authority" size="1" style="height: 23px !important;">
 															<option></option>
@@ -446,7 +446,7 @@ limitations under the License.
 															</cfquery>
 															<cfset selectedCollection = lookupCollection.collection >
 														</cfif>
-													   <div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
+													   <div class="col-12 col-sm-4 col-xl-2 mb-0 pb-0">
 															<label for="collection_cde">Used by Coll.</label>
 															<select name="collection_cde" aria-label="collection" style="height: 23px !important;">
 																<option value="" class="text-dark">any collection</option>
@@ -461,7 +461,7 @@ limitations under the License.
 															</select>
 														</div>
 													</cfif>
-													<div class="form-group col-12 col-sm-4 col-xl-2 mb-0 pb-0">
+													<div class="col-12 col-sm-4 col-xl-2 mb-0 pb-0">
                                                         <label for="taxon_remarks">Remarks</label>
 														<input type="text" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#">
 													</div>
@@ -472,7 +472,7 @@ limitations under the License.
 										<div class="col-12 col-xl-6 pl-xl-2 pr-xl-0">
 											<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
 												<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Search accepted names:</legend> 
-												<div class="form-group mb-0 pb-0">
+												<div class="mb-0 pb-0">
 													<ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded ">
 														<cfif valid_catalog_term_fg EQ 1>
 															<cfset validFlagAllSelected = ''>
