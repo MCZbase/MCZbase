@@ -468,7 +468,7 @@ limitations under the License.
 												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
 											</div>
 											<div class="col-12 col-md-4 col-xl-3">
-												<div class="form-row">
+												<div class="form-row mx-0">
 													<div class="w-100">
 														<label for="media_label_type">Any Other Label </label>
 														(<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;" aria-describedby="anyOtherEquals_help">=</button><span id="anyOtherEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
