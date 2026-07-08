@@ -221,7 +221,7 @@ limitations under the License.
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-33">
 												<label for="media_uri">Media URI</label>
 												<input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
 											</div>
@@ -460,6 +460,13 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
 												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
 											</div>
+											<div class="col-12 col-md-4 col-xl-2">
+												<label for="md5hash">MD5 Hash</label>
+												(<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
+												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
+											</div>
 											<div class="col-12 col-md-4 col-xl-3">
 												<div class="form-row">
 													<div class="w-100">
@@ -488,13 +495,7 @@ limitations under the License.
 													</script>
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
-												<label for="md5hash">MD5 Hash</label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship value to any record</span>)
-												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
-											</div>
+											
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-2 mx-2">
