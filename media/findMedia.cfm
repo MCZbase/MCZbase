@@ -638,11 +638,11 @@ limitations under the License.
                                                 </script>
                                             </div>
                                             <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
-                                                <span class="w-100">
+                                                <div class="w-100">
                                                     <label for="media_relationship_type_1">Relationship</label>
                                                     (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                </span>
+                                                </div>
                                                 <cfset selectedrelationship_type= "#media_relationship_type_1#">
                                                 <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
                                                     <option></option>
