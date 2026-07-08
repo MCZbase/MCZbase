@@ -361,11 +361,6 @@ limitations under the License.
                                     <div class="form-row mb-0">
                                         <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
                                         <!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                            <cfset keycols="2">
-                                        <cfelse>
-                                            <cfset keycols="3">
-                                        </cfif>
                                         <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
                                              <label for="description">Description</label>
                                              (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
@@ -377,7 +372,7 @@ limitations under the License.
                                              <span class="small">(|,*,"",-)</span>
                                             <input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
                                         </div>
-                                        <div class="form-group col-12 col-md-#keycols# col-xl-2 mb-0">
+                                        <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
                                             <label for="subject">Subject</label>
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">NULL</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
                                             <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
@@ -490,8 +485,6 @@ limitations under the License.
                                 <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
 									<div class="form-row">
-										
-                                       
 										<!--- setup to hide search for date as text from most users --->
 										<cfset datecolm="3">
 										<cfset datecolx="2">
@@ -529,189 +522,186 @@ limitations under the License.
 											</div>
 										</cfif>
 										            
-                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                            <div class="form-row">
-                                                <div class="form-group col-12 col-md-4 col-xl-3">
-                                                    <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
-                                                        <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-                                                        </div>
-                                                        <input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
-                                                        <input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
-                                                    </div>
+                                       
+                                    <div class="form-row">
+                                        <div class="form-group col-12 col-md-4 col-xl-3">
+                                            <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
+                                                <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
                                                 </div>
-                                                <script>
-                                                $(document).ready(function() {
-                                                    $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
-                                                });
-                                            </script>
-                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                    <label for="owner">Owner </label>
-                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>)
-                                                    <input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            makeMediaLabelAutocomplete("owner","owner");
-                                                        });
-                                                    </script>
-                                                </div>
-                                                <div class="form-group col-12 col-md-4 col-xl-2">
-                                                    <label for="credit">Credit</label>
-                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                    <input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            makeMediaLabelAutocomplete("credit","credit");
-                                                        });
-                                                    </script>
-                                                </div>
-                                               
-                                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                                    <div class="form-group col-12 col-md-2 mb-1">
-                                                        <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
-                                                        <select id="mask_media_fg" name="mask_media_fg">
-                                                            <option></option>
-                                                            <cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="1" #sel#>Hidden</option>
-                                                            <cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-                                                            <option value="0" #sel#>Public</option>
-                                                        </select>
-                                                    </div>
-                                                </cfif>
-                                            </div>
-                                        </cfif>  
-                                    </fieldset>
-                                    <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
-                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
-                                        <div class="form-row">
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                <cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-                                                    <div class="form-check my-2">
-                                                        <input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
-                                                        <label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
-                                                    </div>
-                                                </cfif>
-                                            </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                <cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-                                                    <div class="form-check my-2">
-                                                        <input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
-                                                        <label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
-                                                    </div>
-                                                </cfif>
-                                            </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                <cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-                                                    <div class="form-check my-2">
-                                                        <input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
-                                                        <label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
-                                                    </div>
-                                                </cfif>
-                                            </div>
-                                            <div class="form-group col-12 col-md-6 col-lg-5 col-xl-4 mb-1">
-                                                <input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
-                                                <cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-                                                    <cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
-                                                        select distinct guid 
-                                                        from 
-                                                            <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-                                                            left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-                                                        where 
-                                                            specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-                                                        OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-                                                    </cfquery>
-                                                    <cfloop query="guidLookup">
-                                                        <cfif not listContains(related_cataloged_item,guidLookup.guid)>
-                                                            <cfif len(related_cataloged_item) EQ 0>
-                                                                <cfset related_cataloged_item = guidLookup.guid>
-                                                            <cfelse>
-                                                                <cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
-                                                            </cfif>
-                                                        </cfif>
-                                                    </cfloop>
-                                                </cfif>
-                                                <label for="related_cataloged_item">Shows Cataloged Item</label>
-                                                (<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
-                                                <input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
-                                            </div>
-                                            <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
-                                                <div class="w-100">   
-                                                    <label for="media_relationship_type">Relationship</label>
-                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                </div> 
-                                                <cfset selectedrelationship_type= "#media_relationship_type#">
-                                                <select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
-                                                    <option></option>
-                                                    <cfloop query="ctmedia_relationship">
-                                                        <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
-                                                            <cfset selected="selected='true'">
-                                                        <cfelse>
-                                                            <cfset selected="">
-                                                        </cfif>
-                                                        <option value="#media_relationship#" #selected#>#media_relationship#</option>
-                                                    </cfloop>
-                                                </select>
-                                                <input type="text" id="media_relationship_value" name="media_relationship_value" class="float-left d-inline col-6" value="#encodeForHtml(media_relationship_value)#">
-                                                <input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        $('##media_relationship_type').change(function() {
-                                                            makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
-                                                        });
-                                                    });
-                                                </script>
-                                            </div>
-                                            <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
-                                                <span class="w-100">
-                                                    <label for="media_relationship_type_1">Relationship</label>
-                                                    (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                </span>
-                                                <cfset selectedrelationship_type= "#media_relationship_type_1#">
-                                                <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
-                                                    <option></option>
-                                                    <cfloop query="ctmedia_relationship">
-                                                        <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
-                                                            <cfset selected="selected='true'">
-                                                        <cfelse>
-                                                            <cfset selected="">
-                                                        </cfif>
-                                                        <option value="#media_relationship#" #selected#>#media_relationship#</option>
-                                                    </cfloop>
-                                                </select>
-                                                <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_1)#">
-                                                <input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        $('##media_relationship_type_1').change(function() {
-                                                            makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
-                                                        });
-                                                    });
-                                                </script>
+                                                <input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+                                                <input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
                                             </div>
                                         </div>
-                                    </fieldset>
-										<div class="col-12 pt-0">
-											<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
-												<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new media record" href="#Application.serverRootUrl#/media.cfm?action=newMedia">Create New Media</a>
-											</cfif>
-										</div>
-									</div>
-								</fieldset>
+                                        <script>
+                                        $(document).ready(function() {
+                                            $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
+                                        });
+                                    </script>
+                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <label for="owner">Owner </label>
+                                            (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>)
+                                            <input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
+                                            <script>
+                                                $(document).ready(function() {
+                                                    makeMediaLabelAutocomplete("owner","owner");
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="form-group col-12 col-md-4 col-xl-2">
+                                            <label for="credit">Credit</label>
+                                            (<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                            <button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                            <input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
+                                            <script>
+                                                $(document).ready(function() {
+                                                    makeMediaLabelAutocomplete("credit","credit");
+                                                });
+                                            </script>
+                                        </div>
+
+                                        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                                            <div class="form-group col-12 col-md-2 mb-1">
+                                                <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
+                                                <select id="mask_media_fg" name="mask_media_fg">
+                                                    <option></option>
+                                                    <cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                    <option value="1" #sel#>Hidden</option>
+                                                    <cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+                                                    <option value="0" #sel#>Public</option>
+                                                </select>
+                                            </div>
+                                        </cfif>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
+                                    <div class="form-row">
+                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                <div class="form-check my-2">
+                                                    <input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
+                                                    <label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
+                                                </div>
+                                            </cfif>
+                                        </div>
+                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                <div class="form-check my-2">
+                                                    <input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
+                                                    <label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
+                                                </div>
+                                            </cfif>
+                                        </div>
+                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                <div class="form-check my-2">
+                                                    <input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
+                                                    <label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
+                                                </div>
+                                            </cfif>
+                                        </div>
+                                        <div class="form-group col-12 col-md-6 col-lg-5 col-xl-4 mb-1">
+                                            <input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
+                                            <cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+                                                <cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
+                                                    select distinct guid 
+                                                    from 
+                                                        <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+                                                        left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+                                                    where 
+                                                        specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+                                                    OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+                                                </cfquery>
+                                                <cfloop query="guidLookup">
+                                                    <cfif not listContains(related_cataloged_item,guidLookup.guid)>
+                                                        <cfif len(related_cataloged_item) EQ 0>
+                                                            <cfset related_cataloged_item = guidLookup.guid>
+                                                        <cfelse>
+                                                            <cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+                                                        </cfif>
+                                                    </cfif>
+                                                </cfloop>
+                                            </cfif>
+                                            <label for="related_cataloged_item">Shows Cataloged Item</label>
+                                            (<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
+                                            <input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
+                                        </div>
+                                        <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
+                                            <div class="w-100">   
+                                                <label for="media_relationship_type">Relationship</label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                            </div> 
+                                            <cfset selectedrelationship_type= "#media_relationship_type#">
+                                            <select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
+                                                <option></option>
+                                                <cfloop query="ctmedia_relationship">
+                                                    <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+                                                        <cfset selected="selected='true'">
+                                                    <cfelse>
+                                                        <cfset selected="">
+                                                    </cfif>
+                                                    <option value="#media_relationship#" #selected#>#media_relationship#</option>
+                                                </cfloop>
+                                            </select>
+                                            <input type="text" id="media_relationship_value" name="media_relationship_value" class="float-left d-inline col-6" value="#encodeForHtml(media_relationship_value)#">
+                                            <input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $('##media_relationship_type').change(function() {
+                                                        makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+                                                    });
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
+                                            <span class="w-100">
+                                                <label for="media_relationship_type_1">Relationship</label>
+                                                (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                            </span>
+                                            <cfset selectedrelationship_type= "#media_relationship_type_1#">
+                                            <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
+                                                <option></option>
+                                                <cfloop query="ctmedia_relationship">
+                                                    <cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+                                                        <cfset selected="selected='true'">
+                                                    <cfelse>
+                                                        <cfset selected="">
+                                                    </cfif>
+                                                    <option value="#media_relationship#" #selected#>#media_relationship#</option>
+                                                </cfloop>
+                                            </select>
+                                            <input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_1)#">
+                                            <input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $('##media_relationship_type_1').change(function() {
+                                                        makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
+                                                    });
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="col-12 pt-0">
+                                    <button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
+                                    <button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+                                    <button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
+                                    <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
+                                        <a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new media record" href="#Application.serverRootUrl#/media.cfm?action=newMedia">Create New Media</a>
+                                    </cfif>
+                                </div>
 							</form>
 						</div>
 					</div><!--- search box --->
