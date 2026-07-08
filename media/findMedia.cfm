@@ -383,7 +383,7 @@ limitations under the License.
                                                 });
                                             </script>
                                         </div>
-                                        <div class="form-group col-12 col-md-#keycols# col-xl-2 mb-0">
+                                        <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
                                             <label for="aspect">Aspect</label> 
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                             <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
