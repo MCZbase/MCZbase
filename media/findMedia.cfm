@@ -638,11 +638,11 @@ limitations under the License.
                                                 </script>
                                             </div>
                                             <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
-                                                <div class="w-100">
+                                                <span class="w-100">
                                                     <label for="media_relationship_type_1">Relationship</label>
                                                     (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                </div>
+                                                </span>
                                                 <cfset selectedrelationship_type= "#media_relationship_type_1#">
                                                 <select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
                                                     <option></option>
@@ -665,27 +665,32 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
                                             <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                                 <cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                <div class="form-check my-2">
-                                                    <input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
-                                                    <label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
-                                                </div>
+                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                    <div class="form-check my-2">
+                                                        <input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
+                                                        <label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
+                                                    </div>
+                                                </cfif>
                                             </div>
                                             <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                                 <cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                <div class="form-check my-2">
-                                                    <input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
-                                                    <label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
-                                                </div>
+                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                    <div class="form-check my-2">
+                                                        <input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
+                                                        <label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
+                                                    </div>
+                                                </cfif>
                                             </div>
                                             <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                                 <cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-                                                <div class="form-check my-2">
-                                                    <input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
-                                                    <label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
-                                                </div>
+                                                <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+                                                    <div class="form-check my-2">
+                                                        <input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
+                                                        <label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
+                                                    </div>
+                                                </cfif>
                                             </div>
                                         </div>
                                     </fieldset>
