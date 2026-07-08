@@ -528,10 +528,7 @@ limitations under the License.
 												</script>
 											</div>
 										</cfif>
-										
-                                    </fieldset>
-                                    <fieldset class="bg-light border-default field-set rounded px-3 py-1 mt-1 mx-2">
-                                    <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend>                
+										            
                                         <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                             <div class="form-row">
                                                 <div class="form-group col-12 col-md-4 col-xl-3">
