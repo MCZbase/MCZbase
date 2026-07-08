@@ -366,18 +366,18 @@ limitations under the License.
                                         <cfelse>
                                             <cfset keycols="3">
                                         </cfif>
-                                        <div class="form-group col-12 col-md-3 mb-1">
+                                        <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
                                              <label for="description">Description</label>
                                              (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
                                              <button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" aria-describedby="descrAny_help">Any</button><span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>)
                                              <input type="text" id="description" name="description" value="#encodeForHtml(description)#">
                                         </div>
-                                        <div class="form-group col-12 col-md-3 mb-1">
+                                        <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
                                             <label for="keywords">Keywords</label>
                                              <span class="small">(|,*,"",-)</span>
                                             <input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
                                         </div>
-                                        <div class="form-group col-12 col-md-#keycols# mb-1">
+                                        <div class="form-group col-12 col-md-#keycols# mb-0">
                                             <label for="subject">Subject</label>
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">NULL</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
                                             <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
@@ -388,7 +388,7 @@ limitations under the License.
                                                 });
                                             </script>
                                         </div>
-                                        <div class="form-group col-12 col-md-#keycols# mb-1">
+                                        <div class="form-group col-12 col-md-#keycols# mb-0">
                                             <label for="aspect">Aspect</label> 
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                             <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -401,7 +401,7 @@ limitations under the License.
                                             </script>
                                         </div>
                                         
-                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-0">
                                             <label for="height">Height </label>
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
                                             <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
