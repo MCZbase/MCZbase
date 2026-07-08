@@ -665,56 +665,14 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="form-row mx-0 mt-2">
-											<!---<div class="col-12 col-xl-6 pl-xl-2 pr-xl-0">
-												<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
-													<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Search accepted names:</legend> 
-													<div class="mb-0 pb-0">
-														<ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded ">
-															<cfif valid_catalog_term_fg EQ 1>
-																<cfset validFlagAllSelected = ''>
-																<cfset validFlagOnlySelected = 'checked="checked"'>
-																<cfset validFlagNotSelected = ''>
-															<cfelseif valid_catalog_term_fg EQ 0>
-																<cfset validFlagAllSelected = ''>
-																<cfset validFlagOnlySelected = ''>
-																<cfset validFlagNotSelected = 'checked="checked"'>
-															<cfelse>
-																<cfset validFlagAllSelected = 'checked="checked"'>
-																<cfset validFlagOnlySelected = ''>
-																<cfset validFlagNotSelected = ''>
-															</cfif>
-															<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-																<label for="validFGChecked" class="d-block search-radio-buttons">
-																	<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-																	Show all matches
-																</label>
-															</li>
-															<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-																<label for="validFGUnchecked" class="d-block search-radio-buttons">
-																	<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-																	Show only taxa currently accepted for data entry
-																</label>
-															</li>
-															<li class="list-group-item px-1 px-md-2 py-1">
-																<label for="validFGNot" class="d-block search-radio-buttons">
-																	<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-																	Show only taxa not accepted for data entry
-																</label>
-															</li>
-														</ul>
-													</div>
-												</fieldset>
-											</div>--->
-											<div class="col-12 col-md-9 row mx-0">
+											
+											<div class="col-12 col-md-8 mr-auto row mx-0">
 												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 														<div class="form-check my-2">
-															<label for "unlinked" class="d-block search-radio-buttons">
-																<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true">
-																Limit to Media not yet linked to any record.
-															</label>
+															<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
+															<label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
 														</div>
 													</cfif>
 												</div>
@@ -722,10 +680,8 @@ limitations under the License.
 													<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 														<div class="form-check my-2">
-															<label for "multilink" class="d-block search-radio-buttons">
-																<input type="checkbox" #checked# name="multilink" id="multilink" value="true">
-																Limit to Media linked to more than one record.
-															</label>
+															<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
+															<label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
 														</div>
 													</cfif>
 												</div>
@@ -733,10 +689,8 @@ limitations under the License.
 													<cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 														<div class="form-check my-2">
-															<label for "multitypelink" class="d-block search-radio-buttons">
-																<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true">
-																Limit to Media with more than one type of relationship.
-															</label>
+															<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
+															<label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
 														</div>
 													</cfif>
 												</div>
