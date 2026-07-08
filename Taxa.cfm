@@ -186,7 +186,7 @@ limitations under the License.
 							<div class="search-box-header">
 								<h1 class="h3 text-white w-75" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
-							<div id="searchFormDiv" class="small95">
+							<div id="searchFormDiv">
                                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                                 <cftry>
                                     <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
