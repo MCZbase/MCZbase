@@ -450,7 +450,7 @@ limitations under the License.
                                             <button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                             <input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
                                         </div>
-                                        <div class="form-group col-12 col-md-4 col-xl-5 mb-1">
+                                        <div class="form-group col-12 col-md-4 col-xl-3 mb-1">
 											<div class="form-row mx-0 mb-0">
 												<div class="w-100">
 													<label for="media_label_type">Any Other Label </label>
