@@ -496,7 +496,7 @@ limitations under the License.
                                                 <cfset datecolm="4">
                                                 <cfset datecolx="2">
                                             </cfif>
-                                            <div class="form-group col-12 col-md-4 col-xl-3 mb-0">
+                                            <div class="form-group col-12 col-md-4 col-xl-3 px-2 mb-0">
                                                 <div class="form-row mb-0">
                                                 <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
                                                     <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
