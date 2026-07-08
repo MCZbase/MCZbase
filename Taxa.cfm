@@ -492,19 +492,19 @@ limitations under the License.
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="validFGChecked" class="d-block search-radio-buttons">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-																<span class="font-weight-lessbold">Show all matches</span>
+																Show all matches
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="validFGUnchecked" class="d-block search-radio-buttons">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-																<span class="d-inline-block ps-4 font-weight-lessbold">Show only taxa currently accepted for data entry</span>
+																Show only taxa currently accepted for data entry
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
 															<label for="validFGNot" class="d-block search-radio-buttons">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-																<span class="font-weight-lessbold">Show only taxa not accepted for data entry</span>
+																Show only taxa not accepted for data entry
 															</label>
 														</li>
 													</ul>
