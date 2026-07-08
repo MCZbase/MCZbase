@@ -649,9 +649,11 @@ function loadContainerNode(containerId, targetDivId, feedbackId) {
  * @param {string} targetDivId - the id of the element to render into (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
  */
-function renderTreeNodes(nodes, targetDivId, feedbackId) {
+function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting) {
 	if (!nodes || nodes.length === 0) {
-		$('#' + targetDivId).html('<p class="text-muted my-2">No structural containers found.</p>');
+		if (!appendToExisting) {
+			$('#' + targetDivId).html('<p class="text-muted my-2">No structural containers found.</p>');
+		}
 		return;
 	}
 	var ul = $('<ul class="container-tree" role="tree"></ul>');
@@ -825,7 +827,11 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 
 		ul.append(li);
 	});
-	$('#' + targetDivId).html(ul);
+	if (appendToExisting) {
+		$('#' + targetDivId).append(ul.children());
+	} else {
+		$('#' + targetDivId).html(ul);
+	}
 }
 
 
@@ -1200,6 +1206,7 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 	var nodeId = node.container_id;
 	var childDivId = 'ctree-children-' + nodeId;
 	var childDiv = $('#' + childDivId);
+	var nextNodeId = breadcrumbs[index + 1].container_id;
 
 	if (childDiv.length === 0) {
 		/* Node is not in the DOM — cannot expand further */
@@ -1213,25 +1220,44 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 		toggle.attr('aria-expanded', 'true');
 	}
 
-	/* If children are not yet loaded (no li children), load them first */
-	if (childDiv.children('li').length === 0) {
-		childDiv.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading\u2026</div>');
-		$.ajax({
-			url: '/containers/component/functions.cfc',
-			data: { method: 'getDirectStructuralChildren', container_id: nodeId },
-			dataType: 'json',
-			success: function(data) {
-				renderTreeNodes(data, childDivId, feedbackId);
-				expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
-			},
-			error: function(jqXHR, textStatus, error) {
-				handleFail(jqXHR, textStatus, error, 'loading container children for exploration');
-			}
-		});
-	} else {
-		/* Children already loaded — proceed to next level */
+	if ($('#ctree-children-' + nextNodeId).closest('li').length > 0) {
+		/* The next breadcrumb node is already rendered — proceed to it. */
 		expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
+		return;
 	}
+
+	/* Load missing direct structural children, appending them when some children
+	   are already pre-rendered (for example, institution campuses). */
+	var existingChildCount = childDiv.children('li').length;
+	if (existingChildCount === 0) {
+		childDiv.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading\u2026</div>');
+	}
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: { method: 'getDirectStructuralChildren', container_id: nodeId },
+		dataType: 'json',
+		success: function(data) {
+			var childNodes = data || [];
+			if (existingChildCount > 0) {
+				var renderedChildIds = {};
+				childDiv.children('li').children('ul.container-tree[id^="ctree-children-"]').each(function() {
+					renderedChildIds[$(this).attr('id').replace('ctree-children-', '')] = true;
+				});
+				childNodes = $.grep(childNodes, function(childNode) {
+					return !renderedChildIds[String(childNode.container_id)];
+				});
+			}
+			if (childNodes.length > 0 || existingChildCount === 0) {
+				renderTreeNodes(childNodes, childDivId, feedbackId, existingChildCount > 0);
+			}
+			if ($('#ctree-children-' + nextNodeId).closest('li').length > 0) {
+				expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading container children for exploration');
+		}
+	});
 }
 
 /**
@@ -2201,9 +2227,11 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	}
 }
 
-function renderTreeNodes(nodes, targetDivId, feedbackId) {
+function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting) {
 	if (!nodes || nodes.length === 0) {
-		$('#' + targetDivId).html('<p class="text-muted my-2">No structural containers found.</p>');
+		if (!appendToExisting) {
+			$('#' + targetDivId).html('<p class="text-muted my-2">No structural containers found.</p>');
+		}
 		return;
 	}
 	var ul = $('<ul class="container-tree" role="tree"></ul>');
@@ -2324,7 +2352,11 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		}
 		ul.append(li);
 	});
-	$('#' + targetDivId).html(ul);
+	if (appendToExisting) {
+		$('#' + targetDivId).append(ul.children());
+	} else {
+		$('#' + targetDivId).html(ul);
+	}
 }
 
 function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabel, containerBarcode) {
