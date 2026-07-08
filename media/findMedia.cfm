@@ -493,7 +493,7 @@ limitations under the License.
 											<cfset datecolm="4">
 											<cfset datecolx="2">
 										</cfif>
-                                        <div class="form-group col-12 col-md-4 col-xl-3">
+                                        <div class="form-group col-12 col-md-4 col-xl-3 mb-0">
                                             <div class="form-row">
                                             <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
                                                 <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -523,24 +523,20 @@ limitations under the License.
                                                 </div>
                                             </div>
 									    </div>
-                                            
-                                        
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 											<!--- hide search for date as text from most users, too confusing --->
-                                    
-                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-                                                    <label for="text_made_date">Made Date </label>
-                                                    (text)(<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-                                                    <input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            makeMediaLabelAutocomplete("text_made_date","made date");
-                                                        });
-                                                    </script>
-                                                </div>
-                              
+                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-0">
+                                                <label for="text_made_date">Made Date </label>
+                                                (text)(<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                <input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        makeMediaLabelAutocomplete("text_made_date","made date");
+                                                    });
+                                                </script>
+                                            </div>
 										</cfif>
 										            
                                        
