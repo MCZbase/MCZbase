@@ -475,7 +475,7 @@ limitations under the License.
 											<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
 												<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Search accepted names:</legend> 
 												<div class="form-group mb-0 pb-0">
-													<ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded">
+													<ul class="list-group list-group-horizontal list-group-flush mt-0 p-1 border bg-light rounded ">
 														<cfif valid_catalog_term_fg EQ 1>
 															<cfset validFlagAllSelected = ''>
 															<cfset validFlagOnlySelected = 'checked="checked"'>
@@ -490,19 +490,19 @@ limitations under the License.
 															<cfset validFlagNotSelected = ''>
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="validFGChecked" class="smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
+															<label for="validFGChecked" class="d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="font-weight-lessbold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
-															<label for="validFGUnchecked" class="smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
+															<label for="validFGUnchecked" class="d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="d-inline-block ps-4 font-weight-lessbold">Show only taxa currently accepted for data entry</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
-															<label for="validFGNot" class="smaller-text d-block" style="position:relative; padding-left: 1.2rem;">
+															<label for="validFGNot" class="d-block" style="position:relative; padding-left: 1.2rem;">
 																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute" style="left:0; top:0.2rem">
 																<span class="font-weight-lessbold">Show only taxa not accepted for data entry</span>
 															</label>
