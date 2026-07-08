@@ -494,6 +494,25 @@ limitations under the License.
 											<cfset datecolx="2">
 												<cfset asdate = "(as date)">
 										</cfif>
+                                        <div class="form-group col-12 col-md-4 col-xl-3">
+                                            <div class="form-row">
+                                            <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
+                                                <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+                                                </div>
+                                                <input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+                                                <input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                        $(document).ready(function() {
+                                            $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
+                                        });
+                                        </script>
 										<div class="form-group col-12 col-md-#datecolm# col-xl-#datecolx# mb-1">
 											<div class="form-row mx-0">
 												<label for="made_date">Made Date Start #asdate#</label>
@@ -523,24 +542,8 @@ limitations under the License.
 										</cfif>
 										            
                                        
-                                    <div class="form-row">
-                                        <div class="form-group col-12 col-md-4 col-xl-3">
-                                            <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
-                                                <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-                                            </label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-                                                </div>
-                                                <input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
-                                                <input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
-                                            </div>
-                                        </div>
-                                        <script>
-                                        $(document).ready(function() {
-                                            $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
-                                        });
-                                    </script>
+                                    
+                                        
                                         <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
                                             <label for="owner">Owner </label>
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
