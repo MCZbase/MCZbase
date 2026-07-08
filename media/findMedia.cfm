@@ -243,7 +243,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-2">
 												<label for="mime_type">MIME Type</label>
 												<cfset selectedmimetypelist = "">
 												<select id="mime_type" name="mime_type" multiple="true">
@@ -267,6 +267,18 @@ limitations under the License.
 													});
 												</script>
 											</div>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<div class="col-12 col-md-2">
+													<label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
+													<select id="mask_media_fg" name="mask_media_fg">
+														<option></option>
+														<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+														<option value="1" #sel#>Hidden</option>
+														<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+														<option value="0" #sel#>Public</option>
+													</select>
+												</div>
+											</cfif>
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-2 mx-2">
@@ -565,18 +577,7 @@ limitations under the License.
 												</script>
 											</div>
 
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<div class="col-12 col-md-2">
-													<label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
-													<select id="mask_media_fg" name="mask_media_fg">
-														<option></option>
-														<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-														<option value="1" #sel#>Hidden</option>
-														<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-														<option value="0" #sel#>Public</option>
-													</select>
-												</div>
-											</cfif>
+											
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
