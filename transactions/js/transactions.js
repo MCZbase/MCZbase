@@ -1171,6 +1171,7 @@ function setupNewShipment(transaction_id) {
 	// var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
 	// $("#shipped_date").val(datestring);
 	$("#shipped_date_today_button").show();
+	$("#shipped_date").val("");
 	$("#contents").val("");
 	$("#no_of_packages").val("1");
 	$("#carriers_tracking_number").val("");
