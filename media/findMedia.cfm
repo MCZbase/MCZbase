@@ -484,7 +484,7 @@ limitations under the License.
                                 </fieldset>
                                 <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
-									<div class="form-row">
+									<div class="form-row mb-0">
 										<!--- setup to hide search for date as text from most users --->
 										<cfset datecolm="3">
 										<cfset datecolx="2">
@@ -494,7 +494,7 @@ limitations under the License.
 											<cfset datecolx="2">
 										</cfif>
                                         <div class="form-group col-12 col-md-4 col-xl-3 mb-0">
-                                            <div class="form-row">
+                                            <div class="form-row mb-0">
                                             <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
                                                 <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
                                             </label>
@@ -508,12 +508,12 @@ limitations under the License.
                                             </div>
                                         </div>
                                         <script>
-                                        $(document).ready(function() {
-                                            $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
-                                        });
+                                            $(document).ready(function() {
+                                                $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
+                                            });
                                         </script>
                                         <div class="col-12 col-md-4 col-xl-3 px-1 mt-0">
-                                            <div class="form-group pt-0 pb-1 mb-0">
+                                            <div class="form-group pt-0 mb-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
                                                     <label class="w-100 px-3 px-xl-2 mx-1 mb-0" for="made_date">Made Date (yyyy or yyyy-mm-dd)</label>
                                                     <input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
