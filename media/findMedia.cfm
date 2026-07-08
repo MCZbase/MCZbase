@@ -221,11 +221,11 @@ limitations under the License.
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-											<div class="col-12 col-md-3 col-xl-2">
+											<div class="col-12 col-md-3 col-xl-3">
 												<label for="media_uri">Media URI</label>
 												<input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-2 col-xl-1">
 												<label for="media_id">Media ID</label>
 												<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
 											</div>
