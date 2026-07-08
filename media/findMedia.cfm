@@ -666,7 +666,7 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="row mx-0">
-												<div class="col-12 col-md-4 col-xl-2">
+												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 														<div class="form-check my-2">
@@ -675,7 +675,7 @@ limitations under the License.
 														</div>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-4 col-xl-2">
+												<div class="col-12 col-md-4">
 													<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 														<div class="form-check my-2">
@@ -684,7 +684,7 @@ limitations under the License.
 														</div>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-4 col-xl-2">
+												<div class="col-12 col-md-4">
 													<cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 														<div class="form-check my-2">
