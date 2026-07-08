@@ -59,6 +59,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .small95 {
 	font-size: .905rem;
 }
+
 .font-weight-lessbold {
 	font-weight: 560;
 }
@@ -2596,6 +2597,7 @@ a.btn-sm {
 .noWKT{
 	border:3px solid yellow;
 }
+
 /* end styles for locality maps */
 
 /* styles for geolocate frame */
@@ -2715,8 +2717,11 @@ div.toctitle {
 	margin-bottom: 0;
 }
 
-/* Base (xs) test */
-.my-thing { color: black; }
+.search-radio-buttons {
+    font-size: 0.95em !important;
+    position:relative; 
+    padding-left: 1.2rem;
+}
 
 
 /*******************************
