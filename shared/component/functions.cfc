@@ -193,6 +193,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
+		</cfif>
 	</cfif>
 
 	<cfif not visiblePage>
