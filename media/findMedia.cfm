@@ -189,6 +189,10 @@ limitations under the License.
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
+            <cftry>
+            <cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry>
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
                     <div class="d-flex flex-wrap mb-0 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
@@ -216,17 +220,17 @@ limitations under the License.
                                     <input type="hidden" name="method" value="getMedia">
                                     <fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
                                         <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
-                                        <div class="form-row mt-0">
+                                        <div class="form-row">
                                             <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-                                            <div class="form-group col-12 col-md-5 mb-1">
+                                            <div class="form-group col-12 col-md-5">
                                                 <label for="media_uri">Media URI</label>
                                                 <input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-1">
+                                            <div class="form-group col-12 col-md-2">
                                                 <label for="media_id">Media ID</label>
                                                 <input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-1">
+                                            <div class="form-group col-12 col-md-2">
                                                 <label for="media_type">Media Type</label>
                                                 <select id="media_type" name="media_type">
                                                     <option></option>
@@ -240,7 +244,7 @@ limitations under the License.
                                                     </cfloop>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-12 col-md-3 mb-1">
+                                            <div class="form-group col-12 col-md-3">
                                                 <label for="mime_type">MIME Type</label>
                                                 <cfset selectedmimetypelist = "">
                                                 <select id="mime_type" name="mime_type" multiple="true">
@@ -270,7 +274,7 @@ limitations under the License.
                                         <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Storage/Location</legend> 
                                         <div class="form-row">
                                             <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-                                            <div class="form-group col-12 col-md-1 mb-1">
+                                            <div class="form-group col-12 col-md-1">
                                                 <label for="keywords">Protocol<span></span></label>
                                                 <select id="protocol" name="protocol" class="data-entry-select">
                                                     <option></option>
@@ -284,7 +288,7 @@ limitations under the License.
                                                     <option value="NULL" #sel#>NULL</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-1">
+                                            <div class="form-group col-12 col-md-2">
                                                 <label for="hostname">Host<span></span></label>
                                                 <input type="text" id="hostname" name="hostname" value="#encodeForHtml(hostname)#">
                                                 <script>
@@ -293,7 +297,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 mb-1">
+                                            <div class="form-group col-12 col-md-2">
                                                 <label for="path">Path<span></span></label>
                                                 <input type="text" id="path" name="path" value="#encodeForHtml(path)#">
                                                 <script>
@@ -302,7 +306,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 col-xl-3 mb-1">
+                                            <div class="form-group col-12 col-md-2 col-xl-3">
                                                 <label for="filename">Filename</label>
                                                 <input type="text" id="filename" name="filename" value="#encodeForHtml(filename)#">
                                                 <script>
@@ -311,7 +315,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 col-xl-1 mb-1">
+                                            <div class="form-group col-12 col-md-2 col-xl-1">
                                                 <label for="extension">Extension</label>
                                                 <cfset selectedextensionlist = "">
                                                 <select id="extension" name="extension" multiple="true">
@@ -350,7 +354,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-3 col-xl-3 mb-1">
+                                            <div class="col-12 col-md-3 col-xl-3">
                                                 <label for="original_filename">Original File</label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" aria-describedby="origFileEquals_help">=</button><span id="origFileEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';" aria-describedby="origFileNull_help">NULL</button><span id="origFileNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -361,21 +365,21 @@ limitations under the License.
                                     </fieldset>
                                     <fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
                                         <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Metadata</legend> 
-                                        <div class="form-row mb-0">
+                                        <div class="form-row">
                                             <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
                                             <!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
+                                            <div class="col-12 col-md-3 col-xl-2">
                                                  <label for="description">Description</label>
                                                  (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" aria-describedby="descrNull_help">NULL</button><span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
                                                  <button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" aria-describedby="descrAny_help">Any</button><span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>)
                                                  <input type="text" id="description" name="description" value="#encodeForHtml(description)#">
                                             </div>
-                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
+                                            <div class="col-12 col-md-3 col-xl-2">
                                                 <label for="keywords">Keywords</label>
                                                  <span class="small">(|,*,"",-)</span>
                                                 <input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
                                             </div>
-                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
+                                            <div class="col-12 col-md-3 col-xl-2">
                                                 <label for="subject">Subject</label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" aria-describedby="subjectNull_help">NULL</button><span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" aria-describedby="subjectAny_help">Any</button><span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
@@ -386,7 +390,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-0">
+                                            <div class="col-12 col-md-3 col-xl-2">
                                                 <label for="aspect">Aspect</label> 
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -398,7 +402,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-0">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <label for="height">Height </label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
@@ -406,7 +410,7 @@ limitations under the License.
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)	 
                                                 <input type="text" id="height" name="height" value="#encodeForHtml(height)#">
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-0">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <label for="width">Width </label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
@@ -414,7 +418,7 @@ limitations under the License.
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)<strong></strong>
                                                 <input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-0">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <label for="light_source">Light Source </label>
                                                 <button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" aria-describedby="lightSEquals_help">=</button><span id="lightSEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -427,28 +431,27 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <label for="preview_uri">Preview URI</label>
                                                 <input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
                                             </div>
 
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-
-                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                <div class="col-12 col-md-4 col-xl-2">
                                                     <label for="internal_remarks">Internal Remarks </label>
                                                     (<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                     <input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
                                                 </div>
                                             </cfif>
-                                            <div class="form-group col-12 col-md-4 col-xl-3 mb-1">
+                                            <div class="col-12 col-md-4 col-xl-3">
                                                 <label for="remarks">Remarks</label> 
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                                 <input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-3 mb-1">
-                                                <div class="form-row mx-0 mb-0">
+                                            <div class="col-12 col-md-4 col-xl-3">
+                                                <div class="form-row">
                                                     <div class="w-100">
                                                         <label for="media_label_type">Any Other Label </label>
                                                         (<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;" aria-describedby="anyOtherEquals_help">=</button><span id="anyOtherEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -475,7 +478,7 @@ limitations under the License.
                                                     </script>
                                                 </div>
                                             </div>
-                                             <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <label for="md5hash">MD5 Hash</label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>,
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -495,7 +498,7 @@ limitations under the License.
                                                 <cfset datecolm="4">
                                                 <cfset datecolx="2">
                                             </cfif>
-                                            <div class="form-group col-12 col-md-4 col-xl-3 px-2 mb-0">
+                                            <div class="col-12 col-md-4 col-xl-3">
                                                 <div class="form-row mb-0">
                                                 <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
                                                     <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -514,8 +517,8 @@ limitations under the License.
                                                     $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
                                                 });
                                             </script>
-                                            <div class="col-12 col-md-4 col-xl-3 px-2 mt-0">
-                                                <div class="form-group mb-0">
+                                            <div class="col-12 col-md-4 col-xl-3">
+                    
                                                     <div class="date d-flex flex-wrap border mb-0 mb-md-0 mx-md-1 mx-0 rounded justify-content-center" style="padding-top: 1px; padding-bottom: 5px;">
                                                         <label class="w-100 px-3 px-xl-2 mx-1 mb-0" for="made_date">Made Date (yyyy or yyyy-mm-dd)</label>
                                                         <input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
@@ -523,11 +526,11 @@ limitations under the License.
                                                         <label for="to_made_date" class="sr-only">Made Date</label>	
                                                         <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date">
                                                     </div>
-                                                </div>
+                    
                                             </div>
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
                                                 <!--- hide search for date as text from most users, too confusing --->
-                                                <div class="form-group col-12 col-md-4 col-xl-2">
+                                                <div class="col-12 col-md-4 col-xl-2">
                                                     <label for="text_made_date">Made Date </label>
                                                     (text)(<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                     <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -540,7 +543,7 @@ limitations under the License.
                                                     </script>
                                                 </div>
                                             </cfif>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <label for="owner">Owner </label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without a relationship</span>, 
@@ -552,7 +555,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <label for="credit">Credit</label>
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
                                                 <button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -566,7 +569,7 @@ limitations under the License.
                                             </div>
 
                                             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                                                <div class="form-group col-12 col-md-2 mb-1">
+                                                <div class="col-12 col-md-2">
                                                     <label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
                                                     <select id="mask_media_fg" name="mask_media_fg">
                                                         <option></option>
@@ -582,8 +585,7 @@ limitations under the License.
                                     <fieldset class="bg-light border-default field-set rounded px-3 py-1 mt-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
                                         <div class="form-row">
-                                            
-                                            <div class="form-group col-12 col-md-6 col-lg-5 col-xl-4 mb-1">
+                                            <div class="col-12 col-md-6 col-lg-5 col-xl-4">
                                                 <input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
                                                 <cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
                                                     <cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
@@ -609,7 +611,7 @@ limitations under the License.
                                                 (<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
                                                 <input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
                                             </div>
-                                            <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
+                                            <div class="col-12 col-md-6 col-xl-4">
                                                 <div class="w-100">   
                                                     <label for="media_relationship_type">Relationship</label>
                                                     (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -637,7 +639,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-6 col-xl-4 mb-1">
+                                            <div class="col-12 col-md-6 col-xl-4">
                                                 <div class="w-100">
                                                     <label for="media_relationship_type_1">Relationship</label>
                                                     (<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
@@ -665,7 +667,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
                                                 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
                                                     <div class="form-check my-2">
@@ -674,7 +676,7 @@ limitations under the License.
                                                     </div>
                                                 </cfif>
                                             </div>
-                                            <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                            <div class="col-12 col-md-4 col-xl-2">
                                                 <cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
                                                 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
                                                     <div class="form-check my-2">
@@ -694,7 +696,7 @@ limitations under the License.
                                             </div>
                                         </div>
                                     </fieldset>
-                                    <div class="col-12 pt-0">
+                                    <div class="col-12">
                                         <button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
                                         <button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
                                         <button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
