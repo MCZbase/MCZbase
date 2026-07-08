@@ -187,11 +187,11 @@ var SHAPE_LABELS = { A: 'Structural', B: 'Object-bearing', AB: 'Mixed' };
  * that are hierarchically under the container with the given barcode.
  * Returns empty string when barcode is empty.
  * @param {string} barcode - the container barcode to search within.
- * @returns {string} URL string, or '' when barcode is falsy.
+ * @returns {string} URL string with barcode prefixed with = for an exact match, or '' when barcode is falsy.
  */
 function specimenSearchUrl(barcode) {
 	if (!barcode) { return ''; }
-	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=' + encodeURIComponent(barcode);
+	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D' + encodeURIComponent(barcode);
 }
 
 /**
@@ -252,6 +252,81 @@ function buildSpecimensButton(nodeId, barcode, directLeafChildren, hasLeafDescen
 	return specBtn;
 }
 
+/**
+ * Builds and returns a jQuery element for the Specimens button/link.
+ * When barcode is absent or hasLeafDescendants is 0, returns null.
+ * When directLeafChildren > 0 the node certainly contains specimens: returns
+ * a plain anchor link that opens immediately.
+ * Otherwise (only structural children present), immediately triggers
+ * an AJAX check via checkHasLeafDescendants; if no specimen descendants
+ * exist the button is updated to a disabled "No Specimens" label, and if
+ * they do exist the button becomes enabled and opens the search URL on click.
+ * @param {number} nodeId - container_id of the node.
+ * @param {string} barcode - node barcode for the specimen search URL.
+ * @param {number} directLeafChildren - count of direct collection-object children.
+ * @param {number} hasLeafDescendants - 1 when node has any children (fast proxy), 0 if empty.
+ * @returns {jQuery|null} jQuery element to append to the node row, or null.
+ */
+function buildSpecimensButtonImmediate(nodeId, barcode, directLeafChildren, hasLeafDescendants) {
+	if (!hasLeafDescendants || !barcode) { return null; }
+	var specUrl = specimenSearchUrl(barcode);
+
+	if (directLeafChildren > 0) {
+		/* Direct collection object children confirmed: link opens without a pre-check */
+		return $('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+			.attr('href', specUrl)
+			.attr('title', 'Search for specimens in this container')
+			.text('Specimens');
+	}
+
+	/* Only structural children: eager check for specimen descendants on construction */
+	var specBtn = $('<button class="btn btn-xs btn-outline-info ml-1"></button>')
+		.text('Checking\u2026')
+		.prop('disabled', true);
+
+	/* Click opens only after the check has completed and confirmed descendants */
+	specBtn.on('click', function() {
+		var btn = $(this);
+		if (!btn.data('checked')) {
+			// Still checking or check failed; do nothing on click.
+			return;
+		}
+		window.open(specUrl, '_blank', 'noopener,noreferrer');
+	});
+
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: { method: 'checkHasLeafDescendants', container_id: nodeId },
+		dataType: 'json',
+		success: function(data) {
+			if (parseInt(data.has_leaf_descendants, 10) > 0) {
+				// Has specimen descendants: enable button and mark as checked
+				specBtn
+					.prop('disabled', false)
+					.text('Specimens')
+					.data('checked', true);
+			} else {
+				// No specimen descendants: update to a disabled "No Specimens" label
+				specBtn
+					.text('No Specimens')
+					.removeClass('btn-outline-info')
+					.addClass('btn-outline-secondary')
+					.prop('disabled', true)
+					.data('checked', false);
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			// Restore button appearance but leave unchecked so clicks do nothing
+			specBtn
+				.prop('disabled', false)
+				.text('Specimens')
+				.data('checked', false);
+			handleFail(jqXHR, textStatus, error, 'checking for specimen descendants');
+		}
+	});
+
+	return specBtn;
+}
 
 function formatContainerDisplay(barcode, label) {
 	var b = barcode || '';
@@ -260,6 +335,41 @@ function formatContainerDisplay(barcode, label) {
 		return b + ' (' + l + ')';
 	}
 	return b || l || '(unknown container)';
+}
+
+function openContainerDetailsDialog(containerId, displayName, feedbackId, showBrowseAction) {
+	var dialogId = 'containerDetailsDialog';
+	var contentId = 'containerDetailsDialogContent';
+	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1000));
+	var dialogHeight = Math.max(320, Math.min($(window).height() - 40, 700));
+	var dialogTitle = 'Container Details';
+	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
+	if (displayName) {
+		dialogTitle = dialogTitle + ': ' + displayName;
+	}
+
+	$('#' + dialogId).html('<div id="' + contentId + '"></div>').dialog({
+		modal: true,
+		title: dialogTitle,
+		width: dialogWidth,
+		height: dialogHeight,
+		dialogClass: 'dialog_fixed ui-widget-header',
+		close: function() {
+			$('#' + contentId).html('');
+			$(this).dialog('destroy');
+		}
+	});
+	$('#' + dialogId).dialog('open');
+	$('#' + dialogId).dialog('moveToTop');
+	loadContainerDetails(containerId, contentId, feedbackId, browseActionEnabled);
+}
+
+function buildContainerDetailsButton(containerId, displayName, feedbackId) {
+	return $('<button class="btn btn-xs btn-outline-primary ml-1"></button>')
+		.text('Details')
+		.on('click', function() {
+			openContainerDetailsDialog(containerId, displayName, feedbackId, false);
+		});
 }
 
 /**
@@ -351,6 +461,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 
 			nodeRow.append($('<span class="tree-node-label"></span>').text(instDisplay));
 			nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + inst.container_type + ']'));
+			nodeRow.append(buildContainerDetailsButton(instCid, instDisplay, feedbackEl));
 
 			/* Campus children pre-rendered (institution starts expanded) */
 			var campusUl = $('<ul></ul>').attr('id', childUlId).addClass('container-tree');
@@ -382,6 +493,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 
 					campusRow.append($('<span class="tree-node-label"></span>').text(campusDisplay));
 					campusRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + campus.container_type + ']'));
+					campusRow.append(buildContainerDetailsButton(campusCid, campusDisplay, feedbackEl));
 
 					var campusLeafDiv = null;
 					if (parseInt(campus.direct_leaf_children, 10) > 0) {
@@ -585,6 +697,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 		nodeRow.append($('<span class="tree-node-label"></span>').text(displayName));
 		/* Container type as secondary metadata. */
 		nodeRow.append($('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + ctype + ']'));
+		nodeRow.append(buildContainerDetailsButton(cid, displayName, feedbackId));
 
 		/* Empty node marker */
 		if (structuralChildren === 0 && leafChildren === 0) {
@@ -1397,6 +1510,214 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, 'searching containers');
+		}
+	});
+}
+
+/**
+ * Submits the container create or edit form via AJAX to
+ * containers/component/functions.cfc and handles the response.
+ *
+ * When method is 'createContainer' and the save succeeds, redirects to
+ * viewContainer.cfm?container_id=N (or to redirectUrl if provided).
+ * When method is 'saveContainer', stays on page and uses setFeedbackControlState()
+ * on feedbackId to report saving/saved/error state.
+ *
+ * @param {string} formId - the id of the form element.
+ * @param {string} method - 'createContainer' or 'saveContainer'.
+ * @param {string} feedbackId - the id of the output/element for status feedback (without leading #).
+ * @param {string} [redirectUrl] - optional URL to redirect to on create success.
+ * @param {string} [breadcrumbFeedbackId] - optional feedback element id for breadcrumb refresh after save.
+ * @param {string} [breadcrumbTargetId] - optional target element id for breadcrumb refresh after save.
+ */
+function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId) {
+	var $form = $('#' + formId);
+	var containerType = $.trim($form.find('[name=container_type]').val());
+	var label = $.trim($form.find('[name=label]').val());
+	var parentContainerId = $.trim($form.find('[name=parent_container_id]').val());
+	var params = $form.serializeArray();
+
+	if (containerType.length === 0 || label.length === 0 || parentContainerId.length === 0) {
+		setFeedbackControlState(feedbackId, 'error');
+		messageDialog('Container Type, Label, and Parent Container are required.', 'Validation Error');
+		return;
+	}
+
+	params.push({ name: 'method', value: method });
+	params.push({ name: 'returnformat', value: 'json' });
+	setFeedbackControlState(feedbackId, 'saving');
+
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'post',
+		dataType: 'json',
+		data: params,
+		success: function(resp) {
+			var status = resp.status || resp.STATUS || '';
+			var message = resp.message || resp.MESSAGE || 'Unknown error.';
+			var responseContainerId = resp.container_id || resp.CONTAINER_ID || '';
+			var fallbackContainerId = $.trim($form.find('[name=container_id]').val()) || '';
+			var containerId = responseContainerId || fallbackContainerId;
+			var numericContainerId = parseInt(containerId, 10);
+			if (status === 'created') {
+				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
+			} else if (status === 'saved') {
+				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
+				setFeedbackControlState(feedbackId, 'saved');
+				if (shouldRefreshBreadcrumb) {
+					if (!isNaN(numericContainerId)) {
+						if (!responseContainerId && fallbackContainerId) {
+							console.warn('saveContainer did not return container_id; using form value to refresh the container breadcrumb.');
+						}
+						showContainerBreadcrumb(numericContainerId, breadcrumbFeedbackId, breadcrumbTargetId);
+					} else if (!containerId) {
+						console.warn('Unable to refresh container breadcrumb after save: missing container_id.');
+					} else {
+						console.warn('Unable to refresh container breadcrumb after save: non-numeric container_id "' + containerId + '".');
+					}
+				}
+			} else {
+				setFeedbackControlState(feedbackId, 'error');
+				messageDialog('Error: ' + message, 'Error Saving Container');
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			setFeedbackControlState(feedbackId, 'error');
+			handleFail(jqXHR, textStatus, error, 'saving container');
+		}
+	});
+}
+
+/**
+ * Shows a confirmation dialog before deleting a container.
+ * On confirm, POSTs to deleteContainer in functions.cfc.
+ * On success redirects to containers/Containers.cfm.
+ * On error calls setFeedbackControlState and handleFail.
+ *
+ * @param {number} containerId - the container_id to delete.
+ * @param {string} feedbackId - the id of the output element for status feedback.
+ */
+function confirmDeleteContainer(containerId, feedbackId) {
+	confirmDialog('Delete this container? This cannot be undone.', 'Delete Container', function() {
+		setFeedbackControlState(feedbackId, 'saving');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				method: 'deleteContainer',
+				returnformat: 'json',
+				container_id: containerId
+			},
+			success: function(resp) {
+				var status = resp.status || resp.STATUS || '';
+				var message = resp.message || resp.MESSAGE || 'Unknown error.';
+				if (status === 'deleted') {
+					window.location.href = '/containers/Containers.cfm';
+				} else {
+					setFeedbackControlState(feedbackId, 'error');
+					messageDialog('Error: ' + message, 'Error Deleting Container');
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				setFeedbackControlState(feedbackId, 'error');
+				handleFail(jqXHR, textStatus, error, 'deleting container');
+			}
+		});
+	});
+}
+
+/**
+ * Loads the HTML fragment for a container's read-only details into targetDivId.
+ * Calls getContainerDetailsHtml in functions.cfc.
+ *
+ * @param {number} containerId - the container_id to display.
+ * @param {string} targetDivId - the id of the div to render into (without leading #).
+ * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
+ * @param {boolean} [showBrowseAction] - whether to show the Browse in Hierarchy button in the fragment.
+ */
+function loadContainerDetails(containerId, targetDivId, feedbackId, showBrowseAction) {
+	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
+	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		data: {
+			method: 'getContainerDetailsHtml',
+			returnformat: 'plain',
+			container_id: containerId,
+			displayMode: 'dialog',
+			idSuffix: targetDivId,
+			showBrowseAction: browseActionEnabled ? 'true' : 'false'
+		},
+		success: function(data) {
+			$('#' + targetDivId).html(data);
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading container details');
+		}
+	});
+}
+
+/**
+ * Loads the container edit form HTML fragment into targetDivId.
+ * Calls getContainerEditHtml in functions.cfc.
+ *
+ * @param {number} containerId - the container_id to edit.
+ * @param {string} targetDivId - the id of the div to render into (without leading #).
+ * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
+ * @param {string} [idSuffix] - optional suffix for form element IDs (default "").
+ */
+function loadContainerEditForm(containerId, targetDivId, feedbackId, idSuffix) {
+	var suffix = idSuffix || '';
+	var target = $('#' + targetDivId);
+
+	target.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		data: {
+			method: 'getContainerEditHtml',
+			returnformat: 'plain',
+			container_id: containerId,
+			idSuffix: suffix
+		},
+		success: function(data) {
+			var statusId = 'containerSaveStatus' + suffix;
+			var formId = 'containerForm' + suffix;
+
+			target.html(data);
+			makeContainerAutocompleteMetaExcludeCO('parentContainerText' + suffix, 'parent_container_id' + suffix);
+			$('#parent_install_date' + suffix).datepicker({ dateFormat: 'yy-mm-dd' });
+
+			$('#' + formId + ' input[type=text]').on('change', function() {
+				$('#' + statusId).html('Unsaved changes.');
+				$('#' + statusId).addClass('text-danger');
+				$('#' + statusId).removeClass('text-success');
+				$('#' + statusId).removeClass('text-warning');
+			});
+			$('#' + formId + ' select').on('change', function() {
+				$('#' + statusId).html('Unsaved changes.');
+				$('#' + statusId).addClass('text-danger');
+				$('#' + statusId).removeClass('text-success');
+				$('#' + statusId).removeClass('text-warning');
+			});
+			$('#' + formId + ' textarea').on('change', function() {
+				$('#' + statusId).html('Unsaved changes.');
+				$('#' + statusId).addClass('text-danger');
+				$('#' + statusId).removeClass('text-success');
+				$('#' + statusId).removeClass('text-warning');
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading container edit form');
 		}
 	});
 }
