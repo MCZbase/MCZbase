@@ -20,7 +20,9 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-<cfset variables.proxyContainerTypeSqlList = "'pin', 'slide', 'cryovial', 'envelope', 'glass vial'">
+<cfset variables.proxyContainerTypeList = "pin,slide,cryovial,envelope,glass vial">
+<cfset variables.orphanStructuralTypeExclusionList = "campus,collection object,#variables.proxyContainerTypeList#">
+<cfset variables.rootOrphanStructuralTypeExclusionList = "institution,#variables.orphanStructuralTypeExclusionList#">
 
 <!---
 Function getDirectStructuralChildren.  Returns the direct structural (non-collection-object)
@@ -414,12 +416,16 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					WHERE parent_container_id = 0
 						AND container_type = 'institution'
 				)
-					AND container_type NOT IN ('campus', 'collection object', #variables.proxyContainerTypeSqlList#)
+					AND container_type NOT IN (
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.orphanStructuralTypeExclusionList#" list="true">
+					)
 				UNION ALL
 				SELECT container_id
 				FROM container
 				WHERE parent_container_id = 0
-					AND container_type NOT IN ('institution', 'campus', 'collection object', #variables.proxyContainerTypeSqlList#)
+					AND container_type NOT IN (
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.rootOrphanStructuralTypeExclusionList#" list="true">
+					)
 			)
 		</cfquery>
 		<!--- Count orphaned leaf nodes: collection-object containers that are either direct
@@ -456,7 +462,9 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				)
 				OR c.parent_container_id = 0
 			)
-			AND c.container_type IN (#variables.proxyContainerTypeSqlList#)
+			AND c.container_type IN (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+			)
 		</cfquery>
 		<!--- Build institution array with embedded campus children --->
 		<cfset local.institutions = ArrayNew(1)>
@@ -581,7 +589,9 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 								)
 								OR parent_container_id = 0
 							)
-								AND container_type NOT IN ('institution', 'campus', 'collection object', #variables.proxyContainerTypeSqlList#)
+								AND container_type NOT IN (
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.rootOrphanStructuralTypeExclusionList#" list="true">
+								)
 						)
 				)
 				WHERE rn = 1
@@ -595,7 +605,9 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				)
 				OR c.parent_container_id = 0
 			)
-				AND c.container_type NOT IN ('institution', 'campus', 'collection object', #variables.proxyContainerTypeSqlList#)
+				AND c.container_type NOT IN (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.rootOrphanStructuralTypeExclusionList#" list="true">
+				)
 			ORDER BY
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
 				c.container_type,
@@ -1476,7 +1488,9 @@ specimen data from their contained collection-object child.
 				)
 				OR c.parent_container_id = 0
 			)
-			AND c.container_type IN (#variables.proxyContainerTypeSqlList#)
+			AND c.container_type IN (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+			)
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
 		<cfquery name="queryGetRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -1547,7 +1561,9 @@ specimen data from their contained collection-object child.
 						)
 						OR c.parent_container_id = 0
 					)
-					AND c.container_type IN (#variables.proxyContainerTypeSqlList#)
+					AND c.container_type IN (
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+					)
 					ORDER BY c.container_type, c.label, c.barcode, c.container_id
 				) inner_query
 				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset + arguments.pageSize#">
