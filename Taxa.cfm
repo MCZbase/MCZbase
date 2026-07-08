@@ -533,19 +533,19 @@ limitations under the License.
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="wehavesomeAll" class="d-block search-radio-buttons">
 																<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-																<span class="font-weight-lessbold">Show all matches</span>
+																Show all matches
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="wehavesomeHave" class="d-block search-radio-buttons">
 																<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-                                                                <span class="font-weight-lessbold">Show only taxa for which cataloged items exist</span>
-															</label>
+                                                                Show only taxa for which cataloged items exist
+                                                            </label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
 															<label for="wehavesomeNot" class="d-block search-radio-buttons">
 																<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-																<span class="font-weight-lessbold">Show only taxa not used in identifications</span>
+																Show only taxa not used in identifications
 															</label>
 														</li>
 													</ul>
