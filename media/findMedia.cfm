@@ -279,6 +279,14 @@ limitations under the License.
 													</select>
 												</div>
 											</cfif>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="internal_remarks">Internal Remarks </label>
+													(<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
+												</div>
+											</cfif>
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 mt-1 mx-2">
@@ -487,14 +495,7 @@ limitations under the License.
 													</script>
 												</div>
 											</div>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<div class="col-12 col-md-4 col-xl-3">
-													<label for="internal_remarks">Internal Remarks </label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
-												</div>
-											</cfif>
+											
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 mt-1 mx-2">
