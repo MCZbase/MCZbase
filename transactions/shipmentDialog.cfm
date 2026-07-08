@@ -101,8 +101,12 @@
 											<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="data-entry-input">
 										</div>
 										<div class="col-12 col-md-4">
-											<label for="shipped_date" class="data-entry-label">Ship Date</label>
-											<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date" class="data-entry-input">
+											<cfset datetoday = dateformat(now(),"yyyy-mm-dd")>
+											<span class="data-entry-label">
+												<label for="shipped_date">Ship Date</label>
+												<a id="shipped_date_today_button" href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##shipped_date').val('#datetoday#'); return false;" > (today) <span class="sr-only">Stamp todays date into the ship date</span></a>
+											</span>
+											<input type="text" value="" name="shipped_date" id="shipped_date" class="data-entry-input">
 										</div>
 										<div class="col-12 col-md-4">
 											<label for="foreign_shipment_fg" class="data-entry-label">Foreign shipment?</label>

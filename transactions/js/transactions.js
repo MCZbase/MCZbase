@@ -1166,9 +1166,12 @@ function setupNewShipment(transaction_id) {
 	$("#dialog-shipment").dialog( "option", "title", "Create New Shipment" );
 	$("#shipment_id").val("");
 	$("#transaction_id").val(transaction_id);
-	var date = new Date();
-	var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-	$("#shipped_date").val(datestring);
+   // BugID: 7350, don't stamp today's date into the new shipment.
+	// var date = new Date();
+	// var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+	// $("#shipped_date").val(datestring);
+	$("#shipped_date_today_button").show();
+	$("#shipped_date").val("");
 	$("#contents").val("");
 	$("#no_of_packages").val("1");
 	$("#carriers_tracking_number").val("");
@@ -1198,7 +1201,8 @@ function setupNewShipment(transaction_id) {
 function loadShipment(shipmentId,form) {
 	$("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
 	$("#shipmentFormPermits").html(""); 
-	$("#shipmentFormStatus").html(""); 
+	$("#shipmentFormStatus").html("");
+	$("#shipped_date_today_button").hide();
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getShipments",
