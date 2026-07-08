@@ -665,7 +665,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="row mx-0">
+											<div class="col-12 mr-auto row mx-0">
 												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
