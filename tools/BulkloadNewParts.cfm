@@ -941,7 +941,7 @@ limitations under the License.
 						</cfif>
 						<h3 class="mt-3">#part_updates# part#plur# added for #countSpecimens.ct# cataloged item#splur#.</h3>
 						<h3><span class="text-success">Success!</span> Parts loaded.
-						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
+						<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
 							See in Specimen Results.
 						</a>
 						</h3>
