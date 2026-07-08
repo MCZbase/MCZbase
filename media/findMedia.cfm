@@ -185,14 +185,16 @@ limitations under the License.
 			</cfif>
 		</cfif>
 	</cfloop>
+                        
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
-			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
+			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
-					<div class="search-box">
+                    <div class="d-flex flex-wrap mb-0 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
+					<div class="search-box mt-4">
 						<div class="search-box-header">
-							<h1 class="h3 text-white" id="formheading">Find Media Records</h1>
+							<h1 class="h3 text-white w-75" id="formheading">Find Media Records</h1>
 						</div>
 						<!--- setup date pickers --->
 						<script>
@@ -208,7 +210,7 @@ limitations under the License.
 							});
 						</script>
 
-						<div class="col-12 p-2" id="searchFormDiv">
+						<div id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
 								<fieldset class="bg-light border-default field-set rounded px-3 pt-0 pb-1 my-2 mx-2">
@@ -706,6 +708,7 @@ limitations under the License.
 							</form>
 						</div>
 					</div><!--- search box --->
+                    </div>
 				</div><!--- row --->
 			</section>
 		
