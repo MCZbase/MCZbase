@@ -1199,7 +1199,8 @@ function setupNewShipment(transaction_id) {
 function loadShipment(shipmentId,form) {
 	$("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
 	$("#shipmentFormPermits").html(""); 
-	$("#shipmentFormStatus").html(""); 
+	$("#shipmentFormStatus").html("");
+	$("#shipped_date_today_button").hide();
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getShipments",

@@ -104,7 +104,7 @@
 											<cfset datetoday = dateformat(now(),"yyyy-mm-dd")>
 											<span class="data-entry-label">
 												<label for="shipped_date">Ship Date</label>
-												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##shipped_date').val('#datetoday#'); return false;" > (today) <span class="sr-only">Stamp todays date into the ship date</span></a>
+												<a id="shipped_date_today_button" href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##shipped_date').val('#datetoday#'); return false;" > (today) <span class="sr-only">Stamp todays date into the ship date</span></a>
 											</span>
 											<input type="text" value="" name="shipped_date" id="shipped_date" class="data-entry-input">
 										</div>
