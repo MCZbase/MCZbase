@@ -489,7 +489,7 @@ limitations under the License.
                                     </fieldset>
                                     <fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-3 mx-2">
                                         <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
-                                        <div class="form-row mb-0">
+                                        <div class="form-row">
                                             <!--- setup to hide search for date as text from most users --->
                                             <cfset datecolm="3">
                                             <cfset datecolx="2">
@@ -499,7 +499,7 @@ limitations under the License.
                                                 <cfset datecolx="2">
                                             </cfif>
                                             <div class="col-12 col-md-4 col-xl-3">
-                                                <div class="form-row mb-0">
+                                                <div class="form-row">
                                                 <label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
                                                     <h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
                                                 </label>
