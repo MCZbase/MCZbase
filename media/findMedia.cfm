@@ -218,7 +218,7 @@ limitations under the License.
                                 <form name="searchForm" id="searchForm">
                                 <div class="col-12 px-2">
                                     <input type="hidden" name="method" value="getMedia">
-                                    <fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
+                                    <fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-3 mx-2">
                                         <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
                                         <div class="form-row">
                                             <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
@@ -270,11 +270,11 @@ limitations under the License.
                                             </div>
                                         </div>
                                     </fieldset>
-                                    <fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
+                                    <fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-2 mx-2">
                                         <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Storage/Location</legend> 
                                         <div class="form-row">
                                             <!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-                                            <div class="form-group col-12 col-md-1">
+                                            <div class="col-12 col-md-1">
                                                 <label for="keywords">Protocol<span></span></label>
                                                 <select id="protocol" name="protocol" class="data-entry-select">
                                                     <option></option>
@@ -288,7 +288,7 @@ limitations under the License.
                                                     <option value="NULL" #sel#>NULL</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-12 col-md-2">
+                                            <div class="col-12 col-md-2">
                                                 <label for="hostname">Host<span></span></label>
                                                 <input type="text" id="hostname" name="hostname" value="#encodeForHtml(hostname)#">
                                                 <script>
@@ -297,7 +297,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-2">
+                                            <div class="col-12 col-md-2">
                                                 <label for="path">Path<span></span></label>
                                                 <input type="text" id="path" name="path" value="#encodeForHtml(path)#">
                                                 <script>
@@ -315,7 +315,7 @@ limitations under the License.
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="form-group col-12 col-md-2 col-xl-1">
+                                            <div class="col-12 col-md-2 col-xl-1">
                                                 <label for="extension">Extension</label>
                                                 <cfset selectedextensionlist = "">
                                                 <select id="extension" name="extension" multiple="true">
