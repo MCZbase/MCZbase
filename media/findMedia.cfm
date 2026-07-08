@@ -482,7 +482,7 @@ limitations under the License.
                                         </div>
                                     </div>
                                 </fieldset>
-                                <fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-1 mx-2">
+                                <fieldset class="bg-light border-default field-set rounded px-3 p-1 my-1 mx-2">
                                     <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
 									<div class="form-row mb-0">
 										<!--- setup to hide search for date as text from most users --->
