@@ -444,13 +444,13 @@ limitations under the License.
                                                 <input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
                                             </div>
                                         </cfif>
-                                        <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                        <div class="form-group col-12 col-md-4 col-xl-3 mb-1">
                                             <label for="remarks">Remarks</label> 
                                             (<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
                                             <button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
                                             <input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
                                         </div>
-                                        <div class="form-group col-12 col-md-4 col-xl-4 mb-1">
+                                        <div class="form-group col-12 col-md-4 col-xl-5 mb-1">
 											<div class="form-row mx-0 mb-0">
 												<div class="w-100">
 													<label for="media_label_type">Any Other Label </label>
