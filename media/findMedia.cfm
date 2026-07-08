@@ -579,7 +579,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-3 pt-1 pb-2 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
 										<div class="form-row mx-0">
 											<div class="col-12 col-md-6 col-lg-5 col-xl-4">
@@ -609,7 +609,7 @@ limitations under the License.
 												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 											</div>
 											<div class="col-12 col-md-6 col-xl-4">
-												<div class="w-100">   
+												<div class="w-100">
 													<label for="media_relationship_type">Relationship</label>
 													(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
