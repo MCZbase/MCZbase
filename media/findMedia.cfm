@@ -1306,5 +1306,8 @@ limitations under the License.
 		</div>
 	</div>
 </div><!--- overlay container --->
-	
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Search Media">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
