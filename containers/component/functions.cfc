@@ -399,7 +399,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				AND c.container_type = 'campus'
 			ORDER BY c.label
 		</cfquery>
-		<!--- Count orphaned structural nodes: non-campus structural containers that are either
+		<!--- Count orphaned structural nodes: non-campus, non-proxy containers that are either
 		      direct children of institution nodes OR are at root level (parent_container_id = 0)
 		      but are not institution or campus type. --->
 		<cfquery name="queryGetOrphanStruct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -413,13 +413,12 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					WHERE parent_container_id = 0
 						AND container_type = 'institution'
 				)
-					AND container_type <> 'campus'
-					AND container_type <> 'collection object'
+					AND container_type NOT IN ('campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
 				UNION ALL
 				SELECT container_id
 				FROM container
 				WHERE parent_container_id = 0
-					AND container_type NOT IN ('institution', 'campus', 'collection object')
+					AND container_type NOT IN ('institution', 'campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
 			)
 		</cfquery>
 		<!--- Count orphaned leaf nodes: collection-object containers that are either direct
@@ -524,7 +523,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 </cffunction>
 
 <!---
-Function getOrphanedTopLevelStructural.  Returns non-campus structural containers that are
+Function getOrphanedTopLevelStructural.  Returns non-campus, non-proxy containers that are
 direct children of institution nodes.  These are nodes such as buildings, rooms, or freezers
 placed directly under an institution instead of under a campus.  Returned in the same structure
 as getDirectStructuralChildren so that renderTreeNodes can render them unchanged.
@@ -581,7 +580,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 								)
 								OR parent_container_id = 0
 							)
-								AND container_type NOT IN ('institution', 'campus', 'collection object')
+								AND container_type NOT IN ('institution', 'campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
 						)
 				)
 				WHERE rn = 1
@@ -595,7 +594,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				)
 				OR c.parent_container_id = 0
 			)
-				AND c.container_type NOT IN ('institution', 'campus', 'collection object')
+				AND c.container_type NOT IN ('institution', 'campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
 			ORDER BY
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
 				c.container_type,

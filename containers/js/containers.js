@@ -2174,11 +2174,16 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 		wrapper.append(orphanStructDiv);
 	}
 	if (orphanSingleCount > 0) {
-		var orphanSingleBtn = $('<button class="btn btn-xs btn-outline-secondary mt-2 mr-1" type="button"></button>').text('Single-occupant orphans (' + orphanSingleCount + ')');
+		var orphanSingleDivId = 'ctree-orphan-single';
+		var orphanSingleWrap = $('<div class="mt-2"></div>');
+		var orphanSingleBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1" type="button"></button>').text('Single-occupant orphans (' + orphanSingleCount + ')');
+		var orphanSingleDiv = $('<div class="d-none mt-1" id="' + orphanSingleDivId + '"></div>');
 		orphanSingleBtn.on('click', function() {
-			loadOrphanedSingleOccupantPage(leafPanel, feedbackEl, 1);
+			loadOrphanedSingleOccupantPage(orphanSingleDivId, feedbackEl, 1);
 		});
-		wrapper.append(orphanSingleBtn);
+		orphanSingleWrap.append(orphanSingleBtn);
+		orphanSingleWrap.append(orphanSingleDiv);
+		wrapper.append(orphanSingleWrap);
 	}
 	var rootOtherDivId = 'ctree-root-other';
 	if (topLevelOther.length > 0) {
