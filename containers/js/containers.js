@@ -1763,7 +1763,8 @@ function getContainerRoleBadgeHtml(containerType) {
 }
 
 function buildContainerTypeMeta(containerType) {
-	var meta = $('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + (containerType || '') + ']');
+	var safeType = containerType || 'Unknown';
+	var meta = $('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + safeType + ']');
 	meta.append(' ');
 	meta.append($(getContainerRoleBadgeHtml(containerType)));
 	return meta;
