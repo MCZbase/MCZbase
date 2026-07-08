@@ -20,6 +20,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfset variables.proxyContainerTypeSqlList = "'pin', 'slide', 'cryovial', 'envelope', 'glass vial'">
 
 <!---
 Function getDirectStructuralChildren.  Returns the direct structural (non-collection-object)
@@ -413,12 +414,12 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					WHERE parent_container_id = 0
 						AND container_type = 'institution'
 				)
-					AND container_type NOT IN ('campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+					AND container_type NOT IN ('campus', 'collection object', #variables.proxyContainerTypeSqlList#)
 				UNION ALL
 				SELECT container_id
 				FROM container
 				WHERE parent_container_id = 0
-					AND container_type NOT IN ('institution', 'campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+					AND container_type NOT IN ('institution', 'campus', 'collection object', #variables.proxyContainerTypeSqlList#)
 			)
 		</cfquery>
 		<!--- Count orphaned leaf nodes: collection-object containers that are either direct
@@ -455,7 +456,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				)
 				OR c.parent_container_id = 0
 			)
-			AND c.container_type IN ('pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+			AND c.container_type IN (#variables.proxyContainerTypeSqlList#)
 		</cfquery>
 		<!--- Build institution array with embedded campus children --->
 		<cfset local.institutions = ArrayNew(1)>
@@ -580,7 +581,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 								)
 								OR parent_container_id = 0
 							)
-								AND container_type NOT IN ('institution', 'campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+								AND container_type NOT IN ('institution', 'campus', 'collection object', #variables.proxyContainerTypeSqlList#)
 						)
 				)
 				WHERE rn = 1
@@ -594,7 +595,7 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				)
 				OR c.parent_container_id = 0
 			)
-				AND c.container_type NOT IN ('institution', 'campus', 'collection object', 'pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+				AND c.container_type NOT IN ('institution', 'campus', 'collection object', #variables.proxyContainerTypeSqlList#)
 			ORDER BY
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
 				c.container_type,
@@ -1475,7 +1476,7 @@ specimen data from their contained collection-object child.
 				)
 				OR c.parent_container_id = 0
 			)
-			AND c.container_type IN ('pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+			AND c.container_type IN (#variables.proxyContainerTypeSqlList#)
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
 		<cfquery name="queryGetRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -1546,7 +1547,7 @@ specimen data from their contained collection-object child.
 						)
 						OR c.parent_container_id = 0
 					)
-					AND c.container_type IN ('pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+					AND c.container_type IN (#variables.proxyContainerTypeSqlList#)
 					ORDER BY c.container_type, c.label, c.barcode, c.container_id
 				) inner_query
 				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset + arguments.pageSize#">
