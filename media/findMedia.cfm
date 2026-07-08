@@ -706,7 +706,7 @@ limitations under the License.
 													</div>
 												</fieldset>
 											</div>--->
-											<div class="col-12 col-md-8 mr-auto row mx-0">
+											<div class="col-12 col-md-9 row mx-0">
 												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
@@ -722,7 +722,7 @@ limitations under the License.
 													<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 														<div class="form-check my-2">
-															<label for "multilink" class="d-block search-radio-buttons">">
+															<label for "multilink" class="d-block search-radio-buttons">
 																<input type="checkbox" #checked# name="multilink" id="multilink" value="true">
 																Limit to Media linked to more than one record.
 															</label>
