@@ -2720,7 +2720,7 @@ div.toctitle {
 .search-radio-buttons {
     font-size: 0.95em !important;
     position:relative; 
-    padding-left: 1.2rem;
+    padding-left: 1.2rem !important;
 }
 
 
