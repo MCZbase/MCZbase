@@ -455,6 +455,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 					}
 					$('#' + childUlId).toggleClass('collapse');
 					$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+					$(this).attr('aria-label', expanded ? 'Expand ' + instDisplay : 'Collapse ' + instDisplay);
 				});
 				nodeRow.append(instToggle);
 			}
@@ -487,6 +488,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 							}
 							$('#' + campusChildId).toggleClass('collapse');
 							$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+							$(this).attr('aria-label', expanded ? 'Expand ' + campusDisplay : 'Collapse ' + campusDisplay);
 						});
 						campusRow.append(campusToggle);
 					}
@@ -688,6 +690,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 				}
 				$('#' + childUlId).toggleClass('collapse');
 				$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+				$(this).attr('aria-label', expanded ? 'Expand ' + displayName : 'Collapse ' + displayName);
 			});
 
 			nodeRow.append(toggle);
@@ -1755,7 +1758,7 @@ function getContainerRole(containerType) {
 
 function getContainerRoleBadgeHtml(containerType) {
 	var role = getContainerRole(containerType);
-	var labelMap = { proxy: 'Proxy', leafbearer: 'Leafbearer', structural: 'Structural' };
+	var labelMap = { proxy: 'Proxy', leafbearer: 'Leaf bearer', structural: 'Structural' };
 	return '<span class="badge container-role-badge container-role-' + role + '">' + labelMap[role] + '</span>';
 }
 
@@ -2065,6 +2068,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 					}
 					$('#' + childUlId).toggleClass('collapse');
 					$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+					$(this).attr('aria-label', expanded ? 'Expand ' + instDisplay : 'Collapse ' + instDisplay);
 				});
 				nodeRow.append(instToggle);
 			}
@@ -2093,6 +2097,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 							}
 							$('#' + campusChildId).toggleClass('collapse');
 							$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+							$(this).attr('aria-label', expanded ? 'Expand ' + campusDisplay : 'Collapse ' + campusDisplay);
 						});
 						campusRow.append(campusToggle);
 					}
@@ -2222,6 +2227,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId) {
 				}
 				$('#' + childUlId).toggleClass('collapse');
 				$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+				$(this).attr('aria-label', expanded ? 'Expand ' + displayName : 'Collapse ' + displayName);
 			});
 			nodeRow.append(toggle);
 		}
@@ -2513,7 +2519,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 										} else {
 											var link = document.createElement('a');
 											link.classList.add('pl-1');
-											var params = new URLSearchParams({ execute: 'true', barcode: '=' + display });
+											var params = new URLSearchParams({ execute: 'true', container_id: nodeId });
 											link.href = '/containers/Containers.cfm?' + params.toString();
 											link.appendChild(document.createTextNode(display));
 											crumbLi.append(link);

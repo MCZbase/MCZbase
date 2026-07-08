@@ -179,7 +179,7 @@ limitations under the License.
 	</section>
 
 	<section class="mb-4">
-		<output id="containerViewFeedback">&nbsp;</output>
+		<output id="containerViewFeedback" aria-live="polite"></output>
 	</section>
 </cfoutput>
 
