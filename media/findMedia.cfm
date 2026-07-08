@@ -218,7 +218,7 @@ limitations under the License.
 								<div class="col-12 px-2">
 									<input type="hidden" name="method" value="getMedia">
 									<fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-2 mx-2">
-										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
+										<legend class="font-weight-bold py-1 small px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<div class="col-12 col-md-3">
@@ -282,7 +282,7 @@ limitations under the License.
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-2 mx-2">
-										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Storage/Location</legend> 
+										<legend class="font-weight-bold py-1 small px-3 border-default field-set-legend w-auto bg-teal">Media Storage/Location</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<div class="col-12 col-md-1">
@@ -375,7 +375,7 @@ limitations under the License.
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-2 mx-2">
-										<legend class="font-weight-bold py-1 px-3 border-default field-set-legend w-auto bg-teal">Media Metadata</legend> 
+										<legend class="font-weight-bold small py-1 px-3 border-default field-set-legend w-auto bg-teal">Media Metadata</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
@@ -581,7 +581,7 @@ limitations under the License.
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-									<legend class="font-weight-bold small px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
+									<legend class="font-weight-bold small py-1 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
 										<div class="form-row mx-0">
 											<div class="col-12 col-md-6 col-lg-5 col-xl-5 px-0">
 												<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
