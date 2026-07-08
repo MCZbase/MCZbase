@@ -519,7 +519,7 @@ limitations under the License.
                                                     <input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
                                                     <div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
                                                     <label for="to_made_date" class="sr-only">Made Date</label>	
-                                                    <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-4 data-entry-input px-1 py-0" placeholder="end date">
+                                                    <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date">
                                                 </div>
                                             </div>
 									    </div>
