@@ -243,7 +243,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-4">
 												<label for="mime_type">MIME Type</label>
 												<cfset selectedmimetypelist = "">
 												<select id="mime_type" name="mime_type" multiple="true">
@@ -268,8 +268,8 @@ limitations under the License.
 												</script>
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<div class="col-12 col-md-2">
-													<label for="mask_media_fg" id="mask_media_fg_label">Media Record Visibility</label>
+												<div class="col-12 col-md-1">
+													<label for="mask_media_fg" id="mask_media_fg_label">Visibility</label>
 													<select id="mask_media_fg" name="mask_media_fg">
 														<option></option>
 														<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
