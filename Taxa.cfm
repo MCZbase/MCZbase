@@ -509,7 +509,6 @@ limitations under the License.
 												</div>
 											</fieldset>
 										</div>
-								  
 										<div class="col-12 col-xl-6 pl-xl-0 pr-xl-2">
 											<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
 												<legend class="h6 px-3 mb-0 border-default field-set-legend w-auto bg-teal">Search taxa used on specimen records:</legend>
