@@ -163,6 +163,42 @@ limitations under the License.
 
 	<cfset var returnContent = "">
 
+	<cfset visibilePage = false>
+	<!--- check that the page is visible to the user --->
+	<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+		<cfset visiblePage = true>
+	<cfelse>
+		<!--- look up the page category in the wiki --->
+		<!--- check that page is a single page, not a list --->
+		<!--- confirm that arguments.page does not contain | or %7C or %1F --->
+		<cfif isDefined("arguments.page") AND len(arguments.page) GT 0 AND (listLen(arguments.page, "|") GT 1 OR findNoCase("|", arguments.page) OR findNoCase("%7C", arguments.page) OR findNoCase("%1F", arguments.page))>
+			<!--- throw an exception if the user attempted to obtain a list of pages --->
+			<cfthrow message = "The requested page is not visible to this user."> 
+		</cfif>
+		<cfif isDefined("arguments.page") AND len(arguments.page) GT 0 AND listLen(arguments.page, "|") EQ 1>
+			<!--- check if the requested page is in the "Public Help Page" category --->
+			<cfset var url = "#wikiIRI#api.php?action=query&prop=categories&titles=" & URLEncodedFormat(arguments.page) & "&format=json">
+			<cfhttp url="#url#" method="get" result="wikiCategories" />
+			<cfset var parsed = deserializeJson(wikiCategories.fileContent)>
+			<cfif structKeyExists(parsed, "query") AND structKeyExists(parsed.query, "pages")>
+				<cfloop collection="#parsed.query.pages#" item="pageId">
+					<cfif structKeyExists(parsed.query.pages[pageId], "categories")>
+						<cfset var categories = parsed.query.pages[pageId].categories>
+						<cfloop array="#categories#" index="category">
+							<cfif listFindNoCase(category.title, "Category:Public Help Page")>
+								<cfset visiblePage = true>
+								<cfbreak>
+							</cfif>
+						</cfloop>
+					</cfif>
+				</cfloop>
+			</cfif>
+	</cfif>
+
+	<cfif not visiblePage>
+		<cfthrow message = "The requested page is not visible to this user.">
+	</cfif>
+
 	<!--- Select wiki API endpoint based on section argument --->
 	<cfif isDefined("arguments.section") AND len(arguments.section) GT 0 AND arguments.section NEQ "0">
 		<cfset var url = "#wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
