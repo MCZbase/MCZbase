@@ -159,14 +159,15 @@ limitations under the License.
 	<cfargument name="section" type="string" required="false" default="">
 	<cfargument name="showImages" type="string" required="false" default="false">
 
-	<cfset wikiIRI = "https://code.mcz.harvard.edu/wiki/">
+	<cfset local.wikiIRI = "https://code.mcz.harvard.edu/wiki/">
+	<cfset local.ALLOWED_CATEGORY = "Category:Public Help Page">
 
 	<cfset var returnContent = "">
 
-	<cfset visibilePage = false>
+	<cfset local.visiblePage = false>
 	<!--- check that the page is visible to the user --->
 	<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
-		<cfset visiblePage = true>
+		<cfset local.visiblePage = true>
 	<cfelse>
 		<!--- look up the page category in the wiki --->
 		<!--- check that page is a single page, not a list --->
@@ -177,7 +178,7 @@ limitations under the License.
 		</cfif>
 		<cfif isDefined("arguments.page") AND len(arguments.page) GT 0 AND listLen(arguments.page, "|") EQ 1>
 			<!--- check if the requested page is in the "Public Help Page" category --->
-			<cfset var url = "#wikiIRI#api.php?action=query&prop=categories&titles=" & URLEncodedFormat(arguments.page) & "&format=json">
+			<cfset var url = "#local.wikiIRI#api.php?action=query&prop=categories&titles=" & URLEncodedFormat(arguments.page) & "&format=json">
 			<cfhttp url="#url#" method="get" result="wikiCategories" />
 			<cfset var parsed = deserializeJson(wikiCategories.fileContent)>
 			<cfif structKeyExists(parsed, "query") AND structKeyExists(parsed.query, "pages")>
@@ -185,8 +186,8 @@ limitations under the License.
 					<cfif structKeyExists(parsed.query.pages[pageId], "categories")>
 						<cfset var categories = parsed.query.pages[pageId].categories>
 						<cfloop array="#categories#" index="category">
-							<cfif listFindNoCase(category.title, "Category:Public Help Page")>
-								<cfset visiblePage = true>
+							<cfif listFindNoCase(category.title, local.ALLOWED_CATEGORY)>
+								<cfset local.visiblePage = true>
 								<cfbreak>
 							</cfif>
 						</cfloop>
@@ -196,19 +197,19 @@ limitations under the License.
 		</cfif>
 	</cfif>
 
-	<cfif not visiblePage>
+	<cfif not local.visiblePage>
 		<cfthrow message = "The requested page is not visible to this user.">
 	</cfif>
 
 	<!--- Select wiki API endpoint based on section argument --->
 	<cfif isDefined("arguments.section") AND len(arguments.section) GT 0 AND arguments.section NEQ "0">
-		<cfset var url = "#wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
+		<cfset var url = "#local.wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
 		<cfset returnContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 	<cfelse>
 		<!-- Full page fallback -->
-		<cfset var url = "#wikiIRI#/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
+		<cfset var url = "#local.wikiIRI#/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset returnContent = wikiContent.fileContent>
 	</cfif>
