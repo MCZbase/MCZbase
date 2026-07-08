@@ -580,7 +580,7 @@ limitations under the License.
 											
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-0 mt-2 mx-2">
 									<legend class="font-weight-bold small py-1 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
 										<div class="form-row mx-0">
 											<div class="col-12 col-md-6 col-lg-5 col-xl-4 px-0">
