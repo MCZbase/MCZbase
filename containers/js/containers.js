@@ -1721,3 +1721,882 @@ function loadContainerEditForm(containerId, targetDivId, feedbackId, idSuffix) {
 		}
 	});
 }
+
+
+var CONTAINER_ROLE_MAP = {
+	'pin': 'proxy',
+	'cryovial': 'proxy',
+	'slide': 'proxy',
+	'envelope': 'proxy',
+	'glass vial': 'proxy',
+	'jar': 'leafbearer',
+	'compartment': 'leafbearer',
+	'tank': 'leafbearer',
+	'institution': 'structural',
+	'campus': 'structural',
+	'cryovat': 'structural',
+	'building': 'structural',
+	'floor': 'structural',
+	'room': 'structural',
+	'freezer': 'structural',
+	'freezer rack': 'structural',
+	'freezer box': 'structural',
+	'grouping': 'structural',
+	'set': 'structural',
+	'fixture': 'structural',
+	'rack slot': 'structural',
+	'position': 'structural',
+	'collection object': 'structural'
+};
+
+function getContainerRole(containerType) {
+	return CONTAINER_ROLE_MAP[containerType] || 'structural';
+}
+
+function getContainerRoleBadgeHtml(containerType) {
+	var role = getContainerRole(containerType);
+	var labelMap = { proxy: 'Proxy', leafbearer: 'Leafbearer', structural: 'Structural' };
+	return '<span class="badge container-role-badge container-role-' + role + '">' + labelMap[role] + '</span>';
+}
+
+function buildContainerTypeMeta(containerType) {
+	var meta = $('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + (containerType || '') + ']');
+	meta.append(' ');
+	meta.append($(getContainerRoleBadgeHtml(containerType)));
+	return meta;
+}
+
+function buildContainerDetailsActionButton(containerId, displayName, feedbackId) {
+	return $('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button"></button>')
+		.text('Details')
+		.on('click', function() {
+			openContainerDetailsDialog(containerId, displayName, feedbackId, false);
+		});
+}
+
+function buildContainerViewLink(containerId) {
+	return $('<a class="btn btn-xs btn-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+		.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId))
+		.text('View');
+}
+
+function buildContainerEditLink(containerId) {
+	return $('<a class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+		.attr('href', '/containers/Container.cfm?action=edit&container_id=' + encodeURIComponent(containerId))
+		.text('Edit');
+}
+
+function renderSpecimenCell(row, occupantBarcode, occupantLabel) {
+	var specTd = $('<td></td>');
+	if (row.cat_num && row.collection_cde && row.institution_acronym) {
+		var guidText = row.institution_acronym + ':' + row.collection_cde + ':' + row.cat_num;
+		var guidUrl = '/guid/' + guidText;
+		specTd.append(
+			$('<a target="_blank" rel="noopener noreferrer"></a>')
+				.attr('href', guidUrl)
+				.attr('title', 'View specimen record')
+				.text(guidText)
+		);
+		if (row.scientific_name) {
+			specTd.append($('<br>')).append($('<em class="small text-muted"></em>').text(row.scientific_name));
+		}
+		if (row.part_name) {
+			specTd.append($('<span class="small text-muted ml-1"></span>').text('(' + row.part_name + ')'));
+		}
+	} else if (occupantBarcode || occupantLabel) {
+		specTd.append($('<span class="small text-muted"></span>').text(formatContainerDisplay(occupantBarcode, occupantLabel)));
+	}
+	return specTd;
+}
+
+function buildPagedNav(currentPage, totalPages, className, pageClass) {
+	var nav = $('<nav></nav>').attr('aria-label', 'Page navigation').addClass('d-flex flex-wrap' + (className ? ' ' + className : ''));
+	var firstBtn = $('<button class="btn btn-xs btn-secondary mr-1">« First</button>').attr('type', 'button');
+	var prevBtn = $('<button class="btn btn-xs btn-secondary mr-1">‹ Prev</button>').attr('type', 'button');
+	var nextBtn = $('<button class="btn btn-xs btn-secondary mr-1">Next ›</button>').attr('type', 'button');
+	var lastBtn = $('<button class="btn btn-xs btn-secondary">Last »</button>').attr('type', 'button');
+	if (currentPage <= 1) {
+		firstBtn.prop('disabled', true);
+		prevBtn.prop('disabled', true);
+	} else {
+		firstBtn.addClass(pageClass).data('page', 1);
+		prevBtn.addClass(pageClass).data('page', currentPage - 1);
+	}
+	if (currentPage >= totalPages) {
+		nextBtn.prop('disabled', true);
+		lastBtn.prop('disabled', true);
+	} else {
+		nextBtn.addClass(pageClass).data('page', currentPage + 1);
+		lastBtn.addClass(pageClass).data('page', totalPages);
+	}
+	return nav.append(firstBtn, prevBtn, nextBtn, lastBtn);
+}
+
+function openContainerDetailsDialog(containerId, displayName, feedbackId, showBrowseAction) {
+	var dialogId = 'containerDetailsDialog';
+	var contentId = 'containerDetailsDialogContent';
+	var dialogEl = $('#' + dialogId);
+	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1000));
+	var dialogHeight = Math.max(320, Math.min($(window).height() - 40, 700));
+	var dialogTitle = 'Container Details';
+	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
+	if (!dialogEl.length) {
+		dialogEl = $('<div id="' + dialogId + '"></div>').appendTo('body');
+	}
+	if (displayName) {
+		dialogTitle += ': ' + displayName;
+	}
+	if (dialogEl.hasClass('ui-dialog-content')) {
+		dialogEl.dialog('destroy');
+	}
+	dialogEl.html('<div id="' + contentId + '"></div>').dialog({
+		modal: true,
+		title: dialogTitle,
+		width: dialogWidth,
+		height: dialogHeight,
+		dialogClass: 'dialog_fixed ui-widget-header',
+		close: function() {
+			$('#' + contentId).html('');
+			$(this).dialog('destroy');
+		}
+	});
+	dialogEl.dialog('open');
+	dialogEl.dialog('moveToTop');
+	loadContainerDetails(containerId, contentId, feedbackId, browseActionEnabled);
+}
+
+function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) {
+	var rows = data.rows || [];
+	var totalRows = parseInt(data.totalRows, 10) || 0;
+	var pageSize = parseInt(data.pageSize, 10) || CONTAINER_PAGE_SIZE;
+	var currentPage = parseInt(data.page, 10) || page || 1;
+	var totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+	var target = $('#' + targetDivId);
+	var panel = $('<div class="container-leaf-panel"></div>');
+	var headingDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+	headingDiv.append($('<h3 class="h5 mr-2 mb-0"></h3>').text('Single-occupant orphans (' + totalRows + ')'));
+	panel.append(headingDiv);
+	if (totalPages > 1) {
+		panel.append($('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages));
+		panel.append(buildPagedNav(currentPage, totalPages, 'mb-1', 'orphan-single-page-btn'));
+	}
+	if (rows.length === 0) {
+		panel.append($('<p class="text-muted mb-0"></p>').text('No orphaned single-occupant containers found.'));
+	} else {
+		var tbody = $('<tbody></tbody>');
+		$.each(rows, function(i, row) {
+			var displayName = formatContainerDisplay(row.barcode, row.label);
+			var actionTd = $('<td></td>');
+			actionTd.append(buildContainerDetailsActionButton(row.container_id, displayName, feedbackId));
+			actionTd.append(buildContainerViewLink(row.container_id));
+			var occupantSpecUrl = specimenSearchUrl(row.occupant_barcode || '');
+			if (occupantSpecUrl) {
+				actionTd.append(
+					$('<a class="btn btn-xs btn-outline-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+						.attr('href', occupantSpecUrl)
+						.text('View specimen')
+				);
+			}
+			var typeTd = $('<td></td>').text(row.container_type || '');
+			typeTd.append(' ');
+			typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
+			var tr = $('<tr></tr>');
+			tr.append(typeTd);
+			tr.append($('<td></td>').text(displayName));
+			tr.append(renderSpecimenCell(row, row.occupant_barcode, row.occupant_label));
+			tr.append($('<td></td>').text(row.description || ''));
+			tr.append(actionTd);
+			tbody.append(tr);
+		});
+		var table = $('<table class="table table-sm table-striped"></table>');
+		table.append('<thead><tr><th>Type</th><th>Container</th><th>Specimen</th><th>Description</th><th>Actions</th></tr></thead>');
+		table.append(tbody);
+		panel.append(table);
+		if (totalPages > 1) {
+			panel.append(buildPagedNav(currentPage, totalPages, 'mt-2', 'orphan-single-page-btn'));
+		}
+	}
+	target.removeClass('d-none').html(panel);
+	target.off('click.orphansingle').on('click.orphansingle', '.orphan-single-page-btn', function() {
+		loadOrphanedSingleOccupantPage(targetDivId, feedbackId, $(this).data('page'));
+	});
+}
+
+function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page) {
+	var target = $('#' + targetDivId);
+	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: {
+			method: 'getOrphanedSingleOccupantContainers',
+			page: page || 1,
+			pageSize: CONTAINER_PAGE_SIZE
+		},
+		dataType: 'json',
+		success: function(data) {
+			renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page || 1);
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading orphaned single-occupant containers');
+		}
+	});
+}
+
+function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
+	var target = $('#' + targetDivId);
+	var layoutClassMap = {
+		25: 'positions-grid-5x5',
+		81: 'positions-grid-9x9',
+		100: 'positions-grid-10x10',
+		48: 'positions-grid-12x4',
+		33: 'positions-grid-11x3'
+	};
+	var layoutClass = layoutClassMap[parseInt(numPositions, 10)] || '';
+	if (!positions || positions.length === 0) {
+		target.html('<p class="text-muted mb-0">No position containers found.</p>');
+		return;
+	}
+	if (!layoutClass) {
+		var tbody = $('<tbody></tbody>');
+		$.each(positions, function(i, position) {
+			var detailContainerId = position.content_container_id || position.position_id;
+			var occupantDisplay = position.content_container_id
+				? formatContainerDisplay(position.content_barcode, position.content_label)
+				: 'Empty';
+			var actionBtn = $('<button class="btn btn-xs btn-outline-primary" type="button"></button>')
+				.text('Details')
+				.on('click', function() {
+					openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+				});
+			var tr = $('<tr></tr>');
+			tr.append($('<td></td>').text(position.position_label || ''));
+			tr.append($('<td></td>').text(occupantDisplay));
+			tr.append($('<td></td>').text(position.content_container_type || ''));
+			tr.append($('<td></td>').append(actionBtn));
+			tbody.append(tr);
+		});
+		var table = $('<table class="table table-sm table-striped positions-grid-fallback"></table>');
+		table.append('<thead><tr><th>Position</th><th>Occupant</th><th>Occupant Type</th><th>Actions</th></tr></thead>');
+		table.append(tbody);
+		target.html(table);
+		return;
+	}
+	var wrapper = $('<div class="positions-grid-wrapper"></div>');
+	var grid = $('<div class="positions-grid"></div>').addClass(layoutClass);
+	$.each(positions, function(i, position) {
+		var detailContainerId = position.content_container_id || position.position_id;
+		var occupantDisplay = position.content_container_id
+			? formatContainerDisplay(position.content_barcode, position.content_label)
+			: 'Empty';
+		var cell = $('<button class="positions-grid-cell" type="button"></button>');
+		if (!position.content_container_id) {
+			cell.addClass('positions-grid-cell-empty');
+		}
+		cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
+		cell.append($('<span class="positions-grid-occupant small text-muted"></span>').text(occupantDisplay));
+		if (position.content_container_type) {
+			cell.append($('<span class="positions-grid-type small text-muted"></span>').text(position.content_container_type));
+		}
+		cell.on('click', function() {
+			openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+		});
+		grid.append(cell);
+	});
+	wrapper.append(grid);
+	target.html(wrapper);
+}
+
+function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
+	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: {
+			method: 'getContainerPositionsGrid',
+			container_id: containerId
+		},
+		dataType: 'json',
+		success: function(data) {
+			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId);
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading container positions');
+		}
+	});
+}
+
+function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
+	var institutions = data.institutions || [];
+	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
+	var orphanSingleCount = parseInt(data.orphaned_single_occupant_count, 10) || 0;
+	var topLevelOther = data.top_level_other || [];
+	var orphanStructDivId = 'ctree-orphan-structural';
+	var wrapper = $('<div></div>');
+	if (institutions.length === 0 && orphanStructCount === 0 && orphanSingleCount === 0 && topLevelOther.length === 0) {
+		wrapper.html('<p class="text-muted my-2">No containers found.</p>');
+		$('#' + browsePanel).html(wrapper);
+		return;
+	}
+	if (institutions.length > 0) {
+		var instUl = $('<ul class="container-tree" role="tree"></ul>');
+		$.each(institutions, function(idx, inst) {
+			var instDisplay = formatContainerDisplay(inst.barcode, inst.label);
+			var instCid = inst.container_id;
+			var campuses = inst.campus_children || [];
+			var childUlId = 'ctree-children-' + instCid;
+			var toggleId = 'ctree-toggle-' + instCid;
+			var nodeRow = $('<div class="d-flex align-items-center flex-wrap tree-node-row"></div>');
+			if (parseInt(inst.direct_structural_children, 10) > 0) {
+				var instToggle = $('<button type="button"></button>')
+					.attr('id', toggleId)
+					.attr('aria-expanded', 'true')
+					.attr('aria-controls', childUlId)
+					.attr('aria-label', 'Collapse ' + instDisplay)
+					.addClass('tree-node-toggle btn btn-xs btn-link mr-1');
+				instToggle.on('click', function() {
+					var expanded = $(this).attr('aria-expanded') === 'true';
+					if (!expanded && $('#' + childUlId).children().length === 0) {
+						loadContainerNode(instCid, childUlId, feedbackEl);
+					}
+					$('#' + childUlId).toggleClass('collapse');
+					$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+				});
+				nodeRow.append(instToggle);
+			}
+			nodeRow.append($('<span class="tree-node-label"></span>').text(instDisplay));
+			nodeRow.append(buildContainerTypeMeta(inst.container_type));
+			nodeRow.append(buildContainerDetailsButton(instCid, instDisplay, feedbackEl));
+			var campusUl = $('<ul></ul>').attr('id', childUlId).addClass('container-tree');
+			if (campuses.length > 0) {
+				$.each(campuses, function(ci, campus) {
+					var campusDisplay = formatContainerDisplay(campus.barcode, campus.label);
+					var campusCid = campus.container_id;
+					var campusChildId = 'ctree-children-' + campusCid;
+					var campusTogId = 'ctree-toggle-' + campusCid;
+					var campusRow = $('<div class="d-flex align-items-center flex-wrap tree-node-row"></div>');
+					if (parseInt(campus.direct_structural_children, 10) > 0) {
+						var campusToggle = $('<button type="button"></button>')
+							.attr('id', campusTogId)
+							.attr('aria-expanded', 'false')
+							.attr('aria-controls', campusChildId)
+							.attr('aria-label', 'Expand ' + campusDisplay)
+							.addClass('tree-node-toggle btn btn-xs btn-link mr-1');
+						campusToggle.on('click', function() {
+							var expanded = $(this).attr('aria-expanded') === 'true';
+							if (!expanded && $('#' + campusChildId).children().length === 0) {
+								loadContainerNode(campusCid, campusChildId, feedbackEl);
+							}
+							$('#' + campusChildId).toggleClass('collapse');
+							$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+						});
+						campusRow.append(campusToggle);
+					}
+					campusRow.append($('<span class="tree-node-label"></span>').text(campusDisplay));
+					campusRow.append(buildContainerTypeMeta(campus.container_type));
+					campusRow.append(buildContainerDetailsButton(campusCid, campusDisplay, feedbackEl));
+					var campusLeafDiv = null;
+					if (parseInt(campus.direct_leaf_children, 10) > 0) {
+						var campusLeafDivId = 'ctree-leaf-' + campusCid;
+						campusLeafDiv = $('<div class="d-none mt-1"></div>').attr('id', campusLeafDivId);
+						var campusBrowseBtn = $('<button type="button"></button>')
+							.addClass('btn btn-xs btn-outline-secondary ml-1')
+							.text('Browse contents')
+							.on('click', (function(nodeId, nodeName, nodeBarcode, panelId) {
+								return function() {
+									var btn = $(this);
+									var panel = $('#' + panelId);
+									if (panel.hasClass('d-none')) {
+										if (!btn.data('loaded')) {
+											loadLeafPanel(nodeId, panelId, feedbackEl, 1, nodeName, nodeBarcode);
+											btn.data('loaded', true);
+										} else {
+											panel.removeClass('d-none');
+										}
+										btn.text('Hide contents');
+									} else {
+										panel.addClass('d-none');
+										btn.text('Browse contents');
+									}
+								};
+							})(campusCid, campusDisplay, campus.barcode || '', campusLeafDivId));
+						campusRow.append(campusBrowseBtn);
+					}
+					var campusSpecEl = buildSpecimensButton(campusCid, campus.barcode || '', parseInt(campus.direct_leaf_children, 10) || 0, parseInt(campus.has_leaf_descendants, 10));
+					if (campusSpecEl) { campusRow.append(campusSpecEl); }
+					var campusChildUl = $('<ul></ul>').attr('id', campusChildId).addClass('collapse container-tree');
+					var campusLi = $('<li role="treeitem"></li>').append(campusRow);
+					if (campusLeafDiv) {
+						campusLi.append(campusLeafDiv);
+					}
+					campusLi.append(campusChildUl);
+					campusUl.append(campusLi);
+				});
+			} else if (parseInt(inst.direct_structural_children, 10) > 0) {
+				campusUl.addClass('collapse');
+			}
+			instUl.append($('<li role="treeitem"></li>').append(nodeRow).append(campusUl));
+		});
+		wrapper.append(instUl);
+	}
+	if (orphanStructCount > 0) {
+		var orphanStructLabel = 'Structural orphans (' + orphanStructCount + ')';
+		var orphanStructDiv = $('<div class="mt-2" id="' + orphanStructDivId + '"></div>');
+		var orphanStructBtn = $('<button class="btn btn-xs btn-outline-secondary" type="button"></button>').text(orphanStructLabel);
+		orphanStructBtn.on('click', function() {
+			var btn = $(this);
+			btn.prop('disabled', true).text('Loading…');
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				data: { method: 'getOrphanedTopLevelStructural' },
+				dataType: 'json',
+				success: function(nodes) {
+					btn.remove();
+					renderTreeNodes(nodes, orphanStructDivId, feedbackEl);
+				},
+				error: function(jqXHR, textStatus, error) {
+					btn.prop('disabled', false).text(orphanStructLabel);
+					handleFail(jqXHR, textStatus, error, 'loading orphaned structural containers');
+				}
+			});
+		});
+		orphanStructDiv.append(orphanStructBtn);
+		wrapper.append(orphanStructDiv);
+	}
+	if (orphanSingleCount > 0) {
+		var orphanSingleBtn = $('<button class="btn btn-xs btn-outline-secondary mt-2 mr-1" type="button"></button>').text('Single-occupant orphans (' + orphanSingleCount + ')');
+		orphanSingleBtn.on('click', function() {
+			loadOrphanedSingleOccupantPage(leafPanel, feedbackEl, 1);
+		});
+		wrapper.append(orphanSingleBtn);
+	}
+	var rootOtherDivId = 'ctree-root-other';
+	if (topLevelOther.length > 0) {
+		var rootOtherDiv = $('<div class="mt-3"></div>');
+		rootOtherDiv.append($('<h3 class="h5 text-muted"></h3>').text('Other Top-Level Containers'));
+		rootOtherDiv.append($('<div></div>').attr('id', rootOtherDivId));
+		wrapper.append(rootOtherDiv);
+	}
+	$('#' + browsePanel).html(wrapper);
+	if (topLevelOther.length > 0) {
+		renderTreeNodes(topLevelOther, rootOtherDivId, feedbackEl);
+	}
+}
+
+function renderTreeNodes(nodes, targetDivId, feedbackId) {
+	if (!nodes || nodes.length === 0) {
+		$('#' + targetDivId).html('<p class="text-muted my-2">No structural containers found.</p>');
+		return;
+	}
+	var ul = $('<ul class="container-tree" role="tree"></ul>');
+	$.each(nodes, function(idx, node) {
+		var label = node.label || '';
+		var barcode = node.barcode || '';
+		var ctype = node.container_type || '';
+		var cid = node.container_id;
+		var structuralChildren = parseInt(node.direct_structural_children, 10) || 0;
+		var leafChildren = parseInt(node.direct_leaf_children, 10) || 0;
+		var hasLeafDescendants = parseInt(node.has_leaf_descendants, 10) > 0;
+		var nodeDescription = node.description || '';
+		var childUlId = 'ctree-children-' + cid;
+		var toggleId = 'ctree-toggle-' + cid;
+		var role = getContainerRole(ctype);
+		var isProxy = role === 'proxy';
+		var displayName = formatContainerDisplay(barcode, label);
+		var nodeRow = $('<div class="d-flex align-items-center flex-wrap tree-node-row"></div>');
+		if (structuralChildren > 0) {
+			var toggle = $('<button type="button"></button>')
+				.attr('id', toggleId)
+				.attr('aria-expanded', 'false')
+				.attr('aria-controls', childUlId)
+				.attr('aria-label', 'Expand ' + displayName)
+				.addClass('tree-node-toggle btn btn-xs btn-link mr-1');
+			toggle.on('click', function() {
+				var expanded = $(this).attr('aria-expanded') === 'true';
+				if (!expanded && $('#' + childUlId).children().length === 0) {
+					loadContainerNode(cid, childUlId, feedbackId);
+				}
+				$('#' + childUlId).toggleClass('collapse');
+				$(this).attr('aria-expanded', expanded ? 'false' : 'true');
+			});
+			nodeRow.append(toggle);
+		}
+		nodeRow.append($('<span class="tree-node-label"></span>').text(displayName));
+		nodeRow.append(buildContainerTypeMeta(ctype));
+		nodeRow.append(buildContainerDetailsButton(cid, displayName, feedbackId));
+		if (structuralChildren === 0 && leafChildren === 0) {
+			nodeRow.append($('<span class="badge badge-light border text-muted small ml-1"></span>').attr('title', 'Empty container — no children').text('empty'));
+		}
+		if (isProxy && leafChildren > 1) {
+			nodeRow.append($('<span class="badge badge-warning ml-1 small"></span>').attr('title', 'Single-occupant type with multiple children — may be misplaced').text('!'));
+		}
+		if (leafChildren > 0 && structuralChildren > 0) {
+			nodeRow.append($('<span class="badge badge-warning ml-1 small"></span>').attr('title', 'Contains both structural containers and collection objects (mixed)').text('Mixed'));
+		}
+		if (leafChildren > 0 && structuralChildren === 0) {
+			nodeRow.append($('<span class="badge badge-info ml-1 small"></span>').text(leafChildren + ' obj'));
+		}
+		if (structuralChildren > 0) {
+			nodeRow.append($('<span class="badge badge-light border text-muted ml-1 small"></span>').text(structuralChildren + ' containers'));
+		}
+		var nodeLeafDiv = null;
+		if (leafChildren > 0 && !isProxy) {
+			var leafDivId = 'ctree-leaf-' + cid;
+			nodeLeafDiv = $('<div class="d-none mt-1"></div>').attr('id', leafDivId);
+			var browseBtn = $('<button type="button"></button>')
+				.addClass('btn btn-xs btn-outline-secondary ml-1')
+				.text('Browse contents')
+				.on('click', (function(nodeId, nodeName, nodeBarcode, panelId) {
+					return function() {
+						var btn = $(this);
+						var panel = $('#' + panelId);
+						if (panel.hasClass('d-none')) {
+							if (!btn.data('loaded')) {
+								loadLeafPanel(nodeId, panelId, feedbackId, 1, nodeName, nodeBarcode);
+								btn.data('loaded', true);
+							} else {
+								panel.removeClass('d-none');
+							}
+							btn.text('Hide contents');
+						} else {
+							panel.addClass('d-none');
+							btn.text('Browse contents');
+						}
+					};
+				})(cid, displayName, barcode, leafDivId));
+			nodeRow.append(browseBtn);
+		}
+		var specEl = buildSpecimensButton(cid, barcode, leafChildren, hasLeafDescendants ? 1 : 0);
+		if (specEl) { nodeRow.append(specEl); }
+		var childUl = $('<ul></ul>').attr('id', childUlId).addClass('collapse container-tree');
+		var li = $('<li role="treeitem"></li>').append(nodeRow);
+		if (nodeDescription) {
+			li.append($('<div class="tree-node-desc small text-muted fst-italic"></div>').text(nodeDescription));
+		}
+		if (nodeLeafDiv) {
+			li.append(nodeLeafDiv);
+		}
+		li.append(childUl);
+		if (isProxy && leafChildren > 0) {
+			var childBarcode = node.single_child_barcode || '';
+			var childLabel = node.single_child_label || '';
+			if (childBarcode || childLabel) {
+				var childDisplay = formatContainerDisplay(childBarcode, childLabel);
+				var inlineLeafDiv = $('<div class="tree-node-inline-leaf"></div>');
+				inlineLeafDiv.append($('<span class="tree-node-leaf-info small text-muted"></span>').text('⤷ ' + childDisplay));
+				inlineLeafDiv.append(
+					$('<button class="btn btn-link btn-xs p-0 ml-1" type="button"></button>')
+						.text('Details')
+						.on('click', function() {
+							openContainerDetailsDialog(cid, displayName, feedbackId, false);
+						})
+				);
+				var childSpecUrl = specimenSearchUrl(childBarcode);
+				if (childSpecUrl) {
+					inlineLeafDiv.append(
+						$('<a class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer"></a>')
+							.attr('href', childSpecUrl)
+							.attr('title', 'View this specimen in the specimen search')
+							.text('View specimen')
+					);
+				}
+				li.append(inlineLeafDiv);
+			}
+		}
+		ul.append(li);
+	});
+	$('#' + targetDivId).html(ul);
+}
+
+function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabel, containerBarcode) {
+	page = page || 1;
+	containerBarcode = containerBarcode || '';
+	$('#' + leafPanelId).removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: { method: 'getDirectLeafChildren', container_id: containerId, page: page },
+		dataType: 'json',
+		success: function(data) {
+			var rows = data.rows || [];
+			var totalRows = parseInt(data.totalRows, 10) || 0;
+			var pageSize = parseInt(data.pageSize, 10) || 50;
+			var currentPage = parseInt(data.page, 10) || 1;
+			var totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+			var panel = $('<div class="container-leaf-panel"></div>');
+			var headingDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+			var heading = containerLabel ? 'Contents of ' + containerLabel + ' (' + totalRows + ' collection objects)' : 'Contents (' + totalRows + ' collection objects)';
+			headingDiv.append($('<h3 class="h5 mr-2 mb-0"></h3>').text(heading));
+			var allSpecUrl = specimenSearchUrl(containerBarcode);
+			if (allSpecUrl && totalRows > 0) {
+				headingDiv.append(
+					$('<a class="btn btn-xs btn-outline-info" target="_blank" rel="noopener noreferrer"></a>')
+						.attr('href', allSpecUrl)
+						.attr('title', 'View all specimens in this container in the specimen search')
+						.text('View all in Specimen Search')
+				);
+			}
+			panel.append(headingDiv);
+			if (totalPages > 1) {
+				panel.append($('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages));
+				panel.append(buildPagedNav(currentPage, totalPages, 'mb-1', 'leaf-page-btn'));
+			}
+			if (rows.length === 0) {
+				panel.append('<p class="text-muted">No collection objects found.</p>');
+			} else {
+				var tbody = $('<tbody></tbody>');
+				$.each(rows, function(i, row) {
+					var rowDisplay = formatContainerDisplay(row.barcode, row.label);
+					var tr = $('<tr></tr>');
+					tr.append($('<td></td>').text(rowDisplay));
+					tr.append(renderSpecimenCell(row, row.barcode, row.label));
+					tr.append($('<td></td>').text(row.description || ''));
+					var actionTd = $('<td></td>');
+					actionTd.append(buildContainerDetailsActionButton(row.container_id, rowDisplay, feedbackId));
+					actionTd.append(buildContainerViewLink(row.container_id));
+					var rowSpecUrl = specimenSearchUrl(row.barcode);
+					if (rowSpecUrl) {
+						actionTd.append(
+							$('<a class="btn btn-xs btn-outline-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+								.attr('href', rowSpecUrl)
+								.attr('title', 'View this specimen in the specimen search')
+								.text('View specimen')
+						);
+					}
+					tr.append(actionTd);
+					tbody.append(tr);
+				});
+				var table = $('<table class="table table-sm table-striped"></table>');
+				table.append('<thead><tr><th>Container</th><th>Specimen</th><th>Description</th><th>Actions</th></tr></thead>');
+				table.append(tbody);
+				panel.append(table);
+				if (totalPages > 1) {
+					panel.append(buildPagedNav(currentPage, totalPages, 'mt-2', 'leaf-page-btn'));
+				}
+			}
+			var leafEl = $('#' + leafPanelId);
+			leafEl.removeClass('d-none').html(panel);
+			leafEl.off('click.leafpage').on('click.leafpage', '.leaf-page-btn', function() {
+				loadLeafPanel(containerId, leafPanelId, feedbackId, $(this).data('page'), containerLabel, containerBarcode);
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			$('#' + leafPanelId).addClass('d-none');
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading leaf container contents');
+		}
+	});
+}
+
+function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
+	page = page || 1;
+	var searchTerm = $('#search_term').val() || '';
+	var containerType = $('#container_type').val() || '';
+	var barcode = $('#barcode').val() || '';
+	var description = $('#description').val() || '';
+	var department = $('#department').val() || '';
+	var treeProperty = $('#tree_property').val() || '';
+	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
+	$('#containerBrowseContext').text('Search results');
+	$('#' + leafPanel).addClass('d-none').html('');
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: {
+			method: 'searchContainers',
+			search_term: searchTerm,
+			container_type: containerType,
+			barcode: barcode,
+			description: description,
+			department: department,
+			tree_property: treeProperty,
+			page: page,
+			pageSize: CONTAINER_PAGE_SIZE
+		},
+		dataType: 'json',
+		success: function(data) {
+			var rows = data.rows || [];
+			var totalRows = parseInt(data.totalRows, 10) || 0;
+			var pageSize = parseInt(data.pageSize, 10) || CONTAINER_PAGE_SIZE;
+			var currentPage = parseInt(data.page, 10) || 1;
+			var totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+			var panel = $('<div></div>');
+			var searchLinkParts = ['execute=true'];
+			if (containerType) { searchLinkParts.push('container_type=' + encodeURIComponent(containerType)); }
+			if (searchTerm) { searchLinkParts.push('search_term=' + encodeURIComponent(searchTerm)); }
+			if (barcode) { searchLinkParts.push('barcode=' + encodeURIComponent(barcode)); }
+			if (description) { searchLinkParts.push('description=' + encodeURIComponent(description)); }
+			if (department) { searchLinkParts.push('department=' + encodeURIComponent(department)); }
+			if (treeProperty) { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
+			var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
+			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
+			headerDiv.append(
+				$('<a class="small ml-1 mt-1 mr-2" target="_blank" rel="noopener noreferrer"></a>')
+					.attr('href', searchLinkUrl)
+					.attr('title', 'Link to this search (opens in new tab)')
+					.text('Link to this search')
+			);
+			headerDiv.append(
+				$('<button class="btn btn-xs btn-outline-secondary mt-1" type="button"></button>')
+					.text('⌂ Browse Hierarchy')
+					.attr('title', 'Return to the default container hierarchy view')
+					.on('click', function() {
+						initContainerBrowse(browsePanel, leafPanel, feedbackId);
+						$('#' + leafPanel).addClass('d-none').html('');
+					})
+			);
+			panel.append(headerDiv);
+			if (totalPages > 1) {
+				panel.append($('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages));
+				panel.append(buildPagedNav(currentPage, totalPages, 'mb-2', 'search-page-btn'));
+			}
+			if (rows.length === 0) {
+				panel.append('<p class="text-muted my-2">No containers matched your search.</p>');
+			} else {
+				var tbody = $('<tbody></tbody>');
+				$.each(rows, function(i, row) {
+					var cid = row.container_id;
+					var structKids = parseInt(row.direct_structural_children, 10) || 0;
+					var leafKids = parseInt(row.direct_leaf_children, 10) || 0;
+					var role = getContainerRole(row.container_type);
+					var isProxy = role === 'proxy';
+					var displayName = formatContainerDisplay(row.barcode, row.label);
+					var descText = row.description || '';
+					if (descText.length > MAX_DESCRIPTION_LENGTH) {
+						descText = descText.substring(0, MAX_DESCRIPTION_LENGTH) + '…';
+					}
+					var shapeClass = row.shape_class || 'A';
+					var shapeLabel = SHAPE_LABELS[shapeClass] || shapeClass;
+					var shapeBadgeClass = shapeClass === 'AB' ? 'badge-warning' : (shapeClass === 'B' ? 'badge-info' : 'badge-light border text-muted');
+					var shapeBadge = $('<span class="badge small"></span>').addClass(shapeBadgeClass).text(shapeLabel);
+					var actionCell = $('<td></td>');
+					actionCell.append(buildContainerDetailsActionButton(cid, displayName, feedbackId));
+					actionCell.append(buildContainerViewLink(cid));
+					actionCell.append(buildContainerEditLink(cid));
+					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1" type="button"></button>').text('Locate');
+					(function(nodeId) {
+						locateBtn.on('click', function() {
+							var btn = $(this);
+							var currentRow = btn.closest('tr');
+							var detailRowId = 'locate-detail-' + nodeId;
+							var existingDetail = $('#' + detailRowId);
+							if (existingDetail.length > 0) {
+								existingDetail.toggleClass('d-none');
+								return;
+							}
+							var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
+							var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
+							detailRow.append(detailCell);
+							currentRow.after(detailRow);
+							detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
+							$.ajax({
+								url: '/containers/component/search.cfc',
+								data: { method: 'getContainerBreadcrumb', container_id: nodeId },
+								dataType: 'json',
+								success: function(breadcrumbs) {
+									var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
+									$.each(breadcrumbs, function(j, crumb) {
+										var display = formatContainerDisplay(crumb.barcode, crumb.label);
+										var crumbLi = $('<li class="breadcrumb-item small"></li>');
+										if (j === 0) {
+											crumbLi.addClass('arrowprefix');
+											crumbLi.append($('<span class="sr-only">Contained within: </span>'));
+										}
+										crumbLi.append(document.createTextNode(crumb.container_type + ': '));
+										if (j === breadcrumbs.length - 1) {
+											crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
+										} else {
+											var link = document.createElement('a');
+											link.classList.add('pl-1');
+											var params = new URLSearchParams({ execute: 'true', barcode: '=' + display });
+											link.href = '/containers/Containers.cfm?' + params.toString();
+											link.appendChild(document.createTextNode(display));
+											crumbLi.append(link);
+										}
+										breadcrumbEl.append(crumbLi);
+									});
+									detailCell.html(breadcrumbEl);
+								},
+								error: function(jqXHR, textStatus, error) {
+									detailCell.html('<span class="text-danger">Failed to load location.</span>');
+									handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
+								}
+							});
+						});
+					})(cid);
+					actionCell.append(locateBtn);
+					if (structKids > 0) {
+						actionCell.append(
+							$('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button"></button>')
+								.text('Explore')
+								.on('click', function() {
+									exploreContainerInTree(cid, displayName, browsePanel, leafPanel, feedbackId);
+								})
+						);
+					}
+					if (leafKids > 0 && !isProxy) {
+						actionCell.append(
+							$('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1" type="button"></button>')
+								.text('Browse')
+								.on('click', function() {
+									var leafDivId = 'search-leaf-' + cid;
+									if ($('#' + leafDivId).length === 0) {
+										$('#' + leafPanel).removeClass('d-none').append($('<div></div>').attr('id', leafDivId));
+									}
+									loadLeafPanel(cid, leafDivId, feedbackId, 1, displayName, row.barcode || '');
+								})
+						);
+					}
+					if ((leafKids > 0 || structKids > 0) && row.barcode) {
+						actionCell.append(
+							$('<a class="btn btn-xs btn-outline-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+								.attr('href', specimenSearchUrl(row.barcode))
+								.attr('title', 'View specimens in this container in the specimen search')
+								.text('Specimens')
+						);
+					}
+					var contentsTd = $('<td></td>').append(shapeBadge);
+					if (structKids > 0) {
+						contentsTd.append($('<span class="ml-1 small text-muted"></span>').text(structKids + ' containers'));
+					}
+					if (leafKids > 0) {
+						contentsTd.append($('<span class="ml-1 small text-muted"></span>').text(leafKids + ' obj'));
+					}
+					var typeTd = $('<td></td>').text(row.container_type || '');
+					typeTd.append(' ');
+					typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
+					var tr = $('<tr></tr>');
+					tr.append(typeTd);
+					tr.append($('<td></td>').text(displayName));
+					tr.append(contentsTd);
+					tr.append($('<td></td>').text(descText));
+					tr.append(actionCell);
+					tbody.append(tr);
+				});
+				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
+				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Contents</th><th>Description</th><th>Actions</th></tr></thead>');
+				table.append(tbody);
+				panel.append(table);
+				if (totalPages > 1) {
+					panel.append(buildPagedNav(currentPage, totalPages, 'mt-2', 'search-page-btn'));
+				}
+			}
+			var browsePanelEl = $('#' + browsePanel);
+			browsePanelEl.html(panel);
+			browsePanelEl.off('click.searchpage').on('click.searchpage', '.search-page-btn', function() {
+				executeContainerSearch(browsePanel, leafPanel, feedbackId, $(this).data('page'));
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'searching containers');
+		}
+	});
+}

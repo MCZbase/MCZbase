@@ -310,9 +310,10 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
     Each node has: container_id, container_type, label, barcode, description,
     direct_structural_children, direct_leaf_children.
     Each campus child also has: has_leaf_descendants.
-  orphaned_structural_count - count of non-campus structural nodes that are direct children of institutions.
-  orphaned_leaf_count       - count of collection-object nodes that are direct children of institutions.
-  top_level_other           - array of root-level containers that are not of type institution
+  orphaned_structural_count      - count of non-campus structural nodes that are direct children of institutions.
+  orphaned_leaf_count            - count of collection-object nodes that are direct children of institutions.
+  orphaned_single_occupant_count - count of pin/slide/cryovial/envelope/glass vial containers at institution or root level.
+  top_level_other                - array of root-level containers that are not of type institution
     (e.g., a Deaccessioned campus placed at root level).  Each node has: container_id,
     container_type, label, barcode, description, direct_structural_children,
     direct_leaf_children, has_leaf_descendants.
@@ -442,6 +443,21 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					AND container_type = 'collection object'
 			)
 		</cfquery>
+		<!--- Count orphaned single-occupant proxy containers at institution or root level. --->
+		<cfquery name="queryGetOrphanSingleOccupant" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS cnt
+			FROM container c
+			WHERE (
+				c.parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+				OR c.parent_container_id = 0
+			)
+			AND c.container_type IN ('pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+		</cfquery>
 		<!--- Build institution array with embedded campus children --->
 		<cfset local.institutions = ArrayNew(1)>
 		<cfset local.instIdx = 1>
@@ -479,6 +495,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 		<cfset local.retval["institutions"] = local.institutions>
 		<cfset local.retval["orphaned_structural_count"] = queryGetOrphanStruct.cnt>
 		<cfset local.retval["orphaned_leaf_count"] = queryGetOrphanLeaf.cnt>
+		<cfset local.retval["orphaned_single_occupant_count"] = queryGetOrphanSingleOccupant.cnt>
 		<!--- Build root-level non-institution nodes array --->
 		<cfset local.rootOtherArr = ArrayNew(1)>
 		<cfset local.rootOtherIdx = 1>
@@ -1096,6 +1113,9 @@ details of a container for use in dialogs and page components.
 					<cfset contextHeadingId = "containerContextHeading#formattedIdSuffix#">
 					<cfset detailsHeadingId = "containerDetailsHeading#formattedIdSuffix#">
 					<cfset contentsHeadingId = "containerContentsSummaryHeading#formattedIdSuffix#">
+					<cfset positionsHeadingId = "containerPositionsHeading#formattedIdSuffix#">
+					<cfset positionsTargetId = "containerPositionsGrid#formattedIdSuffix#">
+					<cfset roleBadgeId = "containerRoleBadge#formattedIdSuffix#">
 					<cfset viewContainerUrl = "/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset editContainerUrl = "/containers/Container.cfm?action=edit&container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
@@ -1147,7 +1167,14 @@ details of a container for use in dialogs and page components.
 						</div>
 						<script>
 							$(document).ready(function() {
+								var roleBadgeTarget = document.getElementById('#encodeForJavaScript(roleBadgeId)#');
 								showContainerBreadcrumb("#encodeForJavaScript(getContainerDetail.container_id)#", "#encodeForJavaScript(breadcrumbFeedbackId)#", "#encodeForJavaScript(breadcrumbNavId)#");
+								if (roleBadgeTarget) {
+									roleBadgeTarget.innerHTML = getContainerRoleBadgeHtml("#encodeForJavaScript(getContainerDetail.container_type)#");
+								}
+								<cfif val(getContainerDetail.number_positions) GT 0>
+									loadPositionsGrid(#encodeForJavaScript(getContainerDetail.container_id)#, #encodeForJavaScript(getContainerDetail.number_positions)#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
+								</cfif>
 							});
 						</script>
 					</section>
@@ -1155,7 +1182,7 @@ details of a container for use in dialogs and page components.
 						<h2 class="h5" id="#encodeForHtmlAttribute(detailsHeadingId)#">Details</h2>
 						<div class="form-row">
 							<div class="col-12 col-md-6 col-xl-4 mb-2">
-								<strong>Container Type:</strong> #encodeForHtml(getContainerDetail.container_type)#
+								<strong>Container Type:</strong> #encodeForHtml(getContainerDetail.container_type)# <span id="#encodeForHtmlAttribute(roleBadgeId)#"></span>
 							</div>
 							<div class="col-12 col-md-6 col-xl-4 mb-2">
 								<strong>Label:</strong> #encodeForHtml(getContainerDetail.label)#
@@ -1245,6 +1272,12 @@ details of a container for use in dialogs and page components.
 							</div>
 						</div>
 					</section>
+					<cfif val(getContainerDetail.number_positions) GT 0>
+						<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(positionsHeadingId)#">
+							<h2 class="h4" id="#encodeForHtmlAttribute(positionsHeadingId)#">Positions</h2>
+							<div id="#encodeForHtmlAttribute(positionsTargetId)#"><div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div></div>
+						</section>
+					</cfif>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1412,6 +1445,224 @@ edit form suitable for rendering in a dialog box or embedded in another page.
 	</cfthread>
 	<cfthread action="join" name="getContainerEditHtmlThread#local.tn#" />
 	<cfreturn cfthread["getContainerEditHtmlThread#local.tn#"].output>
+</cffunction>
+
+
+<!---
+Function getOrphanedSingleOccupantContainers.  Returns a paginated list of pin/slide/cryovial/
+envelope/glass vial containers located at institution or root level, along with any linked
+specimen data from their contained collection-object child.
+
+@param page the page number to return (1-based), defaults to 1.
+@param pageSize the number of rows per page, defaults to 50.
+@return a JSON object with keys rows (array), page, pageSize, totalRows.
+--->
+<cffunction name="getOrphanedSingleOccupantContainers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="page" type="numeric" required="no" default="1">
+	<cfargument name="pageSize" type="numeric" required="no" default="50">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfset local.offset = (arguments.page - 1) * arguments.pageSize>
+		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS total_rows
+			FROM container c
+			WHERE (
+				c.parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+				OR c.parent_container_id = 0
+			)
+			AND c.container_type IN ('pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+		</cfquery>
+		<cfset local.totalRows = queryGetCount.total_rows>
+		<cfquery name="queryGetRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, container_type, label, barcode, description,
+				occupant_container_id, occupant_label, occupant_barcode,
+				cat_num, collection_cde, institution_acronym, part_name, scientific_name
+			FROM (
+				SELECT
+					inner_query.*,
+					ROWNUM AS rn
+				FROM (
+					SELECT
+						c.container_id,
+						c.container_type,
+						c.label,
+						c.barcode,
+						c.description,
+						occ.container_id AS occupant_container_id,
+						occ.label AS occupant_label,
+						occ.barcode AS occupant_barcode,
+						spec.cat_num,
+						spec.collection_cde,
+						spec.institution_acronym,
+						spec.part_name,
+						spec.scientific_name
+					FROM container c
+					LEFT JOIN (
+						SELECT parent_container_id, container_id, label, barcode
+						FROM (
+							SELECT
+								parent_container_id,
+								container_id,
+								label,
+								barcode,
+								ROW_NUMBER() OVER (PARTITION BY parent_container_id ORDER BY label, barcode, container_id) AS rn
+							FROM container
+							WHERE container_type = 'collection object'
+						)
+						WHERE rn = 1
+					) occ ON occ.parent_container_id = c.container_id
+					LEFT JOIN (
+						SELECT
+							coch.container_id,
+							MAX(ci.cat_num) AS cat_num,
+							MAX(ci.collection_cde) AS collection_cde,
+							MAX(col.institution_acronym) AS institution_acronym,
+							MAX(sp.part_name) AS part_name,
+							MAX(id_sub.scientific_name) AS scientific_name
+						FROM coll_obj_cont_hist coch
+						LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+						LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
+						LEFT JOIN collection col ON col.collection_id = ci.collection_id
+						LEFT JOIN (
+							SELECT collection_object_id, MIN(scientific_name) AS scientific_name
+							FROM identification
+							WHERE accepted_id_fg = 1
+							GROUP BY collection_object_id
+						) id_sub ON id_sub.collection_object_id = ci.collection_object_id
+						WHERE coch.current_container_fg = 1
+						GROUP BY coch.container_id
+					) spec ON spec.container_id = occ.container_id
+					WHERE (
+						c.parent_container_id IN (
+							SELECT container_id
+							FROM container
+							WHERE parent_container_id = 0
+								AND container_type = 'institution'
+						)
+						OR c.parent_container_id = 0
+					)
+					AND c.container_type IN ('pin', 'slide', 'cryovial', 'envelope', 'glass vial')
+					ORDER BY c.container_type, c.label, c.barcode, c.container_id
+				) inner_query
+				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset + arguments.pageSize#">
+			)
+			WHERE rn > <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset#">
+		</cfquery>
+		<cfset local.rows = ArrayNew(1)>
+		<cfset local.i = 1>
+		<cfloop query="queryGetRows">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_id"] = queryGetRows.container_id>
+			<cfset local.row["container_type"] = queryGetRows.container_type>
+			<cfset local.row["label"] = queryGetRows.label>
+			<cfset local.row["barcode"] = queryGetRows.barcode>
+			<cfset local.row["description"] = queryGetRows.description>
+			<cfset local.row["occupant_container_id"] = queryGetRows.occupant_container_id>
+			<cfset local.row["occupant_label"] = queryGetRows.occupant_label>
+			<cfset local.row["occupant_barcode"] = queryGetRows.occupant_barcode>
+			<cfset local.row["cat_num"] = queryGetRows.cat_num>
+			<cfset local.row["collection_cde"] = queryGetRows.collection_cde>
+			<cfset local.row["institution_acronym"] = queryGetRows.institution_acronym>
+			<cfset local.row["part_name"] = queryGetRows.part_name>
+			<cfset local.row["scientific_name"] = queryGetRows.scientific_name>
+			<cfset local.rows[local.i] = local.row>
+			<cfset local.i = local.i + 1>
+		</cfloop>
+		<cfset local.retval["rows"] = local.rows>
+		<cfset local.retval["page"] = arguments.page>
+		<cfset local.retval["pageSize"] = arguments.pageSize>
+		<cfset local.retval["totalRows"] = local.totalRows>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function getContainerPositionsGrid.  Returns the position children of a container and the first
+contained occupant of each position for rendering a read-only grid.
+
+@param container_id the container_id whose position children are returned.
+@return a JSON object with keys container_id, number_positions, positions.
+--->
+<cffunction name="getContainerPositionsGrid" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="queryGetContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, number_positions
+			FROM container
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfset local.retval["container_id"] = arguments.container_id>
+		<cfset local.retval["number_positions"] = 0>
+		<cfset local.retval["positions"] = ArrayNew(1)>
+		<cfif queryGetContainer.recordcount EQ 1>
+			<cfset local.retval["number_positions"] = queryGetContainer.number_positions>
+			<cfquery name="queryGetPositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					pos.container_id AS position_id,
+					pos.label AS position_label,
+					occ.container_id AS content_container_id,
+					occ.container_type AS content_container_type,
+					occ.label AS content_label,
+					occ.barcode AS content_barcode
+				FROM container pos
+				LEFT JOIN (
+					SELECT parent_container_id, container_id, container_type, label, barcode
+					FROM (
+						SELECT
+							parent_container_id,
+							container_id,
+							container_type,
+							label,
+							barcode,
+							ROW_NUMBER() OVER (PARTITION BY parent_container_id ORDER BY label, barcode, container_id) AS rn
+						FROM container
+					)
+					WHERE rn = 1
+				) occ ON occ.parent_container_id = pos.container_id
+				WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					AND pos.container_type = 'position'
+				ORDER BY
+					CASE WHEN REGEXP_LIKE(pos.label, '^[0-9]+$') THEN TO_NUMBER(pos.label) END NULLS LAST,
+					pos.label,
+					pos.container_id
+			</cfquery>
+			<cfset local.positions = ArrayNew(1)>
+			<cfset local.i = 1>
+			<cfloop query="queryGetPositions">
+				<cfset local.position = StructNew()>
+				<cfset local.position["position_id"] = queryGetPositions.position_id>
+				<cfset local.position["position_label"] = queryGetPositions.position_label>
+				<cfset local.position["content_container_id"] = queryGetPositions.content_container_id>
+				<cfset local.position["content_container_type"] = queryGetPositions.content_container_type>
+				<cfset local.position["content_label"] = queryGetPositions.content_label>
+				<cfset local.position["content_barcode"] = queryGetPositions.content_barcode>
+				<cfset local.positions[local.i] = local.position>
+				<cfset local.i = local.i + 1>
+			</cfloop>
+			<cfset local.retval["positions"] = local.positions>
+		</cfif>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
 </cfcomponent>
