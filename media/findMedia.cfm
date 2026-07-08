@@ -489,7 +489,7 @@ limitations under the License.
                                     </fieldset>
                                     <fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-3 mx-2">
                                         <legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
-                                        <div class="form-row">
+                                        <div class="form-row mx-0">
                                             <!--- setup to hide search for date as text from most users --->
                                             <cfset datecolm="3">
                                             <cfset datecolx="2">
