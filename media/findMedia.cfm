@@ -513,7 +513,7 @@ limitations under the License.
                                             $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
                                         });
                                         </script>
-                                        <div class="col-12 col-md-4 px-0 mt-0">
+                                        <div class="col-12 col-md-4 col-xl-3 px-1 mt-0">
                                             <div class="form-group pt-0 pb-1 mb-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
                                                     <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
