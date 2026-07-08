@@ -1169,6 +1169,10 @@ function addTargetArrow(targetRow) {
 	}
 }
 
+function isTreeNodeRendered(containerId) {
+	return $('#ctree-children-' + containerId).closest('li').length > 0;
+}
+
 /**
  * Recursively expands tree nodes along a breadcrumb path, loading children on demand,
  * until the target node is visible and highlighted.
@@ -1204,9 +1208,11 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 
 	var node = breadcrumbs[index];
 	var nodeId = node.container_id;
-	var childDivId = 'ctree-children-' + nodeId;
+	var childListIdPrefix = 'ctree-children-';
+	var childDivId = childListIdPrefix + nodeId;
 	var childDiv = $('#' + childDivId);
-	var nextNodeId = breadcrumbs[index + 1].container_id;
+	var nextBreadcrumb = breadcrumbs[index + 1];
+	var nextNodeId = nextBreadcrumb ? nextBreadcrumb.container_id : null;
 
 	if (childDiv.length === 0) {
 		/* Node is not in the DOM — cannot expand further */
@@ -1220,7 +1226,11 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 		toggle.attr('aria-expanded', 'true');
 	}
 
-	if ($('#ctree-children-' + nextNodeId).closest('li').length > 0) {
+	if (!nextNodeId) {
+		return;
+	}
+
+	if (isTreeNodeRendered(nextNodeId)) {
 		/* The next breadcrumb node is already rendered — proceed to it. */
 		expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
 		return;
@@ -1240,19 +1250,20 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 			var childNodes = data || [];
 			if (existingChildCount > 0) {
 				var renderedChildIds = {};
-				childDiv.children('li').children('ul.container-tree[id^="ctree-children-"]').each(function() {
-					renderedChildIds[$(this).attr('id').replace('ctree-children-', '')] = true;
+				var childListSelector = 'ul[id^="' + childListIdPrefix + '"]';
+				var childLists = childDiv.children('li').children(childListSelector);
+				childLists.each(function() {
+					var childList = $(this);
+					renderedChildIds[childList.attr('id').replace(childListIdPrefix, '')] = true;
 				});
 				childNodes = $.grep(childNodes, function(childNode) {
-					return !renderedChildIds[String(childNode.container_id)];
+					return !renderedChildIds[childNode.container_id];
 				});
 			}
 			if (childNodes.length > 0 || existingChildCount === 0) {
 				renderTreeNodes(childNodes, childDivId, feedbackId, existingChildCount > 0);
 			}
-			if ($('#ctree-children-' + nextNodeId).closest('li').length > 0) {
-				expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
-			}
+			expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, 'loading container children for exploration');
