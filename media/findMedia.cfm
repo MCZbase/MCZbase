@@ -514,30 +514,17 @@ limitations under the License.
                                         });
                                         </script>
                                         <div class="col-12 col-md-4 px-0 mt-0">
-                                            <div class="form-group pt-2 pb-1 mb-0">
+                                            <div class="form-group pt-0 pb-1 mb-0">
                                                 <div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
-                                                    <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="death_date">Year Of Death</label>
-                                                    <input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy" value="" aria-label="start of range for Year of death">
+                                                    <label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
+                                                    <input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#">
                                                     <div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-                                                    <label for="to_death_date" class="sr-only">end of search range for Year of death</label>	
-                                                    <input type="text" name="to_death_date" id="to_death_date" value="" class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end yyyy" title="end of date range">
+                                                    <label for="to_made_date" class="sr-only">Made Date End #asdate#</label>	
+                                                    <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end yyyy-mm-dd or yyyy">
                                                 </div>
                                             </div>
 									    </div>
-                                        <div class="form-group pt-2 pb-1 mb-0">
-											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
-                                            <div class="form-group">
-												<label for="made_date">Made Date Start #asdate#</label>
-												<input name="made_date" id="made_date" type="text" class="datetimeinput date col-3 px-1 mx-2 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
-                                            </div>
                                             
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-                                             <div class="form-group">
-												<label for="to_made_date">Made Date End #asdate#</label>	
-												<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput date col-3 date px-1 py-0" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-                                                </div>
-											</div>
-										</div>        
                                         
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 											<!--- hide search for date as text from most users, too confusing --->
