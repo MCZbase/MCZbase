@@ -491,19 +491,19 @@ limitations under the License.
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="validFGChecked" class="d-block search-radio-buttons">
-																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="" class="position-absolute" style="left:0; top:0.2rem">
+																<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
 																<span class="font-weight-lessbold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="validFGUnchecked" class="d-block search-radio-buttons">
-																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1" class="position-absolute" style="left:0; top:0.2rem">
+																<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
 																<span class="d-inline-block ps-4 font-weight-lessbold">Show only taxa currently accepted for data entry</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
 															<label for="validFGNot" class="d-block search-radio-buttons">
-																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0" class="position-absolute" style="left:0; top:0.2rem">
+																<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
 																<span class="font-weight-lessbold">Show only taxa not accepted for data entry</span>
 															</label>
 														</li>
@@ -532,19 +532,19 @@ limitations under the License.
 														</cfif>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="wehavesomeAll" class="d-block search-radio-buttons">
-																<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="" class="position-absolute"   style="left:0; top:0.2rem">
+																<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
 																<span class="font-weight-lessbold">Show all matches</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 pb-0 pt-1">
 															<label for="wehavesomeHave" class="d-block search-radio-buttons">
-																<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1" class="position-absolute"   style="left:0; top:0.2rem">
+																<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
                                                                 <span class="font-weight-lessbold">Show only taxa for which cataloged items exist</span>
 															</label>
 														</li>
 														<li class="list-group-item px-1 px-md-2 py-1">
 															<label for="wehavesomeNot" class="d-block search-radio-buttons">
-																<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0" class="position-absolute"   style="left:0; top:0.2rem">
+																<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
 																<span class="font-weight-lessbold">Show only taxa not used in identifications</span>
 															</label>
 														</li>
