@@ -468,7 +468,7 @@ limitations under the License.
 											</div>
 										</fieldset>
 									</div>
-									<div class="form-row mx-0 mt-2">
+									<div class="form-row mx-0 mt-1">
 										<div class="col-12 col-xl-6 pl-xl-2 pr-xl-0">
 											<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-1 mx-2">
 												<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Search accepted names:</legend> 
