@@ -513,32 +513,36 @@ limitations under the License.
                                             $(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
                                         });
                                         </script>
-										<div class="form-group col-12 col-md-#datecolm# col-xl-#datecolx# mb-1">
-											<div class="form-row mx-0">
-												<label for="made_date">Made Date Start #asdate#</label>
-												<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
-											</div>
-										</div>
-										<div class="form-group col-12 col-md-#datecolm# col-xl-#datecolx# mb-1">
-											<div class="form-row mx-0">
-												<label for="to_made_date">Made Date End #asdate#</label>
-												<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-											</div>
-										</div>
+                                        <div class="bg-white p-2 mx-1">
+                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-1">
+                                                <div class="form-row mx-0">
+                                                    <label for="made_date">Made Date Start #asdate#</label>
+                                                    <input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12 col-md-3 col-xl-2 mb-1">
+                                                <div class="form-row mx-0">
+                                                    <label for="to_made_date">Made Date End #asdate#</label>
+                                                    <input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+                                                </div>
+                                            </div>
+                                        </div>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 											<!--- hide search for date as text from most users, too confusing --->
-											<div class="form-group col-12 col-md-4 col-xl-2 mb-1">
-												<label for="text_made_date">Made Date </label>
-												(text)(<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
-												<input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("text_made_date","made date");
-													});
-												</script>
-											</div>
+                                    
+                                                <div class="form-group col-12 col-md-4 col-xl-2 mb-1">
+                                                    <label for="text_made_date">Made Date </label>
+                                                    (text)(<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+                                                    <button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+                                                    <input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            makeMediaLabelAutocomplete("text_made_date","made date");
+                                                        });
+                                                    </script>
+                                                </div>
+                              
 										</cfif>
 										            
                                        
