@@ -1049,12 +1049,7 @@ function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel
 		dataType: 'json',
 		success: function(breadcrumbs) {
 			$('#containerBrowseContext').text('Exploring: ' + displayName);
-			/* Detect "unplaced" containers: those without a campus ancestor.
-			   These are not in the pre-rendered institution/campus tree so trying to
-			   expand the breadcrumb path in the full tree would silently fail.
-			   Instead, render the container as a standalone expandable node. */
-			var hasCampusAncestor = breadcrumbs && breadcrumbs.some(function(b) { return b.container_type === 'campus'; });
-			if (!breadcrumbs || breadcrumbs.length === 0 || !hasCampusAncestor) {
+			if (!breadcrumbs || breadcrumbs.length === 0) {
 				renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feedbackId);
 				return;
 			}
@@ -1064,6 +1059,14 @@ function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel
 				dataType: 'json',
 				success: function(data) {
 					renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackId);
+					/* Some containers are not present in the top-level browse payload.
+					   Only fall back to a standalone node when the breadcrumb root
+					   cannot be found in the rendered browse tree. */
+					var rootNodeId = breadcrumbs[0].container_id;
+					if ($('#ctree-children-' + rootNodeId).length === 0) {
+						renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feedbackId);
+						return;
+					}
 					/* Expand each ancestor level then highlight the target */
 					expandBreadcrumbPath(breadcrumbs, 0, feedbackId, containerId);
 					// Add a "[View location]" link to the context paragraph that re-expands the breadcrumb path
