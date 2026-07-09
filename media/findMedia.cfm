@@ -436,18 +436,25 @@ limitations under the License.
 												<label for="keywords">Keywords</label>
 												<span class="text-secondary small">(Use</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='|L';" 
-													aria-describedby="descripAster_help" 
-													aria-label="">
+													aria-describedby="keywordPipe_help" 
+													aria-label="click pipe as the or in the keyword search">
 													|
 												</button>
-												<span id="descripAster_help" class="sr-only">click asterisk to </span>.
+												<span id="descripPipe_help" class="sr-only">click pipe as the or in the keyword search</span>.
 												<button type="button" class="" onclick="var e=document.getElementById('description');e.value='NOT NULL';"
-													aria-describedby=""
-													aria-label="">
+													aria-describedby="keywordAster_help"
+													aria-label="use asterisk as a wildcard in the keyword search">
 													*
-												</button>,
-												"", - as prefix to filter)</span>
-												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-describedby="useSymbols_help">
+												</button>
+												<span id="keywordAster_help" class="sr-only">use asterisk as a wildcard in the keyword search</span>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='""';"
+													aria-describedby="keywordQuotes_help"
+													aria-label="use quotes around an exact phrase to search"
+													title="use quotes around an exact phrase to search">
+													""
+												</button>
+												<span id="keywordQuotes_help" class="sr-only">use quotes around an exact phrase to search</span>, - as prefix to filter)</span>
+												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
 											</div>
 											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="subject">Subject</label>
