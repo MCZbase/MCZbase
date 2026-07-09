@@ -1968,7 +1968,7 @@ function buildAddChildContainerLink(containerId, containerType) {
 	if (!canCreateChildContainer(containerType)) {
 		return null;
 	}
-	return $('<a class="btn btn-xs btn-success mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+	return $('<a class="btn btn-xs btn-success mr-1" target="_blank" rel="noopener noreferrer"></a>')
 		.attr('href', '/containers/Container.cfm?action=new&parent_container_id=' + encodeURIComponent(containerId))
 		.text('Create Child');
 }
