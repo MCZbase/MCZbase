@@ -242,7 +242,10 @@ limitations under the License.
 
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
-			<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
+						<cftry>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry><div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
@@ -329,7 +332,7 @@ limitations under the License.
 							<!---Fixed Search tab panel--->
 							<div class="d-flex justify-content-end px-0"> 
 								<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
-									Search Help
+								<!---	Search Help
 								</button>
 								<aside id="collapseFixedBasic" style="display:none;">
 									<div class="card card-body pl-4 py-3 pr-3 border-dark">
@@ -389,7 +392,7 @@ limitations under the License.
 									</div>
 								</aside>
 							</div>
-							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
+	--->						<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 									<form id="fixedSearchForm">
 										<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
