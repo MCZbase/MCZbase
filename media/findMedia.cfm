@@ -414,7 +414,7 @@ limitations under the License.
 											<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 											<div class="col-12 col-md-3 col-xl-2" style="padding-bttom: 2px;">
 												 <label for="description">Description</label>
-												 (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" 
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" 
 													aria-describedby="descrNull_help"
 													aria-label="use NULL to find media records without a relationship">
 													Null
@@ -425,20 +425,22 @@ limitations under the License.
 													aria-label="Click NOT NULL to find media records with a relationship to any record">
 													Any
 												</button>
-												<span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>)
+												<span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>
+												<span class="text-secondary small">)</span>
 												<input type="text" id="description" name="description" value="#encodeForHtml(description)#">
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
 												<label for="keywords">Keywords</label>
-												<span id="useSymbols_help" class="small">(Use |, *, "", - as prefix to filter)</span>
+												<span id="useSymbols_help" class="text-secondary small">(Use |, *, "", - as prefix to filter)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-describedby="useSymbols_help">
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
 												<label for="subject">Subject</label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" 
+													<span class="text-secondary small">(</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" 
 													aria-describedby="subjectNull_help"
 													aria-label="use NULL to find media records without a relationship">
-													NULL
+													Null
 												</button>
 												<span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" 
@@ -446,7 +448,8 @@ limitations under the License.
 													aria-label="click Any for NOT NULL to find media records with a relationship to any record">
 													Any
 												</button>
-												<span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
+												<span id="subjectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>
+												<span class="text-secondary small">)</span>
 												<input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
 												<script>
 													$(document).ready(function() {
