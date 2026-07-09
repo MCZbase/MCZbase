@@ -158,7 +158,7 @@ limitations under the License.
 					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
 					<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 				</cftry>
-				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-3 ml-xl-3 mr-xl-4">
+				<div class="d-flex flex-wrap mx-0 mb-3 mr-md-3 ml-xl-3 mr-xl-4">
 					<div class="search-box mt-4">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
