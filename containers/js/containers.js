@@ -2339,7 +2339,10 @@ function ensureTreeSectionVisibleForNode(containerId) {
 	nodePanel.parents('.container-tree-section-panel.d-none').each(function() {
 		var sectionPanel = $(this);
 		sectionPanel.removeClass('d-none');
-		$('[aria-controls="' + sectionPanel.attr('id') + '"]').attr('aria-expanded', 'true');
+		var toggleButton = $('[aria-controls="' + sectionPanel.attr('id') + '"]');
+		if (toggleButton.length > 0) {
+			toggleButton.attr('aria-expanded', 'true');
+		}
 	});
 }
 
@@ -2665,7 +2668,8 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 		if (!section.nodes || section.nodes.length === 0) {
 			return;
 		}
-		var sectionPanelId = 'ctree-placed-' + section.kind + '-' + parentContainerId;
+		var sectionParentKey = parentContainerId || targetDivId;
+		var sectionPanelId = 'ctree-placed-' + section.kind + '-' + sectionParentKey;
 		var sectionLabel = getPlacedChildSectionLabel(parentContainerType, section.kind, section.nodes);
 		var sectionButton = $('<button class="btn btn-xs btn-outline-secondary mt-1" type="button"></button>')
 			.attr('aria-expanded', 'false')
@@ -2686,6 +2690,8 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 	} else {
 		$('#' + targetDivId).html(ul);
 	}
+	/* Pre-render hidden placed-child sections so Explore can reveal and highlight
+	   targets nested behind these buttons without waiting for a user click. */
 	$.each(deferredSections, function(i, section) {
 		renderTreeNodes(section.nodes, section.panelId, feedbackId, false, null, parentContainerId);
 		$('#' + section.panelId).data('loaded', true);
