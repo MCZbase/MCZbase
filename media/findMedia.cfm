@@ -667,9 +667,9 @@ limitations under the License.
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
 													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
-													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date">
+													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-describedby="madedate_help">
+													<small id="madedate_help" class="sr-only">end date</small> 
 												</div>
-
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 												<!--- hide search for date as text from most users, too confusing --->
@@ -783,14 +783,33 @@ limitations under the License.
 													</cfloop>
 												</cfif>
 												<label for="related_cataloged_item">Shows Cataloged Item</label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>, <span class="rules">accepts comma separated list</span>)
-												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item"  placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
+												(<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';"
+													aria-describedby="showcatitemAny_help"
+													aria-label="use the Any prefix for NOT NULL to find media records with a relationship to another record">
+													Any
+												</button>
+												<span id="showcatitemAny_help" class="sr-only">use the ANY prefix for NOT NULL to find media records with a relationship to another record</span>, 
+												<span class="rules">accepts comma separated list</span>)
+												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" 
+													id="related_cataloged_item" 
+													placeholder="MCZ:Coll:nnnnn" 
+													onchange="$('##collection_object_id').val('');">
 											</div>
 											<div class="col-12 col-md-6 col-xl-4">
 												<div class="w-100">
 													<label for="media_relationship_type">Relationship</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+													(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';"
+														aria-describedby="relationNull_help"
+														aria-label="use NULL to find media records without a relationship">
+														NULL
+													</button>
+													<span id="relationNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';"
+														aria-describedby="relationAny_help"
+														aria-label="use the any prefix for NOT NULL to find media records with a relationship">
+														Any
+													</button>
+													<span id="relationAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with a relationship</span>)
 												</div> 
 												<cfset selectedrelationship_type= "#media_relationship_type#">
 												<select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
@@ -817,8 +836,18 @@ limitations under the License.
 											<div class="col-12 col-md-6 col-xl-4">
 												<div class="w-100">
 													<label for="media_relationship_type_1">Relationship</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+													(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';"
+														aria-describedby="relationshipNull_help"
+														aria-label="use NULL prefix to find media records without a relationship">
+														NULL
+													</button>
+													<span id="relationshipNull_help" class="sr-only">use NULL prefix to find media records without a relationship</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';"
+														aria-describedby="relationshipAny_help"
+														aria-label="use the any prefix for NOT NULL to find media records with a relationship">
+														Any
+													</button>
+													<span id="relationshipAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with a relationship</span>)
 												</div>
 												<cfset selectedrelationship_type= "#media_relationship_type_1#">
 												<select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
@@ -842,7 +871,6 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											
 											<div class="col-12 col-xl-9 mr-auto row mx-0">
 												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
