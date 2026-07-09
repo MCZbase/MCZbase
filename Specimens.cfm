@@ -327,7 +327,7 @@ limitations under the License.
 						</div>
 						<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
-							<div class="d-flex justify-content-end px-0"> 
+							<!---<div class="d-flex justify-content-end px-0"> 
 								<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 									Search Help
 								</button>
@@ -388,7 +388,7 @@ limitations under the License.
 										</dl>
 									</div>
 								</aside>
-							</div>
+							</div>--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 									<form id="fixedSearchForm">
