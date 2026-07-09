@@ -2664,7 +2664,7 @@ input, select, textarea {
 	transform: translateX(0);
 }
 #content {
-	transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);
+/*	transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);*/
 	width: 100%;
 	box-sizing: border-box;
 }
