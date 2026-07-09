@@ -448,20 +448,13 @@ limitations under the License.
 													*
 												</button>
 												<span id="keywordAster_help" class="sr-only">use asterisk as a wildcard in the keyword search</span>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='""';"
-													aria-describedby="keywordQuotes_help"
-													aria-label="use quotes around an exact phrase to search"
-													title="use quotes around an exact phrase to search">
-													""
-												</button>
-												<span id="keywordQuotes_help" class="sr-only">use quotes around an exact phrase to search</span>,
 												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='~';"
 													aria-describedby="keywordTilde_help"
 													aria-label="use tilde around a fuzzy match"
 													title="use tilde for a fuzzy match">
 													~
 												</button>
-												<span id="keyworTilde_help" class="sr-only">use tilde for a fuzzy match</span>,
+												<span id="keyworTilde_help" class="sr-only">use tilde for a fuzzy match</span>, ""
 												<span class="text-secondary small">)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
 											</div>
