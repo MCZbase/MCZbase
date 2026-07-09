@@ -186,12 +186,17 @@ limitations under the License.
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 form-group">
-                                            <label for="anyName" id="anyName_label">Any part of any name</label>
-                                            <span class="text-secondary small">
-                                                (match entire name with: <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-                                                <button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
-                                                comma separated list)
-                                            </span>
+											<label for="anyName" id="anyName_label">Any part of any name</label>
+											<span class="text-secondary">
+												(match entire name with: 
+												<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" aria-describedby="anyPartEquals_help">
+													=<span id="anyPartEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;" aria-describedby="partialPart_help">
+													~<span id="partialPart_help" class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>
+												</button>,
+												comma separated list)
+											</span>
 											<input type="text" id="anyName" name="anyName" value="#encodeForHtml(anyName)#">
 										</div>
 										<div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 mt-0">
@@ -254,23 +259,23 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
 											<label for="first_name">First</label>
-								            <span class="small text-secondary">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-								            <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+											<span class="small text-secondary">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)</span>											
 											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 										</div>	
 										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
-                                            <label for="middle_name">Middle</label>
-								            <span class="small text-secondary">
-                                                (accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+											<label for="middle_name">Middle</label>
+											<span class="small text-secondary">
+												(accepts <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-											    <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NULL';"> NULL</button>, <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NOT NULL';">NOT NULL</button>)
-                                            </span>
-                                            <input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+												<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NULL';"> NULL</button>, <button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NOT NULL';">NOT NULL</button>)
+											</span>
+											<input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
 										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
 											<label for="last_name">Last</label> 
-                                            <span class="small text-secondary">
+											<span class="small text-secondary">
 												(accepts <button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 												<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)
@@ -519,19 +524,19 @@ limitations under the License.
 										};
 									</script>
 									<label class="data-entry-label d-inline w-auto my-0" for="selectMode">Grid Select:
-                                        <select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
-                                            <cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                            <option #selected# value="none">Text</option>
-                                            <cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                            <option #selected# value="singlecell">Single Cell</option>
-                                            <cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                            <option #selected# value="singlerow">Single Row</option>
-                                            <cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                            <option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
-                                            <cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-                                            <option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
-                                        </select>
-                                    </label>
+										<select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
+											<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="none">Text</option>
+											<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="singlecell">Single Cell</option>
+											<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="singlerow">Single Row</option>
+											<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+											<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+										</select>
+									</label>
 								</div>
 								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-0 pt-1 px-2 mx-1 border-0"></output>
 							</div>
