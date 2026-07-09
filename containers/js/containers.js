@@ -231,7 +231,7 @@ var SHAPE_LABELS = { A: 'Structural', B: 'Object-bearing', AB: 'Mixed' };
 /**
  * Normalizes a container type string for case-insensitive metadata lookups.
  * @param {string} containerType - the container type label to normalize.
- * @returns {string} lower-cased type key, or an empty string when no type was provided.
+ * @returns {string} lowercase type key, or an empty string when no type was provided.
  */
 function normalizeContainerTypeKey(containerType) {
 	return (containerType || '').toLowerCase();
@@ -1005,7 +1005,7 @@ function getContainerTypeMetadataEntry(containerType) {
 /**
  * Resolves the functional role for a container type.
  * @param {string} containerType - the container type to evaluate.
- * @returns {string} one of the supported role values, defaulting to structural.
+ * @returns {string} one of proxy, leafbearer, structural, or leaf, defaulting to structural.
  */
 function getContainerRole(containerType) {
 	return getContainerTypeMetadataEntry(containerType).role || 'structural';
@@ -1485,7 +1485,7 @@ function loadOrphanedEmptyProxyPage(targetDivId, feedbackId, page, onLoaded) {
 
 /**
  * Toggles a lazily rendered browse section open or closed beneath its trigger button.
- * @param {HTMLElement|jQuery} buttonEl - the button controlling the section.
+ * @param {HTMLElement|jQuery} buttonEl - the button controlling the section; normalized to a jQuery object internally.
  * @param {string} panelId - id of the section panel to show or hide.
  * @param {function} loadFn - optional loader invoked the first time the panel opens.
  */
