@@ -832,7 +832,7 @@ limitations under the License.
 													Any
 												</button>
 												<span id="showcatitemAny_help" class="sr-only">use the ANY prefix for NOT NULL to find media records with a relationship to another record</span>, 
-												<span class="rules">accepts comma separated list</span>
+												<span class="text-secondary small">accepts comma separated list</span>
 												<span class="text-secondary small">)</span>
 												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" 
 													id="related_cataloged_item" 
