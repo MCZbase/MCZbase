@@ -194,9 +194,10 @@ of the given container, for use in the leaf browser panel.
 				AND container_type = 'collection object'
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
-				<!--- Paginated rows with specimen info via LEFT JOIN.
-		      The spec subquery uses GROUP BY on container_id to guarantee one row per container
-		      even if coll_obj_cont_hist has anomalous duplicate current entries. --->
+		<!--- Paginated rows with specimen info via LEFT JOIN.
+			The spec subquery uses GROUP BY on container_id to guarantee one row per container
+			even if coll_obj_cont_hist has anomalous duplicate current entries. 
+		--->
 		<cfquery name="queryGetLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode, description,
 				cat_num, collection_cde, institution_acronym, part_name, preserve_method, scientific_name
@@ -366,16 +367,16 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 
 @return a JSON object with keys:
   institutions - array of institution node objects, each having a campus_children array.
-    Each node has: container_id, container_type, label, barcode, description,
-    direct_structural_children, direct_leaf_children.
-    Each campus child also has: has_leaf_descendants.
+	Each node has: container_id, container_type, label, barcode, description,
+	direct_structural_children, direct_leaf_children.
+	Each campus child also has: has_leaf_descendants.
   orphaned_structural_count      - count of non-campus structural nodes that are direct children of institutions.
   orphaned_leaf_count            - count of collection-object nodes that are direct children of institutions.
   orphaned_single_occupant_count - count of pin/slide/cryovial/envelope/glass vial containers at institution or root level.
   top_level_other                - array of root-level containers that are not of type institution
-    (e.g., a Deaccessioned campus placed at root level).  Each node has: container_id,
-    container_type, label, barcode, description, direct_structural_children,
-    direct_leaf_children, has_leaf_descendants.
+	(e.g., a Deaccessioned campus placed at root level).  Each node has: container_id,
+	container_type, label, barcode, description, direct_structural_children,
+	direct_leaf_children, has_leaf_descendants.
 --->
 <cffunction name="getTopLevelBrowse" access="remote" returntype="any" returnformat="json">
 
@@ -434,8 +435,9 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 			ORDER BY c.parent_container_id, c.label
 		</cfquery>
 		<!--- Root-level campus containers (e.g., Deaccessioned campus at root level).
-		      Only campus-type containers are shown separately; other non-institution root-level
-		      containers are subsumed into the orphaned structural / leaf count buttons. --->
+			Only campus-type containers are shown separately; other non-institution root-level
+			containers are subsumed into the orphaned structural / leaf count buttons. 
+		--->
 		<cfquery name="queryGetRootOther" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				c.container_id,
@@ -459,8 +461,9 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 			ORDER BY c.label
 		</cfquery>
 		<!--- Count orphaned structural nodes: structural-role containers that are either direct
-		      children of institution nodes OR are at root level (parent_container_id = 0), excluding
-		      institution and campus which anchor the normal top-level hierarchy. --->
+			children of institution nodes OR are at root level (parent_container_id = 0), excluding
+			institution and campus which anchor the normal top-level hierarchy. 
+		--->
 		<cfquery name="queryGetOrphanStruct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
 			FROM (
@@ -491,7 +494,8 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 			)
 		</cfquery>
 		<!--- Count orphaned leaf nodes: collection-object containers that are either direct
-		      children of institution nodes OR are at root level (parent_container_id = 0). --->
+			children of institution nodes OR are at root level (parent_container_id = 0). 
+		--->
 		<cfquery name="queryGetOrphanLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
 			FROM (
