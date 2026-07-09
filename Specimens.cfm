@@ -244,10 +244,7 @@
 			<main id="content" class="container-fluid">
 				<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
 					<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
-									<cftry>
-				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
-				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-			</cftry><cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					query name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT count(collection_object_id) as cnt FROM cataloged_item
 						</cfquery>
 
@@ -265,7 +262,10 @@
 						</h1>
 						<!--- populated with download dialog for external users --->
 						<div id="downloadAgreeDialogDiv"></div>
-						<!--- Tab header div --->
+										<cftry>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry><cf<!--- Tab header div --->
 						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<cfswitch expression="#action#">
 								<cfcase value="fixedSearch">
