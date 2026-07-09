@@ -2221,7 +2221,7 @@ button.help-btnSp-SearchWiki {
 	transform: translateX(-98%) rotate(90deg);
 	transform-origin: right top;
 	margin-bottom: 15px;
-	top: 11.5rem;
+	top: 9.5rem;
 	right: -108px;
 	z-index: 1;
 	padding-top: .75rem;
@@ -2752,6 +2752,9 @@ END END END
 	}
 	.btnSp-shim {
 		margin-top: -.5rem !important;
+	}
+	.specSearchShim {
+		margin-top: -1rem !important;
 	}
 	body.wiki-open .ui-dialog { /*Dialog needs to be out of the way when the wiki drawer is open.  */
 		width: auto !important;
