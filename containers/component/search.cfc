@@ -274,18 +274,10 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 
 <!---
 Function getContainerTypeRoleFit.  Returns per-container-type statistics comparing the actual
-child distribution against the expected role for each type, based on CTCONTAINER_TYPE:
-  C  = expected to contain only structural (non-collection-object) containers
-       (institution, campus, cryovat, building, floor, room, freezer, freezer rack,
-        grouping, set, fixture, rack slot, position)
-  S  = expected to contain only collection-object containers (leaf nodes)
-       (cryovial, tank, jar, glass vial, envelope, slide, pin)
-  SC = may contain both structural containers and collection objects
-       (freezer box, compartment)
-  leaf = collection object; should never have children
+child distribution against the expected role metadata for each type from ctcontainer_type.
 
 Columns returned:
-  container_type, expected_role, total_count,
+  container_type, expected_role, expects_leaf_child_count, total_count,
   with_coll_obj_children, with_structural_children, with_both_types, leaf_nodes
 
 --->
@@ -294,6 +286,7 @@ Columns returned:
 		SELECT
 			container_type,
 			expected_role,
+			expects_leaf_child_count,
 			COUNT(*) AS total_count,
 			SUM(CASE WHEN has_coll_obj_child = 1 THEN 1 ELSE 0 END)
 				AS with_coll_obj_children,
@@ -306,23 +299,13 @@ Columns returned:
 		FROM (
 			SELECT
 				c.container_type,
-				CASE
-					WHEN c.container_type IN (
-						'institution','campus','cryovat','building','floor','room',
-						'freezer','freezer rack','grouping','set','fixture',
-						'rack slot','position'
-					) THEN 'C'
-					WHEN c.container_type IN (
-						'cryovial','tank','jar','glass vial','envelope','slide','pin'
-					) THEN 'S'
-					WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
-					WHEN c.container_type = 'collection object' THEN 'leaf'
-					ELSE 'unknown'
-				END AS expected_role,
+				NVL(ct.role, 'unknown') AS expected_role,
+				NVL(ct.expects_leaf_child_count, 0) AS expects_leaf_child_count,
 				NVL(ch.has_coll_obj_child,0) AS has_coll_obj_child,
 				NVL(ch.has_struct_child,0) AS has_struct_child,
 				NVL(ch.child_count,0) AS child_count
 			FROM container c
+			LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
 			LEFT JOIN (
 				SELECT
 					parent_container_id,
@@ -335,7 +318,7 @@ Columns returned:
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
 		)
-		GROUP BY container_type, expected_role
+		GROUP BY container_type, expected_role, expects_leaf_child_count
 		ORDER BY total_count DESC
 	</cfquery>
 	<cfreturn qTypeFit>
@@ -452,7 +435,7 @@ a paginated JSON result for display in the browse panel.
 @param department optional prefix to match against label (case-insensitive, appends % wildcard).
 @param tree_property optional filter by tree shape property:
   empty         - no structural or leaf children (excludes collection objects)
-  misplaced     - single-occupant type (pin/slide/cryovial) with more than one leaf child
+  misplaced     - container type with expects_leaf_child_count = 1 and more than one leaf child
   mixed         - has both structural children and collection-object children (AB shape)
   unplaced_leaf - collection object with no parent container
 @param page page number (1-based), default 1.
@@ -533,7 +516,11 @@ a paginated JSON result for display in the browse panel.
 				AND NVL(ch.direct_structural_children, 0) = 0
 				AND NVL(ch.direct_leaf_children, 0) = 0
 			<cfelseif local.treeProperty EQ "misplaced">
-				AND c.container_type IN ('pin', 'slide', 'cryovial')
+				AND c.container_type IN (
+					SELECT container_type
+					FROM ctcontainer_type
+					WHERE NVL(expects_leaf_child_count, 0) = 1
+				)
 				AND NVL(ch.direct_leaf_children, 0) > 1
 			<cfelseif local.treeProperty EQ "mixed">
 				AND NVL(ch.direct_structural_children, 0) > 0
@@ -622,7 +609,11 @@ a paginated JSON result for display in the browse panel.
 						AND NVL(ch.direct_structural_children, 0) = 0
 						AND NVL(ch.direct_leaf_children, 0) = 0
 					<cfelseif local.treeProperty EQ "misplaced">
-						AND c.container_type IN ('pin', 'slide', 'cryovial')
+						AND c.container_type IN (
+							SELECT container_type
+							FROM ctcontainer_type
+							WHERE NVL(expects_leaf_child_count, 0) = 1
+						)
 						AND NVL(ch.direct_leaf_children, 0) > 1
 					<cfelseif local.treeProperty EQ "mixed">
 						AND NVL(ch.direct_structural_children, 0) > 0

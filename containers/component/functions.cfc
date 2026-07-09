@@ -20,9 +20,60 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-<cfset variables.proxyContainerTypeList = "pin,slide,cryovial,envelope,glass vial">
-<cfset variables.orphanStructuralTypeExclusionList = "campus,collection object,#variables.proxyContainerTypeList#">
-<cfset variables.rootOrphanStructuralTypeExclusionList = "institution,#variables.orphanStructuralTypeExclusionList#">
+
+<!---
+Function getContainerTypeMetadataQuery.  Returns container-type role metadata from
+ctcontainer_type for use by the redesigned container browse/search/view code.
+
+TODO: Consider extending ctcontainer_type with columns such as browse_grouping_mode,
+allow_create_child, contents_display_mode, and explore_visibility so the redesign can
+stop inferring these UI behaviors from role and expects_leaf_child_count alone.
+--->
+<cffunction name="getContainerTypeMetadataQuery" access="public" returntype="query" output="false">
+	<cfquery name="local.ctContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			container_type,
+			role,
+			NVL(expects_leaf_child_count, 0) AS expects_leaf_child_count
+		FROM
+			ctcontainer_type
+		ORDER BY
+			container_type
+	</cfquery>
+	<cfreturn local.ctContainerType>
+</cffunction>
+
+<!---
+Function getContainerTypeMetadata.  Returns container-type role metadata as JSON for
+client-side use.
+--->
+<cffunction name="getContainerTypeMetadata" access="remote" returntype="any" returnformat="json" output="false">
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfset local.ctContainerType = getContainerTypeMetadataQuery()>
+		<cfset local.rows = ArrayNew(1)>
+		<cfset local.byType = StructNew()>
+		<cfset local.i = 1>
+		<cfloop query="local.ctContainerType">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_type"] = local.ctContainerType.container_type>
+			<cfset local.row["role"] = lCase(trim(local.ctContainerType.role))>
+			<cfset local.row["expects_leaf_child_count"] = val(local.ctContainerType.expects_leaf_child_count)>
+			<cfset local.rows[local.i] = local.row>
+			<cfset local.byType[lCase(local.ctContainerType.container_type)] = local.row>
+			<cfset local.i = local.i + 1>
+		</cfloop>
+		<cfset local.retval["rows"] = local.rows>
+		<cfset local.retval["byType"] = local.byType>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
 
 <!---
 Function getDirectStructuralChildren.  Returns the direct structural (non-collection-object)
@@ -122,7 +173,8 @@ of the given container, for use in the leaf browser panel.
 @param pageSize the number of rows per page, defaults to 50.
 @return a JSON object with keys: rows (array), page, pageSize, totalRows.
   Each row object contains: container_id, label, barcode, description,
-  cat_num, collection_cde, institution_acronym, part_name, scientific_name.
+  cat_num, collection_cde, institution_acronym, part_name, preserve_method,
+  scientific_name.
   The specimen fields are NULL when the collection object container has no linked specimen.
 --->
 <cffunction name="getDirectLeafChildren" access="remote" returntype="any" returnformat="json">
@@ -147,7 +199,7 @@ of the given container, for use in the leaf browser panel.
 		      even if coll_obj_cont_hist has anomalous duplicate current entries. --->
 		<cfquery name="queryGetLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode, description,
-				cat_num, collection_cde, institution_acronym, part_name, scientific_name
+				cat_num, collection_cde, institution_acronym, part_name, preserve_method, scientific_name
 			FROM (
 				SELECT
 					container_id,
@@ -158,6 +210,7 @@ of the given container, for use in the leaf browser panel.
 					collection_cde,
 					institution_acronym,
 					part_name,
+					preserve_method,
 					scientific_name,
 					ROWNUM AS rn
 				FROM (
@@ -170,6 +223,7 @@ of the given container, for use in the leaf browser panel.
 						spec.collection_cde,
 						spec.institution_acronym,
 						spec.part_name,
+						spec.preserve_method,
 						spec.scientific_name
 					FROM container c
 					LEFT JOIN (
@@ -179,6 +233,7 @@ of the given container, for use in the leaf browser panel.
 							MAX(ci.collection_cde) AS collection_cde,
 							MAX(col.institution_acronym) AS institution_acronym,
 							MAX(sp.part_name) AS part_name,
+							MAX(sp.preserve_method) AS preserve_method,
 							MAX(id_sub.scientific_name) AS scientific_name
 						FROM coll_obj_cont_hist coch
 						LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
@@ -213,6 +268,7 @@ of the given container, for use in the leaf browser panel.
 			<cfset local.row["collection_cde"] = queryGetLeaf.collection_cde>
 			<cfset local.row["institution_acronym"] = queryGetLeaf.institution_acronym>
 			<cfset local.row["part_name"] = queryGetLeaf.part_name>
+			<cfset local.row["preserve_method"] = queryGetLeaf.preserve_method>
 			<cfset local.row["scientific_name"] = queryGetLeaf.scientific_name>
 			<cfset local.rows[local.i] = local.row>
 			<cfset local.i = local.i + 1>
@@ -402,9 +458,9 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				AND c.container_type = 'campus'
 			ORDER BY c.label
 		</cfquery>
-		<!--- Count orphaned structural nodes: non-campus, non-proxy containers that are either
-		      direct children of institution nodes OR are at root level (parent_container_id = 0)
-		      but are not institution or campus type. --->
+		<!--- Count orphaned structural nodes: structural-role containers that are either direct
+		      children of institution nodes OR are at root level (parent_container_id = 0), excluding
+		      institution and campus which anchor the normal top-level hierarchy. --->
 		<cfquery name="queryGetOrphanStruct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
 			FROM (
@@ -416,16 +472,22 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					WHERE parent_container_id = 0
 						AND container_type = 'institution'
 				)
-					AND container_type NOT IN (
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.orphanStructuralTypeExclusionList#" list="true">
+					AND container_type IN (
+						SELECT container_type
+						FROM ctcontainer_type
+						WHERE role = 'structural'
 					)
+					AND container_type <> 'campus'
 				UNION ALL
 				SELECT container_id
 				FROM container
 				WHERE parent_container_id = 0
-					AND container_type NOT IN (
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.rootOrphanStructuralTypeExclusionList#" list="true">
+					AND container_type IN (
+						SELECT container_type
+						FROM ctcontainer_type
+						WHERE role = 'structural'
 					)
+					AND container_type NOT IN ('institution', 'campus')
 			)
 		</cfquery>
 		<!--- Count orphaned leaf nodes: collection-object containers that are either direct
@@ -463,7 +525,10 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				OR c.parent_container_id = 0
 			)
 			AND c.container_type IN (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+				SELECT container_type
+				FROM ctcontainer_type
+				WHERE role = 'proxy'
+					AND NVL(expects_leaf_child_count, 0) = 1
 			)
 			AND NOT EXISTS (
 				SELECT 1
@@ -486,7 +551,10 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				OR c.parent_container_id = 0
 			)
 			AND c.container_type IN (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+				SELECT container_type
+				FROM ctcontainer_type
+				WHERE role = 'proxy'
+					AND NVL(expects_leaf_child_count, 0) = 1
 			)
 			AND EXISTS (
 				SELECT 1
@@ -562,10 +630,11 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 </cffunction>
 
 <!---
-Function getOrphanedTopLevelStructural.  Returns non-campus, non-proxy containers that are
-direct children of institution nodes.  These are nodes such as buildings, rooms, or freezers
-placed directly under an institution instead of under a campus.  Returned in the same structure
-as getDirectStructuralChildren so that renderTreeNodes can render them unchanged.
+Function getOrphanedTopLevelStructural.  Returns structural-role containers that are direct
+children of institution nodes or placed at root level outside the institution/campus hierarchy.
+These are nodes such as buildings, rooms, or freezers placed directly under an institution
+instead of under a campus.  Returned in the same structure as getDirectStructuralChildren so
+that renderTreeNodes can render them unchanged.
 
 @return a JSON array of objects with keys: container_id, parent_container_id, container_type,
   label, barcode, description, direct_structural_children, direct_leaf_children,
@@ -619,9 +688,12 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 								)
 								OR parent_container_id = 0
 							)
-								AND container_type NOT IN (
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.rootOrphanStructuralTypeExclusionList#" list="true">
+								AND container_type IN (
+									SELECT container_type
+									FROM ctcontainer_type
+									WHERE role = 'structural'
 								)
+								AND container_type NOT IN ('institution', 'campus')
 						)
 				)
 				WHERE rn = 1
@@ -635,9 +707,12 @@ as getDirectStructuralChildren so that renderTreeNodes can render them unchanged
 				)
 				OR c.parent_container_id = 0
 			)
-				AND c.container_type NOT IN (
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.rootOrphanStructuralTypeExclusionList#" list="true">
+				AND c.container_type IN (
+					SELECT container_type
+					FROM ctcontainer_type
+					WHERE role = 'structural'
 				)
+				AND c.container_type NOT IN ('institution', 'campus')
 			ORDER BY
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 THEN 0 ELSE 1 END,
 				c.container_type,
@@ -1087,7 +1162,6 @@ details of a container for use in dialogs and page components.
 		safeDisplayMode="#local.safeDisplayMode#"
 		safeIdSuffix="#local.safeIdSuffix#"
 		showBrowseAction="#local.showBrowseAction#"
-		proxyContainerTypeList="#variables.proxyContainerTypeList#"
 	>
 		<cfoutput>
 			<cftry>
@@ -1107,6 +1181,7 @@ details of a container for use in dialogs and page components.
 						c.number_positions,
 						c.locked_position,
 						c.institution_acronym,
+						ct.role AS container_role,
 						NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 						NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
 						p.container_type AS parent_container_type,
@@ -1124,6 +1199,7 @@ details of a container for use in dialogs and page components.
 							GROUP BY
 								parent_container_id
 						) ch ON ch.parent_container_id = c.container_id
+						LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
 						LEFT JOIN container p ON c.parent_container_id = p.container_id
 					WHERE
 						c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
@@ -1168,7 +1244,7 @@ details of a container for use in dialogs and page components.
 					<cfif len(trim(getContainerDetail.barcode)) GT 0>
 						<cfset specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerDetail.barcode)#">
 					</cfif>
-					<cfset isProxyOrLeafType = (listFindNoCase(proxyContainerTypeList, getContainerDetail.container_type) GT 0) OR (getContainerDetail.container_type EQ "collection object")>
+					<cfset isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainerDetail.container_role) GT 0>
 					<cfset parentDisplay = "Unnamed container">
 					<cfif len(trim(getContainerDetail.parent_label)) GT 0>
 						<cfset parentDisplay = getContainerDetail.parent_label>
@@ -1241,7 +1317,7 @@ details of a container for use in dialogs and page components.
 											<div class="text-lg-right">
 												<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
 													<cfif NOT isProxyOrLeafType>
-														<a href="#createChildContainerUrl#" class="btn btn-xs btn-success mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child Container</a>
+														<a href="#createChildContainerUrl#" class="btn btn-xs btn-success mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
 													</cfif>
 													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
@@ -1263,12 +1339,14 @@ details of a container for use in dialogs and page components.
 							$(document).ready(function() {
 								var roleBadgeTarget = document.getElementById('#encodeForJavaScript(roleBadgeId)#');
 								showContainerBreadcrumb("#encodeForJavaScript(getContainerDetail.container_id)#", "#encodeForJavaScript(breadcrumbFeedbackId)#", "#encodeForJavaScript(breadcrumbNavId)#");
-								if (roleBadgeTarget) {
-									roleBadgeTarget.innerHTML = getContainerRoleBadgeHtml("#encodeForJavaScript(getContainerDetail.container_type)#");
-								}
-								<cfif val(getContainerDetail.number_positions) GT 0>
-									loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
-								</cfif>
+								ensureContainerTypeMetadata(function() {
+									if (roleBadgeTarget) {
+										roleBadgeTarget.innerHTML = getContainerRoleBadgeHtml("#encodeForJavaScript(getContainerDetail.container_type)#");
+									}
+									<cfif val(getContainerDetail.number_positions) GT 0>
+										loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
+									</cfif>
+								});
 							});
 						</script>
 					</section>
@@ -1597,8 +1675,8 @@ edit form suitable for rendering in a dialog box or embedded in another page.
 
 
 <!---
-Function getOrphanedEmptyProxyContainers.  Returns a paginated list of empty pin/slide/cryovial/
-envelope/glass vial containers located at institution or root level.
+Function getOrphanedEmptyProxyContainers.  Returns a paginated list of empty proxy-role
+containers located at institution or root level.
 
 @param page the page number to return (1-based), defaults to 1.
 @param pageSize the number of rows per page, defaults to 50.
@@ -1624,7 +1702,10 @@ envelope/glass vial containers located at institution or root level.
 				OR c.parent_container_id = 0
 			)
 			AND c.container_type IN (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+				SELECT container_type
+				FROM ctcontainer_type
+				WHERE role = 'proxy'
+					AND NVL(expects_leaf_child_count, 0) = 1
 			)
 			AND NOT EXISTS (
 				SELECT 1
@@ -1658,7 +1739,10 @@ envelope/glass vial containers located at institution or root level.
 						OR c.parent_container_id = 0
 					)
 					AND c.container_type IN (
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+						SELECT container_type
+						FROM ctcontainer_type
+						WHERE role = 'proxy'
+							AND NVL(expects_leaf_child_count, 0) = 1
 					)
 					AND NOT EXISTS (
 						SELECT 1
@@ -1699,8 +1783,8 @@ envelope/glass vial containers located at institution or root level.
 </cffunction>
 
 <!---
-Function getOrphanedSingleOccupantContainers.  Returns a paginated list of pin/slide/cryovial/
-envelope/glass vial containers located at institution or root level that have at least one
+Function getOrphanedSingleOccupantContainers.  Returns a paginated list of proxy-role
+single-occupant containers located at institution or root level that have at least one
 contained collection-object child, along with linked specimen data from the first such child.
 
 @param page the page number to return (1-based), defaults to 1.
@@ -1727,7 +1811,10 @@ contained collection-object child, along with linked specimen data from the firs
 				OR c.parent_container_id = 0
 			)
 			AND c.container_type IN (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+				SELECT container_type
+				FROM ctcontainer_type
+				WHERE role = 'proxy'
+					AND NVL(expects_leaf_child_count, 0) = 1
 			)
 			AND EXISTS (
 				SELECT 1
@@ -1806,7 +1893,10 @@ contained collection-object child, along with linked specimen data from the firs
 						OR c.parent_container_id = 0
 					)
 					AND c.container_type IN (
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+						SELECT container_type
+						FROM ctcontainer_type
+						WHERE role = 'proxy'
+							AND NVL(expects_leaf_child_count, 0) = 1
 					)
 					AND EXISTS (
 						SELECT 1
