@@ -200,12 +200,12 @@ function specimenSearchUrl(barcode) {
 }
 
 function getSearchResultParentInfo(row) {
-	var parentContainerId = parseInt(row.parent_container_id, 10);
+	var rawParentContainerId = row.parent_container_id;
+	var hasParentContainerId = rawParentContainerId !== null && typeof rawParentContainerId !== 'undefined' && rawParentContainerId !== '';
+	var parentContainerId = hasParentContainerId ? parseInt(rawParentContainerId, 10) : null;
 	var parentContainerType = (row.parent_container_type || '').toLowerCase();
 	return {
-		parentContainerId: parentContainerId,
-		parentContainerType: parentContainerType,
-		hasRootParent: !isNaN(parentContainerId) && parentContainerId === ROOT_PARENT_CONTAINER_ID,
+		hasRootParent: hasParentContainerId && !isNaN(parentContainerId) && parentContainerId === ROOT_PARENT_CONTAINER_ID,
 		hasInstitutionParent: parentContainerType === ROOT_INSTITUTION_CONTAINER_TYPE
 	};
 }
@@ -2868,13 +2868,14 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var cid = row.container_id;
 					var structKids = parseInt(row.direct_structural_children, 10) || 0;
 					var leafKids = parseInt(row.direct_leaf_children, 10) || 0;
+					var containerTypeKey = (row.container_type || '').toLowerCase();
 					var role = getContainerRole(row.container_type);
 					var isProxy = role === 'proxy';
 					var parentInfo = getSearchResultParentInfo(row);
 					/* Collection objects are leaf-only results, and institution/root proxy rows
 					   are shown only in the top-level orphan tables rather than the tree. */
 					var isTopLevelProxyTableRow = isProxy && (parentInfo.hasRootParent || parentInfo.hasInstitutionParent);
-					var canExplore = row.container_type !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
+					var canExplore = containerTypeKey !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
 					var displayName = formatContainerDisplay(row.barcode, row.label);
 					var descText = row.description || '';
 					if (descText.length > MAX_DESCRIPTION_LENGTH) {
