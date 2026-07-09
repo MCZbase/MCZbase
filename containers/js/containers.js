@@ -484,8 +484,13 @@ function openContainerDetailsDialog(containerId, displayName, feedbackId, showBr
 	loadContainerDetails(containerId, contentId, feedbackId, browseActionEnabled);
 }
 
-function buildContainerDetailsButton(containerId, displayName, feedbackId) {
-	return $('<button class="btn btn-xs btn-outline-primary ml-1"></button>')
+function buildContainerActionClass(baseClass, spacingClass) {
+	return baseClass + (spacingClass ? ' ' + spacingClass : '');
+}
+
+function buildContainerDetailsButton(containerId, displayName, feedbackId, spacingClass) {
+	return $('<button type="button"></button>')
+		.addClass(buildContainerActionClass('btn btn-xs btn-outline-primary', spacingClass || 'ml-1'))
 		.text('Details')
 		.on('click', function() {
 			openContainerDetailsDialog(containerId, displayName, feedbackId, false);
@@ -1935,21 +1940,19 @@ function buildContainerTypeMeta(containerType) {
 }
 
 function buildContainerDetailsActionButton(containerId, displayName, feedbackId) {
-	return $('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button"></button>')
-		.text('Details')
-		.on('click', function() {
-			openContainerDetailsDialog(containerId, displayName, feedbackId, false);
-		});
+	return buildContainerDetailsButton(containerId, displayName, feedbackId, 'mr-1 mb-1');
 }
 
-function buildContainerViewLink(containerId) {
-	return $('<a class="btn btn-xs btn-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+function buildContainerViewLink(containerId, spacingClass) {
+	return $('<a target="_blank" rel="noopener noreferrer"></a>')
+		.addClass(buildContainerActionClass('btn btn-xs btn-info', spacingClass || 'mr-1 mb-1'))
 		.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId))
 		.text('View');
 }
 
-function buildContainerEditLink(containerId) {
-	return $('<a class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+function buildContainerEditLink(containerId, spacingClass) {
+	return $('<a target="_blank" rel="noopener noreferrer"></a>')
+		.addClass(buildContainerActionClass('btn btn-xs btn-secondary', spacingClass || 'mr-1 mb-1'))
 		.attr('href', '/containers/Container.cfm?action=edit&container_id=' + encodeURIComponent(containerId))
 		.text('Edit');
 }
@@ -1964,11 +1967,12 @@ function buildContainerEditLink(containerId) {
  * @param {string} containerType - the container_type of the current node.
  * @returns {jQuery|null} an anchor element, or null if not applicable.
  */
-function buildAddChildContainerLink(containerId, containerType) {
+function buildAddChildContainerLink(containerId, containerType, spacingClass) {
 	if (!canCreateChildContainer(containerType)) {
 		return null;
 	}
-	return $('<a class="btn btn-xs btn-success mr-1" target="_blank" rel="noopener noreferrer"></a>')
+	return $('<a target="_blank" rel="noopener noreferrer"></a>')
+		.addClass(buildContainerActionClass('btn btn-xs btn-success', spacingClass || 'mr-1 mb-1'))
 		.attr('href', '/containers/Container.cfm?action=new&parent_container_id=' + encodeURIComponent(containerId))
 		.text('Create Child');
 }
@@ -2550,7 +2554,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			nodeRow.append($('<span class="tree-node-label"></span>').text(instDisplay));
 			nodeRow.append(buildContainerTypeMeta(inst.container_type));
 			nodeRow.append(buildContainerDetailsButton(instCid, instDisplay, feedbackEl));
-			nodeRow.append(buildAddChildContainerLink(instCid, inst.container_type));
+			nodeRow.append(buildAddChildContainerLink(instCid, inst.container_type, 'ml-1'));
 			var campusUl = $('<ul></ul>').attr('id', childUlId).addClass('container-tree');
 			if (campuses.length > 0) {
 				$.each(campuses, function(ci, campus) {
@@ -2580,7 +2584,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 					campusRow.append($('<span class="tree-node-label"></span>').text(campusDisplay));
 					campusRow.append(buildContainerTypeMeta(campus.container_type));
 					campusRow.append(buildContainerDetailsButton(campusCid, campusDisplay, feedbackEl));
-					campusRow.append(buildAddChildContainerLink(campusCid, campus.container_type));
+					campusRow.append(buildAddChildContainerLink(campusCid, campus.container_type, 'ml-1'));
 					var campusLeafDiv = null;
 					if (parseInt(campus.direct_leaf_children, 10) > 0) {
 						var campusLeafDivId = 'ctree-leaf-' + campusCid;
@@ -2740,7 +2744,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 		nodeRow.append($('<span class="tree-node-label"></span>').text(displayName));
 		nodeRow.append(buildContainerTypeMeta(ctype));
 		nodeRow.append(buildContainerDetailsButton(cid, displayName, feedbackId));
-		nodeRow.append(buildAddChildContainerLink(cid, ctype));
+		nodeRow.append(buildAddChildContainerLink(cid, ctype, 'ml-1'));
 		if (structuralChildren === 0 && leafChildren === 0) {
 			nodeRow.append($('<span class="badge badge-light border text-muted small ml-1"></span>').attr('title', 'Empty container — no children').text('empty'));
 		}
