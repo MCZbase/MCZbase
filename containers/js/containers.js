@@ -432,7 +432,7 @@ function buildContainerActionClass(baseClass, spacingClass) {
  */
 function buildContainerDetailsButton(containerId, displayName, feedbackId, spacingClass) {
 	return $('<button type="button"></button>')
-		.addClass(buildContainerActionClass('btn btn-xs btn-outline-primary', spacingClass || TREE_ACTION_SPACING_CLASS))
+		.addClass(buildContainerActionClass('btn btn-xs btn-info', spacingClass || TREE_ACTION_SPACING_CLASS))
 		.text('Details')
 		.on('click', function() {
 			openContainerDetailsDialog(containerId, displayName, feedbackId, false);
