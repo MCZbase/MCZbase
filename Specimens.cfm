@@ -331,10 +331,12 @@
 							<!---		<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>--->
-							<!			<cftry>
-				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
-				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-			</cftry>---		<aside id="collapseFixedBasic" style="display:none;">
+										<cftry>
+											<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+											<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+										</cftry>
+									
+									<!---		<aside id="collapseFixedBasic" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3 border-dark">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
