@@ -431,7 +431,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
 												<label for="keywords">Keywords</label>
-												<span id="useSymbols_help" class="text-secondary small">(Use |, *, "", - as prefix to filter)</span>
+												<span id="useSymbols_help" class="text-secondary">(Use |, *, "", - as prefix to filter)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-describedby="useSymbols_help">
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
@@ -530,7 +530,7 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';" 
 													aria-describedby="lightSNull_help"
 													aria-label="use NULL prefix to find media records without a light source">
-													NULL
+													Null
 												</button>
 												<span id="lightSNull_help" class="sr-only">use NULL prefix to find media records without a light source</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';"
@@ -555,7 +555,7 @@ limitations under the License.
 												(<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';"
 													aria-describedby="remarksNULL_help"
 													aria-label="use NULL to find media records without remarks">
-													NULL
+													Null
 												</button>
 												<span id="remarksNULL_help" class="sr-only">use NULL to find media records without a remark</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';"
@@ -577,7 +577,7 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';"
 													aria-describedby="md5hashNull_help"
 													aria-label="use NULL to find media records without the selected relationship">
-													NULL
+													Null
 												</button>
 												<span id="md5hashNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';"
@@ -601,7 +601,7 @@ limitations under the License.
 														<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';" 
 															aria-describedby="anyOtherNull_help"
 															aria-label>
-															NULL
+															Null
 														</button>
 														<span id="anyOtherNull_help" class="sr-only">use NULL to find media records without the designated label</span>, 
 														<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';" 
@@ -670,7 +670,7 @@ limitations under the License.
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
 													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
-													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-describedby="madedate_help">
+													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-5 w-100 px-1 py-0" placeholder="end date" aria-describedby="madedate_help">
 													<small id="madedate_help" class="sr-only">end date</small> 
 												</div>
 											</div>
