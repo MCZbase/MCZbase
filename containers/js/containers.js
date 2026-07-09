@@ -2858,11 +2858,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var leafKids = parseInt(row.direct_leaf_children, 10) || 0;
 					var role = getContainerRole(row.container_type);
 					var isProxy = role === 'proxy';
-					var parentContainerId = parseInt(row.parent_container_id, 10) || 0;
+					var parentContainerId = parseInt(row.parent_container_id, 10);
 					var parentContainerType = (row.parent_container_type || '').toLowerCase();
 					/* Collection objects are leaf-only results, and institution/root proxy rows
 					   are shown only in the top-level orphan tables rather than the tree. */
-					var isTopLevelProxyTableRow = isProxy && (parentContainerId === 0 || parentContainerType === ROOT_INSTITUTION_CONTAINER_TYPE);
+					var hasRootParent = !isNaN(parentContainerId) && parentContainerId === 0;
+					var hasInstitutionParent = parentContainerType === ROOT_INSTITUTION_CONTAINER_TYPE;
+					var isTopLevelProxyTableRow = isProxy && (hasRootParent || hasInstitutionParent);
 					var canExplore = row.container_type !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
 					var displayName = formatContainerDisplay(row.barcode, row.label);
 					var descText = row.description || '';
