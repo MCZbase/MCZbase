@@ -917,61 +917,65 @@ Function createContainer.  Creates a new container record.
 		<cfset arguments.institution_acronym = "MCZ">
 	</cfif>
 
-	<cftry>
-		<cfquery name="queryNextId" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT
-				sq_container_id.nextval AS next_container_id
-			FROM
-				dual
-		</cfquery>
-		<cfquery name="queryInsertContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			INSERT INTO container (
-				container_id,
-				parent_container_id,
-				container_type,
-				label,
-				description,
-				parent_install_date,
-				container_remarks,
-				barcode,
-				width,
-				height,
-				length,
-				number_positions,
-				locked_position,
-				institution_acronym
-			) VALUES (
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryNextId.next_container_id#">,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_type)#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.label)#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#" null="#len(trim(arguments.description)) EQ 0#">,
-				<cfif len(trim(arguments.parent_install_date)) GT 0>
-					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#createODBCDate(parseDateTime(arguments.parent_install_date))#">
-				<cfelse>
-					<cfqueryparam cfsqltype="CF_SQL_DATE" value="" null="yes">
-				</cfif>,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#" null="#len(trim(arguments.barcode)) EQ 0#">,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#" null="#len(trim(arguments.number_positions)) EQ 0#">,
-				<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="0">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
-			)
-		</cfquery>
-		<cfset local.retval["status"] = "created">
-		<cfset local.retval["container_id"] = queryNextId.next_container_id>
-	<cfcatch>
-		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset local.function_called = "#GetFunctionCalledName()#">
-		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
-		<cfset local.retval = StructNew()>
-		<cfset local.retval["status"] = "error">
-		<cfset local.retval["message"] = cfcatch.message>
-	</cfcatch>
-	</cftry>
+	<cftransaction>
+		<cftry>
+			<cfquery name="queryNextId" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					sq_container_id.nextval AS next_container_id
+				FROM
+					dual
+			</cfquery>
+			<cfquery name="queryInsertContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				INSERT INTO container (
+					container_id,
+					parent_container_id,
+					container_type,
+					label,
+					description,
+					parent_install_date,
+					container_remarks,
+					barcode,
+					width,
+					height,
+					length,
+					number_positions,
+					locked_position,
+					institution_acronym
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryNextId.next_container_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_type)#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.label)#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#" null="#len(trim(arguments.description)) EQ 0#">,
+					<cfif len(trim(arguments.parent_install_date)) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#createODBCDate(parseDateTime(arguments.parent_install_date))#">
+					<cfelse>
+						<cfqueryparam cfsqltype="CF_SQL_DATE" value="" null="yes">
+					</cfif>,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#" null="#len(trim(arguments.barcode)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#" null="#len(trim(arguments.number_positions)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="0">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
+				)
+			</cfquery>
+			<cfset local.retval["status"] = "created">
+			<cfset local.retval["container_id"] = queryNextId.next_container_id>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = cfcatch.message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
 	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
@@ -1026,68 +1030,75 @@ Function saveContainer.  Updates an existing container record.
 		<cfset arguments.institution_acronym = "MCZ">
 	</cfif>
 
-	<cftry>
-		<cfquery name="queryGetExisting" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT
-				parent_container_id
-			FROM
-				container
-			WHERE
-				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-		</cfquery>
-		<cfif queryGetExisting.recordcount EQ 0>
-			<cfset local.retval["status"] = "error">
-			<cfset local.retval["message"] = "Container not found.">
-			<cfreturn serializeJSON(local.retval)>
-		</cfif>
-		<cfquery name="queryUpdateContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			UPDATE
-				container
-			SET
-				parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">,
-				container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_type)#">,
-				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.label)#">,
-				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#" null="#len(trim(arguments.description)) EQ 0#">,
-				parent_install_date =
-					<cfif len(trim(arguments.parent_install_date)) GT 0>
-						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#createODBCDate(parseDateTime(arguments.parent_install_date))#">
-					<cfelse>
-						<cfqueryparam cfsqltype="CF_SQL_DATE" value="" null="yes">
-					</cfif>,
-				container_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
-				barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#" null="#len(trim(arguments.barcode)) EQ 0#">,
-				width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
-				height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
-				length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
-				number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#" null="#len(trim(arguments.number_positions)) EQ 0#">,
-				institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
-			WHERE
-				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-		</cfquery>
-		<cfif val(queryGetExisting.parent_container_id) NEQ val(arguments.parent_container_id)>
-			<cfquery name="queryInsertHistory" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				INSERT INTO container_history (
-					container_id,
-					parent_container_id,
-					install_date
-				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryGetExisting.parent_container_id#">,
-					SYSDATE
-				)
+	<cftransaction>
+		<cftry>
+			<cfquery name="queryGetExisting" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					parent_container_id
+				FROM
+					container
+				WHERE
+					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 			</cfquery>
-		</cfif>
-		<cfset local.retval["status"] = "saved">
-		<cfset local.retval["container_id"] = arguments.container_id>
-	<cfcatch>
-		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset local.function_called = "#GetFunctionCalledName()#">
-		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
-		<cfset local.retval = StructNew()>
-		<cfset local.retval["status"] = "error">
-		<cfset local.retval["message"] = cfcatch.message>
-	</cfcatch>
-	</cftry>
+			<cfif queryGetExisting.recordcount EQ 0>
+				<cfset local.retval["status"] = "error">
+				<cfset local.retval["message"] = "Container not found.">
+				<cfreturn serializeJSON(local.retval)>
+			</cfif>
+			<cfquery name="queryUpdateContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				UPDATE
+					container
+				SET
+					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">,
+					container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_type)#">,
+					label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.label)#">,
+					description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.description)#" null="#len(trim(arguments.description)) EQ 0#">,
+					parent_install_date =
+						<cfif len(trim(arguments.parent_install_date)) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#createODBCDate(parseDateTime(arguments.parent_install_date))#">
+						<cfelse>
+							<cfqueryparam cfsqltype="CF_SQL_DATE" value="" null="yes">
+						</cfif>,
+					container_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
+					barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#" null="#len(trim(arguments.barcode)) EQ 0#">,
+					width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
+					height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
+					length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
+					number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#" null="#len(trim(arguments.number_positions)) EQ 0#">,
+					institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
+				WHERE
+					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<!--- provided by trigger MCZBASE.GET_CONTAINER_HISTORY --->
+			<!---
+			<cfif val(queryGetExisting.parent_container_id) NEQ val(arguments.parent_container_id)>
+				<cfquery name="queryInsertHistory" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					INSERT INTO container_history (
+						container_id,
+						parent_container_id,
+						install_date
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryGetExisting.parent_container_id#">,
+						SYSDATE
+					)
+				</cfquery>
+			</cfif>
+			--->
+			<cfset local.retval["status"] = "saved">
+			<cfset local.retval["container_id"] = arguments.container_id>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = cfcatch.message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
 	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
@@ -1104,36 +1115,40 @@ Function deleteContainer.  Deletes a container record.
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 
-	<cftry>
-		<cfquery name="queryCheckChildren" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT
-				COUNT(*) AS child_count
-			FROM
-				container
-			WHERE
-				parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-		</cfquery>
-		<cfif queryCheckChildren.child_count GT 0>
+	<cftransaction>
+		<cftry>
+			<cfquery name="queryCheckChildren" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					COUNT(*) AS child_count
+				FROM
+					container
+				WHERE
+					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfif queryCheckChildren.child_count GT 0>
+				<cfset local.retval["status"] = "error">
+				<cfset local.retval["message"] = "Container cannot be deleted because it has children.">
+				<cfreturn serializeJSON(local.retval)>
+			</cfif>
+			<cfquery name="queryDeleteContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				DELETE FROM
+					container
+				WHERE
+					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfset local.retval["status"] = "deleted">
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
 			<cfset local.retval["status"] = "error">
-			<cfset local.retval["message"] = "Container cannot be deleted because it has children.">
-			<cfreturn serializeJSON(local.retval)>
-		</cfif>
-		<cfquery name="queryDeleteContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			DELETE FROM
-				container
-			WHERE
-				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
-		</cfquery>
-		<cfset local.retval["status"] = "deleted">
-	<cfcatch>
-		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset local.function_called = "#GetFunctionCalledName()#">
-		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
-		<cfset local.retval = StructNew()>
-		<cfset local.retval["status"] = "error">
-		<cfset local.retval["message"] = cfcatch.message>
-	</cfcatch>
-	</cftry>
+			<cfset local.retval["message"] = cfcatch.message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
 	<cfreturn serializeJSON(local.retval)>
 </cffunction>
 
