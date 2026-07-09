@@ -1022,7 +1022,7 @@ function buildAddChildContainerLink(containerId, containerType, spacingClass) {
 		return null;
 	}
 	return $('<a target="_blank" rel="noopener noreferrer"></a>')
-		.addClass(buildContainerActionClass('btn btn-xs btn-success', spacingClass || TABLE_ACTION_SPACING_CLASS))
+		.addClass(buildContainerActionClass('btn btn-xs btn-secondary', spacingClass || TABLE_ACTION_SPACING_CLASS))
 		.attr('href', '/containers/Container.cfm?action=new&parent_container_id=' + encodeURIComponent(containerId))
 		.text('Create Child');
 }

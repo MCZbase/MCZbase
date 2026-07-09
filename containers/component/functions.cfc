@@ -1336,7 +1336,7 @@ details of a container for use in dialogs and page components.
 											<div class="text-lg-right">
 												<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
 													<cfif NOT isProxyOrLeafType>
-														<a href="#createChildContainerUrl#" class="btn btn-xs btn-success mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+														<a href="#createChildContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
 													</cfif>
 													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>

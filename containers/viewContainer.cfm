@@ -175,7 +175,7 @@ limitations under the License.
 		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
 			<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
 			<cfif NOT variables.isProxyOrLeafType>
-				<a class="btn btn-xs btn-success mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+				<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
 			</cfif>
 			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
 			<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
