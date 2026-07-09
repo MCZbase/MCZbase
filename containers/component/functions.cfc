@@ -1226,6 +1226,7 @@ details of a container for use in dialogs and page components.
 				<cfif getContainerDetail.recordcount EQ 0>
 					<p class="text-danger">Container not found.</p>
 				<cfelse>
+					<!--- count the number of collection object leaves in the subtree of this container, including itself if it is a collection object leaf --->
 					<cfquery name="queryCountCOChildren" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 						SELECT
 							COUNT(*) AS leaf_descendants
@@ -1278,6 +1279,8 @@ details of a container for use in dialogs and page components.
 					<cfif val(getContainerDetail.locked_position) EQ 1>
 						<cfset lockedPositionText = "Yes">
 					</cfif>
+					<!--- get the collection object details for this container if it is a collection_object leaf 
+					and, if not, its descendants that are collection object leaves if there are 5 or fewer --->
 					<cfif queryCountCOChildren.leaf_descendants GT 0 AND queryCountCOChildren.leaf_descendants LTE 5>
 						<cfquery name="queryCollectionObjectDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 							SELECT
@@ -1320,7 +1323,6 @@ details of a container for use in dialogs and page components.
 								CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
 							)
 							AND c.container_type = 'collection object'
-							AND c.container_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
 							ORDER BY c.label
 						</cfquery>
 					</cfif>

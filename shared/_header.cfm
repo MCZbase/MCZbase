@@ -555,7 +555,10 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a> 
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Find Storage Location/Container</a>
+												<a class="dropdown-item" href="/containers/Containers.cfm">Find Storage Location/Container</a>
+											</cfif>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+												<a class="dropdown-item" href="/containers/Containers.cfm">Find Container (new)</a>
 											</cfif>
 										</cfif>
 									</div>
