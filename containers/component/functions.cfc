@@ -1436,7 +1436,11 @@ details of a container for use in dialogs and page components.
 								<h3 class="h4">Structural Contents:</h3>
 								<cfif val(getContainerDetail.direct_structural_children) GT 0>
 									<a href="#browseTreeUrl#">
-										Browse #encodeForHtml(getContainerDetail.direct_structural_children)# structural children in the tree
+										<cfif getContainerDetail.direct_structural_children EQ 1>
+											Browse 1 structural child in the tree
+										<cfelse>
+											Browse #encodeForHtml(getContainerDetail.direct_structural_children)# structural children in the tree
+										</cfif>
 									</a>
 								<cfelse>
 									<span class="text-muted">0 structural children</span>
@@ -1446,7 +1450,11 @@ details of a container for use in dialogs and page components.
 								<h3 class="h4">Object Contents:</h3>
 								<cfif val(getContainerDetail.direct_leaf_children) GT 0>
 									<a href="#leafNodesUrl#">
-										Browse #encodeForHtml(getContainerDetail.direct_leaf_children)# direct leaf children
+										<cfif getContainerDetail.direct_leaf_children EQ 1>
+											Browse 1 direct leaf child
+										<cfelse>
+											Browse #encodeForHtml(getContainerDetail.direct_leaf_children)# direct leaf children
+										</cfif>
 									</a>
 								<cfelse>
 									<span class="text-muted">0 direct leaf children</span>
@@ -1457,7 +1465,13 @@ details of a container for use in dialogs and page components.
 								<cfif queryCountCOChildren.leaf_descendants EQ 0>
 									<span class="text-muted">No Collection Objects in this container or its children</span>
 								<cfelse>
-									<span class="text-muted">#encodeForHtml(queryCountCOChildren.leaf_descendants)# contained</span>
+									<span class="text-muted">
+										#encodeForHtml(queryCountCOChildren.leaf_descendants)# 
+										<!--- if the current node is a collection_object container, leave off the word contained --->
+										<cfif getContainerDetail.container_type NEQ "collection object">
+											contained
+										</cfif>
+									</span>
 									<cfif len(specimenSearchUrl) GT 0>
 										<a href="#specimenSearchUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Specimens</a>
 									</cfif>
