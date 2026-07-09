@@ -243,13 +243,13 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
 			<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
-						<cftry>
-				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
-				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-			</cftry>	<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
+			<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
-					</cfquery>
+									<cftry>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry></cfquery>
 
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records 
 						<span class="count font-italic color-green mx-0">
