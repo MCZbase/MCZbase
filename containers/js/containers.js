@@ -17,6 +17,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+/**
+ * This file coordinates the redesigned container browse/search experience.
+ * It loads container-type metadata first, then renders either the top-level hierarchy tree or
+ * search-result, orphan, and contents tables from the same server payload conventions. Tree
+ * helpers build structural nodes, hide large placed-child groups behind toggle sections, and
+ * expand breadcrumb paths for Explore so the selected node opens in context. Table helpers
+ * render the paged orphan, contents, and search views and reuse the same action-button builders
+ * and details-dialog loader so browsing, viewing, editing, specimen lookup, and create-child
+ * actions stay consistent across all container presentations.
+ */
+
 /** Make a paired hidden container_id and text container control into an autocomplete container picker that displays meta 
  *  on picklist and value on selection.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
@@ -217,11 +228,18 @@ var ROOT_PARENT_CONTAINER_ID = 0;
  */
 var SHAPE_LABELS = { A: 'Structural', B: 'Object-bearing', AB: 'Mixed' };
 
+/**
+ * Normalizes a container type string for case-insensitive metadata lookups.
+ * @param {string} containerType - the container type label to normalize.
+ * @returns {string} lower-cased type key, or an empty string when no type was provided.
+ */
 function normalizeContainerTypeKey(containerType) {
 	return (containerType || '').toLowerCase();
 }
 
-/** Rebuilds the SINGLE_OCCUPANT_TYPES array from the current containerTypeMetadataByType map. **/
+/**
+ * Rebuilds the cached list of single-occupant container types from the active metadata map.
+ */
 function rebuildSingleOccupantTypes() {
 	SINGLE_OCCUPANT_TYPES = [];
 	$.each(containerTypeMetadataByType, function(containerType, meta) {
@@ -692,12 +710,20 @@ function addTargetArrow(targetRow) {
 	}
 }
 
+/**
+ * Removes the current highlighted-tree selection state before a new target is marked.
+ */
 function clearTargetHighlightState() {
 	$('.tree-node-target-arrow').remove();
 	$('.tree-node-highlighted').removeClass('tree-node-highlighted');
 	$('.container-selected-status').remove();
 }
 
+/**
+ * Highlights one rendered tree node, adds the target arrow, and scrolls it into view.
+ * @param {jQuery} targetLi - the tree-node list item to highlight.
+ * @param {Object} targetNode - breadcrumb/search metadata for the selected node.
+ */
 function highlightTargetNode(targetLi, targetNode) {
 	if (targetLi.length === 0) {
 		return;
@@ -716,6 +742,11 @@ function highlightTargetNode(targetLi, targetNode) {
 	}
 }
 
+/**
+ * Checks whether a container is already present in the rendered browse tree.
+ * @param {number} containerId - the container_id to look for in the DOM.
+ * @returns {boolean} true when the node already exists in the rendered tree.
+ */
 function isTreeNodeRendered(containerId) {
 	return $('#ctree-children-' + containerId).closest('li').length > 0;
 }
@@ -961,26 +992,51 @@ function loadContainerDetails(containerId, targetDivId, feedbackId, showBrowseAc
 
 
 
+/**
+ * Returns role metadata for one container type, falling back to structural defaults.
+ * @param {string} containerType - the container type to look up.
+ * @returns {Object} metadata object with role and expects_leaf_child_count properties.
+ */
 function getContainerTypeMetadataEntry(containerType) {
 	var typeKey = normalizeContainerTypeKey(containerType);
 	return containerTypeMetadataByType[typeKey] || { role: 'structural', expects_leaf_child_count: 0 };
 }
 
+/**
+ * Resolves the functional role for a container type.
+ * @param {string} containerType - the container type to evaluate.
+ * @returns {string} one of the supported role values, defaulting to structural.
+ */
 function getContainerRole(containerType) {
 	return getContainerTypeMetadataEntry(containerType).role || 'structural';
 }
 
+/**
+ * Determines whether the current container type may create child containers.
+ * @param {string} containerType - the container type to evaluate.
+ * @returns {boolean} true when the node should show create-child actions.
+ */
 function canCreateChildContainer(containerType) {
 	var role = getContainerRole(containerType);
 	return role !== 'proxy' && role !== 'leaf';
 }
 
+/**
+ * Builds the role badge HTML used beside container types in trees and tables.
+ * @param {string} containerType - the container type whose role should be displayed.
+ * @returns {string} badge markup for the resolved role.
+ */
 function getContainerRoleBadgeHtml(containerType) {
 	var role = getContainerRole(containerType);
 	var labelMap = { proxy: 'Proxy', leafbearer: 'Leaf bearer', structural: 'Structural', leaf: 'Leaf' };
 	return '<span class="badge container-role-badge container-role-' + role + '">' + (labelMap[role] || role) + '</span>';
 }
 
+/**
+ * Builds the combined container-type and role-badge element for rendered nodes.
+ * @param {string} containerType - the container type text to display.
+ * @returns {jQuery} span element containing the type label and role badge.
+ */
 function buildContainerTypeMeta(containerType) {
 	var safeType = containerType || 'Unknown';
 	var meta = $('<span class="tree-node-type text-muted small mx-1"></span>').text('[' + safeType + ']');
@@ -989,10 +1045,23 @@ function buildContainerTypeMeta(containerType) {
 	return meta;
 }
 
+/**
+ * Builds the table-layout Details button using the shared container action styling.
+ * @param {number} containerId - the container_id whose details should be opened.
+ * @param {string} displayName - the display name to include in the dialog title.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @returns {jQuery} details button configured for table action cells.
+ */
 function buildContainerDetailsActionButton(containerId, displayName, feedbackId) {
 	return buildContainerDetailsButton(containerId, displayName, feedbackId, TABLE_ACTION_SPACING_CLASS);
 }
 
+/**
+ * Builds a View link to the standalone container page.
+ * @param {number} containerId - the container_id to open.
+ * @param {string} spacingClass - optional spacing class override for the action element.
+ * @returns {jQuery} anchor element that opens viewContainer.cfm in a new tab.
+ */
 function buildContainerViewLink(containerId, spacingClass) {
 	return $('<a target="_blank" rel="noopener noreferrer"></a>')
 		.addClass(buildContainerActionClass('btn btn-xs btn-info', spacingClass || TABLE_ACTION_SPACING_CLASS))
@@ -1000,6 +1069,12 @@ function buildContainerViewLink(containerId, spacingClass) {
 		.text('View');
 }
 
+/**
+ * Builds an Edit link to the standalone container edit page.
+ * @param {number} containerId - the container_id to edit.
+ * @param {string} spacingClass - optional spacing class override for the action element.
+ * @returns {jQuery} anchor element that opens the edit form in a new tab.
+ */
 function buildContainerEditLink(containerId, spacingClass) {
 	return $('<a target="_blank" rel="noopener noreferrer"></a>')
 		.addClass(buildContainerActionClass('btn btn-xs btn-secondary', spacingClass || TABLE_ACTION_SPACING_CLASS))
@@ -1027,6 +1102,13 @@ function buildAddChildContainerLink(containerId, containerType, spacingClass) {
 		.text('Create Child');
 }
 
+/**
+ * Builds the legacy combined specimen summary cell for orphan result tables.
+ * @param {Object} row - one orphan-table row returned from the server.
+ * @param {string} occupantBarcode - fallback barcode for the occupying container.
+ * @param {string} occupantLabel - fallback label for the occupying container.
+ * @returns {jQuery} table cell containing specimen or occupant summary text.
+ */
 function renderSpecimenCell(row, occupantBarcode, occupantLabel) {
 	var specTd = $('<td></td>');
 	if (row.cat_num && row.collection_cde && row.institution_acronym) {
@@ -1050,6 +1132,13 @@ function renderSpecimenCell(row, occupantBarcode, occupantLabel) {
 	return specTd;
 }
 
+/**
+ * Builds the GUID column cell for browsed container contents.
+ * @param {Object} row - one leaf-child row returned from the server.
+ * @param {string} occupantBarcode - fallback barcode when no GUID is available.
+ * @param {string} occupantLabel - fallback label when no GUID is available.
+ * @returns {jQuery} table cell containing a GUID link or fallback container display.
+ */
 function buildSpecimenGuidCell(row, occupantBarcode, occupantLabel) {
 	var guidTd = $('<td></td>');
 	if (row.cat_num && row.collection_cde && row.institution_acronym) {
@@ -1069,6 +1158,11 @@ function buildSpecimenGuidCell(row, occupantBarcode, occupantLabel) {
 	return guidTd;
 }
 
+/**
+ * Builds the current-identification cell for a specimen row.
+ * @param {Object} row - one leaf-child row returned from the server.
+ * @returns {jQuery} table cell containing scientific name text or an em dash placeholder.
+ */
 function buildSpecimenIdentificationCell(row) {
 	var identificationTd = $('<td></td>');
 	if (row.scientific_name) {
@@ -1079,6 +1173,11 @@ function buildSpecimenIdentificationCell(row) {
 	return identificationTd;
 }
 
+/**
+ * Builds the part-type cell for a specimen row.
+ * @param {Object} row - one leaf-child row returned from the server.
+ * @returns {jQuery} table cell containing part-type text or an em dash placeholder.
+ */
 function buildSpecimenPartCell(row) {
 	var partTd = $('<td></td>');
 	if (row.part_name) {
@@ -1089,6 +1188,11 @@ function buildSpecimenPartCell(row) {
 	return partTd;
 }
 
+/**
+ * Builds the preservation cell for a specimen row.
+ * @param {Object} row - one leaf-child row returned from the server.
+ * @returns {jQuery} table cell containing preservation text or an em dash placeholder.
+ */
 function buildSpecimenPreservationCell(row) {
 	var preservationTd = $('<td></td>');
 	if (row.preserve_method) {
@@ -1099,6 +1203,14 @@ function buildSpecimenPreservationCell(row) {
 	return preservationTd;
 }
 
+/**
+ * Builds the reusable first/previous/next/last pager used by container tables.
+ * @param {number} currentPage - the page currently being displayed.
+ * @param {number} totalPages - total number of available pages.
+ * @param {string} className - optional classes for the nav wrapper.
+ * @param {string} pageClass - class to add to enabled paging buttons for delegated click handling.
+ * @returns {jQuery} navigation element containing the pager buttons.
+ */
 function buildPagedNav(currentPage, totalPages, className, pageClass) {
 	var nav = $('<nav></nav>').attr('aria-label', 'Page navigation').addClass('d-flex flex-wrap' + (className ? ' ' + className : ''));
 	var firstBtn = $('<button class="btn btn-xs btn-secondary mr-1">« First</button>').attr('type', 'button');
@@ -1122,7 +1234,13 @@ function buildPagedNav(currentPage, totalPages, className, pageClass) {
 	return nav.append(firstBtn, prevBtn, nextBtn, lastBtn);
 }
 
-/** Opens a modal dialog showing a container details fragment. */
+/**
+ * Opens the shared modal dialog that hosts the container details fragment.
+ * @param {number} containerId - the container_id whose details should be loaded.
+ * @param {string} displayName - optional display name to include in the dialog title.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {boolean} showBrowseAction - true to keep the Browse in Hierarchy action visible.
+ */
 function openContainerDetailsDialog(containerId, displayName, feedbackId, showBrowseAction) {
 	var dialogId = 'containerDetailsDialog';
 	var contentId = 'containerDetailsDialogContent';
@@ -1156,6 +1274,13 @@ function openContainerDetailsDialog(containerId, displayName, feedbackId, showBr
 	loadContainerDetails(containerId, contentId, feedbackId, browseActionEnabled);
 }
 
+/**
+ * Renders the paged table for top-level single-occupant proxy orphans.
+ * @param {Object} data - paged orphan payload from getOrphanedSingleOccupantContainers.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for delegated actions.
+ * @param {number} page - current page number when re-rendering after navigation.
+ */
 function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) {
 	var rows = data.rows || [];
 	var totalRows = parseInt(data.totalRows, 10) || 0;
@@ -1216,6 +1341,13 @@ function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) 
 	});
 }
 
+/**
+ * Loads one page of the single-occupant orphan table and renders it into place.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - page number to request.
+ * @param {function} onLoaded - optional callback invoked after a successful render.
+ */
 function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded) {
 	var target = $('#' + targetDivId);
 	target.data('loading', true);
@@ -1245,10 +1377,23 @@ function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded)
 	});
 }
 
+/**
+ * Builds the warning badge used to label top-level orphan table rows.
+ * @param {string} label - badge text to display.
+ * @param {string} extraClasses - optional additional classes for spacing or layout.
+ * @returns {jQuery} badge element describing the orphan classification.
+ */
 function buildHighLevelOrphanBadge(label, extraClasses) {
 	return $('<span class="badge badge-warning small"></span>').addClass(extraClasses || '').text(label);
 }
 
+/**
+ * Renders the paged table for top-level empty proxy orphans.
+ * @param {Object} data - paged orphan payload from getOrphanedEmptyProxyContainers.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for delegated actions.
+ * @param {number} page - current page number when re-rendering after navigation.
+ */
 function renderOrphanedEmptyProxyTable(data, targetDivId, feedbackId, page) {
 	var rows = data.rows || [];
 	var totalRows = parseInt(data.totalRows, 10) || 0;
@@ -1302,6 +1447,13 @@ function renderOrphanedEmptyProxyTable(data, targetDivId, feedbackId, page) {
 	});
 }
 
+/**
+ * Loads one page of the empty-proxy orphan table and renders it into place.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - page number to request.
+ * @param {function} onLoaded - optional callback invoked after a successful render.
+ */
 function loadOrphanedEmptyProxyPage(targetDivId, feedbackId, page, onLoaded) {
 	var target = $('#' + targetDivId);
 	target.data('loading', true);
@@ -1331,6 +1483,12 @@ function loadOrphanedEmptyProxyPage(targetDivId, feedbackId, page, onLoaded) {
 	});
 }
 
+/**
+ * Toggles a lazily rendered browse section open or closed beneath its trigger button.
+ * @param {HTMLElement|jQuery} buttonEl - the button controlling the section.
+ * @param {string} panelId - id of the section panel to show or hide.
+ * @param {function} loadFn - optional loader invoked the first time the panel opens.
+ */
 function toggleBrowseSection(buttonEl, panelId, loadFn) {
 	var btn = $(buttonEl);
 	var panel = $('#' + panelId);
@@ -1356,6 +1514,11 @@ function toggleBrowseSection(buttonEl, panelId, loadFn) {
 	}
 }
 
+/**
+ * Ensures the structural-orphan section is visible before Explore continues into it.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {function} onReady - callback invoked with true/false once the panel is ready or unavailable.
+ */
 function ensureStructuralOrphanPanelVisible(feedbackId, onReady) {
 	var buttonId = 'ctree-orphan-structural-btn';
 	var panelId = 'ctree-orphan-structural-panel';
@@ -1385,6 +1548,11 @@ function ensureStructuralOrphanPanelVisible(feedbackId, onReady) {
 	loadStructuralOrphanPanel(panelId, feedbackId);
 }
 
+/**
+ * Loads the top-level structural orphan tree into its toggle panel.
+ * @param {string} targetDivId - id of the panel that should receive the rendered tree.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ */
 function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 	var target = $('#' + targetDivId);
 	target.data('loading', true);
@@ -1418,6 +1586,13 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 	});
 }
 
+/**
+ * Renders a read-only positions grid or fallback table for one container.
+ * @param {Array} positions - ordered position rows returned from getContainerPositionsGrid.
+ * @param {number} numPositions - declared position count used to choose a known layout.
+ * @param {string} targetDivId - id of the panel that should receive the rendered layout.
+ * @param {string} feedbackId - optional feedback element id for details-dialog failures.
+ */
 function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
@@ -1482,6 +1657,13 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
 	target.html(wrapper);
 }
 
+/**
+ * Loads the positions payload for one container and renders the matching grid/table view.
+ * @param {number} containerId - the container_id whose positions should be loaded.
+ * @param {number} numPositions - fallback declared position count from the initial page payload.
+ * @param {string} targetDivId - id of the panel that should receive the rendered layout.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ */
 function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
@@ -1507,10 +1689,21 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
    proxy/leaf-bearing child containers hidden behind nested browse toggles. */
 var PLACED_CHILD_SECTION_TYPES = ['campus', 'building', 'floor', 'room'];
 
+/**
+ * Determines whether direct placed children should be hidden behind secondary toggle sections.
+ * @param {string} parentContainerType - type of the structural parent being rendered.
+ * @returns {boolean} true for placement-heavy structural levels that group non-structural children.
+ */
 function shouldGroupPlacedChildNodes(parentContainerType) {
 	return PLACED_CHILD_SECTION_TYPES.indexOf((parentContainerType || '').toLowerCase()) !== -1;
 }
 
+/**
+ * Splits child nodes into structural, empty placed, and occupied placed groups for rendering.
+ * @param {Array} nodes - child nodes returned for one structural parent.
+ * @param {string} parentContainerType - type of the structural parent being rendered.
+ * @returns {Object} grouped node arrays keyed as structuralNodes, emptyPlacedNodes, and occupiedPlacedNodes.
+ */
 function splitPlacedChildNodes(nodes, parentContainerType) {
 	var grouped = {
 		structuralNodes: nodes || [],
@@ -1536,6 +1729,13 @@ function splitPlacedChildNodes(nodes, parentContainerType) {
 	return grouped;
 }
 
+/**
+ * Builds the button label for a grouped placed-child section.
+ * @param {string} parentContainerType - type of the structural parent being rendered.
+ * @param {string} sectionKind - grouping key, currently empty or occupied.
+ * @param {Array} nodes - nodes that will be revealed by the section toggle.
+ * @returns {string} human-readable section label with node count.
+ */
 function getPlacedChildSectionLabel(parentContainerType, sectionKind, nodes) {
 	var parentType = parentContainerType || 'container';
 	if (sectionKind === 'empty') {
@@ -1547,6 +1747,10 @@ function getPlacedChildSectionLabel(parentContainerType, sectionKind, nodes) {
 	return 'Placed to ' + parentType + ' ' + (allProxy ? 'single-occupant' : 'occupied') + ' (' + nodes.length + ')';
 }
 
+/**
+ * Opens any hidden grouped sections that contain a target node already rendered in the DOM.
+ * @param {number} containerId - the container_id whose ancestor section wrappers should be shown.
+ */
 function ensureTreeSectionVisibleForNode(containerId) {
 	var nodePanel = $('#ctree-children-' + containerId);
 	if (nodePanel.length === 0) {
@@ -1562,7 +1766,13 @@ function ensureTreeSectionVisibleForNode(containerId) {
 	});
 }
 
-/** Renders the root browse view and top-level orphan toggle sections. */
+/**
+ * Renders the top-level browse view, including institutions and orphan toggle sections.
+ * @param {Object} data - payload returned from getTopLevelBrowse.
+ * @param {string} browsePanel - id of the main hierarchy panel to populate.
+ * @param {string} leafPanel - id of the leaf/table panel used by subordinate browse actions.
+ * @param {string} feedbackEl - optional feedback element id for AJAX failures.
+ */
 function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	var institutions = data.institutions || [];
 	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
@@ -1749,7 +1959,15 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	}
 }
 
-/** Renders container nodes into a tree and pre-renders hidden placed-child sections. */
+/**
+ * Renders a container subtree and pre-renders any hidden placed-child sections beneath it.
+ * @param {Array} nodes - nodes to render at the current tree level.
+ * @param {string} targetDivId - id of the DOM container that should receive the tree markup.
+ * @param {string} feedbackId - optional feedback element id for delegated AJAX failures.
+ * @param {boolean} appendToExisting - true to append children instead of replacing the target contents.
+ * @param {string} parentContainerType - type of the parent container whose children are being rendered.
+ * @param {number} parentContainerId - container_id of the parent container, when applicable.
+ */
 function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, parentContainerType, parentContainerId) {
 	var splitNodes = splitPlacedChildNodes(nodes || [], parentContainerType);
 	var treeNodes = splitNodes.structuralNodes;
@@ -1921,7 +2139,15 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 	});
 }
 
-/** Loads and renders a paged leaf-contents table for one container. */
+/**
+ * Loads and renders a paged contents table for one non-proxy container.
+ * @param {number} containerId - the container_id whose direct leaf children should be loaded.
+ * @param {string} leafPanelId - id of the panel that should receive the rendered contents table.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - page number to request.
+ * @param {string} containerLabel - display label used in the table heading.
+ * @param {string} containerBarcode - barcode used to build the all-specimens search link.
+ */
 function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabel, containerBarcode) {
 	page = page || 1;
 	containerBarcode = containerBarcode || '';
@@ -2005,7 +2231,13 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 	});
 }
 
-/** Executes the container search form and renders a paged results table. */
+/**
+ * Executes the container search form and renders the paged results table.
+ * @param {string} browsePanel - id of the main results panel to populate.
+ * @param {string} leafPanel - id of the shared subordinate leaf/table panel.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - page number to request.
+ */
 function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	page = page || 1;
 	var searchTerm = $('#search_term').val() || '';
