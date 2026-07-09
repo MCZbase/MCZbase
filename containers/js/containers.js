@@ -617,14 +617,14 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
  * @param {string} targetDivId - the id of the div to render results into (without leading #).
  * @param {string} feedbackId - the id of the output element for status feedback (without leading #).
  */
-function loadContainerNode(containerId, targetDivId, feedbackId) {
+function loadContainerNode(containerId, targetDivId, feedbackId, parentContainerType) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
 		url: '/containers/component/functions.cfc',
 		data: { method: 'getDirectStructuralChildren', container_id: containerId },
 		dataType: 'json',
 		success: function(data) {
-			renderTreeNodes(data, targetDivId, feedbackId);
+			renderTreeNodes(data, targetDivId, feedbackId, false, parentContainerType, containerId);
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, 'loading container children');
@@ -1231,6 +1231,7 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 	}
 	/* When we reach the last breadcrumb (the target itself), highlight it */
 	if (index >= breadcrumbs.length - 1) {
+		ensureTreeSectionVisibleForNode(targetId);
 		/* The target node's li contains #ctree-children-{targetId} as a descendant */
 		var targetLi = $('#ctree-children-' + targetId).closest('li');
 		highlightTargetNode(targetLi, breadcrumbs[breadcrumbs.length - 1]);
@@ -1239,6 +1240,7 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 
 	var node = breadcrumbs[index];
 	var nodeId = node.container_id;
+	ensureTreeSectionVisibleForNode(nodeId);
 	var childListIdPrefix = 'ctree-children-';
 	var childDivId = childListIdPrefix + nodeId;
 	var childDiv = $('#' + childDivId);
@@ -1262,6 +1264,7 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 	}
 
 	if (isTreeNodeRendered(nextNodeId)) {
+		ensureTreeSectionVisibleForNode(nextNodeId);
 		/* The next breadcrumb node is already rendered — proceed to it. */
 		expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
 		return;
@@ -1281,18 +1284,18 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 			var childNodes = data || [];
 			if (existingChildCount > 0) {
 				var renderedChildIds = {};
-				var childListSelector = 'ul[id^="' + childListIdPrefix + '"]';
-				var childLists = childDiv.children('li').children(childListSelector);
-				childLists.each(function() {
-					var childList = $(this);
-					renderedChildIds[childList.attr('id').replace(childListIdPrefix, '')] = true;
+				childDiv.find('li[data-parent-container-id="' + nodeId + '"][data-container-id]').each(function() {
+					var renderedId = $(this).attr('data-container-id');
+					if (renderedId) {
+						renderedChildIds[renderedId] = true;
+					}
 				});
 				childNodes = $.grep(childNodes, function(childNode) {
 					return !renderedChildIds[childNode.container_id];
 				});
 			}
 			if (childNodes.length > 0 || existingChildCount === 0) {
-				renderTreeNodes(childNodes, childDivId, feedbackId, existingChildCount > 0);
+				renderTreeNodes(childNodes, childDivId, feedbackId, existingChildCount > 0, node.container_type, nodeId);
 			}
 			expandBreadcrumbPath(breadcrumbs, index + 1, feedbackId, targetId);
 		},
@@ -2282,6 +2285,60 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
 	});
 }
 
+var PLACED_CHILD_SECTION_TYPES = ['campus', 'building', 'floor', 'room'];
+
+function shouldGroupPlacedChildNodes(parentContainerType) {
+	return PLACED_CHILD_SECTION_TYPES.indexOf((parentContainerType || '').toLowerCase()) !== -1;
+}
+
+function splitPlacedChildNodes(nodes, parentContainerType) {
+	var grouped = {
+		structuralNodes: nodes || [],
+		emptyPlacedNodes: [],
+		occupiedPlacedNodes: []
+	};
+	if (!shouldGroupPlacedChildNodes(parentContainerType)) {
+		return grouped;
+	}
+	grouped.structuralNodes = [];
+	$.each(nodes || [], function(i, node) {
+		var role = getContainerRole(node.container_type || '');
+		var structuralChildren = parseInt(node.direct_structural_children, 10) || 0;
+		var leafChildren = parseInt(node.direct_leaf_children, 10) || 0;
+		if (role === 'structural') {
+			grouped.structuralNodes.push(node);
+		} else if (structuralChildren === 0 && leafChildren === 0) {
+			grouped.emptyPlacedNodes.push(node);
+		} else {
+			grouped.occupiedPlacedNodes.push(node);
+		}
+	});
+	return grouped;
+}
+
+function getPlacedChildSectionLabel(parentContainerType, sectionKind, nodes) {
+	var parentType = parentContainerType || 'container';
+	if (sectionKind === 'empty') {
+		return 'Placed to ' + parentType + ' empty (' + nodes.length + ')';
+	}
+	var allProxy = $.grep(nodes, function(node) {
+		return getContainerRole(node.container_type || '') === 'proxy';
+	}).length === nodes.length;
+	return 'Placed to ' + parentType + ' ' + (allProxy ? 'single-occupant' : 'occupied') + ' (' + nodes.length + ')';
+}
+
+function ensureTreeSectionVisibleForNode(containerId) {
+	var nodePanel = $('#ctree-children-' + containerId);
+	if (nodePanel.length === 0) {
+		return;
+	}
+	nodePanel.parents('.container-tree-section-panel.d-none').each(function() {
+		var sectionPanel = $(this);
+		sectionPanel.removeClass('d-none');
+		$('[aria-controls="' + sectionPanel.attr('id') + '"]').attr('aria-expanded', 'true');
+	});
+}
+
 function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	var institutions = data.institutions || [];
 	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
@@ -2314,7 +2371,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 				instToggle.on('click', function() {
 					var expanded = $(this).attr('aria-expanded') === 'true';
 					if (!expanded && $('#' + childUlId).children().length === 0) {
-						loadContainerNode(instCid, childUlId, feedbackEl);
+						loadContainerNode(instCid, childUlId, feedbackEl, inst.container_type);
 					}
 					$('#' + childUlId).toggleClass('collapse');
 					$(this).attr('aria-expanded', expanded ? 'false' : 'true');
@@ -2343,7 +2400,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 						campusToggle.on('click', function() {
 							var expanded = $(this).attr('aria-expanded') === 'true';
 							if (!expanded && $('#' + campusChildId).children().length === 0) {
-								loadContainerNode(campusCid, campusChildId, feedbackEl);
+								loadContainerNode(campusCid, campusChildId, feedbackEl, campus.container_type);
 							}
 							$('#' + campusChildId).toggleClass('collapse');
 							$(this).attr('aria-expanded', expanded ? 'false' : 'true');
@@ -2384,7 +2441,10 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 					var campusSpecEl = buildSpecimensButton(campusCid, campus.barcode || '', parseInt(campus.direct_leaf_children, 10) || 0, parseInt(campus.has_leaf_descendants, 10));
 					if (campusSpecEl) { campusRow.append(campusSpecEl); }
 					var campusChildUl = $('<ul></ul>').attr('id', campusChildId).addClass('collapse container-tree');
-					var campusLi = $('<li role="treeitem"></li>').append(campusRow);
+					var campusLi = $('<li role="treeitem"></li>')
+						.attr('data-container-id', campusCid)
+						.attr('data-parent-container-id', instCid)
+						.append(campusRow);
 					if (campusLeafDiv) {
 						campusLi.append(campusLeafDiv);
 					}
@@ -2463,15 +2523,18 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	}
 }
 
-function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting) {
-	if (!nodes || nodes.length === 0) {
+function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, parentContainerType, parentContainerId) {
+	var splitNodes = splitPlacedChildNodes(nodes || [], parentContainerType);
+	var treeNodes = splitNodes.structuralNodes;
+	var deferredSections = [];
+	if (treeNodes.length === 0 && splitNodes.emptyPlacedNodes.length === 0 && splitNodes.occupiedPlacedNodes.length === 0) {
 		if (!appendToExisting) {
 			$('#' + targetDivId).html('<p class="text-muted my-2">No structural containers found.</p>');
 		}
 		return;
 	}
 	var ul = $('<ul class="container-tree" role="tree"></ul>');
-	$.each(nodes, function(idx, node) {
+	$.each(treeNodes, function(idx, node) {
 		var label = node.label || '';
 		var barcode = node.barcode || '';
 		var ctype = node.container_type || '';
@@ -2496,7 +2559,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting) {
 			toggle.on('click', function() {
 				var expanded = $(this).attr('aria-expanded') === 'true';
 				if (!expanded && $('#' + childUlId).children().length === 0) {
-					loadContainerNode(cid, childUlId, feedbackId);
+					loadContainerNode(cid, childUlId, feedbackId, ctype);
 				}
 				$('#' + childUlId).toggleClass('collapse');
 				$(this).attr('aria-expanded', expanded ? 'false' : 'true');
@@ -2552,7 +2615,10 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting) {
 		var specEl = buildSpecimensButton(cid, barcode, leafChildren, hasLeafDescendants ? 1 : 0);
 		if (specEl) { nodeRow.append(specEl); }
 		var childUl = $('<ul></ul>').attr('id', childUlId).addClass('collapse container-tree');
-		var li = $('<li role="treeitem"></li>').append(nodeRow);
+		var li = $('<li role="treeitem"></li>')
+			.attr('data-container-id', cid)
+			.attr('data-parent-container-id', parentContainerId || '')
+			.append(nodeRow);
 		if (nodeDescription) {
 			li.append($('<div class="tree-node-desc small text-muted fst-italic"></div>').text(nodeDescription));
 		}
@@ -2588,11 +2654,40 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting) {
 		}
 		ul.append(li);
 	});
+	$.each([
+		{ kind: 'empty', nodes: splitNodes.emptyPlacedNodes },
+		{ kind: 'occupied', nodes: splitNodes.occupiedPlacedNodes }
+	], function(i, section) {
+		if (!section.nodes || section.nodes.length === 0) {
+			return;
+		}
+		var sectionPanelId = 'ctree-placed-' + section.kind + '-' + parentContainerId;
+		var sectionLabel = getPlacedChildSectionLabel(parentContainerType, section.kind, section.nodes);
+		var sectionButton = $('<button class="btn btn-xs btn-outline-secondary mt-1" type="button"></button>')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', sectionPanelId)
+			.text(sectionLabel)
+			.on('click', function() {
+				toggleBrowseSection(this, sectionPanelId, function() {
+					/* nodes already rendered in the hidden panel */
+				});
+			});
+		var sectionPanel = $('<div class="d-none mt-1 container-tree-section-panel"></div>').attr('id', sectionPanelId);
+		var sectionLi = $('<li role="treeitem" class="container-tree-section"></li>')
+			.append(sectionButton)
+			.append(sectionPanel);
+		ul.append(sectionLi);
+		deferredSections.push({ panelId: sectionPanelId, nodes: section.nodes });
+	});
 	if (appendToExisting) {
 		$('#' + targetDivId).append(ul.children());
 	} else {
 		$('#' + targetDivId).html(ul);
 	}
+	$.each(deferredSections, function(i, section) {
+		renderTreeNodes(section.nodes, section.panelId, feedbackId, false, null, parentContainerId);
+		$('#' + section.panelId).data('loaded', true);
+	});
 }
 
 function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabel, containerBarcode) {
