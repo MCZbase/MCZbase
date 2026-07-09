@@ -1,7 +1,9 @@
 <!---
 containers/component/search.cfc
 
-Copyright 2023-2025 President and Fellows of Harvard College
+Functions supporting searching and reporting on containers.
+
+Copyright 2023-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -48,7 +50,7 @@ Function getContainerAutocomplete.  Search for containers by name with a substri
 					upper(container_id) <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
 				</cfif>
 		</cfquery>
-	<cfset rows = search_result.recordcount>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
@@ -111,7 +113,7 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
 					)
 				</cfif>
 		</cfquery>
-	<cfset rows = search_result.recordcount>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
@@ -179,7 +181,7 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 					AND rownum < 100
 				</cfif>
 		</cfquery>
-	<cfset rows = search_result.recordcount>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
@@ -200,6 +202,10 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- getContainerShapeSummary obtain a summary of counts of containers by type and role, 
+	for use in the container shape report. 
+	@return query with columns: metric, metric_value
+--->
 <cffunction name="getContainerShapeSummary" access="remote" returntype="query" output="false">
 	<cfquery name="qSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 'TOTAL_CONTAINERS' AS metric, TO_CHAR(COUNT(*)) AS metric_value FROM container
@@ -215,6 +221,10 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 	<cfreturn qSummary>
 </cffunction>
 
+<!--- getContainerShapeByDepth obtain a summary of counts of containers by depth below root, 
+	for use in the container shape report. 
+	@return query with columns: depth_below, node_count
+--->
 <cffunction name="getContainerShapeByDepth" access="remote" returntype="query" output="false">
 	<cfquery name="qDepth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
@@ -239,6 +249,13 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 	<cfreturn qDepth>
 </cffunction>
 
+<!--- getContainerShapeHotspots obtain a list of containers that are "hotspots" in the container tree, 
+	defined as either:
+	- containers with 1000 or more direct collection-object children and no structural children (shape class B)
+	- containers with 200 or more direct collection-object children and at least one structural child (shape class AB)
+	- containers with at least one direct collection-object child and at least one structural child (shape class AB)
+	@return query with columns: container_id, container_type, label, direct_children, direct_leaf_children, direct_structural_children, shape_class
+--->
 <cffunction name="getContainerShapeHotspots" access="remote" returntype="query" output="false">
 	<cfquery name="qHotspots" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
@@ -274,18 +291,11 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 
 <!---
 Function getContainerTypeRoleFit.  Returns per-container-type statistics comparing the actual
-child distribution against the expected role for each type, based on CTCONTAINER_TYPE:
-  C  = expected to contain only structural (non-collection-object) containers
-       (institution, campus, cryovat, building, floor, room, freezer, freezer rack,
-        grouping, set, fixture, rack slot, position)
-  S  = expected to contain only collection-object containers (leaf nodes)
-       (cryovial, tank, jar, glass vial, envelope, slide, pin)
-  SC = may contain both structural containers and collection objects
-       (freezer box, compartment)
-  leaf = collection object; should never have children
+child distribution against the expected role metadata for each type from ctcontainer_type.
 
+@return query with one row per container_type, showing the expected role, whether the type expects leaf children,
 Columns returned:
-  container_type, expected_role, total_count,
+  container_type, expected_role, expects_leaf_child_count, total_count,
   with_coll_obj_children, with_structural_children, with_both_types, leaf_nodes
 
 --->
@@ -294,6 +304,7 @@ Columns returned:
 		SELECT
 			container_type,
 			expected_role,
+			expects_leaf_child_count,
 			COUNT(*) AS total_count,
 			SUM(CASE WHEN has_coll_obj_child = 1 THEN 1 ELSE 0 END)
 				AS with_coll_obj_children,
@@ -306,23 +317,13 @@ Columns returned:
 		FROM (
 			SELECT
 				c.container_type,
-				CASE
-					WHEN c.container_type IN (
-						'institution','campus','cryovat','building','floor','room',
-						'freezer','freezer rack','grouping','set','fixture',
-						'rack slot','position'
-					) THEN 'C'
-					WHEN c.container_type IN (
-						'cryovial','tank','jar','glass vial','envelope','slide','pin'
-					) THEN 'S'
-					WHEN c.container_type IN ('freezer box','compartment') THEN 'SC'
-					WHEN c.container_type = 'collection object' THEN 'leaf'
-					ELSE 'unknown'
-				END AS expected_role,
+				NVL(ct.role, 'unknown') AS expected_role,
+				NVL(ct.expects_leaf_child_count, 0) AS expects_leaf_child_count,
 				NVL(ch.has_coll_obj_child,0) AS has_coll_obj_child,
 				NVL(ch.has_struct_child,0) AS has_struct_child,
 				NVL(ch.child_count,0) AS child_count
 			FROM container c
+			LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
 			LEFT JOIN (
 				SELECT
 					parent_container_id,
@@ -335,7 +336,7 @@ Columns returned:
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
 		)
-		GROUP BY container_type, expected_role
+		GROUP BY container_type, expected_role, expects_leaf_child_count
 		ORDER BY total_count DESC
 	</cfquery>
 	<cfreturn qTypeFit>
@@ -377,6 +378,9 @@ exactly one collection object; zero or two-or-more children both represent anoma
 	<cfreturn qViolations>
 </cffunction>
 
+<!--- getCollObjContHistAnomalies returns collection objects that have more than one current container in the coll_obj_cont_hist table.
+	@return query with columns: collection_object_id, ct (count of current containers)
+--->
 <cffunction name="getCollObjContHistAnomalies" access="remote" returntype="query" output="false">
 	<cfquery name="qAnom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
@@ -452,14 +456,14 @@ a paginated JSON result for display in the browse panel.
 @param department optional prefix to match against label (case-insensitive, appends % wildcard).
 @param tree_property optional filter by tree shape property:
   empty         - no structural or leaf children (excludes collection objects)
-  misplaced     - single-occupant type (pin/slide/cryovial) with more than one leaf child
+  misplaced     - container type with expects_leaf_child_count = 1 and more than one leaf child
   mixed         - has both structural children and collection-object children (AB shape)
   unplaced_leaf - collection object with no parent container
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
-  Each row: container_id, container_type, label, barcode, description, container_remarks,
-             direct_structural_children, direct_leaf_children, shape_class
+	Each row: container_id, container_type, label, barcode, description, container_remarks,
+	direct_structural_children, direct_leaf_children, shape_class
 --->
 <cffunction name="searchContainers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="search_term" type="string" required="no" default="">
@@ -533,7 +537,11 @@ a paginated JSON result for display in the browse panel.
 				AND NVL(ch.direct_structural_children, 0) = 0
 				AND NVL(ch.direct_leaf_children, 0) = 0
 			<cfelseif local.treeProperty EQ "misplaced">
-				AND c.container_type IN ('pin', 'slide', 'cryovial')
+				AND c.container_type IN (
+					SELECT container_type
+					FROM ctcontainer_type
+					WHERE NVL(expects_leaf_child_count, 0) = 1
+				)
 				AND NVL(ch.direct_leaf_children, 0) > 1
 			<cfelseif local.treeProperty EQ "mixed">
 				AND NVL(ch.direct_structural_children, 0) > 0
@@ -546,16 +554,18 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.totalRows = queryGetCount.total_rows>
 		<!--- Paginated rows using Oracle ROWNUM two-level subquery --->
 		<cfquery name="queryGetSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT container_id, container_type, label, barcode, description,
+			SELECT container_id, parent_container_id, parent_container_type, container_type, label, barcode, description,
 				container_remarks, direct_structural_children, direct_leaf_children, shape_class
 			FROM (
 				SELECT
-					container_id, container_type, label, barcode, description,
+					container_id, parent_container_id, parent_container_type, container_type, label, barcode, description,
 					container_remarks, direct_structural_children, direct_leaf_children, shape_class,
 					ROWNUM AS rn
 				FROM (
 					SELECT
 						c.container_id,
+						c.parent_container_id,
+						p.container_type AS parent_container_type,
 						c.container_type,
 						c.label,
 						c.barcode,
@@ -573,6 +583,7 @@ a paginated JSON result for display in the browse panel.
 							ELSE 'A'
 						END AS shape_class
 					FROM container c
+					LEFT JOIN container p ON p.container_id = c.parent_container_id
 					LEFT JOIN (
 						SELECT
 							parent_container_id,
@@ -619,7 +630,11 @@ a paginated JSON result for display in the browse panel.
 						AND NVL(ch.direct_structural_children, 0) = 0
 						AND NVL(ch.direct_leaf_children, 0) = 0
 					<cfelseif local.treeProperty EQ "misplaced">
-						AND c.container_type IN ('pin', 'slide', 'cryovial')
+						AND c.container_type IN (
+							SELECT container_type
+							FROM ctcontainer_type
+							WHERE NVL(expects_leaf_child_count, 0) = 1
+						)
 						AND NVL(ch.direct_leaf_children, 0) > 1
 					<cfelseif local.treeProperty EQ "mixed">
 						AND NVL(ch.direct_structural_children, 0) > 0
@@ -639,6 +654,8 @@ a paginated JSON result for display in the browse panel.
 		<cfloop query="queryGetSearch">
 			<cfset local.row = StructNew()>
 			<cfset local.row["container_id"] = queryGetSearch.container_id>
+			<cfset local.row["parent_container_id"] = queryGetSearch.parent_container_id>
+			<cfset local.row["parent_container_type"] = queryGetSearch.parent_container_type>
 			<cfset local.row["container_type"] = queryGetSearch.container_type>
 			<cfset local.row["label"] = queryGetSearch.label>
 			<cfset local.row["barcode"] = queryGetSearch.barcode>

@@ -1,6 +1,8 @@
 /*
 containers/css/containers.css
 
+css specific to the containers tree and leaf browser
+
 Copyright 2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -103,4 +105,98 @@ limitations under the License.
 .breadcrumb-item.active {
   color: black;
   font-weight: bold;
+}
+
+
+.container-role-badge {
+	font-size: 0.75rem;
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.container-role-proxy {
+	background-color: #e7f1ff;
+	border: 1px solid #9ec5fe;
+	color: #0a58ca;
+}
+
+.container-role-leafbearer {
+	background-color: #fff3cd;
+	border: 1px solid #ffda6a;
+	color: #997404;
+}
+
+.container-role-structural {
+	background-color: #e2e3e5;
+	border: 1px solid #c6c8ca;
+	color: #41464b;
+}
+
+.container-role-leaf {
+	background-color: #d1e7dd;
+	border: 1px solid #a3cfbb;
+	color: #0f5132;
+}
+
+.positions-grid-wrapper {
+	overflow-x: auto;
+}
+
+.positions-grid {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.positions-grid-5x5 {
+	grid-template-columns: repeat(5, minmax(5rem, 1fr));
+}
+
+.positions-grid-9x9 {
+	grid-template-columns: repeat(9, minmax(4rem, 1fr));
+}
+
+.positions-grid-10x10 {
+	grid-template-columns: repeat(10, minmax(4rem, 1fr));
+}
+
+.positions-grid-12x4 {
+	grid-template-columns: repeat(4, minmax(5rem, 1fr));
+}
+
+.positions-grid-11x3 {
+	grid-template-columns: repeat(3, minmax(5rem, 1fr));
+}
+
+.positions-grid-cell {
+	align-items: flex-start;
+	background-color: #ffffff;
+	border: 1px solid #dee2e6;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-height: 5rem;
+	padding: 0.5rem;
+	text-align: left;
+	width: 100%;
+}
+
+.positions-grid-cell-empty {
+	background-color: #f8f9fa;
+}
+
+.positions-grid-label {
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.positions-grid-occupant,
+.positions-grid-type {
+	line-height: 1.2;
+	word-break: break-word;
+}
+
+.positions-grid-fallback td {
+	vertical-align: top;
 }
