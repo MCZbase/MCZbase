@@ -827,7 +827,8 @@ limitations under the License.
 											<div class="col-12 col-md-6 col-xl-4">
 												<div class="w-100">
 													<label for="media_relationship_type">Relationship</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';"
+													<span class="text-secondary small">(</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';"
 														aria-describedby="relationNull_help"
 														aria-label="use NULL to find media records without a relationship">
 														NULL
@@ -838,7 +839,8 @@ limitations under the License.
 														aria-label="use the any prefix for NOT NULL to find media records with a relationship">
 														Any
 													</button>
-													<span id="relationAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with a relationship</span>)
+													<span id="relationAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with a relationship</span>
+													<span class="text-secondary small">)</span>
 												</div> 
 												<cfset selectedrelationship_type= "#media_relationship_type#">
 												<select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
