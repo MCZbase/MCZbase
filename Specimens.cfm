@@ -243,7 +243,10 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
 			<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
-				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
+						<cftry>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry>	<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
@@ -4811,3 +4814,7 @@ limitations under the License.
 </cfoutput>
 
 <cfinclude template="/shared/_footer.cfm">
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Search Media">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
