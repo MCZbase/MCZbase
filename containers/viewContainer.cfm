@@ -44,10 +44,12 @@ limitations under the License.
 		c.number_positions,
 		c.locked_position,
 		c.institution_acronym,
+		ct.role AS container_role,
 		NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 		NVL(ch.direct_leaf_children, 0) AS direct_leaf_children
 	FROM
 		container c
+		LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
 		LEFT JOIN (
 			SELECT
 				parent_container_id,
@@ -169,14 +171,23 @@ limitations under the License.
 
 	<section class="mb-4" aria-labelledby="containerActionsHeading">
 		<h2 class="h4" id="containerActionsHeading">Actions</h2>
+		<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
 		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
 			<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
+			<cfif NOT variables.isProxyOrLeafType>
+				<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+			</cfif>
 			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
 			<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
 			<a class="btn btn-xs btn-secondary mb-1" href="/findContainer.cfm?container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Legacy Details</a>
 		</div>
 	</section>
+
+	<section class="mb-4">
+		<output id="containerViewFeedback" aria-live="polite"></output>
+	</section>
 </cfoutput>
 
 </main>
+<div id="containerDetailsDialog"></div>
 <cfinclude template="/shared/_footer.cfm">
