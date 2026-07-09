@@ -208,9 +208,12 @@ var ROOT_PARENT_CONTAINER_ID = 0;
 
 /**
  * Human-readable labels for the A/B/AB shape classification used internally.
- * A  - container holds only structural (sub-container) children.
- * B  - container holds a large number of collection objects directly (no structural children).
+ * A  - container holds only structural (sub-container) children (expected for structural type).  
+ * B  - container holds one to a large number of collection objects directly (no structural children).
+ * 	expected for proxy and leafbearer types, but may also occur for structural types in some cases.
  * AB - container holds both structural children and collection objects directly (mixed).
+ * 	may occur for structural types in some cases, but is not expected for proxy or leafbearer types.
+ * These are observed classifications, and may or may not match container types.
  */
 var SHAPE_LABELS = { A: 'Structural', B: 'Object-bearing', AB: 'Mixed' };
 
@@ -218,6 +221,7 @@ function normalizeContainerTypeKey(containerType) {
 	return (containerType || '').toLowerCase();
 }
 
+/** Rebuilds the SINGLE_OCCUPANT_TYPES array from the current containerTypeMetadataByType map. **/
 function rebuildSingleOccupantTypes() {
 	SINGLE_OCCUPANT_TYPES = [];
 	$.each(containerTypeMetadataByType, function(containerType, meta) {
@@ -227,6 +231,12 @@ function rebuildSingleOccupantTypes() {
 	});
 }
 
+/** function applyContainerTypeMetadata(data) 
+ * Applies the container type metadata returned from getContainerTypeMetadata to the 
+ * containerTypeMetadataByType map, replacing the fallback values.  Rebuilds the
+ * SINGLE_OCCUPANT_TYPES array from the new metadata.	
+ * @param {Object} data - response from getContainerTypeMetadata, expected to have a "byType" property.
+ */
 function applyContainerTypeMetadata(data) {
 	containerTypeMetadataByType = $.extend(true, {}, FALLBACK_CONTAINER_TYPE_METADATA);
 	if (data && data.byType) {
@@ -240,6 +250,9 @@ function applyContainerTypeMetadata(data) {
 	rebuildSingleOccupantTypes();
 }
 
+/** function flushContainerTypeMetadataCallbacks()
+ * Invokes all callbacks that were queued while container type metadata was loading.
+ */
 function flushContainerTypeMetadataCallbacks() {
 	var callbacks = containerTypeMetadataCallbacks.slice(0);
 	containerTypeMetadataCallbacks = [];
@@ -250,6 +263,16 @@ function flushContainerTypeMetadataCallbacks() {
 	});
 }
 
+/** on page load, rebuild the SINGLE_OCCUPANT_TYPES array from the fallback metadata. */
+rebuildSingleOccupantTypes();
+
+/** function ensureContainerTypeMetadata(callback)
+ * Ensures that container type metadata is loaded from the server.  If it is already
+ * loaded, the callback is invoked immediately.  If it is still loading, the callback
+ * is queued to be invoked when loading completes.  If it is not yet loaded, an AJAX
+ * request is made to load it, and the callback is queued to be invoked when loading completes.
+ * @param {function} callback - function to invoke when container type metadata is available.
+ */
 function ensureContainerTypeMetadata(callback) {
 	if (typeof callback === 'function') {
 		containerTypeMetadataCallbacks.push(callback);
@@ -282,7 +305,6 @@ function ensureContainerTypeMetadata(callback) {
 	});
 }
 
-rebuildSingleOccupantTypes();
 
 /**
  * Returns a URL to the fixed specimen search pre-filtered by container barcode.
@@ -448,6 +470,13 @@ function buildSpecimensButtonImmediate(nodeId, barcode, directLeafChildren, hasL
 	return specBtn;
 }
 
+/** Formats a container display string from barcode and label.  
+ * If both are present and different, returns "barcode (label)".  
+ * If only one is present, returns that.  If neither is present, returns "(unknown container)".
+ * @param {string} barcode - the container barcode.
+ * @param {string} label - the container label.
+ * @returns {string} formatted display string.
+*/
 function formatContainerDisplay(barcode, label) {
 	var b = barcode || '';
 	var l = label || '';
@@ -457,6 +486,15 @@ function formatContainerDisplay(barcode, label) {
 	return b || l || '(unknown container)';
 }
 
+/** opens a modal dialog to display container details.  Loads content via AJAX from 
+ * loadContainerDetails.  If displayName is provided, it is appended to the dialog title.
+ * creates a dialog with id "containerDetailsDialog" and content div with id "containerDetailsDialogContent".
+ *
+ * @param {number} containerId - the container_id to load details for.
+ * @param {string} displayName - optional display name to append to the dialog title.
+ * @param {string} feedbackId - optional id of the feedback element to use for status messages.
+ * @param {boolean} showBrowseAction - optional flag to show/hide the "Browse contents" action button.
+ */
 function openContainerDetailsDialog(containerId, displayName, feedbackId, showBrowseAction) {
 	var dialogId = 'containerDetailsDialog';
 	var contentId = 'containerDetailsDialogContent';
@@ -487,10 +525,22 @@ function openContainerDetailsDialog(containerId, displayName, feedbackId, showBr
 var TREE_ACTION_SPACING_CLASS = 'ml-1';
 var TABLE_ACTION_SPACING_CLASS = 'mr-1 mb-1';
 
+/** Builds a CSS class string for a container action button, combining a base class with an optional spacing class.
+ * @param {string} baseClass - the base CSS class for the button (e.g., 'btn btn-xs btn-outline-primary').
+ * @param {string} spacingClass - optional additional CSS class for spacing (e.g., 'ml-1').
+ * @returns {string} combined CSS class string.
+ */
 function buildContainerActionClass(baseClass, spacingClass) {
 	return baseClass + (spacingClass ? ' ' + spacingClass : '');
 }
 
+/** Builds a jQuery button element for the "Details" action in the container tree.
+ * @param {number} containerId - the container_id to load details for.
+ * @param {string} displayName - optional display name to append to the dialog title.
+ * @param {string} feedbackId - optional id of the feedback element to use for status messages.
+ * @param {string} spacingClass - optional additional CSS class for spacing (e.g., 'ml-1').
+ * @returns {jQuery} jQuery button element with click handler to open the details dialog.
+ */
 function buildContainerDetailsButton(containerId, displayName, feedbackId, spacingClass) {
 	return $('<button type="button"></button>')
 		.addClass(buildContainerActionClass('btn btn-xs btn-outline-primary', spacingClass || TREE_ACTION_SPACING_CLASS))
