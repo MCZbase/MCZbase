@@ -181,14 +181,13 @@ limitations under the License.
 		<main id="content">
 
 			<section class="container-fluid" role="search">
+				<cftry>
+					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+					<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+				</cftry>
 				<div class="row mx-0 mb-3">
 					 <div class="d-flex flex-wrap mb-0 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
-						<cftry>
-							<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-4 border-0")#</cfoutput>
-							<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-						</cftry>
 						<div class="search-box mt-4">
-
 							<div class="search-box-header">
 								<h1 class="h3 text-white w-75" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
