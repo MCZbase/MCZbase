@@ -176,6 +176,7 @@ var MAX_DESCRIPTION_LENGTH = 80;
 /** Shared container-type keys used in search/browse action gating. */
 var ROOT_INSTITUTION_CONTAINER_TYPE = 'institution';
 var COLLECTION_OBJECT_CONTAINER_TYPE = 'collection object';
+var ROOT_PARENT_CONTAINER_ID = 0;
 
 /**
  * Human-readable labels for the A/B/AB shape classification used internally.
@@ -196,6 +197,17 @@ var SHAPE_LABELS = { A: 'Structural', B: 'Object-bearing', AB: 'Mixed' };
 function specimenSearchUrl(barcode) {
 	if (!barcode) { return ''; }
 	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D' + encodeURIComponent(barcode);
+}
+
+function getSearchResultParentInfo(row) {
+	var parentContainerId = parseInt(row.parent_container_id, 10);
+	var parentContainerType = (row.parent_container_type || '').toLowerCase();
+	return {
+		parentContainerId: parentContainerId,
+		parentContainerType: parentContainerType,
+		hasRootParent: !isNaN(parentContainerId) && parentContainerId === ROOT_PARENT_CONTAINER_ID,
+		hasInstitutionParent: parentContainerType === ROOT_INSTITUTION_CONTAINER_TYPE
+	};
 }
 
 /**
@@ -2858,13 +2870,10 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var leafKids = parseInt(row.direct_leaf_children, 10) || 0;
 					var role = getContainerRole(row.container_type);
 					var isProxy = role === 'proxy';
-					var parentContainerId = parseInt(row.parent_container_id, 10);
-					var parentContainerType = (row.parent_container_type || '').toLowerCase();
+					var parentInfo = getSearchResultParentInfo(row);
 					/* Collection objects are leaf-only results, and institution/root proxy rows
 					   are shown only in the top-level orphan tables rather than the tree. */
-					var hasRootParent = !isNaN(parentContainerId) && parentContainerId === 0;
-					var hasInstitutionParent = parentContainerType === ROOT_INSTITUTION_CONTAINER_TYPE;
-					var isTopLevelProxyTableRow = isProxy && (hasRootParent || hasInstitutionParent);
+					var isTopLevelProxyTableRow = isProxy && (parentInfo.hasRootParent || parentInfo.hasInstitutionParent);
 					var canExplore = row.container_type !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
 					var displayName = formatContainerDisplay(row.barcode, row.label);
 					var descText = row.description || '';
