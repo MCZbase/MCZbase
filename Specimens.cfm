@@ -331,7 +331,7 @@
 									<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>
-									<aside id="collapseFixedBasic" style="display:none;">
+							<!---		<aside id="collapseFixedBasic" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3 border-dark">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
@@ -387,7 +387,7 @@
 												<dd>Search on depth or elevation converted from original units to meters, accepts 1-10 for ranges or <=1 or >=1 to search for open ended ranges.  Search on minimum depth and maximum depth are independent, likewise for elevation.  To search for all material known to be collected between two depth endpoints search on the same range e.g. 1-10 in minimum and maximum depth fields, this will find all material where the minimum depth is in that range and the maximum depth is in that range, likewise for elevation.  Search Minimum depth for NOT NULL to find any depth value.</dd>
 											</dl>
 										</div>
-									</aside>
+									</aside>--->
 								</div>
 								<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 									<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
