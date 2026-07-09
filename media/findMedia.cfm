@@ -385,7 +385,8 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 col-xl-3">
 												<label for="original_filename">Original File</label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" 
+												<span class="text-secondary small">(</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" 
 													aria-describedby="origFileEquals_help"
 													aria-label="prefix with equals sign for exact match search">
 													=
@@ -394,7 +395,7 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';" 
 													aria-describedby="origFileNull_help"
 													aria-label="use NULL to find media records without the selected relationship">
-													NULL
+													Null
 												</button>
 												<span id="origFileNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NOT NULL';" 
@@ -402,7 +403,8 @@ limitations under the License.
 													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
 													Any
 												</button>
-												<span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find media records with a relationship to any record</span>)
+												<span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find media records with a relationship to any record</span>
+												<span class="text-secondary small">)</span>
 												<input type="text" id="original_filename" name="original_filename" value="#encodeForHtml(original_filename)#">
 											</div>
 										</div>
@@ -412,7 +414,7 @@ limitations under the License.
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-											<div class="col-12 col-md-3 col-xl-2" style="padding-bttom: 2px;">
+											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												 <label for="description">Description</label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" 
 													aria-describedby="descrNull_help"
@@ -431,7 +433,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
 												<label for="keywords">Keywords</label>
-												<span id="useSymbols_help" class="text-secondary">(Use |, *, "", - as prefix to filter)</span>
+												<span id="useSymbols_help" class="text-secondary small90">(Use |, *, "", - as prefix to filter)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-describedby="useSymbols_help">
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
@@ -634,7 +636,7 @@ limitations under the License.
 											
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 mt-2 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
 										<div class="form-row mx-0">
 											<!--- setup to hide search for date as text from most users --->
@@ -665,7 +667,7 @@ limitations under the License.
 												});
 											</script>
 											<div class="col-12 col-md-4 col-xl-3">
-												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 mx-md-1 mx-0 px-2 rounded justify-content-left" style="padding-top: 1px; padding-bottom: 3px;">
+												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 mx-md-1 mx-0 px-2 rounded justify-content-left" style="padding-top: 1px; padding-bottom: 7px;">
 													<label class="w-100 px-3 px-xl-2 mx-1 mb-0" for="made_date">Made Date (yyyy or yyyy-mm-dd)</label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
 													<div class=" text-center px-0" style="width:25px;"><small> to</small></div>
