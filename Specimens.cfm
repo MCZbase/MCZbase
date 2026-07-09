@@ -242,10 +242,7 @@
 
 		<div id="overlaycontainer" style="position: relative;">
 			<main id="content" class="container-fluid">
-				<cftry>
-					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 mt-4 border-0")#</cfoutput>
-					<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-				</cftry>
+
 				<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
 					<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
 						<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -268,6 +265,10 @@
 						<div id="downloadAgreeDialogDiv"></div>
 						<!--- Tab header div --->
 						<div class="tabs card-header tab-card-header px-2 pt-3">
+							<cftry>
+								<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 mt-4 border-0")#</cfoutput>
+								<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+							</cftry>
 							<cfswitch expression="#action#">
 								<cfcase value="fixedSearch">
 									<cfset fixedTabActive = "active">
