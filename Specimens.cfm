@@ -4756,5 +4756,5 @@
 
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
-<cfset targetWikiPage = "Search Media">
+<cfset targetWikiPage = "Basic Specimen Search">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>	<cfinclude template="/shared/_footer.cfm">
