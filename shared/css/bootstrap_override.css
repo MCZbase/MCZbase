@@ -2797,7 +2797,7 @@ END END END
 /* ≥ xl (1200px) test */
 @media (min-width: 1200px) {
 	#content {
-		transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);
+/*		transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);*/
 		width: 100%;
 		box-sizing: border-box;
 	}
@@ -2807,13 +2807,6 @@ END END END
 	}
 	body.wiki-open .ui-dialog { /* Override jQuery UI's inline width */
 		width: auto !important;
-		max-width: calc(100vw - 325px) !important;
-		left: 325px !important; /* start right after the drawer */
-		right: 0 !important;
-		box-sizing: border-box; /* ensure it stays within viewport */
-	}
-	body.wiki-open .ui-dialog {
-		width: auto !important; /* Override jQuery UI's inline width */
 		max-width: calc(100vw - 325px) !important;
 		left: 325px !important; /* start right after the drawer */
 		right: 0 !important;
@@ -2836,7 +2829,7 @@ END END END
 @media (min-width: 1400px) {
 
 	#content {
-		transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);
+		/*transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);*/
 		width: 100%;
 		box-sizing: border-box;
 	}
@@ -2846,13 +2839,6 @@ END END END
 	}
 	body.wiki-open .ui-dialog { /* Override jQuery UI's inline width */
 		width: auto !important;
-		max-width: calc(100vw - 400px) !important;
-		left: 400px !important; /* start right after the drawer */
-		right: 0 !important;
-		box-sizing: border-box; /* ensure it stays within viewport */
-	}
-	body.wiki-open .ui-dialog {
-		width: auto !important; /* Override jQuery UI's inline width */
 		max-width: calc(100vw - 400px) !important;
 		left: 400px !important; /* start right after the drawer */
 		right: 0 !important;
