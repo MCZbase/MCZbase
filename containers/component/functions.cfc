@@ -1240,11 +1240,11 @@ details of a container for use in dialogs and page components.
 										<div class="col-12 col-lg-6">
 											<div class="text-lg-right">
 												<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
-													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
-													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
 													<cfif NOT isProxyOrLeafType>
 														<a href="#createChildContainerUrl#" class="btn btn-xs btn-success mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child Container</a>
 													</cfif>
+													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
+													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
 													<cfif showBrowseAction>
 														<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
 													</cfif>
