@@ -546,16 +546,18 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.totalRows = queryGetCount.total_rows>
 		<!--- Paginated rows using Oracle ROWNUM two-level subquery --->
 		<cfquery name="queryGetSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT container_id, container_type, label, barcode, description,
+			SELECT container_id, parent_container_id, parent_container_type, container_type, label, barcode, description,
 				container_remarks, direct_structural_children, direct_leaf_children, shape_class
 			FROM (
 				SELECT
-					container_id, container_type, label, barcode, description,
+					container_id, parent_container_id, parent_container_type, container_type, label, barcode, description,
 					container_remarks, direct_structural_children, direct_leaf_children, shape_class,
 					ROWNUM AS rn
 				FROM (
 					SELECT
 						c.container_id,
+						c.parent_container_id,
+						p.container_type AS parent_container_type,
 						c.container_type,
 						c.label,
 						c.barcode,
@@ -573,6 +575,7 @@ a paginated JSON result for display in the browse panel.
 							ELSE 'A'
 						END AS shape_class
 					FROM container c
+					LEFT JOIN container p ON p.container_id = c.parent_container_id
 					LEFT JOIN (
 						SELECT
 							parent_container_id,
@@ -639,6 +642,8 @@ a paginated JSON result for display in the browse panel.
 		<cfloop query="queryGetSearch">
 			<cfset local.row = StructNew()>
 			<cfset local.row["container_id"] = queryGetSearch.container_id>
+			<cfset local.row["parent_container_id"] = queryGetSearch.parent_container_id>
+			<cfset local.row["parent_container_type"] = queryGetSearch.parent_container_type>
 			<cfset local.row["container_type"] = queryGetSearch.container_type>
 			<cfset local.row["label"] = queryGetSearch.label>
 			<cfset local.row["barcode"] = queryGetSearch.barcode>
