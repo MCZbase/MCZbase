@@ -431,12 +431,12 @@ limitations under the License.
 												<span class="text-secondary small">)</span>
 												<input type="text" id="description" name="description" value="#encodeForHtml(description)#">
 											</div>
-											<div class="col-12 col-md-3 col-xl-2">
+											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="keywords">Keywords</label>
 												<span id="useSymbols_help" class="text-secondary small90">(Use |, *, "", - as prefix to filter)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-describedby="useSymbols_help">
 											</div>
-											<div class="col-12 col-md-3 col-xl-2">
+											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="subject">Subject</label>
 													<span class="text-secondary small">(</span>
 													<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" 
@@ -459,7 +459,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-3 col-xl-2">
+											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="aspect">Aspect</label> 
 												(<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;"
 													aria-describedby="aspectEquals_help"
@@ -484,7 +484,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="height">Height </label>
 												(<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;"
 													aria-describedby="heightGreater_help"
@@ -501,18 +501,39 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';"
 													aria-describedby=""
 													aria-label="use NULL to find media records without the selected relationship">
-													NULL
+													Null
 												</button>
 												<span id="" class="sr-only">use NULL to find media records without the selected relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)	 
 												<input type="text" id="height" name="height" value="#encodeForHtml(height)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="width">Width </label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';">NULL</button><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)<strong></strong>
+												(<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;"
+													aria-describedby="widthGT_help"
+													aria-label="prefix with greater than sign for search for larger than provided value">
+													&gt;
+												</button>
+												<span id="widthGT_help" class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;"
+													aria-describedby="widthLT_help"
+													aria-label="prefix with less than sign for search for smaller than provided value">
+													&lt;
+												</button>
+												<span id="widthLT_help" class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';"
+													aria-describedby="widthNull_help"
+													aria-label="use NULL to find media records without the selected relationship">
+													Null
+												</button>
+												<span id="widthNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';"
+													aria-describedby="widthAny_help"
+													aria-label="use the prefix for NOT NULL to find media records with the selected relationship to any record">
+													Any
+												</button>
+												<span id="widthAny_help" class="sr-only">use the prefix for NOT NULL to find media records with the selected relationship to any record</span>
+												<span class="text-secondary small">)</span>
 												<input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
 											</div>
 											<div class="col-12 col-md-4 col-xl-2">
@@ -523,7 +544,8 @@ limitations under the License.
 													(&##8595;) 
 												</button>
 												<span id="lightPick_help" class="sr-only">open pick list</span>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" 
+												<span class="text-secondary small">(</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" 
 													aria-describedby="lightSEquals_help"
 													aria-label="prefix with equals sign for exact match search">
 													=
@@ -540,7 +562,7 @@ limitations under the License.
 													aria-label="click any for NOT NULL to find media records with a light source">
 													Any
 												</button>
-													<span class="sr-only">click any for NOT NULL to find media records with a light source of any type</span>)
+												<span id="lightAny_help" class="sr-only">click any for NOT NULL to find media records with a light source of any type</span>)
 												<input type="text" id="light_source" name="light_source" value="#encodeForHtml(light_source)#">
 												<script>
 													$(document).ready(function() {
@@ -690,7 +712,7 @@ limitations under the License.
 													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';"
 														aria-describedby="madedateNull_help"
 														aria-label="use NULL to find media records without the made date">
-														NULL
+														Null
 													</button>
 													<span id="madedateNull_help" class="sr-only">use NULL to find media records without the made date</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';"
@@ -708,7 +730,8 @@ limitations under the License.
 											</cfif>
 											<div class="col-12 col-md-4 col-xl-2">
 												<label for="owner">Owner </label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
+												<span class="text-secondary small">(</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
 													aria-describedby="ownerEquals_help"
 													aria-label="prefix with equals sign for exact match search">
 													=
@@ -717,7 +740,7 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';"
 													aria-describedby="ownerNULL_help"
 													aria-label="use NULL to find media records without an owner">
-													NULL
+													Null
 												</button>
 												<span id="ownerNULL_help" class="sr-only">use NULL to find media records without an owner</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';"
@@ -725,7 +748,8 @@ limitations under the License.
 													aria-label="">
 													Any
 												</button>
-												<span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>)
+												<span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>
+												<span class="text-secondary small">)</span>
 												<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
 												<script>
 													$(document).ready(function() {
@@ -744,7 +768,7 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';"
 													aria-describedby="creditNull_help"
 													aria-label="use NULL to find media records without credit">
-													NULL
+													Null
 												</button>
 												<span id="creditNull_help" class="sr-only">use NULL to find media records without credit</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';"
