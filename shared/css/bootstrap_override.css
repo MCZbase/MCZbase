@@ -2741,7 +2741,7 @@ END END END
 		-o-transform-origin: center center;
 		transform-origin: center center;
 		/* optionally reset positioning so it sits in normal flow */
-		position: abosolute; /* or relative, depending on layout */
+		position: absolute; /* or relative, depending on layout */
 		right: 1.85rem;
 		margin-bottom: 15px;
 		top: 2.1rem;
@@ -2831,6 +2831,7 @@ END END END
 }
 /* ≥ xxl (1400px, in BS5) test */
 @media (min-width: 1400px) {
+
 	#content {
 		transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);
 		width: 100%;
