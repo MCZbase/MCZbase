@@ -202,7 +202,8 @@ limitations under the License.
 											<div class="form-row mb-0">
 												<div class="col-12 col-md-7 col-xl-8  pr-md-0 form-group mb-0 pb-0">
 													<label for="specificagent">Specific Agent</label>
-													<input type="text" id="specificagent" name="specificagent" value="#encodeForHtml(specificagent)#">
+													<small id="agentPick_help" class="text-secondary">(select from pick list that appears as you type)</small>
+													<input type="text" id="specificagent" name="specificagent" value="#encodeForHtml(specificagent)#" aria-describedby="agentPick_help">
 													<script>
 														$(document).ready(function() {
 															makeAgentAutocompleteMeta("specificagent", "agent_id", true);
@@ -258,11 +259,46 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
 											<label for="first_name">First</label>
-											<span class="small text-secondary">(accepts <button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>, NULL, NOT NULL)</span>											
-											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
-										</div>	
+											<span class="small text-secondary">(accepts</span>
+											
+											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;" 
+													aria-describedby="firstEquals_help"
+													aria-label="prefix with equals sign for case insensitive exact match search">
+												=
+											</button>
+											<span id="firstEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>,
+											
+											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;" 
+													aria-describedby="firstNot_help"
+													aria-label="prefix with exclamation point for case-insensitive NOT search">
+												!
+											</button>
+											<span id="firstNot_help" class="sr-only">prefix with exclamation point for case-insensitive NOT search</span>,
+											
+											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;" 
+													aria-describedby="firstSoundsLike_help"
+													aria-label="prefix with dollarsign for sounds-like search">
+												$
+											</button>
+											<span id="firstSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span>,
+											
+											<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
+													aria-describedby="firstNull_help"
+													aria-label="use NULL to find media records without a relationship">
+												NULL
+											</button>
+											<span id="firstNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+											
+											<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';"
+													aria-describedby="firstAny_help"
+													aria-label="use NOT NULL to find media records with a relationship to any record">
+												Any
+											</button>
+											<span id="firstAny_help" class="sr-only">use NOT NULL to find media records with a relationship to any record</span>
+											<span class="small text-secondary">)</span>
+											
+											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#">
+										</div>
 										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
 											<label for="middle_name">Middle</label>
 											<span class="small text-secondary">
