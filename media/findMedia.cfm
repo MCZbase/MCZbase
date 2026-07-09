@@ -430,18 +430,19 @@ limitations under the License.
 												</button>
 												<span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>
 												<span class="text-secondary small">)</span>
-												<input type="text" id="description" name="description" value="#encodeForHtml(description)#">
+												<input type="text" id="description" name="description" value="#encodeForHtml(keywords)#">
 											</div>
+											
 											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="keywords">Keywords</label>
-												<span class="text-secondary small">(Use</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='|L';" 
+												<span class="text-secondary small">(</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='|';" 
 													aria-describedby="keywordPipe_help" 
 													aria-label="click pipe as the or in the keyword search">
 													|
 												</button>
 												<span id="descripPipe_help" class="sr-only">click pipe as the or in the keyword search</span>.
-												<button type="button" class="" onclick="var e=document.getElementById('description');e.value='NOT NULL';"
+												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='*';"
 													aria-describedby="keywordAster_help"
 													aria-label="use asterisk as a wildcard in the keyword search">
 													*
@@ -453,9 +454,25 @@ limitations under the License.
 													title="use quotes around an exact phrase to search">
 													""
 												</button>
-												<span id="keywordQuotes_help" class="sr-only">use quotes around an exact phrase to search</span>, - as prefix to filter)</span>
+												<span id="keywordQuotes_help" class="sr-only">use quotes around an exact phrase to search</span>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='""';"
+													aria-describedby="keywordQuotes_help"
+													aria-label="use quotes around an exact phrase to search"
+													title="use quotes around an exact phrase to search">
+													""
+												</button>
+												<span id="keywordQuotes_help" class="sr-only">use quotes around an exact phrase to search</span>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='~';"
+													aria-describedby="keywordTilde_help"
+													aria-label="use tilde around a fuzzy match"
+													title="use tilde for a fuzzy match">
+													~
+												</button>
+												<span id="keywordQuotes_help" class="sr-only">use tilde for a fuzzy match</span>,
+												<span class="text-secondary small">)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
 											</div>
+										
 											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="subject">Subject</label>
 													<span class="text-secondary small">(</span>
@@ -479,6 +496,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
+										
 											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="aspect">Aspect</label> 
 												<span class="text-secondary small">(</span>
