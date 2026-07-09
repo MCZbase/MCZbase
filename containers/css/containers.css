@@ -130,6 +130,12 @@ limitations under the License.
 	color: #41464b;
 }
 
+.container-role-leaf {
+	background-color: #d1e7dd;
+	border: 1px solid #a3cfbb;
+	color: #0f5132;
+}
+
 .positions-grid-wrapper {
 	overflow-x: auto;
 }

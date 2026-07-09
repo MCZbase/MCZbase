@@ -169,9 +169,12 @@ limitations under the License.
 
 	<section class="mb-4" aria-labelledby="containerActionsHeading">
 		<h2 class="h4" id="containerActionsHeading">Actions</h2>
+		<cfset variables.isProxyOrLeafType = (listFindNoCase(variables.proxyContainerTypeList, getContainer.container_type) GT 0) OR (getContainer.container_type EQ "collection object")>
 		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
-			<button type="button" class="btn btn-xs btn-outline-primary mr-1 mb-1" onclick="openContainerDetailsDialog(#encodeForJavaScript(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', 'containerViewFeedback', false);">Details</button>
 			<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
+			<cfif NOT variables.isProxyOrLeafType>
+				<a class="btn btn-xs btn-success mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child Container</a>
+			</cfif>
 			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
 			<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
 			<a class="btn btn-xs btn-secondary mb-1" href="/findContainer.cfm?container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Legacy Details</a>

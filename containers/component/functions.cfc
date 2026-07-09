@@ -1087,6 +1087,7 @@ details of a container for use in dialogs and page components.
 		safeDisplayMode="#local.safeDisplayMode#"
 		safeIdSuffix="#local.safeIdSuffix#"
 		showBrowseAction="#local.showBrowseAction#"
+		proxyContainerTypeList="#variables.proxyContainerTypeList#"
 	>
 		<cfoutput>
 			<cftry>
@@ -1160,12 +1161,14 @@ details of a container for use in dialogs and page components.
 					<cfset roleBadgeId = "containerRoleBadge#formattedIdSuffix#">
 					<cfset viewContainerUrl = "/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset editContainerUrl = "/containers/Container.cfm?action=edit&container_id=#encodeForURL(getContainerDetail.container_id)#">
+					<cfset createChildContainerUrl = "/containers/Container.cfm?action=new&parent_container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
 					<cfset leafNodesUrl = "/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset specimenSearchUrl = "">
 					<cfif len(trim(getContainerDetail.barcode)) GT 0>
 						<cfset specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerDetail.barcode)#">
 					</cfif>
+					<cfset isProxyOrLeafType = (listFindNoCase(proxyContainerTypeList, getContainerDetail.container_type) GT 0) OR (getContainerDetail.container_type EQ "collection object")>
 					<cfset parentDisplay = "Unnamed container">
 					<cfif len(trim(getContainerDetail.parent_label)) GT 0>
 						<cfset parentDisplay = getContainerDetail.parent_label>
@@ -1180,6 +1183,52 @@ details of a container for use in dialogs and page components.
 					<cfif val(getContainerDetail.locked_position) EQ 1>
 						<cfset lockedPositionText = "Yes">
 					</cfif>
+					<cfif queryCountCOChildren.leaf_descendants GT 0 AND queryCountCOChildren.leaf_descendants LTE 5>
+						<cfquery name="queryCollectionObjectDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+							SELECT
+								c.container_id,
+								c.barcode AS container_barcode,
+								c.label AS container_label,
+								spec.cat_num,
+								spec.collection_cde,
+								spec.institution_acronym,
+								spec.scientific_name,
+								spec.part_name,
+								spec.preserve_method
+							FROM container c
+							LEFT JOIN (
+								SELECT
+									coch.container_id,
+									MAX(ci.cat_num) AS cat_num,
+									MAX(ci.collection_cde) AS collection_cde,
+									MAX(col.institution_acronym) AS institution_acronym,
+									MIN(id_sub.scientific_name) AS scientific_name,
+									MAX(sp.part_name) AS part_name,
+									MAX(sp.preserve_method) AS preserve_method
+								FROM coll_obj_cont_hist coch
+								LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+								LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
+								LEFT JOIN collection col ON col.collection_id = ci.collection_id
+								LEFT JOIN (
+									SELECT collection_object_id, MIN(scientific_name) AS scientific_name
+									FROM identification
+									WHERE accepted_id_fg = 1
+									GROUP BY collection_object_id
+								) id_sub ON id_sub.collection_object_id = ci.collection_object_id
+								WHERE coch.current_container_fg = 1
+								GROUP BY coch.container_id
+							) spec ON spec.container_id = c.container_id
+							WHERE c.container_id IN (
+								SELECT container_id
+								FROM container
+								START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
+								CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+							)
+							AND c.container_type = 'collection object'
+							AND c.container_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
+							ORDER BY c.label
+						</cfquery>
+					</cfif>
 					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contextHeadingId)#">
 						<div class="row">
 							<div class="col-12">
@@ -1193,6 +1242,9 @@ details of a container for use in dialogs and page components.
 												<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
 													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
+													<cfif NOT isProxyOrLeafType>
+														<a href="#createChildContainerUrl#" class="btn btn-xs btn-success mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child Container</a>
+													</cfif>
 													<cfif showBrowseAction>
 														<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
 													</cfif>
@@ -1313,6 +1365,60 @@ details of a container for use in dialogs and page components.
 								</cfif>
 							</div>
 						</div>
+						<cfif queryCountCOChildren.leaf_descendants GT 0 AND queryCountCOChildren.leaf_descendants LTE 5>
+							<div class="table-responsive mt-2">
+								<table class="table table-sm table-striped">
+									<thead>
+										<tr>
+											<th scope="col">GUID</th>
+											<th scope="col">Current Identification</th>
+											<th scope="col">Part Type</th>
+											<th scope="col">Preservation</th>
+										</tr>
+									</thead>
+									<tbody>
+										<cfloop query="queryCollectionObjectDetails">
+											<cfset coGuidText = "">
+											<cfset coGuidUrl = "">
+											<cfif len(trim(institution_acronym)) GT 0 AND len(trim(collection_cde)) GT 0 AND len(trim(cat_num)) GT 0>
+												<cfset coGuidText = "#institution_acronym#:#collection_cde#:#cat_num#">
+												<cfset coGuidUrl = "/guid/#encodeForURL(institution_acronym)#:#encodeForURL(collection_cde)#:#encodeForURL(cat_num)#">
+											</cfif>
+											<tr>
+												<td>
+													<cfif len(coGuidText) GT 0>
+														<a href="#coGuidUrl#" target="_blank" rel="noopener noreferrer">#encodeForHtml(coGuidText)#</a>
+													<cfelse>
+														<span class="text-muted">No specimen linked</span>
+													</cfif>
+												</td>
+												<td>
+													<cfif len(trim(scientific_name)) GT 0>
+														<em>#encodeForHtml(scientific_name)#</em>
+													<cfelse>
+														<span class="text-muted">—</span>
+													</cfif>
+												</td>
+												<td>
+													<cfif len(trim(part_name)) GT 0>
+														#encodeForHtml(part_name)#
+													<cfelse>
+														<span class="text-muted">—</span>
+													</cfif>
+												</td>
+												<td>
+													<cfif len(trim(preserve_method)) GT 0>
+														#encodeForHtml(preserve_method)#
+													<cfelse>
+														<span class="text-muted">—</span>
+													</cfif>
+												</td>
+											</tr>
+										</cfloop>
+									</tbody>
+								</table>
+							</div>
+						</cfif>
 					</section>
 					<cfif val(getContainerDetail.number_positions) GT 0>
 						<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(positionsHeadingId)#">
