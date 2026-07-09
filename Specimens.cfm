@@ -487,11 +487,11 @@
 																	<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 																	<label for="other_id_number_1">Other ID Numbers</label>
 																	<input type="text" 
-																		   id="other_id_number_1" 
-																		   name="other_id_number_1" 
-																		   placeholder="10,20-30,=BT-782" 
-																		   value="#encodeForHtml(other_id_number_1)#" 
-																		   aria-describedby="otherID_help">
+																		id="other_id_number_1" 
+																		name="other_id_number_1" 
+																		placeholder="10,20-30,=BT-782" 
+																		value="#encodeForHtml(other_id_number_1)#" 
+																		aria-describedby="otherID_help">
 																	<small id="otherID_help" class="sr-only">Example: 10,20-30,=BT-78</small>
 																</div>
 																<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -600,8 +600,10 @@
 														</div>
 														<div class="col-12 col-md-4 col-xl-3 mb-1">
 															<label for="type_status">Type Status/Citation</label>
-															<button type="button" class="rules" onclick=" $('##type_status').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
-															</button>
+															<button type="button" class="rules" onclick="$('##type_status').autocomplete('search','%%%'); return false;"
+																aria-describedby="citPick_help"
+																aria-label="open pick list">(&##8595;)</button>
+															<span id="citPick_help" class="sr-only"> open pick list</span>
 															<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 															<input type="text" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 															<script>

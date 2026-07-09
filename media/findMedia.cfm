@@ -436,25 +436,7 @@ limitations under the License.
 											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="keywords">Keywords</label>
 												<span class="text-secondary small">(</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='|';" 
-													aria-describedby="keywordPipe_help" 
-													aria-label="click pipe as the or in the keyword search">
-													|
-												</button>
-												<span id="descripPipe_help" class="sr-only">click pipe as the or in the keyword search</span>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='*';"
-													aria-describedby="keywordAster_help"
-													aria-label="use asterisk as a wildcard in the keyword search">
-													*
-												</button>
-												<span id="keywordAster_help" class="sr-only">use asterisk as a wildcard in the keyword search</span>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('keywords');e.value='~';"
-													aria-describedby="keywordTilde_help"
-													aria-label="use tilde around a fuzzy match"
-													title="use tilde for a fuzzy match">
-													~
-												</button>
-												<span id="keyworTilde_help" class="sr-only">use tilde for a fuzzy match</span>, ""
+												|, -, *, ""
 												<span class="text-secondary small">)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
 											</div>
