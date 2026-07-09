@@ -217,7 +217,7 @@ limitations under the License.
 								<form name="searchForm" id="searchForm">
 								<div class="col-12 px-2">
 									<input type="hidden" name="method" value="getMedia">
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
@@ -407,7 +407,7 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Metadata</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
@@ -631,7 +631,7 @@ limitations under the License.
 											
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
 										<div class="form-row mx-0">
 											<!--- setup to hide search for date as text from most users --->
