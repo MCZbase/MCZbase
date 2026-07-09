@@ -1439,7 +1439,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
 			var occupantDisplay = position.content_container_id
 				? formatContainerDisplay(position.content_barcode, position.content_label)
 				: 'Empty';
-			var actionBtn = $('<button class="btn btn-xs btn-outline-primary" type="button"></button>')
+			var actionBtn = $('<button class="btn btn-xs btn-info" type="button"></button>')
 				.text('Details')
 				.on('click', function() {
 					openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
@@ -1862,7 +1862,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 				var inlineLeafDiv = $('<div class="tree-node-inline-leaf"></div>');
 				inlineLeafDiv.append($('<span class="tree-node-leaf-info small text-muted"></span>').text('⤷ ' + childDisplay));
 				inlineLeafDiv.append(
-					$('<button class="btn btn-link btn-xs p-0 ml-1" type="button"></button>')
+					$('<button class="btn btn-info btn-xs p-0 ml-1" type="button"></button>')
 						.text('Details')
 						.on('click', function() {
 							openContainerDetailsDialog(cid, displayName, feedbackId, false);
