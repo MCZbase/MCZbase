@@ -1845,7 +1845,7 @@ var CONTAINER_ROLE_MAP = {
 	'fixture': 'structural',
 	'rack slot': 'structural',
 	'position': 'structural',
-	'collection object': 'structural'
+	'collection object': 'leaf'
 };
 
 function getContainerRole(containerType) {
@@ -1854,8 +1854,8 @@ function getContainerRole(containerType) {
 
 function getContainerRoleBadgeHtml(containerType) {
 	var role = getContainerRole(containerType);
-	var labelMap = { proxy: 'Proxy', leafbearer: 'Leaf bearer', structural: 'Structural' };
-	return '<span class="badge container-role-badge container-role-' + role + '">' + labelMap[role] + '</span>';
+	var labelMap = { proxy: 'Proxy', leafbearer: 'Leaf bearer', structural: 'Structural', leaf: 'Leaf' };
+	return '<span class="badge container-role-badge container-role-' + role + '">' + (labelMap[role] || role) + '</span>';
 }
 
 function buildContainerTypeMeta(containerType) {
@@ -1884,6 +1884,27 @@ function buildContainerEditLink(containerId) {
 	return $('<a class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
 		.attr('href', '/containers/Container.cfm?action=edit&container_id=' + encodeURIComponent(containerId))
 		.text('Edit');
+}
+
+/**
+ * Builds an "Add Child Container" link button that opens the new-container form
+ * in a new tab with the given container pre-set as the parent.
+ * Returns null when containerType is a proxy or collection object type, as those
+ * nodes cannot have child containers added to them.
+ *
+ * @param {number} containerId   - the container_id to use as the parent.
+ * @param {string} containerType - the container_type of the current node.
+ * @returns {jQuery|null} an anchor element, or null if not applicable.
+ */
+function buildAddChildContainerLink(containerId, containerType) {
+	var proxyTypes = ['pin', 'cryovial', 'slide', 'envelope', 'glass vial'];
+	var ctype = (containerType || '').toLowerCase();
+	if (ctype === 'collection object' || proxyTypes.indexOf(ctype) !== -1) {
+		return null;
+	}
+	return $('<a class="btn btn-xs btn-success mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+		.attr('href', '/containers/Container.cfm?action=new&parent_container_id=' + encodeURIComponent(containerId))
+		.text('Create Child Container');
 }
 
 function renderSpecimenCell(row, occupantBarcode, occupantLabel) {
