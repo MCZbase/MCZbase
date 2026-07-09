@@ -2860,6 +2860,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var isProxy = role === 'proxy';
 					var parentContainerId = parseInt(row.parent_container_id, 10) || 0;
 					var parentContainerType = (row.parent_container_type || '').toLowerCase();
+					/* Collection objects are leaf-only results, and institution/root proxy rows
+					   are shown only in the top-level orphan tables rather than the tree. */
 					var isTopLevelProxyTableRow = isProxy && (parentContainerId === 0 || parentContainerType === ROOT_INSTITUTION_CONTAINER_TYPE);
 					var canExplore = row.container_type !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
 					var displayName = formatContainerDisplay(row.barcode, row.label);
