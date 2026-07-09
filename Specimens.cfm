@@ -266,7 +266,7 @@
 						<!--- Tab header div --->
 						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<cftry>
-								<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-4 mt-4 border-0")#</cfoutput>
+								<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-3 border-0")#</cfoutput>
 								<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 							</cftry>
 							<cfswitch expression="#action#">
