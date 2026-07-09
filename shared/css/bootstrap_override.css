@@ -2717,7 +2717,10 @@ div.toctitle {
 	padding-left: 1.2rem !important;
 }
 .jqx-grid-cell-alt {
-	background-color: aquamarine !important;
+	background: #dee2e6 !important;
+}
+.jqx-grif-cell-hover {
+	background: #dadfe3 !important;
 }
 /*******************************
 ********************************
