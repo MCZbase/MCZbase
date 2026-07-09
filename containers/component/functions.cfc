@@ -449,6 +449,29 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 					AND container_type = 'collection object'
 			)
 		</cfquery>
+		<!--- Count orphaned empty proxy containers at institution or root level. --->
+		<cfquery name="queryGetOrphanEmptyProxy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS cnt
+			FROM container c
+			WHERE (
+				c.parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+				OR c.parent_container_id = 0
+			)
+			AND c.container_type IN (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+			)
+			AND NOT EXISTS (
+				SELECT 1
+				FROM container occ
+				WHERE occ.parent_container_id = c.container_id
+					AND occ.container_type = 'collection object'
+			)
+		</cfquery>
 		<!--- Count orphaned single-occupant proxy containers at institution or root level. --->
 		<cfquery name="queryGetOrphanSingleOccupant" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS cnt
@@ -464,6 +487,12 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 			)
 			AND c.container_type IN (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+			)
+			AND EXISTS (
+				SELECT 1
+				FROM container occ
+				WHERE occ.parent_container_id = c.container_id
+					AND occ.container_type = 'collection object'
 			)
 		</cfquery>
 		<!--- Build institution array with embedded campus children --->
@@ -503,6 +532,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 		<cfset local.retval["institutions"] = local.institutions>
 		<cfset local.retval["orphaned_structural_count"] = queryGetOrphanStruct.cnt>
 		<cfset local.retval["orphaned_leaf_count"] = queryGetOrphanLeaf.cnt>
+		<cfset local.retval["orphaned_empty_proxy_count"] = queryGetOrphanEmptyProxy.cnt>
 		<cfset local.retval["orphaned_single_occupant_count"] = queryGetOrphanSingleOccupant.cnt>
 		<!--- Build root-level non-institution nodes array --->
 		<cfset local.rootOtherArr = ArrayNew(1)>
@@ -1461,9 +1491,111 @@ edit form suitable for rendering in a dialog box or embedded in another page.
 
 
 <!---
+Function getOrphanedEmptyProxyContainers.  Returns a paginated list of empty pin/slide/cryovial/
+envelope/glass vial containers located at institution or root level.
+
+@param page the page number to return (1-based), defaults to 1.
+@param pageSize the number of rows per page, defaults to 50.
+@return a JSON object with keys rows (array), page, pageSize, totalRows.
+--->
+<cffunction name="getOrphanedEmptyProxyContainers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="page" type="numeric" required="no" default="1">
+	<cfargument name="pageSize" type="numeric" required="no" default="50">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfset local.offset = (arguments.page - 1) * arguments.pageSize>
+		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS total_rows
+			FROM container c
+			WHERE (
+				c.parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+				OR c.parent_container_id = 0
+			)
+			AND c.container_type IN (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+			)
+			AND NOT EXISTS (
+				SELECT 1
+				FROM container occ
+				WHERE occ.parent_container_id = c.container_id
+					AND occ.container_type = 'collection object'
+			)
+		</cfquery>
+		<cfset local.totalRows = queryGetCount.total_rows>
+		<cfquery name="queryGetRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, container_type, label, barcode, description
+			FROM (
+				SELECT
+					inner_query.*,
+					ROWNUM AS rn
+				FROM (
+					SELECT
+						c.container_id,
+						c.container_type,
+						c.label,
+						c.barcode,
+						c.description
+					FROM container c
+					WHERE (
+						c.parent_container_id IN (
+							SELECT container_id
+							FROM container
+							WHERE parent_container_id = 0
+								AND container_type = 'institution'
+						)
+						OR c.parent_container_id = 0
+					)
+					AND c.container_type IN (
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+					)
+					AND NOT EXISTS (
+						SELECT 1
+						FROM container occ
+						WHERE occ.parent_container_id = c.container_id
+							AND occ.container_type = 'collection object'
+					)
+					ORDER BY c.container_type, c.label, c.barcode, c.container_id
+				) inner_query
+				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset + arguments.pageSize#">
+			)
+			WHERE rn > <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset#">
+		</cfquery>
+		<cfset local.rows = ArrayNew(1)>
+		<cfset local.i = 1>
+		<cfloop query="queryGetRows">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_id"] = queryGetRows.container_id>
+			<cfset local.row["container_type"] = queryGetRows.container_type>
+			<cfset local.row["label"] = queryGetRows.label>
+			<cfset local.row["barcode"] = queryGetRows.barcode>
+			<cfset local.row["description"] = queryGetRows.description>
+			<cfset local.rows[local.i] = local.row>
+			<cfset local.i = local.i + 1>
+		</cfloop>
+		<cfset local.retval["rows"] = local.rows>
+		<cfset local.retval["page"] = arguments.page>
+		<cfset local.retval["pageSize"] = arguments.pageSize>
+		<cfset local.retval["totalRows"] = local.totalRows>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
 Function getOrphanedSingleOccupantContainers.  Returns a paginated list of pin/slide/cryovial/
-envelope/glass vial containers located at institution or root level, along with any linked
-specimen data from their contained collection-object child.
+envelope/glass vial containers located at institution or root level that have at least one
+contained collection-object child, along with linked specimen data from the first such child.
 
 @param page the page number to return (1-based), defaults to 1.
 @param pageSize the number of rows per page, defaults to 50.
@@ -1490,6 +1622,12 @@ specimen data from their contained collection-object child.
 			)
 			AND c.container_type IN (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+			)
+			AND EXISTS (
+				SELECT 1
+				FROM container occ
+				WHERE occ.parent_container_id = c.container_id
+					AND occ.container_type = 'collection object'
 			)
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
@@ -1563,6 +1701,12 @@ specimen data from their contained collection-object child.
 					)
 					AND c.container_type IN (
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.proxyContainerTypeList#" list="true">
+					)
+					AND EXISTS (
+						SELECT 1
+						FROM container occ_check
+						WHERE occ_check.parent_container_id = c.container_id
+							AND occ_check.container_type = 'collection object'
 					)
 					ORDER BY c.container_type, c.label, c.barcode, c.container_id
 				) inner_query

@@ -1054,7 +1054,8 @@ function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel
 		data: { method: 'getContainerBreadcrumb', container_id: containerId },
 		dataType: 'json',
 		success: function(breadcrumbs) {
-			$('#containerBrowseContext').text('Exploring: ' + displayName);
+			var browseContext = $('#containerBrowseContext');
+			browseContext.empty().append($('<span></span>').text('Exploring: ' + displayName));
 			if (!breadcrumbs || breadcrumbs.length === 0) {
 				renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feedbackId);
 				return;
@@ -1064,19 +1065,43 @@ function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel
 				data: { method: 'getTopLevelBrowse' },
 				dataType: 'json',
 				success: function(data) {
-					renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackId);
-					/* Some containers are not present in the top-level browse payload.
-					   Only fall back to a standalone node when the breadcrumb root
-					   cannot be found in the rendered browse tree. */
 					var rootNodeId = breadcrumbs[0].container_id;
-					if ($('#ctree-children-' + rootNodeId).length === 0) {
-						renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feedbackId);
+					var expandExplorePath = function() {
+						expandBreadcrumbPath(breadcrumbs, 0, feedbackId, containerId);
+					};
+					var showViewLocation = function() {
+						browseContext.find('.container-view-location-link').remove();
+						browseContext.append(
+							$('<a href="#" class="ml-2 container-view-location-link">[View location]</a>').on('click', function(e) {
+								if ($('#ctree-children-' + rootNodeId).closest('#ctree-orphan-structural-panel').length > 0) {
+									ensureStructuralOrphanPanelVisible(feedbackId, function(foundPanel) {
+										if (foundPanel) {
+											expandExplorePath();
+										}
+									});
+								} else {
+									expandExplorePath();
+								}
+								e.preventDefault();
+							})
+						);
+					};
+					renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackId);
+					var expandAndShowLocation = function() {
+						expandExplorePath();
+						showViewLocation();
+					};
+					if ($('#ctree-children-' + rootNodeId).length > 0) {
+						expandAndShowLocation();
 						return;
 					}
-					/* Expand each ancestor level then highlight the target */
-					expandBreadcrumbPath(breadcrumbs, 0, feedbackId, containerId);
-					// Add a "[View location]" link to the context paragraph that re-expands the breadcrumb path
-					$('#containerBrowseContext').append($('<a href="#" class="ml-2">[View location]</a>').on('click', function(e) { expandBreadcrumbPath(breadcrumbs, 0, feedbackId, containerId); e.preventDefault(); }));
+					ensureStructuralOrphanPanelVisible(feedbackId, function(foundPanel) {
+						if (foundPanel && $('#ctree-children-' + rootNodeId).length > 0) {
+							expandAndShowLocation();
+							return;
+						}
+						renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feedbackId);
+					});
 				},
 				error: function(jqXHR, textStatus, error) {
 					handleFail(jqXHR, textStatus, error, 'loading top-level container browse for exploration');
@@ -1135,18 +1160,8 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
 					/* Fallback: find li via toggle when no children ul exists */
 					targetLi = $('#ctree-toggle-' + containerId).closest('li');
 				}
-				if (targetLi.length > 0) {
-					var targetRow = targetLi.children('.tree-node-row');
-					var targetLabel = targetRow.find('.tree-node-label').first();
-					targetLabel.addClass('tree-node-highlighted');
-					/* Bold ⇒ arrow just after the expand toggle button */
-					addTargetArrow(targetRow);
-					/* Accessibility announcement for the selected node */
-					var nodeDisplay = formatContainerDisplay(containerNode.barcode, containerNode.label);
-					targetLi.prepend($('<span class="sr-only" role="status"></span>').text('Selected container: ' + nodeDisplay));
-					var el = targetLabel[0];
-					if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
-				}
+				clearTargetHighlightState();
+				highlightTargetNode(targetLi, containerNode);
 			}, 50);
 		},
 		error: function(jqXHR, textStatus, error) {
@@ -1160,12 +1175,39 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
  * @param {jQuery} targetRow - the jQuery object for the target row to highlight.
  */
 function addTargetArrow(targetRow) {
+	if (targetRow.find('.tree-node-target-arrow').length > 0) {
+		return;
+	}
 	var arrow = $('<span class="tree-node-target-arrow" aria-hidden="true">\u21d2 </span>');
 	var toggleBtn = targetRow.find('.tree-node-toggle').first();
 	if (toggleBtn.length) {
 		arrow.insertAfter(toggleBtn);
 	} else {
 		targetRow.prepend(arrow);
+	}
+}
+
+function clearTargetHighlightState() {
+	$('.tree-node-target-arrow').remove();
+	$('.tree-node-highlighted').removeClass('tree-node-highlighted');
+	$('.container-selected-status').remove();
+}
+
+function highlightTargetNode(targetLi, targetNode) {
+	if (targetLi.length === 0) {
+		return;
+	}
+	var targetRow = targetLi.children('.tree-node-row');
+	var targetLabel = targetRow.find('.tree-node-label').first();
+	targetLabel.addClass('tree-node-highlighted');
+	addTargetArrow(targetRow);
+	if (targetNode) {
+		var targetDisplay = formatContainerDisplay(targetNode.barcode, targetNode.label);
+		targetLi.prepend($('<span class="sr-only container-selected-status" role="status"></span>').text('Selected container: ' + targetDisplay));
+	}
+	var el = targetLabel[0];
+	if (el) {
+		el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 	}
 }
 
@@ -1184,25 +1226,14 @@ function isTreeNodeRendered(containerId) {
  * @param {number} targetId - container_id of the final node to highlight.
  */
 function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
+	if (index === 0) {
+		clearTargetHighlightState();
+	}
 	/* When we reach the last breadcrumb (the target itself), highlight it */
 	if (index >= breadcrumbs.length - 1) {
 		/* The target node's li contains #ctree-children-{targetId} as a descendant */
 		var targetLi = $('#ctree-children-' + targetId).closest('li');
-		if (targetLi.length > 0) {
-			var targetRow = targetLi.children('.tree-node-row');
-			var targetLabel = targetRow.find('.tree-node-label').first();
-			targetLabel.addClass('tree-node-highlighted');
-			/* Bold ⇒ arrow prepended before the expand toggle button */
-			addTargetArrow(targetRow);
-			/* Accessibility announcement for the selected node */
-			var targetNode = breadcrumbs[breadcrumbs.length - 1];
-			var targetDisplay = formatContainerDisplay(targetNode.barcode, targetNode.label);
-			targetLi.prepend($('<span class="sr-only" role="status"></span>').text('Selected container: ' + targetDisplay));
-			var el = targetLabel[0];
-			if (el) {
-				el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-			}
-		}
+		highlightTargetNode(targetLi, breadcrumbs[breadcrumbs.length - 1]);
 		return;
 	}
 
@@ -1944,6 +1975,8 @@ function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) 
 			var typeTd = $('<td></td>').text(row.container_type || '');
 			typeTd.append(' ');
 			typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
+			typeTd.append(' ');
+			typeTd.append(buildHighLevelOrphanBadge('High-level single-occupant proxy orphan', 'ml-1'));
 			var tr = $('<tr></tr>');
 			tr.append(typeTd);
 			tr.append($('<td></td>').text(displayName));
@@ -1966,8 +1999,9 @@ function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) 
 	});
 }
 
-function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page) {
+function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded) {
 	var target = $('#' + targetDivId);
+	target.data('loading', true);
 	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
 		url: '/containers/component/functions.cfc',
@@ -1978,13 +2012,187 @@ function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page) {
 		},
 		dataType: 'json',
 		success: function(data) {
+			target.data('loaded', true).data('loading', false);
 			renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page || 1);
+			if (onLoaded) {
+				onLoaded();
+			}
 		},
 		error: function(jqXHR, textStatus, error) {
+			target.data('loading', false);
 			if (feedbackId) {
 				setFeedbackControlState(feedbackId, 'error');
 			}
 			handleFail(jqXHR, textStatus, error, 'loading orphaned single-occupant containers');
+		}
+	});
+}
+
+function buildHighLevelOrphanBadge(label, extraClasses) {
+	return $('<span class="badge badge-warning small"></span>').addClass(extraClasses || '').text(label);
+}
+
+function renderOrphanedEmptyProxyTable(data, targetDivId, feedbackId, page) {
+	var rows = data.rows || [];
+	var totalRows = parseInt(data.totalRows, 10) || 0;
+	var pageSize = parseInt(data.pageSize, 10) || CONTAINER_PAGE_SIZE;
+	var currentPage = parseInt(data.page, 10) || page || 1;
+	var totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+	var target = $('#' + targetDivId);
+	var panel = $('<div class="container-leaf-panel"></div>');
+	var headingDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+	headingDiv.append($('<h3 class="h5 mr-2 mb-0"></h3>').text('Empty proxy orphans (' + totalRows + ')'));
+	panel.append(headingDiv);
+	if (totalPages > 1) {
+		panel.append($('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages));
+		panel.append(buildPagedNav(currentPage, totalPages, 'mb-1', 'orphan-empty-page-btn'));
+	}
+	if (rows.length === 0) {
+		panel.append($('<p class="text-muted mb-0"></p>').text('No orphaned empty proxy containers found.'));
+	} else {
+		var tbody = $('<tbody></tbody>');
+		$.each(rows, function(i, row) {
+			var displayName = formatContainerDisplay(row.barcode, row.label);
+			var typeTd = $('<td></td>').text(row.container_type || '');
+			typeTd.append(' ');
+			typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
+			typeTd.append(' ');
+			typeTd.append(buildHighLevelOrphanBadge('High-level empty proxy orphan', 'ml-1'));
+			var actionTd = $('<td></td>');
+			actionTd.append(buildContainerDetailsActionButton(row.container_id, displayName, feedbackId));
+			actionTd.append(buildContainerViewLink(row.container_id));
+			tbody.append(
+				$('<tr></tr>')
+					.append(typeTd)
+					.append($('<td></td>').text(displayName))
+					.append($('<td></td>').text('Empty'))
+					.append($('<td></td>').text(row.description || ''))
+					.append(actionTd)
+			);
+		});
+		var table = $('<table class="table table-sm table-striped"></table>');
+		table.append('<thead><tr><th>Type</th><th>Container</th><th>Status</th><th>Description</th><th>Actions</th></tr></thead>');
+		table.append(tbody);
+		panel.append(table);
+		if (totalPages > 1) {
+			panel.append(buildPagedNav(currentPage, totalPages, 'mt-2', 'orphan-empty-page-btn'));
+		}
+	}
+	target.removeClass('d-none').html(panel);
+	target.off('click.orphanempty').on('click.orphanempty', '.orphan-empty-page-btn', function() {
+		loadOrphanedEmptyProxyPage(targetDivId, feedbackId, $(this).data('page'));
+	});
+}
+
+function loadOrphanedEmptyProxyPage(targetDivId, feedbackId, page, onLoaded) {
+	var target = $('#' + targetDivId);
+	target.data('loading', true);
+	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: {
+			method: 'getOrphanedEmptyProxyContainers',
+			page: page || 1,
+			pageSize: CONTAINER_PAGE_SIZE
+		},
+		dataType: 'json',
+		success: function(data) {
+			target.data('loaded', true).data('loading', false);
+			renderOrphanedEmptyProxyTable(data, targetDivId, feedbackId, page || 1);
+			if (onLoaded) {
+				onLoaded();
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			target.data('loading', false);
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading orphaned empty proxy containers');
+		}
+	});
+}
+
+function toggleBrowseSection(buttonEl, panelId, loadFn) {
+	var btn = $(buttonEl);
+	var panel = $('#' + panelId);
+	if (panel.length === 0) {
+		return;
+	}
+	if (!panel.hasClass('d-none')) {
+		panel.addClass('d-none');
+		btn.attr('aria-expanded', 'false');
+		return;
+	}
+	btn.attr('aria-expanded', 'true');
+	if (panel.data('loaded')) {
+		panel.removeClass('d-none');
+		return;
+	}
+	if (panel.data('loading')) {
+		return;
+	}
+	loadFn();
+}
+
+function ensureStructuralOrphanPanelVisible(feedbackId, onReady) {
+	var buttonId = 'ctree-orphan-structural-btn';
+	var panelId = 'ctree-orphan-structural-panel';
+	var panel = $('#' + panelId);
+	var button = $('#' + buttonId);
+	if (panel.length === 0 || button.length === 0) {
+		if (onReady) {
+			onReady(false);
+		}
+		return;
+	}
+	button.attr('aria-expanded', 'true');
+	if (panel.data('loaded')) {
+		panel.removeClass('d-none');
+		if (onReady) {
+			onReady(true);
+		}
+		return;
+	}
+	if (panel.data('loading')) {
+		var callbacks = panel.data('loadCallbacks') || [];
+		callbacks.push(onReady);
+		panel.data('loadCallbacks', callbacks);
+		return;
+	}
+	panel.data('loadCallbacks', [onReady]);
+	loadStructuralOrphanPanel(panelId, feedbackId);
+}
+
+function loadStructuralOrphanPanel(targetDivId, feedbackId) {
+	var target = $('#' + targetDivId);
+	target.data('loading', true);
+	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading…</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		data: { method: 'getOrphanedTopLevelStructural' },
+		dataType: 'json',
+		success: function(nodes) {
+			var callbacks = target.data('loadCallbacks') || [];
+			target.data('loaded', true).data('loading', false);
+			renderTreeNodes(nodes, targetDivId, feedbackId);
+			$.each(callbacks, function(i, callback) {
+				if (callback) {
+					callback(true);
+				}
+			});
+			target.removeData('loadCallbacks');
+		},
+		error: function(jqXHR, textStatus, error) {
+			var callbacks = target.data('loadCallbacks') || [];
+			target.data('loading', false);
+			$.each(callbacks, function(i, callback) {
+				if (callback) {
+					callback(false);
+				}
+			});
+			target.removeData('loadCallbacks');
+			handleFail(jqXHR, textStatus, error, 'loading orphaned structural containers');
 		}
 	});
 }
@@ -2077,11 +2285,12 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
 function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	var institutions = data.institutions || [];
 	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
+	var orphanEmptyProxyCount = parseInt(data.orphaned_empty_proxy_count, 10) || 0;
 	var orphanSingleCount = parseInt(data.orphaned_single_occupant_count, 10) || 0;
 	var topLevelOther = data.top_level_other || [];
-	var orphanStructDivId = 'ctree-orphan-structural';
+	var orphanStructDivId = 'ctree-orphan-structural-panel';
 	var wrapper = $('<div></div>');
-	if (institutions.length === 0 && orphanStructCount === 0 && orphanSingleCount === 0 && topLevelOther.length === 0) {
+	if (institutions.length === 0 && orphanStructCount === 0 && orphanEmptyProxyCount === 0 && orphanSingleCount === 0 && topLevelOther.length === 0) {
 		wrapper.html('<p class="text-muted my-2">No containers found.</p>');
 		$('#' + browsePanel).html(wrapper);
 		return;
@@ -2191,35 +2400,51 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	}
 	if (orphanStructCount > 0) {
 		var orphanStructLabel = 'Structural orphans (' + orphanStructCount + ')';
-		var orphanStructDiv = $('<div class="mt-2" id="' + orphanStructDivId + '"></div>');
-		var orphanStructBtn = $('<button class="btn btn-xs btn-outline-secondary" type="button"></button>').text(orphanStructLabel);
+		var orphanStructWrap = $('<div class="mt-2"></div>');
+		var orphanStructBtn = $('<button class="btn btn-xs btn-outline-secondary" type="button"></button>')
+			.attr('id', 'ctree-orphan-structural-btn')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', orphanStructDivId)
+			.text(orphanStructLabel);
+		var orphanStructDiv = $('<div class="d-none mt-1" id="' + orphanStructDivId + '"></div>');
 		orphanStructBtn.on('click', function() {
-			var btn = $(this);
-			btn.prop('disabled', true).text('Loading…');
-			$.ajax({
-				url: '/containers/component/functions.cfc',
-				data: { method: 'getOrphanedTopLevelStructural' },
-				dataType: 'json',
-				success: function(nodes) {
-					btn.remove();
-					renderTreeNodes(nodes, orphanStructDivId, feedbackEl);
-				},
-				error: function(jqXHR, textStatus, error) {
-					btn.prop('disabled', false).text(orphanStructLabel);
-					handleFail(jqXHR, textStatus, error, 'loading orphaned structural containers');
-				}
+			toggleBrowseSection(this, orphanStructDivId, function() {
+				loadStructuralOrphanPanel(orphanStructDivId, feedbackEl);
 			});
 		});
-		orphanStructDiv.append(orphanStructBtn);
-		wrapper.append(orphanStructDiv);
+		orphanStructWrap.append(orphanStructBtn);
+		orphanStructWrap.append(orphanStructDiv);
+		wrapper.append(orphanStructWrap);
+	}
+	if (orphanEmptyProxyCount > 0) {
+		var orphanEmptyDivId = 'ctree-orphan-empty';
+		var orphanEmptyWrap = $('<div class="mt-2"></div>');
+		var orphanEmptyBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1" type="button"></button>')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', orphanEmptyDivId)
+			.text('Empty proxy orphans (' + orphanEmptyProxyCount + ')');
+		var orphanEmptyDiv = $('<div class="d-none mt-1" id="' + orphanEmptyDivId + '"></div>');
+		orphanEmptyBtn.on('click', function() {
+			toggleBrowseSection(this, orphanEmptyDivId, function() {
+				loadOrphanedEmptyProxyPage(orphanEmptyDivId, feedbackEl, 1);
+			});
+		});
+		orphanEmptyWrap.append(orphanEmptyBtn);
+		orphanEmptyWrap.append(orphanEmptyDiv);
+		wrapper.append(orphanEmptyWrap);
 	}
 	if (orphanSingleCount > 0) {
 		var orphanSingleDivId = 'ctree-orphan-single';
 		var orphanSingleWrap = $('<div class="mt-2"></div>');
-		var orphanSingleBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1" type="button"></button>').text('Single-occupant orphans (' + orphanSingleCount + ')');
+		var orphanSingleBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1" type="button"></button>')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', orphanSingleDivId)
+			.text('Single-occupant orphans (' + orphanSingleCount + ')');
 		var orphanSingleDiv = $('<div class="d-none mt-1" id="' + orphanSingleDivId + '"></div>');
 		orphanSingleBtn.on('click', function() {
-			loadOrphanedSingleOccupantPage(orphanSingleDivId, feedbackEl, 1);
+			toggleBrowseSection(this, orphanSingleDivId, function() {
+				loadOrphanedSingleOccupantPage(orphanSingleDivId, feedbackEl, 1);
+			});
 		});
 		orphanSingleWrap.append(orphanSingleBtn);
 		orphanSingleWrap.append(orphanSingleDiv);
