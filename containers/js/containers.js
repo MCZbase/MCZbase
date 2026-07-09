@@ -201,7 +201,7 @@ function specimenSearchUrl(barcode) {
 
 function getSearchResultParentInfo(row) {
 	var rawParentContainerId = row.parent_container_id;
-	var hasParentContainerId = rawParentContainerId !== null && typeof rawParentContainerId !== 'undefined' && rawParentContainerId !== '';
+	var hasParentContainerId = rawParentContainerId !== null && typeof rawParentContainerId !== 'undefined';
 	var parentContainerId = hasParentContainerId ? parseInt(rawParentContainerId, 10) : null;
 	var parentContainerType = (row.parent_container_type || '').toLowerCase();
 	return {
