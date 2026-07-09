@@ -103,7 +103,8 @@ limitations under the License.
 			c.number_positions,
 			c.institution_acronym,
 			p.label AS parent_label,
-			p.barcode AS parent_barcode
+			p.barcode AS parent_barcode,
+			p.container_type AS parent_container_type
 		FROM
 			container c
 			LEFT JOIN container p ON c.parent_container_id = p.container_id
@@ -140,6 +141,7 @@ limitations under the License.
 	<cfif len(trim(getContainer.institution_acronym)) GT 0>
 		<cfset variables.formData["institution_acronym"] = getContainer.institution_acronym>
 	</cfif>
+	<cfset variables.parent_container_type = getContainer.parent_container_type>
 	<cfif len(trim(getContainer.parent_barcode)) GT 0>
 		<cfset variables.parentContainerText = getContainer.parent_barcode>
 	<cfelseif len(trim(getContainer.parent_label)) GT 0>
@@ -157,7 +159,8 @@ limitations under the License.
 	<cfquery name="getPresetParent" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			label,
-			barcode
+			barcode,
+			container_type
 		FROM
 			container
 		WHERE
@@ -169,6 +172,7 @@ limitations under the License.
 		<cfelse>
 			<cfset variables.parentContainerText = getPresetParent.label>
 		</cfif>
+		<cfset variables.parent_container_type = getPresetParent.container_type>
 	</cfif>
 </cfif>
 
@@ -246,7 +250,12 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
-						<label for="parentContainerText" class="data-entry-label">Parent Container</label>
+						<label for="parentContainerText" class="data-entry-label">
+							Parent Container
+							<cfif variables.parent_container_type neq "">
+								<small class="text-muted">#variables.parentContainerText# (#encodeForHtml(variables.parent_container_type)#)</small>
+							</cfif>
+						</label>
 						<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
 						<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
 					</div>
