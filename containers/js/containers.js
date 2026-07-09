@@ -199,6 +199,12 @@ function specimenSearchUrl(barcode) {
 	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D' + encodeURIComponent(barcode);
 }
 
+/**
+ * Normalizes parent placement context from a container search result row.
+ * @param {Object} row - one row from searchContainers.
+ * @returns {Object} placement flags describing whether the container is rooted
+ *  directly under parent_container_id = 0 or directly under an institution node.
+ */
 function getSearchResultParentInfo(row) {
 	var rawParentContainerId = row.parent_container_id;
 	var hasParentContainerId = rawParentContainerId !== null && typeof rawParentContainerId !== 'undefined';
@@ -2872,8 +2878,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var role = getContainerRole(row.container_type);
 					var isProxy = role === 'proxy';
 					var parentInfo = getSearchResultParentInfo(row);
-					/* Collection objects are leaf-only results, and institution/root proxy rows
-					   are shown only in the top-level orphan tables rather than the tree. */
+					/* Collection objects are leaf-only results, while root-parent and
+					   institution-parent proxies are the two top-level orphan-table cases. */
 					var isTopLevelProxyTableRow = isProxy && (parentInfo.hasRootParent || parentInfo.hasInstitutionParent);
 					var canExplore = containerTypeKey !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
 					var displayName = formatContainerDisplay(row.barcode, row.label);
