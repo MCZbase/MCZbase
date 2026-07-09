@@ -1087,6 +1087,7 @@ details of a container for use in dialogs and page components.
 		safeDisplayMode="#local.safeDisplayMode#"
 		safeIdSuffix="#local.safeIdSuffix#"
 		showBrowseAction="#local.showBrowseAction#"
+		proxyContainerTypeList="#variables.proxyContainerTypeList#"
 	>
 		<cfoutput>
 			<cftry>
@@ -1167,7 +1168,7 @@ details of a container for use in dialogs and page components.
 					<cfif len(trim(getContainerDetail.barcode)) GT 0>
 						<cfset specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerDetail.barcode)#">
 					</cfif>
-					<cfset isProxyOrLeafType = (listFindNoCase("pin,slide,cryovial,envelope,glass vial", getContainerDetail.container_type) GT 0) OR (getContainerDetail.container_type EQ "collection object")>
+					<cfset isProxyOrLeafType = (listFindNoCase(proxyContainerTypeList, getContainerDetail.container_type) GT 0) OR (getContainerDetail.container_type EQ "collection object")>
 					<cfset parentDisplay = "Unnamed container">
 					<cfif len(trim(getContainerDetail.parent_label)) GT 0>
 						<cfset parentDisplay = getContainerDetail.parent_label>
