@@ -789,7 +789,7 @@ limitations under the License.
 													Any
 												</button>
 												<span id="creditAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with credit</span>
-												<span class="text-secondary small">)</span>)
+												<span class="text-secondary small">)</span>
 												<input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
 												<script>
 													$(document).ready(function() {
