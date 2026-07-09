@@ -153,11 +153,11 @@ limitations under the License.
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
-			<cftry>
-				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim border-0")#</cfoutput>
-				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-			</cftry>
-			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
+			<section class="container-fluid" role="search">
+				<cftry>
+					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+					<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+				</cftry>
 				<div class="d-flex flex-wrap mx-0 mb-0 mr-md-3 ml-xl-3 mr-xl-4">
 					<div class="search-box mt-4">
 						<div class="search-box-header">
