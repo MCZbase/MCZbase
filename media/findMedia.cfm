@@ -474,13 +474,13 @@ limitations under the License.
 													=
 												</button>
 												<span id="aspectEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';"
+												<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='NULL';"
 													aria-describedby="aspectNull_help"
 													aria-label="use NULL to find media records without the selected relationship">
 													NULL
 												</button>
 												<span id="aspectNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';"
+												<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='NOT NULL';"
 													aria-describedby="click Any for NOT NULL to find media records with a relationship to any record"
 													aria-label="aspectAny_help">Any</button>
 												<span id="aspectAny_help" class="sr-only">click Any for NOT NULL to find media records with a relationship to any record</span>)
