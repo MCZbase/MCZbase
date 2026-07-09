@@ -951,8 +951,8 @@ limitations under the License.
 			<section class="container-fluid">
 				<div class="row mr-xl-1">
 					<div class="col-12 mb-5 px-xl-4">
-						<div class="row my-1 jqx-widget-header border p-2 mx-0">
-							<h1 class="h4 pt-0 mb-0 ml-2 ml-md-1 mt-1">Results: 
+						<div class="row my-0 jqx-widget-header border p-1 mx-0">
+							<h1 class="h4 pt-0 mb-0 ml-2 ml-md-1">Results: 
 								<span class="pr-2 font-weight-normal" id="resultCount"></span> 
 								<span id="resultLink" class="font-weight-normal pr-2"></span>
 							</h1>
@@ -1004,7 +1004,7 @@ limitations under the License.
 							</div>
 							<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 pt-1 mx-1 border-0"></output>
 						</div>
-						<div class="row mt-0"> 
+						<div class="row mx-0 mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
