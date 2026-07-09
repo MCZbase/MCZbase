@@ -668,7 +668,7 @@ limitations under the License.
 												<div class="date d-flex flex-wrap border-default mb-0 mb-md-0 mx-md-1 mx-0 px-2 rounded justify-content-left" style="padding-top: 1px; padding-bottom: 3px;">
 													<label class="w-100 px-3 px-xl-2 mx-1 mb-0" for="made_date">Made Date (yyyy or yyyy-mm-dd)</label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
-													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<div class=" text-center px-0" style="width:50px;"><small> to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
 													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-5 w-100 px-1 py-0" placeholder="end date" aria-describedby="madedate_help">
 													<small id="madedate_help" class="sr-only">end date</small> 
