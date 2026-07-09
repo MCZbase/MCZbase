@@ -164,8 +164,9 @@ function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeContro
  * Container types that are expected to hold exactly one collection object each.
  * Nodes of these types have their contained collection object shown inline
  * automatically in the tree, without requiring a "Browse contents" button click.
- */
-var SINGLE_OCCUPANT_TYPES = ['pin', 'slide', 'cryovial'];
+ * These correspond to role=proxy
+ */ 
+var SINGLE_OCCUPANT_TYPES = ['pin', 'slide', 'cryovial','envelope','glas vial'];
 
 /** Default page size for container search results and leaf browser. */
 var CONTAINER_PAGE_SIZE = 50;
