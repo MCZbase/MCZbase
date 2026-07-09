@@ -242,6 +242,10 @@
 
 		<div id="overlaycontainer" style="position: relative;">
 			<main id="content" class="container-fluid">
+				<cftry>
+					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+					<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+				</cftry>
 				<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
 					<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-4">
 						<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -331,10 +335,7 @@
 							<!---		<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>--->
-										<cftry>
-											<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
-											<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-										</cftry>
+							
 									
 									<!---		<aside id="collapseFixedBasic" style="display:none;">
 										<div class="card card-body pl-4 py-3 pr-3 border-dark">
