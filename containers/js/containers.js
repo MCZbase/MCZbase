@@ -2135,6 +2135,7 @@ function toggleBrowseSection(buttonEl, panelId, loadFn) {
 	if (panel.data('loading')) {
 		return;
 	}
+	/* loadFn is optional for sections whose contents were pre-rendered up front. */
 	if (loadFn) {
 		loadFn();
 	}
@@ -2693,6 +2694,8 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 	/* Pre-render hidden placed-child sections so Explore can reveal and highlight
 	   targets nested behind these buttons without waiting for a user click. */
 	$.each(deferredSections, function(i, section) {
+		/* Reset parentContainerType here so the already-grouped placed children render
+		   as direct nodes inside the hidden section instead of being regrouped again. */
 		renderTreeNodes(section.nodes, section.panelId, feedbackId, false, null, parentContainerId);
 		$('#' + section.panelId).data('loaded', true);
 	});
