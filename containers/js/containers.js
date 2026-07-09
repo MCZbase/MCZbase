@@ -2854,10 +2854,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var leafKids = parseInt(row.direct_leaf_children, 10) || 0;
 					var role = getContainerRole(row.container_type);
 					var isProxy = role === 'proxy';
-					var parentContainerId = parseInt(row.parent_container_id, 10);
-					if (isNaN(parentContainerId)) {
-						parentContainerId = 0;
-					}
+					var parentContainerId = parseInt(row.parent_container_id, 10) || 0;
 					var parentContainerType = (row.parent_container_type || '').toLowerCase();
 					var canExplore = row.container_type !== 'collection object'
 						&& !(isProxy && (parentContainerId === 0 || parentContainerType === 'institution'));
