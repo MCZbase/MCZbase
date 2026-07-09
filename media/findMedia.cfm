@@ -434,7 +434,19 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 col-xl-2 pb-1">
 												<label for="keywords">Keywords</label>
-												<span id="useSymbols_help" class="text-secondary small90">(Use |, *, "", - as prefix to filter)</span>
+												<span class="text-secondary small">(Use</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='|L';" 
+													aria-describedby="descripAster_help" 
+													aria-label="">
+													|
+												</button>
+												<span id="descripAster_help" class="sr-only">click asterisk to </span>.
+												<button type="button" class="" onclick="var e=document.getElementById('description');e.value='NOT NULL';"
+													aria-describedby=""
+													aria-label="">
+													*
+												</button>,
+												"", - as prefix to filter)</span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#" aria-describedby="useSymbols_help">
 											</div>
 											<div class="col-12 col-md-3 col-xl-2 pb-1">
