@@ -18,6 +18,7 @@ limitations under the License.
 */
 
 /**
+ *
  * This file coordinates the redesigned container browse/search experience.
  * It loads container-type metadata first, then renders either the top-level hierarchy tree or
  * search-result, orphan, and contents tables from the same server payload conventions. Tree
@@ -26,7 +27,20 @@ limitations under the License.
  * render the paged orphan, contents, and search views and reuse the same action-button builders
  * and details-dialog loader so browsing, viewing, editing, specimen lookup, and create-child
  * actions stay consistent across all container presentations.
- */
+ * 
+ * This file contains functions to implements the redesigned container browse and search experience, tying together server‑side metadata, AJAX calls, and client‑side rendering into a consistent UI for working with containers. It is responsible for loading container‑type metadata, building and navigating the hierarchical container tree, rendering a variety of paged result tables (contents, orphans, search results), and coordinating common actions such as viewing details, editing, exploring in context, and launching specimen searches.
+ * 
+ * Core **autocomplete helpers** (for example, functions that create “container picker” controls) turn a paired visible text input and hidden `container_id` field into an autocomplete widget that shows container metadata in the picklist and records a selected container. Variants support restricting results by type or excluding collection‑object containers, and optionally clear inputs when the user types non‑matching values. These helpers provide a standard pattern for container selection across forms.
+ * 
+ * A set of **container type metadata and role utilities** manage the in‑memory map of container types and their functional roles (structural, proxy, leafbearer, leaf). These functions normalize type keys, apply metadata returned from the server (with a built‑in fallback map), rebuild the list of single‑occupant container types, and expose simple lookups to determine type roles, whether a container can have children, and how its role should be displayed in the UI (including role badges).
+ * 
+ * The **browsing and navigation functions** orchestrate the top‑level hierarchy view and tree navigation. They initialize the browse panel, load and render structural children on demand, expand breadcrumb paths so that a searched‑for container is opened in context, and handle special cases such as unplaced containers or structural orphan sections hidden behind toggles. Supporting helpers manage selection/highlighting, ensure that grouped sections are visible when needed, and split child nodes into structural and placed groups for more efficient display.
+ * 
+ * On the tabular side, **table and action rendering helpers** build the paged tables that back search results, orphan listings, and leaf‑level contents. They construct standard action buttons and links (View, Edit, Details, Add Child), apply shared CSS styling, and generate navigation controls for paging. Complementary functions format container display strings, attach role/shape badges, and render specimen‑related cells that link containers to fixed specimen searches, including lazy checks for the presence of descendant specimens.
+ * 
+ * Finally, **details, CRUD, and layout utilities** tie the module into the rest of the application workflow. They load container details into a shared modal dialog, submit create/edit forms via AJAX with appropriate feedback and redirect handling, confirm and execute container deletions, and render container position layouts (grids or fallback tables) for containers with defined positions. Together, these categories of functions provide a cohesive client‑side layer that keeps container browsing, searching, and editing behavior consistent across the application.
+ * 
+*/
 
 /** Make a paired hidden container_id and text container control into an autocomplete container picker that displays meta 
  *  on picklist and value on selection.
