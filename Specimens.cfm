@@ -7,7 +7,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -173,12 +173,12 @@ limitations under the License.
 	SELECT nature_of_id, count(*) as ct 
 	FROM IDENTIFICATION
 	GROUP BY nature_of_id
- 	ORDER BY nature_of_id
+	ORDER BY nature_of_id
 </cfquery>
 <cfquery name="ctcontainer_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
 	SELECT container_type
 	FROM CTCONTAINER_TYPE
- 	ORDER BY container_type
+	ORDER BY container_type
 </cfquery>
 
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -239,7 +239,7 @@ limitations under the License.
 			var bc = new BroadcastChannel('resultset_channel');
 		</script>
 	</cfif>
-	
+
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
 			<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
@@ -247,12 +247,12 @@ limitations under the License.
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-					
+
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records 
-                        <span class="count font-italic color-green mx-0">
-                            <small> #getSpecimenCount.cnt# records</small>
-                            <small class="sr-only">Tab into search form</small>
-                        </span>
+						<span class="count font-italic color-green mx-0">
+							<small> #getSpecimenCount.cnt# records</small>
+							<small class="sr-only">Tab into search form</small>
+						</span>
 						<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0 && isdefined("target_loan_number") and len(target_loan_number) GT 0>
 							to add to Loan #target_loan_number# (with manage)
 						</cfif>
@@ -327,68 +327,68 @@ limitations under the License.
 						</div>
 						<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
-                            <div class="d-flex justify-content-end px-0"> 
-                                <button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
-                                    Search Help
-                                </button>
-                                <aside id="collapseFixedBasic" style="display:none;">
-                                    <div class="card card-body pl-4 py-3 pr-3 border-dark">
-                                        <h2 class="headerSm">Basic Search Help</h2>
-                                        <p>
-                                            This help applies to the basic specimen search and some other search forms in MCZbase.
-                                            Many fields are autocompletes, values can be selected off of the picklist, or a partial match can be entered in the field.
-                                            Most fields will accept search operators, described below, which alter the behaviour of the search.
-                                            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> 
-                                                (see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Basic_Specimen_Search" target="_blank">Basic Specimen Search</a>
-                                            </cfif>.
-                                        </p>
-                                        <h2 class="headerSm">Special operators that are entered in the field by themselves with no other value</h2>
-                                        <dl class="mb-0"> 
-                                            <dt><span class="text-info font-weight-bold">NULL</span></dt>
-                                            <dd>Find records where this field is empty.</dd>
-                                            <dt><span class="text-info font-weight-bold">NOT NULL</span></dt>
-                                            <dd>Find records where this field contains some non-empty value.</dd>
-                                        </dl>
-                                        <h2 class="headerSm">Operators entered as the first character in a field, followed by a search term (e.g. =Murex). </h2>
-                                        <dl class="mb-0"> 
-                                            <dt><span class="text-info font-weight-bold">=</span></dt>
-                                            <dd>Perform a (case insensitive, in most cases) exact match search. Fields which take this operator append a wild card to the beginning and end of the search term unless this operator is used.</dd>
-                                            <dt><span class="text-info font-weight-bold">!</span></dt>
-                                            <dd>Perform a (case insensitive, in most cases) exact match <strong>not</strong> search. Will find records where the value in the field does not match the specified search term. </dd>
-                                            <dt><span class="text-info font-weight-bold">~</span></dt>
-                                            <dd>Find nearby strings. Finds matches where the value in the field is a small number of character substitutions away from the provided search term. Makes the comparison using the jaro winkler string distance, with a threshold set, depending on the search, on 0.80 or 0.90.</dd> 
-                                            <dt><span class="text-info font-weight-bold">$</span> </dt>
-                                            <dd> Find sound alike strings. Finds matches where the value in the field sounds like the provided search term. Makes the comparison using the soundex algorithm.</dd>
-                                        </dl>
-                                        <h2 class="headerSm">Wild cards that may be accepted where a search can take a = operator, but that operator is not used.</h2>
-                                        <dl class="mb-0"> 
-                                            <dt><span class="text-info font-weight-bold">%</span></dt>
-                                            <dd>Match any number of characters. (added at the beginning and end of strings for all fields that can take an = operator where that operator is not used).</dd>
-                                            <dt><span class="text-info font-weight-bold">_</span></dt> 
-                                            <dd>Match exactly one character.</dd>
-                                        </dl>
-                                        <h2 class="headerSm">Guidance for specific fields</h2>
-                                        <dl class="mb-0"> 
-                                            <dt><span class="text-info font-weight-bold">Catalog Number</span></dt>
-                                            <dd>Catalog number accepts single numbers (e.g. 1100), ranges of numbers (e.g. 100-110), comma (or space) separated lists of number (or search, e.g. 100,110), ranges of numbers with prefixes (e.g. R-200-210 or R-200-R-210), or ranges of numbers with suffixes (e.g. 1-a-50 or 1-a-50-a).  Wildcards are not added to catalog number searches (so =1 and 1 return the same result).  To search with wildcards or to limit both prefixes and suffixes, use the search builder.  The shorthand form R200-210 will work without a - separating the prefix from the range, but R200 will not. </dd>
-                                            <dt><span class="text-info font-weight-bold">Other Number</span></dt> 
-                                            <dd>Other number accepts single numbers, ranges of numbers, comma (or space) separated lists of numbers, and ranges of numbers, but for most cases with prefixes, search for just a single prefixed number with an exact match search (e.g. =BT-782).  If your other number contains a space, replace that space with an underscore (the single character wildcard), e.g. search for "PMAE: 26-7-10/%" using "PMAE:_26-7-10/%" or percent (the multiple character wildcard)  "PMAE%26-7-10%".</dd>
-                                            <dt><span class="text-info font-weight-bold">Taxonomy and Higher Geography Fields</span> </dt>
-                                            <dd>Search for a substring (e.g. murex), an exact match (e.g. =Murex), or a comma separated list (e.g. Vulpes,Urocyon).</dd>
-                                            <dt><span class="text-info font-weight-bold">Any Geography (keyword) Field</span> </dt>
-                                            <dd>This field runs a keyword search on a large set of geography fields.  See the Keyword Search Help for guidance.</dd>
-                                            <dt><span class="text-info font-weight-bold">Keyword Search Field</span> </dt>
-                                            <dd>This field does the same thing as the Keyword Search.  See the Keyword Search Help for guidance.</dd>
-                                            <dt><span class="text-info font-weight-bold">Dates</span></dt>
-                                            <dd>Collecting Events are stored in two date fields (date began and date ended), plus a verbatim field.  Date Collected searches on both the began date and end date for collecting events.  A range search on Date Collected (e.g. 1980/1985) will find all cataloged items where both the date began and date ended fall within the specified range.  Usually you will want to search on Date Collected.  The began date and ended date fields can be searched separately for special cases, in particular cases where the collecting date range is poorly constrained.  Search on Began Date 1700-01-01 Ended Date 1800-01-01/1899-12-31 to find all material where the began date is not known, but the end date has been constrained to sometime in the 1800s (contrast with Date Collected 1800-01-01/1899-12-31 which finds material where both the start and end dates are in the 1800s).</dd>
-                                            <dt><span class="text-info font-weight-bold">Media Type</span></dt>
-                                            <dd>Click on (Any) to paste NOT NULL into the field, this will find records where there are any related media.</dd>
-                                            <dt><span class="text-info font-weight-bold">Min/Max Depth/Elevation Fields</span> </dt>
-                                            <dd>Search on depth or elevation converted from original units to meters, accepts 1-10 for ranges or <=1 or >=1 to search for open ended ranges.  Search on minimum depth and maximum depth are independent, likewise for elevation.  To search for all material known to be collected between two depth endpoints search on the same range e.g. 1-10 in minimum and maximum depth fields, this will find all material where the minimum depth is in that range and the maximum depth is in that range, likewise for elevation.  Search Minimum depth for NOT NULL to find any depth value.</dd>
-                                        </dl>
-                                    </div>
-                                </aside>
-                            </div>
+							<div class="d-flex justify-content-end px-0"> 
+								<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
+									Search Help
+								</button>
+								<aside id="collapseFixedBasic" style="display:none;">
+									<div class="card card-body pl-4 py-3 pr-3 border-dark">
+										<h2 class="headerSm">Basic Search Help</h2>
+										<p>
+											This help applies to the basic specimen search and some other search forms in MCZbase.
+											Many fields are autocompletes, values can be selected off of the picklist, or a partial match can be entered in the field.
+											Most fields will accept search operators, described below, which alter the behaviour of the search.
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> 
+												(see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Basic_Specimen_Search" target="_blank">Basic Specimen Search</a>
+											</cfif>.
+										</p>
+										<h2 class="headerSm">Special operators that are entered in the field by themselves with no other value</h2>
+										<dl class="mb-0"> 
+											<dt><span class="text-info font-weight-bold">NULL</span></dt>
+											<dd>Find records where this field is empty.</dd>
+											<dt><span class="text-info font-weight-bold">NOT NULL</span></dt>
+											<dd>Find records where this field contains some non-empty value.</dd>
+										</dl>
+										<h2 class="headerSm">Operators entered as the first character in a field, followed by a search term (e.g. =Murex). </h2>
+										<dl class="mb-0"> 
+											<dt><span class="text-info font-weight-bold">=</span></dt>
+											<dd>Perform a (case insensitive, in most cases) exact match search. Fields which take this operator append a wild card to the beginning and end of the search term unless this operator is used.</dd>
+											<dt><span class="text-info font-weight-bold">!</span></dt>
+											<dd>Perform a (case insensitive, in most cases) exact match <strong>not</strong> search. Will find records where the value in the field does not match the specified search term. </dd>
+											<dt><span class="text-info font-weight-bold">~</span></dt>
+											<dd>Find nearby strings. Finds matches where the value in the field is a small number of character substitutions away from the provided search term. Makes the comparison using the jaro winkler string distance, with a threshold set, depending on the search, on 0.80 or 0.90.</dd> 
+											<dt><span class="text-info font-weight-bold">$</span> </dt>
+											<dd> Find sound alike strings. Finds matches where the value in the field sounds like the provided search term. Makes the comparison using the soundex algorithm.</dd>
+										</dl>
+										<h2 class="headerSm">Wild cards that may be accepted where a search can take a = operator, but that operator is not used.</h2>
+										<dl class="mb-0"> 
+											<dt><span class="text-info font-weight-bold">%</span></dt>
+											<dd>Match any number of characters. (added at the beginning and end of strings for all fields that can take an = operator where that operator is not used).</dd>
+											<dt><span class="text-info font-weight-bold">_</span></dt> 
+											<dd>Match exactly one character.</dd>
+										</dl>
+										<h2 class="headerSm">Guidance for specific fields</h2>
+										<dl class="mb-0"> 
+											<dt><span class="text-info font-weight-bold">Catalog Number</span></dt>
+											<dd>Catalog number accepts single numbers (e.g. 1100), ranges of numbers (e.g. 100-110), comma (or space) separated lists of number (or search, e.g. 100,110), ranges of numbers with prefixes (e.g. R-200-210 or R-200-R-210), or ranges of numbers with suffixes (e.g. 1-a-50 or 1-a-50-a).  Wildcards are not added to catalog number searches (so =1 and 1 return the same result).  To search with wildcards or to limit both prefixes and suffixes, use the search builder.  The shorthand form R200-210 will work without a - separating the prefix from the range, but R200 will not. </dd>
+											<dt><span class="text-info font-weight-bold">Other Number</span></dt> 
+											<dd>Other number accepts single numbers, ranges of numbers, comma (or space) separated lists of numbers, and ranges of numbers, but for most cases with prefixes, search for just a single prefixed number with an exact match search (e.g. =BT-782).  If your other number contains a space, replace that space with an underscore (the single character wildcard), e.g. search for "PMAE: 26-7-10/%" using "PMAE:_26-7-10/%" or percent (the multiple character wildcard)  "PMAE%26-7-10%".</dd>
+											<dt><span class="text-info font-weight-bold">Taxonomy and Higher Geography Fields</span> </dt>
+											<dd>Search for a substring (e.g. murex), an exact match (e.g. =Murex), or a comma separated list (e.g. Vulpes,Urocyon).</dd>
+											<dt><span class="text-info font-weight-bold">Any Geography (keyword) Field</span> </dt>
+											<dd>This field runs a keyword search on a large set of geography fields.  See the Keyword Search Help for guidance.</dd>
+											<dt><span class="text-info font-weight-bold">Keyword Search Field</span> </dt>
+											<dd>This field does the same thing as the Keyword Search.  See the Keyword Search Help for guidance.</dd>
+											<dt><span class="text-info font-weight-bold">Dates</span></dt>
+											<dd>Collecting Events are stored in two date fields (date began and date ended), plus a verbatim field.  Date Collected searches on both the began date and end date for collecting events.  A range search on Date Collected (e.g. 1980/1985) will find all cataloged items where both the date began and date ended fall within the specified range.  Usually you will want to search on Date Collected.  The began date and ended date fields can be searched separately for special cases, in particular cases where the collecting date range is poorly constrained.  Search on Began Date 1700-01-01 Ended Date 1800-01-01/1899-12-31 to find all material where the began date is not known, but the end date has been constrained to sometime in the 1800s (contrast with Date Collected 1800-01-01/1899-12-31 which finds material where both the start and end dates are in the 1800s).</dd>
+											<dt><span class="text-info font-weight-bold">Media Type</span></dt>
+											<dd>Click on (Any) to paste NOT NULL into the field, this will find records where there are any related media.</dd>
+											<dt><span class="text-info font-weight-bold">Min/Max Depth/Elevation Fields</span> </dt>
+											<dd>Search on depth or elevation converted from original units to meters, accepts 1-10 for ranges or <=1 or >=1 to search for open ended ranges.  Search on minimum depth and maximum depth are independent, likewise for elevation.  To search for all material known to be collected between two depth endpoints search on the same range e.g. 1-10 in minimum and maximum depth fields, this will find all material where the minimum depth is in that range and the maximum depth is in that range, likewise for elevation.  Search Minimum depth for NOT NULL to find any depth value.</dd>
+										</dl>
+									</div>
+								</aside>
+							</div>
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 									<form id="fixedSearchForm">
@@ -458,14 +458,14 @@ limitations under the License.
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 														<label for="catalogNum">Catalog Number</label>
 														<input id="catalogNum" 
-                                                               type="text" 
-                                                               name="cat_num"
-                                                               value="#encodeForHtml(cat_num)#"
-                                                               placeholder="1,1-4,A-1,R1-4"
-                                                               aria-describedby="catalogNum_help">
-                                                        <small id="catalogNum_help" class="sr-only">
-                                                            Example: 1,1-4,A-1,R1-4
-                                                        </small>
+															   type="text" 
+															   name="cat_num"
+															   value="#encodeForHtml(cat_num)#"
+															   placeholder="1,1-4,A-1,R1-4"
+															   aria-describedby="catalogNum_help">
+														<small id="catalogNum_help" class="sr-only">
+															Example: 1,1-4,A-1,R1-4
+														</small>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
@@ -498,14 +498,14 @@ limitations under the License.
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number">Other ID Numbers</label>
 														<input type="text" 
-                                                               id="other_id_number" 
-                                                               name="other_id_number" 
-                                                               placeholder="10,20-30,=BT-782" 
-                                                               value="#encodeForHtml(other_id_number)#"
-                                                               aria-describedby="otherIDNum_help">
-                                                        <small id="otherIDNum_help" class="sr-only">
-                                                            Example: 10,20-30,=BT-782
-                                                        </small>
+															   id="other_id_number" 
+															   name="other_id_number" 
+															   placeholder="10,20-30,=BT-782" 
+															   value="#encodeForHtml(other_id_number)#"
+															   aria-describedby="otherIDNum_help">
+														<small id="otherIDNum_help" class="sr-only">
+															Example: 10,20-30,=BT-782
+														</small>
 													</div>
 													<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 
@@ -543,12 +543,12 @@ limitations under the License.
 																<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 																<label for="other_id_number_1">Other ID Numbers</label>
 																<input type="text" 
-                                                                       id="other_id_number_1" 
-                                                                       name="other_id_number_1" 
-                                                                       placeholder="10,20-30,=BT-782" 
-                                                                       value="#encodeForHtml(other_id_number_1)#" 
-                                                                       aria-describedby="otherID_help">
-                                                                <small id="otherID_help" class="sr-only">Example: 10,20-30,=BT-78</small>
+																	   id="other_id_number_1" 
+																	   name="other_id_number_1" 
+																	   placeholder="10,20-30,=BT-782" 
+																	   value="#encodeForHtml(other_id_number_1)#" 
+																	   aria-describedby="otherID_help">
+																<small id="otherID_help" class="sr-only">Example: 10,20-30,=BT-78</small>
 															</div>
 															<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																<div class="col-12 col-md-4 mb-1">
@@ -556,10 +556,10 @@ limitations under the License.
 																	<select title="debug" name="debug" id="debug1">
 																		<option value=""></option>
 																		<cfif isdefined("debug") AND len(debug) GT 0>
-                                                                            <cfset selected=" selected ">
-                                                                        <cfelse>
-                                                                            <cfset selected="">
-                                                                        </cfif>
+																			<cfset selected=" selected ">
+																		<cfelse>
+																			<cfset selected="">
+																		</cfif>
 																		<option value="true" #selected#>Debug JSON</option>
 																	</select>
 																</div>
@@ -591,7 +591,7 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-												    <cfset TaxaButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!---"--->
+													<cfset TaxaButton = "show less <i class='fas fa-caret-down' style='vertical-align: middle;'></i>"><!---"--->
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -619,7 +619,7 @@ limitations under the License.
 															<option value="current" #current_selected#>Current Id Only</option>
 														</select>
 													</div>	
-										
+
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
 														<label for="scientific_name">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
@@ -655,10 +655,10 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                        <label for="type_status">Type Status/Citation</label>
-												        <button type="button" class="rules" onclick=" $('##type_status').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
-                                                        </button>
-                                                       	<cfif not isdefined("type_status")><cfset type_status=""></cfif>
+														<label for="type_status">Type Status/Citation</label>
+														<button type="button" class="rules" onclick=" $('##type_status').autocomplete('search','%%%'); return false;">(&##8595;)<span class="sr-only"> open pick list</span>
+														</button>
+														<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 														<input type="text" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 														<script>
 															jQuery(document).ready(function() {
@@ -671,9 +671,9 @@ limitations under the License.
 													<div id="TaxaDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 mb-1 px-0 mx-0">
 															<div class="col-12 col-md-3 mb-1">
-                                                                <label for="phylum">Phylum</label>
+																<label for="phylum">Phylum</label>
 																<button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" aria-describedby="phylumPick_help">(&##8595;)<span id="phylumPick_help" class="sr-only"> open pick list</span>
-                                                                </button>
+																</button>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
 																<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#" >
 																<script>
@@ -732,7 +732,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-													
+
 															<div class="col-12 col-md-3 mb-1">
 																<label for="determiner">Determiner</label>
 																<cfif not isdefined("determiner")><cfset determiner=""></cfif>
@@ -773,7 +773,7 @@ limitations under the License.
 																<label for="nature_of_id">Nature of ID</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="col-sm-12 pl-2">
-                                                                       <!--- style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;"--->  
+																	<!--- style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;"--->  
 																	<option value=""></option>
 																	<cfset nid = nature_of_id>
 																	<cfloop query="ctnature_of_id">
@@ -903,7 +903,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-													
+
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
 																<label for="ocean_region">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
@@ -925,9 +925,9 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-3 col-xl-2 mb-1">
-                                                                <label for="sea">Sea</label>
+																<label for="sea">Sea</label>
 																<button type="button" class="rules" onclick=" $('##sea').autocomplete('search','%%%'); return false;" aria-describedby="seaPick_help">(&##8595;)<span id="seaPick_help" class="sr-only"> open pick list</span>
-                                                                </button>
+																</button>
 																<cfif not isdefined("sea")><cfset sea=""></cfif>
 																<input type="text" id="sea" name="sea" value="#encodeForHtml(sea)#">
 																<script>
@@ -1092,10 +1092,10 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
-                                                       <label for="collecting_source">Collecting Source</label>
-                                                        <button type="button" class="rules" onclick="$('##collecting_source').autocomplete('search','%'); return false;" aria-describedby="collectingSourcePick_help">  
-                                                           (&##8595;) <span id="collectingSourcePick_help" class="sr-only">open pick list</span>
-                                                        </button>
+													   <label for="collecting_source">Collecting Source</label>
+														<button type="button" class="rules" onclick="$('##collecting_source').autocomplete('search','%'); return false;" aria-describedby="collectingSourcePick_help">  
+														   (&##8595;) <span id="collectingSourcePick_help" class="sr-only">open pick list</span>
+														</button>
 														<cfif not isdefined("collecting_source")><cfset collecting_source=""></cfif>
 														<input type="text" name="collecting_source" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 														<script>
@@ -1108,22 +1108,22 @@ limitations under the License.
 														<label for="date_collected">Date Collected</label>
 														<cfif not isdefined("date_collected")><cfset date_collected=""></cfif>
 														<input type="text" 
-                                                               name="date_collected" 
-                                                               id="date_collected" 
-                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                               value="#encodeForHtml(date_collected)#"
-                                                               aria-describedby="dateCollected_help">
-                                                        <small id="dateCollected_help" class="sr-only"> 
-                                                            Example: yyyy-mm-dd/yyyy-mm-dd
-                                                        </small>
+															name="date_collected" 
+															id="date_collected" 
+															placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+															value="#encodeForHtml(date_collected)#"
+															aria-describedby="dateCollected_help">
+														<small id="dateCollected_help" class="sr-only"> 
+															Example: yyyy-mm-dd/yyyy-mm-dd
+														</small>
 													</div>
 													<div class="col-12 col-md-3 mb-1">
 														<label for="verbatim_date">Verbatim Date</label>
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 														<input type="text" name="verbatim_date" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
-														
-													<!---COLLECTING EVENT DETAIL--->										
+
+													<!---COLLECTING EVENT DETAIL--->
 													<button type="button" id="CollDetailCtl1" class="col-3 col-md-2 d-block d-xl-none my-1 btn-xs text-center btn small p-0 float-left btn-link" onclick="toggleCollDetail(#toggleTo#);">
 														show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 													</button>
@@ -1132,27 +1132,27 @@ limitations under the License.
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_began_date">Date Began</label>
 																<cfif not isdefined("date_began_date")><cfset date_began_date=""></cfif>
-															    <input type="text" 
-                                                                    name="date_began_date" 
-                                                                    id="date_began_date" 
-                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                                    value="#encodeForHtml(date_began_date)#" 
-                                                                    aria-describedby="dateBegan_help">
-                                                                <small id="dateBegan_help" class="sr-only"> 
-                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
-                                                                </small>      
+																<input type="text" 
+																	name="date_began_date" 
+																	id="date_began_date" 
+																	placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+																	value="#encodeForHtml(date_began_date)#" 
+																	aria-describedby="dateBegan_help">
+																<small id="dateBegan_help" class="sr-only"> 
+																	Example: yyyy-mm-dd/yyyy-mm-dd
+																</small>
 															</div>
 															<div class="col-12 col-md-3 mb-1">
 																<label for="date_ended_date">Date Ended</label>
 																<cfif not isdefined("date_ended_date")><cfset date_ended_date=""></cfif>
 																<input type="text" name="date_ended_date" 
-                                                                    id="date_ended_date" 
-                                                                    placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                                    value="#encodeForHtml(date_ended_date)#"
-                                                                    aria-describedby="dateEnded_help">
-                                                                <small id="dateEnded_help" class="sr-only"> 
-                                                                    Example: yyyy-mm-dd/yyyy-mm-dd
-                                                                </small>
+																	id="date_ended_date" 
+																	placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+																	value="#encodeForHtml(date_ended_date)#"
+																	aria-describedby="dateEnded_help">
+																<small id="dateEnded_help" class="sr-only"> 
+																	Example: yyyy-mm-dd/yyyy-mm-dd
+																</small>
 															</div>
 															<div class="col-12 col-md-6 mb-1">
 																<label for="verbatim_locality">Verbatim Locality</label>
@@ -1181,7 +1181,7 @@ limitations under the License.
 													OR (isDefined("root_container_type") and len(root_container_type) GT 0)
 													OR (isDefined("root_container_barcode") and len(root_container_barcode) GT 0)
 													OR (isDefined("root_container_label") and len(root_container_label) GT 0)
-                                                >
+												>
 													<cfset hiddenHaveValue = "true">
 												</cfif>
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
@@ -1201,12 +1201,12 @@ limitations under the License.
 														</button>
 													</div>
 												</div>
-													
+
 												<div class="form-row col-12 col-xxl-11 pt-1 mx-0 mb-1">
 													<div class="col-12 mb-1 col-md-3 mb-1">
-                                                        <cfif not isdefined("part_name")><cfset part_name=""></cfif>
-                                                        <label for="part_name">Part Name</label>
-                                                        <input type="text" id="part_name" name="part_name" value="#encodeForHtml(part_name)#">
+														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
+														<label for="part_name">Part Name</label>
+														<input type="text" id="part_name" name="part_name" value="#encodeForHtml(part_name)#">
 														<script>
 															jQuery(document).ready(function() {
 																makePartNameAutocompleteMeta('part_name');
@@ -1216,7 +1216,7 @@ limitations under the License.
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method">Preserve Method</label>
-												        <button type="button" class="rules" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" aria-describedby="preserveM_help"> (&##8595;) <span id="preserveM_help" class="sr-only">open pick list</span></button>
+														<button type="button" class="rules" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" aria-describedby="preserveM_help"> (&##8595;) <span id="preserveM_help" class="sr-only">open pick list</span></button>
 														<input type="text" id="preserve_method" name="preserve_method" value="#encodeForHtml(preserve_method)#">
 														<script>
 															jQuery(document).ready(function() {
@@ -1226,23 +1226,23 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-                                                        <label for="biol_indiv_relationship">Has Relationship</label>
-                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" aria-describedby="relationshipAny_help"> (Any) <span id="relationshipAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with relationships of any type</span></button>
-                                                        <button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" aria-describedby="relationshipPick_help"> (&##8595;) <span id="relationshipPick_help" class="sr-only">open pick list</span></button>
-                                                        <input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" value="#encodeForHtml(biol_indiv_relationship)#" >
-                                                        <script>
-                                                            jQuery(document).ready(function() {
-                                                                makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
-                                                            });
-                                                        </script>
+														<label for="biol_indiv_relationship">Has Relationship</label>
+														<button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" aria-describedby="relationshipAny_help"> (Any) <span id="relationshipAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with relationships of any type</span></button>
+														<button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" aria-describedby="relationshipPick_help"> (&##8595;) <span id="relationshipPick_help" class="sr-only">open pick list</span></button>
+														<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" value="#encodeForHtml(biol_indiv_relationship)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+															});
+														</script>
 													</div>
 													<div class="col-12 col-md-3 col-xl-3 mb-1">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
-                                                        <label for="media_type">Media Type</label>
-                                                        <button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" aria-describedby="mediaAny_help"> (Any) <span id="mediaAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with media of any type</span></button>
-                                                        <button type="button" class="rules" onclick="$('##media_type').autocomplete('search','%'); return false;" aria-describedby="mediaPick_help"> 
-                                                            (&##8595;) <span id="mediaPick_help" class="sr-only">open pick list</span>
-                                                        </button>
+														<label for="media_type">Media Type</label>
+														<button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" aria-describedby="mediaAny_help"> (Any) <span id="mediaAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with media of any type</span></button>
+														<button type="button" class="rules" onclick="$('##media_type').autocomplete('search','%'); return false;" aria-describedby="mediaPick_help"> 
+															(&##8595;) <span id="mediaPick_help" class="sr-only">open pick list</span>
+														</button>
 														<input type="text" id="media_type" name="media_type" value="#encodeForHtml(media_type)#" >
 														<script>
 															jQuery(document).ready(function() {
@@ -1258,8 +1258,8 @@ limitations under the License.
 														<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
 																<label for="coll_object_remarks">
-                                                                    Collection Object Remarks
-                                                                </label>
+																	Collection Object Remarks
+																</label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
@@ -1317,7 +1317,7 @@ limitations under the License.
 																<input type="text" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                                <label for="coll_obj_disposition">Disposition</label>
+																<label for="coll_obj_disposition">Disposition</label>
 																<button type="button" class="rules" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" aria-describedby="dispoPick_help"> (&##8595;) <span id="dispoPick_help" class="sr-only">open pick list</span></button>
 																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 																<input type="text" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
@@ -1333,11 +1333,11 @@ limitations under the License.
 																<input type="text" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                                <label for="part_attribute_type">Part Attribute Type</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-describedby="partAttTypeAny_help"> (Any) <span id="partAttTypeAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with any part attribute</span></button>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" aria-describedby="partAttTypePick_help"> 
-                                                                    (&##8595;) <span id="partAttTypePick_help" class="sr-only">open pick list</span>
-                                                                </button>
+																<label for="part_attribute_type">Part Attribute Type</label>
+																<button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-describedby="partAttTypeAny_help"> (Any) <span id="partAttTypeAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with any part attribute</span></button>
+																<button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" aria-describedby="partAttTypePick_help"> 
+																	(&##8595;) <span id="partAttTypePick_help" class="sr-only">open pick list</span>
+																</button>
 																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
 																<input type="text" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
 																<script>
@@ -1347,16 +1347,16 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                                <label for="part_attribute_value">Part Attribute Value</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" aria-describedby="partAttValAny_help"> (Any) <span id="partAttValAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
-                                                                </button>
+																<label for="part_attribute_value">Part Attribute Value</label>
+																<button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" aria-describedby="partAttValAny_help"> (Any) <span id="partAttValAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
+																</button>
 																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																<input type="text" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                                <label for="part_attribute_units">Part Attribute Units</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" aria-describedby="partAttUnitAny_help"> (Any) <span id="partAttUnitAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></button>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" aria-describedby="partAttUnitsPick_help"> (&##8595;) <span id="partAttUnitsPick_help" class="sr-only">open pick list</span></button>
+																<label for="part_attribute_units">Part Attribute Units</label>
+																<button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" aria-describedby="partAttUnitAny_help"> (Any) <span id="partAttUnitAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></button>
+																<button type="button" class="rules" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" aria-describedby="partAttUnitsPick_help"> (&##8595;) <span id="partAttUnitsPick_help" class="sr-only">open pick list</span></button>
 																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
 																<input type="text" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
 																<script>
@@ -1366,9 +1366,9 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-4 col-xl-3 mb-1">
-                                                                <label for="part_attribute_remarks">Part Attribute Remarks</label>
-                                                                <button type="button" class="rules" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;" aria-describedby="partAttRemarksAny_help"> (Any) <span id="partAttRemarksAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span>
-                                                                </button>
+																<label for="part_attribute_remarks">Part Attribute Remarks</label>
+																<button type="button" class="rules" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;" aria-describedby="partAttRemarksAny_help"> (Any) <span id="partAttRemarksAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span>
+																</button>
 																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																<input type="text" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 															</div>
@@ -1415,8 +1415,8 @@ limitations under the License.
 												</div>
 											</div>
 											<!---END SPECIMEN SECTION--->						   
-										   
-										 	<!---GENERAL SECTION---> 
+
+											<!---GENERAL SECTION---> 
 											<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<h2 class="small font-weight-bold m-0 px-3 px-xl-2 text-left text-xl-right border-default bg-teal">
@@ -1433,14 +1433,14 @@ limitations under the License.
 														<cfif not isdefined("coll_object_entered_date")><cfset coll_object_entered_date=""></cfif>
 														<label for="coll_object_entered_date">Date Entered</label>
 														<input type="text" 
-                                                               name="coll_object_entered_date" 
-                                                               id="coll_object_entered_date" 
-                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                               value="#encodeForHtml(coll_object_entered_date)#"
-                                                               aria-describedby="dateEntered_help">
-                                                        <small id="dateEntered_help" class="sr-only">
-                                                            Example: yyyy-mm-dd/yyyy-mm-dd
-                                                        </small>
+															   name="coll_object_entered_date" 
+															   id="coll_object_entered_date" 
+															   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+															   value="#encodeForHtml(coll_object_entered_date)#"
+															   aria-describedby="dateEntered_help">
+														<small id="dateEntered_help" class="sr-only">
+															Example: yyyy-mm-dd/yyyy-mm-dd
+														</small>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="entered_by">Entered By</label>
@@ -1472,14 +1472,14 @@ limitations under the License.
 														<cfif not isdefined("last_edit_date")><cfset last_edit_date=""></cfif>
 														<label for="last_edit_date">Last Updated on</label>
 														<input type="text" 
-                                                               name="last_edit_date" 
-                                                               id="last_edit_date" 
-                                                               placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                               value="#encodeForHtml(last_edit_date)#"
-                                                               aria-describedby="lastEdit_help">
-                                                        <small id="lastEdit_help" class="sr-only">
-                                                            Example: yyyy-mm-dd/yyyy-mm-dd    
-                                                        </small>
+															   name="last_edit_date" 
+															   id="last_edit_date" 
+															   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+															   value="#encodeForHtml(last_edit_date)#"
+															   aria-describedby="lastEdit_help">
+														<small id="lastEdit_help" class="sr-only">
+															Example: yyyy-mm-dd/yyyy-mm-dd    
+														</small>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
 														<label for="last_edited_person">Last Updated By</label>
@@ -1507,7 +1507,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 col-xl-2 mb-1">
-												        <label for="underscore_collection">Named Group</label>
+														<label for="underscore_collection">Named Group</label>
 														<button type="button" class="rules" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" aria-describedby="namedGroupAny_help"> (Any) <span id="namedGroupAny_help" class="sr-only">use NOT NULL to find cataloged items in any named group</span></button>
 														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
 														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
@@ -1579,29 +1579,29 @@ limitations under the License.
 															</cfif>
 															<label for="accn_number">Accession ##</label>
 															<input type="text" name="accn_number" id="accn_number" 
-                                                                   placeholder="nnnnn" 
-                                                                   value="#encodeForHtml(accn_number)#"
-                                                                   aria-describedby="accessionNum_help">
-                                                            <small id="accessionNum_help" class="sr-only">
-                                                                Example: nnnnn
-                                                            </small>
+																   placeholder="nnnnn" 
+																   value="#encodeForHtml(accn_number)#"
+																   aria-describedby="accessionNum_help">
+															<small id="accessionNum_help" class="sr-only">
+																Example: nnnnn
+															</small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("received_date")><cfset received_date=""></cfif>
 															<label for="received_date">Date Received</label>
 															<input type="text" 
-                                                                   name="received_date" 
-                                                                   id="received_date" 
-                                                                   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-                                                                   value="#encodeForHtml(received_date)#"
-                                                                   aria-describedby="dateReceived_help">
-                                                            <small id="dateReceived_help" class="sr-only">yyyy-mm-dd/yyyy-mm-dd</small>
+																   name="received_date" 
+																   id="received_date" 
+																   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+																   value="#encodeForHtml(received_date)#"
+																   aria-describedby="dateReceived_help">
+															<small id="dateReceived_help" class="sr-only">yyyy-mm-dd/yyyy-mm-dd</small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_status")><cfset accn_status=""></cfif>
-                                                            <label for="accn_status">Accn Status</label>
-                                                            <button type="button" class="rules" onclick="$('##accn_status').autocomplete('search','%'); return false;" aria-describedby="accnStatPick_help">(&##8595;)<span id="accnStatPick_help" class="sr-only">open pick list</span>
-                                                            </button>
+															<label for="accn_status">Accn Status</label>
+															<button type="button" class="rules" onclick="$('##accn_status').autocomplete('search','%'); return false;" aria-describedby="accnStatPick_help">(&##8595;)<span id="accnStatPick_help" class="sr-only">open pick list</span>
+															</button>
 															<input type="text" name="accn_status" id="accn_status" value="#encodeForHtml(accn_status)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1611,8 +1611,8 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("accn_type")><cfset accn_type=""></cfif>
-                                                            <label for="accn_type">Accn Type</label>
-                                                            <button type="button" class="rules" onclick="$('##accn_type').autocomplete('search','%'); return false;" aria-describedby="accnTypePick_help">(&##8595;)<span id="accnTypePick_help" class="sr-only">open pick list</span></button>
+															<label for="accn_type">Accn Type</label>
+															<button type="button" class="rules" onclick="$('##accn_type').autocomplete('search','%'); return false;" aria-describedby="accnTypePick_help">(&##8595;)<span id="accnTypePick_help" class="sr-only">open pick list</span></button>
 															<input type="text" name="accn_type" id="accn_type" value="#encodeForHtml(accn_type)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1620,7 +1620,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-                                                        <div class="col-12 col-md-2 col-xl-2 mb-1">
+														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
 																<!--- lookup loan number (for api call &loan_trans_id=) --->
@@ -1636,29 +1636,29 @@ limitations under the License.
 															</cfif>
 															<label for="loan_number">Loan ##</label>
 															<input 
-                                                                   type="text" 
-                                                                   name="loan_number" 
-                                                                   id="loan_number" 
-                                                                   placeholder="yyyy-n-Col" 
-                                                                   value="#encodeForHtml(loan_number)#"
-                                                                   aria-describedby="loanNum_help">
-                                                            <small id="loanNum_help" class="sr-only">Example: yyyy-n-Col</small>
+																   type="text" 
+																   name="loan_number" 
+																   id="loan_number" 
+																   placeholder="yyyy-n-Col" 
+																   value="#encodeForHtml(loan_number)#"
+																   aria-describedby="loanNum_help">
+															<small id="loanNum_help" class="sr-only">Example: yyyy-n-Col</small>
 														</div>
 														<div class="col-12 col-md-2 col-xl-2 mb-1">
 															<cfif not isdefined("deaccession_number")><cfset deaccession_number=""></cfif>
 															<label for="deaccession_number">Deaccession ##</label>
 															<input 
-                                                                   type="text" 
-                                                                   name="deaccession_number" 
-                                                                   id="deaccession_number" 
-                                                                   placeholder="Dyyyy-n-Col" 
-                                                                   value="#encodeForHtml(deaccession_number)#"
-                                                                   aria-describedby="deaccNum_help">
-                                                            <small id="deaccNum_help" class="sr-only">Example: Dyyyy-n-Col</small>
+																   type="text" 
+																   name="deaccession_number" 
+																   id="deaccession_number" 
+																   placeholder="Dyyyy-n-Col" 
+																   value="#encodeForHtml(deaccession_number)#"
+																   aria-describedby="deaccNum_help">
+															<small id="deaccNum_help" class="sr-only">Example: Dyyyy-n-Col</small>
 														</div>
-                                                        <button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTransactionDetail(#toggleTo#);">
-														    show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
-													    </button> 
+														<button type="button" id="TransactionDetailCtl1" class="col-3 col-md-2 px-0 mx-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleTransactionDetail(#toggleTo#);">
+															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
+														</button> 
 														<!--- TRANSACTION DETAIL --->
 														<div id="TransactionDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
 															<div class="form-row col-12 mb-1 px-0 mx-0">
@@ -1704,9 +1704,9 @@ limitations under the License.
 																</script>
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
-                                                                    <label for="permit_type">Document Category</label>
-																    <button type="button" class="rules" onclick="$('##permit_type').autocomplete('search','%%%'); return false;" aria-describedby="docCatPick_help">(&##8595;)<span id="docCatPick_help" class="sr-only">open pick list for document category</span></button>
-																    <button type="button" class="rules" onclick="$('##permit_type').val('NOT NULL'); return false;" aria-describedby="docCatAny_help">(Any)<span id="docCatAny_help" class="sr-only">click Any for NOT NULL to find any related document category</span></button>
+																	<label for="permit_type">Document Category</label>
+																	<button type="button" class="rules" onclick="$('##permit_type').autocomplete('search','%%%'); return false;" aria-describedby="docCatPick_help">(&##8595;)<span id="docCatPick_help" class="sr-only">open pick list for document category</span></button>
+																	<button type="button" class="rules" onclick="$('##permit_type').val('NOT NULL'); return false;" aria-describedby="docCatAny_help">(Any)<span id="docCatAny_help" class="sr-only">click Any for NOT NULL to find any related document category</span></button>
 																	<input type="text" id="permit_type" name="permit_type" value="#encodeForHtml(permit_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1716,9 +1716,9 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-4 mb-1">
 																	<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
-																    <label for="specific_type">Specific Type</label>
-																    <button type="button" class="rules" onclick="$('##specific_type').autocomplete('search','%%%'); return false;" aria-describedby="specTypePick_help">(&##8595;)<span id="specTypePick_help" class="sr-only">open pick list for specific document type</span></button>
-																    <button type="button" class="rules" onclick="$('##specific_type').val('NOT NULL'); return false;" aria-describedby="specTypeAny_help">(Any)<span id="specTypeAny_help" class="sr-only">use NOT NULL to find any related specific document type</span></button>
+																	<label for="specific_type">Specific Type</label>
+																	<button type="button" class="rules" onclick="$('##specific_type').autocomplete('search','%%%'); return false;" aria-describedby="specTypePick_help">(&##8595;)<span id="specTypePick_help" class="sr-only">open pick list for specific document type</span></button>
+																	<button type="button" class="rules" onclick="$('##specific_type').val('NOT NULL'); return false;" aria-describedby="specTypeAny_help">(Any)<span id="specTypeAny_help" class="sr-only">use NOT NULL to find any related specific document type</span></button>
 																	<input type="text" id="specific_type" name="specific_type" value="#encodeForHtml(specific_type)#">
 																	<script>
 																		jQuery(document).ready(function() {
@@ -1932,19 +1932,19 @@ limitations under the License.
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
 													</div>
-												
+
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<!--- TODO: Figure out how to make this sticky row work on the column header row --->
 												<div class="row mx-0 mt-0"> 
-													
+
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
 													<div id="fixedPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
 														<!--- a mouse wheel toggle could go here --->
 													</div>
-													
+
 												</div>
 											</div>
 										</div>
@@ -2517,7 +2517,7 @@ limitations under the License.
 																	searchMode: 'containsignorecase',
 																	width: '100%',
 																	dropDownHeight: 400,
-                                                                    height: '21px'
+																	height: '21px'
 																});
 																// bind an autocomplete, if one applies
 																handleFieldSetup('field1',1);
@@ -2648,7 +2648,7 @@ limitations under the License.
 																				searchMode: 'containsignorecase',
 																				width: '100%',
 																				dropDownHeight: 400,
-                                                                                height: '21px'
+																				height: '21px'
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
@@ -2700,7 +2700,7 @@ limitations under the License.
 														</cfif>
 													</cfloop>
 												</cfif>
-							
+
 											</div><!--- end customFields: new form rows get appended here --->
 											<script>
 												function removeBuilderRow(row) {
@@ -2831,7 +2831,7 @@ limitations under the License.
 														searchMode: 'containsignorecase',
 														width: '100%',
 														dropDownHeight: 400,
-                                                        height: '22px'
+														height: '22px'
 													});
 													var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
 													$('##field'+row).on("change", function(event) { 
@@ -3014,7 +3014,7 @@ limitations under the License.
 					} 
 					updateButtonRemoveState('builder');
 				}
-		
+
 				// for a specified grid, update the remove selected button state
 				function updateButtonRemoveState(whichGrid) { 
 					size = 0;
@@ -3029,7 +3029,7 @@ limitations under the License.
 						$('##'+whichGrid+'removeButton').addClass('disabled'); 
 					}
 				} 
-		
+
 				// functions defined separately for each grid/set to remove, event handler for remove selected for that grid.
 				function removeFixedSelectedRows() { 
 					console.log(fixedlisttoremove);
@@ -3135,7 +3135,7 @@ limitations under the License.
 				}
 			</cfif>
 		</cfif>
-		
+
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			lookupColumnVisibilities ('#cgi.script_name#','Default');
 		</cfif>
@@ -3215,7 +3215,7 @@ limitations under the License.
 				columnOrderLoading = 0;
 			}
 		</cfif>
-	
+
 		// ***** cell renderers *****
 		// cell renderer to display a thumbnail with alt tag given columns preview_uri, media_uri, and ac_description 
 		var thumbCellRenderer_f = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -3229,13 +3229,13 @@ limitations under the License.
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 			}
 		};
-	
+
 		// *** Cell renderers that look up data from additional columns *********** 
 
 		// NOTE: Since there are three grids, and the cellsrenderer api does not pass a reference to the grid, a separate
 		// cell renderer must be added for each grid,  cf_spec_res_cols_r.cellsrenderer values starting with _ are interpreted
 		// as fixed_, keyword_, builder_ cell renderers depending on the grid in which the cellsrenderer value is being applied. 
-		
+
 		// cell renderer to link out to specimen details page by collection_object_id, only works for role DATA_ENTRY
 		// Deprecated.
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
@@ -3328,7 +3328,7 @@ limitations under the License.
 		};
 
 		// *** Cell renderers that display data from only the single rendered column *********** 
-	
+
 		// cell renderer to link out to specimen details page by guid, when value is guid.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
@@ -3450,7 +3450,7 @@ limitations under the License.
 				}
 			}
 		};
-	
+
 		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
 		var fixedSearchLoaded = 0;
 		var keywordSearchLoaded = 0;
@@ -3458,7 +3458,7 @@ limitations under the License.
 
 		// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
 		var columnOrderLoading = 0
-	
+
 		function serializeFormAsJSON(formID) {
 			const array = $('##'+formID).serializeArray();
 			const json = {};
@@ -3508,7 +3508,7 @@ limitations under the License.
 					builderreloadlistenerbound = true;
 				}
 			}
-	
+
 			bc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.source == "manage" && message.data.result_id == $("##result_id_fixedSearch").val()) { 
@@ -3549,10 +3549,10 @@ limitations under the License.
 			/* Setup jqxgrid for fixed Search */
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
-			
+
 				var uuid = getVersion4UUID();
 				$("##result_id_fixedSearch").val(uuid);
-	
+
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					if (Object.keys(window.columnHiddenSettings).length == 0) {
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -3578,7 +3578,7 @@ limitations under the License.
 				debug = $('##fixedSearchForm').serialize();
 				console.log(debug);
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
-	
+
 				var search = null;
 
 				if ($('##fixedSearchForm').serialize().length > 7900) { 
@@ -3586,7 +3586,7 @@ limitations under the License.
 					search = 
 					{
 						datatype: "json",
-						
+
 						datafields:
 						[
 							<cfset separator = "">
@@ -3632,7 +3632,7 @@ limitations under the License.
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-			 					success : function (data) { 
+								success : function (data) { 
 									console.log(data);
 									commit(true);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
@@ -3704,7 +3704,7 @@ limitations under the License.
 						} 
 					};
 				};
-	
+
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
@@ -3718,7 +3718,7 @@ limitations under the License.
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 
-	
+
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3780,7 +3780,7 @@ limitations under the License.
 						</cfloop>
 						#lastrow#
 					],
-					
+
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
@@ -3788,7 +3788,7 @@ limitations under the License.
 					},
 					initrowdetails: initRowDetails
 				});
-	
+
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
@@ -3804,7 +3804,7 @@ limitations under the License.
 							$(document).scrollTop(480);
 						}
 					</cfif>
-			
+
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="m-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
@@ -3877,12 +3877,12 @@ limitations under the License.
 				});
 			});
 			/* End Setup jqxgrid for keyword Search ****************************************************************************************/
-	 
-			
+
+
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
-				
+
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -3910,7 +3910,7 @@ limitations under the License.
 				$('##keywordPostGridControls').hide();
 				var debug = $("##keywordSearchForm").serialize();
 				console.log(debug);
-		
+
 				var search =
 				{
 					datatype: "json",
@@ -3923,7 +3923,7 @@ limitations under the License.
 							<cfelseif data_type EQ 'NUMBER' >
 								#separator#{name: '#ucase(column_name)#', type: 'number' }
 							<cfelse>
-						
+
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
 							</cfif>
 							<cfset separator = ",">
@@ -3970,7 +3970,7 @@ limitations under the License.
 						});
 					} 
 				};	
-	
+
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -3982,7 +3982,7 @@ limitations under the License.
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
-		
+
 				$("##keywordsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -4050,7 +4050,7 @@ limitations under the License.
 					},
 					initrowdetails: initRowDetails
 				});
-		
+
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##keywordsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('keywordsearchResultsGrid'); 
@@ -4107,7 +4107,7 @@ limitations under the License.
 						setPinColumnState('keywordsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-	
+
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
 					// Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
@@ -4131,23 +4131,23 @@ limitations under the License.
 					$("##keywordunselectrowindex").text(event.args.rowindex);
 				});
 			});
-	
+
 			/* Setup jqxgrid for builder Search */
 			$('##builderSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
 				var uuid = getVersion4UUID();
 				$("##result_id_builderSearch").val(uuid);
-				
+
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					if (Object.keys(window.columnHiddenSettings).length == 0) {
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
 					}
 				</cfif>
-	
+
 				builderSearchLoaded = 0;
 
 				$("##overlay").show();
-		
+
 				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##builderresultCount").html("");
 				$("##builderresultLink").html("");
@@ -4221,7 +4221,7 @@ limitations under the License.
 						});
 					} 
 				};	
-	
+
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -4233,7 +4233,7 @@ limitations under the License.
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
-		
+
 				$("##buildersearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -4302,7 +4302,7 @@ limitations under the License.
 					},
 					initrowdetails: initRowDetails
 				});
-		
+
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('buildersearchResultsGrid'); 
@@ -4381,7 +4381,7 @@ limitations under the License.
 					$("##builderunselectrowindex").text(event.args.rowindex);
 				});
 			});
-	
+
 
 			// If requested in uri, execute search immediately.
 			<cfif isdefined("execute")>
@@ -4398,7 +4398,7 @@ limitations under the License.
 				</cfswitch>
 			</cfif>
 		}); /* End document.ready */
-	
+
 		var columnCategoryPlacements = new Map(); // fieldname and category placement
 		var columnCategories = new Map(); // category and count 
 		var columnSections = new Map(); // category and array of list rows
@@ -4411,7 +4411,7 @@ limitations under the License.
 				columnSections.set("#getFieldMetadata.category#",new Array());
 			}
 		</cfloop>
-	
+
 		function populateSaveSearch(gridId,whichGrid) { 
 			// set up a dialog for saving the current search.
 			var uri = "/Specimens.cfm?execute=true&" + $('##'+whichGrid+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
@@ -4456,7 +4456,7 @@ limitations under the License.
 			$("##"+whichGrid+"columnPick_row").html("");
 			$('<div/>',{
 				id: whichGrid +"columnPick_col",
- 				class: "col-12 mb-2 accordion"
+				class: "col-12 mb-2 accordion"
 			}).appendTo("##"+whichGrid+"columnPick_row");
 			var firstAccord = true;
 			var bodyClass="";
@@ -4478,7 +4478,7 @@ limitations under the License.
 				}
 				$('<div/>',{
 					id: whichGrid + "_" + key + "_accord_head",
- 					class: "card-header accordion-header"
+					class: "card-header accordion-header"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$('<h2/>',{
 					id: whichGrid + "_" + key + "_accord_head_h2",
@@ -4736,7 +4736,7 @@ limitations under the License.
 
 	</script>
 
-	
+
 	<script>
 	/*!
 	 * classie - class helper functions
@@ -4748,21 +4748,21 @@ limitations under the License.
 	 * classie.toggle( elem, 'my-class' )
 	 */
 	/*jshint browser: true, strict: true, undef: true */
-	
+
 	( function( window ) {
-	
+
 	'use strict';
-	
+
 	// class helper functions from bonzo https://github.com/ded/bonzo
-	
+
 	function classReg( className ) {
 		return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
 	}
-	
+
 	// classList support for class management
 	// altho to be fair, the api sucks because it won't accept multiple classes at once
 	var hasClass, addClass, removeClass;
-	
+
 	if ( 'classList' in document.documentElement ) {
 		hasClass = function( elem, c ) {
 			return elem.classList.contains( c );
@@ -4786,12 +4786,12 @@ limitations under the License.
 			elem.className = elem.className.replace( classReg( c ), ' ' );
 		};
 	}
-	
+
 	function toggleClass( elem, c ) {
 		var fn = hasClass( elem, c ) ? removeClass : addClass;
 		fn( elem, c );
 	}
-	
+
 	window.classie = {
 		// full names
 		hasClass: hasClass,
@@ -4804,10 +4804,13 @@ limitations under the License.
 		remove: removeClass,
 		toggle: toggleClass
 	};
-	
+
 	})( window );
 </script>
 
 </cfoutput>
-
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Search_Taxonomy">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
