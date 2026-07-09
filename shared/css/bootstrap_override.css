@@ -1,6 +1,5 @@
 @charset "utf-8";
 /* CSS Document */
-
 /* GOOD: smallest → largest */
 body, html {
 	line-height: 1.15rem;
@@ -21,7 +20,7 @@ a:hover {
 	text-decoration: underline;
 	text-decoration: underline dotted #aaa;
 }
-a:focus { 
+a:focus {
 	color: purple;
 	text-decoration: underline;
 	text-decoration: underline dotted #aaa;
@@ -59,7 +58,6 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .small95 {
 	font-size: .905rem;
 }
-
 .font-weight-lessbold {
 	font-weight: 560;
 }
@@ -69,17 +67,21 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .line90 {
 	line-height: .90rem;
 }
-.onlyfirst span.one{display:none;}
-.onlyfirst span.one:first-child { display:inline-block}
+.onlyfirst span.one {
+	display: none;
+}
+.onlyfirst span.one:first-child {
+	display: inline-block
+}
 .text-muted {
-	color: #6a737b!important;
+	color: #6a737b !important;
 }
 table#t {
 	cursor: pointer;
 }
 .blueFocus a:focus {
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
-} 
+}
 /** Styling of external links out, shared with production **/
 .external:after {
 	text-decoration: none !important;
@@ -115,13 +117,8 @@ table td .small {
 	font-size: 90%
 }
 .barber_stripes {
-	background: repeating-linear-gradient(
-		45deg,           /* Angle of the diagonal lines */
-		#f5f5f5,         /* Start color */
-		#f5f5f5 5px,     /* End color at this pixel distance */
-		white 5px,       /* Start next color at this pixel distance */
-		white 10px       /* End at this pixel distance to create a repeating pattern */
-	)
+	background: repeating-linear-gradient(45deg, /* Angle of the diagonal lines */ #f5f5f5, /* Start color */ #f5f5f5 5px, /* End color at this pixel distance */ white 5px, /* Start next color at this pixel distance */ white 10px /* End at this pixel distance to create a repeating pattern */
+		)
 }
 .bg-lightgreen {
 	background-color: #CAEAAD;
@@ -136,7 +133,7 @@ table td .small {
 	background-color: #F0F3F7 !important;
 }
 .border-default {
-    border: 1px solid #dee2e6 !important;
+	border: 1px solid #dee2e6 !important;
 }
 .border-white {
 	border: 1px solid white;
@@ -175,28 +172,29 @@ table td .small {
 	background-color: #f2f9ff;
 }
 .bg-med-teal {
-    background-color: #deebec;
+	background-color: #deebec;
 }
-
-.highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
-
+.highlight_media {
+	border: 2px solid #a51c30;
+	background-color: #E2E6EC;
+}
 .part-occurrence-head {
 	background-color: #d4f6f6;
-} 
+}
 .part-occurrence {
 	background-color: #d4f6f685;
 }
 .field-set {
-    background-color: #efeded !important;
+	background-color: #efeded !important;
 }
 .field-set-legend {
-    background-color: #f8f9fa !important;
-    color: #041132 !important;
-    font-weight: 520 !important;
-    text-align: left;
+	background-color: #f8f9fa !important;
+	color: #041132 !important;
+	font-weight: 520 !important;
+	text-align: left;
 }
 .border2 {
-    border: 1px solid #5f9da3;
+	border: 1px solid #5f9da3;
 }
 option:hover {
 	font-weight: normal;
@@ -207,7 +205,7 @@ option:hover {
 	outline: #ccc auto 1px;
 }
 dfn {
-	color:#444;
+	color: #444;
 	font-weight: 510;
 }
 select:focus {
@@ -267,7 +265,7 @@ h1.h4 {
 	margin-top: .5rem;
 }
 .text-dark-gray {
-    color: #4f4b4b;
+	color: #4f4b4b;
 }
 .btn-link, .helpText, .fas-info {
 	color: #0460c1 !important;
@@ -373,7 +371,7 @@ label { /* Override bootstrap label .5rem to reduce excess whitespace on forms. 
 	background-color: #F5F5F5;
 }
 .bg-box-header-gray {
-	background-color:#dee2e6;
+	background-color: #dee2e6;
 	background-color: #cccccc47;
 }
 .dotted-border {
@@ -382,11 +380,10 @@ label { /* Override bootstrap label .5rem to reduce excess whitespace on forms. 
 .text-grayish {
 	color: #f5f5f5;
 }
-.rounded-teal {/*used on locality search box*/
-	border-top-left-radius: .65rem !important; 
+.rounded-teal { /*used on locality search box*/
+	border-top-left-radius: .65rem !important;
 	border-top-right-radius: .65rem !important;
 }
-
 /************************
 BELOW: Small Form button (bootstrap override)
 ************************/
@@ -586,34 +583,33 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-
 /************************
 BELOW: Cell styles for specimen search results grids
 used by cellclassname functions in the results grids
 ************************/
-.primaryTypeCell { 
+.primaryTypeCell {
 	background-color: #ffe1e1\9;
 }
-.secondaryTypeCell { 
+.secondaryTypeCell {
 	background-color: #e8f1ff\9;
-} 
-.primaryTypeCell.jqx-grid-cell-pinned { 
+}
+.primaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #eedbdb\9;
 }
-.secondaryTypeCell.jqx-grid-cell-pinned { 
+.secondaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #e1edff\9;
 }
 /** base classes above have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
-.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #ffe1e1;
 }
-.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #e8f1ff;
-} 
-.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+}
+.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #eedbdb;
 }
-.jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
+.jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #e1edff;
 }
 /************************
@@ -741,8 +737,6 @@ li.list-group-item.thethumbs:first-child {
 	margin-right: 10px;
 	margin-left: 10px;
 }
-
-
 /************************
 *************************
 BELOW: SEARCH PAGE STYLES to 
@@ -885,7 +879,6 @@ a#showLeftPush.hiddenclass {
 	margin-top: 3.5rem;
 	margin-bottom: 2rem;
 }
-
 .shell {
 	background-color: #deedec;
 	padding-top: .13rem;
@@ -928,9 +921,9 @@ a#showLeftPush.hiddenclass {
 	padding: .5rem;
 }
 .redbox {
-	background-color: #f8d7da!important;
+	background-color: #f8d7da !important;
 	padding: 1rem;
-	border: 2px solid #a51c30!important;
+	border: 2px solid #a51c30 !important;
 }
 code {
 	font-size: 80%;
@@ -1022,11 +1015,11 @@ ul.sd li.list-group-item {
 }
 ul.sd li.list-group-item:nth-last-of-type(2) {
 	border-bottom: none;
-	background-color:transparent;
+	background-color: transparent;
 }
 ul.sd li.list-group-item:nth-last-of-type(1) {
 	border-bottom: none;
-	background-color:transparent;
+	background-color: transparent;
 }
 ul.sd li.list-group-item:last-child {
 	margin-bottom: 0;
@@ -1045,7 +1038,7 @@ ul.sd li.list-group-item:last-child {
 	/* odd rows in the basic specimen search form */
 	border-top: 1px solid #e3e3e3;
 	border-bottom: 1px solid #e3e3e3;
-	background-color: #efeded!important;
+	background-color: #efeded !important;
 }
 .jqx-grid-load {
 	background-position: 0% 0%;
@@ -1126,7 +1119,6 @@ table.inputTable tr {
 .bg-blue-gray {
 	background-color: #deebec;
 }
-
 /******************/
 .table-striped tbody tr:nth-of-type(odd) {
 	background-color: #f8f9fa;
@@ -1156,7 +1148,7 @@ table.inputTable tr {
 }
 .add-form {
 	border: 2px solid #C7DADB;
-	margin-top:.1rem;
+	margin-top: .1rem;
 }
 .add-form-header {
 	background-color: #DEEBEC;
@@ -1360,7 +1352,7 @@ table#pairs, th, td {
 	font-weight: 500;
 }
 .mediaTableHeader {
-	border:1px solid #3E6f7d;
+	border: 1px solid #3E6f7d;
 }
 table.mediaTable tr {
 	border-bottom: 1px solid #dee2e6;
@@ -1643,7 +1635,7 @@ tr.line-top:first-child {
 }
 .infoLink {
 	cursor: pointer;
-	color: #3366cc!important;
+	color: #3366cc !important;
 	text-decoration: underline;
 }
 .infoLink:hover {
@@ -1731,25 +1723,25 @@ tr.line-top:first-child {
 	float: left !important;
 }
 .card-header h2 button {
-	font-weight:500;
+	font-weight: 500;
 }
-.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before,  h4.collapsebar button[aria-expanded="false"]:before {
+.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before, h4.collapsebar button[aria-expanded="false"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
 	/*content: "\f067";*/
-	content: "\f0fe";/*plus*/
+	content: "\f0fe"; /*plus*/
 	padding-top: 2px;
 	cursor: pointer;
 	padding-right: 6px;
 }
-.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before,  h4.collapsebar button[aria-expanded="true"]:before {
+.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before, h4.collapsebar button[aria-expanded="true"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
 	/*content: "\f068";*/
-	content: "\f146";/*minus*/
+	content: "\f146"; /*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
 	float: left !important;
@@ -1764,24 +1756,28 @@ tr.line-top:first-child {
 .nav-link.dropdown-toggle:hover:after {
 	transform: rotate(-90deg);
 }
-.card-body li.list-group-item span:last-child {/*changes the last element of the group with the class*/
+.card-body li.list-group-item span:last-child { /*changes the last element of the group with the class*/
 	display: block;
 	margin-bottom: .5rem;
 }
-.card-body li.list-group-item span.sd:last-child {/*changes the last element of the group with the class*/
-	display:none; 
+.card-body li.list-group-item span.sd:last-child { /*changes the last element of the group with the class*/
+	display: none;
 }
 .comma1 span {
-	display:inline;
+	display: inline;
 }
 .comma1 span:last-child {
-	display:none!important;
+	display: none !important;
 }
 input#readMore_check_id {
-	display: none!important;
+	display: none !important;
 }
-.comma2 span{display:inline!important;}
-.comma2 span:last-child {display:none!important;}
+.comma2 span {
+	display: inline !important;
+}
+.comma2 span:last-child {
+	display: none !important;
+}
 .jqx-grid-load {
 	background-image: url("/shared/images/spinner_712_sm.gif");
 	background-position: 50% 50%;
@@ -1894,14 +1890,14 @@ look the way they do. */
 	border-left: 1px solid #deebec;
 }
 .tab-content h2 {
-    font-size: 80%;
-    font-weight: 700;
-    padding-top: 2px !important;
-    padding-bottom: 2px !important;
-    background-color: rgb(199 251 255 / .35)!important;
-    border: 1px solid #dee2e6 !important;
-    margin: 0;
-    display: block !important;
+	font-size: 80%;
+	font-weight: 700;
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+	background-color: rgb(199 251 255 / .35) !important;
+	border: 1px solid #dee2e6 !important;
+	margin: 0;
+	display: block !important;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
@@ -1912,72 +1908,72 @@ look the way they do. */
 }
 .tab-content label, #searchForm fieldset label {
 	font-weight: 400;
-    font-size: 0.85em;
-    border: none;
-    padding: 0 0 0 .25rem;
-    margin-bottom: 0;
+	font-size: 0.85em;
+	border: none;
+	padding: 0 0 0 .25rem;
+	margin-bottom: 0;
 }
 /* These styles are for all search pages (e.g., specimen search, taxonomy, agents). 
 The #searchFormDiv is on all search pages to control form fields, labels, select, and buttons. */
 .tab-content input[type="text"], #searchForm fieldset input[type="text"] {
-    display: block;
-    width: 100%;
-    padding: 2px .5rem;
-    color: black;
-    border: 1px solid #ced4da;
-    background-clip: padding-box;
-    background-color: white;
-    vertical-align: middle;
-    font: 500 .875rem/1.4 apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
-    line-height: 1.15rem;   
-    border-radius: .2rem;
+	display: block;
+	width: 100%;
+	padding: 2px .5rem;
+	color: black;
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: white;
+	vertical-align: middle;
+	font: 500 .875rem/1.4 apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	line-height: 1.15rem;
+	border-radius: .2rem;
 }
-.tab-content input[type="button"] #searchForm fieldset input[type="button"]{
-    border: none;
-    padding: 0 .15rem;
+.tab-content input[type="button"] #searchForm fieldset input[type="button"] {
+	border: none;
+	padding: 0 .15rem;
 }
 .tab-content select, #searchForm fieldset select {
-    display: block;
-    width: 100%!important;
-    font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    padding: 2px .5rem;
-    color: rgba(0, 0, 0, .67);
-    border: 1px solid #ced4da;
-    background-clip: padding-box;
-    background-color: white;
-    vertical-align: middle;
-    border-radius: .2rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    line-height: 0.875rem;
-    height: 23px;
+	display: block;
+	width: 100% !important;
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	padding: 2px .5rem;
+	color: rgba(0, 0, 0, .67);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: white;
+	vertical-align: middle;
+	border-radius: .2rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	line-height: 0.875rem;
+	height: 23px;
 }
 .jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
-    line-height: 23px !important;
-    height: 23px !important;
+	line-height: 23px !important;
+	height: 23px !important;
 }
 .jqx-combobox {
-    height: 23px !important;
+	height: 23px !important;
 }
 .tab-content button.rules, #searchForm button.rules[type="button"] {
-    border: none;
-    padding: 0;
-    color: #0460c1 !important;
+	border: none;
+	padding: 0;
+	color: #0460c1 !important;
 	font-weight: 400;
-    font-size: 0.85em;
-	text-decoration: underline dotted #0460c1;  
+	font-size: 0.85em;
+	text-decoration: underline dotted #0460c1;
 }
 #searchForm span.rules {
-    border: none;
-    padding: 0;
-    color: #212529 !important;
+	border: none;
+	padding: 0;
+	color: #212529 !important;
 	font-weight: 400;
-    font-size: 0.85em;  
+	font-size: 0.85em;
 }
 #searchFormDiv input[type="radio"] {
-    position: absolute;
-    left: 0; 
-    top: 0.2rem;
+	position: absolute;
+	left: 0;
+	top: 0.2rem;
 }
 /* for Specimen Details section headers and cards (e.g., citations)*/
 .headerLnk {
@@ -1994,7 +1990,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	box-shadow: none;
 }
 .accordion .card-header h2 button:focus, .accordion .card-header h3 button:focus {
-	border: 2px inset rgba(255, 193, 7, .2)!important;
+	border: 2px inset rgba(255, 193, 7, .2) !important;
 	box-shadow: none;
 }
 .card-header h1 button.collapsed span:before {
@@ -2012,14 +2008,14 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	float: left !important;
 }
 .card-header h2 button, .card-header h3 button {
-	font-weight:500;
+	font-weight: 500;
 }
 .card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	content: "\f0fe";/*plus*/
+	content: "\f0fe"; /*plus*/
 	padding-top: 2px;
 	cursor: pointer;
 	padding-right: 6px;
@@ -2028,14 +2024,14 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	content: "\f146";/*minus*/
+	content: "\f146"; /*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
 	float: left !important;
 	cursor: pointer;
 }
 .accordion .card-header h3 button:focus {
-	border: 2px inset rgba(255, 193, 7, .2)!important;
+	border: 2px inset rgba(255, 193, 7, .2) !important;
 	box-shadow: none;
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
@@ -2054,8 +2050,8 @@ a.anchorFocus, button.anchorFocus {
 	text-decoration: underline dotted #aaa;
 }
 a.anchorFocus:focus, button.anchorFocus:focus {
-	border: 2px inset rgba(0, 123,255, .25)!important;
-	border: 2px inset rgba(255, 193, 7, .2)!important;
+	border: 2px inset rgba(0, 123, 255, .25) !important;
+	border: 2px inset rgba(255, 193, 7, .2) !important;
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
 	margin: .18rem .67rem;
@@ -2074,12 +2070,12 @@ div[aria-hidden='false'] {
 }
 /* Identification section of specimen details page */
 .currentID {
-    display:block !important;
-    color: #18780b !important;
+	display: block !important;
+	color: #18780b !important;
 }
 .formerID {
 	display: block !important;
-    color: #208738 !important; 
+	color: #208738 !important;
 }
 a.btn-outline-primary {
 	background-color: white;
@@ -2174,34 +2170,34 @@ section#mediaSection.accordion {
 	background-color: rgb(233 204 138 / 35%) !important;
 }
 .height1p2 {
-	height: 1.4rem!important;
+	height: 1.4rem !important;
 }
 .height1p8 {
-	height: 1.8rem!important;
+	height: 1.8rem !important;
 }
 .inputHeight {
-	padding-top: 1px!important;
-	padding-bottom: 1px!important;
+	padding-top: 1px !important;
+	padding-bottom: 1px !important;
 }
 .smallselect {
-	font-size: 84%!important;
+	font-size: 84% !important;
 }
 /* controls for divs implementing top and bottom scroll bars */
 .scrollWrapperTop {
-	width: 100%; 
-	overflow-x: scroll; 
+	width: 100%;
+	overflow-x: scroll;
 	overflow-y: hidden;
 	height: 20px;
 }
 .scrollWrapper {
-	width: 100%; 
+	width: 100%;
 	height: auto;
-	overflow-x: scroll; 
+	overflow-x: scroll;
 	overflow-y: hidden;
 }
 .topScrollBar {
-	width: 100%; 
-	height: 20px; 
+	width: 100%;
+	height: 20px;
 }
 #collapseKeyword.collapsing.width {
 	height: auto;
@@ -2213,48 +2209,49 @@ section#mediaSection.accordion {
 	transition: all 1s ease;
 }
 button.help-btnSp-SearchWiki {
-    background-color: #1b1b1b;
-    color: white;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translateX(-98%) rotate(90deg);
-    -webkit-transform-origin: right top;
-    -moz-transform: translateX(-98%) rotate(90deg);
-    -moz-transform-origin: right top;
-    -o-transform: translateX(-98%) rotate(90deg);
-    -o-transform-origin: right top;
-    transform: translateX(-98%) rotate(90deg);
-    transform-origin: right top;
-    margin-bottom: 15px;
-    top: 11.5rem;
-    right: -108px;
-    z-index: 1; 
-    padding-top: .75rem;
-    padding-bottom: .15rem; 
-    font-size: 13.5px;
-    margin-top: 0;
-    position: absolute;
-    overflow: hidden;
-    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
-    border-color: black;
+	background-color: #1b1b1b;
+	color: white;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateX(-98%) rotate(90deg);
+	-webkit-transform-origin: right top;
+	-moz-transform: translateX(-98%) rotate(90deg);
+	-moz-transform-origin: right top;
+	-o-transform: translateX(-98%) rotate(90deg);
+	-o-transform-origin: right top;
+	transform: translateX(-98%) rotate(90deg);
+	transform-origin: right top;
+	margin-bottom: 15px;
+	top: 11.5rem;
+	right: -108px;
+	z-index: 1;
+	padding-top: .75rem;
+	padding-bottom: .15rem;
+	font-size: 13.5px;
+	margin-top: 0;
+	position: absolute;
+	overflow: hidden;
+	border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+	border-color: black;
 }
 #wikiDrawer h2.headerSm {
 	font-size: 1.25rem;
 }
 #wikiDrawer dt {
-	float:left;
+	float: left;
 	display: inline-block;
-	min-width: 25px!important;
+	min-width: 25px !important;
 }
 .collapseStyle {
-	z-index: 3000; 
-	position: absolute; 
-	margin-top: -.95rem; 
+	z-index: 3000;
+	position: absolute;
+	margin-top: -.95rem;
 	margin-right: 0rem;
 }
 .current {
 	width: 300px;
-	height: 300px; 
-	border: .5rem solid #fff;;
+	height: 300px;
+	border: .5rem solid #fff;
+	;
 	background-color: #f8f9fa;
 }
 #map {
@@ -2268,7 +2265,7 @@ button.help-btnSp-SearchWiki {
 	padding: 0 0 3px 0;
 	position: relative;
 	line-height: 20px;
-	float:left;
+	float: left;
 	width: auto;
 	margin: 0 auto;
 	z-index: 5;
@@ -2300,14 +2297,12 @@ button.help-btnSp-SearchWiki {
 	bottom: 0;
 	-ms-touch-action: none;
 	touch-action: none;
-	transition: z-index 0s,
-	opacity .8s ease-in-out,
-	transform .4s ease-in-out;
+	transition: z-index 0s, opacity .8s ease-in-out, transform .4s ease-in-out;
 	z-index: 20;
 	opacity: 0;
 	transform: translateX(-10%);
 	resize: vertical;
-	overflow:auto;
+	overflow: auto;
 	font-size: 1rem;
 }
 div.vslider-item[aria-hidden='false'] {
@@ -2315,8 +2310,8 @@ div.vslider-item[aria-hidden='false'] {
 	opacity: 1.0;
 	transform: translateX(0);
 }
-div.vslider-item[aria-hidden="true"]{
-	display:block;
+div.vslider-item[aria-hidden="true"] {
+	display: block;
 }
 .vslider {
 	color: #191717;
@@ -2327,9 +2322,9 @@ div.vslider-item[aria-hidden="true"]{
 }
 .custom-input {
 	text-align: center;
-	width:53px; 
+	width: 53px;
 }
-.message { 
+.message {
 	padding-top: 25%;
 	padding-bottom: 25%;
 	font-size: 2rem;
@@ -2338,8 +2333,8 @@ div.vslider-item[aria-hidden="true"]{
 	width: 10px;
 }
 .vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
-	box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+	-webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
 	background: aliceblue;
 }
 .vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar-thumb {
@@ -2360,7 +2355,7 @@ div.vslider-item[aria-hidden="true"]{
 	cursor: pointer;
 	padding: 15px;
 	border-radius: 4px;
-	}
+}
 #myBtn:hover {
 	background-color: #555;
 }
@@ -2371,7 +2366,7 @@ div.vslider-item[aria-hidden="true"]{
 .text-truncate1 p, .text-truncate1 h3 {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;  
+	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
 #back2Top {
@@ -2456,150 +2451,151 @@ div.vslider-item[aria-hidden="true"]{
 	filter: alpha(opacity=0);
 	cursor: pointer
 }
-.toggle-switch input:checked+.ts-helper:before {
-    left: 20px
+.toggle-switch input:checked + .ts-helper:before {
+	left: 20px
 }
-.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper {
-    background: rgba(0, 150, 136, .5)
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked + .ts-helper {
+	background: rgba(0, 150, 136, .5)
 }
-.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:before {
-    background: #009688
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked + .ts-helper:before {
+	background: #009688
 }
-.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
 }
 .toggle-switch.disabled {
-    opacity: .6;
-    filter: alpha(opacity=60)
+	opacity: .6;
+	filter: alpha(opacity=60)
 }
-.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper {
-    background: rgba(244, 67, 54, .5)
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked + .ts-helper {
+	background: rgba(244, 67, 54, .5)
 }
-.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:before {
-    background: #F44336
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked + .ts-helper:before {
+	background: #F44336
 }
-.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
 }
-.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper {
-    background: rgba(33, 150, 243, .5);
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked + .ts-helper {
+	background: rgba(33, 150, 243, .5);
 }
-.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:before {
-    background: #2196F3
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked + .ts-helper:before {
+	background: #2196F3
 }
-.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
 }
-.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper {
-    background: rgba(255, 193, 7, .5)
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked + .ts-helper {
+	background: rgba(255, 193, 7, .5)
 }
-.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:before {
-    background: #FFC107
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked + .ts-helper:before {
+	background: #FFC107
 }
-.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
 }
-.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper {
-    background: rgba(186, 104, 200, .5)
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked + .ts-helper {
+	background: rgba(186, 104, 200, .5)
 }
-.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:before {
-    background: #BA68C8
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked + .ts-helper:before {
+	background: #BA68C8
 }
-.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
 }
-.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper {
-    background: rgba(233, 30, 99, .5)
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked + .ts-helper {
+	background: rgba(233, 30, 99, .5)
 }
-.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:before {
-    background: #E91E63
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked + .ts-helper:before {
+	background: #E91E63
 }
-.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
 }
-.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper {
-    background: rgba(205, 220, 57, .5)
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked + .ts-helper {
+	background: rgba(205, 220, 57, .5)
 }
-.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:before {
-    background: #CDDC39
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked + .ts-helper:before {
+	background: #CDDC39
 }
-.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
 }
-.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper {
-    background: rgba(0, 188, 212, .5)
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked + .ts-helper {
+	background: rgba(0, 188, 212, .5)
 }
-.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:before {
-    background: #00BCD4
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked + .ts-helper:before {
+	background: #00BCD4
 }
-.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
 }
-.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper {
-    background: rgba(76, 175, 80, .5)
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked + .ts-helper {
+	background: rgba(76, 175, 80, .5)
 }
-.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:before {
-    background: #4CAF50
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked + .ts-helper:before {
+	background: #4CAF50
 }
-.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
-}	
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
+}
 input[disabled] {
-	color:#9e9e9e;
+	color: #9e9e9e;
+}
+.jqx-grid-cell-alt {
+	background: #f5f5f5 !important;
 }
 .caption-sm {
-    overflow-y: visible;
-    height: auto;
+	overflow-y: visible;
+	height: auto;
 }
 .MediaAccordionHide {
-    display: none;
+	display: none;
 }
 .MediaAccordionShow {
-    display: block;
+	display: block;
 }
 .count {
-    display: inline-block;
-    line-height: 1rem;
+	display: inline-block;
+	line-height: 1rem;
 }
 .align-left-center {
-    text-align: center;
+	text-align: center;
 }
 .align-right-center {
-    text-align: center;
+	text-align: center;
 }
 .col-form-label {
-    padding-bottom: 0;
-    line-height: 1;
+	padding-bottom: 0;
+	line-height: 1;
 }
 #map {
-    height: 350px;
+	height: 350px;
 }
 .variedHeight {
-    height: 210px;
+	height: 210px;
 }
 a.btn-sm {
-    height: calc(1.5rem + .5rem + 1px);
+	height: calc(1.5rem + .5rem + 1px);
 }
 #searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
-    font-size: .78rem;
-    height: 5rem;
+	font-size: .78rem;
+	height: 5rem;
 }
 .html_desc {
-    width: 100%!important;
-}  
+	width: 100% !important;
+}
 /* styles for locality maps */
-.uglyGeoSPatData{
-	border:4px solid red;
+.uglyGeoSPatData {
+	border: 4px solid red;
 }
-.niceGeoSPatData{
-	border:3px solid green;
+.niceGeoSPatData {
+	border: 3px solid green;
 }
-.noWKT{
-	border:3px solid yellow;
+.noWKT {
+	border: 3px solid yellow;
 }
-
 /* end styles for locality maps */
-
 /* styles for geolocate frame */
 .editAppBox {
 	border: 1px solid gray;
@@ -2647,49 +2643,48 @@ a.btn-sm {
 	border: 1px solid white;
 }
 input, select, textarea {
-		font-size: 16px;
-	}
+	font-size: 16px;
+}
 .wiki-drawer {
-    position: fixed;
+	position: fixed;
 	top: 0;
 	left: 0;
-    width: 93vw;                  /* drawer almost full width */
-    max-width: 93vw;
-    bottom: 0;
-    transform: translateX(-93vw); /* fully hidden when closed */
-    background: #fff;
-	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	width: 93vw; /* drawer almost full width */
+	max-width: 93vw;
+	bottom: 0;
+	transform: translateX(-93vw); /* fully hidden when closed */
+	background: #fff;
+	box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
 	z-index: 1051;
 	overflow-y: auto;
-	overflow-x: hidden; 
+	overflow-x: hidden;
 	transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
 	transform: translateX(0);
 }
 #content {
-	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+	transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);
 	width: 100%;
 	box-sizing: border-box;
 }
 /* Don’t push content on these sizes */
 #content.pushed {
-    margin-left: 0;
-    width: 100%;
+	margin-left: 0;
+	width: 100%;
 }
-
-body.wiki-open .ui-dialog {/* Let dialogs behave normally on these widths */
-    width: auto;
-    max-width: 100vw;
-    left: 0;
-    right: 0;
-    box-sizing: border-box;
+body.wiki-open .ui-dialog { /* Let dialogs behave normally on these widths */
+	width: auto;
+	max-width: 100vw;
+	left: 0;
+	right: 0;
+	box-sizing: border-box;
 }
 div.mw-parser-output h1 {
 	font-size: 20px;
-	font-weight:bold;
-	border-top:1px solid black;
-	padding-top:36px;
+	font-weight: bold;
+	border-top: 1px solid black;
+	padding-top: 36px;
 }
 div.mw-parser-output h2 {
 	font-size: 16px;
@@ -2705,25 +2700,25 @@ div.mw-parser-output h4 {
 	margin-top: 1rem;
 }
 div.mw-parser-output dt {
-	font-weight:650;
+	font-weight: 650;
 }
 div.toctitle {
-    margin-bottom:0;
+	margin-bottom: 0;
 }
 .thumbinner {
-    display:none;
+	display: none;
 }
 .mw-toc-heading {
 	margin-bottom: 0;
 }
-
 .search-radio-buttons {
-    font-size: 0.95em !important;
-    position:relative; 
-    padding-left: 1.2rem !important;
+	font-size: 0.95em !important;
+	position: relative;
+	padding-left: 1.2rem !important;
 }
-
-
+.jqx-grid-cell-alt {
+	background-color: aquamarine !important;
+}
 /*******************************
 ********************************
 END OF BASE/MOBILE STYLE
@@ -2731,142 +2726,134 @@ END OF BASE/MOBILE STYLE
 END END END
 ********************************
 *******************************/
-
-
 /* ≥ md test */
 @media (min-width: 768px) {
-    
-    button.help-btnSp-SearchWiki {
-        -webkit-transform: none;
-        -moz-transform: none;
-        -o-transform: none;
-        transform: none;
-        -webkit-transform-origin: center center;
-        -moz-transform-origin: center center;
-        -o-transform-origin: center center;
-        transform-origin: center center;
-        /* optionally reset positioning so it sits in normal flow */
-        position: abosolute;   /* or relative, depending on layout */
-        right: 1.85rem;
-        margin-bottom: 15px;
-        top: 2.1rem;
-        z-index: 1; 
-        padding-top: .5rem;
-        padding-bottom: .25rem; 
-        overflow: hidden;    
-    }
-    .btnSp-shim {
-        margin-top: -.5rem !important;
-    }
-    body.wiki-open .ui-dialog {/*Dialog needs to be out of the way when the wiki drawer is open.  */
-        width: auto !important;  
-        max-width: calc(100vw - 500px) !important;/*Number should match drawer width.*/
-        left: 500px !important; /*Number should match drawer width.*/     
-        right: 0 !important;
-        box-sizing: border-box;    
-    }
-    .wiki-drawer {
-        width: 500px;
-        max-width: 90vw;
-        transform: translateX(-500px);
-    }
-    #wikiDrawer h2.headerSm {
-        font-size: 1.25rem;
-    }
-    #wikiDrawer dt {
-        float:left;
-        display: inline-block;
-        min-width: 25px!important;
-        margin-right: .5rem;
-    }  
+	button.help-btnSp-SearchWiki {
+		-webkit-transform: none;
+		-moz-transform: none;
+		-o-transform: none;
+		transform: none;
+		-webkit-transform-origin: center center;
+		-moz-transform-origin: center center;
+		-o-transform-origin: center center;
+		transform-origin: center center;
+		/* optionally reset positioning so it sits in normal flow */
+		position: abosolute; /* or relative, depending on layout */
+		right: 1.85rem;
+		margin-bottom: 15px;
+		top: 2.1rem;
+		z-index: 1;
+		padding-top: .5rem;
+		padding-bottom: .25rem;
+		overflow: hidden;
+	}
+	.btnSp-shim {
+		margin-top: -.5rem !important;
+	}
+	body.wiki-open .ui-dialog { /*Dialog needs to be out of the way when the wiki drawer is open.  */
+		width: auto !important;
+		max-width: calc(100vw - 500px) !important; /*Number should match drawer width.*/
+		left: 500px !important; /*Number should match drawer width.*/
+		right: 0 !important;
+		box-sizing: border-box;
+	}
+	.wiki-drawer {
+		width: 500px;
+		max-width: 90vw;
+		transform: translateX(-500px);
+	}
+	#wikiDrawer h2.headerSm {
+		font-size: 1.25rem;
+	}
+	#wikiDrawer dt {
+		float: left;
+		display: inline-block;
+		min-width: 25px !important;
+		margin-right: .5rem;
+	}
 }
-
 /* ≥ lg test */
 @media (min-width: 992px) {
-    /* Don’t push content on these sizes */
-    #content.pushed {
-        margin-left: 0;
-        width: 100%;
-    }
-    /* Let dialogs behave normally on these widths */
-    body.wiki-open .ui-dialog {
-        width: auto;
-        max-width: 100vw;
-        left: 0;
-        right: 0;
-        box-sizing: border-box;
-    }
+	/* Don’t push content on these sizes */
+	#content.pushed {
+		margin-left: 0;
+		width: 100%;
+	}
+	/* Let dialogs behave normally on these widths */
+	body.wiki-open .ui-dialog {
+		width: auto;
+		max-width: 100vw;
+		left: 0;
+		right: 0;
+		box-sizing: border-box;
+	}
 }
-
 /* ≥ xl (1200px) test */
-@media (min-width: 1200px) { 
-    #content {
-    	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-	    width: 100%;
-	    box-sizing: border-box;
-    }
-    #content.pushed {
-	    margin-left: 325px;
-	    width: calc(100% - 325px);
-    }
-    body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
-        width: auto !important;
-        max-width: calc(100vw - 325px) !important;
-        left: 325px !important;      /* start right after the drawer */
-        right: 0 !important;
-        box-sizing: border-box;   /* ensure it stays within viewport */
-    }
-    body.wiki-open .ui-dialog {
-        width: auto !important;   /* Override jQuery UI's inline width */
-        max-width: calc(100vw - 325px) !important;
-        left: 325px !important;      /* start right after the drawer */
-        right: 0 !important;
-        box-sizing: border-box;    /* ensure it stays within viewport */
-    }
-    .wiki-drawer {
-        width: 325px;
-        max-width: 90vw;
-        transform: translateX(-325px);
-    }
-    .col-xxl-1 {
-        max-width: 12%;
-    }
-    .col-xxl-11 {
-        max-width: 88%; 
-        padding-left: .25rem;
-    }
+@media (min-width: 1200px) {
+	#content {
+		transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);
+		width: 100%;
+		box-sizing: border-box;
+	}
+	#content.pushed {
+		margin-left: 325px;
+		width: calc(100% - 325px);
+	}
+	body.wiki-open .ui-dialog { /* Override jQuery UI's inline width */
+		width: auto !important;
+		max-width: calc(100vw - 325px) !important;
+		left: 325px !important; /* start right after the drawer */
+		right: 0 !important;
+		box-sizing: border-box; /* ensure it stays within viewport */
+	}
+	body.wiki-open .ui-dialog {
+		width: auto !important; /* Override jQuery UI's inline width */
+		max-width: calc(100vw - 325px) !important;
+		left: 325px !important; /* start right after the drawer */
+		right: 0 !important;
+		box-sizing: border-box; /* ensure it stays within viewport */
+	}
+	.wiki-drawer {
+		width: 325px;
+		max-width: 90vw;
+		transform: translateX(-325px);
+	}
+	.col-xxl-1 {
+		max-width: 12%;
+	}
+	.col-xxl-11 {
+		max-width: 88%;
+		padding-left: .25rem;
+	}
 }
-
-
 /* ≥ xxl (1400px, in BS5) test */
-@media (min-width: 1400px) { 
-    #content {
-    	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-	    width: 100%;
-	    box-sizing: border-box;
-    }
-    #content.pushed {
-	    margin-left: 400px;
-	    width: calc(100% - 400px);
-    }
-    body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
-        width: auto !important;
-        max-width: calc(100vw - 400px) !important;
-        left: 400px !important;      /* start right after the drawer */
-        right: 0 !important;
-
-        box-sizing: border-box;   /* ensure it stays within viewport */
-    }
-    body.wiki-open .ui-dialog {
-        width: auto !important;   /* Override jQuery UI's inline width */
-        max-width: calc(100vw - 400px) !important;
-        left: 400px !important;      /* start right after the drawer */
-        right: 0 !important;
-        box-sizing: border-box;    /* ensure it stays within viewport */
-    }
-    .wiki-drawer {
-        width: 400px;
-        max-width: 90vw;
-        transform: translateX(-400px);
-    }
+@media (min-width: 1400px) {
+	#content {
+		transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);
+		width: 100%;
+		box-sizing: border-box;
+	}
+	#content.pushed {
+		margin-left: 400px;
+		width: calc(100% - 400px);
+	}
+	body.wiki-open .ui-dialog { /* Override jQuery UI's inline width */
+		width: auto !important;
+		max-width: calc(100vw - 400px) !important;
+		left: 400px !important; /* start right after the drawer */
+		right: 0 !important;
+		box-sizing: border-box; /* ensure it stays within viewport */
+	}
+	body.wiki-open .ui-dialog {
+		width: auto !important; /* Override jQuery UI's inline width */
+		max-width: calc(100vw - 400px) !important;
+		left: 400px !important; /* start right after the drawer */
+		right: 0 !important;
+		box-sizing: border-box; /* ensure it stays within viewport */
+	}
+	.wiki-drawer {
+		width: 400px;
+		max-width: 90vw;
+		transform: translateX(-400px);
+	}
 }
