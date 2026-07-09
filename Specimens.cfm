@@ -327,7 +327,7 @@
 							</div>
 							<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 								<!---Fixed Search tab panel--->
-								<div class="d-flex justify-content-end px-0"> 
+								<div class="d-flex justify-content-end px-0 mt-2"> 
 							<!---		<button id="show-search-help-basic" class="btn btn-xs btn-dark help-btnSp-SearchWiki border-0 js-search-help" type="button" data-help-target="collapseFixedBasic">
 										Search Help
 									</button>--->
