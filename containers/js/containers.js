@@ -173,6 +173,10 @@ var CONTAINER_PAGE_SIZE = 50;
 /** Maximum description length (characters) shown in search result rows. */
 var MAX_DESCRIPTION_LENGTH = 80;
 
+/** Shared container-type keys used in search/browse action gating. */
+var ROOT_INSTITUTION_CONTAINER_TYPE = 'institution';
+var COLLECTION_OBJECT_CONTAINER_TYPE = 'collection object';
+
 /**
  * Human-readable labels for the A/B/AB shape classification used internally.
  * A  - container holds only structural (sub-container) children.
@@ -2856,8 +2860,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var isProxy = role === 'proxy';
 					var parentContainerId = parseInt(row.parent_container_id, 10) || 0;
 					var parentContainerType = (row.parent_container_type || '').toLowerCase();
-					var isTopLevelProxyTableRow = isProxy && (parentContainerId === 0 || parentContainerType === 'institution');
-					var canExplore = row.container_type !== 'collection object' && !isTopLevelProxyTableRow;
+					var isTopLevelProxyTableRow = isProxy && (parentContainerId === 0 || parentContainerType === ROOT_INSTITUTION_CONTAINER_TYPE);
+					var canExplore = row.container_type !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
 					var displayName = formatContainerDisplay(row.barcode, row.label);
 					var descText = row.description || '';
 					if (descText.length > MAX_DESCRIPTION_LENGTH) {
