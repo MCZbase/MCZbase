@@ -2135,7 +2135,9 @@ function toggleBrowseSection(buttonEl, panelId, loadFn) {
 	if (panel.data('loading')) {
 		return;
 	}
-	loadFn();
+	if (loadFn) {
+		loadFn();
+	}
 }
 
 function ensureStructuralOrphanPanelVisible(feedbackId, onReady) {
@@ -2285,6 +2287,8 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
 	});
 }
 
+/* These placement-heavy structural levels were explicitly requested to keep direct
+   proxy/leaf-bearing child containers hidden behind nested browse toggles. */
 var PLACED_CHILD_SECTION_TYPES = ['campus', 'building', 'floor', 'room'];
 
 function shouldGroupPlacedChildNodes(parentContainerType) {
@@ -2668,9 +2672,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 			.attr('aria-controls', sectionPanelId)
 			.text(sectionLabel)
 			.on('click', function() {
-				toggleBrowseSection(this, sectionPanelId, function() {
-					/* nodes already rendered in the hidden panel */
-				});
+				toggleBrowseSection(this, sectionPanelId);
 			});
 		var sectionPanel = $('<div class="d-none mt-1 container-tree-section-panel"></div>').attr('id', sectionPanelId);
 		var sectionLi = $('<li role="treeitem" class="container-tree-section"></li>')
