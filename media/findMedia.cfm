@@ -412,12 +412,12 @@ limitations under the License.
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-											<div class="col-12 col-md-3 col-xl-2">
+											<div class="col-12 col-md-3 col-xl-2" style="padding-bttom: 2px;">
 												 <label for="description">Description</label>
 												 (<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" 
 													aria-describedby="descrNull_help"
 													aria-label="use NULL to find media records without a relationship">
-													NULL
+													Null
 												</button>
 												<span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" 
