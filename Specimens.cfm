@@ -243,7 +243,7 @@
 		<div id="overlaycontainer" style="position: relative;">
 			<main id="content" class="container-fluid">
 				<cftry>
-					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+					<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 mt-4 border-0")#</cfoutput>
 					<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 				</cftry>
 				<div class="row mr-0 mr-md-3 ml-xl-0 mr-xl-3">
