@@ -183,11 +183,12 @@ limitations under the License.
 			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
 					 <div class="d-flex flex-wrap mb-0 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
-						<div class="search-box mt-4">
 						<cftry>
 							<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-4 border-0")#</cfoutput>
 							<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 						</cftry>
+						<div class="search-box mt-4">
+
 							<div class="search-box-header">
 								<h1 class="h3 text-white w-75" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
