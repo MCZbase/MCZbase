@@ -868,7 +868,7 @@ limitations under the License.
 													(<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';"
 														aria-describedby="relationshipNull_help"
 														aria-label="use NULL prefix to find media records without a relationship">
-														NULL
+														Null
 													</button>
 													<span id="relationshipNull_help" class="sr-only">use NULL prefix to find media records without a relationship</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';"
