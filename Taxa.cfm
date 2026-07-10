@@ -396,16 +396,16 @@ limitations under the License.
 													<input type="text" id="superorder" name="superorder" value="#encodeForHtml(superorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
-											        <label for="phylorder">Order</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<label for="phylorder">Order</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;" aria-describedby="orderEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="orderEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;" aria-describedby="orderSoundslike_help" aria-label="prefix with dollarsign for sounds like search">$</button><span id="orderSoundslike_help" class="sr-only">prefix with dollarsign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="suborder">Suborder</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-								                	<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#">
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='='+e.value;" aria-describedby="suborderEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="suborderEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;" aria-describedby="suborderSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="infraorder">Infraorder</label>  
