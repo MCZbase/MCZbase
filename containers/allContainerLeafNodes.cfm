@@ -22,6 +22,12 @@ limitations under the License.
 <cfelse>
 	<cfset variables.action = "nothing">
 </cfif>
+<cfif isDefined("url.show")>
+	<cfset variables.show = url.show>
+<cfelse>
+	<cfset variables.show = "all">
+</cfif>
+
 <cfif isdefined("url.container_id") and len(url.container_id) GT 0>
 	<cfset variables.container_id = url.container_id>
 <cfelse>
@@ -96,6 +102,10 @@ limitations under the License.
 			WHERE
 				container.container_type='collection object' AND
 				identification.accepted_id_fg = 1 
+				<cfif isdefined("variables.show") AND variables.show is "immediate">
+					AND CONNECT_BY_ISLEAF = 1
+					AND LEVEL = 2
+				</cfif>
 			START WITH
 				container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 			CONNECT BY
@@ -214,9 +224,12 @@ limitations under the License.
 		</cfif>
 	</cfoutput>
 
-	<!--- TODO: The following code appears to be unused --->
 	<!---------------- start search by container ---------------->
 	<cfif #action# is "nothing">
+		<!--- redirect to redesigned container seaarch/browse --->
+		<cflocation url="/containers/Containers.cfm" addtoken="no">
+
+		<!--- TODO: The following code appears to be unused, and is broken --->
 		<cfif not isdefined ("srch")>
 			<cfabort>
 		</cfif>
@@ -332,6 +345,7 @@ limitations under the License.
 			Your search returned no records. Use your browser&##39;s back button to try again.
 		<cfelse>
 			<cfform name="TissTree" enablecab="yes">
+				<!--- TODO: cftree has been removed from coldfusion. This will need to be replaced with a different tree control if this code is retained. --->
 				<cftree name="tt" height="600" width="400"  format="html">
 					<cftreeitem value="0" expand="yes" display="Location">
 					<!--- set up a list to keep track of the container_ids that we've put in the tree --->
