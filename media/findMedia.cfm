@@ -705,7 +705,7 @@ limitations under the License.
 											</script>
 											<div class="col-12 col-md-4 col-xl-4">
 												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 mx-md-1 mx-0 px-2 rounded justify-content-left" style="padding-top: 1px; padding-bottom: 7px;">
-													<label for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
+													<label class="w-100" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" 
 														placeholder="start date" 
 														value="#encodeForHtml(made_date)#" 
