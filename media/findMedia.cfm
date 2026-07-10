@@ -570,7 +570,7 @@ limitations under the License.
 												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
 											</div>
 											
-											<div class="col-12 col-md-4 col-xl-3">
+											<div class="col-12 col-md-5 col-xl-3">
 												<div class="form-row mx-0">
 													<div class="w-100">
 														<label for="media_label_type">Any Other Label </label>
