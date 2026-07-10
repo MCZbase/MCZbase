@@ -731,26 +731,21 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4 col-xl-3">
 													<label for="credit">Credit</label>
-													<span class="text-secondary small">(</span>
-													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;"
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;"
 														aria-describedby="creditEquals_help"
 														aria-label="prefix with equals sign for exact match search">
 														=
-													</button>
-													<span id="creditEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													</button><span id="creditEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';"
 														aria-describedby="creditNull_help"
 														aria-label="use NULL to find media records without credit">
 														Null
-													</button>
-													<span id="creditNull_help" class="sr-only">use NULL to find media records without credit</span>, 
+													</button><span id="creditNull_help" class="sr-only">use NULL to find media records without credit</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';"
 														aria-describedby="creditAny_help"
 														aria-label="use the any prefix for NOT NULL to find media records with credit">
 														Any
-													</button>
-													<span id="creditAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with credit</span>
-													<span class="text-secondary small">)</span>
+													</button><span id="creditAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with credit</span><span class="text-secondary small">)</span>
 													<input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
 													<script>
 														$(document).ready(function() {
