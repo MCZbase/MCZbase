@@ -584,7 +584,7 @@ limitations under the License.
 												<label for="preview_uri">Preview URI</label>
 												<input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-3">
+											<div class="col-12 col-md-3 col-xl-2">
 												<label for="remarks">Remarks</label> 
 												<span class="text-secondary small">(</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';"
@@ -602,29 +602,7 @@ limitations under the License.
 												<span class="text-secondary small">)</span>
 												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
-												<label for="md5hash">MD5 Hash</label>
-												(<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"
-													aria-describedby="md5hash_help"
-													aria-label="prefix with equals sign for exact match search">
-													=
-												</button>
-												<span id="md5hash_help" class="sr-only">prefix with equals sign for exact match search</span>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';"
-													aria-describedby="md5hashNull_help"
-													aria-label="use NULL to find media records without the selected relationship">
-													Null
-												</button>
-												<span id="md5hashNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';"
-													aria-describedby="md5hashAny_help"
-													aria-label="use the Any prefix for NOT NULL to find media records with any md5hash">
-													Any
-												</button>
-												<span id="md5hashAny_help" class="sr-only">use the Any prefix for NOT NULL to find media records with any md5hash</span>
-												<span class="text-secondary small">)</span>
-												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
-											</div>
+											
 											<div class="col-12 col-md-4 col-xl-3">
 												<div class="form-row mx-0">
 													<div class="w-100">
@@ -670,7 +648,29 @@ limitations under the License.
 													</script>
 												</div>
 											</div>
-											
+											<div class="col-12 col-md-4 col-xl-2">
+												<label for="md5hash">MD5 Hash</label>
+												(<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"
+													aria-describedby="md5hash_help"
+													aria-label="prefix with equals sign for exact match search">
+													=
+												</button>
+												<span id="md5hash_help" class="sr-only">prefix with equals sign for exact match search</span>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';"
+													aria-describedby="md5hashNull_help"
+													aria-label="use NULL to find media records without the selected relationship">
+													Null
+												</button>
+												<span id="md5hashNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';"
+													aria-describedby="md5hashAny_help"
+													aria-label="use the Any prefix for NOT NULL to find media records with any md5hash">
+													Any
+												</button>
+												<span id="md5hashAny_help" class="sr-only">use the Any prefix for NOT NULL to find media records with any md5hash</span>
+												<span class="text-secondary small">)</span>
+												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
+											</div>
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 mt-2 mx-2">
@@ -705,11 +705,18 @@ limitations under the License.
 											</script>
 											<div class="col-12 col-md-4 col-xl-4">
 												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 mx-md-1 mx-0 px-2 rounded justify-content-left" style="padding-top: 1px; padding-bottom: 7px;">
-													<label class="w-100 px-3 px-xl-2 mx-1 mb-0" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
-													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" placeholder="start date" value="#encodeForHtml(made_date)#">
+													<label for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
+													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" 
+														placeholder="start date" 
+														value="#encodeForHtml(made_date)#" 
+														aria-describedby="madedateStart_help">
+													<small id="madedateStart_help" class="sr-only">start date</small>
 													<div class=" text-center px-0" style="width:18px;"><small> to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
-													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-5 w-100 px-1 py-0" placeholder="end date" aria-describedby="madedate_help">
+													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
+														class="datetimeinput col-5 w-100 px-1 py-0" 
+														placeholder="end date" 
+														aria-describedby="madedate_help">
 													<small id="madedate_help" class="sr-only">end date</small> 
 												</div>
 											</div>
