@@ -199,8 +199,8 @@ limitations under the License.
 					</p>
 					<cfif variables.show is "immediate">
 						<p>
-							There are #countAllLeaves# total collection object nodes attached at any level below container.
-							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=all">Show all</a>.
+							There are #countAllLeaves# total collection object nodes attached at any level below this container.
+							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=all">Show all</a>
 						</p>
 					</cfif>
 
