@@ -54,28 +54,6 @@ limitations under the License.
 	<cfif getContainerInfo.recordcount EQ 0>
 		<cfthrow message="Container [#encodeForHtml(variables.container_id)#] not found.">
 	</cfif>
-	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT
-			container.container_id,
-			container.container_type,
-			container.label,
-			container.description,
-			p.barcode,
-			container.container_remarks
-		FROM
-			container
-			left join container p on container.parent_container_id=p.container_id
-		WHERE
-			container.container_type='collection object'
-			<cfif isdefined("variables.show") AND variables.show is "immediate">
-				AND CONNECT_BY_ISLEAF = 1
-				AND LEVEL = 2
-			</cfif>
-		START WITH
-			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
-		CONNECT BY
-			container.parent_container_id = prior container.container_id
-	</cfquery>
 	<!--- special case handling to dump as csv --->
 	<cfif isDefined("variables.action") AND variables.action is "csvDump">
 		<cfquery name="allLeafData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -122,6 +100,47 @@ limitations under the License.
 		<cfoutput>#csv#</cfoutput>
 		<cfabort>
 	</cfif>
+	<!--- normal handling, report on leaf nodes below target node --->
+	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			container.container_id,
+			container.container_type,
+			container.label,
+			container.description,
+			p.barcode,
+			container.container_remarks
+		FROM
+			container
+			left join container p on container.parent_container_id=p.container_id
+		WHERE
+			container.container_type='collection object'
+			<cfif isdefined("variables.show") AND variables.show is "immediate">
+				AND CONNECT_BY_ISLEAF = 1
+				AND LEVEL = 2
+			</cfif>
+		START WITH
+			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
+		CONNECT BY
+			container.parent_container_id = prior container.container_id
+	</cfquery>
+	<cfif variables.show NEQ "all">
+		<cfquery name="countAll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				count (distinct container.container_id) as total
+			FROM
+				container
+				left join container p on container.parent_container_id=p.container_id
+			WHERE
+				container.container_type='collection object'
+			START WITH
+				container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
+			CONNECT BY
+				container.parent_container_id = prior container.container_id
+		</cfquery>
+		<cfset countAllLeaves = countAll.total>
+	<cfelse>
+		<cfset countAllLeaves = leaf.recordcount>
+	</cfif>
 	<cfquery name="listCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT DISTINCT
 			cataloged_item.collection_object_id
@@ -158,7 +177,11 @@ limitations under the License.
 				<div class="col-12">
 					<h1>Container Leaf Nodes</h1>
 					<p>
-						This page lists the #leaf.recordcount# collection object leaf nodes in the container hierarchy for the container
+						<cfif variables.show is "immediate">
+							This page lists only the #leaf.recordcount# immediate leaf nodes of the container hierarchy for the container
+						<cfelse>
+							This page lists the #leaf.recordcount# collection object leaf nodes in the container hierarchy for the container
+						</cfif>
 						<a href="/findContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
 			   			#getContainerInfo.container_type#: #getContainerInfo.barcode#
 						</a>.
@@ -169,6 +192,13 @@ limitations under the License.
 							<a class="btn-secondary btn-xs" role="button"  href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#collectionObjectIds#&closeParens1=0" target="_blank">View in Specimen Search</a>.
 						</cfif>
 					</p>
+					<cfif variables.show is "immediate">
+						<p>
+							There are #countAllLeaves# total collection object nodes attached at any level below container.
+							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=all" target="_blank">Show all</a>.
+						</p>
+					</cfif>
+					
 
 					<table border id="t" class="sortable">
 						<tr>
