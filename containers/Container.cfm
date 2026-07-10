@@ -191,7 +191,12 @@ limitations under the License.
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerFormHeading">
 		<div class="col-12">
 			<cfif variables.action EQ "edit">
-				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)#</h1>
+				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)# <span id="container_role_badge"></span></h1>
+				<script>
+					$(document).ready(function () {
+						$("##container_role_badge").html( getContainerRoleBadgeHtml('#variables.formData.container_type#') );
+					});
+				</script>
 			<cfelse>
 				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
 			</cfif>
