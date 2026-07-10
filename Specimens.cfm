@@ -442,11 +442,11 @@
 															<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 															<label for="other_id_number">Other ID Numbers</label>
 															<input type="text" 
-																   id="other_id_number" 
-																   name="other_id_number" 
-																   placeholder="10,20-30,=BT-782" 
-																   value="#encodeForHtml(other_id_number)#"
-																   aria-describedby="otherIDNum_help">
+																id="other_id_number" 
+																name="other_id_number" 
+																placeholder="10,20-30,=BT-782" 
+																value="#encodeForHtml(other_id_number)#"
+																aria-describedby="otherIDNum_help">
 															<small id="otherIDNum_help" class="sr-only">
 																Example: 10,20-30,=BT-782
 															</small>
@@ -2113,7 +2113,7 @@
 							</script>
 								<!---Keyword Search/results tab panel--->
 								<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
-									<div class="d-flex justify-content-end px-0"> 
+<!---									<div class="d-flex justify-content-end px-0"> 
 										<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help" type="button" data-help-target="collapseKeywordHelp">
 											Search Help
 										</button>
@@ -2156,7 +2156,7 @@
 												</dl>
 											</div>
 										</aside>
-									</div>
+									</div>--->
 									<div role="search" id="keywordSearchFormDiv">
 										<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
 											<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
