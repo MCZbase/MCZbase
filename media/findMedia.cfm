@@ -285,7 +285,7 @@ limitations under the License.
 													(<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
 														aria-describedby="intRemarksNull_help"
 														aria-label="use NULL to find media records without a relationship">
-														NULL
+														Null
 													</button>
 													<span id="intRemarksNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';"
@@ -477,7 +477,7 @@ limitations under the License.
 												<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='NULL';"
 													aria-describedby="aspectNull_help"
 													aria-label="use NULL to find media records without the selected relationship">
-													NULL
+													Null
 												</button>
 												<span id="aspectNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='NOT NULL';"
@@ -924,7 +924,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-xl-9 mr-auto row mx-0">
+											<div class="col-12 mr-auto row mx-0">
 												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>

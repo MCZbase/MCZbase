@@ -345,7 +345,7 @@
 											<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 											<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 											<div class="container-flex" style="display: block;">
-												<div class="col-12 form-row mx-0 search-form-basic-odd px-0">
+												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 														OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -516,7 +516,7 @@
 												<!---END IDENTIFIER SECTION--->	
 
 												<!---TAXONOMY SECTION--->	 
-												<div class="col-12 form-row mx-0 px-0 pb-xl-0">
+												<div class="col-12 form-row mx-0 px-0 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("phylum") and len(phylum) GT 0)
 														OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -745,7 +745,7 @@
 												</div> 
 												<!---END TAXONOMY SECTION--->
 
-												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
+												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 														OR (isDefined("country") and len(country) GT 0)
@@ -778,7 +778,7 @@
 													</cfif>
 
 													<!---GEOGRAPHY SECTION--->
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left pl-xl-0 pr-xl-1">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 															<h2 class="small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Geography</h2>
 															<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
@@ -973,7 +973,7 @@
 												<!---END GEOGRAPHY SECTION--->
 
 												<!---COLLECTING EVENT SECTION--->
-												<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
+												<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 														OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
@@ -1116,7 +1116,7 @@
 												<!---END COLLECTING EVENT SECTION--->
 
 												<!---SPECIMEN SECTION--->  
-												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
+												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = "false">
 													<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
 														OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
@@ -1406,7 +1406,7 @@
 												<!---END SPECIMEN SECTION--->						   
 
 												<!---GENERAL SECTION---> 
-												<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0">
+												<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0 pl-xl-0 pr-xl-1">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 														<h2 class="small font-weight-bold m-0 px-3 px-xl-2 text-left text-xl-right border-default bg-teal">
 															General
@@ -1549,7 +1549,7 @@
 														<cfset TransactionButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 													</cfif>
 
-													<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0">
+													<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0 pl-xl-0 pr-xl-1">
 														<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 															<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
 																<h2 class="px-3 px-xl-2">
