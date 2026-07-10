@@ -1467,7 +1467,7 @@ details of a container for use in dialogs and page components.
 							<div class="col-12 col-lg-4 mb-1">
 								<h3 class="h4">Object Contents:</h3>
 								<cfif val(getContainerDetail.direct_leaf_children) GT 0>
-									<a href="#leafNodesUrl#">
+									<a href="#leafNodesUrl#&show=immediate">
 										<cfif getContainerDetail.direct_leaf_children EQ 1>
 											Browse 1 direct leaf child
 										<cfelse>
