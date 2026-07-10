@@ -990,7 +990,7 @@
 														<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!--- '" --->
 													</cfif> 
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
+														<div class="p-0 font-weight-bold d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-1 mb-md-0">
 															<h2 class="px-3 px-xl-2">Coll. Event</h2>
 															<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
 														</div>
@@ -1038,10 +1038,13 @@
 															</script>
 														</div>
 														<div class="col-12 col-md-3 mb-1">
-														   <label for="collecting_source">Collecting Source</label>
-															<button type="button" class="rules" onclick="$('##collecting_source').autocomplete('search','%'); return false;" aria-describedby="collectingSourcePick_help">  
-															   (&##8595;) <span id="collectingSourcePick_help" class="sr-only">open pick list</span>
+															<label for="collecting_source">Collecting Source</label>
+															<button type="button" class="rules" onclick="$('##collecting_source').autocomplete('search','%'); return false;" 
+																aria-describedby="collectingSourcePick_help"
+																aria-label="open pick list">  
+																(&##8595;)
 															</button>
+															<span id="collectingSourcePick_help" class="sr-only">open pick list</span>
 															<cfif not isdefined("collecting_source")><cfset collecting_source=""></cfif>
 															<input type="text" name="collecting_source" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 															<script>
@@ -1140,7 +1143,7 @@
 														<cfset SpecButton = 'show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>'><!---''--->
 													</cfif> 
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-														<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
+														<div class="d-inline-block-md text-xl-right p-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0">
 															<h2 class="px-3 px-xl-2">Specimen</h2>
 															<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller btn-link" onclick="toggleSpecDetail(#toggleTo#);">
 																show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
