@@ -186,7 +186,7 @@ limitations under the License.
 			   			#getContainerInfo.container_type#: #getContainerInfo.barcode#
 						</a>.
 						<cfif variables.show IS "all">
-							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=immediate" target="_blank">Show only immediate leaves</a>.
+							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=immediate">Show only immediate leaves</a>.
 						</cfif>
 						<cfif leaf.recordcount GT 0>
 							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&action=csvDump" target="_blank">Download as CSV</a>
@@ -195,12 +195,12 @@ limitations under the License.
 							<a class="btn-secondary btn-xs" role="button"  href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#collectionObjectIds#&closeParens1=0" target="_blank">View in Specimen Search</a>
 						</cfif>
 						<!--- add info link to view this container in viewContainer.cfm --->
-						<a class="btn btn-xs btn-primary" role="button"  href="/coontainers/viewContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_blank">View</a>
+						<a class="btn btn-xs btn-primary" role="button"  href="/containers/viewContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_blank">View</a>
 					</p>
 					<cfif variables.show is "immediate">
 						<p>
 							There are #countAllLeaves# total collection object nodes attached at any level below container.
-							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=all" target="_blank">Show all</a>.
+							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=all">Show all</a>.
 						</p>
 					</cfif>
 
