@@ -397,7 +397,7 @@ limitations under the License.
 													aria-label="use NULL to find media records without the selected relationship">
 													Null
 												</button>
-												<span id="origFileNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+												<span id="origFileNull_help" class="sr-only">Click NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NOT NULL';" 
 													aria-describedby="origFileAny_help"
 													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
@@ -422,13 +422,13 @@ limitations under the License.
 													aria-label="use NULL to find media records without a relationship">
 													Null
 												</button>
-												<span id="descrNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+												<span id="descrNull_help" class="sr-only">Click NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" 
 													aria-describedby="descrAny_help"
 													aria-label="Click NOT NULL to find media records with a relationship to any record">
 													Any
 												</button>
-												<span id="descrAny_help" class="sr-only">Click NOT NULL to find media records with a relationship to any record</span>
+												<span id="descrAny_help" class="sr-only">Click Any for NOT NULL to find media records with a relationship to any record</span>
 												<span class="text-secondary small">)</span>
 												<input type="text" id="description" name="description" value="#encodeForHtml(keywords)#">
 											</div>
@@ -449,7 +449,7 @@ limitations under the License.
 													aria-label="use NULL to find media records without a relationship">
 													Null
 												</button>
-												<span id="subjectNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+												<span id="subjectNull_help" class="sr-only">click NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" 
 													aria-describedby="subjectAny_help"
 													aria-label="click Any for NOT NULL to find media records with a relationship to any record">
@@ -507,14 +507,20 @@ limitations under the License.
 												</button>
 												<span id="heightLesser_help" class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';"
-													aria-describedby=""
-													aria-label="use NULL to find media records without the selected relationship">
+													aria-describedby="heightNull_help"
+													aria-label="use NULL to find media records without a height">
 													Null
 												</button>
-												<span id="" class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';">Any</button><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)	 
+												<span id="heightLesser_help" class="sr-only">use NULL to find media records without a height</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';"
+													aria-describedby="heightAny_help"
+													aria-label="use NOT NULL to find media records with a height">
+													Any
+												</button>
+												<span id="heightAny_help" class="sr-only">use NOT NULL to find media records without a height</span>)	 
 												<input type="text" id="height" name="height" value="#encodeForHtml(height)#">
 											</div>
+											
 											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="width">Width </label>
 												<span class="text-secondary small">(</span>
@@ -532,19 +538,20 @@ limitations under the License.
 												<span id="widthLT_help" class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';"
 													aria-describedby="widthNull_help"
-													aria-label="use NULL to find media records without the selected relationship">
+													aria-label="use NULL to find media records without a width">
 													Null
 												</button>
-												<span id="widthNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<span id="widthNull_help" class="sr-only">use NULL to find media records without a width</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';"
 													aria-describedby="widthAny_help"
-													aria-label="use the prefix for NOT NULL to find media records with the selected relationship to any record">
+													aria-label="use NOT NULL to find media records with a width">
 													Any
 												</button>
-												<span id="widthAny_help" class="sr-only">use the prefix for NOT NULL to find media records with the selected relationship to any record</span>
+												<span id="widthAny_help" class="sr-only">use NOT NULL to find media records with a width</span>
 												<span class="text-secondary small">)</span>
 												<input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
 											</div>
+											
 											<div class="col-12 col-md-4 col-xl-2">
 												<label for="light_source">Light Source </label>
 												<button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" 
@@ -580,10 +587,12 @@ limitations under the License.
 													});
 												</script>
 											</div>
+											
 											<div class="col-12 col-md-4 col-xl-2">
 												<label for="preview_uri">Preview URI</label>
 												<input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
 											</div>
+											
 											<div class="col-12 col-md-3 col-xl-2">
 												<label for="remarks">Remarks</label> 
 												<span class="text-secondary small">(</span>
@@ -592,13 +601,13 @@ limitations under the License.
 													aria-label="use NULL to find media records without remarks">
 													Null
 												</button>
-												<span id="remarksNULL_help" class="sr-only">use NULL to find media records without a remark</span>, 
+												<span id="remarksNULL_help" class="sr-only">use NULL to find media records without remarks</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';"
-													aria-describedby=""
-													aria-label="">
+													aria-describedby="remarksAny_help"
+													aria-label="use Any for NOT NULL to find media records with remarks">
 													Any
 												</button>
-												<span class="sr-only">use Any for NOT NULL to find media records with any remarks</span>
+												<span id="remarksAny_help" class="sr-only">use Any for NOT NULL to find media records with any remarks</span>
 												<span class="text-secondary small">)</span>
 												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
 											</div>
@@ -616,7 +625,7 @@ limitations under the License.
 														<span id="anyOtherEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
 														<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';" 
 															aria-describedby="anyOtherNull_help"
-															aria-label>
+															aria-label="use NULL to find media records without the designated label">
 															Null
 														</button>
 														<span id="anyOtherNull_help" class="sr-only">use NULL to find media records without the designated label</span>, 
@@ -658,7 +667,7 @@ limitations under the License.
 												<span id="md5hash_help" class="sr-only">prefix with equals sign for exact match search</span>,
 												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';"
 													aria-describedby="md5hashNull_help"
-													aria-label="use NULL to find media records without the selected relationship">
+													aria-label="use NULL to find media records without an MD5 hash">
 													Null
 												</button>
 												<span id="md5hashNull_help" class="sr-only">use NULL to find media records without the selected relationship</span>, 
