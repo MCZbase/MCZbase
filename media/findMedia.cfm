@@ -281,8 +281,7 @@ limitations under the License.
 											</cfif>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 												<div class="col-12 col-md-4 col-xl-3">
-													<label for="internal_remarks">Internal Remarks </label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
+													<label for="internal_remarks">Internal Remarks </label><span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
 														aria-describedby="intRemarksNull_help"
 														aria-label="use NULL to find media records without a relationship">
 														Null
@@ -293,7 +292,7 @@ limitations under the License.
 														aria-label="use NOT NULL to find media records with the selected relationship to any record">
 														Any
 													</button>
-													<span id="intRemarksAny_help" class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>)
+													<span id="intRemarksAny_help" class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span><span class="text-secondary small">)</span>
 													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
 												</div>
 											</cfif>
