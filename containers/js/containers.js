@@ -330,6 +330,19 @@ function specimenSearchUrl(barcode) {
 	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D' + encodeURIComponent(barcode);
 }
 
+/** 
+ * Returns a URL to the allContainerLeafNodes.cfm page for the given container_id.
+ * URL is for a page that lists all collection objects that are descendants of the 
+ * given container, link includes limitation to initially show only immediate children 
+ * of the container.
+ * @param {number} container_id - the container_id to list leaf nodes for.
+ * @returns {string} URL string to allContainerLeafNodes.cfm with container_id and show=immediate, or '' when container_id is empty.
+ */
+function allContainerLeafNodesUrl(container_id) {
+	if (!container_id) { return ''; }
+	return '/containers/allContainerLeafNodes.cfm?container_id=' + encodeURIComponent(container_id) + '&show=immediate';
+}
+
 /**
  * Normalizes parent placement context from a container search result row.
  * @param {Object} row - one row from searchContainers.
@@ -1022,7 +1035,7 @@ function canCreateChildContainer(containerType) {
 function getContainerRoleBadgeHtml(containerType) {
 	var role = getContainerRole(containerType);
 	var labelMap = { proxy: 'Proxy', leafbearer: 'Leaf bearer', structural: 'Structural', leaf: 'Leaf' };
-	return '<span class="badge container-role-badge container-role-' + role + '">' + (labelMap[role] || role) + '</span>';
+	return '<span class="badge badge-pill container-role-badge container-role-' + role + '">' + (labelMap[role] || role) + '</span>';
 }
 
 /**
@@ -1377,7 +1390,7 @@ function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded)
  * @returns {jQuery} badge element describing the orphan classification.
  */
 function buildHighLevelOrphanBadge(label, extraClasses) {
-	return $('<span class="badge badge-warning small"></span>').addClass(extraClasses || '').text(label);
+	return $('<span class="badge badge-pill badge-warning small"></span>').addClass(extraClasses || '').text(label);
 }
 
 /**
@@ -2010,19 +2023,19 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 		nodeRow.append(buildContainerDetailsButton(cid, displayName, feedbackId));
 		nodeRow.append(buildAddChildContainerLink(cid, ctype, TREE_ACTION_SPACING_CLASS));
 		if (structuralChildren === 0 && leafChildren === 0) {
-			nodeRow.append($('<span class="badge badge-light border text-muted small ml-1"></span>').attr('title', 'Empty container — no children').text('empty'));
+			nodeRow.append($('<span class="badge badge-pill badge-light border text-muted small ml-1"></span>').attr('title', 'Empty container — no children').text('empty'));
 		}
 		if (isProxy && leafChildren > 1) {
-			nodeRow.append($('<span class="badge badge-warning ml-1 small"></span>').attr('title', 'Single-occupant type with multiple children — may be misplaced').text('!'));
+			nodeRow.append($('<span class="badge badge-pill badge-warning ml-1 small"></span>').attr('title', 'Single-occupant type with multiple children — may be misplaced').text('!'));
 		}
 		if (leafChildren > 0 && structuralChildren > 0) {
-			nodeRow.append($('<span class="badge badge-warning ml-1 small"></span>').attr('title', 'Contains both structural containers and collection objects (mixed)').text('Mixed'));
+			nodeRow.append($('<span class="badge badge-pill badge-warning ml-1 small"></span>').attr('title', 'Contains both structural containers and collection objects (mixed)').text('Mixed'));
 		}
 		if (leafChildren > 0 && structuralChildren === 0) {
-			nodeRow.append($('<span class="badge badge-info ml-1 small"></span>').text(leafChildren + ' obj'));
+			nodeRow.append($('<span class="badge badge-pill badge-info ml-1 small"></span>').text(leafChildren + ' obj'));
 		}
 		if (structuralChildren > 0) {
-			nodeRow.append($('<span class="badge badge-light border text-muted ml-1 small"></span>').text(structuralChildren + ' containers'));
+			nodeRow.append($('<span class="badge badge-pill badge-light border text-muted ml-1 small"></span>').text(structuralChildren + ' containers'));
 		}
 		var nodeLeafDiv = null;
 		if (leafChildren > 0 && !isProxy) {
@@ -2166,6 +2179,15 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 						.attr('href', allSpecUrl)
 						.attr('title', 'View all specimens in this container in the specimen search')
 						.text('View all in Specimen Search')
+				);
+				// construct a direct link to the allContainerLeafNodes.cfm page for this container,
+				// limited to just immediate children as this table is.
+				var listLeafUrl = allContainerLeafNodesUrl(containerId);
+				headingDiv.append(
+					$('<a class="btn btn-xs btn-outline-info" target="_blank" rel="noopener noreferrer"></a>')
+						.attr('href', listLeafUrl)
+						.attr('title', 'List all collection object leaf nodes in this container')
+						.text('Leaf Nodes')
 				);
 			}
 			panel.append(headingDiv);
@@ -2318,7 +2340,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var shapeClass = row.shape_class || 'A';
 					var shapeLabel = SHAPE_LABELS[shapeClass] || shapeClass;
 					var shapeBadgeClass = shapeClass === 'AB' ? 'badge-warning' : (shapeClass === 'B' ? 'badge-info' : 'badge-light border text-muted');
-					var shapeBadge = $('<span class="badge small"></span>').addClass(shapeBadgeClass).text(shapeLabel);
+					var shapeBadge = $('<span class="badge badge-pill small"></span>').addClass(shapeBadgeClass).text(shapeLabel);
 					var actionCell = $('<td></td>');
 					actionCell.append(buildContainerDetailsActionButton(cid, displayName, feedbackId));
 					actionCell.append(buildContainerViewLink(cid));

@@ -223,9 +223,9 @@ limitations under the License.
 					<strong>C</strong> = structural only (should not hold collection objects directly);
 					<strong>S</strong> = specimen holder (should hold only collection objects);
 					<strong>SC</strong> = may hold both.
-					Rows highlighted in <span class="badge badge-danger">red</span> are
+					Rows highlighted in <span class="badge badge-pill badge-danger">red</span> are
 					<strong>violations</strong> (a C-type holding collection-object children).
-					Rows highlighted in <span class="badge badge-warning">yellow</span> are
+					Rows highlighted in <span class="badge badge-pill badge-warning">yellow</span> are
 					<strong>anomalies</strong> (an S-type holding structural children).
 					A &#x2717; or &#x26A0; in the Status column provides a non-color indicator.
 				</p>
