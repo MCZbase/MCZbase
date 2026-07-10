@@ -1043,6 +1043,8 @@ limitations under the License.
 							depth = depth + "-" + max_depth;
 						}
 						depth = $.trim(depth + " " + depth_units) + ". ";
+					} else if (max_depth) { 
+						depth = " Depth: " + max_depth + " " + depth_units + ". ";
 					} else {
 						depth = "";
 					}
