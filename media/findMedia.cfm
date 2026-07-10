@@ -722,9 +722,9 @@ limitations under the License.
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 												<!--- hide search for date as text from most users, too confusing --->
-												<div class="col-12 col-md-4 col-xl-2">
-													<label class="w-100" for="text_made_date">Made Date</label>
-													<span class="text-secondary small">(</span>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="text_made_date">Made Date</label>
+													<span class="text-secondary small"> (text) (</span>
 													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
 														aria-describedby="madedateEquals_help"
 														aria-label="prefix with equals sign for exact match search">
@@ -750,65 +750,65 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="owner">Owner </label>
+													<span class="text-secondary small">(</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
+														aria-describedby="ownerEquals_help"
+														aria-label="prefix with equals sign for exact match search">
+														=
+													</button>
+													<span id="ownerEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';"
+														aria-describedby="ownerNULL_help"
+														aria-label="use NULL to find media records without an owner">
+														Null
+													</button>
+													<span id="ownerNULL_help" class="sr-only">use NULL to find media records without an owner</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';"
+														aria-describedby="ownerAny_help"
+														aria-label="">
+														Any
+													</button>
+													<span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>
+													<span class="text-secondary small">)</span>
+													<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
+													<script>
+														$(document).ready(function() {
+															makeMediaLabelAutocomplete("owner","owner");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="credit">Credit</label>
+													<span class="text-secondary small">(</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;"
+														aria-describedby="creditEquals_help"
+														aria-label="prefix with equals sign for exact match search">
+														=
+													</button>
+													<span id="creditEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';"
+														aria-describedby="creditNull_help"
+														aria-label="use NULL to find media records without credit">
+														Null
+													</button>
+													<span id="creditNull_help" class="sr-only">use NULL to find media records without credit</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';"
+														aria-describedby="creditAny_help"
+														aria-label="use the any prefix for NOT NULL to find media records with credit">
+														Any
+													</button>
+													<span id="creditAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with credit</span>
+													<span class="text-secondary small">)</span>
+													<input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
+													<script>
+														$(document).ready(function() {
+															makeMediaLabelAutocomplete("credit","credit");
+														});
+													</script>
+												</div>
 											</cfif>
-											<div class="col-12 col-md-4 col-xl-2">
-												<label for="owner">Owner </label>
-												<span class="text-secondary small">(</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
-													aria-describedby="ownerEquals_help"
-													aria-label="prefix with equals sign for exact match search">
-													=
-												</button>
-												<span id="ownerEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';"
-													aria-describedby="ownerNULL_help"
-													aria-label="use NULL to find media records without an owner">
-													Null
-												</button>
-												<span id="ownerNULL_help" class="sr-only">use NULL to find media records without an owner</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';"
-													aria-describedby="ownerAny_help"
-													aria-label="">
-													Any
-												</button>
-												<span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>
-												<span class="text-secondary small">)</span>
-												<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("owner","owner");
-													});
-												</script>
-											</div>
-											<div class="col-12 col-md-4 col-xl-2">
-												<label for="credit">Credit</label>
-												<span class="text-secondary small">(</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;"
-													aria-describedby="creditEquals_help"
-													aria-label="prefix with equals sign for exact match search">
-													=
-												</button>
-												<span id="creditEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';"
-													aria-describedby="creditNull_help"
-													aria-label="use NULL to find media records without credit">
-													Null
-												</button>
-												<span id="creditNull_help" class="sr-only">use NULL to find media records without credit</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';"
-													aria-describedby="creditAny_help"
-													aria-label="use the any prefix for NOT NULL to find media records with credit">
-													Any
-												</button>
-												<span id="creditAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with credit</span>
-												<span class="text-secondary small">)</span>
-												<input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("credit","credit");
-													});
-												</script>
-											</div>
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
