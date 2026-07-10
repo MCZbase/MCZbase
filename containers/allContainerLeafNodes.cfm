@@ -20,7 +20,7 @@ limitations under the License.
 <cfif isDefined("url.action")>
 	<cfset variables.action = url.action>
 <cfelse>
-	<cfset variables.action = "nothing">
+	<cfset variables.action = "list">
 </cfif>
 <cfif isDefined("url.show")>
 	<cfset variables.show = url.show>
