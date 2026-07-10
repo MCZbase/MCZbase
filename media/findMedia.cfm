@@ -992,7 +992,7 @@ limitations under the License.
 				<div class="row mr-xl-1">
 					<div class="col-12 mb-5 px-xl-4 ml-xl-2">
 						<div class="row my-0 jqx-widget-header border p-1 mx-0">
-							<h1 class="h4 pt-0 mb-0 ml-2 ml-md-3">Results: 
+							<h1 class="h4 pt-0 mb-2 ml-2 ml-md-3">Results: 
 								<span class="pr-2 font-weight-normal" id="resultCount"></span> 
 								<span id="resultLink" class="font-weight-normal pr-2"></span>
 							</h1>
