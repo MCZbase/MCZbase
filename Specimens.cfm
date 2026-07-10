@@ -265,10 +265,7 @@
 						<div id="downloadAgreeDialogDiv"></div>
 						<!--- Tab header div --->
 						<div class="tabs card-header tab-card-header px-2 pt-3">
-							<cftry>
-								<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-3 border-0")#</cfoutput>
-								<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-							</cftry>
+							
 							<cfswitch expression="#action#">
 								<cfcase value="fixedSearch">
 									<cfset fixedTabActive = "active">
@@ -334,6 +331,10 @@
 								<!---Fixed Search tab panel--->
 
 								<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
+									<cftry>
+										<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-3 border-0")#</cfoutput>
+										<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+									</cftry>
 									<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 										<form id="fixedSearchForm">
 											<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
