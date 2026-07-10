@@ -223,7 +223,7 @@ limitations under the License.
 						<label for="container_type" class="data-entry-label">Container Type</label>
 						<cfif lockedRoot>
 							<input type="hidden" name="container_type" id="container_type" value="#encodeForHtml(variables.formData.container_type)#">
-							<input type="text" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.container_type)#" readonly>
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.container_type)#" readonly>
 						<cfelse>
 							<select name="container_type" id="container_type" class="data-entry-select reqdClr col-12" required aria-required="true">
 								<option value=""></option>
@@ -241,7 +241,7 @@ limitations under the License.
 						<label for="label" class="data-entry-label">Label</label>
 						<cfif lockedRoot>
 							<input type="hidden" name="label" id="label" value="#encodeForHtml(variables.formData.label)#">
-							<input type="text" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.label)#" readonly>
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.label)#" readonly>
 						<cfelse>
 							<input type="text" name="label" id="label" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.formData.label)#">
 						</cfif>
@@ -250,7 +250,7 @@ limitations under the License.
 						<label for="barcode" class="data-entry-label">Barcode</label>
 						<cfif lockedRoot>
 							<input type="hidden" name="barcode" id="barcode" value="#encodeForHtml(variables.formData.barcode)#">
-							<input type="text" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.barcode)#" readonly>
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.barcode)#" readonly>
 						<cfelse>
 							<input type="text" name="barcode" id="barcode" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.barcode)#">
 						</cfif>
@@ -283,7 +283,7 @@ limitations under the License.
 						</label>
 						<cfif lockedRoot>
 							<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
-							<input type="text" class="data-entry-input col-12" value="#encodeForHtml(variables.parentContainerText)#" readonly>
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.parentContainerText)#" readonly>
 						<cfelse>
 							<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
 							<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
@@ -319,7 +319,7 @@ limitations under the License.
 						<label for="number_positions" class="data-entry-label">Number of Positions</label>
 						<cfif lockedRoot>
 							<input type="hidden" name="number_positions" id="number_positions" value="#encodeForHtml(variables.formData.number_positions)#">
-							<input type="text" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
 						<cfelse>
 							<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
 						</cfif>
