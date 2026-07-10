@@ -683,7 +683,7 @@ limitations under the License.
 												<!--- hide search for date as text from most users, too confusing --->
 												<div class="col-12 col-md-4 col-xl-3">
 													<label for="text_made_date">Made Date</label>
-													<span class="text-secondary small"> (text) (</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
+													<span class="text-secondary small"> (as text) (</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
 														aria-describedby="madedateEquals_help"
 														aria-label="prefix with equals sign for exact match search">
 														=
