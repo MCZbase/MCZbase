@@ -962,7 +962,7 @@ limitations under the License.
 									<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 								</select>
 							</div>
-							<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 pt-1 mx-1 border-0"></output>
+							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 mx-1 border-0"></output>
 						</div>
 						<div class="row mx-0 mt-0"> 
 							<!--- Grid Related code is below along with search handlers --->
