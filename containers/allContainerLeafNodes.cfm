@@ -186,7 +186,7 @@ limitations under the License.
 			   			#getContainerInfo.container_type#: #getContainerInfo.barcode#
 						</a>.
 						<cfif variables.show IS "all">
-							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=immediate">Show only immediate leaves</a>.
+							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&show=immediate">Show only immediate leaves</a>
 						</cfif>
 						<cfif leaf.recordcount GT 0>
 							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&action=csvDump" target="_blank">Download as CSV</a>
