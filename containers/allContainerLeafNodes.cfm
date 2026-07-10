@@ -55,21 +55,25 @@ limitations under the License.
 		<cfthrow message="Container [#encodeForHtml(variables.container_id)#] not found.">
 	</cfif>
 	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select
+		SELECT
 			container.container_id,
 			container.container_type,
 			container.label,
 			container.description,
 			p.barcode,
 			container.container_remarks
-		from
+		FROM
 			container
 			left join container p on container.parent_container_id=p.container_id
-		where
+		WHERE
 			container.container_type='collection object'
-		start with
+			<cfif isdefined("variables.show") AND variables.show is "immediate">
+				AND CONNECT_BY_ISLEAF = 1
+				AND LEVEL = 2
+			</cfif>
+		START WITH
 			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
-		connect by
+		CONNECT BY
 			container.parent_container_id = prior container.container_id
 	</cfquery>
 	<!--- special case handling to dump as csv --->
