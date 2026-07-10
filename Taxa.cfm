@@ -409,43 +409,42 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="infraorder">Infraorder</label>  
-													(<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    <input type="text" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#">
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;" aria-describedby="infraorderEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="infraorderEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;" aria-describedby="infraorderSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="infraorderSoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<input type="text" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
-                                                    <label for="superfamily">Superfamily</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<label for="superfamily">Superfamily</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;" aria-describedby="superfamilyEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="superfamilyEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;" aria-describedby="superfamSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="superfamSoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#">
 												</div> 
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
-												    <label for="family">Family</label> 
-													(<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
-												    <button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<label for="family">Family</label> 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-descibedby="familyEquals_help">=</button><span id="familyEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;" aria-describedby="familySoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="familySoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>)
 													<input type="text" id="family" name="family" value="#encodeForHtml(family)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="subfamily">Subfamily</label> 
-													(<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-describedby="subfamilyEquals_help">=<span id="subfamilyEquals_help" class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-descibedby="subfamilySoundsLike_help">$<span id="subfamilySoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-describedby="subfamilyEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="subfamilyEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, <button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-descibedby="subfamilySoundsLike_help" aria-value="prefix with dollar sign for sounds like search">$</button><span id="subfamilySoundsLike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
-                                                    <label for="tribe">Tribe</label> 
-													(<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;" aria-describedby="tribeEquals_help">=<span id="tribeEquals_help" class="sr-only">prefix with equals sign for exact match search</span></button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-describedby="tribeSoundsLike_help">$<span id="tribeSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<label for="tribe">Tribe</label> 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;" aria-describedby="tribeEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="tribeEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-describedby="tribeSoundsLike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="tribeSoundsLike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="tribe" name="tribe" value="#encodeForHtml(tribe)#">
 												</div>
 												<div class="col-12 col-lg-3 col-md-3 col-sm-6">
-                                                    <label for="nomenclatural_code">Nomenclatural Code</label>
-                                                    <select name="nomenclatural_code" id="nomenclatural_code" style="height: 23px !important;">
-                                                        <option></option>
-                                                        <cfloop query="ctnomenclatural_code">
-                                                            <cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-                                                            <option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
-                                                        </cfloop>
-                                                    </select>
+													<label for="nomenclatural_code">Nomenclatural Code</label>
+													<select name="nomenclatural_code" id="nomenclatural_code" style="height: 23px !important;">
+														<option></option>
+														<cfloop query="ctnomenclatural_code">
+															<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+															<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
+														</cfloop>
+													</select>
 												</div>
 												<div class="col-12 col-lg-3 col-md-4 col-sm-6">
 													<label for="taxon_status">Nomenclatural Status</label>
@@ -524,7 +523,7 @@ limitations under the License.
 														</cfquery>
 														<cfset selectedCollection = lookupCollection.collection >
 													</cfif>
-												   <div class="col-12 col-sm-4 col-xl-2">
+													<div class="col-12 col-sm-4 col-xl-2">
 														<label for="collection_cde">Used by Coll.</label>
 														<select name="collection_cde" aria-label="collection" style="height: 23px !important;">
 															<option value="" class="text-dark">any collection</option>
@@ -647,7 +646,7 @@ limitations under the License.
 				<div class="row mr-xl-1 pl-xl-2">
 					<div class="col-12 mb-5 px-xl-4">
 						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 my-0 ml-2 ml-md-1">
+							<h1 class="h4 mb-2 ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" aria-label="search results" role="button"></a>
