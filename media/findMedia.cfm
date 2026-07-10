@@ -707,26 +707,21 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4 col-xl-3">
 													<label for="owner">Owner </label>
-													<span class="text-secondary small">(</span>
-													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
 														aria-describedby="ownerEquals_help"
 														aria-label="prefix with equals sign for exact match search">
 														=
-													</button>
-													<span id="ownerEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													</button><span id="ownerEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';"
 														aria-describedby="ownerNULL_help"
 														aria-label="use NULL to find media records without an owner">
 														Null
-													</button>
-													<span id="ownerNULL_help" class="sr-only">use NULL to find media records without an owner</span>, 
+													</button><span id="ownerNULL_help" class="sr-only">use NULL to find media records without an owner</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';"
 														aria-describedby="ownerAny_help"
 														aria-label="">
 														Any
-													</button>
-													<span class="sr-only">use NOT NULL to find media records with a relationship to any record</span>
-													<span class="text-secondary small">)</span>
+													</button><span class="sr-only">use NOT NULL to find media records with any owner</span><span class="text-secondary small">)</span>
 													<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
 													<script>
 														$(document).ready(function() {
@@ -792,19 +787,11 @@ limitations under the License.
 													</cfloop>
 												</cfif>
 												<label for="related_cataloged_item">Shows Cataloged Item</label>
-												<span class="text-secondary small">(</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';"
-													aria-describedby="showcatitemAny_help"
-													aria-label="use the Any prefix for NOT NULL to find media records with a relationship to another record">
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';" aria-describedby="showcatitemAny_help" aria-label="use the Any prefix for NOT NULL to find media records with a relationship to another record">
 													Any
-												</button>
-												<span id="showcatitemAny_help" class="sr-only">use the ANY prefix for NOT NULL to find media records with a relationship to another record</span>, 
-												<span class="text-secondary small">accepts comma separated list</span>
-												<span class="text-secondary small">)</span>
-												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" 
-													id="related_cataloged_item" 
-													placeholder="MCZ:Coll:nnnnn" 
-													onchange="$('##collection_object_id').val('');">
+												</button><span id="showcatitemAny_help" class="sr-only">use the ANY prefix for NOT NULL to find media records with a relationship to another record</span>, 
+												<span class="text-secondary small">accepts comma separated list</span><span class="text-secondary small">)</span>
+												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 											</div>
 											<div class="col-12 col-md-6 col-xl-4">
 												<div class="w-100">
