@@ -1338,12 +1338,20 @@ details of a container for use in dialogs and page components.
 					</cfif>
 					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contextHeadingId)#">
 						<div class="row">
-							<div class="col-12">
-								<div class="row">
-									<div class="col-12 col-lg-6 mb-2 mb-lg-0">
-										<h2 class="h4 mb-0" id="#encodeForHtmlAttribute(contextHeadingId)#">Context</h2>
-									</div>
-									<cfif safeDisplayMode EQ "dialog">
+							<cfif safeDisplayMode EQ "dialog">
+								<div class="col-12">
+									<div class="row">
+										<div class="col-12 col-lg-6 mb-2 mb-lg-0">
+											<cfset name = "Container"> 
+											<cfif len(getContainerDetail.label) GT 0>
+												<cfset name = "#name# #getContainerDetail.label#">
+											<cfelseif len(getContainerDetail.barcode) GT 0>
+												<cfset name = "#name# #getContainerDetail.barcode#">
+											<cfelse>
+												<cfset name = "#name# [#getContainerDetail.container_id#]">
+											</cfif>
+											<h2 class="h4 mb-0" id="#encodeForHtmlAttribute(contextHeadingId)#">#name# (#getContainerDetail.container_type#)</h2>
+										</div>
 										<div class="col-12 col-lg-6">
 											<div class="text-lg-right">
 												<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
@@ -1358,9 +1366,9 @@ details of a container for use in dialogs and page components.
 												</div>
 											</div>
 										</div>
-									</cfif>
+									</div>
 								</div>
-							</div>
+							</cfif>
 							<div class="col-12">
 								<nav aria-label="Container breadcrumb" class="mb-2" id="#encodeForHtmlAttribute(breadcrumbNavId)#"></nav>
 								<output id="#encodeForHtmlAttribute(breadcrumbFeedbackId)#"></output>
