@@ -191,7 +191,12 @@ limitations under the License.
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerFormHeading">
 		<div class="col-12">
 			<cfif variables.action EQ "edit">
-				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)#</h1>
+				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)# <span id="container_role_badge"></span></h1>
+				<script>
+					$(document).ready(function () {
+						$("##container_role_badge").html( getContainerRoleBadgeHtml('#variables.formData.container_type#') );
+					});
+				</script>
 			<cfelse>
 				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
 			</cfif>
@@ -208,27 +213,52 @@ limitations under the License.
 					<input type="hidden" name="container_id" id="container_id" value="#encodeForHtml(variables.formData.container_id)#">
 				</cfif>
 
+				<!--- lock type institution and "Deaccesioned" root containers from some edits --->
+				<!--- NOTE: This block disables form controls for users, the authoritative check is in the saveContainer function --->
+				<!--- NOTE: Hidden fields are used as saveContainer requires these arguments, it just ignores them it determines lockedRoot --->
+				<cfset lockedRoot = false>
+				<cfif variables.formData.container_type EQ "institution">
+					<cfset lockedRoot = true>
+				<cfelseif variables.formData.label EQ "Deaccessioned">
+					<cfset lockedRoot = true>
+				</cfif>
+
 				<div class="form-row">
 					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="container_type" class="data-entry-label">Container Type</label>
-						<select name="container_type" id="container_type" class="data-entry-select reqdClr col-12" required aria-required="true">
-							<option value=""></option>
-							<cfloop query="ctcontainer_type">
-								<cfset variables.selectedType = "">
-								<cfif ctcontainer_type.container_type EQ variables.formData.container_type>
-									<cfset variables.selectedType = " selected">
-								</cfif>
-								<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
-							</cfloop>
-						</select>
+						<cfif lockedRoot>
+							<input type="hidden" name="container_type" id="container_type" value="#encodeForHtml(variables.formData.container_type)#">
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.container_type)#" readonly>
+						<cfelse>
+							<select name="container_type" id="container_type" class="data-entry-select reqdClr col-12" required aria-required="true">
+								<option value=""></option>
+								<cfloop query="ctcontainer_type">
+									<cfset variables.selectedType = "">
+									<cfif ctcontainer_type.container_type EQ variables.formData.container_type>
+										<cfset variables.selectedType = " selected">
+									</cfif>
+									<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
+								</cfloop>
+							</select>
+						</cfif>
 					</div>
 					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="label" class="data-entry-label">Label</label>
-						<input type="text" name="label" id="label" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.formData.label)#">
+						<cfif lockedRoot>
+							<input type="hidden" name="label" id="label" value="#encodeForHtml(variables.formData.label)#">
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.label)#" readonly>
+						<cfelse>
+							<input type="text" name="label" id="label" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.formData.label)#">
+						</cfif>
 					</div>
 					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="barcode" class="data-entry-label">Barcode</label>
-						<input type="text" name="barcode" id="barcode" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.barcode)#">
+						<cfif lockedRoot>
+							<input type="hidden" name="barcode" id="barcode" value="#encodeForHtml(variables.formData.barcode)#">
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.barcode)#" readonly>
+						<cfelse>
+							<input type="text" name="barcode" id="barcode" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.barcode)#">
+						</cfif>
 					</div>
 					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="description" class="data-entry-label">Description</label>
@@ -256,8 +286,13 @@ limitations under the License.
 								<small class="text-muted">#variables.parentContainerText# (#encodeForHtml(variables.parent_container_type)#)</small>
 							</cfif>
 						</label>
-						<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
-						<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
+						<cfif lockedRoot>
+							<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.parentContainerText)#" readonly>
+						<cfelse>
+							<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
+							<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
+						</cfif>
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="parent_install_date" class="data-entry-label">Placement Date</label>
@@ -287,7 +322,12 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3 mb-2">
 						<label for="number_positions" class="data-entry-label">Number of Positions</label>
-						<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
+						<cfif lockedRoot>
+							<input type="hidden" name="number_positions" id="number_positions" value="#encodeForHtml(variables.formData.number_positions)#">
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
+						<cfelse>
+							<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
+						</cfif>
 					</div>
 				</div>
 
