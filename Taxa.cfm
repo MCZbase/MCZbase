@@ -366,33 +366,33 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="superclass">Superclass</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='='+e.value;" aria-describedby="superclassEquals_help">=<small id="superclassEquals_help" class="sr-only">prefix equals sign for an exact match search</small></button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;" aria-describedby="superclassSoundsLike_help">$<span id="superclassSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='='+e.value;" aria-describedby="superclassEquals_help">=<small id="superclassEquals_help" class="sr-only">prefix equals sign for an exact match search</small></button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;" aria-describedby="superclassSoundsLike_help">$<span id="superclassSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
 													<input type="text" id="superclass" name="superclass" value="#encodeForHtml(superclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="phylclass">Class</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-describedby="classEquals_help">=<span id="classEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
-												    <button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-describedby="classSoundsLike_help">$<span id="phylumSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-describedby="classEquals_help" aria-label="prefix equals sign for exact match search">=<span id="classEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-describedby="classSoundsLike_help" aria-label="prefix with dollar sign for sounds like search">$<span id="phylumSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
 													<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
-                                                    <label for="subclass">Subclass</label>
-												    (<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">=</button>,
-                                                    <button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+													<label for="subclass">Subclass</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='='+e.value;" aria-describedby="subclassEquals_help" aria-label="prefix with equals sign for an exact match search">=</button><span id="subclassEquals_help" class="sr-only">prefix with equals sign for an exact match search</span>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;" aria-describedby="subclassSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$<span id="subclassSoundslike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
 													<input type="text" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
-                                                    <label for="infraclass">Infraclass</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">=</button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    <input type="text" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#">
+													<label for="infraclass">Infraclass</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;" aria-describedby="infraclassEquals_help" aria-value="prefix equals sign for exact match search">=</button><span id="infraclassEquals_help" class="sr-only">prefix equals sign for exact match search</span>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;" aria-describedby="infraclassSoundslike_help">$<span id="infraclassSoundlike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
+													<input type="text" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
-                                                    <label for="superorder">Superorder</label> 
-													(<button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">=</button>,
-												    <button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
-												    </span>
+													<label for="superorder">Superorder</label> 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='='+e.value;" aria-describedby="superorderEquals_help" aria-label="prefix equals sign for exact match search">=</button><span id="superorderEquals_help" class="sr-only">prefix equals sign for exact match search</span>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;" aria-describedby="superorderSoundslike_help" aria-label="prefix with dollarsign for sounds like search">$</button><span id="superorderSoundslike_help" class="sr-only">prefix with dollarsign for sounds like search</span><span class="text-secondary small">)</span>
+													</span>
 													<input type="text" id="superorder" name="superorder" value="#encodeForHtml(superorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
