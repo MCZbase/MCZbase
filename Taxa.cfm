@@ -201,19 +201,19 @@ limitations under the License.
 											<div class="form-row">
 												<div class="col-12 col-md-4">
 													<label for="scientific_name">Scientific Name</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-describedby="scientificNameEquals_help">=<span id="scientificNameEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-describedby="scientificNameSoundsLike_help">~<span id="scientificNameSoundsLike_help" class="sr-only">prefix tilde for search for similar text</span></button>)
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-describedby="scientificNameEquals_help">=<span id="scientificNameEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-describedby="scientificNameSoundsLike_help">~<span id="scientificNameSoundsLike_help" class="sr-only">prefix tilde for search for similar text</span></button><span class="text-secondary small">)</span>
 													<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHtml(scientific_name)#">
 												</div>
 												<div class="col-12 col-md-4">
 													<label for="full_taxon_name">Any part of name or classification</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" 
 														aria-describedby="nameNot"
 														aria-label="prefix with exclamation point for not search">
 														!
 													</button>
 													<span id="nameNot" class="sr-only">prefix with exclamation point for not search</span>
-													)
+													<span class="text-secondary small">)</span>
 													<input type="text" 
 														id="full_taxon_name" 
 														name="full_taxon_name" 
@@ -224,12 +224,11 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4">
 													<label for="common_name">Common Name</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('common_name');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('common_name');e.value='='+e.value;" 
 														aria-describedby="commonNameEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button>)
-													<small id="commonNameEquals_help" class="sr-only">prefix equals sign for exact match search</small>
+													</button><span class="text-secondary small">)</span><small id="commonNameEquals_help" class="sr-only">prefix equals sign for exact match search</small>
 													<input type="text" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
 												</div>
 											</div>
@@ -239,88 +238,77 @@ limitations under the License.
 											<div class="form-row">
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="genus">Genus</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='='+e.value;" 
 														aria-describedby="genusEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button>
-													<span id="genusEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
+													</button><span id="genusEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='$'+e.value;" 
 														aria-describedby="genusSoundsLike_help"
 														aria-label="prefix dollarsign for sounds like search">
 														$
-													</button>
-													<span id="genusSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span>)
+													</button><span id="genusSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="genus" name="genus" value="#encodeForHtml(genus)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="subgenus">Subgenus</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" 
 														aria-describedby="subgenusEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button>
-													<span id="subgenusEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
+													</button><span id="subgenusEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;" 
 														aria-describedby="subgenusSoundsLike_help"
 														aria-label="prefix dollarsign for sounds like search">
 														$
-													</button>
-													<span id="subgenusSoundsLike_help" class="sr-only"></span>)
+													</button><span id="subgenusSoundsLike_help" class="sr-only"></span><span class="text-secondary small">)</span>
 													<input type="text" class="" id="subgenus" name="subgenus" value="#encodeForHtml(subgenus)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="species">Species</label> 
-													(<button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='='+e.value;" 
 														aria-describedby="speciesEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button>
-													<span id="speciesEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
+													</button><span id="speciesEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='$'+e.value;" 
 														aria-describedby="speciesSoundsLike_help"
 														aria-label="prefix dollarsign for sounds like search">
 														$
-													</button>
-													<span id="speciesSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span>
-													)
+													</button><span id="speciesSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="species" name="species" value="#encodeForHtml(species)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="subspecies">Subspecies</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;" 
 														aria-describedby="subspeciesEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button>
-													<span id="subspeciesEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
+													</button><span id="subspeciesEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;" 
 														aria-describedby="subspeciesSoundsLike_help"
 														aria-label="prefix dollarsign for sounds like search">
 														$
-													</button>
-													<span id="subspeciesSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span>)
+													</button><span id="subspeciesSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="subspecies" name="subspecies" value="#encodeForHtml(subspecies)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="author_text">Authorship</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" 
 														aria-describedby="authorshipEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button>
-													<span id="authorshipEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
+													</button><span id="authorshipEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;" 
 														aria-describedby="authorshipSoundsLike_help"
 														aria-label="prefix dollarsign for sounds like search">
 														$
-													</button>
-													<span id="authorshipSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span>)
+													</button><span id="authorshipSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="author_text" name="author_text" value="#encodeForHtml(author_text)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
-                                                    <label for="infraspecific_author">Infrasp.&thinsp;Author</label>
-												    (<button type="button" class="rules" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;" aria-describedby="infraspAuthor_help">=<small id="infraspAuthor_help" class="sr-only">prefix equals sign for exact match search</small></button>)
+													<label for="infraspecific_author">Infrasp.&thinsp;Author</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;" aria-describedby="infraspAuthor_help">=<small id="infraspAuthor_help" class="sr-only">prefix equals sign for exact match search</small></button><span class="text-secondary small">)</span>
 													<input type="text" id="infraspecific_author" name="infraspecific_author" value="#encodeForHtml(infraspecific_author)#">
 												</div>
 											 </div>
@@ -337,10 +325,10 @@ limitations under the License.
 														aria-describedby="kingdomEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														(=)
-													</button>
-													<small id="kingdomEquals_help" class="sr-only">prefix equals sign for exact match search</small>
+													</button><small id="kingdomEquals_help" class="sr-only">prefix equals sign for exact match search</small>
 													<input type="text" id="kingdom" name="kingdom" value="#encodeForHtml(kingdom)#">
 												</div>
+												
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="phylum">Phylum</label> 
 													<button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" 
@@ -349,34 +337,31 @@ limitations under the License.
 														(&##8595;) 
 													</button>
 													<span id="phylumPickList_help" class="sr-only">open pick list</span>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('phylum');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylum');e.value='='+e.value;" 
 														aria-describedby="phylumEquals_help"
 														aria-label="prefix equals sign for an exact match">
 														=
-													</button>
-													<small id="phylumEquals_help" class="sr-only">prefix equals sign for an exact match</small>,
+													</button><small id="phylumEquals_help" class="sr-only">prefix equals sign for an exact match</small>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;" 
 														aria-describedby="phylumSoundsLike_help"
 														aria-label="prefix dollarsign for sounds like search">
 														$
-													</button>
-													<span id="phylumSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span>)
+													</button><span id="phylumSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#">
 												</div>
+												
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="subphylum">Subphylum</label>
-													(<button type="button" class="rules" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;" 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;" 
 														aria-describedby="subphylumEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button>
-													<small id="subphylumEquals_help" class="sr-only">prefix equals sign for exact match search</small>,
+													</button><small id="subphylumEquals_help" class="sr-only">prefix equals sign for exact match search</small>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;" 
 														aria-describedby="subphylumSoundsLike_help"
 														aria-label="prefix with dollarsign for sounds like search">
 														$
-													</button>
-													<span id="subphylumSoundsLike_help" class="sr-only">prefix with dollar sign for sounds like search</span>)
+													</button><span id="subphylumSoundsLike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
