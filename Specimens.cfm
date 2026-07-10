@@ -1946,6 +1946,9 @@
 											</div>
 										</div>
 									</div>
+									<script src="/shared/js/wikiDrawer.js"></script>
+									<cfset action = "search">
+									<cfset targetWikiPage = "Basic Specimen Search">
 								</section><!--- end fixed search tab --->
 								<script type="text/javascript" language="javascript">
 								function toggleIDDetail(onOff) {
@@ -2302,6 +2305,9 @@
 											</div>
 										</div>
 									</div>
+									<script src="/shared/js/wikiDrawer.js"></script>
+									<cfset action = "search">
+									<cfset targetWikiPage = "Keyword Search">
 								</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
 								<!--- 
@@ -2314,7 +2320,7 @@
 								--->
 								<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 									<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
-										<div class="d-flex justify-content-end px-0"> 
+										<!---<div class="d-flex justify-content-end px-0"> 
 										<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help border-0" type="button" data-help-target="collapseBuilderHelp">
 											Search Help
 										</button>
@@ -2330,7 +2336,7 @@
 												</p>
 											</div>
 										</aside>
-									</div>
+									</div>--->
 										<form id="builderSearchForm" class="container-fluid">
 											<script>
 												// bind autocomplete to text input/hidden input, and other actions on field selection
@@ -2933,6 +2939,9 @@
 											</div>
 										</div>
 									</div>
+									<script src="/shared/js/wikiDrawer.js"></script>
+									<cfset action = "search">
+									<cfset targetWikiPage = "Search Builder">
 								</section><!--- end search builder tab --->
 							</div>
 						</div>
@@ -4806,7 +4815,5 @@
 
 	</cfoutput>
 
-<script src="/shared/js/wikiDrawer.js"></script>
-<cfset action = "search">
-<cfset targetWikiPage = "Basic Specimen Search">
+
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>	<cfinclude template="/shared/_footer.cfm">
