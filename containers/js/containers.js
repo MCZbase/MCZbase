@@ -341,7 +341,7 @@ function specimenSearchUrl(barcode) {
 function allContainerLeafNodesUrl(container_id) {
 	if (!container_id) { return ''; }
 	return '/containers/allContainerLeafNodes.cfm?container_id=' + encodeURIComponent(container_id) + '&show=immediate';
-|
+}
 
 /**
  * Normalizes parent placement context from a container search result row.
