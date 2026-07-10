@@ -276,7 +276,7 @@ editing behavior consistent across the application.
 
 	<section>
 		<div class="d-flex align-items-center flex-wrap mb-1">
-			<h2 class="h4 mr-2 mb-0">Container Hierarchy</h2>
+			<h2 class="h4 mr-2 mb-0">Containers/Storage Locations</h2>
 		</div>
 		<p id="containerBrowseContext" class="text-muted small mb-2"></p>
 		<div id="containerBrowsePanel">
