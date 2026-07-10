@@ -286,8 +286,7 @@ limitations under the License.
 														aria-describedby="intRemarksNull_help"
 														aria-label="use NULL to find media records without a relationship">
 														Null
-													</button>
-													<span id="intRemarksNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
+													</button><span id="intRemarksNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';"
 														aria-describedby="intRemarksAny_help"
 														aria-label="use NOT NULL to find media records with the selected relationship to any record">
@@ -384,26 +383,21 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 col-xl-3">
 												<label for="original_filename">Original File</label>
-												<span class="text-secondary small">(</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" 
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" 
 													aria-describedby="origFileEquals_help"
 													aria-label="prefix with equals sign for exact match search">
 													=
-												</button>
-												<span id="origFileEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+												</button><span id="origFileEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';" 
 													aria-describedby="origFileNull_help"
 													aria-label="use NULL to find media records without the selected relationship">
 													Null
-												</button>
-												<span id="origFileNull_help" class="sr-only">Click NULL to find media records without a relationship</span>, 
+												</button><span id="origFileNull_help" class="sr-only">Click NULL to find media records without a relationship</span>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NOT NULL';" 
 													aria-describedby="origFileAny_help"
 													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
 													Any
-												</button>
-												<span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find media records with a relationship to any record</span>
-												<span class="text-secondary small">)</span>
+												</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find media records with a relationship to any record</span><span class="text-secondary small">)</span>
 												<input type="text" id="original_filename" name="original_filename" value="#encodeForHtml(original_filename)#">
 											</div>
 										</div>
