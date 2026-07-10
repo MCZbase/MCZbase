@@ -330,6 +330,19 @@ function specimenSearchUrl(barcode) {
 	return '/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D' + encodeURIComponent(barcode);
 }
 
+/** 
+ * Returns a URL to the allContainerLeafNodes.cfm page for the given container_id.
+ * URL is for a page that lists all collection objects that are descendants of the 
+ * given container, link includes limitation to initially show only immediate children 
+ * of the container.
+ * @param {number} container_id - the container_id to list leaf nodes for.
+ * @returns {string} URL string to allContainerLeafNodes.cfm with container_id and show=immediate, or '' when container_id is empty.
+ */
+function allContainerLeafNodesUrl(container_id) {
+	if (!container_id) { return ''; }
+	return '/containers/allContainerLeafNodes.cfm?container_id=' + encodeURIComponent(container_id) + '&show=immediate';
+|
+
 /**
  * Normalizes parent placement context from a container search result row.
  * @param {Object} row - one row from searchContainers.
@@ -2166,6 +2179,15 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 						.attr('href', allSpecUrl)
 						.attr('title', 'View all specimens in this container in the specimen search')
 						.text('View all in Specimen Search')
+				);
+				// construct a direct link to the allContainerLeafNodes.cfm page for this container,
+				// limited to just immediate children as this table is.
+				var listLeafUrl = allContainerLeafNodesUrl(containerId);
+				headingDiv.append(
+					$('<a class="btn btn-xs btn-outline-info" target="_blank" rel="noopener noreferrer"></a>')
+						.attr('href', listLeafUrl)
+						.attr('title', 'List all collection object leaf nodes in this container')
+						.text('Leaf Nodes')
 				);
 			}
 			panel.append(headingDiv);
