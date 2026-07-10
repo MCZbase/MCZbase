@@ -1162,7 +1162,12 @@
 														<div class="col-12 col-md-3 col-xl-3 mb-1">
 															<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 															<label for="preserve_method">Preserve Method</label>
-															<button type="button" class="rules" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" aria-describedby="preserveM_help"> (&##8595;) <span id="preserveM_help" class="sr-only">open pick list</span></button>
+															<button type="button" class="rules" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" 
+																aria-describedby="preserveM_help"
+																aria-label="open pick list">
+																(&##8595;)
+															</button>
+															<span id="preserveM_help" class="sr-only">open pick list</span>
 															<input type="text" id="preserve_method" name="preserve_method" value="#encodeForHtml(preserve_method)#">
 															<script>
 																jQuery(document).ready(function() {
@@ -1173,8 +1178,18 @@
 														<div class="col-12 col-md-3 col-xl-3 mb-1">
 															<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
 															<label for="biol_indiv_relationship">Has Relationship</label>
-															<button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" aria-describedby="relationshipAny_help"> (Any) <span id="relationshipAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with relationships of any type</span></button>
-															<button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" aria-describedby="relationshipPick_help"> (&##8595;) <span id="relationshipPick_help" class="sr-only">open pick list</span></button>
+															<button type="button" class="rules" onclick="$('##biol_indiv_relationship').val('NOT NULL'); return false;" 
+																aria-describedby="relationshipAny_help"
+																aria-label="click Any for NOT NULL to find cataloged items with relationships of any type">
+																(Any)
+															</button>
+															<span id="relationshipAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with relationships of any type</span>
+															<button type="button" class="rules" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" 
+																aria-describedby="relationshipPick_help"
+																aria-label="open pick list">
+																(&##8595;)
+															</button>
+															<span id="relationshipPick_help" class="sr-only">open pick list</span>
 															<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" value="#encodeForHtml(biol_indiv_relationship)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1185,10 +1200,18 @@
 														<div class="col-12 col-md-3 col-xl-3 mb-1">
 															<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 															<label for="media_type">Media Type</label>
-															<button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" aria-describedby="mediaAny_help"> (Any) <span id="mediaAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with media of any type</span></button>
-															<button type="button" class="rules" onclick="$('##media_type').autocomplete('search','%'); return false;" aria-describedby="mediaPick_help"> 
-																(&##8595;) <span id="mediaPick_help" class="sr-only">open pick list</span>
+															<button type="button" class="rules" onclick="$('##media_type').val('NOT NULL'); return false;" 
+																aria-describedby="mediaAny_help"
+																aria-label="click Any for NOT NULL to find cataloged items with media of any type">
+																(Any)
 															</button>
+															<span id="mediaAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with media of any type</span>
+															<button type="button" class="rules" onclick="$('##media_type').autocomplete('search','%'); return false;" 
+																aria-describedby="mediaPick_help"
+																aria-label="open pick list"> 
+																(&##8595;)
+															</button>
+															<span id="mediaPick_help" class="sr-only">open pick list</span>
 															<input type="text" id="media_type" name="media_type" value="#encodeForHtml(media_type)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1264,7 +1287,12 @@
 																</div>
 																<div class="col-12 col-md-4 col-xl-3 mb-1">
 																	<label for="coll_obj_disposition">Disposition</label>
-																	<button type="button" class="rules" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" aria-describedby="dispoPick_help"> (&##8595;) <span id="dispoPick_help" class="sr-only">open pick list</span></button>
+																	<button type="button" class="rules" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" 
+																		aria-describedby="dispoPick_help"
+																		aria-label="open pick list">
+																		(&##8595;) 
+																	</button>
+																	<span id="dispoPick_help" class="sr-only">open pick list</span>
 																	<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 																	<input type="text" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
 																	<script>
@@ -1281,9 +1309,12 @@
 																<div class="col-12 col-md-4 col-xl-3 mb-1">
 																	<label for="part_attribute_type">Part Attribute Type</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-describedby="partAttTypeAny_help"> (Any) <span id="partAttTypeAny_help" class="sr-only">click Any for NOT NULL to find cataloged items with any part attribute</span></button>
-																	<button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" aria-describedby="partAttTypePick_help"> 
-																		(&##8595;) <span id="partAttTypePick_help" class="sr-only">open pick list</span>
+																	<button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;"
+																		aria-describedby="partAttTypePick_help"
+																		aria-label="open pick list">
+																		(&##8595;) 
 																	</button>
+																	<span id="partAttTypePick_help" class="sr-only">open pick list</span>
 																	<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
 																	<input type="text" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
 																	<script>
@@ -1294,14 +1325,23 @@
 																</div>
 																<div class="col-12 col-md-4 col-xl-3 mb-1">
 																	<label for="part_attribute_value">Part Attribute Value</label>
-																	<button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" aria-describedby="partAttValAny_help"> (Any) <span id="partAttValAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
+																	<button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" 
+																		aria-describedby="partAttValAny_help"
+																		aria-label="use NOT NULL to find cataloged items with any part attribute value">
+																		(Any)
 																	</button>
+																	<span id="partAttValAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span>
 																	<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																	<input type="text" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 																</div>
 																<div class="col-12 col-md-4 col-xl-3 mb-1">
 																	<label for="part_attribute_units">Part Attribute Units</label>
-																	<button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" aria-describedby="partAttUnitAny_help"> (Any) <span id="partAttUnitAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></button>
+																	<button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" 
+																		aria-describedby="partAttUnitAny_help"
+																		aria-label="use NOT NULL to find cataloged items with any part attribute units">
+																		(Any)
+																	</button>
+																	<span id="partAttUnitAny_help" class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span>
 																	<button type="button" class="rules" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" aria-describedby="partAttUnitsPick_help"> (&##8595;) <span id="partAttUnitsPick_help" class="sr-only">open pick list</span></button>
 																	<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
 																	<input type="text" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
@@ -1379,11 +1419,12 @@
 															<cfif not isdefined("coll_object_entered_date")><cfset coll_object_entered_date=""></cfif>
 															<label for="coll_object_entered_date">Date Entered</label>
 															<input type="text" 
-																   name="coll_object_entered_date" 
-																   id="coll_object_entered_date" 
-																   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-																   value="#encodeForHtml(coll_object_entered_date)#"
-																   aria-describedby="dateEntered_help">
+																name="coll_object_entered_date" 
+																id="coll_object_entered_date" 
+																placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+																value="#encodeForHtml(coll_object_entered_date)#"
+																aria-describedby="dateEntered_help"
+																aria-label="Example: yyyy-mm-dd/yyyy-mm-dd">
 															<small id="dateEntered_help" class="sr-only">
 																Example: yyyy-mm-dd/yyyy-mm-dd
 															</small>
@@ -1404,7 +1445,7 @@
 																	<cfset entered_by = "=#lookupDeterminer.agent_name#">
 																</cfif>
 															</cfif>
-															<input type="hidden" id="entered_by_id" name="entered_by_id" class="data-entry-input" value="#encodeForHtml(entered_by_id)#" >
+															<input type="hidden" id="entered_by_id" name="entered_by_id" class="data-entry-input" value="#encodeForHtml(entered_by_id)#">
 															<input type="text" id="entered_by" name="entered_by" value="#encodeForHtml(entered_by)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1418,13 +1459,14 @@
 															<cfif not isdefined("last_edit_date")><cfset last_edit_date=""></cfif>
 															<label for="last_edit_date">Last Updated on</label>
 															<input type="text" 
-																   name="last_edit_date" 
-																   id="last_edit_date" 
-																   placeholder="yyyy-mm-dd/yyyy-mm-dd" 
-																   value="#encodeForHtml(last_edit_date)#"
-																   aria-describedby="lastEdit_help">
+																name="last_edit_date" 
+																id="last_edit_date" 
+																placeholder="yyyy-mm-dd/yyyy-mm-dd" 
+																value="#encodeForHtml(last_edit_date)#"
+																aria-describedby="lastEdit_help"
+																aria-label="Example: yyyy-mm-dd/yyyy-mm-dd">
 															<small id="lastEdit_help" class="sr-only">
-																Example: yyyy-mm-dd/yyyy-mm-dd    
+																Example: yyyy-mm-dd/yyyy-mm-dd
 															</small>
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
@@ -1443,7 +1485,7 @@
 																	<cfset last_edited_person = "=#lookupDeterminer.agent_name#">
 																</cfif>
 															</cfif>
-															<input type="hidden" id="last_edited_person_id" name="last_edited_person_id" class="data-entry-input" value="#encodeForHtml(last_edited_person_id)#" >
+															<input type="hidden" id="last_edited_person_id" name="last_edited_person_id" class="data-entry-input" value="#encodeForHtml(last_edited_person_id)#">
 															<input type="text" id="last_edited_person" name="last_edited_person" value="#encodeForHtml(last_edited_person)#" >
 															<script>
 																jQuery(document).ready(function() {
@@ -1454,7 +1496,12 @@
 														</div>
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<label for="underscore_collection">Named Group</label>
-															<button type="button" class="rules" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" aria-describedby="namedGroupAny_help"> (Any) <span id="namedGroupAny_help" class="sr-only">use NOT NULL to find cataloged items in any named group</span></button>
+															<button type="button" class="rules" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" 
+																aria-describedby="namedGroupAny_help"
+																aria-label="use NOT NULL to find cataloged items in any named group">
+																(Any)
+															</button>
+															<span id="namedGroupAny_help" class="sr-only">use NOT NULL to find cataloged items in any named group</span>
 															<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
 															<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
 															<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" value="#encodeForHtml(underscore_collection_id)#" >
