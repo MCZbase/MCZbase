@@ -163,6 +163,8 @@ limitations under the License.
 								depthval = depthval + "-" + maxDepth;
 							}
 							depthval = $.trim(depthval + " " + depthUnits) + ". ";
+						} else if (max_depth) { 
+							depth = " Depth: " + max_depth + " " + depth_units + ". ";
 						} else {
 							depthval = "";
 						}
