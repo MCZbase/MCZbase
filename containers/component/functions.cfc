@@ -1048,9 +1048,9 @@ Function saveContainer.  Updates an existing container record.
 			<!--- lock type institution and "Deaccesioned" root containers from some edits --->
 			<cfset lockedRoot = false>
 			<cfif arguments.container_type EQ "institution">
-				<cfset lockedRoot EQ true>
+				<cfset lockedRoot = true>
 			<cfelseif arguments.label EQ "Deaccessioned">
-				<cfset lockedRoot EQ true>
+				<cfset lockedRoot = true>
 			</cfif>
 
 			<cfquery name="queryUpdateContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">

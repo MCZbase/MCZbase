@@ -213,9 +213,9 @@ limitations under the License.
 				<!--- NOTE: Hidden fields are used as saveContainer requires these arguments, it just ignores them it determines lockedRoot --->
 				<cfset lockedRoot = false>
 				<cfif variables.formData.container_type EQ "institution">
-					<cfset lockedRoot EQ true>
+					<cfset lockedRoot = true>
 				<cfelseif variables.formData.label EQ "Deaccessioned">
-					<cfset lockedRoot EQ true>
+					<cfset lockedRoot = true>
 				</cfif>
 
 				<div class="form-row">
