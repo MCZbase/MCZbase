@@ -684,7 +684,7 @@ limitations under the License.
 										}
 									};
 								</script>
-								<label class="data-entry-label d-inline w-auto mb-1" for="selectMode">Grid Select:
+								<label class="data-entry-label d-inline w-auto mb-2" for="selectMode">Grid Select:
 									<select class="data-entry-select d-inline w-auto" id="selectMode" onChange="changeSelectMode();">
 										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option #selected# value="none">Text</option>
