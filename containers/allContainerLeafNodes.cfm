@@ -128,6 +128,10 @@ limitations under the License.
 			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
 		WHERE
 			container.container_type='collection object'
+			<cfif isdefined("variables.show") AND variables.show is "immediate">
+				AND CONNECT_BY_ISLEAF = 1
+				AND LEVEL = 2
+			</cfif>
 		START WITH
 			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 		CONNECT BY
