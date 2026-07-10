@@ -4130,7 +4130,7 @@ limitations under the License.
 								<li class="small list-group-item font-italic py-0">None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
-								<li class="list-group-item py-1">#object_rem.coll_object_remarks#</li>
+								<li class="list-group-item py-1">#rereplace(object_rem.coll_object_remarks,chr(10),"<br>","all")#</li>
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
