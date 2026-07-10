@@ -265,7 +265,10 @@
 						<div id="downloadAgreeDialogDiv"></div>
 						<!--- Tab header div --->
 						<div class="tabs card-header tab-card-header px-2 pt-3">
-							
+							<cftry>
+								<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-3 border-0")#</cfoutput>
+								<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+							</cftry>
 							<cfswitch expression="#action#">
 								<cfcase value="fixedSearch">
 									<cfset fixedTabActive = "active">
@@ -331,10 +334,7 @@
 								<!---Fixed Search tab panel--->
 
 								<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
-									<cftry>
-										<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki mr-3 border-0")#</cfoutput>
-										<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-									</cftry>
+									<cfset targetWikiPage = "Basic Specimen Search ">
 									<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 										<form id="fixedSearchForm">
 											<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
@@ -2117,6 +2117,7 @@
 							</script>
 								<!---Keyword Search/results tab panel--->
 								<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
+									<cfset targetWikiPage = "Keyword Search">
 <!---									<div class="d-flex justify-content-end px-0"> 
 										<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help" type="button" data-help-target="collapseKeywordHelp">
 											Search Help
@@ -2321,7 +2322,7 @@
 								--->
 								<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 									<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
-										<!---<div class="d-flex justify-content-end px-0"> 
+										<div class="d-flex justify-content-end px-0"> 
 										<button id="show-search-help-builder" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help border-0" type="button" data-help-target="collapseBuilderHelp">
 											Search Help
 										</button>
@@ -2337,7 +2338,7 @@
 												</p>
 											</div>
 										</aside>
-									</div>--->
+									</div>
 										<form id="builderSearchForm" class="container-fluid">
 											<script>
 												// bind autocomplete to text input/hidden input, and other actions on field selection
@@ -2940,9 +2941,6 @@
 											</div>
 										</div>
 									</div>
-									<script src="/shared/js/wikiDrawer.js"></script>
-									<cfset action = "search">
-									<cfset targetWikiPage = "Search Builder">
 								</section><!--- end search builder tab --->
 							</div>
 						</div>
@@ -4814,7 +4812,10 @@
 		})( window );
 	</script>
 
-	</cfoutput>
+</cfoutput>
 
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
 
-<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>	<cfinclude template="/shared/_footer.cfm">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+<cfinclude template="/shared/_footer.cfm">
