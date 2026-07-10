@@ -422,7 +422,7 @@ limitations under the License.
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="family">Family</label> 
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-descibedby="familyEquals_help">=</button><span id="familyEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;" aria-describedby="familySoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="familySoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>)
+													<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;" aria-describedby="familySoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="familySoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
 													<input type="text" id="family" name="family" value="#encodeForHtml(family)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
