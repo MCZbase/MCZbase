@@ -268,7 +268,7 @@ limitations under the License.
 												</script>
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<div class="col-12 col-md-1">
+												<div class="col-12 col-md-2 col-xl-1">
 													<label for="mask_media_fg" id="mask_media_fg_label">Visibility</label>
 													<select id="mask_media_fg" name="mask_media_fg">
 														<option></option>
