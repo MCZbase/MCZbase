@@ -158,11 +158,11 @@ limitations under the License.
 						<div class="form-row">
 							<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 m-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 m-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Search Data</legend> 
 										<input type="hidden" name="method" value="getPublications">
 										<div class="form-row">
-											<div class="col-12 col-md-5 mb-2">
+											<div class="col-12 col-md-5 mb-1">
 												<label for="text">Any Part of Citation</label>
 												<input type="text" id="text" name="text" value="#encodeForHtml(text)#">
 											</div>
