@@ -436,14 +436,20 @@ limitations under the License.
 															</cfif>
 														</cfloop>
 													</cfif>
-													<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Cited Cataloged Item 
-														<span class="small">
-															(NULL, NOT NULL, accepts comma separated list)
-														</span>
-													</label>
-													<input type="text" name="related_cataloged_item" 
-														class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
-														onchange="$('##collection_object_id').val('');">
+													<label for="related_cataloged_item">Cited Cataloged Item</label>
+													<span class="text-secondary small">(accepts comma separated list</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NULL';" 
+														aria-describedby="related_cataloged_itemNull_help"
+														aria-label="use NULL to find publication records without the related_cataloged_item">
+														Null
+													</button><span id="related_cataloged_itemNull_help" class="sr-only">Click NULL to find publication records without the related_cataloged_item</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';" 
+														aria-describedby="collObjAny_help"
+														aria-label="Click Any for NOT NULL to find a publication with a citation linked to a specimen">
+														Any
+													</button><span id="related_cataloged_itemAny_help" class="sr-only">Click Any for NOT NULL to find a publication with a citation linked to a specimen</span><span class="text-secondary small">)</span>
+													<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');" aria-describedby="collection_object_id_help" aria-label="MCZ:Coll:nnnnn">
+													<small id="collection_object_id_help" class="sr-only">MCZ:Coll:nnnnn</small>
 												</div>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
