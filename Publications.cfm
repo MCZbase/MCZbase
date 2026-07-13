@@ -357,7 +357,7 @@ limitations under the License.
 														<cfif len(related_cataloged_item) EQ 0>
 															<cfset related_cataloged_item = guidLookup.guid>
 														<cfelse>
-															<cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+															<cfset related_cataloged_item = related_cataloged_item & "," & guidLookup.guid>
 														</cfif>
 													</cfif>
 												</cfloop>
