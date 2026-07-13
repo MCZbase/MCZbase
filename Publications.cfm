@@ -295,13 +295,11 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 pb-1">
-												<div class="form-row mx-0 mb-2">
-													<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End</label>
-													<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#"placeholder="end yyyy" aria-describedby="end of date range"><small class="sr-only" id="pubYearEnd_help">end yyyy</small>
-												</div>
+												<label for="to_published_year">Publication Year End</label>
+												<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" placeholder="end yyyy" aria-describedby="end of date range"><small class="sr-only" id="pubYearEnd_help">end yyyy</small>
 											</div>
 											<div class="col-12 col-md-4 col-xl-4 pb-1">
-												<div class="form-row mx-0 mb-0">
+												<div class="form-row mx-0 my-0 py-0">
 													<div class="w-100">
 														<label for="publication_attribute_type">Any Attribute </label> 
 														<span class="text-secondary small"> (</span><button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;" 
@@ -326,7 +324,7 @@ limitations under the License.
 														</button><span id="publication_attribute_valueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
 													</div>
 													<cfset selectedpublication_attribute_type= "#publication_attribute_type#">
-													<select id="publication_attribute_type" name="publication_attribute_type" class="col-6">
+													<select id="publication_attribute_type" name="publication_attribute_type" class="col-6 py-0">
 														<option></option>
 														<cfloop query="ctpublication_attribute">
 															<cfif selectedpublication_attribute_type EQ ctpublication_attribute.publication_attribute>
@@ -337,11 +335,11 @@ limitations under the License.
 															<option value="#publication_attribute#" #selected#>#publication_attribute#</option>
 														</cfloop>
 													</select>
-													<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="col-6" value="#encodeForHtml(publication_attribute_value)#">
+													<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="col-6 py-0" value="#encodeForHtml(publication_attribute_value)#">
 												</div>
 											</div>
 											<div class="col-12 col-md-4 col-xl-3 pb-1">
-												<div class="form-row mx-0">
+												<div class="form-row mx-0 my-0 py-0">
 													<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
 														<h5 id="author_agent_view" class="my-0 d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 													</label>
@@ -360,7 +358,7 @@ limitations under the License.
 												});
 											</script>
 											<div class="col-12 col-md-4 col-xl-3 pb-1">
-												<div class="form-row mx-0">
+												<div class="form-row mx-0 my-0 py-0">
 													<label for="editor_agent_name" id="editor_agent_name_label" class="data-entry-label mb-0 pb-0 small">Editor
 														<h5 id="editor_agent_view" class="my-0 d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 													</label>
