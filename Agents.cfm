@@ -187,17 +187,16 @@ limitations under the License.
 									<div class="form-row pt-2">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 form-group">
 											<label for="anyName" id="anyName_label">Any part of any name</label>
-											<span class="text-secondary small">(match entire name with: </span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" 
-													aria-describedby="anyPartEquals_help"
-													aria-label="prefix with equals sign for case insensitive exact match search">
-													=
-												</button><span id="anyPartEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;" 
-													aria-describedby="partialPart_help"
-													aria-label="prefix with tilde for 0.8 or greater jaro winkler text matching search">
-													~
-												</button><span id="partialPart_help" class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>,
+											<span class="text-secondary small">(match entire name with: </span><button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" 
+												aria-describedby="anyPartEquals_help"
+												aria-label="prefix with equals sign for case insensitive exact match search">
+												=
+											</button><span id="anyPartEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;" 
+												aria-describedby="partialPart_help"
+												aria-label="prefix with tilde for 0.8 or greater jaro winkler text matching search">
+												~
+											</button><span id="partialPart_help" class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>, 
 											<span class="text-secondary small">comma separated list)</span>
 											<input type="text" id="anyName" name="anyName" value="#encodeForHtml(anyName)#">
 										</div>
