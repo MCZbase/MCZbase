@@ -155,7 +155,7 @@ limitations under the License.
 			</cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
-					<div class="search-box mt-3">
+					<div class="search-box mt-4">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Publication Records</h1>
 						</div>
