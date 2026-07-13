@@ -377,8 +377,8 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 col-md-2">
-												<div class="form-group mb-2">
+											<div class="col-12 col-md-2 pb-1">
+												<div class="form-group mb-0">
 													<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page <span class="small">(=,!,NULL, NOT NULL)</span></label>
 													<input type="text" id="begin_page" name="begin_page" class="data-entry-input" value="#encodeForHtml(begin_page)#" aria-labelledby="begin_page_label" >
 												</div>
@@ -389,8 +389,23 @@ limitations under the License.
 												});
 											</script>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="publisher" class="data-entry-label">Publisher <span class="small">(!,NULL,NOT NULL)</span></label>
-												<input type="text" id="publisher" name="publisher" class="data-entry-input" value="#encodeForHtml(publisher)#" >
+												<label for="publisher">Publisher </label>
+												<button type="button" class="rules" onclick="var e=document.getElementById('publisher');e.value='!'+e.value;" 
+													aria-describedby="publisherNot_help"
+													aria-label="prefix with exclamation point for not matching search">
+													!
+												</button><span id="publisherNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('publisher');e.value='NULL';" 
+													aria-describedby="publisherNull_help"
+													aria-label="use NULL to find media records without the publisher">
+													Null
+												</button><span id="publisherNull_help" class="sr-only">Click NULL to find media records without the publisher</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('publisher');e.value='NOT NULL';" 
+													aria-describedby="publisherAny_help"
+													aria-label="Click Any for NOT NULL to find publication records with a publisher">
+													Any
+												</button><span id="publisherAny_help" class="sr-only">Click Any for NOT NULL to find publications with the publisher</span><span class="text-secondary small">)</span>
+												<input type="text" id="publisher" name="publisher" value="#encodeForHtml(publisher)#" >
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
 												<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed</label>
