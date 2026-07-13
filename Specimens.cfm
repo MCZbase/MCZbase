@@ -2118,7 +2118,7 @@
 							</script>
 								<!---Keyword Search/results tab panel--->
 								<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
-									<cfset targetWikiPage = "Keyword Search">
+									<cfset targetWikiPage = "Keyword_Search">
 									<div role="search" id="keywordSearchFormDiv">
 										<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
 											<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
