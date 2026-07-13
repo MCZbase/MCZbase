@@ -156,7 +156,7 @@ limitations under the License.
 							<h1 class="h3 text-white" id="formheading">Find Publication Records</h1>
 						</div>
 						<div class="form-row">
-							<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
+							<div class="col-12 pt-2 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 m-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Search Data</legend> 
