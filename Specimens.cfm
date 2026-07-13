@@ -338,7 +338,6 @@
 								<!---Fixed Search tab panel--->
 
 								<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
-									<cfset targetWikiPage = "Basic Specimen Search ">
 									<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 										<form id="fixedSearchForm">
 											<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
@@ -2119,7 +2118,6 @@
 							</script>
 								<!---Keyword Search/results tab panel--->
 								<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
-									<cfset targetWikiPage = "Keyword_Search">
 									<div role="search" id="keywordSearchFormDiv">
 										<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
 											<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
@@ -2277,7 +2275,6 @@
 										[{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 								--->
 								<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-									<cfset targetWikiPage = "Search Builder">
 									<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
 										<form id="builderSearchForm" class="container-fluid">
 											<script>
@@ -4752,5 +4749,7 @@
 
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
-<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+<cfoutput>
+	#renderWikiDrawer(action="search", targetWikiPage=thisTargetWikiPage)#
+</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
