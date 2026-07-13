@@ -159,24 +159,20 @@ limitations under the License.
 							<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-0 m-2">
-										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Data</legend> 
+										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Search Data</legend> 
 										<input type="hidden" name="method" value="getPublications">
 										<div class="form-row">
-											<div class="col-12 col-md-5">
+											<div class="col-12 col-md-5 mb-1">
 												<label for="text">Any Part of Citation</label>
 												<input type="text" id="text" name="text" value="#encodeForHtml(text)#">
 											</div>
-											<div class="col-12 col-md-5">
-												<div class="form-group mb-2">
-													<label for="publication_title">Title</label>
-													<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
-												</div>
+											<div class="col-12 col-md-5 mb-1">
+												<label for="publication_title">Title</label>
+												<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
 											</div>
-											<div class="col-12 col-md-2">
-												<div class="form-group mb-2">
-													<label for="publication_id" id="publicationid_label">Publication ID</label>
-													<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="" pattern="[0-9]+">
-												</div>
+											<div class="col-12 col-md-2 mb-1">
+												<label for="publication_id">Publication ID</label>
+												<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" pattern="[0-9]+">
 											</div>
 										</div>
 									</fieldset>
