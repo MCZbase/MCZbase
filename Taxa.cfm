@@ -646,7 +646,7 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12 mb-5 pr-xl-4">
 						<div class="row mt-1 mb-0 pt-1 pb-1 jqx-widget-header border px-2 pb-xl-0 mx-0">
-							<h1 class="h4 ml-2 ml-md-1 mt-1 mb-1 px-4 mb-xl-2">
+							<h1 class="h4 ml-2 ml-md-1 mt-1 mb-1 px-2 mb-xl-2">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" aria-label="search results" role="button"></a>
