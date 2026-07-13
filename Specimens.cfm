@@ -292,7 +292,7 @@
 									<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 									<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
 									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-									<cfset thisTargetWikiPage="Keyworkd_Search">
+									<cfset thisTargetWikiPage="Keyword_Search">
 								</cfcase>
 								<cfcase value="builderSearch">
 									<cfset fixedTabActive = "">
