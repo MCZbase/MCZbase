@@ -159,26 +159,29 @@ limitations under the License.
 							<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Citation</legend> 
+									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Data</legend> 
 									<input type="hidden" name="method" value="getPublications">
-									<div class="form-row">
-										<div class="col-12 col-md-5">
-											<label for="text">Any Part of Citation</label>
-											<input type="text" id="text" name="text" value="#encodeForHtml(text)#">
-										</div>
-										<div class="col-12 col-md-5">
-											<div class="form-group mb-2">
-												<label for="publication_title">Title</label>
-												<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
+										<div class="form-row">
+											<div class="col-12 col-md-5">
+												<label for="text">Any Part of Citation</label>
+												<input type="text" id="text" name="text" value="#encodeForHtml(text)#">
+											</div>
+											<div class="col-12 col-md-5">
+												<div class="form-group mb-2">
+													<label for="publication_title">Title</label>
+													<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
+												</div>
+											</div>
+											<div class="col-12 col-md-2">
+												<div class="form-group mb-2">
+													<label for="publication_id" id="publicationid_label">Publication ID</label>
+													<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="" pattern="[0-9]+">
+												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-2">
-											<div class="form-group mb-2">
-												<label for="publication_id" id="publicationid_label">Publication ID</label>
-												<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="" pattern="[0-9]+">
-											</div>
-										</div>
-									</div>
+									</fieldset>
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Data</legend> 
 									<div class="form-row">
 										<div class="col-12 col-md-2">
 											<div class="form-group mb-2">
@@ -215,7 +218,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-2">
 											<div class="form-group mb-2">
-												<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue </label>
+												<label for="issue">Issue </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
 													aria-describedby="issueEquals_help"
 													aria-label="prefix with equals sign for exact match search">
@@ -235,7 +238,7 @@ limitations under the License.
 													aria-describedby="issueAny_help"
 													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
 													Any
-												</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span>
+												</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
 												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
 											</div>
 										</div>
