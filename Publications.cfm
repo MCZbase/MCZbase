@@ -308,9 +308,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 col-xl-4">
 											<div class="form-row mx-0 mb-2">
-												<label for="publication_attribute_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Attribute
-											
-												</label>
+												<label for="publication_attribute_type" id="nedia_label_type_label">Any Attribute</label>
 										<!---				<span class="small">
 														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 														NULL, NOT NULL)
