@@ -521,9 +521,9 @@ limitations under the License.
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row mx-0">
-					<div class="col-12">
-						<div class="mb-5">
-							<div class="row mb-0 jqx-widget-header border p-2">
+					<div class="col-12 mb-5 px-2">
+				<!---		<div class="mb-5">--->
+							<div class="row mb-0 jqx-widget-header border mx-0 p-2">
 								<h1 class="h4 my-1 ml-2 ml-md-1">
 									<span tabindex="0">Results: </span>
 									<span class="pr-2 font-weight-normal" id="resultCount"></span>
@@ -580,7 +580,7 @@ limitations under the License.
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
-						</div>
+					<!---	</div>--->
 					</div>
 				</div>
 			</section>
