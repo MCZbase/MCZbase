@@ -326,8 +326,8 @@
 								</script>
 							</cfif>
 							<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
-								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria# data-wiki-page="Basic_Specimen_Search">Basic Search</button>
-								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword_Specimen_Search">Keyword Search</button>
+								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria# data-wiki-page="Basic Specimen Search">Basic Search</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword_Search">Keyword Search</button>
 								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab" data-wiki-page="Search_Builder">Search Builder</button>
 							</div>
 							<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
@@ -1947,9 +1947,7 @@
 											</div>
 										</div>
 									</div>
-									<script src="/shared/js/wikiDrawer.js"></script>
-									<cfset action = "search">
-									<cfset targetWikiPage = "Basic Specimen Search">
+							
 								</section><!--- end fixed search tab --->
 								<script type="text/javascript" language="javascript">
 								function toggleIDDetail(onOff) {
@@ -2117,7 +2115,7 @@
 							</script>
 								<!---Keyword Search/results tab panel--->
 								<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
-									<cfset targetWikiPage = "Keyword Search">
+						
 <!---									<div class="d-flex justify-content-end px-0"> 
 										<button id="show-search-help-keyword" class="btn btn-xs btn-dark help-btnSp-SearchWiki js-search-help" type="button" data-help-target="collapseKeywordHelp">
 											Search Help
@@ -2307,9 +2305,7 @@
 											</div>
 										</div>
 									</div>
-									<script src="/shared/js/wikiDrawer.js"></script>
-									<cfset action = "search">
-									<cfset targetWikiPage = "Keyword Search">
+								
 								</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
 								<!--- 
@@ -2946,9 +2942,6 @@
 						</div>
 					</div>
 				</div>
-				<script src="/shared/js/wikiDrawer.js"></script>
-				<cfset action = "search">
-				<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 			</main>
 			<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
 				<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
@@ -4815,6 +4808,5 @@
 
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
-
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
