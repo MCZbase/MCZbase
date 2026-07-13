@@ -1084,14 +1084,6 @@ function addrPick(addrIdFld,addrFld,formName){
 	var popurl=url+"?addrIdFld="+addrIdFld+"&addrFld="+addrFld+"&formName="+formName;
 	addrpick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
 }
-function GeogPick(geogIdFld,highGeogFld,formName){
-	var url="/picks/GeogPick.cfm";
-	var geogIdFld;
-	var highGeogFld;
-	var formName;
-	var popurl=url+"?geogIdFld="+geogIdFld+"&highGeogFld="+highGeogFld+"&formName="+formName;
-	geogpick=window.open(popurl,"","width=600,height=600, toolbar,resizable,scrollbars,");
-}
 function LocalityPick(localityIdFld,speclocFld,formName,fireEvent){
 	var url="/picks/LocalityPick.cfm";
 	var localityIdFld;
