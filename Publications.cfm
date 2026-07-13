@@ -371,7 +371,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-2 pb-1">
 												<div class="form-group mb-0">
-													<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page </label><span class="text-secondary small">(</span>
+													<label for="begin_page">Begin Page </label><span class="text-secondary small">(</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='!'+e.value;" 
 													aria-describedby="begin_pageNot_help"
 													aria-label="prefix with exclamation point for not matching search">
