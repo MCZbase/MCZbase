@@ -280,6 +280,7 @@
 									<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 									<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset thisTargetWikiPage = "Basic_Specimen_Search">
 								</cfcase>
 								<cfcase value="keywordSearch">
 									<cfset fixedTabActive = "">
@@ -291,6 +292,7 @@
 									<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 									<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
 									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset thisTargetWikiPage="Keyworkd_Search">
 								</cfcase>
 								<cfcase value="builderSearch">
 									<cfset fixedTabActive = "">
@@ -313,6 +315,7 @@
 									<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 									<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset thisTargetWikiPage = "Search Builder">
 								</cfdefaultcase>
 							</cfswitch>
 							<cfif enableMobileKeywordTabModal EQ true>
