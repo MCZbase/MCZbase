@@ -349,7 +349,7 @@ limitations under the License.
 
 
 										<div class="col-12 col-md-4 col-xl-3">
-											<div class="w-100">
+											<div class="form-row mx-0">
 												<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
 													<h5 id="author_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
