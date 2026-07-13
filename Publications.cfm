@@ -531,7 +531,7 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-3">
-												<label for="taxon_publication" class="data-entry-label">Citation For Taxon </label><span class="small">(pick=, substring, NULL, NOT NULL)</span>
+												<label for="taxon_publication">Citation For Taxon </label><span class="small">(pick=, substring, NULL, NOT NULL)</span>
 												<input type="text" id="taxon_publication" name="taxon_publication" value="#encodeForHtml(taxon_publication)#" >
 												<script>
 													$(document).ready(function() {
