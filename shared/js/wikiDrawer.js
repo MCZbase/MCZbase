@@ -132,9 +132,14 @@ function showDivInWikiDrawer(divId, titleText) {
 
 function initWikiDrawer(options) {
 	$(function () {
+		// Initialize current page from server-side default if not already set
+		if (!currentSearchWikiPage && options.targetWikiPage) {
+			currentSearchWikiPage = options.targetWikiPage;
+		}
 		$('#show-wiki').on('click', function (e) {
 			e.preventDefault();
 
+			var page = currentSearchWikiPage || options.targetWikiPage;
 				showWiki(
 					options.targetWikiPage,
 					false,
@@ -208,10 +213,15 @@ function initWikiDrawer(options) {
 
 $(function () {
 	$('#basicSearchTabButton, #keywordSearchTabButton, #builderSearchTabButton')
-		.on('click', function () {
-		// If the drawer is NOT open, do nothing
-		// Choose whichever check matches your CSS:
-		if (!$('#wikiDrawer').is(':visible') && !$('#wikiDrawer').hasClass('open')) {
+	.on('click', function () {
+		var page = $(this).data('wikiPage');
+
+		if (page) {
+			currentSearchWikiPage = page;   // remember which wiki page goes with the current tab
+		}
+	// If the drawer is NOT open, do nothing
+	// Choose whichever check matches your CSS:
+	if (!$('#wikiDrawer').is(':visible') && !$('#wikiDrawer').hasClass('open')) {
 		return;
 	}
 
