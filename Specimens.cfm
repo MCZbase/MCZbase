@@ -326,9 +326,9 @@
 								</script>
 							</cfif>
 							<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
-								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
+								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria# data-wiki-page="Basic_Specimen_Search">Basic Search</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword_Specimen_Search">Keyword Search</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab" data-wiki-page="Search_Builder">Search Builder</button>
 							</div>
 							<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 								<!---Fixed Search tab panel--->
@@ -2948,7 +2948,6 @@
 				</div>
 				<script src="/shared/js/wikiDrawer.js"></script>
 				<cfset action = "search">
-				<cfset targetWikiPage = "Search_Operators">
 				<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 			</main>
 			<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
