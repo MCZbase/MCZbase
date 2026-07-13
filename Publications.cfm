@@ -453,8 +453,8 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="type_status" class="data-entry-label">Citation Type Status</label>
-												<select name="type_status" id="type_status" size="1" class="data-entry-select">
+												<label for="type_status">Citation Type Status</label>
+												<select name="type_status" id="type_status" size="1">
 													<option value=""></option>
 													<cfloop query="ctcitation_type_status">
 														<cfif in_type_status EQ ctcitation_type_status.type_status><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
@@ -466,8 +466,8 @@ limitations under the License.
 												<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													select collection, collection_cde, collection_id from collection order by collection
 												</cfquery>
-												<label for="cites_collection" class="data-entry-label">Cites Specimen in Collection</label>
-												<select name="cites_collection" id="cites_collection" size="1" class="data-entry-select">
+												<label for="cites_collection">Cites Specimen in Collection</label>
+												<select name="cites_collection" id="cites_collection" size="1">
 													<option value=""></option>
 													<option value="NOT NULL">any collection</option>
 													<cfloop query="ctcollection">
@@ -481,8 +481,8 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="cited_taxon" class="data-entry-label">Specimen Cited Scientific Name</label>
-												<input type="text" id="cited_taxon" name="cited_taxon" class="data-entry-input" value="#encodeForHtml(cited_taxon)#" >
+												<label for="cited_taxon">Specimen Cited Scientific Name</label>
+												<input type="text" id="cited_taxon" name="cited_taxon" value="#encodeForHtml(cited_taxon)#" >
 												<script>
 													$(document).ready(function() {
 														makeScientificNameAutocomplete("cited_taxon","false","cited");
@@ -490,8 +490,8 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="accepted_for_cited_taxon" class="data-entry-label">Specimen Current Scientific Name</label>
-												<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" class="data-entry-input" value="#encodeForHtml(accepted_for_cited_taxon)#" >
+												<label for="accepted_for_cited_taxon">Specimen Current Scientific Name</label>
+												<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" value="#encodeForHtml(accepted_for_cited_taxon)#" >
 												<script>
 													$(document).ready(function() {
 														makeScientificNameAutocomplete("accepted_for_cited_taxon","false","");
@@ -499,12 +499,13 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="citation_remarks" class="data-entry-label">Citation Remarks <span class="small">(=,!,NULL,NOT NULL)</span></label>
-												<input type="text" id="citation_remarks" name="citation_remarks" class="data-entry-input" value="#encodeForHtml(citation_remarks)#" >
+												<label for="citation_remarks">Citation Remarks </label>
+												<span class="small">(=,!,NULL,NOT NULL)</span>
+												<input type="text" id="citation_remarks" name="citation_remarks" value="#encodeForHtml(citation_remarks)#" >
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
-												<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
+												<label for="cites_specimens">Cites Specimens</label>
+												<select name="cites_specimens" id="cites_specimens" size="1">
 													<option value=""></option>
 													<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 													<option value="true"#selected#>Yes</option>
@@ -513,8 +514,9 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 col-md-6 col-xl-3">
-												<label for="cited_named_group" class="data-entry-label">Citation for Named Group <span class="small">(pick)</span></label>
-												<input type="text" id="cited_named_group" name="cited_named_group" class="data-entry-input" value="#encodeForHtml(cited_named_group)#" >
+												<label for="cited_named_group">Citation for Named Group </label>
+												<span class="small">(pick)</span>
+												<input type="text" id="cited_named_group" name="cited_named_group" value="#encodeForHtml(cited_named_group)#" >
 												<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
 												<script>
 													$(document).ready(function() {
@@ -529,8 +531,9 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-3">
-												<label for="taxon_publication" class="data-entry-label">Citation For Taxon <span class="small">(pick=, substring, NULL, NOT NULL)</span></label>
-												<input type="text" id="taxon_publication" name="taxon_publication" class="data-entry-input" value="#encodeForHtml(taxon_publication)#" >
+												<label for="taxon_publication" class="data-entry-label">Citation For Taxon </label>
+												 <span class="small">(pick=, substring, NULL, NOT NULL)</span>
+												<input type="text" id="taxon_publication" name="taxon_publication" value="#encodeForHtml(taxon_publication)#" >
 												<script>
 													$(document).ready(function() {
 														makeScientificNameAutocomplete("taxon_publication","false","taxonomy_publication");
