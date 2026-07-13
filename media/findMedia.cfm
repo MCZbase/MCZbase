@@ -591,25 +591,25 @@ limitations under the License.
 														</button><span id="anyOtherAny_help" class="sr-only">click any for NOT NULL to find media records with any other label</span>
 														<span class="text-secondary small">)</span>
 													</div>
-													<cfset selectedmedia_label_type= "#media_label_type#">
-													<select id="media_label_type" name="media_label_type" class="col-6">
-														<option></option>
-														<cfloop query="ctothermedia_label">
-															<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
-																<cfset selected="selected='true'">
-															<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#media_label#" #selected#>#media_label#</option>
-														</cfloop>
-													</select>
-													<input type="text" id="media_label_value" name="media_label_value" class="col-6" value="#encodeForHtml(media_label_value)#">
-													<script>
-														$(document).ready(function() {
-															makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
-														});
-													</script>
 												</div>
+												<cfset selectedmedia_label_type= "#media_label_type#">
+												<select id="media_label_type" name="media_label_type" class="col-6">
+													<option></option>
+													<cfloop query="ctothermedia_label">
+														<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
+															<cfset selected="selected='true'">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#media_label#" #selected#>#media_label#</option>
+													</cfloop>
+												</select>
+												<input type="text" id="media_label_value" name="media_label_value" class="col-6" value="#encodeForHtml(media_label_value)#">
+												<script>
+													$(document).ready(function() {
+														makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
+													});
+												</script>
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 pt-1">
 												<label for="md5hash">MD5 Hash</label>
