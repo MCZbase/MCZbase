@@ -337,7 +337,6 @@
 								<!---Fixed Search tab panel--->
 
 								<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
-									<cfset targetWikiPage = "Basic Specimen Search ">
 									<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 										<form id="fixedSearchForm">
 											<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
