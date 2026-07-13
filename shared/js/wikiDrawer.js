@@ -12,6 +12,9 @@
  * @param titleLink boolean indicating whether to create a link to the wiki page in the title div, true to create a link, false to just show the title.
  * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
  */
+// Tracks which wiki page belongs to the current search tab
+var currentSearchWikiPage = null;
+
 
 function recenterOpenDialogs() {
 	// For every visible jQuery UI dialog
@@ -219,25 +222,14 @@ $(function () {
 		return;
 	}
 	showWiki(
-			page,
+		page,
 			false,
 			'wiki-content',
 			'wiki-content-title',
-			openWikiDrawer,
-			closeWikiDrawer,
+			null,   // don't auto-open
+			null,   // don't auto-close
 			true,
 			0
 		);
-
-			$('#show-wiki').hide();
-			$('#hide-wiki').show();
-		});
-
-		$('#hide-wiki').on('click', function (e) {
-			e.preventDefault();
-			closeWikiDrawer();
-		});
-
-			$('#hide-wiki').hide();
-		});
-	}
+	});
+});
