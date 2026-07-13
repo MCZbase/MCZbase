@@ -200,7 +200,6 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<label for="journal_name">Journal</label>
 											<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#">
-										</div>
 										<script>
 												$(document).ready(function() {
 													makeJournalAutocomplete("journal_name");
