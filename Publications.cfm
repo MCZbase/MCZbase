@@ -309,11 +309,32 @@ limitations under the License.
 										<div class="col-12 col-md-4 col-xl-4">
 											<div class="form-row mx-0 mb-2">
 												<label for="publication_attribute_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Attribute
-													<span class="small">
-														(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-														NULL, NOT NULL)
-													</span>
+											
 												</label>
+										<!---				<span class="small">
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+														NULL, NOT NULL)
+													</span>--->
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;" 
+													aria-describedby="publication_attribute_valueEquals_help"
+													aria-label="prefix with equals sign for exact match search">
+													=
+												</button><span id="publication_attribute_valueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='!'+e.value;" 
+													aria-describedby="publication_attribute_valueNot_help"
+													aria-label="prefix with exclamation point for not matching search">
+													!
+												</button><span id="publication_attribute_valueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='NULL';" 
+													aria-describedby="publication_attribute_valueNull_help"
+													aria-label="use NULL to find publication records without the publication_attribute_value">
+													Null
+												</button><span id="publication_attribute_valueNull_help" class="sr-only">Click NULL to find publication records without the publication_attribute_value</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='NOT NULL';" 
+													aria-describedby="publication_attribute_valueAny_help"
+													aria-label="Click Any for NOT NULL to find publication records with a publication_attribute_value">
+													Any
+												</button><span id="publication_attribute_valueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
 												<cfset selectedpublication_attribute_type= "#publication_attribute_type#">
 												<select id="publication_attribute_type" name="publication_attribute_type" class="data-entry-select col-6">
 													<option></option>
