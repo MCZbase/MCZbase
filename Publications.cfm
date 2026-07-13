@@ -304,8 +304,8 @@ limitations under the License.
 													<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#"placeholder="end yyyy" aria-describedby="end of date range"><small class="sr-only" id="pubYearEnd_help">end yyyy</small>
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-4">
-												<div class="form-row mx-0 mb-2">
+											<div class="col-12 col-md-4 col-xl-4 pb-1">
+												<div class="form-row mx-0 mb-0">
 													<div class="w-100">
 														<label for="publication_attribute_type">Any Attribute </label> 
 														<span class="text-secondary small"> (</span><button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;" 
@@ -344,7 +344,7 @@ limitations under the License.
 													<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="col-6" value="#encodeForHtml(publication_attribute_value)#">
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-3">
+											<div class="col-12 col-md-4 col-xl-3 pb-1">
 												<div class="form-row mx-0">
 													<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
 														<h5 id="author_agent_view" class="my-0 d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -363,7 +363,7 @@ limitations under the License.
 													$(makeConstrainedRichAgentPickerConfig('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author',false));
 												});
 											</script>
-											<div class="col-12 col-md-4 col-xl-3">
+											<div class="col-12 col-md-4 col-xl-3 pb-1">
 												<div class="form-row mx-0">
 													<label for="editor_agent_name" id="editor_agent_name_label" class="data-entry-label mb-0 pb-0 small">Editor
 														<h5 id="editor_agent_view" class="my-0 d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
