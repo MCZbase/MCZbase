@@ -155,345 +155,346 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Publication Records</h1>
 						</div>
+						<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+						<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Citation</legend> 
+							<div class="form-row">
+								<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
+								<form name="searchForm" id="searchForm">
+									<input type="hidden" name="method" value="getPublications">
+									<div class="form-row">
+										<div class="col-12 col-md-5">
+											<label for="text">Any Part of Citation</label>
+											<input type="text" id="text" name="text" value="#encodeForHtml(text)#">
+										</div>
+										<div class="col-12 col-md-5">
+											<div class="form-group mb-2">
+												<label for="publication_title">Title</label>
+												<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
+											</div>
+										</div>
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="publication_id" id="publicationid_label">Publication ID</label>
+												<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="" pattern="[0-9]+">
+											</div>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="publication_type">Publication Type</label>
+												<select id="publication_type" name="publication_type">
+													<option></option>
+													<cfloop query="ctpublication_type">
+														<cfif in_publication_type EQ ctpublication_type.publication_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="#ctpublication_type.publication_type#" #selected#>#ctpublication_type.publication_type#</option>
+													</cfloop>
+													<cfloop query="ctpublication_type">
+														<cfif in_publication_type EQ "!#ctpublication_type.publication_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="!#ctpublication_type.publication_type#" #selected#>not #ctpublication_type.publication_type#</option>
+													</cfloop>
+												</select>
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="form-group mb-2">
+												<label for="journal_name" id="journal_name_label">Journal <span class="small">(pick, substring, NULL, NOT NULL)</span></label>
+												<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
+											</div>
+											<script>
+												$(document).ready(function() {
+													makeJournalAutocomplete("journal_name");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="volume" class="" id="volume_label">Volume <span class="small">(=,!,NULL, NOT NULL)</span></label>
+												<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
+											</div>
+										</div>
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue </label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
+													aria-describedby="issueEquals_help"
+													aria-label="prefix with equals sign for exact match search">
+													=
+												</button><span id="issueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='!'+e.value;" 
+													aria-describedby="issueNot_help"
+													aria-label="prefix with exclamation point for not matching search">
+													!
+												</button><span id="issueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NULL';" 
+													aria-describedby="issueNull_help"
+													aria-label="use NULL to find media records without the issue">
+													Null
+												</button><span id="issueNull_help" class="sr-only">Click NULL to find media records without the issue</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NOT NULL';" 
+													aria-describedby="issueAny_help"
+													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
+													Any
+												</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span>
+												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
+											</div>
+										</div>
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(=,!,NULL, NOT NULL)</span></label>
+												<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
+											</div>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="col-12 col-md-4 col-xl-2">
+											<div class="form-row mx-0 mb-2">
+												<label class="data-entry-label mx-1 mb-0" for="doi" id="doi_label">DOI</label>
+												<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#" class="data-entry-input" title="DOI (digital object identifier)">
+											</div>
+											<script>
+												$(document).ready(function() {
+													makeDOIAutocomplete("doi");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-4 col-xl-2">
+											<div class="form-group mb-2">
+												<label for="publication_remarks" class="data-entry-label mb-0" id="publication_remarks_label">Publication Remarks</label>
+												<input type="text" id="publication_remarks" name="publication_remarks" class="data-entry-input" value="#encodeForHtml(publication_remarks)#" aria-labelledby="publication_remarks_label" >
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-2">
+											<div class="form-row mx-0 mb-2">
+												<label class="data-entry-label mx-1 mb-0" for="published_year">Publication Year Start</label>
+												<input name="published_year" id="published_year" type="text" class="data-entry-input" placeholder="start yyyy" value="#encodeForHtml(published_year)#" aria-label="start of range for publication year">
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-2">
+											<div class="form-row mx-0 mb-2">
+												<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End</label>
+												<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" class="data-entry-input" placeholder="end yyyy" title="end of date range">
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-4">
+											<div class="form-row mx-0 mb-2">
+												<label for="publication_attribute_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Attribute
+													<span class="small">
+														(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+														NULL, NOT NULL)
+													</span>
+												</label>
+												<cfset selectedpublication_attribute_type= "#publication_attribute_type#">
+												<select id="publication_attribute_type" name="publication_attribute_type" class="data-entry-select col-6">
+													<option></option>
+													<cfloop query="ctpublication_attribute">
+														<cfif selectedpublication_attribute_type EQ ctpublication_attribute.publication_attribute>
+															<cfset selected="selected='true'">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#publication_attribute#" #selected#>#publication_attribute#</option>
+													</cfloop>
+												</select>
+												<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="data-entry-input col-6" value="#encodeForHtml(publication_attribute_value)#">
+											</div>
+										</div>
 
-						<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
-							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="getPublications">
-								<div class="form-row">
-									<div class="col-12 col-md-5">
-										<div class="form-group mb-2">
-											<label for="text" class="" id="text_label">Any Part of Citation</label>
-											<input type="text" id="text" name="text" value="#encodeForHtml(text)#" aria-labelledby="text_label" >
+
+										<div class="col-12 col-md-4 col-xl-3">
+											<div class="form-group mb-2">
+												<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
+													<h5 id="author_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text smaller bg-lightgreen" id="author_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+													</div>
+													<input type="text" name="author_agent_name" id="author_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="author_agent_name_label" value="#encodeForHtml(author_agent_name)#">
+													<input type="hidden" name="author_agent_id" id="author_agent_id" value="#encodeForHtml(author_agent_id)#">
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="col-12 col-md-5">
-										<div class="form-group mb-2">
-											<label for="publication_title">Title</label>
-											<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
+										<script>
+											$(document).ready(function() {
+												$(makeConstrainedRichAgentPickerConfig('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author',false));
+											});
+										</script>
+										<div class="col-12 col-md-4 col-xl-3">
+											<div class="form-group mb-2">
+												<label for="editor_agent_name" id="editor_agent_name_label" class="data-entry-label mb-0 pb-0 small">Editor
+													<h5 id="editor_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text smaller bg-lightgreen" id="editor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+													</div>
+													<input type="text" name="editor_agent_name" id="editor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="editor_agent_name_label" value="#encodeForHtml(editor_agent_name)#">
+													<input type="hidden" name="editor_agent_id" id="editor_agent_id" value="#encodeForHtml(editor_agent_id)#">
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="publication_id" id="publicationid_label">Publication ID</label>
-											<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="" pattern="[0-9]+">
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page <span class="small">(=,!,NULL, NOT NULL)</span></label>
+												<input type="text" id="begin_page" name="begin_page" class="data-entry-input" value="#encodeForHtml(begin_page)#" aria-labelledby="begin_page_label" >
+											</div>
 										</div>
+										<script>
+											$(document).ready(function() {
+												$(makeConstrainedRichAgentPickerConfig('editor_agent_name', 'editor_agent_id', 'editor_agent_name_icon', 'editor_agent_view', '#editor_agent_id#','editor',false));
+											});
+										</script>
+										<div class="col-12 col-md-6 col-xl-2">
+											<label for="publisher" class="data-entry-label">Publisher <span class="small">(!,NULL,NOT NULL)</span></label>
+											<input type="text" id="publisher" name="publisher" class="data-entry-input" value="#encodeForHtml(publisher)#" >
+										</div>
+
+										<div class="col-12 col-md-6 col-xl-2">
+											<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed</label>
+											<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" size="1" class="data-entry-select">
+												<option value=""></option>
+												<!--- Note, only including No option, as flag field has not null constraint, but is very seldom set, so may be missleading if yes is selected --->
+												<cfif is_peer_reviewed_fg EQ 0 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="0" #selected#>No</option>
+											</select>
+										</div>
+
 									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="publication_type">Publication Type</label>
-											<select id="publication_type" name="publication_type">
-												<option></option>
-												<cfloop query="ctpublication_type">
-													<cfif in_publication_type EQ ctpublication_type.publication_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#ctpublication_type.publication_type#" #selected#>#ctpublication_type.publication_type#</option>
-												</cfloop>
-												<cfloop query="ctpublication_type">
-													<cfif in_publication_type EQ "!#ctpublication_type.publication_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="!#ctpublication_type.publication_type#" #selected#>not #ctpublication_type.publication_type#</option>
+									<div class="form-row">
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group mb-2">
+												<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
+												<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+													<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
+														select distinct guid 
+														from 
+															<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+															left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+														where 
+															specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+														OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+													</cfquery>
+													<cfloop query="guidLookup">
+														<cfif not listContains(related_cataloged_item,guidLookup.guid)>
+															<cfif len(related_cataloged_item) EQ 0>
+																<cfset related_cataloged_item = guidLookup.guid>
+															<cfelse>
+																<cfset related_cataloged_item = related_cataloged_item & "," & guidLookup.guid>
+															</cfif>
+														</cfif>
+													</cfloop>
+												</cfif>
+												<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Cited Cataloged Item 
+													<span class="small">
+														(NULL, NOT NULL, accepts comma separated list)
+													</span>
+												</label>
+												<input type="text" name="related_cataloged_item" 
+													class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
+													onchange="$('##collection_object_id').val('');">
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-2">
+											<label for="type_status" class="data-entry-label">Citation Type Status</label>
+											<select name="type_status" id="type_status" size="1" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="ctcitation_type_status">
+													<cfif in_type_status EQ ctcitation_type_status.type_status><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="#ctcitation_type_status.type_status#"#selected#>#ctcitation_type_status.type_status#</option>
 												</cfloop>
 											</select>
 										</div>
-									</div>
-									<div class="col-12 col-md-4">
-										<div class="form-group mb-2">
-											<label for="journal_name" id="journal_name_label">Journal <span class="small">(pick, substring, NULL, NOT NULL)</span></label>
-											<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
-										</div>
-										<script>
-											$(document).ready(function() {
-												makeJournalAutocomplete("journal_name");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="volume" class="" id="volume_label">Volume <span class="small">(=,!,NULL, NOT NULL)</span></label>
-											<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue </label>
-											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
-												aria-describedby="issueEquals_help"
-												aria-label="prefix with equals sign for exact match search">
-												=
-											</button><span id="issueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='!'+e.value;" 
-												aria-describedby="issueNot_help"
-												aria-label="prefix with exclamation point for not matching search">
-												!
-											</button><span id="issueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NULL';" 
-												aria-describedby="issueNull_help"
-												aria-label="use NULL to find media records without the issue">
-												Null
-											</button><span id="issueNull_help" class="sr-only">Click NULL to find media records without the issue</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NOT NULL';" 
-												aria-describedby="issueAny_help"
-												aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
-												Any
-											</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span>
-											<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(=,!,NULL, NOT NULL)</span></label>
-											<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
-										</div>
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="doi" id="doi_label">DOI</label>
-											<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#" class="data-entry-input" title="DOI (digital object identifier)">
-										</div>
-										<script>
-											$(document).ready(function() {
-												makeDOIAutocomplete("doi");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="publication_remarks" class="data-entry-label mb-0" id="publication_remarks_label">Publication Remarks</label>
-											<input type="text" id="publication_remarks" name="publication_remarks" class="data-entry-input" value="#encodeForHtml(publication_remarks)#" aria-labelledby="publication_remarks_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="published_year">Publication Year Start</label>
-											<input name="published_year" id="published_year" type="text" class="data-entry-input" placeholder="start yyyy" value="#encodeForHtml(published_year)#" aria-label="start of range for publication year">
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End</label>
-											<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" class="data-entry-input" placeholder="end yyyy" title="end of date range">
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-4">
-										<div class="form-row mx-0 mb-2">
-											<label for="publication_attribute_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Attribute
-												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<cfset selectedpublication_attribute_type= "#publication_attribute_type#">
-											<select id="publication_attribute_type" name="publication_attribute_type" class="data-entry-select col-6">
-												<option></option>
-												<cfloop query="ctpublication_attribute">
-													<cfif selectedpublication_attribute_type EQ ctpublication_attribute.publication_attribute>
-														<cfset selected="selected='true'">
+										<div class="col-12 col-md-6 col-xl-2">
+											<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select collection, collection_cde, collection_id from collection order by collection
+											</cfquery>
+											<label for="cites_collection" class="data-entry-label">Cites Specimen in Collection</label>
+											<select name="cites_collection" id="cites_collection" size="1" class="data-entry-select">
+												<option value=""></option>
+												<option value="NOT NULL">any collection</option>
+												<cfloop query="ctcollection">
+													<cfif ctcollection.collection_cde eq cites_collection >
+														<cfset selected="selected">
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#publication_attribute#" #selected#>#publication_attribute#</option>
+													<option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
 												</cfloop>
 											</select>
-											<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="data-entry-input col-6" value="#encodeForHtml(publication_attribute_value)#">
 										</div>
-									</div>
-
-
-									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-2">
-											<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
-												<h5 id="author_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-											</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text smaller bg-lightgreen" id="author_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input type="text" name="author_agent_name" id="author_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="author_agent_name_label" value="#encodeForHtml(author_agent_name)#">
-												<input type="hidden" name="author_agent_id" id="author_agent_id" value="#encodeForHtml(author_agent_id)#">
-											</div>
-										</div>
-									</div>
-									<script>
-										$(document).ready(function() {
-											$(makeConstrainedRichAgentPickerConfig('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author',false));
-										});
-									</script>
-									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-2">
-											<label for="editor_agent_name" id="editor_agent_name_label" class="data-entry-label mb-0 pb-0 small">Editor
-												<h5 id="editor_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-											</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text smaller bg-lightgreen" id="editor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input type="text" name="editor_agent_name" id="editor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="editor_agent_name_label" value="#encodeForHtml(editor_agent_name)#">
-												<input type="hidden" name="editor_agent_id" id="editor_agent_id" value="#encodeForHtml(editor_agent_id)#">
-											</div>
-										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page <span class="small">(=,!,NULL, NOT NULL)</span></label>
-											<input type="text" id="begin_page" name="begin_page" class="data-entry-input" value="#encodeForHtml(begin_page)#" aria-labelledby="begin_page_label" >
-										</div>
-									</div>
-									<script>
-										$(document).ready(function() {
-											$(makeConstrainedRichAgentPickerConfig('editor_agent_name', 'editor_agent_id', 'editor_agent_name_icon', 'editor_agent_view', '#editor_agent_id#','editor',false));
-										});
-									</script>
-									<div class="col-12 col-md-6 col-xl-2">
-										<label for="publisher" class="data-entry-label">Publisher <span class="small">(!,NULL,NOT NULL)</span></label>
-										<input type="text" id="publisher" name="publisher" class="data-entry-input" value="#encodeForHtml(publisher)#" >
-									</div>
-
-									<div class="col-12 col-md-6 col-xl-2">
-										<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed</label>
-										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" size="1" class="data-entry-select">
-											<option value=""></option>
-											<!--- Note, only including No option, as flag field has not null constraint, but is very seldom set, so may be missleading if yes is selected --->
-											<cfif is_peer_reviewed_fg EQ 0 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="0" #selected#>No</option>
-										</select>
-									</div>
-
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-4">
-										<div class="form-group mb-2">
-											<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
-											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
-													select distinct guid 
-													from 
-														<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-														left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-													where 
-														specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-													OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-												</cfquery>
-												<cfloop query="guidLookup">
-													<cfif not listContains(related_cataloged_item,guidLookup.guid)>
-														<cfif len(related_cataloged_item) EQ 0>
-															<cfset related_cataloged_item = guidLookup.guid>
-														<cfelse>
-															<cfset related_cataloged_item = related_cataloged_item & "," & guidLookup.guid>
-														</cfif>
-													</cfif>
-												</cfloop>
-											</cfif>
-											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Cited Cataloged Item 
-												<span class="small">
-													(NULL, NOT NULL, accepts comma separated list)
-												</span>
-											</label>
-											<input type="text" name="related_cataloged_item" 
-												class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
-												onchange="$('##collection_object_id').val('');">
-										</div>
-									</div>
-									<div class="col-12 col-md-6 col-xl-2">
-										<label for="type_status" class="data-entry-label">Citation Type Status</label>
-										<select name="type_status" id="type_status" size="1" class="data-entry-select">
-											<option value=""></option>
-											<cfloop query="ctcitation_type_status">
-												<cfif in_type_status EQ ctcitation_type_status.type_status><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-												<option value="#ctcitation_type_status.type_status#"#selected#>#ctcitation_type_status.type_status#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-6 col-xl-2">
-										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											select collection, collection_cde, collection_id from collection order by collection
-										</cfquery>
-										<label for="cites_collection" class="data-entry-label">Cites Specimen in Collection</label>
-										<select name="cites_collection" id="cites_collection" size="1" class="data-entry-select">
-											<option value=""></option>
-											<option value="NOT NULL">any collection</option>
-											<cfloop query="ctcollection">
-												<cfif ctcollection.collection_cde eq cites_collection >
-													<cfset selected="selected">
-												<cfelse>
-													<cfset selected="">
-												</cfif>
-												<option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-6 col-xl-2">
-										<label for="cited_taxon" class="data-entry-label">Specimen Cited Scientific Name</label>
-										<input type="text" id="cited_taxon" name="cited_taxon" class="data-entry-input" value="#encodeForHtml(cited_taxon)#" >
-										<script>
-											$(document).ready(function() {
-												makeScientificNameAutocomplete("cited_taxon","false","cited");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-6 col-xl-2">
-										<label for="accepted_for_cited_taxon" class="data-entry-label">Specimen Current Scientific Name</label>
-										<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" class="data-entry-input" value="#encodeForHtml(accepted_for_cited_taxon)#" >
-										<script>
-											$(document).ready(function() {
-												makeScientificNameAutocomplete("accepted_for_cited_taxon","false","");
-											});
-										</script>
-									</div>
-
-									<div class="col-12 col-md-6 col-xl-2">
-										<label for="citation_remarks" class="data-entry-label">Citation Remarks <span class="small">(=,!,NULL,NOT NULL)</span></label>
-										<input type="text" id="citation_remarks" name="citation_remarks" class="data-entry-input" value="#encodeForHtml(citation_remarks)#" >
-									</div>
-									<div class="col-12 col-md-6 col-xl-2">
-										<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
-										<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
-											<option value=""></option>
-											<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-											<option value="true"#selected#>Yes</option>
-											<cfif cites_specimens EQ "false"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-											<option value="false"#selected#>No</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-6 col-xl-3">
-										<label for="cited_named_group" class="data-entry-label">Citation for Named Group <span class="small">(pick)</span></label>
-										<input type="text" id="cited_named_group" name="cited_named_group" class="data-entry-input" value="#encodeForHtml(cited_named_group)#" >
-										<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
-										<script>
-											$(document).ready(function() {
-												makeNamedCollectionPicker("cited_named_group","cited_named_group_id",false);
-												$('##cited_named_group').blur( function () {
-													// prevent an invisible cited_named_group_id from being included in the search.
-													if ($('##cited_named_group').val().trim() == "") { 
-														$('##cited_named_group_id').val("");
-													}
+										<div class="col-12 col-md-6 col-xl-2">
+											<label for="cited_taxon" class="data-entry-label">Specimen Cited Scientific Name</label>
+											<input type="text" id="cited_taxon" name="cited_taxon" class="data-entry-input" value="#encodeForHtml(cited_taxon)#" >
+											<script>
+												$(document).ready(function() {
+													makeScientificNameAutocomplete("cited_taxon","false","cited");
 												});
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-6 col-xl-3">
-										<label for="taxon_publication" class="data-entry-label">Citation For Taxon <span class="small">(pick=, substring, NULL, NOT NULL)</span></label>
-										<input type="text" id="taxon_publication" name="taxon_publication" class="data-entry-input" value="#encodeForHtml(taxon_publication)#" >
-										<script>
-											$(document).ready(function() {
-												makeScientificNameAutocomplete("taxon_publication","false","taxonomy_publication");
-											});
-										</script>
+											</script>
+										</div>
+										<div class="col-12 col-md-6 col-xl-2">
+											<label for="accepted_for_cited_taxon" class="data-entry-label">Specimen Current Scientific Name</label>
+											<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" class="data-entry-input" value="#encodeForHtml(accepted_for_cited_taxon)#" >
+											<script>
+												$(document).ready(function() {
+													makeScientificNameAutocomplete("accepted_for_cited_taxon","false","");
+												});
+											</script>
+										</div>
+
+										<div class="col-12 col-md-6 col-xl-2">
+											<label for="citation_remarks" class="data-entry-label">Citation Remarks <span class="small">(=,!,NULL,NOT NULL)</span></label>
+											<input type="text" id="citation_remarks" name="citation_remarks" class="data-entry-input" value="#encodeForHtml(citation_remarks)#" >
+										</div>
+										<div class="col-12 col-md-6 col-xl-2">
+											<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
+											<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
+												<option value=""></option>
+												<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="true"#selected#>Yes</option>
+												<cfif cites_specimens EQ "false"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="false"#selected#>No</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-6 col-xl-3">
+											<label for="cited_named_group" class="data-entry-label">Citation for Named Group <span class="small">(pick)</span></label>
+											<input type="text" id="cited_named_group" name="cited_named_group" class="data-entry-input" value="#encodeForHtml(cited_named_group)#" >
+											<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
+											<script>
+												$(document).ready(function() {
+													makeNamedCollectionPicker("cited_named_group","cited_named_group_id",false);
+													$('##cited_named_group').blur( function () {
+														// prevent an invisible cited_named_group_id from being included in the search.
+														if ($('##cited_named_group').val().trim() == "") { 
+															$('##cited_named_group_id').val("");
+														}
+													});
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-6 col-xl-3">
+											<label for="taxon_publication" class="data-entry-label">Citation For Taxon <span class="small">(pick=, substring, NULL, NOT NULL)</span></label>
+											<input type="text" id="taxon_publication" name="taxon_publication" class="data-entry-input" value="#encodeForHtml(taxon_publication)#" >
+											<script>
+												$(document).ready(function() {
+													makeScientificNameAutocomplete("taxon_publication","false","taxonomy_publication");
+												});
+											</script>
+										</div>
+
+										<div class="col-12 pt-0">
+											<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+											<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new publications search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Publications.cfm';" >New Search</button>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+												<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new publication record" href="#Application.serverRootUrl#/publications/Publication.cfm?action=new">Create New Publication</a>
+											</cfif>
+										</div>
 									</div>
 
-									<div class="col-12 pt-0">
-										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
-										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new publications search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Publications.cfm';" >New Search</button>
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new publication record" href="#Application.serverRootUrl#/publications/Publication.cfm?action=new">Create New Publication</a>
-										</cfif>
-									</div>
-								</div>
-	
-							</form>
-						</div>
+								</form>
+							</div>
+						</fieldset>
 					</div><!--- search box --->
 				</div><!--- row --->
 			</section>
