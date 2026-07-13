@@ -371,8 +371,23 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-2 pb-1">
 												<div class="form-group mb-0">
-													<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page <span class="small">(=,!,NULL, NOT NULL)</span></label>
-													<input type="text" id="begin_page" name="begin_page" class="data-entry-input" value="#encodeForHtml(begin_page)#" aria-labelledby="begin_page_label" >
+													<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page </label><span class="text-secondary small">(</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='!'+e.value;" 
+													aria-describedby="begin_pageNot_help"
+													aria-label="prefix with exclamation point for not matching search">
+													!
+												</button><span id="begin_pageNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='NULL';" 
+													aria-describedby="begin_pageNull_help"
+													aria-label="use NULL to find media records without the begin page (page number)">
+													Null
+												</button><span id="begin_pageNull_help" class="sr-only">Click NULL to find media records without the begin page</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='NOT NULL';" 
+													aria-describedby="begin_pageAny_help"
+													aria-label="Click Any for NOT NULL to find publication records with a begin_page">
+													Any
+												</button><span id="begin_pageAny_help" class="sr-only">Click Any for NOT NULL to find publications with the begin_page</span><span class="text-secondary small">)</span>
+													<input type="text" id="begin_page" name="begin_page" value="#encodeForHtml(begin_page)#">
 												</div>
 											</div>
 											<script>
@@ -381,7 +396,7 @@ limitations under the License.
 												});
 											</script>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="publisher">Publisher </label>
+												<label for="publisher">Publisher </label><span class="text-secondary small">(</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('publisher');e.value='!'+e.value;" 
 													aria-describedby="publisherNot_help"
 													aria-label="prefix with exclamation point for not matching search">
