@@ -231,64 +231,58 @@ limitations under the License.
 											<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
 										</div>
 										<div class="col-12 col-md-2">
-											<div class="form-group mb-2">
-												<label for="issue">Issue </label>
-												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
-													aria-describedby="issueEquals_help"
-													aria-label="prefix with equals sign for exact match search">
-													=
-												</button><span id="issueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='!'+e.value;" 
-													aria-describedby="issueNot_help"
-													aria-label="prefix with exclamation point for not matching search">
-													!
-												</button><span id="issueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NULL';" 
-													aria-describedby="issueNull_help"
-													aria-label="use NULL to find media records without the issue">
-													Null
-												</button><span id="issueNull_help" class="sr-only">Click NULL to find media records without the issue</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NOT NULL';" 
-													aria-describedby="issueAny_help"
-													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
-													Any
-												</button><span id="issueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
-												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
-											</div>
+											<label for="issue">Issue </label>
+											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
+												aria-describedby="issueEquals_help"
+												aria-label="prefix with equals sign for exact match search">
+												=
+											</button><span id="issueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='!'+e.value;" 
+												aria-describedby="issueNot_help"
+												aria-label="prefix with exclamation point for not matching search">
+												!
+											</button><span id="issueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NULL';" 
+												aria-describedby="issueNull_help"
+												aria-label="use NULL to find media records without the issue">
+												Null
+											</button><span id="issueNull_help" class="sr-only">Click NULL to find media records without the issue</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NOT NULL';" 
+												aria-describedby="issueAny_help"
+												aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
+												Any
+											</button><span id="issueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
+											<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
 										</div>
 										<div class="col-12 col-md-2">
-											<div class="form-group mb-2">
-												<label for="number" class="data-entry-label mb-0" id="number_label">Number</label>
-												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='='+e.value;" 
-													aria-describedby="numberEquals_help"
-													aria-label="prefix with equals sign for exact match search">
-													=
-												</button><span id="numberEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='!'+e.value;" 
-													aria-describedby="numberNot_help"
-													aria-label="prefix with exclamation point for not matching search">
-													!
-												</button><span id="numberNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NULL';" 
-													aria-describedby="numberNull_help"
-													aria-label="use NULL to find media records without the number">
-													Null
-												</button><span id="numberNull_help" class="sr-only">Click NULL to find media records without the number</span>, 
-												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NOT NULL';" 
-													aria-describedby="numberAny_help"
-													aria-label="Click Any for NOT NULL to find publication records with a number">
-													Any
-												</button><span id="numberAny_help" class="sr-only">Click Any for NOT NULL to find publications with the number</span><span class="text-secondary small">)</span>
-												<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
-											</div>
+											<label for="number">Number</label>
+											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='='+e.value;" 
+												aria-describedby="numberEquals_help"
+												aria-label="prefix with equals sign for exact match search">
+												=
+											</button><span id="numberEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='!'+e.value;" 
+												aria-describedby="numberNot_help"
+												aria-label="prefix with exclamation point for not matching search">
+												!
+											</button><span id="numberNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NULL';" 
+												aria-describedby="numberNull_help"
+												aria-label="use NULL to find media records without the number">
+												Null
+											</button><span id="numberNull_help" class="sr-only">Click NULL to find media records without the number</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NOT NULL';" 
+												aria-describedby="numberAny_help"
+												aria-label="Click Any for NOT NULL to find publication records with a number">
+												Any
+											</button><span id="numberAny_help" class="sr-only">Click Any for NOT NULL to find publications with the number</span><span class="text-secondary small">)</span>
+											<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
 										</div>
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-row mx-0 mb-2">
-												<label class="data-entry-label mx-1 mb-0" for="doi" id="doi_label">DOI</label>
-												<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#" class="data-entry-input" title="DOI (digital object identifier)">
-											</div>
+											<label for="doi">Digital Object Identifier (DOI)</label>
+											<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#">
 											<script>
 												$(document).ready(function() {
 													makeDOIAutocomplete("doi");
@@ -296,21 +290,20 @@ limitations under the License.
 											</script>
 										</div>
 										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="publication_remarks" class="data-entry-label mb-0" id="publication_remarks_label">Publication Remarks</label>
-												<input type="text" id="publication_remarks" name="publication_remarks" class="data-entry-input" value="#encodeForHtml(publication_remarks)#" aria-labelledby="publication_remarks_label" >
-											</div>
+											<label for="publication_remarks">Publication Remarks</label>
+											<input type="text" id="publication_remarks" name="publication_remarks" value="#encodeForHtml(publication_remarks)#">
 										</div>
 										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-row mx-0 mb-2">
-												<label class="data-entry-label mx-1 mb-0" for="published_year">Publication Year Start</label>
-												<input name="published_year" id="published_year" type="text" class="data-entry-input" placeholder="start yyyy" value="#encodeForHtml(published_year)#" aria-label="start of range for publication year">
+												<label for="published_year">Publication Year Start</label>
+												<input name="published_year" id="published_year" type="text" placeholder="start yyyy" value="#encodeForHtml(published_year)#" describedby="pubYearStart_help" aria-label="start of range for publication year">
+												<small class="sr-only" id="pubYearStart_help">start YYYY - start of range for publication year</small>
 											</div>
 										</div>
 										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-row mx-0 mb-2">
 												<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End</label>
-												<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" class="data-entry-input" placeholder="end yyyy" title="end of date range">
+												<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#"placeholder="end yyyy" aria-describedby="end of date range"><small class="sr-only" id="pubYearEnd_help">end yyyy</small>
 											</div>
 										</div>
 										<div class="col-12 col-md-4 col-xl-4">
