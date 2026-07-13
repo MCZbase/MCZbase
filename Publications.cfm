@@ -181,40 +181,56 @@ limitations under the License.
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Data</legend> 
+									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Publication Details</legend> 
 									<div class="form-row">
 										<div class="col-12 col-md-2">
-											<div class="form-group mb-2">
-												<label for="publication_type">Publication Type</label>
-												<select id="publication_type" name="publication_type">
-													<option></option>
-													<cfloop query="ctpublication_type">
-														<cfif in_publication_type EQ ctpublication_type.publication_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-														<option value="#ctpublication_type.publication_type#" #selected#>#ctpublication_type.publication_type#</option>
-													</cfloop>
-													<cfloop query="ctpublication_type">
-														<cfif in_publication_type EQ "!#ctpublication_type.publication_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-														<option value="!#ctpublication_type.publication_type#" #selected#>not #ctpublication_type.publication_type#</option>
-													</cfloop>
-												</select>
-											</div>
+											<label for="publication_type">Publication Type</label>
+											<select id="publication_type" name="publication_type">
+												<option></option>
+												<cfloop query="ctpublication_type">
+													<cfif in_publication_type EQ ctpublication_type.publication_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#ctpublication_type.publication_type#" #selected#>#ctpublication_type.publication_type#</option>
+												</cfloop>
+												<cfloop query="ctpublication_type">
+													<cfif in_publication_type EQ "!#ctpublication_type.publication_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="!#ctpublication_type.publication_type#" #selected#>not #ctpublication_type.publication_type#</option>
+												</cfloop>
+											</select>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="form-group mb-2">
-												<label for="journal_name" id="journal_name_label">Journal <span class="small">(pick, substring, NULL, NOT NULL)</span></label>
-												<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
-											</div>
-											<script>
+											<label for="journal_name">Journal</label>
+											<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#">
+										</div>
+										<script>
 												$(document).ready(function() {
 													makeJournalAutocomplete("journal_name");
 												});
 											</script>
 										</div>
 										<div class="col-12 col-md-2">
-											<div class="form-group mb-2">
-												<label for="volume" class="" id="volume_label">Volume <span class="small">(=,!,NULL, NOT NULL)</span></label>
-												<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
-											</div>
+											<label for="volume">Volume </label>
+											<span class="small">(=,!,NULL, NOT NULL)</span>
+											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='='+e.value;" 
+													aria-describedby="volumeEquals_help"
+													aria-label="prefix with equals sign for exact match search">
+													=
+												</button><span id="volumeEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='!'+e.value;" 
+													aria-describedby="volumeNot_help"
+													aria-label="prefix with exclamation point for not matching search">
+													!
+												</button><span id="volumeNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='NULL';" 
+													aria-describedby="volumeNull_help"
+													aria-label="use NULL to find publication records without the volume">
+													Null
+												</button><span id="volumeNull_help" class="sr-only">Click NULL to find publication records without the volume</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='NOT NULL';" 
+													aria-describedby="volumeAny_help"
+													aria-label="Click Any for NOT NULL to find publication records with a volume">
+													Any
+												</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
+											<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
 										</div>
 										<div class="col-12 col-md-2">
 											<div class="form-group mb-2">
@@ -238,13 +254,33 @@ limitations under the License.
 													aria-describedby="issueAny_help"
 													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
 													Any
-												</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
+												</button><span id="issueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
 												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
 											</div>
 										</div>
 										<div class="col-12 col-md-2">
 											<div class="form-group mb-2">
-												<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(=,!,NULL, NOT NULL)</span></label>
+												<label for="number" class="data-entry-label mb-0" id="number_label">Number</label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='='+e.value;" 
+													aria-describedby="numberEquals_help"
+													aria-label="prefix with equals sign for exact match search">
+													=
+												</button><span id="numberEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='!'+e.value;" 
+													aria-describedby="numberNot_help"
+													aria-label="prefix with exclamation point for not matching search">
+													!
+												</button><span id="numberNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NULL';" 
+													aria-describedby="numberNull_help"
+													aria-label="use NULL to find media records without the number">
+													Null
+												</button><span id="numberNull_help" class="sr-only">Click NULL to find media records without the number</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NOT NULL';" 
+													aria-describedby="numberAny_help"
+													aria-label="Click Any for NOT NULL to find publication records with a number">
+													Any
+												</button><span id="numberAny_help" class="sr-only">Click Any for NOT NULL to find publications with the number</span><span class="text-secondary small">)</span>
 												<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
 											</div>
 										</div>
