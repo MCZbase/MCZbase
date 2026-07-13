@@ -603,7 +603,7 @@ limitations under the License.
 								</div>
 								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-0 pt-1 px-2 mx-1 border-0"></output>
 							</div>
-							<div class="row mt-0"> 
+							<div class="row mt-0 mx-0"> 
 								<!--- Grid Related code is below along with search handlers --->
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
