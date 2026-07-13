@@ -304,6 +304,7 @@
 									<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 									<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 									<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
+									<cfset thisTargetWikiPage="Search_Builder">
 								</cfcase>
 								<cfdefaultcase>
 									<cfset fixedTabActive = "active">
@@ -315,7 +316,7 @@
 									<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 									<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-									<cfset thisTargetWikiPage = "Search Builder">
+									<cfset thisTargetWikiPage = "">
 								</cfdefaultcase>
 							</cfswitch>
 							<cfif enableMobileKeywordTabModal EQ true>
