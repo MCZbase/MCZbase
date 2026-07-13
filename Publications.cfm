@@ -149,6 +149,10 @@ limitations under the License.
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
+			<cftry>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry>
 			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
 					<div class="search-box">
@@ -1133,5 +1137,8 @@ limitations under the License.
 		</div>
 	</div>
 </div><!--- overlay container --->
-	
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Publication Search">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
