@@ -288,11 +288,9 @@ limitations under the License.
 												<input type="text" id="publication_remarks" name="publication_remarks" value="#encodeForHtml(publication_remarks)#">
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 pb-1">
-												<div class="form-row mx-0 mb-2">
-													<label for="published_year">Publication Year Start</label>
-													<input name="published_year" id="published_year" type="text" placeholder="start yyyy" value="#encodeForHtml(published_year)#" describedby="pubYearStart_help" aria-label="start of range for publication year">
-													<small class="sr-only" id="pubYearStart_help">start YYYY - start of range for publication year</small>
-												</div>
+												<label for="published_year">Publication Year Start</label>
+												<input name="published_year" id="published_year" type="text" placeholder="start yyyy" value="#encodeForHtml(published_year)#" describedby="pubYearStart_help" aria-label="start of range for publication year">
+												<small class="sr-only" id="pubYearStart_help">start YYYY - start of range for publication year</small>
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="to_published_year">Publication Year End</label>
