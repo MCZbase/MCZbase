@@ -611,7 +611,7 @@ limitations under the License.
 													</script>
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-2 pt-1">
 												<label for="md5hash">MD5 Hash</label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"
 													aria-describedby="md5hash_help"
