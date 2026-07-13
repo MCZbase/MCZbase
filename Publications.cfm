@@ -162,28 +162,28 @@ limitations under the License.
 								<div class="form-row">
 									<div class="col-12 col-md-5">
 										<div class="form-group mb-2">
-											<label for="text" class="data-entry-label mb-0" id="text_label">Any Part of Citation</label>
-											<input type="text" id="text" name="text" class="data-entry-input" value="#encodeForHtml(text)#" aria-labelledby="text_label" >
+											<label for="text" class="" id="text_label">Any Part of Citation</label>
+											<input type="text" id="text" name="text" value="#encodeForHtml(text)#" aria-labelledby="text_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-5">
 										<div class="form-group mb-2">
-											<label for="publication_title" class="data-entry-label mb-0" id="publication_title_label">Title</label>
-											<input type="text" id="publication_title" name="publication_title" class="data-entry-input" value="#encodeForHtml(publication_title)#" aria-labelledby="publication_title_label" >
+											<label for="publication_title">Title</label>
+											<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="publication_id" class="data-entry-label mb-0" id="publicationid_label">Publication ID</label>
-											<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="data-entry-input" pattern="[0-9]+" title="publication_id is the numeric primary key for the publication record.">
+											<label for="publication_id" id="publicationid_label">Publication ID</label>
+											<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="" pattern="[0-9]+">
 										</div>
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="publication_type" class="data-entry-label mb-0" id="publication_type_label">Publication Type</label>
-											<select id="publication_type" name="publication_type" class="data-entry-select">
+											<label for="publication_type">Publication Type</label>
+											<select id="publication_type" name="publication_type">
 												<option></option>
 												<cfloop query="ctpublication_type">
 													<cfif in_publication_type EQ ctpublication_type.publication_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
@@ -198,8 +198,8 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="form-group mb-2">
-											<label for="journal_name" class="data-entry-label mb-0" id="journal_name_label">Journal <span class="small">(pick, substring, NULL, NOT NULL)</span></label>
-											<input type="text" id="journal_name" name="journal_name" class="data-entry-input" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
+											<label for="journal_name" id="journal_name_label">Journal <span class="small">(pick, substring, NULL, NOT NULL)</span></label>
+											<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
 										</div>
 										<script>
 											$(document).ready(function() {
@@ -209,20 +209,40 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume <span class="small">(=,!,NULL, NOT NULL)</span></label>
-											<input type="text" id="volume" name="volume" class="data-entry-input" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
+											<label for="volume" class="" id="volume_label">Volume <span class="small">(=,!,NULL, NOT NULL)</span></label>
+											<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue <span class="small">(=,!,NULL, NOT NULL)</span></label>
-											<input type="text" id="issue" name="issue" class="data-entry-input" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
+											<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue </label>
+											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
+												aria-describedby="issueEquals_help"
+												aria-label="prefix with equals sign for exact match search">
+												=
+											</button><span id="issueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='!'+e.value;" 
+												aria-describedby="issueNot_help"
+												aria-label="prefix with exclamation point for not matching search">
+												!
+											</button><span id="issueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NULL';" 
+												aria-describedby="issueNull_help"
+												aria-label="use NULL to find media records without the issue">
+												Null
+											</button><span id="issueNull_help" class="sr-only">Click NULL to find media records without the issue</span>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NOT NULL';" 
+												aria-describedby="issueAny_help"
+												aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
+												Any
+											</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span>
+											<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(=,!,NULL, NOT NULL)</span></label>
-											<input type="text" id="number" name="number" class="data-entry-input" value="#encodeForHtml(number)#">
+											<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
 										</div>
 									</div>
 								</div>
