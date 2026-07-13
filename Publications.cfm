@@ -553,7 +553,7 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<div class="col-12 pt-0">
+									<div class="col-12 pt-2">
 											<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 											<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new publications search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Publications.cfm';" >New Search</button>
