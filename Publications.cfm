@@ -533,7 +533,7 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-3">
-												<label for="taxon_publication">Citation For Taxon </label><span class="text-secondary small">(type and pick,</span> 
+												<label for="taxon_publication">Citation For Taxon </label><span class="text-secondary small"> (type and pick,</span> 
 												<button type="button" class="rules" onclick="var e=document.getElementById('taxon_publication');e.value='NULL';" 
 													aria-describedby="taxon_publicationNull_help"
 													aria-label="use NULL to find publication records without the taxon_publication">
