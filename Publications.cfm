@@ -158,7 +158,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-0 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-0 m-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Data</legend> 
 										<input type="hidden" name="method" value="getPublications">
 										<div class="form-row">
@@ -180,10 +180,10 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-0 m-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Publication Details</legend> 
 										<div class="form-row">
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-2 pb-1">
 												<label for="publication_type">Publication Type</label>
 												<select id="publication_type" name="publication_type">
 													<option></option>
@@ -197,7 +197,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 pb-1">
 												<label for="journal_name">Journal</label>
 												<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#">
 											<script>
@@ -206,7 +206,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-2 pb-1">
 												<label for="volume">Volume </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='='+e.value;" 
 														aria-describedby="volumeEquals_help"
@@ -230,7 +230,7 @@ limitations under the License.
 													</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
 												<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-2 pb-1">
 												<label for="issue">Issue </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
 													aria-describedby="issueEquals_help"
@@ -254,8 +254,8 @@ limitations under the License.
 												</button><span id="issueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
 												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
 											</div>
-											<div class="col-12 col-md-2">
-												<label for="number">Number</label>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="number">Number </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='='+e.value;" 
 													aria-describedby="numberEquals_help"
 													aria-label="prefix with equals sign for exact match search">
@@ -278,7 +278,7 @@ limitations under the License.
 												</button><span id="numberAny_help" class="sr-only">Click Any for NOT NULL to find publications with the number</span><span class="text-secondary small">)</span>
 												<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="doi">Digital Object Identifier (DOI)</label>
 												<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#">
 												<script>
@@ -287,18 +287,18 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="publication_remarks">Publication Remarks</label>
 												<input type="text" id="publication_remarks" name="publication_remarks" value="#encodeForHtml(publication_remarks)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<div class="form-row mx-0 mb-2">
 													<label for="published_year">Publication Year Start</label>
 													<input name="published_year" id="published_year" type="text" placeholder="start yyyy" value="#encodeForHtml(published_year)#" describedby="pubYearStart_help" aria-label="start of range for publication year">
 													<small class="sr-only" id="pubYearStart_help">start YYYY - start of range for publication year</small>
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<div class="form-row mx-0 mb-2">
 													<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End</label>
 													<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#"placeholder="end yyyy" aria-describedby="end of date range"><small class="sr-only" id="pubYearEnd_help">end yyyy</small>
