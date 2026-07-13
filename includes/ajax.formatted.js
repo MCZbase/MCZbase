@@ -75,15 +75,6 @@ function LocalityPick(a, b, c, d) {
     localitypick = window.open(f, "", "width=800,height=600,resizable,scrollbars,")
 }
 
-function GeogPick(a, b, c) {
-    var d = "/picks/GeogPick.cfm";
-    var a;
-    var b;
-    var c;
-    var e = d + "?geogIdFld=" + a + "&highGeogFld=" + b + "&formName=" + c;
-    geogpick = window.open(e, "", "width=600,height=600, toolbar,resizable,scrollbars,")
-}
-
 function addrPick(a, b, c) {
     var d = "/picks/AddrPick.cfm";
     var a;
