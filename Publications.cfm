@@ -111,6 +111,9 @@ limitations under the License.
 	<cfif not isdefined("collection_object_id")>
 		<cfset collection_object_id="">
 	</cfif>
+	<cfif not isdefined("citation_remarks")>
+		<cfset citation_remarks="">
+	</cfif>
 	<cfif not isdefined("cites_specimens")>
 		<cfset cites_specimens="">
 	</cfif>
@@ -419,6 +422,10 @@ limitations under the License.
 										</script>
 									</div>
 
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="citation_remarks" class="data-entry-label">Citation Remarks <span class="small">(=,!,NULL,NOT NULL)</span></label>
+										<input type="text" id="citation_remarks" name="citation_remarks" class="data-entry-input" value="#encodeForHtml(citation_remarks)#" >
+									</div>
 									<div class="col-12 col-md-6 col-xl-2">
 										<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
 										<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">

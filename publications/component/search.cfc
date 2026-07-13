@@ -347,8 +347,12 @@ Function getPublications.  Search for publications by fields
 						and citation.citation_remarks IS NULL
 					<cfelseif citation_remarks EQ "NOT NULL">
 						and citation.citation_remarks IS NOT NULL
+					<cfelseif left(citation_remarks,1) EQ "!">
+						and citation.citation_remarks <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(citation_remarks,len(citation_remarks)-1)#">
+					<cfelseif left(citation_remarks,1) EQ "=">
+						and citation.citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(citation_remarks,len(citation_remarks)-1)#">
 					<cfelse>
-						and citation.citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">
+						and citation.citation_remarks LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#citation_remarks#%">
 					</cfif>
 				</cfif>
 				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
