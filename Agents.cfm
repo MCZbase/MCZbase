@@ -152,9 +152,6 @@ limitations under the License.
 	</style>
 	<!--- Search Form ---> 
 	<cfoutput>
-		
-		
-		
 		<main id="content">
 			<section class="container-fluid" role="search">
 				<cftry>
@@ -182,8 +179,10 @@ limitations under the License.
 						<div class="col-12 px-3 pt-2 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
+
+								<div class="">
 									<!--- ========== SECTION 1: Agent / Identifier ========== --->
-								<fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
+									<fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 form-group">
@@ -197,7 +196,7 @@ limitations under the License.
 												aria-describedby="partialPart_help"
 												aria-label="prefix with tilde for 0.8 or greater jaro winkler text matching search">
 												~
-											</button><span id="partialPart_help" class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>, 
+											</button><span id="partialPart_help" class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>,
 											<span class="text-secondary small">comma separated list)</span>
 											<input type="text" id="anyName" name="anyName" value="#encodeForHtml(anyName)#">
 										</div>
@@ -545,14 +544,14 @@ limitations under the License.
 					</div><!--- search box --->
 				</div><!--- row --->
 			</section>
-	
+		
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row mx-0">
-					<div class="col-12 mb-5 px-xl-4 ml-xl-2">
+					<div class="col-12 mb-5 pl-3 pr-4">
 				<!---		<div class="mb-5">--->
-							<div class="row my-0 jqx-widget-header border mx-0 p-2">
-								<h1 class="h4 pt-0 mb-2 ml-md-3">
+							<div class="row mb-0 jqx-widget-header border mx-0 p-2">
+								<h1 class="h4 my-1 ml-2">
 									<span tabindex="0">Results: </span>
 									<span class="pr-2 font-weight-normal" id="resultCount"></span>
 									<span id="resultLink" class="pr-2 font-weight-normal"></span>
@@ -603,7 +602,7 @@ limitations under the License.
 								</div>
 								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-0 pt-1 px-2 mx-1 border-0"></output>
 							</div>
-							<div class="row mt-0 mx-0"> 
+							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
