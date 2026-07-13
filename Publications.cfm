@@ -514,8 +514,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 col-md-6 col-xl-3">
-												<label for="cited_named_group">Citation for Named Group </label>
-												<span class="text-secondary small">(type and pick)</span>
+												<label for="cited_named_group">Citation for Named Group </label><span class="text-secondary small"> (type and pick)</span>
 												<input type="text" id="cited_named_group" name="cited_named_group" value="#encodeForHtml(cited_named_group)#" >
 												<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
 												<script>
@@ -531,7 +530,7 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-3">
-												<label for="taxon_publication">Citation For Taxon </label><span class="text-secondary small">(pick=, substring,</span> 
+												<label for="taxon_publication">Citation For Taxon </label><span class="text-secondary small">(type and pick,</span> 
 												<button type="button" class="rules" onclick="var e=document.getElementById('taxon_publication');e.value='NULL';" 
 													aria-describedby="taxon_publicationNull_help"
 													aria-label="use NULL to find publication records without the taxon_publication">
@@ -541,7 +540,7 @@ limitations under the License.
 														aria-describedby="taxon_publicationAny_help"
 														aria-label="Click Any for NOT NULL to find a publication with a taxon_publication">
 														Any
-													</button><span id="taxon_publicationAny_help" class="sr-only">Click Any for NOT NULL to find a publication with a citation linked to a specimen</span><span class="text-secondary small">)</span>)</span>
+													</button><span id="taxon_publicationAny_help" class="sr-only">Click Any for NOT NULL to find a publication with a citation linked to a specimen</span><span class="text-secondary small">)</span>
 												<input type="text" id="taxon_publication" name="taxon_publication" value="#encodeForHtml(taxon_publication)#" >
 												<script>
 													$(document).ready(function() {
