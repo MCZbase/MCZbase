@@ -131,59 +131,46 @@ function showDivInWikiDrawer(divId, titleText) {
 
 
 function initWikiDrawer(options) {
-	$(function () {
-		// Initialize current page from server-side default if not already set
-		if (!currentSearchWikiPage && options.targetWikiPage) {
-			currentSearchWikiPage = options.targetWikiPage;
-		}
-		$('#show-wiki').on('click', function (e) {
-			e.preventDefault();
+  $(function () {
+	// Initialize current page from server-side default if not already set
+	if (!currentSearchWikiPage && options.targetWikiPage) {
+		currentSearchWikiPage = options.targetWikiPage;
+	}
 
-			var page = currentSearchWikiPage || options.targetWikiPage;
-				showWiki(
-					options.targetWikiPage,
-					false,
-					'wiki-content',
-					'wiki-content-title',
-					openWikiDrawer,
-					closeWikiDrawer,
-					true,
-					0
-				);
+	$('#show-wiki').on('click', function (e) {
+	e.preventDefault();
 
-				$('#show-wiki').hide();
-				$('#hide-wiki').show();
-			});
+	// Use the tab-tracked wiki page if available; otherwise fall back to default
+	var page = currentSearchWikiPage || options.targetWikiPage;
 
-			$('#hide-wiki').on('click', function (e) {
-				e.preventDefault();
-				closeWikiDrawer();
-			});
+	if (!page) {
+		console.warn('No wiki page specified for Show Help');
+		return;
+	}
 
-			$('#hide-wiki').hide();
+	showWiki(
+		page,
+		false,
+		'wiki-content',
+		'wiki-content-title',
+		openWikiDrawer,
+		closeWikiDrawer,
+		true,
+		0
+	);
 
-		// Keep your existing #show-wiki and #hide-wiki handlers as-is.
+		$('#show-wiki').hide();
+		$('#hide-wiki').show();
+	});
 
-		// ONE generic handler for all help buttons
-		$(document).on('click', '.js-search-help', function (e) {
-			e.preventDefault();
+	$('#hide-wiki').on('click', function (e) {
+		e.preventDefault();
+		closeWikiDrawer();
+	});
 
-			var targetId = $(this).data('helpTarget'); // e.g. "collapseKeywordHelp"
-			if (!targetId) {
-				console.warn('js-search-help clicked without data-help-target');
-				return;
-			}
-
-			// Toggle behavior: if the drawer is open, close it; otherwise show this aside
-			if ($('#wikiDrawer').hasClass('open')) {
-				closeWikiDrawer();
-			} else {
-				showDivInWikiDrawer(targetId, 'Search Help');
-			}
-		});
+		$('#hide-wiki').hide();
 	});
 }
-
 
 //$(function () {
 //	// Map panel IDs to their help aside IDs
@@ -226,21 +213,31 @@ $(function () {
 	}
 
 	var page = $(this).data('wikiPage'); // from data-wiki-page
+	
 	if (!page) {
 		console.warn('No data-wiki-page for tab button:', this.id);
 		return;
 	}
-
-	// Drawer is open: swap the wiki article
 	showWiki(
-		page,
-			false,                 // showImages
-			'wiki-content',        // targetDiv
-			'wiki-content-title',  // titleTargetDiv
-			null,                  // DON'T auto-open here
-			null,                  // DON'T auto-close here
-			true,                  // titleLink
-			0                      // section
+			page,
+			false,
+			'wiki-content',
+			'wiki-content-title',
+			openWikiDrawer,
+			closeWikiDrawer,
+			true,
+			0
 		);
-	});
-});
+
+			$('#show-wiki').hide();
+			$('#hide-wiki').show();
+		});
+
+		$('#hide-wiki').on('click', function (e) {
+			e.preventDefault();
+			closeWikiDrawer();
+		});
+
+			$('#hide-wiki').hide();
+		});
+	}
