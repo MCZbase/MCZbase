@@ -162,21 +162,21 @@ limitations under the License.
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Search Data</legend> 
 										<input type="hidden" name="method" value="getPublications">
 										<div class="form-row">
-											<div class="col-12 col-md-5 mb-1">
+											<div class="col-12 col-md-5 pb-1">
 												<label for="text">Any Part of Citation</label>
 												<input type="text" id="text" name="text" value="#encodeForHtml(text)#">
 											</div>
-											<div class="col-12 col-md-5 mb-1">
+											<div class="col-12 col-md-5 pb-1">
 												<label for="publication_title">Title</label>
 												<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
 											</div>
-											<div class="col-12 col-md-2 mb-1">
+											<div class="col-12 col-md-2 pb-1">
 												<label for="publication_id">Publication ID</label>
 												<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" pattern="[0-9]+">
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-0 m-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 m-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Publication Details</legend> 
 										<div class="form-row">
 											<div class="col-12 col-md-2 pb-1">
