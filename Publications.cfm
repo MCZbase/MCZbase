@@ -209,7 +209,6 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="volume">Volume </label>
-											<span class="small">(=,!,NULL, NOT NULL)</span>
 											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='='+e.value;" 
 													aria-describedby="volumeEquals_help"
 													aria-label="prefix with equals sign for exact match search">
