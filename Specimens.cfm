@@ -115,24 +115,28 @@
 		--->
 		<cfcase value="fixedSearch">
 			<cfset pageTitle = "Search Specimen | Basic">
+			<cfset thisTargetWikiPage = "Basic_Specimen_Search">
 			<cfif isdefined("execute")>
 				<cfset execute="fixed">
 			</cfif>
 		</cfcase>
 		<cfcase value="keywordSearch">
 			<cfset pageTitle = "Search Specimens | by Keyword">
+			<cfset thisTargetWikiPage="Keyword_Search">
 			<cfif isdefined("execute")>
 				<cfset execute="keyword">
 			</cfif>
 		</cfcase>
 		<cfcase value="builderSearch">
 			<cfset pageTitle = "Search Specimens | Build Parameters">
+			<cfset thisTargetWikiPage="Search_Builder">
 			<cfif isdefined("execute")>
 				<cfset execute="builder">
 			</cfif>
 		</cfcase>
 		<cfdefaultcase>
 			<cfset pageTitle = "Basic Specimen Search">
+			<cfset thisTargetWikiPage = "">
 			<cfif isdefined("execute")>
 				<cfset execute="fixed">
 			</cfif>
