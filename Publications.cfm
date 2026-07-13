@@ -331,7 +331,7 @@ limitations under the License.
 														Any
 													</button><span id="publication_attribute_valueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
 													<cfset selectedpublication_attribute_type= "#publication_attribute_type#">
-													<select id="publication_attribute_type" name="publication_attribute_type" class="data-entry-select col-6">
+													<select id="publication_attribute_type" name="publication_attribute_type" class="col-6">
 														<option></option>
 														<cfloop query="ctpublication_attribute">
 															<cfif selectedpublication_attribute_type EQ ctpublication_attribute.publication_attribute>
@@ -342,7 +342,7 @@ limitations under the License.
 															<option value="#publication_attribute#" #selected#>#publication_attribute#</option>
 														</cfloop>
 													</select>
-													<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="data-entry-input col-6" value="#encodeForHtml(publication_attribute_value)#">
+													<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="col-6" value="#encodeForHtml(publication_attribute_value)#">
 												</div>
 											</div>
 										</div>
