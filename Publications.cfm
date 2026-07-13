@@ -499,7 +499,7 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="citation_remarks">Citation Remarks </label><span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NULL';" aria-describedby="citRemarks_help"
+												<label for="citation_remarks">Citation Remarks </label><span class="text-secondary small"> (</span><button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NULL';" aria-describedby="citRemarks_help"
 													aria-label="use NULL to find publication records without citation remarks">=</button><span id="citRemarks_help" class="sr-only">use NULL to find publication records without citation remarks</span>,
 												<button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');;e.value='!'+e.value;" aria-describedby="citRemarks_help"
 													aria-label="use NOT prefix to find publication records without a specific remark">!</button><span id="citRemarks_help" class="sr-only">use NOT prefix to find publication records without a specific remark</span>,
