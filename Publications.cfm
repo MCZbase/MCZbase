@@ -155,11 +155,11 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Publication Records</h1>
 						</div>
-						<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
-						<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Citation</legend> 
-							<div class="form-row">
-								<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
+						<div class="form-row">
+							<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Citation</legend> 
 									<input type="hidden" name="method" value="getPublications">
 									<div class="form-row">
 										<div class="col-12 col-md-5">
