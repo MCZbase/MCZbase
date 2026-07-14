@@ -505,7 +505,7 @@ limitations under the License.
 							<cfset resultBit = "&result_id=#result_id#">
 						</cfif>
 						<cfif isPrev is "yes">
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
 										<img src="/images/first.gif" class="mt-1" alt="[ First Record ]">
@@ -519,7 +519,7 @@ limitations under the License.
 									</form>
 								</span>
 							</li>
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
 										<img src="/images/previous.gif" class="mt-1" alt="[ Previous Record ]">
@@ -534,49 +534,49 @@ limitations under the License.
 								</span>
 							</li>
 						<cfelse>
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<img src="/images/no_first.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<img src="/images/no_previous.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
 					</cfif>
 					<!--- Task Bar of edit dialog controls --->
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<div id="catalogDialog"></div>
 						<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog/Clone</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
 							<button type="button" class="btn btn-xs btn-powder-blue small px-1 py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
 						</cfif>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane2" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane3" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane4" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane5" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditPartsInPage(#collection_object_id#,reloadParts)">Parts</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane6" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditPreparatorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadPreparators)">Preparators</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane7" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane8" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane9" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Remarks</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<div id="collEventPickerDialogDiv"></div>
 						<input type="hidden" id="collecting_event_id_control" name="collecting_event_id_control" value="#getCatalogedItem.collecting_event_id#">
 						<button type="button" id="btn_pane10" class="btn btn-xs btn-powder-blue py-0 px-1 small" 
@@ -632,22 +632,22 @@ limitations under the License.
 							}
 						</script>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<!--- 
 						<button type="button" id="btn_pane11" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
 						--->
 						<button type="button" id="btn_pane12" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Locality/Event</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane13" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)">Collectors</button>
 					</li>
-					<li class="px-0 mx-1">
+					<li class="px-0 m-1">
 						<button type="button" id="btn_pane14" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">Named&nbsp;Groups</button>
 					</li>
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
 						<cfif isNext is "yes">
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
 										<img src="/images/next.gif" class="mt-1" alt="[ Next Record ]">
@@ -661,7 +661,7 @@ limitations under the License.
 									</form>
 								</span>
 							</li>
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
 										<img src="/images/last.gif" class="mt-1" alt="[ Last Record ]">
@@ -676,10 +676,10 @@ limitations under the License.
 								</span>
 							</li>
 						<cfelse>
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<img src="/images/no_next.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
-							<li class="px-0 mx-1">
+							<li class="px-0 m-1">
 								<img src="/images/no_last.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
