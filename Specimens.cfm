@@ -136,7 +136,7 @@
 		</cfcase>
 		<cfdefaultcase>
 			<cfset pageTitle = "Basic Specimen Search">
-			<cfset thisTargetWikiPage = "">
+			<cfset thisTargetWikiPage = "Basic_Specimen_Search">
 			<cfif isdefined("execute")>
 				<cfset execute="fixed">
 			</cfif>
