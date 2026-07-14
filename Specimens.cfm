@@ -331,8 +331,8 @@
 							</cfif>
 							<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
 								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria# data-wiki-page="Basic Specimen Search">Basic Search</button>
-								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword_Search">Keyword Search</button>
-								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab" data-wiki-page="Search_Builder">Search Builder</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword Search">Keyword Search</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab" data-wiki-page="Search Builder">Search Builder</button>
 							</div>
 							<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 								<!---Fixed Search tab panel--->
