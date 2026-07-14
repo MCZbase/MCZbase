@@ -212,70 +212,59 @@ limitations under the License.
 														aria-describedby="volumeEquals_help"
 														aria-label="prefix with equals sign for exact match search">
 														=
-													</button><span id="volumeEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='!'+e.value;" 
-														aria-describedby="volumeNot_help"
-														aria-label="prefix with exclamation point for not matching search">
+														aria-label="Add NOT prefix to volume value">
 														!
-													</button><span id="volumeNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='NULL';" 
-														aria-describedby="volumeNull_help"
-														aria-label="use NULL to find publication records without the volume">
+														aria-label="Set volume to NULL">
 														Null
-													</button><span id="volumeNull_help" class="sr-only">Click NULL to find publication records without the volume</span>, 
+													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='NOT NULL';" 
-														aria-describedby="volumeAny_help"
-														aria-label="Click Any for NOT NULL to find publication records with a volume">
+														aria-label="Set volume to any value">
 														Any
-													</button><span id="origFileAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
-												<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
+													</button><span class="text-secondary small">)</span>
+												<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#">
 											</div>
 											<div class="col-12 col-md-2 pb-1">
 												<label for="issue">Issue </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
-													aria-describedby="issueEquals_help"
-													aria-label="prefix with equals sign for exact match search">
+													aria-label="prefix with equals for exact match">
 													=
-												</button><span id="issueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='!'+e.value;" 
-													aria-describedby="issueNot_help"
-													aria-label="prefix with exclamation point for not matching search">
+													aria-label="prefix with NOT">
 													!
-												</button><span id="issueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NULL';" 
-													aria-describedby="issueNull_help"
-													aria-label="use NULL to find media records without the issue">
+													aria-label="Set volume to NULL">
 													Null
-												</button><span id="issueNull_help" class="sr-only">Click NULL to find media records without the issue</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='NOT NULL';" 
-													aria-describedby="issueAny_help"
-													aria-label="Click Any for NOT NULL to find media records with a relationship to any record">
+													aria-label="Set volume to NOT NULL for any volume">
 													Any
-												</button><span id="issueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
-												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#">
 											</div>
 											<div class="col-12 col-md-2 pb-1">
 												<label for="number">Number </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='='+e.value;" 
-													aria-describedby="numberEquals_help"
-													aria-label="prefix with equals sign for exact match search">
+													aria-label="prefix with equals for exact match">
 													=
-												</button><span id="numberEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='!'+e.value;" 
-													aria-describedby="numberNot_help"
-													aria-label="prefix with exclamation point for not matching search">
+													aria-label="prefix with NOT">
 													!
-												</button><span id="numberNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NULL';" 
-													aria-describedby="numberNull_help"
-													aria-label="use NULL to find media records without the number">
+													aria-label="Set number to NULL">
 													Null
-												</button><span id="numberNull_help" class="sr-only">Click NULL to find media records without the number</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='NOT NULL';" 
-													aria-describedby="numberAny_help"
-													aria-label="Click Any for NOT NULL to find publication records with a number">
+													aria-label="Set number to NOT NULL for any number">
 													Any
-												</button><span id="numberAny_help" class="sr-only">Click Any for NOT NULL to find publications with the number</span><span class="text-secondary small">)</span>
+												</button><span class="text-secondary small">)</span>
 												<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 pb-1">
@@ -293,37 +282,36 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="published_year">Publication Year Start</label>
-												<input name="published_year" id="published_year" type="text" placeholder="start yyyy" value="#encodeForHtml(published_year)#" describedby="pubYearStart_help" aria-label="start of range for publication year">
-												<small class="sr-only" id="pubYearStart_help">start YYYY - start of range for publication year</small>
+												<input name="published_year" id="published_year" type="text"
+													placeholder="start yyyy" value="#encodeForHtml(published_year)#" 
+													aria-label="start yyyy">
 											</div>
 											<div class="col-12 col-md-4 col-xl-2 pb-1">
 												<label for="to_published_year">Publication Year End</label>
-												<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" placeholder="end yyyy" aria-describedby="end of date range"><small class="sr-only" id="pubYearEnd_help">end yyyy</small>
+												<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" 
+													placeholder="end yyyy" 
+													aria-label="end yyyy">
 											</div>
 											<div class="col-12 col-md-4 col-xl-4 pb-1">
 												<div class="form-row mx-0 my-0 py-0">
 													<div class="w-100">
 														<label for="publication_attribute_type">Any Attribute </label> 
 														<span class="text-secondary small"> (</span><button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;" 
-															aria-describedby="publication_attribute_valueEquals_help"
-															aria-label="prefix with equals sign for exact match search">
+															aria-label="prefix with equals for exact match">
 															=
-														</button><span id="publication_attribute_valueEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+														</button>, 
 														<button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='!'+e.value;" 
-															aria-describedby="publication_attribute_valueNot_help"
-															aria-label="prefix with exclamation point for not matching search">
+															aria-label="prefix with NOT">
 															!
-														</button><span id="publication_attribute_valueNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+														</button>, 
 														<button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='NULL';" 
-															aria-describedby="publication_attribute_valueNull_help"
-															aria-label="use NULL to find publication records without the publication_attribute_value">
+															aria-label="set publication attribute to NULL">
 															Null
-														</button><span id="publication_attribute_valueNull_help" class="sr-only">Click NULL to find publication records without the publication_attribute_value</span>, 
+														</button>, 
 														<button type="button" class="rules" onclick="var e=document.getElementById('publication_attribute_value');e.value='NOT NULL';" 
-															aria-describedby="publication_attribute_valueAny_help"
-															aria-label="Click Any for NOT NULL to find publication records with a publication_attribute_value">
+															aria-label="Set publication attribute to NOT NULL for any match">
 															Any
-														</button><span id="publication_attribute_valueAny_help" class="sr-only">Click Any for NOT NULL to find publications with the issue</span><span class="text-secondary small">)</span>
+														</button><span class="text-secondary small">)</span>
 													</div>
 													<cfset selectedpublication_attribute_type= "#publication_attribute_type#">
 													<select id="publication_attribute_type" name="publication_attribute_type" class="col-6 py-0">
@@ -349,7 +337,7 @@ limitations under the License.
 														<div class="input-group-prepend">
 															<span class="input-group-text smaller bg-lightgreen" id="author_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 														</div>
-														<input type="text" name="author_agent_name" id="author_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="author_agent_name_label" value="#encodeForHtml(author_agent_name)#">
+														<input type="text" name="author_agent_name" id="author_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(author_agent_name)#">
 														<input type="hidden" name="author_agent_id" id="author_agent_id" value="#encodeForHtml(author_agent_id)#">
 													</div>
 												</div>
@@ -368,7 +356,7 @@ limitations under the License.
 														<div class="input-group-prepend">
 															<span class="input-group-text smaller bg-lightgreen" id="editor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 														</div>
-														<input type="text" name="editor_agent_name" id="editor_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="editor_agent_name_label" value="#encodeForHtml(editor_agent_name)#">
+														<input type="text" name="editor_agent_name" id="editor_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(editor_agent_name)#">
 														<input type="hidden" name="editor_agent_id" id="editor_agent_id" value="#encodeForHtml(editor_agent_id)#">
 													</div>
 												</div>
@@ -377,20 +365,17 @@ limitations under the License.
 												<div class="form-group mb-0">
 													<label for="begin_page">Begin Page </label><span class="text-secondary small">(</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='!'+e.value;" 
-													aria-describedby="begin_pageNot_help"
-													aria-label="prefix with exclamation point for not matching search">
+													aria-label="prefix with NOT">
 													!
-												</button><span id="begin_pageNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='NULL';" 
-													aria-describedby="begin_pageNull_help"
-													aria-label="use NULL to find media records without the begin page (page number)">
+													aria-label="Set begin page to NULL">
 													Null
-												</button><span id="begin_pageNull_help" class="sr-only">Click NULL to find media records without the begin page</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='NOT NULL';" 
-													aria-describedby="begin_pageAny_help"
-													aria-label="Click Any for NOT NULL to find publication records with a begin_page">
+													aria-label="Set begin page to NOT NULL for any match">
 													Any
-												</button><span id="begin_pageAny_help" class="sr-only">Click Any for NOT NULL to find publications with the begin_page</span><span class="text-secondary small">)</span>
+												</button><span class="text-secondary small">)</span>
 													<input type="text" id="begin_page" name="begin_page" value="#encodeForHtml(begin_page)#">
 												</div>
 											</div>
@@ -402,20 +387,17 @@ limitations under the License.
 											<div class="col-12 col-md-6 col-xl-2">
 												<label for="publisher">Publisher </label><span class="text-secondary small">(</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('publisher');e.value='!'+e.value;" 
-													aria-describedby="publisherNot_help"
-													aria-label="prefix with exclamation point for not matching search">
+													aria-label="prefix with NOT">
 													!
-												</button><span id="publisherNot_help" class="sr-only">prefix with exclamation point for not matching search</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('publisher');e.value='NULL';" 
-													aria-describedby="publisherNull_help"
-													aria-label="use NULL to find media records without the publisher">
+													aria-label="set publisher to NULL">
 													Null
-												</button><span id="publisherNull_help" class="sr-only">Click NULL to find media records without the publisher</span>, 
+												</button>, 
 												<button type="button" class="rules" onclick="var e=document.getElementById('publisher');e.value='NOT NULL';" 
-													aria-describedby="publisherAny_help"
-													aria-label="Click Any for NOT NULL to find publication records with a publisher">
+													aria-label="set publisher to NOT NULL for any match">
 													Any
-												</button><span id="publisherAny_help" class="sr-only">Click Any for NOT NULL to find publications with the publisher</span><span class="text-secondary small">)</span>
+												</button><span class="text-secondary small">)</span>
 												<input type="text" id="publisher" name="publisher" value="#encodeForHtml(publisher)#" >
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
@@ -458,17 +440,14 @@ limitations under the License.
 													<label for="related_cataloged_item">Cited Cataloged Item</label>
 													<span class="text-secondary small">(accepts comma separated list</span>
 													<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NULL';" 
-														aria-describedby="related_cataloged_itemNull_help"
-														aria-label="use NULL to find publication records without the related_cataloged_item">
+														aria-label="Set cited cataloged item to null">
 														Null
-													</button><span id="related_cataloged_itemNull_help" class="sr-only">Click NULL to find publication records without the related_cataloged_item</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';" 
-														aria-describedby="collObjAny_help"
-														aria-label="Click Any for NOT NULL to find a publication with a citation linked to a specimen">
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';"
+														aria-label="Set cited cataloged item to not null for any match">
 														Any
-													</button><span id="related_cataloged_itemAny_help" class="sr-only">Click Any for NOT NULL to find a publication with a citation linked to a specimen</span><span class="text-secondary small">)</span>
-													<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');" aria-describedby="collection_object_id_help" aria-label="MCZ:Coll:nnnnn">
-													<small id="collection_object_id_help" class="sr-only">MCZ:Coll:nnnnn</small>
+													</button><span class="text-secondary small">)</span>
+													<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');" aria-label="MCZ:Coll:nnnnn">
 												</div>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
@@ -518,11 +497,12 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
-												<label for="citation_remarks">Citation Remarks </label><span class="text-secondary small"> (</span><button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NULL';" aria-describedby="citRemarks_help"
-													aria-label="use NULL to find publication records without citation remarks">=</button><span id="citRemarks_help" class="sr-only">use NULL to find publication records without citation remarks</span>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');;e.value='!'+e.value;" aria-describedby="citRemarks_help"
-													aria-label="use NOT prefix to find publication records without a specific remark">!</button><span id="citRemarks_help" class="sr-only">use NOT prefix to find publication records without a specific remark</span>,
-												<button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NULL';">=</button><span></span>,<button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NOT NULL'">Any</button><span class="text-secondary small">)</span>
+												<label for="citation_remarks">Citation Remarks </label><span class="text-secondary small"> (</span><button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NULL';"
+													aria-label="prefix citation remarks with equals">=</button>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');;e.value='!'+e.value;" 
+													aria-label="prefix citation remarks with NOT">!</button>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NULL';" aria-label="set citation remarks to NULL">NULL</button>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('citation_remarks');e.value='NOT NULL'" aria-label="set citation remarks to NOT null for any citation remark">Any</button><span class="text-secondary small">)</span>
 												<input type="text" id="citation_remarks" name="citation_remarks" value="#encodeForHtml(citation_remarks)#" >
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
@@ -554,15 +534,13 @@ limitations under the License.
 											<div class="col-12 col-md-6 col-xl-3">
 												<label for="taxon_publication">Citation For Taxon </label><span class="text-secondary small"> (type and pick,</span> 
 												<button type="button" class="rules" onclick="var e=document.getElementById('taxon_publication');e.value='NULL';" 
-													aria-describedby="taxon_publicationNull_help"
-													aria-label="use NULL to find publication records without the taxon_publication">
+													aria-label="set citation for taxon to null">
 													Null
-												</button><span id="taxon_publicationNull_help" class="sr-only">Click NULL to find publication records without a taxon_publication</span>, 
+												</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('taxon_publication');e.value='NOT NULL';" 
-														aria-describedby="taxon_publicationAny_help"
-														aria-label="Click Any for NOT NULL to find a publication with a taxon_publication">
+														aria-label="set citation for taxon to NOT NULL for Any citation for taxon">
 														Any
-													</button><span id="taxon_publicationAny_help" class="sr-only">Click Any for NOT NULL to find a publication with a citation linked to a specimen</span><span class="text-secondary small">)</span>
+													</button><span class="text-secondary small">)</span>
 												<input type="text" id="taxon_publication" name="taxon_publication" value="#encodeForHtml(taxon_publication)#" >
 												<script>
 													$(document).ready(function() {
