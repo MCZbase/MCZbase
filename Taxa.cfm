@@ -346,74 +346,74 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="superclass">Superclass</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='='+e.value;" aria-describedby="superclassEquals_help">=<small id="superclassEquals_help" class="sr-only">prefix equals sign for an exact match search</small></button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;" aria-describedby="superclassSoundsLike_help">$<span id="superclassSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='='+e.value;" aria-label="prefix with equals for a case insensitive exact match">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="superclass" name="superclass" value="#encodeForHtml(superclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="phylclass">Class</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-describedby="classEquals_help" aria-label="prefix equals sign for exact match search">=<span id="classEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-describedby="classSoundsLike_help" aria-label="prefix with dollar sign for sounds like search">$<span id="phylumSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-describedby="classEquals_help" aria-label="prefix with equals sign for an exact match search">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="subclass">Subclass</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='='+e.value;" aria-describedby="subclassEquals_help" aria-label="prefix with equals sign for an exact match search">=</button><span id="subclassEquals_help" class="sr-only">prefix with equals sign for an exact match search</span>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;" aria-describedby="subclassSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$<span id="subclassSoundslike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='='+e.value;" aria-label="prefix with equals for an exact match">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="infraclass">Infraclass</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;" aria-describedby="infraclassEquals_help" aria-value="prefix equals sign for exact match search">=</button><span id="infraclassEquals_help" class="sr-only">prefix equals sign for exact match search</span>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;" aria-describedby="infraclassSoundslike_help">$<span id="infraclassSoundlike_help" class="sr-only">prefix with dollarsign for sounds like search</span></button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;" aria-value="prefix with equals for exact match">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="superorder">Superorder</label> 
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='='+e.value;" aria-describedby="superorderEquals_help" aria-label="prefix equals sign for exact match search">=</button><span id="superorderEquals_help" class="sr-only">prefix equals sign for exact match search</span>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;" aria-describedby="superorderSoundslike_help" aria-label="prefix with dollarsign for sounds like search">$</button><span id="superorderSoundslike_help" class="sr-only">prefix with dollarsign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
 													</span>
 													<input type="text" id="superorder" name="superorder" value="#encodeForHtml(superorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="phylorder">Order</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;" aria-describedby="orderEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="orderEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;" aria-describedby="orderSoundslike_help" aria-label="prefix with dollarsign for sounds like search">$</button><span id="orderSoundslike_help" class="sr-only">prefix with dollarsign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="suborder">Suborder</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='='+e.value;" aria-describedby="suborderEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="suborderEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;" aria-describedby="suborderSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='='+e.value;" aria-label="prefix with equals for exact match search">=</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('suborder');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="suborder" name="suborder" value="#encodeForHtml(suborder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="infraorder">Infraorder</label>  
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;" aria-describedby="infraorderEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="infraorderEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;" aria-describedby="infraorderSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="infraorderSoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;" aria-label="prefix with equals sign for exact match search">=</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="superfamily">Superfamily</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;" aria-describedby="superfamilyEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="superfamilyEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;" aria-describedby="superfamSoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="superfamSoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;" aria-label="prefix with equals sign for exact match search">=</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#">
 												</div> 
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="family">Family</label> 
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-descibedby="familyEquals_help">=</button><span id="familyEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;" aria-describedby="familySoundslike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="familySoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-label="prefix with equals sign for exact match">=</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="family" name="family" value="#encodeForHtml(family)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="subfamily">Subfamily</label> 
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-describedby="subfamilyEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="subfamilyEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, <button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-descibedby="subfamilySoundsLike_help" aria-value="prefix with dollar sign for sounds like search">$</button><span id="subfamilySoundsLike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-label="prefix with equals sign for exact match">=</button>, <button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-value="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="tribe">Tribe</label> 
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;" aria-describedby="tribeEquals_help" aria-label="prefix with equals sign for exact match search">=</button><span id="tribeEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-describedby="tribeSoundsLike_help" aria-label="prefix with dollar sign for sounds like search">$</button><span id="tribeSoundsLike_help" class="sr-only">prefix with dollar sign for sounds like search</span><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="tribe" name="tribe" value="#encodeForHtml(tribe)#">
 												</div>
 												<div class="col-12 col-lg-3 col-md-3 col-sm-6">
