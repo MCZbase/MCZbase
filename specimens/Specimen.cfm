@@ -497,7 +497,7 @@ limitations under the License.
 		<!--- controls for editing record --->
 		<div class="container-fluid" id="editControlsDiv"><!--- WARNING: do not change this id=editControlsDiv, it is referenced in reloadLocality() --->
 			<div class="row mt-1" id="editControlsBlock">
-				<ul class="d-flex flex-wrap list-inline list-group-horizontal-md py-0 mx-auto">
+				<ul class="d-flex flex-wrap list-inline list-group-horizontal-md px-3 py-0 mx-auto">
 					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
