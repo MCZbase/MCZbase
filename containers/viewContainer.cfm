@@ -23,7 +23,13 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/containers/component/functions.cfc" runonce="true">
 
-<cfif NOT isNumeric(url.container_id)>
+<!--- check validity of input values, if not valid, redirect to container search --->
+<!--- either container_id or barcode must be provided --->
+<cfif len(url.container_id) EQ 0 AND len(url.barcode) EQ 0>
+	<cflocation url="/containers/Containers.cfm" addtoken="false">
+</cfif>
+<!--- if container_id is provided it must be numeric --->
+<cfif len(url.container_id) GT 0 AND NOT isNumeric(url.container_id)>
 	<cflocation url="/containers/Containers.cfm" addtoken="false">
 </cfif>
 
