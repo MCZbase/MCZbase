@@ -182,7 +182,7 @@ limitations under the License.
 
 								<div class="">
 									<!--- ========== SECTION 1: Agent / Identifier ========== --->
-									<fieldset class="my-0 px-3 pb-1 border-top border-right border-bottom border-left field-set">
+									<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 form-group">
@@ -235,8 +235,8 @@ limitations under the License.
 									</div>
 								</fieldset>
 							
-								<!--- ========== SECTION 2: Name components ========== --->
-								<fieldset class="mb-0 px-3 pb-0 border-right border-bottom border-left field-set">
+									<!--- ========== SECTION 2: Name components ========== --->
+									<fieldset class="mb-0 px-2 pb-0 border-right border-bottom border-left field-set">
 									<legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
 									<div class="form-row mb-0 pt-0">
 										<div class="col-12 col-md-3 col-lg-2 col-xl-2 mb-0 mb-md-1 mt-0">
@@ -366,185 +366,184 @@ limitations under the License.
 										</div>
 									</div><!---form row--->
 								</fieldset>
-							</div><!--- END sections 1 and 2 --->
+								</div><!--- END sections 1 and 2 --->
 
 							<!--- ========== SECTION 3: Dates ========== --->
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								<cfset dateWord = "Date">
-								<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
-							<cfelse>
-								<cfset dateWord = "Year">
-								<cfset dateplaceholder = "yyyy">
-							</cfif>
-							<fieldset class="my-2 px-3 border-right border-top border-bottom border-left pb-1 field-set">
-								<legend class="h6 my-0 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
-								<div class="form-row">
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<!--- Birth range, internal users only --->
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<cfset dateWord = "Date">
+									<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
+								<cfelse>
+									<cfset dateWord = "Year">
+									<cfset dateplaceholder = "yyyy">
+								</cfif>
+								<fieldset class="my-2 px-2 border-right border-top border-bottom border-left pb-1 field-set">
+									<legend class="h6 my-0 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
+									<div class="form-row">
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+											<!--- Birth range, internal users only --->
+											<div class="col-12 col-md-4 px-0 mt-0">
+												<div class="form-group pt-2 pb-1 mb-0">
+													<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 mx-0 rounded justify-content-center">
+														<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
+														<input type="text" name="birth_date" id="birth_date" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+														<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+														<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>
+														<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput data-entry-input w-100 col-5" placeholder="end #dateplaceholder#" title="end of date range">
+													</div>
+												</div>
+											</div>
+										</cfif>
 										<div class="col-12 col-md-4 px-0 mt-0">
+											<!--- Death range, always shown --->
 											<div class="form-group pt-2 pb-1 mb-0">
-												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 mx-0 rounded justify-content-center">
-													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
-													<input type="text" name="birth_date" id="birth_date" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
+												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
+													<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
 													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-													<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>
-													<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput data-entry-input w-100 col-5" placeholder="end #dateplaceholder#" title="end of date range">
+													<label for="to_death_date" class="sr-only">end of search range for #dateWord# of death</label>	
+													<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end #dateplaceholder#" title="end of date range">
 												</div>
 											</div>
 										</div>
-									</cfif>
-									<div class="col-12 col-md-4 px-0 mt-0">
-										<!--- Death range, always shown --->
-										<div class="form-group pt-2 pb-1 mb-0">
-											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
-												<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label for="to_death_date" class="sr-only">end of search range for #dateWord# of death</label>	
-												<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end #dateplaceholder#" title="end of date range">
-											</div>
-										</div>
-									</div>
-									<!--- Dates collected (always) --->
-									<div class="col-12 col-md-4 px-0 mt-0">
-										  <div class="form-group pt-2 mb-0 pb-1">
-											<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
-												<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="sr-only" for="to_collected_date">end of search range for dates collected</label>
-												<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#"  class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-											</div>
-										</div>
-									</div>
-									<cfif NOT (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
+										<!--- Dates collected (always) --->
 										<div class="col-12 col-md-4 px-0 mt-0">
-											<!--- placeholder --->
+											  <div class="form-group pt-2 mb-0 pb-1">
+												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
+													<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
+													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<label class="sr-only" for="to_collected_date">end of search range for dates collected</label>
+													<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#"  class="datetimeinput w-100 col-5 data-entry-input px-1 py-0" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+												</div>
+											</div>
 										</div>
-									</cfif>
-								</div><!--- end form-row --->
-							</fieldset>
+										<cfif NOT (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
+											<div class="col-12 col-md-4 px-0 mt-0">
+												<!--- placeholder --->
+											</div>
+										</cfif>
+									</div><!--- end form-row --->
+								</fieldset>
 
-							<!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							   <fieldset class="my-2 px-3 pb-2 field-set border-top border-bottom border-right border-left">
-									<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
-										<div class="form-row mt-2">
-											<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
-												<div class="form-group mb-1 pb-0">
-													<label for="collector_collection" id="edited_label">Collector in Collection</label>
-													<select id="collector_collection" name="collector_collection">
-														<option></option>
-														<cfif collector_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-														<option value="NULL" #selected#>Not a Collector</option>
-														<cfif collector_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-														<option value="NOT NULL" #selected#>Collector (any collection)</option>
-														<cfloop query="collections">
-															<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
-														</cfloop>
-													</select>
-												</div>
-											</div>
-											<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
-												<div class="form-group mb-1 pb-0">
-													<label for="author_collection">Author in Collection </label>
-													<select id="author_collection" name="author_collection">
-														<option></option>
-														<cfif author_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-														<option value="NULL" #selected#>Not an Author</option>
-														<cfif author_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-														<option value="NOT NULL" #selected#>Author (any collection)</option>
-														<cfloop query="collections">
-															<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
-														</cfloop>
-													</select>
-												</div>
-											</div>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-												<div class="col-12 col-md-4 col-xl-2 mt-0">
+								<!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<fieldset class="my-2 px-2 pb-2 field-set border-top border-bottom border-right border-left">
+										<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
+											<div class="form-row mt-2">
+												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
 													<div class="form-group mb-1 pb-0">
-														<label for="trans_agent_collection">Collection Transactions</label>
-														<select id="trans_agent_collection" name="trans_agent_collection">
+														<label for="collector_collection" id="edited_label">Collector in Collection</label>
+														<select id="collector_collection" name="collector_collection">
 															<option></option>
-															<cfif trans_agent_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-															<option value="NULL" #selected#>No Transaction Roles</option>
-															<cfif trans_agent_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-															<option value="NOT NULL" #selected#>Transaction in some collection</option>
+															<cfif collector_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NULL" #selected#>Not a Collector</option>
+															<cfif collector_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NOT NULL" #selected#>Collector (any collection)</option>
 															<cfloop query="collections">
-																<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 																<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
 															</cfloop>
 														</select>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-3 mt-0">
+												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
 													<div class="form-group mb-1 pb-0">
-														<label for="trans_agent_role">Transaction Role</label>
-														<select id="trans_agent_role" name="trans_agent_role">
+														<label for="author_collection">Author in Collection </label>
+														<select id="author_collection" name="author_collection">
 															<option></option>
-															<cfif variables.trans_agent_role EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-															<option value="NULL" #selected#>No Transaction Roles</option>
-															<cfif variables.trans_agent_role EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
-															<option value="NOT NULL" #selected#>Some Transaction Role</option>
-															<cfloop query="ctTransAgentRole">
-																<cfif variables.trans_agent_role EQ ctTransAgentRole.trans_agent_role >
-																	<cfset selected = "selected='true'">
-																<cfelse>
-																	<cfset selected = "">
-																</cfif>
-																<option value="#ctTransAgentRole.trans_agent_role#" #selected# >#ctTransAgentRole.trans_agent_role#</option>
+															<cfif author_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NULL" #selected#>Not an Author</option>
+															<cfif author_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+															<option value="NOT NULL" #selected#>Author (any collection)</option>
+															<cfloop query="collections">
+																<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
 															</cfloop>
 														</select>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-3 mt-0">
-													<div class="form-group mb-1 pb-0">
-														<label for="permit_agent_role">Permissions &amp; Rights</label>
-														<select id="permit_agent_role" name="permit_agent_role">
-															<option></option>
-															<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="issued by" #sel# >Issued By</option>
-															<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="issued to" #sel# >Issued To</option>
-															<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="contact" #sel# >Contact Agent</option>
-															<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-															<option value="any" #sel#>Any</option>
-														</select>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+													<div class="col-12 col-md-4 col-xl-2 mt-0">
+														<div class="form-group mb-1 pb-0">
+															<label for="trans_agent_collection">Collection Transactions</label>
+															<select id="trans_agent_collection" name="trans_agent_collection">
+																<option></option>
+																<cfif trans_agent_collection EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+																<option value="NULL" #selected#>No Transaction Roles</option>
+																<cfif trans_agent_collection EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+																<option value="NOT NULL" #selected#>Transaction in some collection</option>
+																<cfloop query="collections">
+																	<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																	<option value="#collections.collection_id#" #sel# >#collections.institution_acronym#:#collections.collection#</option>
+																</cfloop>
+															</select>
+														</div>
 													</div>
-												</div>
-											</cfif>
-										</div>
-									</fieldset>
+													<div class="col-12 col-md-6 col-xl-3 mt-0">
+														<div class="form-group mb-1 pb-0">
+															<label for="trans_agent_role">Transaction Role</label>
+															<select id="trans_agent_role" name="trans_agent_role">
+																<option></option>
+																<cfif variables.trans_agent_role EQ "NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+																<option value="NULL" #selected#>No Transaction Roles</option>
+																<cfif variables.trans_agent_role EQ "NOT NULL"><cfset selected = "selected='true'"><cfelse><cfset selected = ""></cfif>
+																<option value="NOT NULL" #selected#>Some Transaction Role</option>
+																<cfloop query="ctTransAgentRole">
+																	<cfif variables.trans_agent_role EQ ctTransAgentRole.trans_agent_role >
+																		<cfset selected = "selected='true'">
+																	<cfelse>
+																		<cfset selected = "">
+																	</cfif>
+																	<option value="#ctTransAgentRole.trans_agent_role#" #selected# >#ctTransAgentRole.trans_agent_role#</option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
+													<div class="col-12 col-md-6 col-xl-3 mt-0">
+														<div class="form-group mb-1 pb-0">
+															<label for="permit_agent_role">Permissions &amp; Rights</label>
+															<select id="permit_agent_role" name="permit_agent_role">
+																<option></option>
+																<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																<option value="issued by" #sel# >Issued By</option>
+																<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																<option value="issued to" #sel# >Issued To</option>
+																<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																<option value="contact" #sel# >Contact Agent</option>
+																<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+																<option value="any" #sel#>Any</option>
+															</select>
+														</div>
+													</div>
+												</cfif>
+											</div>
+										</fieldset>
 								</cfif>
 
 								<!--- ========== SECTION 5: Actions ========== --->
-								<fieldset>
-									<legend class="sr-only h6">Search Actions</legend>
-									<div class="form-row my-0 mx-0">
-										<div class="col-12 px-0 pt-0">
-											<button class="btn-xs btn-primary px-2 my-1 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning my-1 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning my-1 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
 
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-												<a class="btn-xs btn-secondary my-1 mr-1 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
-											</cfif>
-											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING ") OR listcontainsnocase(session.roles,"merge_agents") )>
-												<a class="btn btn-xs btn-secondary my-1 text-decoration-none" aria-label="Review pending merges of agent records" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
-											</cfif>
-										</div>
+								<div class="form-row my-0 mx-0">
+									<div class="col-12 px-0 pt-0">
+										<button class="btn-xs btn-primary px-2 my-1 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
+										<button type="reset" class="btn-xs btn-warning my-1 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+										<button type="button" class="btn-xs btn-warning my-1 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
+
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+											<a class="btn-xs btn-secondary my-1 mr-1 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
+										</cfif>
+										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING ") OR listcontainsnocase(session.roles,"merge_agents") )>
+											<a class="btn btn-xs btn-secondary my-1 text-decoration-none" aria-label="Review pending merges of agent records" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
+										</cfif>
 									</div>
-								</fieldset>
+								</div>
+					
 
 							</form>
 						</div><!--- col --->
 					</div><!--- search box --->
 				</div><!--- row --->
 			</section>
-		
+
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row mx-0">
