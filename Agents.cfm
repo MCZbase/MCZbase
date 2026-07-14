@@ -359,7 +359,7 @@ limitations under the License.
 								</cfif>
 								<fieldset class="my-2 px-2 border-right border-top border-bottom border-left pb-1 field-set">
 									<legend class="h6 my-0 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
-									<div class="form-row">
+									<div class="form-row mx-0">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 											<!--- Birth range, internal users only --->
 											<div class="col-12 col-md-4 px-0 mt-0">
