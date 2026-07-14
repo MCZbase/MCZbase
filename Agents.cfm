@@ -188,15 +188,13 @@ limitations under the License.
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 form-group">
 											<label for="anyName" id="anyName_label">Any part of any name</label>
 											<span class="text-secondary small">(match entire name with: </span><button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" 
-												aria-describedby="anyPartEquals_help"
-												aria-label="prefix with equals sign for case insensitive exact match search">
+												aria-label="prefix with equals for a case insensitive exact match search">
 												=
-											</button><span id="anyPartEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;" 
-												aria-describedby="partialPart_help"
-												aria-label="prefix with tilde for 0.8 or greater jaro winkler text matching search">
+												aria-label="prefix with tilde for 0.8 or greater Jaro-Winkler similarity match">
 												~
-											</button><span id="partialPart_help" class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>,
+											</button>,
 											<span class="text-secondary small">comma separated list)</span>
 											<input type="text" id="anyName" name="anyName" value="#encodeForHtml(anyName)#">
 										</div>
@@ -261,87 +259,70 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
 											<label for="first_name">First</label>
-											<span class="small text-secondary">(accepts</span><button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;" 
-													aria-describedby="firstEquals_help"
-													aria-label="prefix with equals sign for case insensitive exact match search">
+											<span class="small text-secondary">(accepts </span><button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;" 
+												aria-label="prefix with equals for case insensitive exact match">
 												=
-											</button><span id="firstEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;" 
-													aria-describedby="firstNot_help"
-													aria-label="prefix with exclamation point for case-insensitive NOT search">
+												aria-label="prefix with NOT for case-insensitive NOT search">
 												!
-											</button>
-											<span id="firstNot_help" class="sr-only">prefix with exclamation point for case-insensitive NOT search</span>, 
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;" 
-													aria-describedby="firstSoundsLike_help"
-													aria-label="prefix with dollarsign for sounds-like search">
+												aria-label="prefix with dollar sign for sounds-like search">
 												$
-											</button>
-											<span id="firstSoundsLike_help" class="sr-only">prefix with dollarsign for sounds like search</span>, 
-											
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
-													aria-describedby="firstNull_help"
-													aria-label="use NULL to find media records without a relationship">
+												aria-label="set first name to NULL">
 												Null
-											</button>
-											<span id="firstNull_help" class="sr-only">use NULL to find media records without a relationship</span>, 
-											
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';"
-													aria-describedby="firstAny_help"
-													aria-label="use NOT NULL to find media records with a relationship to any record">
+												aria-label="set not null to first name for any first name">
 												Any
-											</button>
-											<span id="firstAny_help" class="sr-only">use NOT NULL to find media records with a relationship to any record</span><span class="small text-secondary">)</span><input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#">
+											</button><span class="small text-secondary">)</span>
+											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#">
 										</div>
 										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
 											<label for="middle_name">Middle</label>
 											<span class="small text-secondary">(accepts</span><button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;"
-												aria-describedby="middleEquals_help"
-												aria-label="prefix with equals sign for case insensitive exact match search">
+												aria-label="prefix with equals for case insensitive exact match">
 												=
-											</button><span id="middleEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">
+											</button>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;" aria-label="prefix with exclamation point for case insensitive not search">
 												!
-											</button><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
+											</button>,
 											<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;"
-												aria-describedby="middleSoundslike_help"
 												aria-label="prefix with dollar sign for a sounds-like search">
 												$
-											</button><span id="middleSoundslike_help" class="sr-only">prefix with dollarsign for sounds like search</span>,
+											</button>,
 											<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NULL';"
-												aria-describedby="middleNull_help"
-												aria-label="use Null so records without a middle name are found">
+												aria-label="Set middle name to NULL">
 												Null
-											</button><span id="middleNull_help" class="sr-only">use Null so records without a middle name are found</span>, 
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='NOT NULL';"
-												aria-describedby="middleAny_help"
-												aria-label="use any for NOT NULL so records with any middle name are found">Any
-											</button><span id="middleAny_help" class="sr-only">use any for NOT NULL so records with any middle name are found</span><span class="text-secondary small">)</span><input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
+												aria-label="set to NOT NULL for any middle name">Any
+											</button><span class="text-secondary small">)</span>
+											<input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
 										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
 											<label for="last_name">Last</label> 
 											<span class="small text-secondary">(accepts</span><button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='='+e.value;"
-												aria-describedby="lastEquals_help"
 												aria-label="prefix with equals sign for case insensitive exact match search">
 												=
-											</button><span id="lastEquals_help" class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-											<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
-											
+											</button>, 
+											<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;" aria-label="prefix with exclamation point for case insensitive for NOT search">!</button>,
 											<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;"
-												aria-describedby="lastSoundslike_help"
 												aria-label="prefix with dollar sign for sounds like search">
 												$
-											</button><span id="lastSoundslike_help" class="sr-only">prefix with dollar sign for sounds like search</span>, 
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='NULL';" 
 												aria-describedby="lastNull_help" 
-												aria-label="use Null so records without a last name are found">
+												aria-label="set last name to null">
 												Null
-											</button><span id="lastNull_help" class="sr-only">use Null so records without a lastname are found</span>, 
+											</button>, 
 											<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';" 
-												aria-describedby="lastAny_help" 
-												aria-label="use Null so records without a last name are found">
+												aria-label="set last name to not null for any last name">
 												Any
-											</button><span id="lastAny_help" class="sr-only">use Any for NOT NULL so records without a last name are found</span><span class="text-secondary small">)</span>
+											</button><span class="text-secondary small">)</span>
 											<input type="text" id="last_name" name="last_name" value="#encodeForHtml(last_name)#">
 										</div>
 										<div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 mb-1 mb-md-0">
