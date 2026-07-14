@@ -407,7 +407,7 @@ limitations under the License.
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-											<div class="col-12 col-md-3 col-xl-2 pb-1">
+											<div class="col-12 col-md-3 col-xl-2">
 												 <label for="description">Description</label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" 
 													aria-describedby="descrNull_help"
@@ -422,13 +422,13 @@ limitations under the License.
 												<input type="text" id="description" name="description" value="#encodeForHtml(keywords)#">
 											</div>
 											
-											<div class="col-12 col-md-3 col-xl-2 pb-1">
+											<div class="col-12 col-md-3 col-xl-2">
 												<label for="keywords">Keywords</label>
 												<span class="text-secondary small">(</span> |, -, *, ""<span class="text-secondary small">) </span>
 												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
 											</div>
 										
-											<div class="col-12 col-md-3 col-xl-2 pb-1">
+											<div class="col-12 col-md-3 col-xl-2">
 												<label for="subject">Subject</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" 
 													aria-describedby="subjectNull_help"
@@ -448,7 +448,7 @@ limitations under the License.
 												</script>
 											</div>
 										
-											<div class="col-12 col-md-3 col-xl-2 pb-1">
+											<div class="col-12 col-md-3 col-xl-2">
 												<label for="aspect">Aspect</label> 
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;"
 													aria-describedby="aspectEquals_help"
@@ -470,7 +470,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2 pb-1">
+											<div class="col-12 col-md-4 col-xl-2">
 												<label for="height">Height </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;"
 													aria-describedby="heightGreater_help"
@@ -495,7 +495,7 @@ limitations under the License.
 												<input type="text" id="height" name="height" value="#encodeForHtml(height)#">
 											</div>
 											
-											<div class="col-12 col-md-4 col-xl-2 pb-1">
+											<div class="col-12 col-md-4 col-xl-2">
 												<label for="width">Width </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;"
 													aria-describedby="widthGT_help"
@@ -611,7 +611,7 @@ limitations under the License.
 													</script>
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2 pt-1">
+											<div class="col-12 col-md-4 col-xl-2">
 												<label for="md5hash">MD5 Hash</label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"
 													aria-describedby="md5hash_help"
@@ -643,7 +643,7 @@ limitations under the License.
 												<cfset datecolm="4">
 												<cfset datecolx="2">
 											</cfif>
-											<div class="col-12 col-md-4 col-xl-3 mb-2">
+											<div class="col-12 col-md-4 col-xl-3">
 												<div class="form-row mx-0">
 												<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 													<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -759,7 +759,7 @@ limitations under the License.
 									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
 										<div class="form-row mx-0">
-											<div class="col-12 col-lg-5 col-xl-4 pb-1">
+											<div class="col-12 col-lg-5 col-xl-4">
 												<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
 												<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
 													<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
