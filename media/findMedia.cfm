@@ -909,7 +909,7 @@ limitations under the License.
 		
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
-				<div class="row mr-xl-1">
+				<div class="row mr-xl-1 pr-md-3">
 					<div class="col-12 mb-5 px-xl-4 ml-xl-2">
 						<div class="row my-0 jqx-widget-header border p-1 mx-0">
 							<h1 class="h4 pt-0 mb-2 ml-2 ml-md-3">Results: 
