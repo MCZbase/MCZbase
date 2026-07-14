@@ -201,18 +201,15 @@ limitations under the License.
 											<div class="form-row">
 												<div class="col-12 col-md-4">
 													<label for="scientific_name">Scientific Name</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-describedby="scientificNameEquals_help">=<span id="scientificNameEquals_help" class="sr-only">prefix equals sign for exact match search</span></button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-describedby="scientificNameSoundsLike_help">~<span id="scientificNameSoundsLike_help" class="sr-only">prefix tilde for search for similar text</span></button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="prefix equals sign for exact match search">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-label="prefix tilde for Jaro-Winkler search">~</button><span class="text-secondary small">)</span>
 													<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHtml(scientific_name)#">
 												</div>
 												<div class="col-12 col-md-4">
 													<label for="full_taxon_name">Any part of name or classification</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" 
-														aria-describedby="nameNot"
-														aria-label="prefix with exclamation point for not search">
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" aria-label="prefix with exclamation point for not search">
 														!
 													</button>
-													<span id="nameNot" class="sr-only">prefix with exclamation point for not search</span>
 													<span class="text-secondary small">)</span>
 													<input type="text" 
 														id="full_taxon_name" 
@@ -220,15 +217,14 @@ limitations under the License.
 														placeholder="name at any rank" 
 														value="#encodeForHtml(full_taxon_name)#" 
 														aria-describedby="name_help">
-													<small id="name_help" class="sr-only">name at any rank</small>
+													<small id="name_help" class="sr-only">name at any rank of classification</small>
 												</div>
 												<div class="col-12 col-md-4">
 													<label for="common_name">Common Name</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('common_name');e.value='='+e.value;" 
-														aria-describedby="commonNameEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button><span class="text-secondary small">)</span><small id="commonNameEquals_help" class="sr-only">prefix equals sign for exact match search</small>
+													</button><span class="text-secondary small">)</span>
 													<input type="text" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
 												</div>
 											</div>
@@ -239,29 +235,25 @@ limitations under the License.
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="genus">Genus</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='='+e.value;" 
-														aria-describedby="genusEquals_help"
-														aria-label="prefix equals sign for exact match search">
+														aria-label="prefix with equals sign for exact match search">
 														=
-													</button><span id="genusEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='$'+e.value;" 
-														aria-describedby="genusSoundsLike_help"
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='$'+e.value;"
 														aria-label="prefix dollarsign for sounds like search">
 														$
-													</button><span id="genusSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span><span class="text-secondary small">)</span>
+													</button><span class="text-secondary small">)</span>
 													<input type="text" id="genus" name="genus" value="#encodeForHtml(genus)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="subgenus">Subgenus</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" 
-														aria-describedby="subgenusEquals_help"
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button><span id="subgenusEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
+													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;" 
-														aria-describedby="subgenusSoundsLike_help"
-														aria-label="prefix dollarsign for sounds like search">
+														aria-label="prefix with dollar sign for sounds-like search">
 														$
-													</button><span id="subgenusSoundsLike_help" class="sr-only"></span><span class="text-secondary small">)</span>
+													</button><span class="text-secondary small">)</span>
 													<input type="text" class="" id="subgenus" name="subgenus" value="#encodeForHtml(subgenus)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
@@ -270,12 +262,12 @@ limitations under the License.
 														aria-describedby="speciesEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button><span id="speciesEquals_help" class="sr-only">prefix equals sign for exact match search</span>, 
+													</button><span id="speciesEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='$'+e.value;" 
 														aria-describedby="speciesSoundsLike_help"
-														aria-label="prefix dollarsign for sounds like search">
+														aria-label="prefix with dollar sign for sounds-like search">
 														$
-													</button><span id="speciesSoundsLike_help" class="sr-only">prefix dollarsign for sounds like search</span><span class="text-secondary small">)</span>
+													</button><span class="text-secondary small">)</span>
 													<input type="text" id="species" name="species" value="#encodeForHtml(species)#">
 												</div>
 												<div class="col-12 col-sm-6 col-md-2">
