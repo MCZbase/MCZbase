@@ -495,7 +495,7 @@ limitations under the License.
 		<div id="encumbranceEditDialog"></div>
 
 		<!--- controls for editing record --->
-		<div class="container-fluid d-none d-xl-block" id="editControlsDiv"><!--- WARNING: do not change this id=editControlsDiv, it is referenced in reloadLocality() --->
+		<div class="container-fluid d-inline-block d-xl-block" id="editControlsDiv"><!--- WARNING: do not change this id=editControlsDiv, it is referenced in reloadLocality() --->
 			<div class="row mt-1" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
