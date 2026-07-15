@@ -207,7 +207,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4">
 													<label for="full_taxon_name">Any part of name or classification</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" aria-label="prefix with exclamation point for not search">
+													<span class="text-secondary small">( </span> <button type="button" class="rules" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" aria-label="prefix with exclamation point for not search">
 														!
 													</button>
 													<span class="text-secondary small">)</span>
