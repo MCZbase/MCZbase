@@ -645,15 +645,14 @@ limitations under the License.
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" 
 														placeholder="start date" 
 														value="#encodeForHtml(made_date)#" 
-														aria-describedby="madedateStart_help">
-													<small id="madedateStart_help" class="sr-only">start date</small>
+														aria-label="start date">
+													
 													<div class=" text-center px-0 px-xl-4" style="width:18px;"><small>to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
 													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
 														class="datetimeinput col-5 w-100 px-1 py-0" 
-														placeholder="end date" 
-														aria-describedby="madedate_help">
-													<small id="madedate_help" class="sr-only">end date</small> 
+														placeholder="end date"
+														aria-label="end date"> 
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
