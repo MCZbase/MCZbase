@@ -1953,7 +1953,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	height: 23px !important;
 }
 .jqx-combobox {
-	height: 23px !important;
+	min-height: 21px !important;
 }
 .tab-content button.rules, #searchForm button.rules[type="button"] {
 	border: none;
