@@ -2839,7 +2839,7 @@ div.toctitle {
 	.w-350 {
 		width: 100%;
 	}
-    
+/* Styles below are in browse specimens    */
 	ol.flowXXS,ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
@@ -3448,52 +3448,52 @@ and also iPads specifically.
 	}
 }
 @media (max-width: 991.98px) {        /* adjust breakpoint as you like */
-    .wiki-drawer {
-        width: 95vw;                  /* drawer almost full width */
-        max-width: 95vw;
-        transform: translateX(-95vw); /* fully hidden when closed */
-    }
-    .wiki-drawer.open {
-        transform: translateX(0);     /* 5vw of page still visible */
-    }
-    /* Don’t push content on these sizes */
-    #content.pushed {
-        margin-left: 0;
-        width: 100%;
-    }
-    /* Let dialogs behave normally on these widths */
-    body.wiki-open .ui-dialog {
-        width: auto;
-        max-width: 100vw;
-        left: 0;
-        right: 0;
-        box-sizing: border-box;
-    }
+	.wiki-drawer {
+		width: 95vw;                  /* drawer almost full width */
+		max-width: 95vw;
+		transform: translateX(-95vw); /* fully hidden when closed */
+	}
+	.wiki-drawer.open {
+		transform: translateX(0);     /* 5vw of page still visible */
+	}
+	/* Don’t push content on these sizes */
+	#content.pushed {
+		margin-left: 0;
+		width: 100%;
+	}
+	/* Let dialogs behave normally on these widths */
+	body.wiki-open .ui-dialog {
+		width: auto;
+		max-width: 100vw;
+		left: 0;
+		right: 0;
+		box-sizing: border-box;
+	}
 }
 @media screen and (max-width: 767.98px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
 	input, select, textarea {
 		font-size: 16px;
 	}
-    .wiki-drawer {
-        width: 90vw;
-        max-width: 90vw;
-        transform: translateX(-90vw);   /* start fully off-screen */
-    }
-    .wiki-drawer.open {
-        transform: translateX(0);
-    }
-    #content.pushed {/* Ignore the "pushed" class on small screens */
-        margin-left: 0;
-        width: 100%;
-    }
-    /* Let dialogs behave normally on small screens */
-    body.wiki-open .ui-dialog {
-        width: auto;        /* remove our large-screen overrides */
-        max-width: 100vw;
-        left: 0;
-        right: 0;
-        box-sizing: border-box;
-    }
+	.wiki-drawer {
+		width: 90vw;
+		max-width: 90vw;
+		transform: translateX(-90vw);   /* start fully off-screen */
+	}
+	.wiki-drawer.open {
+		transform: translateX(0);
+	}
+	#content.pushed {/* Ignore the "pushed" class on small screens */
+		margin-left: 0;
+		width: 100%;
+	}
+	/* Let dialogs behave normally on small screens */
+	body.wiki-open .ui-dialog {
+		width: auto;        /* remove our large-screen overrides */
+		max-width: 100vw;
+		left: 0;
+		right: 0;
+		box-sizing: border-box;
+	}
 }
 @media only screen and (max-width: 575px) {
 	.tab-content {
@@ -3532,89 +3532,6 @@ and also iPads specifically.
 		padding-right: 0;
 		padding-left: 0;
 	}
-}
-@media (min-width:1200px) and (max-width: 1700px) {
-/*
-   #searchHelpTextBlock {
-		width: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		list-style-type: none;
-		font-size: .875rem;
-		margin-bottom: 1rem;
-	}
-	div span.ilt {
-		display: block;
-		height: 100%;
-		text-decoration: none;
-		color: #0460c1 !important;
-		padding-left: 0px;
-		position: relative;
-		-webkit-transition: background .3s;
-		transition: background .3s;
-	}
-	div span.ilt:hover {
-		background: #cdcbc4;
-	}
-	.readMore {
-		position: relative;
-		height: auto;
-		border-top: 0;
-	}
-	#searchHelpTextBlock[type="checkbox"] {
-		position: absolute;
-		left: -9999px;
-	}
-	label.read {
-		background: aliceblue;
-		display: block;
-		width: 70px;
-		cursor: pointer;
-		position: relative;
-		float: right;
-		right: 1rem;
-	}
-	label.read:before, label.read:after {
-		position: absolute;
-		
-	}
-	label.read:before {
-		right: -7px;
-		font-family: "Font Awesome 5 Free"; 
-		font-weight: 900; 
-		content: "\f0d7";
-		font-size: 1.3rem;
-		color: #0460c1 !important;
-	}
-	label.read:after {
-		content: "more";
-		right: 10px;
-		-webkit-animation: sudo .85s linear infinite alternate;
-		animation: sudo .85s linear infinite alternate;
-		color: #0460c1 !important;
-	}
-	.readMore [type="checkbox"] ~ span.ilt {
-		width: 100%;
-		display: none;
-	}
-	.readMore [type="checkbox"]:checked ~ span.ilt {
-		display: block;
-	}
-	.readMore [type="checkbox"]:checked + label.read {
-		position: absolute;
-		top: 100%;
-	}
-	.readMore [type="checkbox"]:checked + label.read:before {
-		font-family: "Font Awesome 5 Free"; 
-		font-weight: 900; 
-		content: "\f0d8";
-		font-size: 1.3rem;
-		color: #0460c1 !important;
-	}
-	.readMore [type="checkbox"]:checked + label.read:after {
-		content: "less";
-	}
-*/
 }
 @media(min-width:768px) {
 	.footer-col-4-md {
