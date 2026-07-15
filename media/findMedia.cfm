@@ -167,6 +167,15 @@ limitations under the License.
 	<cfif not isdefined("media_relationship_id_1")>
 		<cfset media_relationship_id_1="">
 	</cfif>
+	<cfif not isdefined("media_relationship_type_2")>
+		<cfset media_relationship_type_2="">
+	</cfif>
+	<cfif not isdefined("media_relationship_value_2")>
+		<cfset media_relationship_value_2="">
+	</cfif>
+	<cfif not isdefined("media_relationship_id_2")>
+		<cfset media_relationship_id_2="">
+	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier' and ctmedia_label.media_label NEQ 'ac:resourceCreationTechnique'>
 			<!--- Some media labels are used as form fields, but their characters may not conform to coldfusion variable name rules, so replace non conforming characters --->
