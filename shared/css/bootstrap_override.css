@@ -1928,6 +1928,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 1.15rem;
 	border-radius: .2rem;
+	height: 25px;
 }
 .tab-content input[type="button"] #searchForm fieldset input[type="button"] {
 	border: none;
@@ -1946,7 +1947,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	border-radius: .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 0.875rem;
-	height: 23px;
+	height: 25px;
 }
 .jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
 	min-height: 23px !important;
