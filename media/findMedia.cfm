@@ -726,7 +726,7 @@ limitations under the License.
 									<fieldset class="bg-light border-default field-set rounded px-1 pt-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
 										<div class="form-row mx-0">
-											<div class="col-12 col-md-6 col-xl-7">
+											<div class="col-12 col-md-6 col-xl-4">
 												<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
 												<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
 													<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
@@ -755,7 +755,7 @@ limitations under the License.
 												<span class="text-secondary small">accepts comma separated list</span><span class="text-secondary small">)</span>
 												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 											</div>
-											<div class="col-12 col-md-6 col-xl-5">
+											<div class="col-12 col-md-6 col-xl-4">
 												<div class="w-100">
 													<label for="media_relationship_type">Relationship</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';"
@@ -789,7 +789,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-6 col-xl-5">
+											<div class="col-12 col-md-6 col-xl-4">
 												<div class="w-100">
 													<label for="media_relationship_type_1">Relationship</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';"
