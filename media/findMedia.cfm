@@ -552,7 +552,7 @@ limitations under the License.
 												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
 											</div>
 											
-											<div class="col-12 col-md-5 col-xl-43">
+											<div class="col-12 col-md-5 col-xl-4">
 												<div class="form-row mx-0">
 													<div class="w-100">
 														<label for="media_label_type">Any Other Label </label>
@@ -619,7 +619,7 @@ limitations under the License.
 												<cfset datecolm="4">
 												<cfset datecolx="2">
 											</cfif>
-											<div class="col-12 col-md-4 col-xl-43">
+											<div class="col-12 col-md-4 col-xl-4">
 												<div class="form-row mx-0">
 												<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 													<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -646,7 +646,7 @@ limitations under the License.
 														value="#encodeForHtml(made_date)#" 
 														aria-describedby="madedateStart_help">
 													<small id="madedateStart_help" class="sr-only">start date</small>
-													<div class=" text-center px-0" style="width:18px;"><small> to</small></div>
+													<div class=" text-center px-0 px-xl-4" style="width:18px;"><small>to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
 													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
 														class="datetimeinput col-5 w-100 px-1 py-0" 

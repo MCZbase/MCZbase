@@ -201,8 +201,8 @@ limitations under the License.
 											<div class="form-row">
 												<div class="col-12 col-md-4">
 													<label for="scientific_name">Scientific Name</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="prefix equals sign for exact match search">=</button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-label="prefix tilde for Jaro-Winkler search">~</button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" aria-label="prefix with tilde for Jaro-Winkler search">~</button><span class="text-secondary small">)</span>
 													<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHtml(scientific_name)#">
 												</div>
 												<div class="col-12 col-md-4">
@@ -222,7 +222,7 @@ limitations under the License.
 												<div class="col-12 col-md-4">
 													<label for="common_name">Common Name</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('common_name');e.value='='+e.value;" 
-														aria-label="prefix equals sign for exact match search">
+														aria-label="prefix with equals for exact match">
 														=
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
@@ -235,11 +235,11 @@ limitations under the License.
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="genus">Genus</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='='+e.value;" 
-														aria-label="prefix with equals sign for exact match search">
+														aria-label="prefix with equals sign for exact match">
 														=
 													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('genus');e.value='$'+e.value;"
-														aria-label="prefix dollarsign for sounds like search">
+														aria-label="prefix with dollar sign for sounds-like search">
 														$
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -247,11 +247,11 @@ limitations under the License.
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="subgenus">Subgenus</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"
-														aria-label="prefix equals sign for exact match search">
+														aria-label="prefix with equals sign for exact match">
 														=
 													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;" 
-														aria-label="prefix with dollar sign for sounds-like search">
+														aria-label="prefix with dollar sign for sounds-like">
 														$
 													</button><span class="text-secondary small">)</span>
 													<input type="text" class="" id="subgenus" name="subgenus" value="#encodeForHtml(subgenus)#">
@@ -259,11 +259,11 @@ limitations under the License.
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="species">Species</label> 
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='='+e.value;" 
-														aria-label="prefix equals sign for exact match search">
+														aria-label="prefix with equals sign for exact match">
 														=
 													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='$'+e.value;" 
-														aria-label="prefix with dollar sign for sounds-like search">
+														aria-label="prefix with dollar sign for sounds-like">
 														$
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="species" name="species" value="#encodeForHtml(species)#">
@@ -275,7 +275,7 @@ limitations under the License.
 														=
 													</button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;" 
-														aria-label="prefix with dollar sign for a sounds-like search">
+														aria-label="prefix with dollar sign for a sounds-like">
 														$
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="subspecies" name="subspecies" value="#encodeForHtml(subspecies)#">
@@ -283,11 +283,11 @@ limitations under the License.
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="author_text">Authorship</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" 
-														aria-label="prefix with equals for exact match search">
+														aria-label="prefix with equals for exact match">
 														=
 													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;" 
-														aria-label="prefix with dollar sign for a sounds-like search">
+														aria-label="prefix with dollar sign for a sounds-like">
 														$
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="author_text" name="author_text" value="#encodeForHtml(author_text)#">
@@ -321,11 +321,11 @@ limitations under the License.
 														(&##8595;) 
 													</button>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylum');e.value='='+e.value;" 
-														aria-label="prefix with equals for an exact match">
+														aria-label="prefix with equals sign for an exact match">
 														=
 													</button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('phylum');e.value='$'+e.value;" 
-														aria-label="prefix with dollar sign for a sounds like search">
+														aria-label="prefix with dollar sign for a sounds-like">
 														$
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="phylum" name="phylum" value="#encodeForHtml(phylum)#">
@@ -337,7 +337,7 @@ limitations under the License.
 														=
 													</button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('subphylum');e.value='$'+e.value;" 
-														aria-label="prefix with dollar sign for a sounds-like search">
+														aria-label="prefix with dollar sign for a sounds-like">
 														$
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="subphylum" name="subphylum" value="#encodeForHtml(subphylum)#">
@@ -345,38 +345,38 @@ limitations under the License.
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="superclass">Superclass</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='='+e.value;" aria-label="prefix with equals for a case insensitive exact match">=</button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('superclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds like ">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="superclass" name="superclass" value="#encodeForHtml(superclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="phylclass">Class</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-label="prefix with equals sign for an exact match search">=</button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-label="prefix with equals sign for an exact match">=</button>,
+													<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="subclass">Subclass</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='='+e.value;" aria-label="prefix with equals for an exact match">=</button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="subclass" name="subclass" value="#encodeForHtml(subclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="infraclass">Infraclass</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="superorder">Superorder</label> 
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>,
-													<button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('superorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds like">$</button><span class="text-secondary small">)</span>
 													</span>
 													<input type="text" id="superorder" name="superorder" value="#encodeForHtml(superorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="phylorder">Order</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
@@ -388,30 +388,31 @@ limitations under the License.
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="infraorder">Infraorder</label>  
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;" aria-label="prefix with equals sign for exact match search">=</button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('infraorder');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="infraorder" name="infraorder" value="#encodeForHtml(infraorder)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="superfamily">Superfamily</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;" aria-label="prefix with equals sign for exact match search">=</button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('superfamily');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="superfamily" name="superfamily" value="#encodeForHtml(superfamily)#">
 												</div> 
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="family">Family</label> 
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-label="prefix with equals sign for exact match">=</button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('family');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="family" name="family" value="#encodeForHtml(family)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="subfamily">Subfamily</label> 
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-label="prefix with equals sign for exact match">=</button>, <button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-label="prefix with equals sign for exact match">=</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="tribe">Tribe</label> 
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
+													<button type="button" class="rules" onclick="var e=document.getElementById('tribe');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds like">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="tribe" name="tribe" value="#encodeForHtml(tribe)#">
 												</div>
 												<div class="col-12 col-lg-3 col-md-3 col-sm-6">
