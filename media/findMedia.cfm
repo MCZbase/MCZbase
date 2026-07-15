@@ -225,11 +225,11 @@ limitations under the License.
 												<label for="media_uri">Media URI</label>
 												<input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
 											</div>
-											<div class="col-12 col-md-2 col-xl-1">
+											<div class="col-12 col-md-3 col-xl-2">
 												<label for="media_id">Media ID</label>
 												<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-3 col-xl-2">
 												<label for="media_type">Media Type</label>
 												<select id="media_type" name="media_type">
 													<option></option>
@@ -268,7 +268,7 @@ limitations under the License.
 												</script>
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<div class="col-12 col-md-2 col-xl-1">
+												<div class="col-12 col-md-3 col-xl-2">
 													<label for="mask_media_fg" id="mask_media_fg_label">Visibility</label>
 													<select id="mask_media_fg" name="mask_media_fg">
 														<option></option>
