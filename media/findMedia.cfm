@@ -559,12 +559,12 @@ limitations under the License.
 												</script>
 											</div>
 											
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-3">
 												<label for="preview_uri">Preview URI</label>
 												<input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
 											</div>
 											
-											<div class="col-12 col-md-3 col-xl-2">
+											<div class="col-12 col-md-3 col-xl-3">
 												<label for="remarks">Remarks</label> 
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';"
 													aria-describedby="remarksNULL_help"
