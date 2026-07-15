@@ -2825,11 +2825,12 @@ END END END
 		max-width: 88%;
 		padding-left: .25rem;
 	}
+	
 	/*Flow classes are for browse specimen page*/
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 221px; /* need to specify height :-( */
+		height: 275px; /* need to specify height :-( */
 		column-count: 3;
 	}
 	ol.flowXXS li, ul.flowXXS li {
@@ -2844,7 +2845,7 @@ END END END
 	ol.flowXS, ul.flowXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 403px; /* need to specify height :-( */
+		height: 480px; /* need to specify height :-( */
 		column-count: 3;
 	}
 	ol.flowXS li, ul.flowXS li {
