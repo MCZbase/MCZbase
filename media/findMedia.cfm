@@ -788,7 +788,7 @@ limitations under the License.
 												<span class="text-secondary small">accepts comma separated list</span><span class="text-secondary small">)</span>
 												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 											</div>
-											<div class="col-12 col-md-6 col-xl-4">
+											<div class="col-12 col-md-6 col-xl-54">
 												<div class="w-100">
 													<label for="media_relationship_type">Relationship</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';"
@@ -824,7 +824,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-6 col-xl-4">
+											<div class="col-12 col-md-6 col-xl-5">
 												<div class="w-100">
 													<label for="media_relationship_type_1">Relationship</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';"
