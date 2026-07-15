@@ -2671,7 +2671,7 @@ input, select, textarea {
 /* Don’t push content on these sizes */
 #content.pushed {
 	margin-left: 0;
-	width: 100%;
+	width: 99%;
 }
 body.wiki-open .ui-dialog { /* Let dialogs behave normally on these widths */
 	width: auto;
