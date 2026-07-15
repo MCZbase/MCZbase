@@ -860,6 +860,42 @@ limitations under the License.
 													});
 												</script>
 											</div>
+											<div class="col-12 col-md-6 col-xl-5">
+												<div class="w-100">
+													<label for="media_relationship_type_2">Relationship</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_2');e.value='NULL';"
+														aria-describedby="relationshipNull_help"
+														aria-label="use NULL prefix to find media records without a relationship">
+														Null
+													</button><span id="relationshipNull_help" class="sr-only">use NULL prefix to find media records without a relationship</span>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_2');e.value='NOT NULL';"
+														aria-describedby="relationshipAny_help"
+														aria-label="use the any prefix for NOT NULL to find media records with a relationship">
+														Any
+													</button><span id="relationshipAny_help" class="sr-only">use the any prefix for NOT NULL to find media records with a relationship</span><span class="text-secondary small">)</span>
+												</div>
+												<cfset selectedrelationship_type= "#media_relationship_type_2#">
+												<select id="media_relationship_type_2" name="media_relationship_type_2" class="float-left d-inline col-6">
+													<option></option>
+													<cfloop query="ctmedia_relationship">
+														<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+															<cfset selected="selected='true'">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#media_relationship#" #selected#>#media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="text" id="media_relationship_value_2" name="media_relationship_value_2" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_2)#">
+												<input type="hidden" id="media_relationship_id_2" name="media_relationship_id_2" value="#encodeForHtml(media_relationship_id_2)#">
+												<script>
+													$(document).ready(function() {
+														$('##media_relationship_type_2').change(function() {
+															makeAnyMediaRelationAutocomplete("media_relationship_value_2","media_relationship_type_2","media_relationship_id_2");
+														});
+													});
+												</script>
+											</div>
 											<div class="col-12 mr-auto row mx-0">
 												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
