@@ -823,7 +823,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-6 col-xl-5">
+<!---											<div class="col-12 col-md-6 col-xl-5">
 												<div class="w-100">
 													<label for="media_relationship_type_2">Relationship</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_2');e.value='NULL';"
@@ -856,7 +856,7 @@ limitations under the License.
 														});
 													});
 												</script>
-											</div>
+											</div>--->
 											<div class="col-12 mr-auto row mx-0">
 												<div class="col-12 col-md-4">
 													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
