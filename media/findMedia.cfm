@@ -288,20 +288,7 @@ limitations under the License.
 													</select>
 												</div>
 											</cfif>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<div class="col-12 col-md-4 col-xl-3">
-													<label for="internal_remarks">Internal Remarks </label> 
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
-														aria-label="set internal remarks to null">
-														Null
-													</button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';"
-														aria-label="set internal remarks to NOT NULL any remarks">
-														Any
-													</button><span class="text-secondary small">)</span>
-													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
-												</div>
-											</cfif>
+											
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
@@ -375,7 +362,7 @@ limitations under the License.
 														</cfloop>
 														$("##extension").jqxComboBox().on('select', function (event) {
 															var args = event.args;
-														   if (args) {
+															if (args) {
 																var item = args.item;
 																if (item.label == 'Select All') { 
 																	for (i=0;i<args.index;i++) { 
@@ -606,6 +593,20 @@ limitations under the License.
 												</button><span class="text-secondary small">)</span>
 												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
 											</div>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="internal_remarks">Internal Remarks </label> 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
+														aria-label="set internal remarks to null">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';"
+														aria-label="set internal remarks to NOT NULL any remarks">
+														Any
+													</button><span class="text-secondary small">)</span>
+													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
+												</div>
+											</cfif>
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
