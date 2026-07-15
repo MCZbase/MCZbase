@@ -407,7 +407,7 @@ limitations under the License.
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-											<div class="col-12 col-md-3 col-xl-2">
+											<div class="col-12 col-md-3 col-xl-3">
 												 <label for="description">Description</label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" 
 													aria-describedby="descrNull_help"
@@ -470,7 +470,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-3">
 												<label for="height">Height </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;"
 													aria-describedby="heightGreater_help"
@@ -495,7 +495,7 @@ limitations under the License.
 												<input type="text" id="height" name="height" value="#encodeForHtml(height)#">
 											</div>
 											
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-3">
 												<label for="width">Width </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;"
 													aria-describedby="widthGT_help"
@@ -520,7 +520,7 @@ limitations under the License.
 												<input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
 											</div>
 											
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-3">
 												<label for="light_source">Light Source </label>
 												<button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" 
 													aria-describedby="lightPick_help"
@@ -570,7 +570,7 @@ limitations under the License.
 												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
 											</div>
 											
-											<div class="col-12 col-md-5 col-xl-3">
+											<div class="col-12 col-md-5 col-xl-43">
 												<div class="form-row mx-0">
 													<div class="w-100">
 														<label for="media_label_type">Any Other Label </label>
@@ -611,7 +611,7 @@ limitations under the License.
 													</script>
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2">
+											<div class="col-12 col-md-4 col-xl-3">
 												<label for="md5hash">MD5 Hash</label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"
 													aria-describedby="md5hash_help"
