@@ -640,8 +640,8 @@ limitations under the License.
 												});
 											</script>
 											<div class="col-12 col-md-7 col-xl-5">
-												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 rounded justify-content-left" style="padding-top: 1px; place-content:center; padding-bottom: 5px;">
-													<label class="w-100 px-3" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
+												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
+													<label class="w-100 px-2" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" 
 														placeholder="start date" 
 														value="#encodeForHtml(made_date)#" 
