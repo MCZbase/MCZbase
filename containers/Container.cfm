@@ -82,6 +82,7 @@ limitations under the License.
 <cfset variables.formData["height"] = "">
 <cfset variables.formData["length"] = "">
 <cfset variables.formData["number_positions"] = "">
+<cfset variables.formData["locked_position"] = 0>
 <cfset variables.formData["institution_acronym"] = "MCZ">
 <cfset variables.parentContainerText = "">
 <cfset variables.hasChildren = false>
@@ -102,6 +103,7 @@ limitations under the License.
 			c.length,
 			c.number_positions,
 			c.institution_acronym,
+			c.locked_position,
 			p.label AS parent_label,
 			p.barcode AS parent_barcode,
 			p.container_type AS parent_container_type
@@ -138,6 +140,7 @@ limitations under the License.
 	<cfset variables.formData["height"] = getContainer.height>
 	<cfset variables.formData["length"] = getContainer.length>
 	<cfset variables.formData["number_positions"] = getContainer.number_positions>
+	<cfset variables.formData["locked_position"] = getContainer.locked_position>
 	<cfif len(trim(getContainer.institution_acronym)) GT 0>
 		<cfset variables.formData["institution_acronym"] = getContainer.institution_acronym>
 	</cfif>
@@ -286,7 +289,7 @@ limitations under the License.
 								<small class="text-muted">#variables.parentContainerText# (#encodeForHtml(variables.parent_container_type)#)</small>
 							</cfif>
 						</label>
-						<cfif lockedRoot>
+						<cfif lockedRoot OR variables.formData.locked_position EQ 1>
 							<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
 							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.parentContainerText)#" readonly>
 						<cfelse>
