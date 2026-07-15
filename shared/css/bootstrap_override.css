@@ -2883,11 +2883,7 @@ END END END
 	ol.flowNone li a,ul.flowNone li a {
 		padding-right: 3px;
 	}
-	.jqx-combobox-content::after {
-		content:"";
-		display: block;
-		clear: both;
-	}
+
 }
 /* ≥ lg test */
 @media (min-width: 992px) {
@@ -3168,5 +3164,10 @@ END END END
 	}
 	ol.flowNone li a, ul.flowNone li a {
 		padding-right: 3px;
+	}
+	.jqx-combobox-content::after {
+		content:"";
+		display: block;
+		clear: both;
 	}
 }
