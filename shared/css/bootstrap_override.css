@@ -3165,9 +3165,8 @@ END END END
 	ol.flowNone li a, ul.flowNone li a {
 		padding-right: 3px;
 	}
-	.jqx-combobox-content::after {
-		content:"";
-		display: block;
-		clear: both;
+	.jqx-combobox-content{
+		overflow: auto;
+	}
 	}
 }
