@@ -647,7 +647,7 @@ limitations under the License.
 														value="#encodeForHtml(made_date)#" 
 														aria-label="start date">
 													
-													<div class=" text-center px-0 px-xl-4" style="width:18px;"><small>to</small></div>
+													<div class=" text-center px-0 px-xl-3" style="width:18px;"><small>to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
 													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
 														class="datetimeinput col-5 w-100 px-1 py-0" 
