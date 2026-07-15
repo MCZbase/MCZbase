@@ -166,15 +166,15 @@ limitations under the License.
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Search Data</legend> 
 										<input type="hidden" name="method" value="getPublications">
 										<div class="form-row">
-											<div class="col-12 col-md-5 pb-1">
+											<div class="col-12 col-md-5">
 												<label for="text">Any Part of Citation</label>
 												<input type="text" id="text" name="text" value="#encodeForHtml(text)#">
 											</div>
-											<div class="col-12 col-md-5 pb-1">
+											<div class="col-12 col-md-5">
 												<label for="publication_title">Title</label>
 												<input type="text" id="publication_title" name="publication_title" value="#encodeForHtml(publication_title)#">
 											</div>
-											<div class="col-12 col-md-2 pb-1">
+											<div class="col-12 col-md-2">
 												<label for="publication_id">Publication ID</label>
 												<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" pattern="[0-9]+">
 											</div>
@@ -183,7 +183,7 @@ limitations under the License.
 									<fieldset class="bg-light border-default field-set rounded px-2 pb-1 m-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Publication Details</legend> 
 										<div class="form-row">
-											<div class="col-12 col-md-2 pb-1">
+											<div class="col-12 col-md-2">
 												<label for="publication_type">Publication Type</label>
 												<select id="publication_type" name="publication_type">
 													<option></option>
@@ -197,7 +197,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-4 pb-1">
+											<div class="col-12 col-md-4">
 												<label for="journal_name">Journal</label>
 												<input type="text" id="journal_name" name="journal_name" value="#encodeForHtml(journal_name)#">
 											<script>
@@ -206,7 +206,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-2 pb-1">
+											<div class="col-12 col-md-2">
 												<label for="volume">Volume </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('volume');e.value='='+e.value;" 
 														aria-describedby="volumeEquals_help"
@@ -227,7 +227,7 @@ limitations under the License.
 													</button><span class="text-secondary small">)</span>
 												<input type="text" id="volume" name="volume" value="#encodeForHtml(volume)#">
 											</div>
-											<div class="col-12 col-md-2 pb-1">
+											<div class="col-12 col-md-2">
 												<label for="issue">Issue </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('issue');e.value='='+e.value;" 
 													aria-label="prefix with equals for exact match">
@@ -247,7 +247,7 @@ limitations under the License.
 												</button><span class="text-secondary small">)</span>
 												<input type="text" id="issue" name="issue" value="#encodeForHtml(issue)#">
 											</div>
-											<div class="col-12 col-md-2 pb-1">
+											<div class="col-12 col-md-2">
 												<label for="number">Number </label>
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('number');e.value='='+e.value;" 
 													aria-label="prefix with equals for exact match">
@@ -267,7 +267,7 @@ limitations under the License.
 												</button><span class="text-secondary small">)</span>
 												<input type="text" id="number" name="number" value="#encodeForHtml(number)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-2 pb-1">
+											<div class="col-12 col-md-4 col-xl-2">
 												<label for="doi">Digital Object Identifier (DOI)</label>
 												<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#">
 												<script>
@@ -276,23 +276,23 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-4 col-xl-2 pb-1">
+											<div class="col-12 col-md-4 col-xl-2">
 												<label for="publication_remarks">Publication Remarks</label>
 												<input type="text" id="publication_remarks" name="publication_remarks" value="#encodeForHtml(publication_remarks)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-2 pb-1">
+											<div class="col-12 col-md-4 col-xl-2">
 												<label for="published_year">Publication Year Start</label>
 												<input name="published_year" id="published_year" type="text"
 													placeholder="start yyyy" value="#encodeForHtml(published_year)#" 
 													aria-label="start yyyy">
 											</div>
-											<div class="col-12 col-md-4 col-xl-2 pb-1">
+											<div class="col-12 col-md-4 col-xl-2">
 												<label for="to_published_year">Publication Year End</label>
 												<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" 
 													placeholder="end yyyy" 
 													aria-label="end yyyy">
 											</div>
-											<div class="col-12 col-md-4 col-xl-4 pb-1">
+											<div class="col-12 col-md-4 col-xl-4">
 												<div class="form-row mx-0 my-0 py-0">
 													<div class="w-100">
 														<label for="publication_attribute_type">Any Attribute </label> 
@@ -328,7 +328,7 @@ limitations under the License.
 													<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="col-6 py-0" value="#encodeForHtml(publication_attribute_value)#">
 												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-3 pb-1">
+											<div class="col-12 col-md-4 col-xl-3">
 												<div class="form-row mx-0 my-0 py-0">
 													<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
 														<h5 id="author_agent_view" class="my-0 d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -347,7 +347,7 @@ limitations under the License.
 													$(makeConstrainedRichAgentPickerConfig('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author',false));
 												});
 											</script>
-											<div class="col-12 col-md-4 col-xl-3 pb-1">
+											<div class="col-12 col-md-4 col-xl-3">
 												<div class="form-row mx-0 my-0 py-0">
 													<label for="editor_agent_name" id="editor_agent_name_label" class="data-entry-label mb-0 pb-0 small">Editor
 														<h5 id="editor_agent_view" class="my-0 d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -361,7 +361,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 col-md-2 pb-1">
+											<div class="col-12 col-md-2">
 												<div class="form-group mb-0">
 													<label for="begin_page">Begin Page </label><span class="text-secondary small">(</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('begin_page');e.value='!'+e.value;" 
@@ -415,40 +415,38 @@ limitations under the License.
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Citation Details</legend>
 										<div class="form-row">
 											<div class="col-12 col-md-6 col-xl-4">
-												<div class="form-group mb-2">
-													<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
-													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
-															select distinct guid 
-															from 
-																<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-															where 
-																specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-															OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-														</cfquery>
-														<cfloop query="guidLookup">
-															<cfif not listContains(related_cataloged_item,guidLookup.guid)>
-																<cfif len(related_cataloged_item) EQ 0>
-																	<cfset related_cataloged_item = guidLookup.guid>
-																<cfelse>
-																	<cfset related_cataloged_item = related_cataloged_item & "," & guidLookup.guid>
-																</cfif>
+												<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
+												<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+													<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
+														select distinct guid 
+														from 
+															<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+															left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+														where 
+															specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+														OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+													</cfquery>
+													<cfloop query="guidLookup">
+														<cfif not listContains(related_cataloged_item,guidLookup.guid)>
+															<cfif len(related_cataloged_item) EQ 0>
+																<cfset related_cataloged_item = guidLookup.guid>
+															<cfelse>
+																<cfset related_cataloged_item = related_cataloged_item & "," & guidLookup.guid>
 															</cfif>
-														</cfloop>
-													</cfif>
-													<label for="related_cataloged_item">Cited Cataloged Item</label>
-													<span class="text-secondary small">(accepts comma separated list</span>
-													<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NULL';" 
-														aria-label="Set cited cataloged item to null">
-														Null
-													</button>, 
-													<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';"
-														aria-label="Set cited cataloged item to not null for any match">
-														Any
-													</button><span class="text-secondary small">)</span>
-													<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');" aria-label="MCZ:Coll:nnnnn">
-												</div>
+														</cfif>
+													</cfloop>
+												</cfif>
+												<label for="related_cataloged_item">Cited Cataloged Item</label>
+												<span class="text-secondary small">(accepts comma separated list</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NULL';" 
+													aria-label="Set cited cataloged item to null">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';"
+													aria-label="Set cited cataloged item to not null for any match">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');" aria-label="MCZ:Coll:nnnnn">
 											</div>
 											<div class="col-12 col-md-6 col-xl-2">
 												<label for="type_status">Citation Type Status</label>
