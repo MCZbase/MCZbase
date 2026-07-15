@@ -259,12 +259,10 @@ limitations under the License.
 												<div class="col-12 col-sm-6 col-md-2">
 													<label for="species">Species</label> 
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='='+e.value;" 
-														aria-describedby="speciesEquals_help"
 														aria-label="prefix equals sign for exact match search">
 														=
-													</button><span id="speciesEquals_help" class="sr-only">prefix with equals sign for exact match search</span>, 
+													</button>, 
 													<button type="button" class="rules" onclick="var e=document.getElementById('species');e.value='$'+e.value;" 
-														aria-describedby="speciesSoundsLike_help"
 														aria-label="prefix with dollar sign for sounds-like search">
 														$
 													</button><span class="text-secondary small">)</span>
@@ -352,7 +350,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="phylclass">Class</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-describedby="classEquals_help" aria-label="prefix with equals sign for an exact match search">=</button>,
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-label="prefix with equals sign for an exact match search">=</button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('phylclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#">
 												</div>
@@ -360,11 +358,11 @@ limitations under the License.
 													<label for="subclass">Subclass</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='='+e.value;" aria-label="prefix with equals for an exact match">=</button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('subclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
-													<input type="text" id="subclass" id="subclass" name="subclass" value="#encodeForHtml(subclass)#">
+													<input type="text" id="subclass" name="subclass" value="#encodeForHtml(subclass)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="infraclass">Infraclass</label>
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;" aria-value="prefix with equals for exact match">=</button>,
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;" aria-label="prefix with equals for exact match">=</button>,
 													<button type="button" class="rules" onclick="var e=document.getElementById('infraclass');e.value='$'+e.value;" aria-label="prefix with dollar sign for a sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="infraclass" name="infraclass" value="#encodeForHtml(infraclass)#">
 												</div>
@@ -407,7 +405,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
 													<label for="subfamily">Subfamily</label> 
-													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-label="prefix with equals sign for exact match">=</button>, <button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-value="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-label="prefix with equals sign for exact match">=</button>, <button type="button" class="rules" onclick="var e=document.getElementById('subfamily');e.value='$'+e.value;" aria-label="prefix with dollar sign for sounds-like search">$</button><span class="text-secondary small">)</span>
 													<input type="text" id="subfamily" name="subfamily" value="#encodeForHtml(subfamily)#">
 												</div>
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
@@ -628,7 +626,8 @@ limitations under the License.
 						<div class="row mt-1 mb-0 jqx-widget-header border p-2 mx-0">
 							<h1 class="h4 ml-2 ml-md-1 mt-1 mb-1 px-2 mb-xl-2">
 								<span tabindex="0">Results: </span>
-								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
+								<!---<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">--->
+								<span class="pr-2 font-weight-normal" id="resultCount">
 									<a class="messageResults" aria-label="search results" role="button"></a>
 								</span> 
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
