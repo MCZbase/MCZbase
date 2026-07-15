@@ -269,7 +269,7 @@ limitations under the License.
 												</select>
 												<script>
 													$(document).ready(function () {
-														$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%',height: 'auto',enableBrowserBoundsDetection: true });  
+														$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%',height: '24px',enableBrowserBoundsDetection: true });  
 														<cfloop list="#selectedmimetypelist#" index="mt">
 															$("##mime_type").jqxComboBox('selectItem', '#mt#');
 														</cfloop>
