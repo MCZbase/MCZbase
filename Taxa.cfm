@@ -1175,7 +1175,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<div class="border d-inline-block bg-white rounded px-1" style="margin-top:-2px;padding-top: 2px; padding-bottom: 2px;margin-bottom: 2px;"><span class="h5 px-2">Show/Hide </span>
+					`<div class="border d-inline-block bg-white rounded px-1" style="margin-top:-2px;padding-top: 2px; padding-bottom: 2px;margin-bottom: 2px;"><span class="h5 d-inline-block my-1 px-2">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary mx-1 py-0" style="margin-top: 1px;margin-bottom:1px;">Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary mx-1 py-0" style="margin-top: 1px;margin-bottom:1px;" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary  mx-1 py-0"  style="margin-top: 1px;margin-bottom:1px;">Super/Sub/Infra</button>
