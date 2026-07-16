@@ -265,6 +265,7 @@ editing behavior consistent across the application.
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
 								<button type="reset" class="btn btn-xs btn-warning">Reset</button>
 								<a href="containerDiagnostics.cfm" class="btn btn-xs btn-secondary">Diagnostics</a>
+								<a href="/containers/moveContainer.cfm" class="btn btn-xs btn-secondary ml-1">Move Container</a>
 							</div>
 						</div>
 					</form>

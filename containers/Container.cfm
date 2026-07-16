@@ -295,6 +295,7 @@ limitations under the License.
 						<cfelse>
 							<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
 							<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
+							<div id="parentPlacementValidation" class="mt-1"></div>
 						</cfif>
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
@@ -337,13 +338,13 @@ limitations under the License.
 				<div class="form-row mb-4 mt-1">
 					<div class="col-12">
 						<cfif variables.action EQ "edit">
-							<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
+							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
 							<a class="btn btn-xs btn-info ml-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
 							</cfif>
 						<cfelse>
-							<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm', 'createContainer', 'containerSaveStatus')">Create Container</button>
+							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'createContainer', 'containerSaveStatus')">Create Container</button>
 							<a class="btn btn-xs btn-warning ml-1" href="/containers/Containers.cfm">Cancel</a>
 						</cfif>
 						<output id="containerSaveStatus"></output>
@@ -364,6 +365,33 @@ limitations under the License.
 	$(document).ready(function () {
 		makeContainerAutocompleteMetaExcludeCO('parentContainerText', 'parent_container_id');
 		$('#parent_install_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		<cfoutput>
+		var placementChildContainerId = '#encodeForJavaScript(variables.formData.container_id)#';
+		var placementChildContainerType = '#encodeForJavaScript(variables.formData.container_type)#';
+		var placementChildInstitution = '#encodeForJavaScript(variables.formData.institution_acronym)#';
+		<cfif lockedRoot OR variables.formData.locked_position EQ 1>
+			var parentLocked = 1;
+		<cfelse>
+			var parentLocked = 0;
+		</cfif>
+		</cfoutput>
+		if (!parentLocked) {
+			loadContainerTypeMetadata(function() {
+				addPlacementDialogButton('parentContainerText', 'parent_container_id', placementChildContainerId, placementChildContainerType, placementChildInstitution, 'containerSaveStatus');
+			});
+
+			var runParentPlacementValidation = function() {
+				var parentId = $('#parent_container_id').val() || 0;
+				if ($('#parentPlacementValidation').length > 0 && parentId) {
+					checkAndRenderPlacementValidation(placementChildContainerId, parentId, 'parentPlacementValidation', 'containerSaveActionButton');
+				}
+			};
+			$('#parentContainerText').on('autocompleteselect change', function() {
+				window.setTimeout(runParentPlacementValidation, 10);
+			});
+			runParentPlacementValidation();
+		}
+
 		<cfif variables.action EQ "edit">
 			<cfoutput>
 			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
