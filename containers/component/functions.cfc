@@ -1045,11 +1045,13 @@ Function saveContainer.  Updates an existing container record.
 				<cfset local.retval["message"] = "Container not found.">
 				<cfreturn serializeJSON(local.retval)>
 			</cfif>
-			<!--- lock type institution and "Deaccesioned" root containers from some edits --->
+			<!--- lock type institution, external, and "Deaccesioned" root containers from some edits --->
 			<cfset lockedRoot = false>
 			<cfif arguments.container_type EQ "institution">
 				<cfset lockedRoot = true>
-			<cfelseif arguments.label EQ "Deaccessioned">
+			<cfelseif arguments.container_type EQ "external">
+				<cfset lockedRoot = true>
+			<cfelseif arguments.label EQ "Deaccessioned"><!--- deprecated special case, rule is now based on container_type of external for deaccessioned --->
 				<cfset lockedRoot = true>
 			</cfif>
 
