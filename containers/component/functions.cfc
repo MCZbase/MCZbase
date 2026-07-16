@@ -434,8 +434,8 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				AND c.container_type = 'campus'
 			ORDER BY c.parent_container_id, c.label
 		</cfquery>
-		<!--- Root-level campus containers (e.g., Deaccessioned campus at root level).
-			Only campus-type containers are shown separately; other non-institution root-level
+		<!--- Root-level external containers (e.g., Deaccessioned external container at root level).
+			Only external-type containers are shown separately; other non-institution root-level
 			containers are subsumed into the orphaned structural / leaf count buttons. 
 		--->
 		<cfquery name="queryGetRootOther" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -457,7 +457,7 @@ a campus.  Orphaned leaf nodes are collection-object containers placed directly 
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
 			WHERE c.parent_container_id = 0
-				AND c.container_type = 'campus'
+				AND c.container_type = 'external'
 			ORDER BY c.label
 		</cfquery>
 		<!--- Count orphaned structural nodes: structural-role containers that are either direct
