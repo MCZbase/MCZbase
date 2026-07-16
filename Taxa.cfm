@@ -1185,7 +1185,7 @@ limitations under the License.
 				$("##pinTaxonButton").html(`
 					<button id="pinTaxonToggle"
 						onclick="togglePinTaxonColumn();"
-						class="btn btn-xs btn-secondary mx-1class="btn btn-xs btn-secondary my-2 mx-1 px-2" style="padding-top: 1px !important; padding-bottom: 1px !important;"">
+						class="btn btn-xs btn-secondary mx-1">
 					Pin Taxon Column
 				</button>
 				`);
