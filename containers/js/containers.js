@@ -118,19 +118,41 @@ function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=fa
  *  on picklist and value on selection.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected container_id (without a leading # selector).
+ *  @param typeControl the id of a select/input that provides an optional container_type filter.
+ *  @param ancestorControl the id of a hidden input that provides an optional ancestor container_id filter.
+ *  @param labelContainsControl the id of an optional text input for label substring filtering.
+ *  @param descriptionContainsControl the id of an optional text input for description substring filtering.
  *  @param clear, optional, default false, set to true for data entry controls to clear both controls when change
  *   is made other than selection from picklist.
  */
-function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, clear=false) {
+function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, labelContainsControl, descriptionContainsControl, clear=false) {
+	if (typeof labelContainsControl === 'boolean') {
+		clear = labelContainsControl;
+		labelContainsControl = '';
+		descriptionContainsControl = '';
+	} else if (typeof descriptionContainsControl === 'boolean') {
+		clear = descriptionContainsControl;
+		descriptionContainsControl = '';
+	}
 	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
+			var labelContainsValue = '';
+			var descriptionContainsValue = '';
+			if (labelContainsControl && $('#' + labelContainsControl).length > 0) {
+				labelContainsValue = $('#' + labelContainsControl).val();
+			}
+			if (descriptionContainsControl && $('#' + descriptionContainsControl).length > 0) {
+				descriptionContainsValue = $('#' + descriptionContainsControl).val();
+			}
 			$.ajax({
 				url: "/containers/component/search.cfc",
 				data: { 
 					term: request.term, 
 					type: $('#'+typeControl).val(),
 					ancestor_container_id: $('#'+ancestorControl).val(),
+					label_contains: labelContainsValue,
+					description_contains: descriptionContainsValue,
 					method: 'getContainerAutocompleteLimited' 
 				},
 				dataType: 'json',
@@ -533,30 +555,29 @@ function showContainerBreadcrumb(containerId, feedbackId, browsePanel) {
 		data: { method: 'getContainerBreadcrumb', container_id: containerId },
 		dataType: 'json',
 		success: function(data) {
-			var parts = [];
-			$.each(data, function(i, node) {
-				var display = formatContainerDisplay(node.barcode, node.label);
-				parts.push(node.container_type + ': ' + display);
-			});
-			var pathText = parts.join(' \u203a ');
 			$('#containerBrowseContext').text('Location');
 
-			var panel = $('<div></div>');
-			panel.append($('<h2 class="h4 mt-2"></h2>').text('Container Location'));
 			var breadcrumbDiv = $('<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap"></ol>');
+			var placementBadgeId = 'placementBadgeInBreadcrumb-' + targetPanel;
+			var targetNode = (data && data.length > 0) ? data[data.length - 1] : {};
+			var parentContainerId = parseInt(targetNode.parent_container_id, 10);
+			if (isNaN(parentContainerId)) {
+				parentContainerId = 0;
+			}
 			$.each(data, function(i, node) {
 				var display = formatContainerDisplay(node.barcode, node.label);
 				var crumbText = node.container_type + ': ' + display;
 				var crumbLi = $('<li class="breadcrumb-item"></li>');
 				if (i === data.length - 1) {
-					crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText);
+					crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText + ' ');
+					crumbLi.append($('<span></span>').attr('id', placementBadgeId));
 				} else {
 					crumbLi.text(crumbText);
 				}
 				breadcrumbDiv.append(crumbLi);
 			});
-			panel.append(breadcrumbDiv);
-			$('#' + targetPanel).html(panel);
+			$('#' + targetPanel).html(breadcrumbDiv);
+			loadPlacementWarningBadge(containerId, parentContainerId, placementBadgeId);
 			$('#' + feedbackId).text('');
 		},
 		error: function(jqXHR, textStatus, error) {
@@ -898,6 +919,15 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
+				var $legacyPositionsLink = $('#legacyContainerPositionsLink');
+				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
+				if ($legacyPositionsLink.length > 0) {
+					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
+						$legacyPositionsLink.attr('href', '/containerPositions.cfm?container_id=' + encodeURIComponent(containerId)).removeClass('d-none');
+					} else {
+						$legacyPositionsLink.addClass('d-none');
+					}
+				}
 				if (shouldRefreshBreadcrumb) {
 					if (!isNaN(numericContainerId)) {
 						if (!responseContainerId && fallbackContainerId) {
@@ -2754,10 +2784,35 @@ function openPlacementDialog(childContainerId, childContainerType, childInstitut
 		success: function(html) {
 			wrapper.html(html);
 			makeContainerAutocompleteMeta('pickContainerAncestor' + id_suffix, 'pickContainerAncestorId' + id_suffix);
-			makeContainerAutocompleteLimitedMeta('pickContainerSearch' + id_suffix, 'pickContainerSearchId' + id_suffix, 'pickContainerType' + id_suffix, 'pickContainerAncestorId' + id_suffix);
+			makeContainerAutocompleteLimitedMeta(
+				'pickContainerSearch' + id_suffix,
+				'pickContainerSearchId' + id_suffix,
+				'pickContainerType' + id_suffix,
+				'pickContainerAncestorId' + id_suffix,
+				'pickContainerLabelContains' + id_suffix,
+				'pickContainerDescriptionContains' + id_suffix
+			);
 
 			$('#pickContainerType' + id_suffix).on('change', function() {
-				makeContainerAutocompleteLimitedMeta('pickContainerSearch' + id_suffix, 'pickContainerSearchId' + id_suffix, 'pickContainerType' + id_suffix, 'pickContainerAncestorId' + id_suffix);
+				makeContainerAutocompleteLimitedMeta(
+					'pickContainerSearch' + id_suffix,
+					'pickContainerSearchId' + id_suffix,
+					'pickContainerType' + id_suffix,
+					'pickContainerAncestorId' + id_suffix,
+					'pickContainerLabelContains' + id_suffix,
+					'pickContainerDescriptionContains' + id_suffix
+				);
+			});
+			$('#pickContainerLabelContains' + id_suffix + ', #pickContainerDescriptionContains' + id_suffix).on('change keyup', function() {
+				$('#pickContainerSearchId' + id_suffix).val('');
+				makeContainerAutocompleteLimitedMeta(
+					'pickContainerSearch' + id_suffix,
+					'pickContainerSearchId' + id_suffix,
+					'pickContainerType' + id_suffix,
+					'pickContainerAncestorId' + id_suffix,
+					'pickContainerLabelContains' + id_suffix,
+					'pickContainerDescriptionContains' + id_suffix
+				);
 			});
 			$('#pickContainerSearch' + id_suffix).on('autocompleteselect', function() {
 				var selectedId = $('#pickContainerSearchId' + id_suffix).val();
@@ -2795,11 +2850,14 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
 	if ($('#chooseBtn-' + textFieldId).length > 0) {
 		return;
 	}
+	var textField = $('#' + textFieldId);
+	var pickerRow = textField.closest('.parent-container-picker-row');
+	var targetContainer = pickerRow.length > 0 ? pickerRow : textField.parent();
 	$('<button type="button" class="btn btn-xs btn-secondary ml-1"></button>')
 		.attr('id', 'chooseBtn-' + textFieldId)
 		.text('Choose…')
 		.on('click', function() {
 			openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, idFieldId, textFieldId, feedbackId);
 		})
-		.insertAfter($('#' + textFieldId));
+		.appendTo(targetContainer);
 }

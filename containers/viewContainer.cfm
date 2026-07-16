@@ -113,11 +113,6 @@ limitations under the License.
 <main id="content" class="container-fluid">
 
 <cfoutput>
-	<section class="mb-0" aria-label="Container breadcrumb trail">
-		<nav aria-label="Container breadcrumb" class="mb-2" id="viewContainerBreadcrumbNav"></nav>
-		<output id="viewContainerBreadcrumbFeedback"></output>
-	</section>
-	<div class="mb-2" id="viewContainerPlacementBadge"></div>
 	<h1 class="h2">Container: #encodeForHtml(variables.pageTitleDisplay)#</h1>
 
 	#getContainerDetailsHtml(container_id=val(getContainer.container_id), displayMode="page", idSuffix="page")#
@@ -198,12 +193,6 @@ limitations under the License.
 		<output id="containerViewFeedback" aria-live="polite"></output>
 	</section>
 
-	<script>
-		$(document).ready(function () {
-			showContainerBreadcrumb("#encodeForJavaScript(getContainer.container_id)#", "viewContainerBreadcrumbFeedback", "viewContainerBreadcrumbNav");
-			loadPlacementWarningBadge(#encodeForHtml(getContainer.container_id)#, #val(getContainer.parent_container_id)#, "viewContainerPlacementBadge");
-		});
-	</script>
 </cfoutput>
 
 </main>
