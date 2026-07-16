@@ -688,7 +688,7 @@ Function getContainerTypeMetadata. Returns ctcontainer_type metadata for client-
 <cffunction name="getContainerTypeMetadata" access="remote" returntype="any" returnformat="json" output="false">
 	<cfset local.rows = ArrayNew(1)>
 	<cfset local.i = 1>
-	<cfquery name="queryCtContainerType" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+	<cfquery name="queryCtContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		SELECT
 			container_type,
 			role,
@@ -742,7 +742,7 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 	<cfset local.statusControlId = "pickContainerStatus#local.safeSuffix#">
 	<cfset local.selectedType = trim(arguments.preselect_type)>
 
-	<cfquery name="queryAllowedTypes" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+	<cfquery name="queryAllowedTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		SELECT
 			container_type,
 			rank_order
@@ -756,7 +756,7 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 	</cfquery>
 
 	<cfif len(trim(arguments.child_container_id)) GT 0 AND isNumeric(arguments.child_container_id)>
-		<cfquery name="queryChildExpected" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+		<cfquery name="queryChildExpected" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				NVL(ct.expected_parent_types, 'any') AS expected_parent_types
 			FROM

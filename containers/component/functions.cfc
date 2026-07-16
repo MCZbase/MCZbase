@@ -2104,7 +2104,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 	<cfset local.retval["is_root_placement"] = (val(arguments.proposed_parent_container_id) EQ 0)>
 
 	<cftry>
-		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				c.container_id,
 				c.container_type,
@@ -2153,7 +2153,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 		<cfset local.parentWidth = "">
 
 		<cfif NOT local.isRootPlacement>
-			<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT
 					c.container_id,
 					c.container_type,
@@ -2263,7 +2263,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 
 		<!--- GROUP 1 (T8): cycle prevention --->
 		<cfif NOT local.isRootPlacement>
-			<cfquery name="queryCycle" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			<cfquery name="queryCycle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT COUNT(*) AS cycle_ct
 				FROM (
 					SELECT container_id
@@ -2334,7 +2334,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 
 		<!--- GROUP 2 (CT5): single-occupant parent already occupied --->
 		<cfif NOT local.isRootPlacement AND local.childRole EQ "leaf" AND local.parentExpectsLeafChildCount EQ 1>
-			<cfquery name="queryLeafChildren" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			<cfquery name="queryLeafChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT COUNT(*) AS leaf_ct
 				FROM container
 				WHERE
@@ -2372,7 +2372,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 
 		<!--- GROUP 3 (AO2): coll_obj_cont_hist dual current placement --->
 		<cfif local.childRole EQ "leaf">
-			<cfquery name="queryDualCurrent" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			<cfquery name="queryDualCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT COUNT(*) AS conflict_ct
 				FROM coll_obj_cont_hist coch
 				WHERE
@@ -2442,7 +2442,7 @@ Returns status JSON and never aborts on trigger errors.
 
 	<cfset local.retval = StructNew()>
 	<cftry>
-		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode, container_type, institution_acronym
 			FROM container
 			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.child_barcode)#">
@@ -2454,7 +2454,7 @@ Returns status JSON and never aborts on trigger errors.
 			<cfreturn serializeJSON(local.retval)>
 		</cfif>
 
-		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode, container_type, institution_acronym
 			FROM container
 			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.parent_barcode)#">
@@ -2475,7 +2475,7 @@ Returns status JSON and never aborts on trigger errors.
 		</cfif>
 
 		<cftry>
-			<cfquery name="queryMove" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			<cfquery name="queryMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				UPDATE container
 				SET
 					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryParent.container_id#">
