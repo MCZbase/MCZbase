@@ -392,6 +392,18 @@
 		</cfif>
 		<!--- there is nothing in this box, make all positions ---->
 		<cftransaction>
+			<cfquery name="getParentInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT institution_acronym 
+				FROM container 
+				WHERE container_id = <cfqueryparam value="#container_id#" cfsqltype="CF_SQL_DECIMAL"> 
+			</cfquery>
+			<cfif getParentInstitution.recordcount is 0>
+				<cfthrow message="No parent container found with id: #encodeForHtml(container_id)#">
+			<cfelseif getParentInstitution.institution_acronym EQ "">
+				<cfthrow message="No institution acronym found for parent container with id: #encodeForHtml(container_id)#">
+			<cfelse>
+				<cfset parentInstitutionAcronym = getParentInstitution.institution_acronym>
+			</cfif>
 			<!--- make number_positions new containers, lock them, and put them in this box ---->
 			<cfloop from="1" to="#number_positions#" index="i">
 				<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -409,17 +421,18 @@
 					institution_acronym)
 				VALUES (
 					sq_container_id.nextval,
-					#container_id#,
-					'#position_label#',
-					'#i#',
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#position_label#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#i#">,
 					sysdate,
 					#width#,
 					#height#,
 					#length#,
 					1,
 					1,
-					'UAM')
-					</cfquery>
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentInstitutionAcronym#">
+				)
+				</cfquery>
 			</cfloop>
 		</cftransaction>
 		<cflocation url="containerPositions.cfm?container_id=#container_id#">
