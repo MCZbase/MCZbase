@@ -993,7 +993,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-						$('##showhide').html('<button class="my-0 border rounded mx-2" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+						$('##showhide').html('<button class="my-0 border rounded mx-2 eyelash_button" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','taxon record');
 						loadColumnOrder('searchResultsGrid');
 						<!--- scroll to results after grid is loaded --->
@@ -1183,11 +1183,11 @@ limitations under the License.
 					</div>`
 				);
 				$("##pinTaxonButton").html(`
-				  <button id="pinTaxonToggle"
-						  onclick="togglePinTaxonColumn();"
-						  class="btn btn-xs btn-secondary mx-1">
+					<button id="pinTaxonToggle"
+						onclick="togglePinTaxonColumn();"
+						class="btn btn-xs btn-secondary my-2 mx-1 px-2" style="padding-top: 1px !important; padding-bottom: 1px !important;"">
 					Pin Taxon Column
-				  </button>
+				</button>
 				`);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
