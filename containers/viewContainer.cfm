@@ -113,6 +113,11 @@ limitations under the License.
 <main id="content" class="container-fluid">
 
 <cfoutput>
+	<section class="mb-0" aria-label="Container breadcrumb trail">
+		<nav aria-label="Container breadcrumb" class="mb-2" id="viewContainerBreadcrumbNav"></nav>
+		<output id="viewContainerBreadcrumbFeedback"></output>
+	</section>
+	<div class="mb-2" id="viewContainerPlacementBadge"></div>
 	<h1 class="h2">Container: #encodeForHtml(variables.pageTitleDisplay)#</h1>
 
 	#getContainerDetailsHtml(container_id=val(getContainer.container_id), displayMode="page", idSuffix="page")#
@@ -185,9 +190,6 @@ limitations under the License.
 			</cfif>
 			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
 			<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
-			<cfif len(trim(getContainer.barcode)) GT 0>
-				<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/moveContainer.cfm?child_barcode=#encodeForURL(getContainer.barcode)#">Move Container</a>
-			</cfif>
 			<a class="btn btn-xs btn-secondary mb-1" href="/findContainer.cfm?container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Legacy Details</a>
 		</div>
 	</section>
@@ -195,6 +197,13 @@ limitations under the License.
 	<section class="mb-4">
 		<output id="containerViewFeedback" aria-live="polite"></output>
 	</section>
+
+	<script>
+		$(document).ready(function () {
+			showContainerBreadcrumb("#encodeForJavaScript(getContainer.container_id)#", "viewContainerBreadcrumbFeedback", "viewContainerBreadcrumbNav");
+			loadPlacementWarningBadge(#encodeForHtml(getContainer.container_id)#, #val(getContainer.parent_container_id)#, "viewContainerPlacementBadge");
+		});
+	</script>
 </cfoutput>
 
 </main>
