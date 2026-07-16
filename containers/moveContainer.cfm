@@ -47,7 +47,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="move_timestamp" class="data-entry-label">Timestamp (optional)</label>
-						<input type="text" name="move_timestamp" id="move_timestamp" class="data-entry-input col-12" placeholder="yyyy-mm-dd HH:mm:ss">
+						<input type="text" name="move_timestamp" id="move_timestamp" class="data-entry-input col-12" aria-describedby="moveTimestampHelp" placeholder="yyyy-mm-dd HH:mm:ss">
+						<small id="moveTimestampHelp" class="text-muted">Format: yyyy-mm-dd HH:mm:ss</small>
 					</div>
 				</div>
 				<div class="form-row mb-2">
@@ -68,7 +69,7 @@ limitations under the License.
 	<section class="mb-4" aria-labelledby="moveContainerResultsHeading">
 		<div class="d-flex align-items-center flex-wrap mb-2">
 			<h2 class="h4 mb-0 mr-2" id="moveContainerResultsHeading">Move Log</h2>
-			<span class="badge badge-light border" id="moveContainerCounter">0 moved</span>
+			<span class="badge badge-light border" id="moveContainerCounter" data-count="0">0 moved</span>
 		</div>
 		<div id="moveContainerResultList"></div>
 	</section>
@@ -126,8 +127,9 @@ limitations under the License.
 					var childDisplay = formatMoveResultContainer(result.child_label, childBarcode);
 					var parentDisplay = formatMoveResultContainer(result.parent_label, parentBarcode);
 					appendMoveResult('alert-success', 'Moved <strong>' + $('<div>').text(childDisplay).html() + '</strong> into <strong>' + $('<div>').text(parentDisplay).html() + '</strong>.');
-					var movedCount = parseInt($('#moveContainerCounter').text(), 10) || 0;
-					$('#moveContainerCounter').text((movedCount + 1) + ' moved');
+					var movedCount = parseInt($('#moveContainerCounter').data('count'), 10) || 0;
+					var nextCount = movedCount + 1;
+					$('#moveContainerCounter').data('count', nextCount).text(nextCount + ' moved');
 					setFeedbackControlState('moveContainerStatus', 'saved', 'Move recorded.');
 					$('#child_barcode').val('').focus();
 				} else if (result.status === 'notfound') {

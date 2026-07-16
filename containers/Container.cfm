@@ -387,6 +387,7 @@ limitations under the License.
 				}
 			};
 			$('#parentContainerText').on('autocompleteselect change', function() {
+				// allow autocomplete selection handlers to populate parent_container_id before validation runs.
 				window.setTimeout(runParentPlacementValidation, 10);
 			});
 			runParentPlacementValidation();

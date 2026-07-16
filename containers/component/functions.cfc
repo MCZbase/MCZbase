@@ -2493,6 +2493,9 @@ Returns status JSON and never aborts on trigger errors.
 			<cfif local.matchPos GT 0>
 				<cfset local.userMessage = mid(local.userMessage, local.matchPos, len(local.userMessage) - local.matchPos + 1)>
 			</cfif>
+			<cfif len(trim(local.userMessage)) EQ 0>
+				<cfset local.userMessage = "Unable to move container due to a placement rule. Please review the selected parent and try again.">
+			</cfif>
 			<cfset local.retval["status"] = "error">
 			<cfset local.retval["message"] = local.userMessage>
 			<cfreturn serializeJSON(local.retval)>
