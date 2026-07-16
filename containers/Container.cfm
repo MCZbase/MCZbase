@@ -187,6 +187,7 @@ limitations under the License.
 	<cfloop query="ctcontainer_type">
 		<cfif ctcontainer_type.container_type EQ variables.parent_container_type>
 			<cfset variables.parentRankOrder = val(ctcontainer_type.rank_order)>
+			<cfbreak>
 		</cfif>
 	</cfloop>
 </cfif>
@@ -251,7 +252,10 @@ limitations under the License.
 								<cfloop query="ctcontainer_type">
 									<cfset variables.selectedType = "">
 									<cfset variables.typeVisibilityClass = "">
-									<cfif variables.limitTypesByParent AND val(ctcontainer_type.variable_rank) NEQ 1 AND val(ctcontainer_type.rank_order) LT val(variables.parentRankOrder)>
+									<cfset variables.isVariableRankType = (val(ctcontainer_type.variable_rank) EQ 1)>
+									<cfset variables.hasLowerRankOrderThanParent = (val(ctcontainer_type.rank_order) LT val(variables.parentRankOrder))>
+									<!--- variable_rank=1 types may be placed at any rank and remain visible in the constrained list. --->
+									<cfif variables.limitTypesByParent AND NOT variables.isVariableRankType AND variables.hasLowerRankOrderThanParent>
 										<cfset variables.typeVisibilityClass = "ct-all-option d-none">
 									</cfif>
 									<cfif ctcontainer_type.container_type EQ variables.formData.container_type>

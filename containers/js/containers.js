@@ -134,6 +134,8 @@ function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeContro
 		clear = descriptionContainsControl;
 		descriptionContainsControl = '';
 	}
+	labelContainsControl = labelContainsControl || '';
+	descriptionContainsControl = descriptionContainsControl || '';
 	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
@@ -569,8 +571,8 @@ function showContainerBreadcrumb(containerId, feedbackId, browsePanel) {
 				var crumbText = node.container_type + ': ' + display;
 				var crumbLi = $('<li class="breadcrumb-item"></li>');
 				if (i === data.length - 1) {
-					crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText + ' ');
-					crumbLi.append($('<span></span>').attr('id', placementBadgeId));
+					crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText);
+					crumbLi.append($('<span class="ml-1"></span>').attr('id', placementBadgeId));
 				} else {
 					crumbLi.text(crumbText);
 				}
@@ -2803,7 +2805,9 @@ function openPlacementDialog(childContainerId, childContainerType, childInstitut
 					'pickContainerDescriptionContains' + id_suffix
 				);
 			});
-			$('#pickContainerLabelContains' + id_suffix + ', #pickContainerDescriptionContains' + id_suffix).on('change keyup', function() {
+			var filterInputTimer = null;
+			var filterInputs = $('#pickContainerLabelContains' + id_suffix + ', #pickContainerDescriptionContains' + id_suffix);
+			var refreshDialogAutocomplete = function () {
 				$('#pickContainerSearchId' + id_suffix).val('');
 				makeContainerAutocompleteLimitedMeta(
 					'pickContainerSearch' + id_suffix,
@@ -2813,6 +2817,15 @@ function openPlacementDialog(childContainerId, childContainerType, childInstitut
 					'pickContainerLabelContains' + id_suffix,
 					'pickContainerDescriptionContains' + id_suffix
 				);
+			};
+			filterInputs.on('change', function() {
+				refreshDialogAutocomplete();
+			});
+			filterInputs.on('input', function() {
+				if (filterInputTimer) {
+					window.clearTimeout(filterInputTimer);
+				}
+				filterInputTimer = window.setTimeout(refreshDialogAutocomplete, 250);
 			});
 			$('#pickContainerSearch' + id_suffix).on('autocompleteselect', function() {
 				var selectedId = $('#pickContainerSearchId' + id_suffix).val();
@@ -2852,12 +2865,12 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
 	}
 	var textField = $('#' + textFieldId);
 	var pickerRow = textField.closest('.parent-container-picker-row');
-	var targetContainer = pickerRow.length > 0 ? pickerRow : textField.parent();
+	var buttonContainer = pickerRow.length > 0 ? pickerRow : textField.parent();
 	$('<button type="button" class="btn btn-xs btn-secondary ml-1"></button>')
 		.attr('id', 'chooseBtn-' + textFieldId)
 		.text('Choose…')
 		.on('click', function() {
 			openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, idFieldId, textFieldId, feedbackId);
 		})
-		.appendTo(targetContainer);
+		.appendTo(buttonContainer);
 }

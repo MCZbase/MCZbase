@@ -159,7 +159,7 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
-				container_id, label, barcode, container_type, description, container_remarks
+				container_id, label, barcode, container_type
 			FROM (
 				SELECT container_id, label, barcode, container_type, description, container_remarks
 				FROM 
@@ -800,8 +800,8 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 	</cfif>
 
 	<cfsavecontent variable="local.htmlFragment"><cfoutput>
-		<div class="border rounded bg-light p-2 mb-2">
-			<div class="small font-weight-bold text-uppercase mb-1">Filter parent candidates</div>
+		<fieldset class="border rounded bg-light p-2 mb-2">
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">Filter parent candidates</legend>
 			<div class="form-row mb-2">
 				<div class="col-12 col-md-6 mb-1">
 					<label for="#encodeForHtml(local.typeControlId)#" class="data-entry-label">Container Type</label>
@@ -832,16 +832,16 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 					<input type="text" id="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-input col-12" value="">
 				</div>
 			</div>
-		</div>
-		<div class="border rounded p-2 mb-2">
-			<div class="small font-weight-bold text-uppercase mb-1">Select parent container</div>
+		</fieldset>
+		<fieldset class="border rounded p-2 mb-2">
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">Select parent container</legend>
 			<div class="form-row">
 				<div class="col-12 mb-1">
 					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label">Container autocomplete</label>
 					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12" value="">
 					<input type="hidden" id="#encodeForHtml(local.searchIdControlId)#" value="">
 				</div>
-			</div>
+			</fieldset>
 		</div>
 		<div class="form-row mb-2">
 			<div class="col-12">
