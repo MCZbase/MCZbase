@@ -2752,4 +2752,3 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
 		})
 		.insertAfter($('#' + textFieldId));
 }
-
