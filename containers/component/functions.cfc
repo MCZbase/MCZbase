@@ -2201,7 +2201,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 		<cfset local.retval["force_expected_parent_type"] = local.forceExpectedParentType>
 		<cfset local.retval["is_root_placement"] = local.isRootPlacement>
 
-		<!--- GROUP 1 — TRIGGER MIRRORS (T1–T9) --->
+		<!--- GROUP 1 — TRIGGER MIRRORS (T1–T9) preflight restrictions imposed in MCZBASE.MOVE_CONTAINER trigger --->
 
 		<!--- GROUP 1 (T1): self-placement --->
 		<cfif val(arguments.child_container_id) EQ val(arguments.proposed_parent_container_id)>
