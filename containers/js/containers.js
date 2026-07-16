@@ -2473,6 +2473,11 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 
 var CONTAINER_TYPE_META = null;
 
+/**
+ * Load ctcontainer_type metadata used by placement helpers.
+ * @param {function} callback - optional callback invoked after metadata load attempt.
+ * @returns {void}
+ */
 function loadContainerTypeMetadata(callback) {
 	$.ajax({
 		url: '/containers/component/search.cfc',
@@ -2498,6 +2503,11 @@ function loadContainerTypeMetadata(callback) {
 	});
 }
 
+/**
+ * Get normalized type metadata for a container type.
+ * @param {string} containerType - container_type name to resolve.
+ * @returns {Object} metadata object with role, parent expectations, and rank fields.
+ */
 function getContainerTypeMeta(containerType) {
 	var normalized = (containerType || '').toLowerCase();
 	var defaults = {
@@ -2556,6 +2566,14 @@ function getContainerTypeMeta(containerType) {
 	return defaults;
 }
 
+/**
+ * Validate a proposed placement and render severity messages in the dialog.
+ * @param {number|string} childContainerId - container_id being moved.
+ * @param {number|string} proposedParentContainerId - target parent container_id (0 for root).
+ * @param {string} validationDivId - id of the target element for validation output.
+ * @param {string} confirmButtonId - id of the confirm button to enable/disable.
+ * @returns {void}
+ */
 function checkAndRenderPlacementValidation(childContainerId, proposedParentContainerId, validationDivId, confirmButtonId) {
 	var validationDiv = $('#' + validationDivId);
 	var confirmButton = $('#' + confirmButtonId);
@@ -2609,6 +2627,12 @@ function checkAndRenderPlacementValidation(childContainerId, proposedParentConta
 	});
 }
 
+/**
+ * Render a compact placement badge (ok/warn/block) for existing placements.
+ * @param {Object} validationResult - response object from validateContainerPlacement.
+ * @param {string} targetDivId - id of the target element to render badge content into.
+ * @returns {void}
+ */
 function renderPlacementWarningBadge(validationResult, targetDivId) {
 	var target = $('#' + targetDivId);
 	var detailId = 'pd-' + targetDivId;
@@ -2657,6 +2681,13 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 	}
 }
 
+/**
+ * Load validation for an existing placement and render badge output.
+ * @param {number|string} containerContainerId - child container_id to validate.
+ * @param {number|string} parentContainerId - parent container_id to validate against.
+ * @param {string} targetDivId - id of the target element for badge output.
+ * @returns {void}
+ */
 function loadPlacementWarningBadge(containerContainerId, parentContainerId, targetDivId) {
 	var target = $('#' + targetDivId);
 	target.html('<span class="small text-muted"><img src="/shared/images/indicator.gif"> Checking…</span>');
@@ -2680,6 +2711,16 @@ function loadPlacementWarningBadge(containerContainerId, parentContainerId, targ
 	});
 }
 
+/**
+ * Open the constrained parent-container selection dialog.
+ * @param {number|string} childContainerId - child container_id being moved.
+ * @param {string} childContainerType - child container_type used for default filtering.
+ * @param {string} childInstitutionAcronym - institution acronym used to scope search.
+ * @param {string} targetIdFieldId - id of hidden field to receive selected parent container_id.
+ * @param {string} targetLabelFieldId - id of text field to receive selected parent label.
+ * @param {string} feedbackId - id of feedback output control for status updates.
+ * @returns {void}
+ */
 function openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, targetIdFieldId, targetLabelFieldId, feedbackId) {
 	var id_suffix = '_' + Date.now();
 	var wrapper = $('#placementDialogWrapper');
@@ -2740,6 +2781,16 @@ function openPlacementDialog(childContainerId, childContainerType, childInstitut
 	});
 }
 
+/**
+ * Add a dialog-launch button adjacent to a parent-container text field.
+ * @param {string} textFieldId - id of the text field that displays selected parent container.
+ * @param {string} idFieldId - id of the hidden field for selected parent container_id.
+ * @param {number|string} childContainerId - child container_id being moved.
+ * @param {string} childContainerType - child container_type used for dialog defaults.
+ * @param {string} childInstitutionAcronym - institution acronym used to scope search.
+ * @param {string} feedbackId - id of feedback output control for status updates.
+ * @returns {void}
+ */
 function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, childContainerType, childInstitutionAcronym, feedbackId) {
 	if ($('#chooseBtn-' + textFieldId).length > 0) {
 		return;

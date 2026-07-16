@@ -684,6 +684,9 @@ a paginated JSON result for display in the browse panel.
 
 <!---
 Function getContainerTypeMetadata. Returns ctcontainer_type metadata for client-side placement logic.
+@return a JSON array of ctcontainer_type metadata objects with keys: container_type, role,
+	expects_leaf_child_count, expected_parent_types, force_expected_parent_type, rank_order,
+	variable_rank, description.
 --->
 <cffunction name="getContainerTypeMetadata" access="remote" returntype="any" returnformat="json" output="false">
 	<cfset local.rows = ArrayNew(1)>
@@ -722,6 +725,12 @@ Function getContainerTypeMetadata. Returns ctcontainer_type metadata for client-
 
 <!---
 Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for parent-container picking.
+@param child_container_id optional child container_id used to preselect expected parent type.
+@param preselect_type optional container_type value to preselect in the type control.
+@param ancestor_container_id optional ancestor container_id to constrain subtree search.
+@param institution_acronym optional institution acronym to constrain dialog searches.
+@param id_suffix optional suffix applied to generated control ids for uniqueness.
+@return HTML fragment string for the parent-container picker dialog controls.
 --->
 <cffunction name="pickContainerDialogHtml" access="remote" returntype="string" returnformat="plain" output="false">
 	<cfargument name="child_container_id" type="string" required="no" default="">

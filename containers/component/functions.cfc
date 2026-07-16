@@ -2080,6 +2080,12 @@ contained occupant of each position for rendering a read-only grid.
 <!---
 Function validateContainerPlacement. Performs pre-flight placement validation for container moves.
 Returns a JSON structure with allow/block state, messages, and contextual metadata.
+@param child_container_id the container_id for the child container being moved.
+@param proposed_parent_container_id the target parent container_id (use 0 for root placement).
+@return a JSON object with keys: allowed, severity, warnings, blocks, child_type, child_role,
+	child_institution_acronym, child_rank_order, child_variable_rank, parent_type, parent_role,
+	parent_institution_acronym, parent_rank_order, expected_parent_types, force_expected_parent_type,
+	is_root_placement.
 --->
 <cffunction name="validateContainerPlacement" access="remote" returntype="any" returnformat="json" output="false">
 	<cfargument name="child_container_id" type="numeric" required="yes">
@@ -2434,6 +2440,11 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 <!---
 Function moveContainerByBarcode. Moves a child container into a new parent container by barcode.
 Returns status JSON and never aborts on trigger errors.
+@param child_barcode barcode of the container to move.
+@param parent_barcode barcode of the destination parent container.
+@param move_timestamp optional timestamp string (YYYY-MM-DD HH24:MI:SS) for parent_install_date.
+@return a JSON object with status (moved|notfound|error) and message, plus context fields:
+	child_container_id, parent_container_id, child_barcode, parent_barcode, missing (when notfound).
 --->
 <cffunction name="moveContainerByBarcode" access="remote" returntype="any" returnformat="json" output="false">
 	<cfargument name="child_barcode" type="string" required="yes">
