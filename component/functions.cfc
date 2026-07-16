@@ -1832,7 +1832,11 @@
 			<cfset result = "-#box_position#|Container not found.">
 		</cfif>
 	<cfcatch>
-		<cfset result = "-#box_position#|#cfcatch.Message#">
+		<cfset causeMessage = "">
+		<cfif isDefined("cfcatch.cause") and isDefined("cfcatch.cause.message")>
+			<cfset causeMessage = " Cause: #cfcatch.cause.message#">
+		</cfif>
+		<cfset result = "-#box_position#|#cfcatch.Message##causeMessage#">
 	</cfcatch>
 	</CFTRY>
 	<cfset result = ReReplace(result,"[#CHR(10)##CHR(13)#]","","ALL")>
