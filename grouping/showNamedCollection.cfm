@@ -1002,7 +1002,7 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</cfif>
-												<small class="col-12 text-secondary ml-auto">(P) = Primary type and (S) = Secondary Type</small>
+												<div class="col-12"><small class="text-secondary float-right">(P) = Primary type and (S) = Secondary Type</small></div>
 										</div>
 									</cfif>
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
