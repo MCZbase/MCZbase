@@ -940,14 +940,14 @@ limitations under the License.
 										</div>
 									</cfif>
 									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.typestatuswords
+										SELECT DISTINCT flat.toptypestatus
 										FROM
 											underscore_relation 
 											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.typestatuswords is not null
-										ORDER BY flat.typestatuswords asc
+											and flat.toptypestatus is not null
+										ORDER BY flat.toptypestatus asc
 									</cfquery>
 									<cfif types.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -967,7 +967,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="types">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&typestatuswords=%3D#encodeForUrl(types.typestatuswords)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.typestatuswords#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&toptypestatus=%3D#encodeForUrl(types.toptypestatus)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.toptypestatus#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -979,7 +979,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="types">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&typestatuswords=%3D#encodeForUrl(types.typestatuswords)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.typestatuswords#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&toptypestatus=%3D#encodeForUrl(types.toptypestatus)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.toptypestatus#</a> 
 														</li>
 													</cfloop>
 												</ul>
