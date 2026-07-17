@@ -941,6 +941,14 @@ limitations under the License.
 									</cfif>
 									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT flat.TOPTYPESTATUS
+										CASE
+											WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype')
+												THEN flat.TOPTYPESTATUS || ' (P)'
+											WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')
+												THEN flat.TOPTYPESTATUS || ' (S)'
+											ELSE
+												flat.TOPTYPESTATUS
+										END AS display_label
 										FROM
 											underscore_relation 
 											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
