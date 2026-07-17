@@ -384,7 +384,7 @@ limitations under the License.
 									[
 										{ name: 'guid', type: 'string' },
 										{ name: 'scientific_name', type: 'string' },
-										{ name: 'TOPTYPESTATUS', type: 'string'},
+										{ name: 'typestatuswords', type: 'string'},
 										{ name: 'verbatim_date', type: 'string' },
 										{ name: 'higher_geog', type: 'string' },
 										{ name: 'spec_locality', type: 'string' },
@@ -436,7 +436,7 @@ limitations under the License.
 									columns: [
 										{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
 										{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
-										{ text: 'TOPTYPESTATUS', datafield: 'TOPTYPESTATUS', width:'250', filtertype: 'input' },
+										{ text: 'Type Status', datafield: 'typestatuswords', width:'250', filtertype: 'input' },
 										{ text: 'Date Collected', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 										{ text: 'Locality', datafield: 'spec_locality',width:'350', filtertype: 'input' },
