@@ -939,7 +939,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
+									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT flat.TOPTYPESTATUS
 										FROM
 											underscore_relation 
