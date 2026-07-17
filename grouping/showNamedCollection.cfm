@@ -326,19 +326,19 @@ limitations under the License.
 			var currentCollectingImage = 1;
 		</script>
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">          
-            SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
-            FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-                join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
-                join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-            WHERE 
-                underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-                and flat.guid IS NOT NULL
-                and flat.dec_lat is not null
-                and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
-            GROUP BY 
-                flat.locality_id,
-                flat.dec_lat,
-                flat.dec_long
+			SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
+				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE 
+				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid IS NOT NULL
+				and flat.dec_lat is not null
+				and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+			GROUP BY 
+				flat.locality_id,
+				flat.dec_lat,
+				flat.dec_long
 		</cfquery>
 
 		<main class="py-3" id="content">
@@ -384,6 +384,7 @@ limitations under the License.
 									[
 										{ name: 'guid', type: 'string' },
 										{ name: 'scientific_name', type: 'string' },
+										{ name: 'TOPTYPESTATUS', type: 'string'},
 										{ name: 'verbatim_date', type: 'string' },
 										{ name: 'higher_geog', type: 'string' },
 										{ name: 'spec_locality', type: 'string' },
@@ -435,6 +436,7 @@ limitations under the License.
 									columns: [
 										{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
 										{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
+										{ text: 'TOPTYPESTATUS', datafield: 'TOPTYPESTATUS', width:'250', filtertype: 'input' },
 										{ text: 'Date Collected', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 										{ text: 'Locality', datafield: 'spec_locality',width:'350', filtertype: 'input' },
