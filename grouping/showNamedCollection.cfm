@@ -943,9 +943,9 @@ limitations under the License.
 										SELECT DISTINCT flat.TOPTYPESTATUS,
 											CASE
 												WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype')
-												THEN flat.TOPTYPESTATUS || ' (Primary Type)'
+												THEN flat.TOPTYPESTATUS || ' (P)'
 												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')
-												THEN flat.TOPTYPESTATUS || ' (Secondary Type)'
+												THEN flat.TOPTYPESTATUS || ' (S)'
 											ELSE
 												flat.TOPTYPESTATUS
 											END AS display_label
@@ -1001,6 +1001,7 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</cfif>
+												<small>(P) = Primary type and (S) = Secondary Type</small>
 										</div>
 									</cfif>
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
