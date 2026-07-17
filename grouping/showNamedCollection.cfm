@@ -958,7 +958,7 @@ limitations under the License.
 														<div class="card-header py-0" id="headingTypes">
 															<h3 class="h4 my-0">
 																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseTypes">
-																#types.recordcount# Oceans
+																#types.recordcount# Types
 																</button>
 															</h3>
 														</div>
@@ -979,7 +979,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="types">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&typestatuswords=%3D#encodeForUrl(types.typestatuswords)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#tyes.typestatuswords#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&typestatuswords=%3D#encodeForUrl(types.typestatuswords)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.typestatuswords#</a> 
 														</li>
 													</cfloop>
 												</ul>
