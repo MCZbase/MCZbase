@@ -951,7 +951,7 @@ limitations under the License.
 									</cfquery>
 									<cfif types.recordcount GT 0>
 										<div class="col-12 pb-3">
-											<h3 class="px-2 pb-1 border-bottom border-dark">Types within this Named Group</h3>
+											<h3 class="px-2 pb-1 border-bottom border-dark">Specimens Cited in this Group</h3>
 											<cfif types.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForTypes">
 													<div class="card mb-2 bg-light">
