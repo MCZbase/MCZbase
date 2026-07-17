@@ -966,6 +966,23 @@ limitations under the License.
 											END,
 												flat.TOPTYPESTATUS
 									</cfquery>
+
+									<cfset hasPrimary   = false>
+									<cfset hasSecondary = false>
+
+									<cfloop query="types">
+										<cfif NOT hasPrimary AND findNoCase("(P)", types.display_label)>
+											<cfset hasPrimary = true>
+										</cfif>
+										<cfif NOT hasSecondary AND findNoCase("(S)", types.display_label)>
+											<cfset hasSecondary = true>
+										</cfif>
+
+										<!--- If we’ve seen both, no need to keep looping --->
+										<cfif hasPrimary AND hasSecondary>
+											<cfbreak>
+										</cfif>
+									</cfloop>
 									<cfif types.recordcount GT 0>
 										<div class="col-12 pb-3">
 											<h3 class="px-2 pb-1 border-bottom border-dark">Specimens Cited in this Group</h3>
@@ -1002,7 +1019,24 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</cfif>
-												<div class="col-12"><small class="text-secondary float-right">(P) = Primary type and (S) = Secondary Type</small></div>
+											<cfset footnote = "">
+
+											<cfif hasPrimary>
+												<cfset footnote = "(P) = Primary type">
+											</cfif>
+
+											<cfif hasSecondary>
+												<cfif len(footnote)>
+													<cfset footnote = footnote & " and ">
+												</cfif>
+												<cfset footnote = footnote & "(S) = Secondary type">
+											</cfif>
+
+											<cfif len(footnote)>
+												<div class="text-right small mt-1">
+													#footnote#
+												</div>
+											</cfif>
 										</div>
 									</cfif>
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
