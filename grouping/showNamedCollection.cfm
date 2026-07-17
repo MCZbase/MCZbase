@@ -963,7 +963,7 @@ limitations under the License.
 															</h3>
 														</div>
 														<div class="card-body bg-white py-0">
-															<div id="collapseMar" aria-labelledby="headingTypes" data-parent="##accordionForTypes" class="collapse show">
+															<div id="collapseTypes" aria-labelledby="headingTypes" data-parent="##accordionForTypes" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="types">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
