@@ -1034,7 +1034,7 @@ limitations under the License.
 											</cfif>
 
 											<cfif hasManuscript>
-												<cfset ArrayAppend(footnoteParts, "(ms) = Manuscript type")>
+												<cfset ArrayAppend(footnoteParts, "(ms) = Manuscript")>
 											</cfif>
 
 											<cfif ArrayLen(footnoteParts)>
