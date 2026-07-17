@@ -250,7 +250,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			SELECT DISTINCT 
 				flat.guid, 
 				flat.scientific_name, 
-				flat.typestatuswords, 
 				flat.verbatim_date, 
 				flat.higher_geog, 
 				flat.spec_locality,
@@ -279,8 +278,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 								flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 						<cfelseif lcase(sortdatafield) EQ "scientific_name">
 							ORDER BY scientific_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
-						<cfelseif lcase(sortdatafield) EQ "typestatuswords">
-							ORDER BY typestatuswords <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 						<cfelseif lcase(sortdatafield) EQ "verbatim_date">
 							ORDER BY verbatim_date <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 						<cfelseif lcase(sortdatafield) EQ "higher_geog">
