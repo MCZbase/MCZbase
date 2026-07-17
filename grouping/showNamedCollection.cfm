@@ -1039,7 +1039,7 @@ limitations under the License.
 
 											<cfif ArrayLen(footnoteParts)>
 												<div class="text-right small mt-1">
-													#ArrayToList(footnoteParts, " and ")#
+													#ArrayToList(footnoteParts, ", ")#
 												</div>
 											</cfif>
 										</div>
