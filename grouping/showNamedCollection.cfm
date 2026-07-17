@@ -940,7 +940,7 @@ limitations under the License.
 										</div>
 									</cfif>
 									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.typestatuswords as type
+										SELECT DISTINCT flat.typestatuswords
 										FROM
 											underscore_relation 
 											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
