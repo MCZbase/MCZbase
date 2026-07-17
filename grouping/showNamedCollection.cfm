@@ -947,7 +947,7 @@ limitations under the License.
 												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')
 												THEN flat.TOPTYPESTATUS || ' (S)'
 										 		WHEN flat.TOPTYPESTATUS LIKE '%(ms)%'   -- or whatever condition means ms
-												THEN flat.TOPTYPESTATUS || ' (ms)'
+												THEN flat.TOPTYPESTATUS || ''
 											ELSE
 												flat.TOPTYPESTATUS
 											END AS display_label
