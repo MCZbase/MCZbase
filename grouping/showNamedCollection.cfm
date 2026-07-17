@@ -967,7 +967,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="types">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&TOPTYPESTATUS=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.toptypestatus#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&type_status=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.toptypestatus#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -979,7 +979,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="types">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&TOPTYPESTATUS=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.toptypestatus#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&type_status=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.toptypestatus#</a> 
 														</li>
 													</cfloop>
 												</ul>
