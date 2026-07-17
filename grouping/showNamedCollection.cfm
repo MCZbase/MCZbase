@@ -947,7 +947,16 @@ limitations under the License.
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.TOPTYPESTATUS is not null
-										ORDER BY flat.TOPTYPESTATUS asc
+										ORDER BY
+											CASE
+												-- Primary types
+												WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype') THEN 1
+												-- Secondary types
+												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')            THEN 2
+												-- Everything else
+												ELSE 3
+											END,
+												flat.TOPTYPESTATUS
 									</cfquery>
 									<cfif types.recordcount GT 0>
 										<div class="col-12 pb-3">
