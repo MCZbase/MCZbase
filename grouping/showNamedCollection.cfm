@@ -946,6 +946,8 @@ limitations under the License.
 												THEN flat.TOPTYPESTATUS || ' (P)'
 												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')
 												THEN flat.TOPTYPESTATUS || ' (S)'
+										 		WHEN flat.TOPTYPESTATUS LIKE '%(ms)%'   -- or whatever condition means ms
+												THEN flat.TOPTYPESTATUS || ' (ms)'
 											ELSE
 												flat.TOPTYPESTATUS
 											END AS display_label
@@ -967,8 +969,9 @@ limitations under the License.
 												flat.TOPTYPESTATUS
 									</cfquery>
 
-									<cfset hasPrimary   = false>
-									<cfset hasSecondary = false>
+									<cfset hasPrimary    = false>
+									<cfset hasSecondary  = false>
+									<cfset hasManuscript = false>
 
 									<cfloop query="types">
 										<cfif NOT hasPrimary AND findNoCase("(P)", types.display_label)>
@@ -977,9 +980,11 @@ limitations under the License.
 										<cfif NOT hasSecondary AND findNoCase("(S)", types.display_label)>
 											<cfset hasSecondary = true>
 										</cfif>
+										<cfif NOT hasManuscript AND findNoCase("(ms)", types.display_label)>
+											<cfset hasManuscript = true>
+										</cfif>
 
-										<!--- If we’ve seen both, no need to keep looping --->
-										<cfif hasPrimary AND hasSecondary>
+										<cfif hasPrimary AND hasSecondary AND hasManuscript>
 											<cfbreak>
 										</cfif>
 									</cfloop>
@@ -1019,22 +1024,22 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</cfif>
-											<cfset footnote = "">
-
+											<cfset footnoteParts = []>
 											<cfif hasPrimary>
-												<cfset footnote = "(P) = Primary type">
+												<cfset ArrayAppend(footnoteParts, "(P) = Primary type")>
 											</cfif>
 
 											<cfif hasSecondary>
-												<cfif len(footnote)>
-													<cfset footnote = footnote & " and ">
-												</cfif>
-												<cfset footnote = footnote & "(S) = Secondary type">
+												<cfset ArrayAppend(footnoteParts, "(S) = Secondary type")>
 											</cfif>
 
-											<cfif len(footnote)>
+											<cfif hasManuscript>
+												<cfset ArrayAppend(footnoteParts, "(ms) = Manuscript type")>
+											</cfif>
+
+											<cfif ArrayLen(footnoteParts)>
 												<div class="text-right small mt-1">
-													#footnote#
+													#ArrayToList(footnoteParts, " and ")#
 												</div>
 											</cfif>
 										</div>
