@@ -943,9 +943,9 @@ limitations under the License.
 										SELECT DISTINCT flat.TOPTYPESTATUS,
 											CASE
 												WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype')
-												THEN flat.TOPTYPESTATUS || ' (P)'
+												THEN flat.TOPTYPESTATUS || ' (Primary Type)'
 												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')
-												THEN flat.TOPTYPESTATUS || ' (S)'
+												THEN flat.TOPTYPESTATUS || ' (Secondary Type)'
 											ELSE
 												flat.TOPTYPESTATUS
 											END AS display_label
