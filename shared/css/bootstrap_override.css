@@ -2722,6 +2722,10 @@ div.toctitle {
 }
 .primaryTypeCell.jqx-grid-cell-alt {
 	background: #f5cad6!important;
+	background: #fbcad7 !important;
+}
+.secondaryTypeCell.jqx-grid-cell-alt {
+	background: #d1e0f3;
 }
 .jqx-grid-cell-hover {
 	background: #cbced1 !important;
