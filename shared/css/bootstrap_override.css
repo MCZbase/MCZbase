@@ -2716,11 +2716,12 @@ div.toctitle {
 	position: relative;
 	padding-left: 1.2rem !important;
 }
-.primaryTypeCell.jqx-grid-cell-alt {
-	background: #f5cad6!important;
-}
+
 .jqx-grid-cell-alt {
 	background: #e9edf2 !important;
+}
+.primaryTypeCell.jqx-grid-cell-alt {
+	background: #f5cad6!important;
 }
 .jqx-grid-cell-hover {
 	background: #cbced1 !important;
