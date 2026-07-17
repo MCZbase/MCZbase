@@ -969,7 +969,7 @@ limitations under the License.
 									<cfif types.recordcount GT 0>
 										<div class="col-12 pb-3">
 											<h3 class="px-2 pb-1 border-bottom border-dark">Specimens Cited in this Group</h3>
-											<small class="col-12">(P) = Primary type and (S) = Secondary Type</small>
+											
 											<cfif types.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForTypes">
 													<div class="card mb-2 bg-light">
@@ -1002,7 +1002,7 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</cfif>
-												
+												<small class="col-12 text-secondary ml-auto">(P) = Primary type and (S) = Secondary Type</small>
 										</div>
 									</cfif>
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
