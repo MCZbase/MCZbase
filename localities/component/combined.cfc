@@ -20,7 +20,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField, reportError --->
-<cfinclude template="shared/functionLib.cfm" runOnce="true"><!--- For getOrCreateStaticMapForLocality --->
+<cfinclude template="/shared/functionLib.cfm" runOnce="true"><!--- For getOrCreateStaticMapForLocality --->
 <cfinclude template="/dataquality/component/functions.cfc" runOnce="true"><!--- For interpretDate --->
 <cfinclude template="/localities/component/functions.cfc" runOnce="true"><!--- For updateGeoreference --->
 <cf_rolecheck>
