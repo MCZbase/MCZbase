@@ -326,8 +326,7 @@ limitations under the License.
 			</cfquery>
 
 			<cfif qLatLongForStatic.recordcount GT 0>
-				<cfset sharedFuncs = createObject("component", "/shared/component/functions.cfc")>
-				<cfset mapUrl = sharedFuncs.getOrCreateStaticMapForLocality(
+				<cfset mapUrl = getOrCreateStaticMapForLocality(
 					locality_id  = arguments.locality_id,
 					lat = qLatLongForStatic.dec_lat,
 					lng = qLatLongForStatic.dec_long,
