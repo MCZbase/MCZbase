@@ -480,7 +480,7 @@ limitations under the License.
 	<cfargument name="forceRefresh" type="boolean" required="false" default="false">
 	<cfargument name="createIfMissing" type="boolean" required="false" default="true">
 
-	<!-- one size / zoom -->
+	<!--- one size / zoom --->
 	<cfset var mapWidth  = 320>
 	<cfset var mapHeight = 180>
 	<cfset var zoom      = 10>
@@ -493,9 +493,8 @@ limitations under the License.
 	<cfset var staticUrl   = "">
 	<cfset var httpRes     = "">
 	<cfset var fileSize    = 0>
-	<!-- tune these as you like -->
-	<cfset var badSize     = 8123>   <!-- size (bytes) of known Google error tile -->
-	<cfset var minGoodSize = 2000>   <!-- ignore tiny “images” that are likely errors -->
+	<cfset var badSize     = 8123>   <!--- size (bytes) of known Google error tile --->
+	<cfset var minGoodSize = 2000>   <!--- ignore tiny “images” that are likely errors --->
 
 	<cfset retval = ""><!--- default return value is empty string indicating a problem --->
 
