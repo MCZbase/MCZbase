@@ -1150,7 +1150,7 @@
 													</cfif> 
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 														<div class="d-inline-block-md text-xl-right p-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0">
-															<h3 class="h2 px-3 px-xl-2">Specimen</h3>
+															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Specimen</h3>
 															<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller btn-link" onclick="toggleSpecDetail(#toggleTo#);">
 																show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 															</button>
