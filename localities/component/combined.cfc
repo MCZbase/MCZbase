@@ -20,6 +20,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField, reportError --->
+<cfinclude template="/shared/functionLib.cfm" runOnce="true"><!--- For getOrCreateStaticMapForLocality --->
 <cfinclude template="/dataquality/component/functions.cfc" runOnce="true"><!--- For interpretDate --->
 <cfinclude template="/localities/component/functions.cfc" runOnce="true"><!--- For updateGeoreference --->
 <cf_rolecheck>
@@ -326,8 +327,7 @@ limitations under the License.
 			</cfquery>
 
 			<cfif qLatLongForStatic.recordcount GT 0>
-				<cfset sharedFuncs = createObject("component", "/shared/component/functions.cfc")>
-				<cfset mapUrl = sharedFuncs.getOrCreateStaticMapForLocality(
+				<cfset mapUrl = getOrCreateStaticMapForLocality(
 					locality_id  = arguments.locality_id,
 					lat = qLatLongForStatic.dec_lat,
 					lng = qLatLongForStatic.dec_long,
