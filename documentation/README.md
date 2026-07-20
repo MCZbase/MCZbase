@@ -856,6 +856,86 @@ Instead, nest headings successively h1 to h6 with nesting depth.
 	</section>
 ```
 
+If you cannot keep the nesting in order of h1 to h6 due to the title also being a button, add aria-level="n", where is the level of header (e.g., 2).
+
+```html
+<h1 id="searchHeading">Search</h1>
+
+<div role="tablist" aria-labelledby="searchHeading">
+  <button type="button"
+          class="col-3 col-md-2 px-2 my-0 active"
+          id="basicSearchTabButton"
+          role="tab"
+          aria-controls="fixedSearchPanel"
+          aria-selected="true"
+          tabindex="0"
+          data-tabid="1">
+    <span class="h2 mb-0 font-weight-bold"
+          role="heading"
+          aria-level="2">
+      Basic Search
+    </span>
+  </button>
+```
+
+### Form Field Patterns
+
+Our form fields often have controls. We stack the form field components within a fieldset on the public search forms.
+
+```html
+	<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+		<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
+		<div class="form-row pt-2">
+			<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0">
+				<label for="anyName" id="anyName_label">Any part of any name</label>
+				<span class="text-secondary small">(match entire name with: </span>
+				<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" 
+					aria-label="prefix with equals for a case insensitive exact match search">
+					=
+				</button>, 
+				<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;" 
+					aria-label="prefix with tilde for 0.8 or greater Jaro-Winkler similarity match">
+					~
+				</button>,
+				<span class="text-secondary small">comma separated list)</span>
+				<input type="text" id="anyName" name="anyName" value="#encodeForHtml(anyName)#">
+			</div>
+			<div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 mt-0">
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-7 col-xl-8 pr-md-0 mb-0 pb-0">
+						<label for="specificagent">Specific Agent</label>
+						<small id="agentPick_help" class="text-secondary">(select from pick list that appears as you type)</small>
+						<input type="text" id="specificagent" name="specificagent" value="#encodeForHtml(specificagent)#" aria-describedby="agentPick_help">
+						<script>
+							$(document).ready(function() {
+								makeAgentAutocompleteMeta("specificagent", "agent_id", true);
+							});
+						</script>
+					</div>
+					<div class="col-6 col-md-2 col-xl-2 mb-1 form-group mb-0 pb-0">
+						<label for="specificagent">Agent ID</label>
+						<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#">
+					</div>
+					<div class="col-6 col-md-3 col-xl-2 form-group mb-0 pb-0">
+						<label for="agent_type">Agent Type</label>
+						<select id="agent_type" name="agent_type">
+							<option></option>
+							<cfloop query="ctagent_type">
+								<cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+								<option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
+							</cfloop>
+							<cfloop query="ctagent_type">
+								<cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+								<option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
+							</cfloop>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+```
+
 ### Responsive Styles
 
 The class col-12 should be included for most columns with a column size in the class for tablet and monitor sized screens (e.g., col-12 in addition to col-md-6, col-xl-3). Labels should be aligned left on all screens. Make sure spacing works when text, fields and buttons wrap. Also check that they don’t get stuck in rows when the elements are intended to wrap on smaller screens.
