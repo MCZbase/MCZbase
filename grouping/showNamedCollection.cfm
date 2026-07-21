@@ -969,25 +969,6 @@ limitations under the License.
 												flat.TOPTYPESTATUS
 									</cfquery>
 
-									<cfset hasPrimary    = false>
-									<cfset hasSecondary  = false>
-									<cfset hasManuscript = false>
-
-									<cfloop query="types">
-										<cfif NOT hasPrimary AND findNoCase("(P)", types.display_label)>
-											<cfset hasPrimary = true>
-										</cfif>
-										<cfif NOT hasSecondary AND findNoCase("(S)", types.display_label)>
-											<cfset hasSecondary = true>
-										</cfif>
-										<cfif NOT hasManuscript AND findNoCase("(ms)", types.display_label)>
-											<cfset hasManuscript = true>
-										</cfif>
-
-										<cfif hasPrimary AND hasSecondary AND hasManuscript>
-											<cfbreak>
-										</cfif>
-									</cfloop>
 									<cfif types.recordcount GT 0>
 										<div class="col-12 pb-3">
 											<h3 class="px-2 pb-1 border-bottom border-dark">Specimens Cited in this Group</h3>
@@ -1023,24 +1004,6 @@ limitations under the License.
 														</li>
 													</cfloop>
 												</ul>
-											</cfif>
-											<cfset footnoteParts = []>
-											<cfif hasPrimary>
-												<cfset ArrayAppend(footnoteParts, "(P) = Primary type")>
-											</cfif>
-
-											<cfif hasSecondary>
-												<cfset ArrayAppend(footnoteParts, "(S) = Secondary type")>
-											</cfif>
-
-											<cfif hasManuscript>
-												<cfset ArrayAppend(footnoteParts, "(ms) = Manuscript")>
-											</cfif>
-
-											<cfif ArrayLen(footnoteParts)>
-												<div class="text-right small mt-1">
-													#ArrayToList(footnoteParts, ", ")#
-												</div>
 											</cfif>
 										</div>
 									</cfif>
