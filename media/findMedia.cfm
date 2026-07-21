@@ -1087,7 +1087,7 @@ limitations under the License.
 				// If width is not defined or not a number, treat as 0
 				var width = parseInt(rowdata.width, 10) || 0;
 				
-				var linkClass = (width > 50000) ? 'btn-link' : 'text-dark';
+				var linkClass = (width > 50000) ? 'text-dark' : 'btn-link';
 
 				// Base link markup
 				var attrs = 'href="' + safeValue + '" target="_blank" rel="noopener" class="' + linkClass +'"';
