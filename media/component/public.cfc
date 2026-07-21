@@ -1469,7 +1469,7 @@ include this function and use it.
 
 								<cfset isHuge = effectiveWidth GT 50000>
 								<tr class="border mt-2 p-2">
-									<th scope="row">Media URI </th>
+									<th scope="row">Media URI #isHuge# </th>
 									<td>
 										<a target="_blank"
 											href="#encodeForHtmlAttribute(media.media_uri)#"
