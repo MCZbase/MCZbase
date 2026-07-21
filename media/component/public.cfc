@@ -907,30 +907,35 @@ include this function and use it.
 							</cfif>
 						<!---	<cfif listcontainsnocase(session.roles,"manage_media")>--->
 								<!-- treat “huge” as > 50000px -->
-								  <!-- choose an effective width: media.width if present, otherwise infoWidth if available -->
-								<cfset effectiveWidth = 0>
-								<cfif isDefined("media.width") AND len(media.width)>
-									<cfset effectiveWidth = val(media.width)>
-								<cfelseif isDefined("infoWidth") AND len(infoWidth)>
-									<cfset effectiveWidth = val(infoWidth)>
+							<cfset widthVal = 0> <!--- default, will be overwritten if we find a width label --->
+							<cfloop query="labels">
+								<!-- capture width from labels for later use -->
+								<cfif labels.media_label EQ "width">
+									<cfset widthVal = val(labels.label_value)>
 								</cfif>
-
-								<cfset isHuge = effectiveWidth GT 50000>
+								<tr>
+									<th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th>
+									<td>#labels.label_value#</td>
+								</tr>
+							</cfloop>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<!-- treat “huge” as > 50000px based on the width label -->
+								<cfset isHuge = widthVal GT 50000>
 
 								<tr class="border mt-2 p-2">
-									<th scope="row">Media URI : is huge #isHuge# : width #media.width# eff width #effectiveWidth#</th>
+									<th scope="row">Media URI </th>
 									<td>
 										<a target="_blank"
-											href="#encodeForHtmlAttribute(media.media_uri)#"
-											class="<cfif isHuge>text-dark<cfelse>btn-link</cfif>"
-											<cfif isHuge>
-												title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
-												aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
-											</cfif>
+										   href="#encodeForHtmlAttribute(media.media_uri)#"
+										   class="<cfif isHuge>text-dark<cfelse>btn-link</cfif>"
+										   <cfif isHuge>
+											   title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+											   aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+										   </cfif>
 										>#encodeForHtml(media.media_uri)#</a>
 									</td>
 								</tr>
-						<!---	</cfif>--->
+							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumbnail for media type used.">
 								<cfif len(media.preview_uri) GT 0>
