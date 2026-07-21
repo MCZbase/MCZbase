@@ -1075,8 +1075,8 @@ limitations under the License.
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
 			};
-			// 2. Add your new mediaUriCellRenderer here
-			function mediaUriCellRenderer (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+			// cell renderer for media_uri when size has a width of greater than 50,000 px.
+			function mediaUriCellRenderer(row, columnfield, value, defaulthtml, columnproperties, rowdata) {
 				if (!value) {
 					return "";
 				}
@@ -1084,13 +1084,23 @@ limitations under the License.
 				// Basic escaping to avoid unsafe HTML
 				var safeValue = $('<div/>').text(value).html();
 
-				// Accessible tooltip via title + aria-label
-				return '<a href="' + safeValue + '" ' +
-						'target="_blank" rel="noopener" ' +
-						'title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog." ' +
-						'aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog.">' +
-							safeValue +
-						'</a>';
+				// If width is not defined or not a number, treat as 0
+				var width = parseInt(rowdata.width, 10) || 0;
+
+				// Base link markup
+				var attrs = 'href="' + safeValue + '" target="_blank" rel="noopener"';
+
+				// If very large image, add tooltip + aria-label
+				if (width > 50000) {
+					var tooltipText = 'NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. ' +
+						'However, the pyramidal structure of the file also contains several downsampled versions. ' +
+						'To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution ' +
+						'in the &quot;Bio-Formats Series Options&quot; dialog.';
+
+					attrs += ' title="' + tooltipText + '" aria-label="' + tooltipText + '"';
+				}
+
+				return '<a ' + attrs + '>' + safeValue + '</a>';
 			}
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
