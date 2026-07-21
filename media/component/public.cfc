@@ -907,7 +907,15 @@ include this function and use it.
 							</cfif>
 						<!---	<cfif listcontainsnocase(session.roles,"manage_media")>--->
 								<!-- treat “huge” as > 50000px -->
-								<cfset isHuge = isDefined("media.width") AND val(media.width) GT 50000>
+								  <!-- choose an effective width: media.width if present, otherwise infoWidth if available -->
+								<cfset effectiveWidth = 0>
+								<cfif isDefined("media.width") AND len(media.width)>
+									<cfset effectiveWidth = val(media.width)>
+								<cfelseif isDefined("infoWidth") AND len(infoWidth)>
+									<cfset effectiveWidth = val(infoWidth)>
+								</cfif>
+
+								<cfset isHuge = effectiveWidth GT 50000>
 
 								<tr class="border mt-2 p-2">
 									<th scope="row">Media URI </th>
