@@ -1087,8 +1087,8 @@ limitations under the License.
 				// Accessible tooltip via title + aria-label
 				return '<a href="' + safeValue + '" ' +
 						'target="_blank" rel="noopener" ' +
-						'title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the "Bio-Formats Series Options" dialog. ' + safeValue + '" ' +
-						'aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the "Bio-Formats Series Options" dialog. ' + safeValue + '">' +
+						'title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog. ' + safeValue + '" ' +
+						'aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog. ' + safeValue + '">' +
 							safeValue +
 						'</a>';
 			}
