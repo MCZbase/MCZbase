@@ -1090,7 +1090,7 @@ limitations under the License.
 				var linkClass = (width > 50000) ? 'btn-link' : 'text-dark';
 
 				// Base link markup
-				var attrs = 'href="' + safeValue + '" target="_blank" rel="noopener" class="' + linkClass _'"';
+				var attrs = 'href="' + safeValue + '" target="_blank" rel="noopener" class="' + linkClass +'"';
 
 				// If very large image, add tooltip + aria-label
 				if (width > 50000) {
