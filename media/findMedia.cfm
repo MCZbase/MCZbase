@@ -1102,10 +1102,6 @@ limitations under the License.
 
 				return '<a ' + attrs + '>' + safeValue + '</a>';
 			}
-//			function toggleCardView() { 
-//				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-//				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
-//			};
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
@@ -1225,21 +1221,7 @@ limitations under the License.
 						enablebrowserselection: #defaultenablebrowserselection#,
 						altrows: true,
 						showtoolbar: false,
-//						<cfif Application.serverrole NEQ "production" >
-//							cardview: false,
-//							cardviewcolumns: [
-//								{ width: 'auto', datafield: 'media_id' },
-//								{ width: 'auto', datafield: 'preview_uri' },
-//								{ width: 'auto', datafield: 'media_type' },
-//								{ width: 'auto', datafield: 'mime_type' },
-//								{ width: 'auto', datafield: 'aspect' },
-//								{ width: 'auto', datafield: 'description' },
-//								{ width: 'auto', datafield: 'original_filename' },
-//								{ width: 'auto', datafield: 'height' },
-//								{ width: 'auto', datafield: 'width' },
-//								{ width: 'auto', datafield: 'media_uri' }
-//							],
-//						</cfif>
+
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
@@ -1455,11 +1437,6 @@ limitations under the License.
 				$("##columnPickDialogButton").html(
 					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 mx-1 my-2' style='padding-top: 1px !important; padding-bottom: 1px !important;'>Show/Hide Columns</button>"
 				);
-				<cfif Application.serverrole NEQ "production" >
-				//	$("##gridCardToggleButton").html(
-//						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn btn-xs btn-secondary px-2 my-2 mx-1' style='padding-top: 1px !important;padding-bottom: 1px !important;'>Grid/Card View</button>"
-//					);
-				</cfif>
 
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
