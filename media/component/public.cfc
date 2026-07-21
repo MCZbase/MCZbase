@@ -907,7 +907,7 @@ include this function and use it.
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<!-- treat “huge” as > 50000px -->
-								<cfset isHuge = structKeyExists(media, "width") AND val(media.width) GT 50000>
+								<cfset isHuge = isDefined("media.width") AND val(media.width) GT 50000>
 
 								<tr class="border mt-2 p-2">
 									<th scope="row">Media URI </th>
