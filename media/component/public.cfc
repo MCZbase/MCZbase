@@ -913,11 +913,11 @@ include this function and use it.
 								<cfif labels.media_label EQ "width">
 									<cfset widthVal = val(labels.label_value)>
 								</cfif>
-							
+							</cfloop>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<!-- treat “huge” as > 50000px based on the width label -->
 								<cfset isHuge = widthVal GT 50000>
-
+				
 								<tr class="border mt-2 p-2">
 									<th scope="row">Media URI </th>
 									<td>
@@ -931,7 +931,7 @@ include this function and use it.
 										>#encodeForHtml(media.media_uri)#</a>
 									</td>
 								</tr>
-								</cfloop>
+							
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumbnail for media type used.">
