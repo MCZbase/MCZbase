@@ -1075,6 +1075,23 @@ limitations under the License.
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
 			};
+			// 2. Add your new mediaUriCellRenderer here
+			function mediaUriCellRenderer (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+				if (!value) {
+					return "";
+				}
+
+				// Basic escaping to avoid unsafe HTML
+				var safeValue = $('<div/>').text(value).html();
+
+				// Accessible tooltip via title + aria-label
+				return '<a href="' + safeValue + '" ' +
+						'target="_blank" rel="noopener" ' +
+						'title="Open media in a new window: ' + safeValue + '" ' +
+						'aria-label="Open media URI in a new window: ' + safeValue + '">' +
+							safeValue +
+						'</a>';
+			}
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
@@ -1247,7 +1264,7 @@ limitations under the License.
 							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: getColHidProp('license_display', true), cellsrenderer: licenceCellRenderer },
 							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: getColHidProp('relations', true) },
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: getColHidProp('ac_description', true) },
-							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false), cellsrenderer: linkIdCellRenderer }
+							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false), cellsrenderer: mediaUriCellRenderer }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
