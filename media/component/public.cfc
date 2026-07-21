@@ -1451,7 +1451,23 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
+							
+								<cfset isHuge = isDefined("media.width") AND val(media.width) GT 50000>
+
+								<tr class="border mt-2 p-2">
+									<th scope="row">Media URI </th>
+									<td>
+										<a target="_blank"
+											href="#encodeForHtmlAttribute(media.media_uri)#"
+											class="<cfif isHuge>text-dark<cfelse>btn-link</cfif>"
+											<cfif isHuge>
+												title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+												aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+											</cfif>
+										>#encodeForHtml(media.media_uri)#</a>
+									</td>
+								</tr>
+									<a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumnail for media type used.">
