@@ -929,9 +929,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="columnPickDialogButton"></div>
-							<cfif Application.serverrole NEQ "production" >
-								<div id="gridCardToggleButton"></div>
-							</cfif>
+
 							<div id="resultDownloadButtonContainer"></div>
 							<div id="selectModeContainer" class="ml-3" style="display: none;" >
 								<script>
@@ -1224,22 +1222,7 @@ limitations under the License.
 						selectionmode: '#defaultSelectionMode#',
 						enablebrowserselection: #defaultenablebrowserselection#,
 						altrows: true,
-						showtoolbar: false,
-						<cfif Application.serverrole NEQ "production" >
-							cardview: false,
-							cardviewcolumns: [
-								{ width: 'auto', datafield: 'media_id' },
-								{ width: 'auto', datafield: 'preview_uri' },
-								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'aspect' },
-								{ width: 'auto', datafield: 'description' },
-								{ width: 'auto', datafield: 'original_filename' },
-								{ width: 'auto', datafield: 'height' },
-								{ width: 'auto', datafield: 'width' },
-								{ width: 'auto', datafield: 'media_uri' }
-							],
-						</cfif>
+						showtoolbar: false
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
