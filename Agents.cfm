@@ -183,7 +183,7 @@ limitations under the License.
 								<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-2">
-										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0 form-group">
+										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0">
 											<label for="anyName" id="anyName_label">Any part of any name</label>
 											<span class="text-secondary small">(match entire name with: </span><button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" 
 												aria-label="prefix with equals for a case insensitive exact match search">
@@ -198,7 +198,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 mt-0">
 											<div class="form-row mb-0">
-												<div class="col-12 col-md-7 col-xl-8  pr-md-0 form-group mb-0 pb-0">
+												<div class="col-12 col-md-7 col-xl-8 pr-md-0 mb-0 pb-0">
 													<label for="specificagent">Specific Agent</label>
 													<small id="agentPick_help" class="text-secondary">(select from pick list that appears as you type)</small>
 													<input type="text" id="specificagent" name="specificagent" value="#encodeForHtml(specificagent)#" aria-describedby="agentPick_help">
@@ -208,11 +208,11 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-6 col-md-2 col-xl-2 mb-1 form-group mb-0 pb-0">
+												<div class="col-6 col-md-2 col-xl-2 mb-1 mb-0 pb-0">
 													<label for="specificagent">Agent ID</label>
 													<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#">
 												</div>
-												<div class="col-6 col-md-3 col-xl-2 form-group mb-0 pb-0">
+												<div class="col-6 col-md-3 col-xl-2 mb-0 pb-0">
 													<label for="agent_type">Agent Type</label>
 													<select id="agent_type" name="agent_type">
 														<option></option>
@@ -236,7 +236,7 @@ limitations under the License.
 									<legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
 									<div class="form-row mb-0 pt-0">
 										<div class="col-12 col-md-3 col-lg-2 col-xl-2 mb-0 mb-md-1 mt-0">
-											<div class="form-group mb-1 pb-0 mt-0">
+											<div class="mb-1 pb-0 mt-0">
 												<label for="prefix">Prefix</label>
 												<select id="prefix" name="prefix">
 													<option></option>
@@ -255,7 +255,7 @@ limitations under the License.
 												</select>
 											</div>
 										</div>
-										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0 form-group">
+										<div class="col-12 col-md-5 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0">
 											<label for="first_name">First</label>
 											<span class="small text-secondary">(accepts </span><button type="button" class="rules" onclick="var e=document.getElementById('first_name');e.value='='+e.value;" 
 												aria-label="prefix with equals for case insensitive exact match">
@@ -279,7 +279,7 @@ limitations under the License.
 											</button><span class="small text-secondary">)</span>
 											<input type="text" id="first_name" name="first_name" value="#encodeForHtml(first_name)#">
 										</div>
-										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 form-group pb-0">
+										<div class="col-12 col-md-4 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0">
 											<label for="middle_name">Middle</label>
 											<span class="small text-secondary">(accepts</span><button type="button" class="rules" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;"
 												aria-label="prefix with equals for case insensitive exact match">
@@ -301,7 +301,7 @@ limitations under the License.
 											</button><span class="text-secondary small">)</span>
 											<input type="text" id="middle_name" name="middle_name" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 										</div>
-										<div class="col-12 col-md-8 col-lg-3 col-xl-3 form-group mb-0 mb-md-1 pb-0">
+										<div class="col-12 col-md-8 col-lg-3 col-xl-3 mb-0 mb-md-1 pb-0">
 											<label for="last_name">Last</label> 
 											<span class="small text-secondary">(accepts</span><button type="button" class="rules" onclick="var e=document.getElementById('last_name');e.value='='+e.value;"
 												aria-label="prefix with equals sign for case insensitive exact match search">
@@ -324,7 +324,7 @@ limitations under the License.
 											<input type="text" id="last_name" name="last_name" value="#encodeForHtml(last_name)#">
 										</div>
 										<div class="col-12 col-md-4 col-lg-1 col-xl-1 pb-0 mb-1 mb-md-0">
-											<div class="form-group mb-0 pb-2">
+											<div class="mb-0 pb-2">
 												<label for="suffix">Suffix</label>
 												<select id="suffix" name="suffix">
 													<option></option>
@@ -361,7 +361,7 @@ limitations under the License.
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 											<!--- Birth range, internal users only --->
 											<div class="col-12 col-md-4 px-0 mt-0">
-												<div class="form-group pt-2 pb-1 mb-0">
+												<div class="pt-2 pb-1 mb-0">
 													<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 mx-0 rounded justify-content-center">
 														<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
 														<input type="text" name="birth_date" id="birth_date" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
@@ -374,7 +374,7 @@ limitations under the License.
 										</cfif>
 										<div class="col-12 col-md-4 px-0 mt-0">
 											<!--- Death range, always shown --->
-											<div class="form-group pt-2 pb-1 mb-0">
+											<div class="pt-2 pb-1 mb-0">
 												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
 													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
 													<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
@@ -386,7 +386,7 @@ limitations under the License.
 										</div>
 										<!--- Dates collected (always) --->
 										<div class="col-12 col-md-4 px-0 mt-0">
-											  <div class="form-group pt-2 mb-0 pb-1">
+											  <div class="pt-2 mb-0 pb-1">
 												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
 													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
 													<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
@@ -410,7 +410,7 @@ limitations under the License.
 										<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
 											<div class="form-row mt-2">
 												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
-													<div class="form-group mb-1 pb-0">
+													<div class="mb-1 pb-0">
 														<label for="collector_collection" id="edited_label">Collector in Collection</label>
 														<select id="collector_collection" name="collector_collection">
 															<option></option>
@@ -426,7 +426,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
-													<div class="form-group mb-1 pb-0">
+													<div class="mb-1 pb-0">
 														<label for="author_collection">Author in Collection </label>
 														<select id="author_collection" name="author_collection">
 															<option></option>
@@ -443,7 +443,7 @@ limitations under the License.
 												</div>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 													<div class="col-12 col-md-4 col-xl-2 mt-0">
-														<div class="form-group mb-1 pb-0">
+														<div class="mb-1 pb-0">
 															<label for="trans_agent_collection">Collection Transactions</label>
 															<select id="trans_agent_collection" name="trans_agent_collection">
 																<option></option>
@@ -459,7 +459,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div class="col-12 col-md-6 col-xl-3 mt-0">
-														<div class="form-group mb-1 pb-0">
+														<div class="mb-1 pb-0">
 															<label for="trans_agent_role">Transaction Role</label>
 															<select id="trans_agent_role" name="trans_agent_role">
 																<option></option>
@@ -479,7 +479,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div class="col-12 col-md-6 col-xl-3 mt-0">
-														<div class="form-group mb-1 pb-0">
+														<div class="mb-1 pb-0">
 															<label for="permit_agent_role">Permissions &amp; Rights</label>
 															<select id="permit_agent_role" name="permit_agent_role">
 																<option></option>
