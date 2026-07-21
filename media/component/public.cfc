@@ -1451,9 +1451,7 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-							
 								<cfset isHuge = isDefined("media.width") AND val(media.width) GT 50000>
-
 								<tr class="border mt-2 p-2">
 									<th scope="row">Media URI </th>
 									<td>
@@ -1467,7 +1465,6 @@ include this function and use it.
 										>#encodeForHtml(media.media_uri)#</a>
 									</td>
 								</tr>
-									<a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumnail for media type used.">
