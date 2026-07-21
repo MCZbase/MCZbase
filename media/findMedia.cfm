@@ -1455,11 +1455,6 @@ limitations under the License.
 				$("##columnPickDialogButton").html(
 					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 mx-1 my-2' style='padding-top: 1px !important; padding-bottom: 1px !important;'>Show/Hide Columns</button>"
 				);
-				<cfif Application.serverrole NEQ "production" >
-					$("##gridCardToggleButton").html(
-						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn btn-xs btn-secondary px-2 my-2 mx-1' style='padding-top: 1px !important;padding-bottom: 1px !important;'>Grid/Card View</button>"
-					);
-				</cfif>
 
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
