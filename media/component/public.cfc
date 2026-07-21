@@ -913,11 +913,7 @@ include this function and use it.
 								<cfif labels.media_label EQ "width">
 									<cfset widthVal = val(labels.label_value)>
 								</cfif>
-								<tr>
-									<th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th>
-									<td>#labels.label_value#</td>
-								</tr>
-							</cfloop>
+							
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<!-- treat “huge” as > 50000px based on the width label -->
 								<cfset isHuge = widthVal GT 50000>
@@ -926,15 +922,16 @@ include this function and use it.
 									<th scope="row">Media URI </th>
 									<td>
 										<a target="_blank"
-										   href="#encodeForHtmlAttribute(media.media_uri)#"
-										   class="<cfif isHuge>text-dark<cfelse>btn-link</cfif>"
-										   <cfif isHuge>
-											   title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
-											   aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
-										   </cfif>
+										href="#encodeForHtmlAttribute(media.media_uri)#"
+										class="<cfif isHuge>text-dark<cfelse>btn-link</cfif>"
+										<cfif isHuge>
+										title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+										aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+										</cfif>
 										>#encodeForHtml(media.media_uri)#</a>
 									</td>
 								</tr>
+								</cfloop>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumbnail for media type used.">
