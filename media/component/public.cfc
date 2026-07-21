@@ -1460,7 +1460,14 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
 							<!---<cfif listcontainsnocase(session.roles,"")>--->
-								<cfset isHuge = isDefined("media.width") AND val(media.width) GT 50000>
+								<cfset effectiveWidth = 0>
+								<cfif isDefined("media.width") AND len(media.width)>
+									<cfset effectiveWidth = val(media.width)>
+								<cfelseif isDefined("infoWidth") AND len(infoWidth)>
+									<cfset effectiveWidth = val(infoWidth)>
+								</cfif>
+
+								<cfset isHuge = effectiveWidth GT 50000>
 								<tr class="border mt-2 p-2">
 									<th scope="row">Media URI </th>
 									<td>
