@@ -441,81 +441,93 @@
 	--->
 	<!--- Section 1: Taxon Identity and Classification --->
 	<section class="row mx-0 mb-2">
-		<div class="col-12 border rounded bg-white px-3 py-2">
+		<div class="col-12 px-0">
+			<div class="card">
+				<div class="card-header py-2">
 
-			<cfset title="#one.scientific_name#">
-			<cfset metaDesc="Taxon Detail for #one.scientific_name#">
-			<cfset thisSearch = "%22#one.scientific_name#%22">
-			<cfloop query="common_name">
-				<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
-			</cfloop>
+					<cfset title="#one.scientific_name#">
+					<cfset metaDesc="Taxon Detail for #one.scientific_name#">
+					<cfset thisSearch = "%22#one.scientific_name#%22">
+					<cfloop query="common_name">
+						<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
+					</cfloop>
 
-			<div class="pb-2">
-				<cfif one.VALID_CATALOG_TERM_FG is 1>
-					<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> <span class="font-weight-normal small">#encodeForHTML(one.taxon_status)#</span></h1>
-					<cfif len(one.AUTHOR_TEXT) gt 0>
-						<span class="sm-caps font-weight-normal small90"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
-					</cfif>
-					<cfelseif one.VALID_CATALOG_TERM_FG is 0>
-					<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> <span class="font-weight-normal small90">#encodeForHTML(one.taxon_status)#</span></h1>
-					<span class="text-danger h3">This name is not allowed for current identifications/data entry in MCZbase. </span>
-				</cfif>
-			</div>
-
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-				<p><a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#encodeForURL(one.taxon_name_id)#">Edit Taxonomy</a></p>
-			</cfif>
-
-
-		<div class="table-responsive">
-			<table class="table table-sm">
-				<caption class="sr-only">Complete taxonomic classification for #encodeForHTML(one.scientific_name)#</caption>
-				<thead>
-					<tr>
-						<cfloop list="#taxaRanksList#" index="rank">
-							<cfif len(evaluate("one." & rank)) gt 0>
-								<cfset lbl=replace(rank,"PHYL",'')>
-								<cfif lbl is "subspecies" and len(one.infraspecific_rank) gt 0>
-									<cfset lbl=one.infraspecific_rank>
+					<div class="d-flex align-items-start justify-content-between flex-wrap">
+						<div>
+							<cfif one.VALID_CATALOG_TERM_FG is 1>
+								<h1 class="h2 mt-2 mb-1">#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> <span class="font-weight-normal small">#encodeForHTML(one.taxon_status)#</span></h1>
+								<cfif len(one.AUTHOR_TEXT) gt 0>
+									<span class="sm-caps font-weight-normal small90"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
 								</cfif>
-								<th scope="col">#encodeForHTML(lbl)#</th>
+							<cfelseif one.VALID_CATALOG_TERM_FG is 0>
+								<h1 class="h2 mt-2 mb-1">#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> <span class="font-weight-normal small90">#encodeForHTML(one.taxon_status)#</span></h1>
+								<div class="text-danger h3">This name is not allowed for current identifications/data entry in MCZbase.</div>
 							</cfif>
-						</cfloop>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<cfloop list="#taxaRanksList#" index="rank">
-							<cfif len(evaluate("one." & rank)) gt 0>
-								<cfif rank EQ "Family">
-									<cfset fam = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&family=#encodeForURL(fam)#">#encodeForHTML(fam)#</a></td>
-								<cfelseif rank EQ "Genus">
-									<cfset highertaxon = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&genus=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
-								<cfelseif rank EQ "Superfamily">
-									<cfset highertaxon = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&superfamily=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
-								<cfelseif rank EQ "Suborder">
-									<cfset highertaxon = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&suborder=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
-								<cfelse>
-									<td>#encodeForHTML(evaluate("one." & rank))#</td>
-								</cfif>
-								<cfset metaDesc=metaDesc & "; #replace(rank,'PHYL','')#: #evaluate('one.' & rank)#">
-							</cfif>
-						</cfloop>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+						</div>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
+							<div class="mt-2 ml-2 flex-shrink-0">
+								<a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#encodeForURL(one.taxon_name_id)#">Edit Taxonomy</a>
+							</div>
+						</cfif>
+					</div>
 
-	</div>
+				</div><!--- card-header --->
+				<div class="card-body px-3 py-2">
+					<div class="table-responsive">
+						<table class="table table-sm">
+							<caption class="sr-only">Complete taxonomic classification for #encodeForHTML(one.scientific_name)#</caption>
+							<thead>
+								<tr>
+									<cfloop list="#taxaRanksList#" index="rank">
+										<cfif len(evaluate("one." & rank)) gt 0>
+											<cfset lbl=replace(rank,"PHYL",'')>
+											<cfif lbl is "subspecies" and len(one.infraspecific_rank) gt 0>
+												<cfset lbl=one.infraspecific_rank>
+											</cfif>
+											<th scope="col">#encodeForHTML(lbl)#</th>
+										</cfif>
+									</cfloop>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<cfloop list="#taxaRanksList#" index="rank">
+										<cfif len(evaluate("one." & rank)) gt 0>
+											<cfif rank EQ "Family">
+												<cfset fam = evaluate("one." & rank)>
+												<td><a href="/Taxa.cfm?execute=true&family=#encodeForURL(fam)#">#encodeForHTML(fam)#</a></td>
+											<cfelseif rank EQ "Genus">
+												<cfset highertaxon = evaluate("one." & rank)>
+												<td><a href="/Taxa.cfm?execute=true&genus=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
+											<cfelseif rank EQ "Superfamily">
+												<cfset highertaxon = evaluate("one." & rank)>
+												<td><a href="/Taxa.cfm?execute=true&superfamily=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
+											<cfelseif rank EQ "Suborder">
+												<cfset highertaxon = evaluate("one." & rank)>
+												<td><a href="/Taxa.cfm?execute=true&suborder=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
+											<cfelse>
+												<td>#encodeForHTML(evaluate("one." & rank))#</td>
+											</cfif>
+											<cfset metaDesc=metaDesc & "; #replace(rank,'PHYL','')#: #evaluate('one.' & rank)#">
+										</cfif>
+									</cfloop>
+								</tr>
+							</tbody>
+						</table>
+					</div><!--- table-responsive --->
+				</div><!--- card-body --->
+			</div><!--- card --->
+		</div><!--- col-12 --->
 	</section>
 
 	<!--- Section 2: Name Metadata --->
 	<section class="row mx-0 mb-2">
-		<div class="col-12 border rounded bg-white px-3 py-2">
+		<div class="col-12 px-0">
+			<div class="card">
+				<div class="card-header py-2">
+					<h2 class="h4 my-0">Name Details</h2>
+				</div>
+				<div class="card-body px-3 py-2">
 
 			<!--- lookup authorship from taxon_author table --->
 			<cfquery name="getAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -594,12 +606,19 @@
 				</ul>
 			</cfif>
 
-		</div>
+				</div><!--- card-body --->
+			</div><!--- card --->
+		</div><!--- col-12 --->
 	</section>
 
 	<!--- Section 3: Publications, Citations, and Related Names --->
 	<section class="row mx-0 mb-2">
-		<div class="col-12 border rounded bg-white px-3 py-2">
+		<div class="col-12 px-0">
+			<div class="card">
+				<div class="card-header py-2">
+					<h2 class="h4 my-0">Publications, Citations, and Related Names</h2>
+				</div>
+				<div class="card-body px-3 py-2">
 
 			<h2 class="h4">Related Publications:</h2>
 			<ul>
@@ -675,14 +694,16 @@
 				</cfif>
 			</ul>
 
-			<div id="taxRelatedNames">
+			<div id="taxRelatedNames" class="row">
 				<h2 class="h4">Related Taxon Records:</h2>
 				<cfset taxon_name_id = tnid>
 				<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
 				<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
 			</div>
 
-		</div>
+				</div><!--- card-body --->
+			</div><!--- card --->
+		</div><!--- col-12 --->
 	</section>
 
 	<!--- Section 4: Media - standard media widget, grouped by specimen GUID --->
@@ -720,52 +741,77 @@
 					media_relationship = 'shows cataloged_item'
 					AND citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 			) order by typestatus
-		) where rownum < 20
+		) where rownum < 27
 	</cfquery>
 	<cfset hasSpecimenMedia = (media.recordcount GT 0)>
 
+	<!--- Section 4: Media accordion - open if <= 25 images, collapsed if > 25 --->
+	<cfif media.recordcount GT 25>
+		<cfset mediaBodyClass = "collapse">
+		<cfset mediaAriaExpanded = "false">
+	<cfelse>
+		<cfset mediaBodyClass = "collapse show">
+		<cfset mediaAriaExpanded = "true">
+	</cfif>
+	<cfif media.recordcount EQ 1><cfset mediaPlural = ""><cfelse><cfset mediaPlural = "s"></cfif>
 	<section class="row mx-0 mb-2">
-		<div class="col-12 border rounded bg-white px-3 py-2">
-			<h2 class="h4">Media:</h2>
-			<cfif media.recordcount EQ 0>
-				<p>No MCZbase specimens identified as this taxon have images</p>
-			<cfelse>
-				<!--- sort media by guid for specimen grouping --->
-				<cfquery name="mediaSorted" dbtype="query">
-					SELECT guid, media_id FROM media ORDER BY guid, typestatus
-				</cfquery>
-				<cfset previousGuid = "">
-				<div class="row">
-					<cfloop query="mediaSorted">
-						<cfif mediaSorted.guid NEQ previousGuid>
+		<div class="col-12 px-0 accordion" id="mediaSectionAccordion">
+			<div class="card">
+				<div class="card-header py-0" id="mediaCardHeader">
+					<h2 class="h4 my-0">
+						<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#mediaAriaExpanded#" aria-controls="mediaCardBodyWrap">
+							Media &mdash; #media.recordcount# image#mediaPlural#<cfif media.recordcount GT 25> (showing first 26)</cfif>
+						</button>
+					</h2>
+				</div>
+				<div id="mediaCardBodyWrap" class="#mediaBodyClass# px-2" aria-labelledby="mediaCardHeader" data-parent="##mediaSectionAccordion">
+					<div class="card-body px-3 py-2">
+					<cfif media.recordcount EQ 0>
+						<p>No MCZbase specimens identified as this taxon have images</p>
+					<cfelse>
+						<!--- sort media by guid for specimen grouping --->
+						<cfquery name="mediaSorted" dbtype="query">
+							SELECT guid, media_id FROM media ORDER BY guid, typestatus
+						</cfquery>
+						<cfset previousGuid = "">
+						<div class="row">
+							<cfloop query="mediaSorted">
+								<cfif mediaSorted.guid NEQ previousGuid>
+									<cfif len(previousGuid) GT 0>
+										</div><!--- end guid media row --->
+										</div><!--- end guid block --->
+									</cfif>
+									<div class="col-12 mb-3">
+										<p class="mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></p>
+										<div class="row mx-0">
+									<cfset previousGuid = mediaSorted.guid>
+								</cfif>
+								<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 mb-2">
+									<div id="mediaBlock#mediaSorted.media_id#" class="border rounded bg-light">
+										<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
+									</div>
+								</div>
+							</cfloop>
 							<cfif len(previousGuid) GT 0>
 								</div><!--- end guid media row --->
 								</div><!--- end guid block --->
 							</cfif>
-							<div class="col-12 mb-3">
-								<p class="mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></p>
-								<div class="row mx-0">
-							<cfset previousGuid = mediaSorted.guid>
-						</cfif>
-						<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 mb-2">
-							<div id="mediaBlock#mediaSorted.media_id#" class="border rounded bg-light">
-								<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
-							</div>
 						</div>
-					</cfloop>
-					<cfif len(previousGuid) GT 0>
-						</div><!--- end guid media row --->
-						</div><!--- end guid block --->
 					</cfif>
-				</div>
-			</cfif>
-		</div>
+					</div><!--- card-body --->
+				</div><!--- mediaCardBodyWrap --->
+			</div><!--- card --->
+		</div><!--- col-12 accordion --->
 	</section>
 
 	<!--- Section 5: MCZbase Links and External Links --->
 	<section class="row mx-0 mb-4">
-		<div class="col-12 border rounded bg-white px-3 py-2">
-
+		<div class="col-12 px-0">
+			<div class="card">
+				<div class="card-header py-2">
+					<h2 class="h4 my-0">MCZbase Links and External Links</h2>
+				</div>
+				<div class="card-body px-3 py-2">
 			<h2 class="h4">MCZbase Links:</h2>
 			<ul>
 				<cfquery name="usedInIndentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -776,10 +822,10 @@
 				<cfif usedInIndentifications.c GT 0>
 					<li>
 						<a href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#">Specimens currently identified as #one.display_name#</a>
-						<a href="/SpecimenResults.cfm?anyTaxId=#encodeForURL(one.taxon_name_id)#">[ include unaccepted IDs ]</a>
-						<a href="/SpecimenResults.cfm?taxon_name_id=#encodeForURL(one.taxon_name_id)#">[ exact matches only ]</a>
+						<a class="btn btn-xs btn-outline-secondary ml-1" href="/SpecimenResults.cfm?anyTaxId=#encodeForURL(one.taxon_name_id)#">include unaccepted IDs</a>
+						<a class="btn btn-xs btn-outline-secondary ml-1" href="/SpecimenResults.cfm?taxon_name_id=#encodeForURL(one.taxon_name_id)#">exact matches only</a>
 						<cfif hasSpecimenMedia>
-							<a href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#&media_type=any">[ with Media ]</a>
+							<a class="btn btn-xs btn-outline-secondary ml-1" href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#&media_type=any">with Media</a>
 						</cfif>
 					</li>
 					<!--- maps.google.com no longer supports passing a kml file, would need to use the google map api instead --->
@@ -916,14 +962,20 @@
 				</li>
 			</ul>
 
-		</div>
+				</div><!--- card-body --->
+			</div><!--- card --->
+		</div><!--- col-12 --->
 	</section>
 
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 	<!--- Section 6: Annotations --->
 	<section class="row mx-0 mb-4">
-		<div class="col-12 border rounded bg-white px-3 py-2">
-			<h2 class="h4">Annotations:</h2>
+		<div class="col-12 px-0">
+			<div class="card">
+				<div class="card-header py-2">
+					<h2 class="h4 my-0">Annotations</h2>
+				</div>
+				<div class="card-body px-3 py-2">
 			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) cnt from annotations
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
@@ -960,7 +1012,9 @@
 			<cfelse>
 				<p class="my-2">There are no annotations on this taxon record</p>
 			</cfif>
-		</div>
+				</div><!--- card-body --->
+			</div><!--- card --->
+		</div><!--- col-12 --->
 	</section>
 	</cfif>
 

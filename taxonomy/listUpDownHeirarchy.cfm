@@ -82,7 +82,7 @@
 					order by
 						scientific_name
 				</cfquery>
-				<cfif qsubspecies.recordcount LT 10 AND qspecies.recordcount LT 10>
+				<cfif qsubspecies.recordcount LTE 10 AND qspecies.recordcount LTE 10>
 					<cfset collapsed = "">
 					<cfset collapseshow = "collapse show">
 				<cfelse>
@@ -140,7 +140,7 @@
 					order by
 						scientific_name
 				</cfquery>
-				<cfif d.recordcount LT 21 >
+				<cfif d.recordcount LTE 10 >
 					<cfset collapsed = "">
 					<cfset collapseshow = "collapse show">
 				<cfelse>
