@@ -193,62 +193,60 @@ limitations under the License.
 						</cfif>
 						<div class="container-fluid">
 							<div class="form-row mx-0">
-								<div class="col-12 col-xl-10 mx-auto">
-									<div class="col-12">
-										<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
-										<cfif len(getAgent.collections_scope) GT 0>
-											<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
-										</cfif>
-									</div>
-									<cfif listcontainsnocase(session.roles, "manage_transactions")>
-										<div class="col-12 col-md-4">
-											<h2 class="h3"><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a></h2>
-										</div>
-										<div class="col-12 col-md-4">
-											<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT count(*) || ' ' || agent_rank agent_rank
-												FROM agent_rank
-												WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-												group by agent_rank
-											</cfquery>
-											<span id="agentRankSummary" style="font-size: 13px;margin: 1em 0;">
-												<cfif rank.recordcount gt 0>
-													Previous Ranking: #valuelist(rank.agent_rank,"; ")#
-													<cfif #valuelist(rank.agent_rank,"; ")# contains 'F'>
-														<img src='/agents/images/flag-red.svg.png' width='16'>
-													<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'D'>
-														<img src='/agents/images/flag-yellow.svg.png' width='16'>
-													<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'C'>
-														<img src='/agents/images/flag-yellow.svg.png' width='16'>
-													<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'B'>
-														<img src='/agents/images/flag-yellow.svg.png' width='16'>
-													</cfif>
-												</cfif>
-											</span>
-										</div>
-										<div class="col-12 col-md-4">
-											<cfif listcontainsnocase(session.roles,"manage_transactions")>
-												<script>
-													function reloadAgentRanks() { 
-														loadAgentRankSummary('agentRankSummary',#agent_id#);
-													}
-												</script>
-												<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
-													<cfset rankButtonText = "View/Add Rankings">
-													<cfset rankButtonLabel = "View or Add Rankings for this agent">
-												<cfelse>
-													<cfset rankButtonText = "View Rankings">
-													<cfset rankButtonLabel = "View Rankings for this agent">
-												</cfif>
-												<input type="button" class="btn btn-xs btn-secondary" value="#rankButtonText#" aria-label="#rankButtonLabel#" 
-													onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #getAgent.preferred_agent_name#',#agent_id#, reloadAgentRanks); ">
-												&nbsp;&nbsp;
-												<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
-											</cfif>
-											<div id="agentRankDlg_#agent_id#"></div>
-										</div>
+								<div class="col-12">
+									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<cfif len(getAgent.collections_scope) GT 0>
+										<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
 									</cfif>
 								</div>
+ 								<cfif listcontainsnocase(session.roles, "manage_transactions")>
+									<div class="col-12 col-md-4">
+										<h2 class="h3"><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a></h2>
+									</div>
+									<div class="col-12 col-md-4">
+										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT count(*) || ' ' || agent_rank agent_rank
+											FROM agent_rank
+											WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by agent_rank
+										</cfquery>
+										<span id="agentRankSummary" style="font-size: 13px;margin: 1em 0;">
+											<cfif rank.recordcount gt 0>
+												Previous Ranking: #valuelist(rank.agent_rank,"; ")#
+												<cfif #valuelist(rank.agent_rank,"; ")# contains 'F'>
+													<img src='/agents/images/flag-red.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'D'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'C'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'B'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												</cfif>
+											</cfif>
+										</span>
+									</div>
+									<div class="col-12 col-md-4">
+										<cfif listcontainsnocase(session.roles,"manage_transactions")>
+											<script>
+												function reloadAgentRanks() { 
+													loadAgentRankSummary('agentRankSummary',#agent_id#);
+												}
+											</script>
+											<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
+												<cfset rankButtonText = "View/Add Rankings">
+												<cfset rankButtonLabel = "View or Add Rankings for this agent">
+											<cfelse>
+												<cfset rankButtonText = "View Rankings">
+												<cfset rankButtonLabel = "View Rankings for this agent">
+											</cfif>
+ 											<input type="button" class="btn btn-xs btn-secondary" value="#rankButtonText#" aria-label="#rankButtonLabel#" 
+												onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #getAgent.preferred_agent_name#',#agent_id#, reloadAgentRanks); ">
+											&nbsp;&nbsp;
+											<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
+										</cfif>
+										<div id="agentRankDlg_#agent_id#"></div>
+									</div>
+								</cfif>
 							</div>
 						</div>
 						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
