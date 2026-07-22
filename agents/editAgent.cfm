@@ -624,7 +624,7 @@ limitations under the License.
 								</script>
 							</form>
 						</section>
-						<div class="row">
+						<div class="row col-12 col-xl-10 mx-auto">
 							<div class="col-12 col-lg-12 col-xl-5 pr-xl-2">
 								<section class="row border rounded my-2 mx-0 px-1 pt-2 pb-3">
 									<div class="col-12">
