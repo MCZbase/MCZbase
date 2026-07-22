@@ -999,7 +999,8 @@ limitations under the License.
 				<div class="card-body px-3 py-2">
 					<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select count(*) cnt from annotations
-						where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+						where target_table = 'TAXONOMY'
+						and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 					</cfquery>
 					<cfif existingAnnotations.cnt GT 0>
 						<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
@@ -1022,7 +1023,8 @@ limitations under the License.
 						<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
 						<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select count(*) statecount, state from annotations
-							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+							where target_table = 'TAXONOMY'
+							and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 							group by state
 						</cfquery>
 						<ul>
