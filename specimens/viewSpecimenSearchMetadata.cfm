@@ -241,7 +241,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("category")><cfset category=""></cfif>
 												<label for="category" class="data-entry-label" id="category_label">Category (= ! ~ !~ ,)</label>
-												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
+												<input type="text" id="category" name="category" class="data-entry-input" value="#encodeForHtmlAttribute(category#" aria-labelledby="category_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('category','category');
@@ -251,7 +251,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("column_name")><cfset column_name=""></cfif>
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name (= ! ~ !~ ,)</label>
-												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#encodeForHtml(column_name)#" aria-labelledby="column_name_label" >
+												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#encodeForHtmlAttribute(column_name)#" aria-labelledby="column_name_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('column_name','column_name');
@@ -261,7 +261,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("label")><cfset label=""></cfif>
 												<label for="label" class="data-entry-label" id="label_label">Label (= ! ~ !~ ,)</label>
-												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<input type="text" id="label" name="label" class="data-entry-input" value="#encodeForHtmlAttribute(label)#" aria-labelledby="label_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('label','label');
@@ -271,7 +271,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("hidden")><cfset hidden=""></cfif>
 												<label for="hiddenctl" class="data-entry-label" id="hidden_label">Hidden (= ! ~ !~ ,)</label>
-												<input type="text" id="hiddenctl" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
+												<input type="text" id="hiddenctl" name="hidden" class="data-entry-input" value="#encodeForHtmlAttribute(hidden)#" aria-labelledby="hidden_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('hiddenctl','hidden');
@@ -281,7 +281,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("access_role")><cfset access_role=""></cfif>
 												<label for="access_role" class="data-entry-label" id="label_access_role">Access Role (= ! ~ !~ ,)</label>
-												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#access_role#" aria-labelledby="label_access_role" >
+												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#encodeForHtmlAttribute(access_role)#" aria-labelledby="label_access_role" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('access_role','access_role');
@@ -291,7 +291,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("sql_element")><cfset sql_element=""></cfif>
 												<label for="sql_element" class="data-entry-label" id="label_sql_element">SQL (= ! ~ !~ ,)</label>
-												<input type="text" id="sql_element" name="sql_element" class="data-entry-input" value="#sql_element#" aria-labelledby="label_sql_element" >
+												<input type="text" id="sql_element" name="sql_element" class="data-entry-input" value="#encodeForHtmlAttribute(sql_element)#" aria-labelledby="label_sql_element" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('sql_element','sql_element');
@@ -620,7 +620,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("search_category")><cfset search_category=""></cfif>
 												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category (= ! ~ !~ ,)</label>
-												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#encodeForHtml(search_category)#" aria-labelledby="search_category_label" >
+												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#encodeForHtmlAttribute(search_category)#" aria-labelledby="search_category_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('search_category','search_category');
@@ -630,7 +630,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("table_name")><cfset table_name=""></cfif>
 												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name (= ! ~ !~ ,)</label>
-												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#encodeForHtml(table_name)#" aria-labelledby="table_name_label" >
+												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#encodeForHtmlAttribute(table_name)#" aria-labelledby="table_name_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('table_name','table_name');
@@ -640,7 +640,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("column_name")><cfset column_name=""></cfif>
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name (= ! ~ !~ ,)</label>
-												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#encodeForHtml(column_name)#" aria-labelledby="column_name_label" >
+												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#encodeForHtmlAttribute(column_name)#" aria-labelledby="column_name_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('column_name','column_name');
@@ -650,7 +650,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("label")><cfset label=""></cfif>
 												<label for="label" class="data-entry-label" id="label_label">Label (= ! ~ !~ ,)</label>
-												<input type="text" id="label" name="label" class="data-entry-input" value="#encodeForHtml(label)#" aria-labelledby="label_label" >
+												<input type="text" id="label" name="label" class="data-entry-input" value="#encodeForHtmlAttribute(label)#" aria-labelledby="label_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('label','label');
@@ -660,7 +660,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("access_role")><cfset access_role=""></cfif>
 												<label for="access_role" class="data-entry-label" id="label_access_role">Access Role (= ! ~ !~ ,)</label>
-												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#encodeForHtml(access_role)#" aria-labelledby="label_access_role" >
+												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#encodeForHtmlAttribute(access_role)#" aria-labelledby="label_access_role" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('access_role','access_role');
@@ -670,13 +670,13 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("description")><cfset description=""></cfif>
 												<label for="description" class="data-entry-label" id="label_description">Description <span class="small">(NULL, NOT NULL)</span></label>
-												<input type="text" id="description" name="description" class="data-entry-input" value="#encodeForHtml(description)#" aria-labelledby="label_description" >
+												<input type="text" id="description" name="description" class="data-entry-input" value="#encodeForHtmlAttribute(description)#" aria-labelledby="label_description" >
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"COLLOPS")>
 												<div class="col-12 col-md-2">
 													<cfif NOT isDefined("ui_function")><cfset ui_function=""></cfif>
 													<label for="ui_function" class="data-entry-label" id="label_ui_function">UI Function (NOT NULL = ! ~ !~ , NULL)</label>
-													<input type="text" id="ui_function" name="ui_function" class="data-entry-input" value="#encodeForHtml(ui_function)#" aria-labelledby="label_ui_function" >
+													<input type="text" id="ui_function" name="ui_function" class="data-entry-input" value="#encodeForHtmlAttribute(ui_function)#" aria-labelledby="label_ui_function" >
 													<script>
 														jQuery(document).ready(function() {
 															makeSpecSearchColsAutocomplete('ui_function','ui_function');
