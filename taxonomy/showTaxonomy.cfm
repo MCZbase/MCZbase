@@ -750,7 +750,6 @@
 						<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 mb-2">
 							<div id="mediaBlock#mediaSorted.media_id#" class="border rounded bg-light">
 								<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
-								#mediaBlock#
 							</div>
 						</div>
 					</cfloop>
