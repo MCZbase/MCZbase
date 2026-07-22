@@ -297,17 +297,17 @@ limitations under the License.
 			taxon_attribute.taxon_attribute_type, taxon_attribute.attribute_value
 	</cfquery>
 	<cfquery name="common_name" dbtype="query">
-		select
+		SELECT
 			common_name
-		from
+		FROM
 			getDetails
-		where
+		WHERE
 			common_name is not null
-		group by
+		GROUP BY
 			common_name
 	</cfquery>
 	<cfquery name="one" dbtype="query">
-		select
+		SELECT
 			TAXON_NAME_ID,
 			VALID_CATALOG_TERM_FG,
 			SOURCE_AUTHORITY,
@@ -326,9 +326,9 @@ limitations under the License.
 			taxonid,
 			scientificnameid_guid_type,
 			scientificnameid
-		from
+		FROM
 			getDetails
-		group by
+		GROUP BY
 			TAXON_NAME_ID,
 			VALID_CATALOG_TERM_FG,
 			SOURCE_AUTHORITY,
@@ -349,18 +349,18 @@ limitations under the License.
 			scientificnameid
 	</cfquery>
 	<cfquery name="related" dbtype="query">
-		select
+		SELECT
 			RELATED_TAXON_NAME_ID,
 			TAXON_RELATIONSHIP,
 			RELATION_AUTHORITY,
 			related_name,
 			related_display_name,
 			related_author_text
-		from
+		FROM
 			getDetails
-		where
+		WHERE
 			RELATED_TAXON_NAME_ID is not null
-		group by
+		GROUP BY
 			RELATED_TAXON_NAME_ID,
 			TAXON_RELATIONSHIP,
 			RELATION_AUTHORITY,
@@ -369,18 +369,18 @@ limitations under the License.
 			related_author_text
 	</cfquery>
 	<cfquery name="imp_related" dbtype="query">
-		select
+		SELECT
 			imp_related_name,
 			imp_RELATED_TAXON_NAME_ID,
 			imp_TAXON_RELATIONSHIP,
 			imp_RELATION_AUTHORITY,
 			imp_related_display_name,
 			imp_related_author_text
-		from
+		FROM
 			getDetails
-		where
+		WHERE
 			imp_RELATED_TAXON_NAME_ID is not null
-		group by
+		GROUP BY
 			imp_related_name,
 			imp_RELATED_TAXON_NAME_ID,
 			imp_TAXON_RELATIONSHIP,
@@ -389,14 +389,14 @@ limitations under the License.
 			imp_related_author_text
 	</cfquery>
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select
+		SELECT
 			taxonomy_publication_id,
 			formatted_publication,
 			taxonomy_publication.publication_id
-		from
+		FROM
 			taxonomy_publication,
 			formatted_publication
-		where
+		WHERE
 			format_style='short' and
 			taxonomy_publication.publication_id=formatted_publication.publication_id and
 			taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
@@ -429,9 +429,10 @@ limitations under the License.
 			'MCZ:' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num
 	</cfquery>
 	<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-		from ctguid_type 
-		where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.taxonid_guid_type#">
+		SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+		FROM ctguid_type 
+		WHERE 
+			guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.taxonid_guid_type#">
 	</cfquery>
 	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="habitat_result">
 		SELECT taxon_habitat 
@@ -446,9 +447,10 @@ limitations under the License.
 		<cfset taxonidlink = REReplace(one.taxonid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 	</cfif>
 	<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-		from ctguid_type 
-		where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientificnameid_guid_type#">
+		SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+		FROM ctguid_type 
+		WHERE 
+			guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientificnameid_guid_type#">
 	</cfquery>
 	<cfset scientificnameidlink = "">
 	<cfif len(one.scientificnameid) GT 0 AND ctguid_type_taxon.recordcount GT 0 >
@@ -498,7 +500,7 @@ limitations under the License.
 				<div class="card-body px-3 py-2">
 					<div class="table-responsive">
 						<table class="table table-sm">
-							<caption class="sr-only">Complete taxonomic classification for #encodeForHTML(one.scientific_name)#</caption>
+							<caption class="sr-only">Taxonomic classification for #encodeForHTML(one.scientific_name)#</caption>
 							<thead>
 								<tr>
 									<cfloop list="#taxaRanksList#" index="rank">
@@ -858,14 +860,17 @@ limitations under the License.
 					</li>
 					--->
 					<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select phylclass,genus || ' ' || species scientific_name
-						from taxonomy
-						where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientific_name#">
-						group by phylclass,genus || ' ' || species
+						SELECT phylclass,genus || ' ' || species scientific_name
+						FROM taxonomy
+						WHERE 
+							scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientific_name#">
+						GROUP BY phylclass,genus || ' ' || species
 					</cfquery>
-					<cfif getClass.recordcount is not 1 or (
+					<cfif getClass.recordcount is not 1 
+						OR (
 							getClass.phylclass is not 'Amphibia' and getClass.phylclass is not 'Mammalia' and getClass.phylclass is not 'Aves'
-					)>
+						)
+					>
 						<!--- link without range maps, as including them would result in an error --->
 						<li>
 							<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=false&scientific_name=#encodeForURL(one.scientific_name)#" class="external" target="_blank" rel="noopener noreferrer">BerkeleyMapper</a>
@@ -882,7 +887,8 @@ limitations under the License.
 						FROM identification
 							JOIN identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
 							JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on identification.collection_object_id = flattable.collection_object_id
-						WHERE identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+						WHERE 
+							identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
 						GROUP BY nvl(substr(identification.made_date,1,4),'unknown date'), substr(identification.made_date,1,4)
 						ORDER BY substr(identification.made_date,1,4) asc;
 					</cfquery>
@@ -905,9 +911,10 @@ limitations under the License.
 				</cfif>
 
 				<cfquery name="usedInCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) c
-					from citation
-					where cited_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+					SELECT count(*) c
+					FROM citation
+					WHERE 
+						cited_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
 				</cfquery>
 				<cfif usedInCitations.c gt 0>
 					<li>
