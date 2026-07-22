@@ -750,6 +750,30 @@
 										<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&scientific_name=#one.scientific_name#" class="external" target="_blank"> BerkeleyMapper + RangeMaps </a>
 									</li>
 								</cfif>
+								<!--- get years in which identifications were made and link out to specimen searches by year --->
+								<cfquery name="getYears" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT count(*) as ct, nvl(substr(identification.made_date,1,4),'unknown date') as year, substr(identification.made_date,1,4) as year_sort
+									FROM identification
+										JOIN identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+										JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on identification.collection_object_id = flattable.collection_object_id
+									WHERE identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+									GROUP BY nvl(substr(identification.made_date,1,4),'unknown date'), substr(identification.made_date,1,4)
+									ORDER BY substr(identification.made_date,1,4) asc;
+								</cfquery>
+								<cfif getYears.recordcount GT 0>
+									<li>Specimens identified as #one.display_name# in:</li>
+									<ul>
+										<cfloop query="getYears">
+											<li>
+												<cfset targetYear = "#getYears.year#">
+												<cfif targetYear is "unknown date">
+													<cfset targetYear = "NULL">
+												</cfif>
+												<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&openParens1=0&field1=IDENTIFICATION%3AMADE_DATE&searchText1=#targetYear#&closeParens1=0&JoinOperator2=and&openParens2=0&field2=TAXONOMY%3AIDENTIFICATIONS_SCIENTIFIC_NAME&searchText2=#one.scientific_name#&closeParens2=0">#getYears.year# (#getYears.ct#) </a>
+											</li>								
+										</cfloop>
+									</ul>
+								</cfif>
 							<cfelse>
 								<li>No specimens use this name in Identifications.</li>
 							</cfif>
