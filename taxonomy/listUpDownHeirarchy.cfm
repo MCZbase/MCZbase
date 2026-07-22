@@ -52,7 +52,7 @@
 					</cfif>
 				</cfif>
 			</div>
-			<div class="accordion col-12 col-lg-9 col-xl-7 px-0 mb-3" id="accordionForTaxa">
+			<div class="accordion col-12 col-lg-11 px-0 mb-3" id="accordionForTaxa">
 				<!--- included subspecies --->
 				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
@@ -82,7 +82,7 @@
 					order by
 						scientific_name
 				</cfquery>
-				<cfif qsubspecies.recordcount LTE 10 AND qspecies.recordcount LTE 10>
+				<cfif qsubspecies.recordcount LTE 20 AND qspecies.recordcount LTE 20>
 					<cfset collapsed = "">
 					<cfset collapseshow = "collapse show">
 				<cfelse>
@@ -140,7 +140,7 @@
 					order by
 						scientific_name
 				</cfquery>
-				<cfif d.recordcount LTE 10 >
+				<cfif d.recordcount LTE 20 >
 					<cfset collapsed = "">
 					<cfset collapseshow = "collapse show">
 				<cfelse>
