@@ -128,7 +128,7 @@ limitations under the License.
 	<cfset var conversations = QueryNew("")>
 	<cfset var cardBodyHtml = "">
 	<cftry>
-		<cfquery name="annQuery" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.short_timeout#">
+		<cfquery name="annQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 			SELECT
 				annotations.annotation_id,
 				NVL(atb.body_value, annotations.annotation) annotation_display,

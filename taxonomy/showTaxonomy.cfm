@@ -995,7 +995,7 @@ limitations under the License.
 	<section class="row mx-0 mb-4">
 		<div class="col-12 px-0">
 			<div id="taxonAnnotationDialog"></div>
-			<cfquery name="countTaxonAnnotations" datasource="user_login" username="#session.dbuser#" ******>
+			<cfquery name="countTaxonAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">>
 				SELECT count(annotation_id) ct
 				FROM annotations
 				WHERE target_table = 'TAXONOMY'
