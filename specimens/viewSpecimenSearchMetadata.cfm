@@ -241,7 +241,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("category")><cfset category=""></cfif>
 												<label for="category" class="data-entry-label" id="category_label">Category (= ! ~ !~ ,)</label>
-												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
+												<input type="text" id="category" name="category" class="data-entry-input" value="#encodeForHtmlAttribute(category)#" aria-labelledby="category_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('category','category');
@@ -251,7 +251,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("column_name")><cfset column_name=""></cfif>
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name (= ! ~ !~ ,)</label>
-												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
+												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#encodeForHtmlAttribute(column_name)#" aria-labelledby="column_name_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('column_name','column_name');
@@ -261,7 +261,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("label")><cfset label=""></cfif>
 												<label for="label" class="data-entry-label" id="label_label">Label (= ! ~ !~ ,)</label>
-												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<input type="text" id="label" name="label" class="data-entry-input" value="#encodeForHtmlAttribute(label)#" aria-labelledby="label_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('label','label');
@@ -271,7 +271,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("hidden")><cfset hidden=""></cfif>
 												<label for="hiddenctl" class="data-entry-label" id="hidden_label">Hidden (= ! ~ !~ ,)</label>
-												<input type="text" id="hiddenctl" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
+												<input type="text" id="hiddenctl" name="hidden" class="data-entry-input" value="#encodeForHtmlAttribute(hidden)#" aria-labelledby="hidden_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('hiddenctl','hidden');
@@ -281,7 +281,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("access_role")><cfset access_role=""></cfif>
 												<label for="access_role" class="data-entry-label" id="label_access_role">Access Role (= ! ~ !~ ,)</label>
-												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#access_role#" aria-labelledby="label_access_role" >
+												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#encodeForHtmlAttribute(access_role)#" aria-labelledby="label_access_role" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('access_role','access_role');
@@ -291,7 +291,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("sql_element")><cfset sql_element=""></cfif>
 												<label for="sql_element" class="data-entry-label" id="label_sql_element">SQL (= ! ~ !~ ,)</label>
-												<input type="text" id="sql_element" name="sql_element" class="data-entry-input" value="#sql_element#" aria-labelledby="label_sql_element" >
+												<input type="text" id="sql_element" name="sql_element" class="data-entry-input" value="#encodeForHtmlAttribute(sql_element)#" aria-labelledby="label_sql_element" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('sql_element','sql_element');
@@ -620,7 +620,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("search_category")><cfset search_category=""></cfif>
 												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category (= ! ~ !~ ,)</label>
-												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
+												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#encodeForHtmlAttribute(search_category)#" aria-labelledby="search_category_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('search_category','search_category');
@@ -630,7 +630,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("table_name")><cfset table_name=""></cfif>
 												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name (= ! ~ !~ ,)</label>
-												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
+												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#encodeForHtmlAttribute(table_name)#" aria-labelledby="table_name_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('table_name','table_name');
@@ -640,7 +640,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("column_name")><cfset column_name=""></cfif>
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name (= ! ~ !~ ,)</label>
-												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
+												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#encodeForHtmlAttribute(column_name)#" aria-labelledby="column_name_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('column_name','column_name');
@@ -650,7 +650,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("label")><cfset label=""></cfif>
 												<label for="label" class="data-entry-label" id="label_label">Label (= ! ~ !~ ,)</label>
-												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<input type="text" id="label" name="label" class="data-entry-input" value="#encodeForHtmlAttribute(label)#" aria-labelledby="label_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('label','label');
@@ -660,7 +660,7 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("access_role")><cfset access_role=""></cfif>
 												<label for="access_role" class="data-entry-label" id="label_access_role">Access Role (= ! ~ !~ ,)</label>
-												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#access_role#" aria-labelledby="label_access_role" >
+												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#encodeForHtmlAttribute(access_role)#" aria-labelledby="label_access_role" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('access_role','access_role');
@@ -670,13 +670,13 @@ limitations under the License.
 											<div class="col-12 col-md-2">
 												<cfif NOT isDefined("description")><cfset description=""></cfif>
 												<label for="description" class="data-entry-label" id="label_description">Description <span class="small">(NULL, NOT NULL)</span></label>
-												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="label_description" >
+												<input type="text" id="description" name="description" class="data-entry-input" value="#encodeForHtmlAttribute(description)#" aria-labelledby="label_description" >
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"COLLOPS")>
 												<div class="col-12 col-md-2">
 													<cfif NOT isDefined("ui_function")><cfset ui_function=""></cfif>
 													<label for="ui_function" class="data-entry-label" id="label_ui_function">UI Function (NOT NULL = ! ~ !~ , NULL)</label>
-													<input type="text" id="ui_function" name="ui_function" class="data-entry-input" value="#ui_function#" aria-labelledby="label_ui_function" >
+													<input type="text" id="ui_function" name="ui_function" class="data-entry-input" value="#encodeForHtmlAttribute(ui_function)#" aria-labelledby="label_ui_function" >
 													<script>
 														jQuery(document).ready(function() {
 															makeSpecSearchColsAutocomplete('ui_function','ui_function');
@@ -769,54 +769,115 @@ limitations under the License.
 							$('##selectModeContainer').hide();
 
 							// Cell renderers
+							// local helpers to preserve behavior while preventing markup injection
+							var escapeHtml = function (input) {
+								return String(input)
+									.replace(/&/g, "&amp;")
+									.replace(/</g, "&lt;")
+									.replace(/>/g, "&gt;")
+									.replace(/"/g, "&quot;")
+									.replace(/'/g, "&##39;");
+									// " is not strictly required to be escaped in HTML, but is included for completeness
+							};
+							var safeAlign = function (alignValue) {
+								// preserve existing intent; fallback keeps current visual behavior stable
+								var allowed = { left: true, right: true, center: true };
+								var normalized = String(alignValue || "").toLowerCase();
+								return allowed[normalized] ? normalized : "left";
+							};
+
+							var safeCategoryFileBase = function (input) {
+								// preserve current behavior intent (lowercase + underscore), but harden
+								// convert whitespace runs to underscore, then allow only [a-z0-9_]
+								return String(input || "")
+									.toLowerCase()
+									.replace(/\s+/g, "_")
+									.replace(/[^a-z0-9_]/g, "");
+							};
+
 							var autocompleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata', row);
 								var result = "";
 								var ui_function = rowData['UI_FUNCTION'];
+							
+							
+								var align = safeAlign(columnproperties.cellsalign);
+							
 								if (ui_function) {
-									if (ui_function.includes('makeCTFieldSearchAutocomplete')) { 
-                              var table = "";
-										var ui_function_bits = ui_function.split(',');
-										if (ui_function_bits.length==2) {
-											table = ui_function_bits[1].replace(/[^A-Z_]/,"");
+									if (ui_function.includes('makeCTFieldSearchAutocomplete')) {
+										var table = "";
+										var ui_function_bits = String(ui_function).split(',');
+										if (ui_function_bits.length == 2) {
+											// keep only valid chars globally, then verify final form
+											table = ui_function_bits[1].replace(/[^A-Z_]/g, "");
+											if (!/^[A-Z_]+$/.test(table)) {
+												table = "";
+											}
 										}
-										if (table.length>0) { 
-											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/vocabularies/ControlledVocabulary.cfm?table=CT'+table+'" target="_blank">Yes</a></span>';
-										} else { 
-											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
+										if (table.length > 0) {
+											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; "><a href="/vocabularies/ControlledVocabulary.cfm?table=CT' + table + '" target="_blank" rel="noopener noreferrer">Yes</a></span>';
+										} else {
+											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">Yes</span>';
 										}
-									} else { 
-										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
+									} else {
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">Yes</span>';
 									}
-								} else { 
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-								}
-								return result;
-							};
-							var categoryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var result = "";
-								var category = rowData['SEARCH_CATEGORY'];
-								if (category=='Accessions' || category=='Attributes' || category=='Cataloged Item' || category=='Collecting Events' || category=='Named Groups' || category=='Citations' || category=='Collectors' || category=='Identifications' || category=='Media' || category=='Specimen Parts'  ) {
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/documentation/er_diagrams/'+value.toLowerCase().replace(' ','_')+'.svg" target="blank">'+value+'</a></span>';
-								} else { 
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-								}
-								return result;
-							};
-							var tableCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var result = "";
-								var category = rowData['SEARCH_CATEGORY'];
-								var tablename = rowData['TABLE_NAME'];
-								if (category=='Collecting Events' && ( tablename == 'LAT_LONG' || tablename == 'LOCALITY' || tablename == 'GEOG_AUTH_REC' ) ) {
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/documentation/er_diagrams/localities.svg" target="blank">'+value+'</a></span>';
-								} else { 
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+								} else {
+									// preserve existing display of DB value, but safely escaped
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + escapeHtml(value) + '</span>';
 								}
 								return result;
 							};
 					
+							var categoryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata', row);
+								var result = "";
+								var category = rowData['SEARCH_CATEGORY'];
+								var align = safeAlign(columnproperties.cellsalign);
+								var safeValue = escapeHtml(value);
+							
+								if (
+									category == 'Accessions' ||
+									category == 'Attributes' ||
+									category == 'Cataloged Item' ||
+									category == 'Collecting Events' ||
+									category == 'Named Groups' ||
+									category == 'Citations' ||
+									category == 'Collectors' ||
+									category == 'Identifications' ||
+									category == 'Media' ||
+									category == 'Specimen Parts'
+								) {
+									var fileBase = safeCategoryFileBase(value);
+									if (fileBase.length > 0) {
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; "><a href="/documentation/er_diagrams/' + fileBase + '.svg" target="_blank" rel="noopener noreferrer">' + safeValue + '</a></span>';
+									} else {
+										// fallback preserves visible behavior if value is unusable for filename
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + safeValue + '</span>';
+									}
+								} else {
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + safeValue + '</span>';
+								}
+								return result;
+							};
+							
+							var tableCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata', row);
+								var result = "";
+								var category = rowData['SEARCH_CATEGORY'];
+								var tablename = rowData['TABLE_NAME'];
+								var align = safeAlign(columnproperties.cellsalign);
+								var safeValue = escapeHtml(value);
+							
+								if (category == 'Collecting Events' && (tablename == 'LAT_LONG' || tablename == 'LOCALITY' || tablename == 'GEOG_AUTH_REC')) {
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; "><a href="/documentation/er_diagrams/localities.svg" target="_blank" rel="noopener noreferrer">' + safeValue + '</a></span>';
+								} else {
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + safeValue + '</span>';
+								}
+								return result;
+							};
+
+							// define the search object
 							var search =
 							{
 								datatype: "json",
