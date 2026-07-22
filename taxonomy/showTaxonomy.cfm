@@ -458,7 +458,7 @@
 			</div>
 
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-				<p><a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">Edit Taxonomy</a></p>
+				<p><a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#encodeForURL(one.taxon_name_id)#">Edit Taxonomy</a></p>
 			</cfif>
 
 
@@ -770,8 +770,8 @@
 				<cfif usedInIndentifications.c GT 0>
 					<li>
 						<a href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#">Specimens currently identified as #one.display_name#</a>
-						<a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#">[ include unaccepted IDs ]</a>
-						<a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#">[ exact matches only ]</a>
+						<a href="/SpecimenResults.cfm?anyTaxId=#encodeForURL(one.taxon_name_id)#">[ include unaccepted IDs ]</a>
+						<a href="/SpecimenResults.cfm?taxon_name_id=#encodeForURL(one.taxon_name_id)#">[ exact matches only ]</a>
 						<cfif hasSpecimenMedia>
 							<a href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#&media_type=any">[ with Media ]</a>
 						</cfif>
@@ -779,7 +779,7 @@
 					<!--- maps.google.com no longer supports passing a kml file, would need to use the google map api instead --->
 					<!---
 					<li>
-						<a href="/bnhmMaps/kml.cfm?method=gmap&action=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank" rel="noopener noreferrer"> Google Map of MCZbase specimens </a>
+						<a href="/bnhmMaps/kml.cfm?method=gmap&action=newReq&next=colorBySpecies&scientific_name=#encodeForURL(one.scientific_name)#" class="external" target="_blank" rel="noopener noreferrer"> Google Map of MCZbase specimens </a>
 					</li>
 					--->
 					<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -836,7 +836,7 @@
 				</cfquery>
 				<cfif usedInCitations.c gt 0>
 					<li>
-						<a href="/SpecimenResults.cfm?cited_taxon_name_id=#one.taxon_name_id#">Specimens cited as #one.display_name#</a>
+						<a href="/SpecimenResults.cfm?cited_taxon_name_id=#encodeForURL(one.taxon_name_id)#">Specimens cited as #one.display_name#</a>
 					</li>
 				<cfelse>
 					<li>No specimens are cited using this name.</li>
