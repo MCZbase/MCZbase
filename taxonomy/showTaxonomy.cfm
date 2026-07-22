@@ -783,11 +783,11 @@
 									</cfif>
 									<div class="col-12 mb-3">
 										<p class="mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></p>
-										<div class="row mx-0">
+										<div class="row mx-0 align-items-start">
 									<cfset previousGuid = mediaSorted.guid>
 								</cfif>
 								<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 mb-2">
-									<div id="mediaBlock#mediaSorted.media_id#" class="border rounded bg-light">
+									<div id="mediaBlock#mediaSorted.media_id#">
 										<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
 									</div>
 								</div>
