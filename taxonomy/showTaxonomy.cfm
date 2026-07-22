@@ -995,7 +995,8 @@ limitations under the License.
 	<section class="row mx-0 mb-4">
 		<div class="col-12 px-0">
 			<div id="taxonAnnotationDialog"></div>
-			<cfquery name="countTaxonAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">>
+			<cfquery name="countTaxonAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+
 				SELECT count(annotation_id) ct
 				FROM annotations
 				WHERE target_table = 'TAXONOMY'
@@ -1042,15 +1043,32 @@ limitations under the License.
 	</section>
 	</cfif>
 
-	<!--- Fix zoom tracker positions when Bootstrap accordions expand or collapse --->
+	<!--- Reposition addimagezoom trackers when Bootstrap collapse panels open or close.
+		  Uses MutationObserver on each collapse element's class attribute so this works
+		  regardless of whether Bootstrap 4 collapse events bubble to document. --->
 	<script type="text/javascript">
-		$(document).ready(function($) {
-			$(document).on('hide.bs.collapse', function() {
-				$('.zoomtracker').css({left: -10000, top: -10000});
-			});
-			$(document).on('shown.bs.collapse', function() {
+		$(function() {
+			function pushTrackersOffscreen() {
+				$('.zoomtracker, .cursorshade').css({ left: -10000, top: -10000 });
+			}
+			function repositionTrackers() {
 				$(window).trigger('resize');
-			});
+			}
+			function watchPanel(id) {
+				var el = document.getElementById(id);
+				if (!el) { return; }
+				var lastShown = el.classList.contains('show');
+				new MutationObserver(function() {
+					var hasShow = el.classList.contains('show');
+					var isTransitioning = el.classList.contains('collapsing');
+					if (!isTransitioning && hasShow !== lastShown) {
+						lastShown = hasShow;
+						if (hasShow) { repositionTrackers(); } else { pushTrackersOffscreen(); }
+					}
+				}).observe(el, { attributes: true, attributeFilter: ['class'] });
+			}
+			['mediaCardBodyWrap', 'taxonAnnotationsCardBodyWrap',
+			 'collapseRelatedTaxa', 'collapseSpecies'].forEach(watchPanel);
 		});
 	</script>
 
