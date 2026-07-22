@@ -760,7 +760,7 @@
 				<div class="card-header py-0" id="mediaCardHeader">
 					<h2 class="h4 my-0">
 						<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#mediaAriaExpanded#" aria-controls="mediaCardBodyWrap">
-							Media &mdash; #media.recordcount# image#mediaPlural#<cfif media.recordcount GT 25> (showing first 26)</cfif>
+							Media &mdash; #media.recordcount# image#mediaPlural#
 						</button>
 					</h2>
 				</div>
