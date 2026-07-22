@@ -251,7 +251,7 @@ limitations under the License.
 						</div>
 						<section class="container-fluid">
 							<div class="row mx-0">
-							<form class="col-12 col-xl-10 border rounded mx-3" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
+							<form class="col-12 col-xl-10 px-0 border rounded mx-3" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
 								<!--- function handleChange: action to take when an input has its value changed, binding to inputs below --->
@@ -298,7 +298,7 @@ limitations under the License.
 									});
 								</script>
 								<div class="form-row mb-1">
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-4 pt-2">
 										<label for="agent_type" class="data-entry-label">Type of Agent</label>
 										<cfset curAgentType = getAgent.agent_type>
 										<cfif curAgentType EQ "person">
