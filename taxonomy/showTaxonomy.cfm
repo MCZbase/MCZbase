@@ -754,6 +754,8 @@
 		<cfset mediaAriaExpanded = "true">
 	</cfif>
 	<cfif media.recordcount EQ 1><cfset mediaPlural = ""><cfelse><cfset mediaPlural = "s"></cfif>
+	<!--- Thumbnail size for the media gallery; must be > 200 to avoid fixedSmallThumb auto-reduction to 75px --->
+	<cfset mediaThumbnailSize = 250>
 	<section class="row mx-0 mb-2">
 		<div class="col-12 px-0 accordion" id="mediaSectionAccordion">
 			<div class="card">
@@ -784,12 +786,12 @@
 								<cfset previousGuid = mediaSorted.guid>
 							</cfif>
 							<!---
-								fixedSmallThumb with size=250 renders a server-rescaled 250x250 square thumbnail.
+								fixedSmallThumb with size > 200 renders a server-rescaled square thumbnail.
 								styles overrides the default "height:76px" so the image fills the square at the correct size.
 							--->
 							<div class="col-6 col-md-4 col-lg-3 px-1 mb-2">
 								<div id="mediaBlock#mediaSorted.media_id#">
-									<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",displayAs="fixedSmallThumb",size="250",styles="height:250px;width:250px;",captionAs="textShort")>
+									<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",displayAs="fixedSmallThumb",size="#mediaThumbnailSize#",styles="height:#mediaThumbnailSize#px;width:#mediaThumbnailSize#px;",captionAs="textShort")>
 								</div>
 							</div>
 						</cfloop>
