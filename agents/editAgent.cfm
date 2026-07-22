@@ -540,7 +540,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mt-1 mb-1">
 									<div class="form-group col-12">
-										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+										<input type="button" value="Save" class="btn btn-xs btn-primary  mt-2 px-3 mr-2"
 											onClick="if (checkFormValidity($('##editAgentForm')[0])) { saveEdits();  } " 
 											id="submitButton" >
 										<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
