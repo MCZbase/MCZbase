@@ -22,6 +22,8 @@ limitations under the License.
 <cfset pageTitle = "Taxon Details">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded --->
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true"><!--- for renderAnnotatorHtml, renderAnnotationConversationReplies --->
+<cfinclude template="/annotations/component/public.cfc" runOnce="true"><!--- for getTaxonomyAnnotationCardBodyHtml --->
 
 <main class="container py-3" id="content">
 	
@@ -992,54 +994,65 @@ limitations under the License.
 	<!--- Section 6: Annotations --->
 	<section class="row mx-0 mb-4">
 		<div class="col-12 px-0">
-			<div class="card">
-				<div class="card-header py-2">
-					<h2 class="h4 my-0">Annotations</h2>
+			<div id="taxonAnnotationDialog"></div>
+			<cfquery name="countTaxonAnnotations" datasource="user_login" username="#session.dbuser#" ******>
+				SELECT count(annotation_id) ct
+				FROM annotations
+				WHERE target_table = 'TAXONOMY'
+					AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+					<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+						AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+					</cfif>
+			</cfquery>
+			<script type="text/javascript">
+			function reloadTaxonomyAnnotationCardBody() {
+				$.ajax({
+					url: '/annotations/component/public.cfc',
+					data: { method: 'getTaxonomyAnnotationCardBodyHtml', taxon_name_id: #val(tnid)# },
+					success: function(result) { $('##taxonAnnotationsCardBodyWrap').html(result); },
+					error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading taxon annotations'); },
+					dataType: 'html'
+				});
+			}
+			</script>
+			<section class="accordion" id="taxonAnnotationsSection">
+				<div class="card mb-2 bg-light">
+					<div class="card-header" id="taxonAnnotationsHeader">
+						<h2 class="h4 my-0">
+							<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##taxonAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="taxonAnnotationsCardBodyWrap">
+								Annotations (#countTaxonAnnotations.ct#)
+							</button>
+							<cfif isdefined("session.roles") AND listcontainsnocase(session.roles, "manage_taxonomy") AND countTaxonAnnotations.ct GT 0>
+								<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('taxonAnnotationDialog','TAXONOMY',#tnid#,reloadTaxonomyAnnotationCardBody);">
+									Edit Annotations
+								</a>
+							<cfelseif isdefined("session.username") AND len(session.username) GT 0>
+								<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('taxonAnnotationDialog','TAXONOMY',#tnid#,reloadTaxonomyAnnotationCardBody);">
+									Annotate
+								</a>
+							</cfif>
+						</h2>
+					</div>
+					<div id="taxonAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="taxonAnnotationsHeader" data-parent="##taxonAnnotationsSection">
+						#getTaxonomyAnnotationCardBodyHtml(taxon_name_id=val(tnid))#
+					</div>
 				</div>
-				<div class="card-body px-3 py-2">
-					<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select count(*) cnt from annotations
-						where target_table = 'TAXONOMY'
-						and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-					</cfquery>
-					<cfif existingAnnotations.cnt GT 0>
-						<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-							class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
-							onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate/View Annotations</button>
-					<cfelse>
-						<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-							class="btn btn-xs btn-info" value="Annotate this record"
-							onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate</button>
-					</cfif>
-					<div id="annotationDialog"></div>
-					<cfif existingAnnotations.cnt gt 0>
-						<cfif existingAnnotations.cnt EQ 1>
-							<cfset are = "is">
-							<cfset s = "">
-						<cfelse>
-							<cfset are = "are">
-							<cfset s = "s">
-						</cfif>
-						<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
-						<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select count(*) statecount, state from annotations
-							where target_table = 'TAXONOMY'
-							and target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-							group by state
-						</cfquery>
-						<ul>
-							<cfloop query="AnnotationStates">
-								<li>#encodeForHTML(state)#: #statecount#</li>
-							</cfloop>
-						</ul>
-					<cfelse>
-						<p class="my-2">There are no annotations on this taxon record</p>
-					</cfif>
-				</div><!--- card-body --->
-			</div><!--- card --->
+			</section>
 		</div><!--- col-12 --->
 	</section>
 	</cfif>
+
+	<!--- Fix zoom tracker positions when Bootstrap accordions expand or collapse --->
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(document).on('hide.bs.collapse', function() {
+			$('.zoomtracker').css({left: -10000, top: -10000});
+		});
+		$(document).on('shown.bs.collapse', function() {
+			$(window).trigger('resize');
+		});
+	});
+	</script>
 
 	</cfoutput>
 </main><!--- class="container" --->
