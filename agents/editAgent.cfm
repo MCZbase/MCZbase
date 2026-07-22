@@ -249,9 +249,9 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
-						<section class="container-fluid">
+						<section class="container-fluid px-0 border">
 							<div class="row mx-0">
-							<form class="col-12 border rounded mx-3" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
+							<form class="col-12 rounded" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
 								<!--- function handleChange: action to take when an input has its value changed, binding to inputs below --->
