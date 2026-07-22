@@ -842,7 +842,7 @@ limitations under the License.
 				</cfquery>
 				<cfif usedInIndentifications.c GT 0>
 					<li>
-						<a href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#">Specimens currently identified as #one.display_name#</a>
+						Specimens currently identified as <a class="btn btn-xs btn-outline-secondary ml-1" href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#">#one.display_name#</a>
 						<a class="btn btn-xs btn-outline-secondary ml-1" href="/SpecimenResults.cfm?anyTaxId=#encodeForURL(one.taxon_name_id)#">include unaccepted IDs</a>
 						<a class="btn btn-xs btn-outline-secondary ml-1" href="/SpecimenResults.cfm?taxon_name_id=#encodeForURL(one.taxon_name_id)#">exact matches only</a>
 						<cfif hasSpecimenMedia>
