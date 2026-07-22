@@ -132,7 +132,7 @@ limitations under the License.
 	var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
 	var currentAgentImage = 1;
 </script>
-	<main class="container-xl px-0" id="content">
+	<main class="col-10 mx-auto px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
