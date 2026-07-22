@@ -90,8 +90,8 @@ limitations under the License.
 </cfquery>
 <cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
-   where applies_to like '%agent.agentguid%'
+	from ctguid_type 
+	where applies_to like '%agent.agentguid%'
 </cfquery>
 
 <cfswitch expression="#action#">
@@ -102,7 +102,7 @@ limitations under the License.
 		</cfoutput>
 	<cfelse>
 		<cfoutput>
-			<main class="container py-3" id="content">
+			<main class="container-fluid py-3" id="content">
 				<script>
 					function getAssembledName() {
 						var result = "";
@@ -191,7 +191,7 @@ limitations under the License.
 							<!--- add birth death years --->
 							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
 						</cfif>
-						<div class="container">
+						<div class="col-12 col-xl-10 mx-auto">
 							<div class="form-row">
 								<div class="col-12">
 									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
