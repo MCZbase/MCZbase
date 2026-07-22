@@ -6,7 +6,9 @@
 	<cfset pageTitle = "Edit Taxon">
 	<cfif isdefined("taxon_name_id") >
 		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			SELECT * 
+			FROM taxonomy 
+			WHERE taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfset pageTitle = "Edit Taxon #TaxonIDNumber.taxon_name_id#">
 	</cfif>

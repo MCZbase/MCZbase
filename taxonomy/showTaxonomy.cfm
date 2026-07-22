@@ -776,7 +776,7 @@ limitations under the License.
 	</cfif>
 	<cfif media.recordcount EQ 1><cfset mediaPlural = ""><cfelse><cfset mediaPlural = "s"></cfif>
 	<!--- Thumbnail size for the media gallery; must be > 200 to avoid fixedSmallThumb auto-reduction to 75px --->
-	<cfset mediaThumbnailSize = 250>
+	<cfset mediaThumbnailSize = 201>
 	<section class="row mx-0 mb-2">
 		<div class="col-12 px-0 accordion" id="mediaSectionAccordion">
 			<div class="card">
@@ -1005,15 +1005,15 @@ limitations under the License.
 					</cfif>
 			</cfquery>
 			<script type="text/javascript">
-			function reloadTaxonomyAnnotationCardBody() {
-				$.ajax({
-					url: '/annotations/component/public.cfc',
-					data: { method: 'getTaxonomyAnnotationCardBodyHtml', taxon_name_id: #val(tnid)# },
-					success: function(result) { $('##taxonAnnotationsCardBodyWrap').html(result); },
-					error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading taxon annotations'); },
-					dataType: 'html'
-				});
-			}
+				function reloadTaxonomyAnnotationCardBody() {
+					$.ajax({
+						url: '/annotations/component/public.cfc',
+						data: { method: 'getTaxonomyAnnotationCardBodyHtml', taxon_name_id: #val(tnid)# },
+						success: function(result) { $('##taxonAnnotationsCardBodyWrap').html(result); },
+						error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading taxon annotations'); },
+						dataType: 'html'
+					});
+				}
 			</script>
 			<section class="accordion" id="taxonAnnotationsSection">
 				<div class="card mb-2 bg-light">
@@ -1044,14 +1044,14 @@ limitations under the License.
 
 	<!--- Fix zoom tracker positions when Bootstrap accordions expand or collapse --->
 	<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(document).on('hide.bs.collapse', function() {
-			$('.zoomtracker').css({left: -10000, top: -10000});
+		$(document).ready(function($) {
+			$(document).on('hide.bs.collapse', function() {
+				$('.zoomtracker').css({left: -10000, top: -10000});
+			});
+			$(document).on('shown.bs.collapse', function() {
+				$(window).trigger('resize');
+			});
 		});
-		$(document).on('shown.bs.collapse', function() {
-			$(window).trigger('resize');
-		});
-	});
 	</script>
 
 	</cfoutput>
