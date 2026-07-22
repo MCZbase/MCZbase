@@ -848,10 +848,10 @@ limitations under the License.
 					<li>
 						Specimens currently identified as <a class="btn btn-xs btn-outline-secondary ml-1" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=current&scientific_name=#encodeForURL(one.scientific_name)#">#one.display_name#</a>
 						<a class="btn btn-xs btn-outline-secondary ml-1" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&scientific_name=#encodeForURL(one.scientific_name)#"">include unaccepted IDs</a>
-						<a class="btn btn-xs btn-outline-secondary ml-1" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=current&taxon_name_id=#encodeForURL(one.taxon_name_id)#">exact matches only</a>
 						<cfif hasSpecimenMedia>
-							<a class="btn btn-xs btn-outline-secondary ml-1" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=current&taxon_name_id=#encodeForURL(one.taxon_name_id)#&media_type=NOT NULL">with Media</a>
+							<a class="btn btn-xs btn-outline-secondary ml-1" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&scientific_name=#encodeForURL(one.scientific_name)#&media_type=NOT NULL">with Media</a>
 						</cfif>
+						<a class="btn btn-xs btn-outline-secondary ml-1" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=current&taxon_name_id=#encodeForURL(one.taxon_name_id)#">exact matches only</a>
 					</li>
 					<!--- maps.google.com no longer supports passing a kml file, would need to use the google map api instead --->
 					<!---
