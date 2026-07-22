@@ -774,20 +774,26 @@
 							SELECT guid, media_id FROM media ORDER BY guid, typestatus
 						</cfquery>
 						<cfset previousGuid = "">
+						<div class="row mx-0">
 						<cfloop query="mediaSorted">
 							<cfif mediaSorted.guid NEQ previousGuid>
 								<cfif len(previousGuid) GT 0>
-									<div class="clearfix"></div>
+									<div class="w-100"></div><!--- break to new row before next specimen --->
 								</cfif>
-								<p class="w-100 text-left mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></p>
+								<div class="w-100 text-left mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></div>
 								<cfset previousGuid = mediaSorted.guid>
 							</cfif>
-							<div class="col-12 col-lg-6 px-1 mb-1 px-md-1 py-1 float-left">
+							<!---
+								fixedSmallThumb with size=250 renders a server-rescaled 250x250 square thumbnail.
+								styles overrides the default "height:76px" so the image fills the square at the correct size.
+							--->
+							<div class="col-6 col-md-4 col-lg-3 px-1 mb-2">
 								<div id="mediaBlock#mediaSorted.media_id#">
-									<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
+									<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",displayAs="fixedSmallThumb",size="250",styles="height:250px;width:250px;",captionAs="textShort")>
 								</div>
 							</div>
 						</cfloop>
+						</div><!--- row --->
 						<cfif len(previousGuid) GT 0>
 							<div class="clearfix"></div>
 						</cfif>
