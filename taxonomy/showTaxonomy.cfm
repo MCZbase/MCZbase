@@ -1,3 +1,24 @@
+<!---
+taxonomy/showTaxonomy.cfm
+
+Taxon details page.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfset pageTitle = "Taxon Details">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded --->
@@ -528,84 +549,82 @@
 					<h2 class="h4 my-0">Name Details</h2>
 				</div>
 				<div class="card-body px-3 py-2">
-
-			<!--- lookup authorship from taxon_author table --->
-			<cfquery name="getAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT
-					taxon_author.agent_id,
-					preferred_agent_name.agent_name
-				FROM
-					taxon_author
-					join preferred_agent_name on taxon_author.agent_id = preferred_agent_name.agent_id
-					join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
-				WHERE
-					taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
-				ORDER BY
-					ctauthorship_role.ordinal asc, sort_position_in_role asc
-			</cfquery>
-			<cfif getAuthors.recordcount GT 0>
-				<h2 class="h4">Authors:</h2>
-				<ul>
-					<cfloop query="getAuthors">
-						<li><a href="/agents/Agent.cfm?agent_id=#getAuthors.agent_id#">#encodeForHTML(getAuthors.agent_name)#</a></li>
-					</cfloop>
-				</ul>
-			</cfif>
-
-			<!--- display details --->
-			<h2 class="h4">Name Authority: #encodeForHTML(one.source_Authority)#</h2>
-			<cfif len(taxonidlink) GT 0>
-				<p>dwc:taxonID: <a href="#encodeForHTMLAttribute(taxonidlink)#" target="_blank" rel="noopener noreferrer">#encodeForHTML(one.taxonid)#</a></p>
-			</cfif>
-			<cfif len(scientificnameidlink) GT 0>
-				<p>dwc:scientificNameID: <a href="#encodeForHTMLAttribute(scientificnameidlink)#" target="_blank" rel="noopener noreferrer">#encodeForHTML(one.scientificnameid)#</a></p>
-			</cfif>
-			<cfif len(one.year_of_publication) GT 0>
-				<p>Published In: #encodeForHTML(one.year_of_publication)#</p>
-			</cfif>
-			<cfif len(one.taxon_remarks) GT 0>
-				<p>Remarks: #encodeForHTML(one.taxon_remarks)#</p>
-			</cfif>
-			<cfif habitat.recordcount GT 0>
-				<cfset sep = "">
-				<h2 class="h4">
-					Occurs in
-					<cfloop query="habitat">
-						#sep# #encodeForHTML(taxon_habitat)#
-						<cfset sep = ",">
-					</cfloop>
-					habitats.
-				</h2>
-			</cfif>
-			<h2 class="h4">Common Name(s):</h2>
-			<ul>
-				<cfif len(common_name.common_name) is 0>
-					<li>No common names recorded.</li>
-				<cfelse>
-					<cfset metaDesc=metaDesc & "; Common Names: #valuelist(common_name.common_name)#">
-					<cfloop query="common_name">
-						<li>#encodeForHTML(common_name)#</li>
-					</cfloop>
-					<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
-				</cfif>
-			</ul>
-			<cfif getCategorization.recordcount GT 0>
-				<h2 class="h4">Categorized As:</h2>
-				<ul>
-					<cfloop query="getCategorization">
-						<li>#encodeForHTML(getCategorization.taxon_category)# (#encodeForHTML(getCategorization.category_type)#)</li>
-					</cfloop>
-				</ul>
-			</cfif>
-			<cfif getTaxonAttributes.recordcount GT 0>
-				<h2 class="h4">Attributes:</h2>
-				<ul>
-					<cfloop query="getTaxonAttributes">
-						<li>#encodeForHTML(getTaxonAttributes.taxon_attribute_type)#: #encodeForHTML(getTaxonAttributes.attribute_value)#</li>
-					</cfloop>
-				</ul>
-			</cfif>
-
+					<!--- lookup authorship from taxon_author table --->
+					<cfquery name="getAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							taxon_author.agent_id,
+							preferred_agent_name.agent_name
+						FROM
+							taxon_author
+							join preferred_agent_name on taxon_author.agent_id = preferred_agent_name.agent_id
+							join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
+						WHERE
+							taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+						ORDER BY
+							ctauthorship_role.ordinal asc, sort_position_in_role asc
+					</cfquery>
+					<cfif getAuthors.recordcount GT 0>
+						<h2 class="h4">Authors:</h2>
+						<ul>
+							<cfloop query="getAuthors">
+								<li><a href="/agents/Agent.cfm?agent_id=#getAuthors.agent_id#">#encodeForHTML(getAuthors.agent_name)#</a></li>
+							</cfloop>
+						</ul>
+					</cfif>
+		
+					<!--- display details --->
+					<h2 class="h4">Name Authority: #encodeForHTML(one.source_Authority)#</h2>
+					<cfif len(taxonidlink) GT 0>
+						<p>dwc:taxonID: <a href="#encodeForHTMLAttribute(taxonidlink)#" target="_blank" rel="noopener noreferrer">#encodeForHTML(one.taxonid)#</a></p>
+					</cfif>
+					<cfif len(scientificnameidlink) GT 0>
+						<p>dwc:scientificNameID: <a href="#encodeForHTMLAttribute(scientificnameidlink)#" target="_blank" rel="noopener noreferrer">#encodeForHTML(one.scientificnameid)#</a></p>
+					</cfif>
+					<cfif len(one.year_of_publication) GT 0>
+						<p>Published In: #encodeForHTML(one.year_of_publication)#</p>
+					</cfif>
+					<cfif len(one.taxon_remarks) GT 0>
+						<p>Remarks: #encodeForHTML(one.taxon_remarks)#</p>
+					</cfif>
+					<cfif habitat.recordcount GT 0>
+						<cfset sep = "">
+						<h2 class="h4">
+							Occurs in
+							<cfloop query="habitat">
+								#sep# #encodeForHTML(taxon_habitat)#
+								<cfset sep = ",">
+							</cfloop>
+							habitats.
+						</h2>
+					</cfif>
+					<h2 class="h4">Common Name(s):</h2>
+					<ul>
+						<cfif len(common_name.common_name) is 0>
+							<li>No common names recorded.</li>
+						<cfelse>
+							<cfset metaDesc=metaDesc & "; Common Names: #valuelist(common_name.common_name)#">
+							<cfloop query="common_name">
+								<li>#encodeForHTML(common_name)#</li>
+							</cfloop>
+							<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
+						</cfif>
+					</ul>
+					<cfif getCategorization.recordcount GT 0>
+						<h2 class="h4">Categorized As:</h2>
+						<ul>
+							<cfloop query="getCategorization">
+								<li>#encodeForHTML(getCategorization.taxon_category)# (#encodeForHTML(getCategorization.category_type)#)</li>
+							</cfloop>
+						</ul>
+					</cfif>
+					<cfif getTaxonAttributes.recordcount GT 0>
+						<h2 class="h4">Attributes:</h2>
+						<ul>
+							<cfloop query="getTaxonAttributes">
+								<li>#encodeForHTML(getTaxonAttributes.taxon_attribute_type)#: #encodeForHTML(getTaxonAttributes.attribute_value)#</li>
+							</cfloop>
+						</ul>
+					</cfif>
 				</div><!--- card-body --->
 			</div><!--- card --->
 		</div><!--- col-12 --->
@@ -620,86 +639,86 @@
 				</div>
 				<div class="card-body px-3 py-2">
 
-			<h2 class="h4">Related Publications:</h2>
-			<ul>
-				<cfif tax_pub.recordcount is 0>
-					<li>No related publications recorded.</li>
-				<cfelse>
-					<cfloop query="tax_pub">
-						<li><a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#formatted_publication#</a></li>
-					</cfloop>
-				</cfif>
-			</ul>
-
-			<h2 class="h4">Cited MCZ Specimens:</h2>
-			<ul>
-				<cfif citedSpecimens.recordcount is 0>
-					<li>No cited MCZ specimens.</li>
-				<cfelse>
-				<cfloop query="citedSpecimens">
-					<li>
-						<a href="/guid/#encodeForURL(guid)#">#encodeForHTML(guid)#</a>
-						#encodeForHTML(type_status)#
-						<cfif len(citedSpecimens.occurs_page_number) GT 0>
-							<cfif len(citedSpecimens.citation_page_uri) GT 0>
-								p. <a href="#encodeForHTMLAttribute(citation_page_uri)#">#encodeForHTML(occurs_page_number)#</a>
-							<cfelse>
-								p. #encodeForHTML(occurs_page_number)#
-							</cfif>
+					<h2 class="h4">Related Publications:</h2>
+					<ul>
+						<cfif tax_pub.recordcount is 0>
+							<li>No related publications recorded.</li>
+						<cfelse>
+							<cfloop query="tax_pub">
+								<li><a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#formatted_publication#</a></li>
+							</cfloop>
 						</cfif>
-						in <a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#encodeForHTML(short_citation)#</a>
-					</li>
-				</cfloop>
-			</cfif>
-			</ul>
-
-			<h2 class="h4">Synonyms and other Related Names:</h2>
-			<ul>
-				<cfif related.recordcount is 0 and imp_related.recordcount is 0>
-					<li>No related names recorded.</li>
-				<cfelse>
-					<cfloop query="related">
-						<li>
-							#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> #encodeForHTML(TAXON_RELATIONSHIP)# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#encodeForURL(RELATED_TAXON_NAME_ID)#"><em>#encodeForHTML(related_name)#</em> <span class="sm-caps">#encodeForHTML(related.related_author_text)#</span></a>
-							<cfif len(RELATION_AUTHORITY) gt 0>
-								(According to: #encodeForHTML(RELATION_AUTHORITY)#)
-							</cfif>
-						</li>
-					</cfloop>
-					<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
-						SELECT
-							scientific_name,
-							author_text,
-							taxon_relations.taxon_relationship,
-							cttaxon_relation.inverse_relation,
-							relation_authority,
-							taxonomy.taxon_name_id
-						FROM
-							taxon_relations
-							left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
-							left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
-						WHERE
-							taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
-					</cfquery>
-					<cfloop query="inverse_relations">
-						<li>
-							#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span>
-							#encodeForHTML(inverse_relations.inverse_relation)#
-							<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#encodeForURL(inverse_relations.taxon_name_id)#"><em>#encodeForHTML(inverse_relations.scientific_name)#</em> <span class="sm-caps">#encodeForHTML(inverse_relations.author_text)#</span></a>
-							<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
-								(According to: #encodeForHTML(inverse_relations.RELATION_AUTHORITY)#)
-							</cfif>
-						</li>
-					</cfloop>
-				</cfif>
-			</ul>
-
-			<div id="taxRelatedNames" class="row">
-				<h2 class="h4">Related Taxon Records:</h2>
-				<cfset taxon_name_id = tnid>
-				<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
-				<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
-			</div>
+					</ul>
+		
+					<h2 class="h4">Cited MCZ Specimens:</h2>
+					<ul>
+						<cfif citedSpecimens.recordcount is 0>
+							<li>No cited MCZ specimens.</li>
+						<cfelse>
+						<cfloop query="citedSpecimens">
+							<li>
+								<a href="/guid/#encodeForURL(guid)#">#encodeForHTML(guid)#</a>
+								#encodeForHTML(type_status)#
+								<cfif len(citedSpecimens.occurs_page_number) GT 0>
+									<cfif len(citedSpecimens.citation_page_uri) GT 0>
+										p. <a href="#encodeForHTMLAttribute(citation_page_uri)#">#encodeForHTML(occurs_page_number)#</a>
+									<cfelse>
+										p. #encodeForHTML(occurs_page_number)#
+									</cfif>
+								</cfif>
+								in <a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#encodeForHTML(short_citation)#</a>
+							</li>
+						</cfloop>
+					</cfif>
+					</ul>
+		
+					<h2 class="h4">Synonyms and other Related Names:</h2>
+					<ul>
+						<cfif related.recordcount is 0 and imp_related.recordcount is 0>
+							<li>No related names recorded.</li>
+						<cfelse>
+							<cfloop query="related">
+								<li>
+									#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> #encodeForHTML(TAXON_RELATIONSHIP)# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#encodeForURL(RELATED_TAXON_NAME_ID)#"><em>#encodeForHTML(related_name)#</em> <span class="sm-caps">#encodeForHTML(related.related_author_text)#</span></a>
+									<cfif len(RELATION_AUTHORITY) gt 0>
+										(According to: #encodeForHTML(RELATION_AUTHORITY)#)
+									</cfif>
+								</li>
+							</cfloop>
+							<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
+								SELECT
+									scientific_name,
+									author_text,
+									taxon_relations.taxon_relationship,
+									cttaxon_relation.inverse_relation,
+									relation_authority,
+									taxonomy.taxon_name_id
+								FROM
+									taxon_relations
+									left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
+									left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
+								WHERE
+									taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+							</cfquery>
+							<cfloop query="inverse_relations">
+								<li>
+									#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span>
+									#encodeForHTML(inverse_relations.inverse_relation)#
+									<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#encodeForURL(inverse_relations.taxon_name_id)#"><em>#encodeForHTML(inverse_relations.scientific_name)#</em> <span class="sm-caps">#encodeForHTML(inverse_relations.author_text)#</span></a>
+									<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
+										(According to: #encodeForHTML(inverse_relations.RELATION_AUTHORITY)#)
+									</cfif>
+								</li>
+							</cfloop>
+						</cfif>
+					</ul>
+		
+					<div id="taxRelatedNames" class="row">
+						<h2 class="h4">Related Taxon Records:</h2>
+						<cfset taxon_name_id = tnid>
+						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
+						<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
+					</div>
 
 				</div><!--- card-body --->
 			</div><!--- card --->
@@ -978,42 +997,42 @@
 					<h2 class="h4 my-0">Annotations</h2>
 				</div>
 				<div class="card-body px-3 py-2">
-			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select count(*) cnt from annotations
-				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-			</cfquery>
-			<cfif existingAnnotations.cnt GT 0>
-				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-					class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
-					onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate/View Annotations</button>
-			<cfelse>
-				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-					class="btn btn-xs btn-info" value="Annotate this record"
-					onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate</button>
-			</cfif>
-			<div id="annotationDialog"></div>
-			<cfif existingAnnotations.cnt gt 0>
-				<cfif existingAnnotations.cnt EQ 1>
-					<cfset are = "is">
-					<cfset s = "">
-				<cfelse>
-					<cfset are = "are">
-					<cfset s = "s">
-				</cfif>
-				<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
-				<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) statecount, state from annotations
-					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-					group by state
-				</cfquery>
-				<ul>
-					<cfloop query="AnnotationStates">
-						<li>#encodeForHTML(state)#: #statecount#</li>
-					</cfloop>
-				</ul>
-			<cfelse>
-				<p class="my-2">There are no annotations on this taxon record</p>
-			</cfif>
+					<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select count(*) cnt from annotations
+						where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+					</cfquery>
+					<cfif existingAnnotations.cnt GT 0>
+						<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+							class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
+							onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate/View Annotations</button>
+					<cfelse>
+						<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+							class="btn btn-xs btn-info" value="Annotate this record"
+							onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate</button>
+					</cfif>
+					<div id="annotationDialog"></div>
+					<cfif existingAnnotations.cnt gt 0>
+						<cfif existingAnnotations.cnt EQ 1>
+							<cfset are = "is">
+							<cfset s = "">
+						<cfelse>
+							<cfset are = "are">
+							<cfset s = "s">
+						</cfif>
+						<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
+						<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select count(*) statecount, state from annotations
+							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+							group by state
+						</cfquery>
+						<ul>
+							<cfloop query="AnnotationStates">
+								<li>#encodeForHTML(state)#: #statecount#</li>
+							</cfloop>
+						</ul>
+					<cfelse>
+						<p class="my-2">There are no annotations on this taxon record</p>
+					</cfif>
 				</div><!--- card-body --->
 			</div><!--- card --->
 		</div><!--- col-12 --->
