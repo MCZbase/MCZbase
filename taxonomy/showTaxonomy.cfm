@@ -434,6 +434,11 @@
 	
 	<cfoutput>
 
+	<!---
+		Note: one.display_name and formatted_publication are stored as pre-formatted HTML
+		(e.g., <em>Genus species</em>) and are intentionally output without encodeForHTML().
+		All other dynamic output uses appropriate encoding functions.
+	--->
 	<!--- Section 1: Taxon Identity and Classification --->
 	<section class="row mx-0 mb-2">
 		<div class="col-12 border rounded bg-white px-3 py-2">
