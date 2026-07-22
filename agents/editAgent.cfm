@@ -1216,7 +1216,7 @@ limitations under the License.
 							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
-							<main class="container py-3" id="content">
+							<main class="container-fluid py-3" id="content">
 								<h2 class="h3">An <strong>exact match</strong> for the preferred name you provided <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> already exists.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">
@@ -1318,7 +1318,7 @@ limitations under the License.
 							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
-							<main class="container py-3" id="content">
+							<main class="container-fluid py-3" id="content">
 								<h2 class="h3">The agent <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">
