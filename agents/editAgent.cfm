@@ -191,8 +191,8 @@ limitations under the License.
 							<!--- add birth death years --->
 							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
 						</cfif>
-						<div class="container-fluid">
-							<div class="form-row mx-0">
+						<div class="row mx-auto">
+							<div class="row col-12 col-xl-10 mx-auto">
 								<div class="col-12">
 									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
@@ -249,8 +249,7 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
-						<section class="container-fluid px-0 border rounded">
-							<div class="row mx-0">
+						<section class="col-12 col-xl-10 mx-auto">
 							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
