@@ -103,8 +103,6 @@ limitations under the License.
 	<cfelse>
 		<cfoutput>
 			<main class="container-fluid py-3" id="content">
-				<div class="row">
-					<div class="col-12 col-xl-10 mx-auto">
 				<script>
 					function getAssembledName() {
 						var result = "";
@@ -193,7 +191,7 @@ limitations under the License.
 							<!--- add birth death years --->
 							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
 						</cfif>
-						<div class="container-fluid px-0">
+						<div class="container">
 							<div class="form-row">
 								<div class="col-12">
 									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
@@ -752,8 +750,6 @@ limitations under the License.
 					</section>
 					</cfloop>
 				</cfif>
-					</div>
-				</div>
 			</main>
 		</cfoutput>
 	</cfif>
