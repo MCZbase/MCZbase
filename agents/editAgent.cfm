@@ -192,7 +192,7 @@ limitations under the License.
 							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
 						</cfif>
 						<div class="container-fluid">
-							<div class="form-row">
+							<div class="form-row mx-0">
 								<div class="col-12">
 									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
@@ -777,7 +777,7 @@ limitations under the License.
 		<main id="content">
 			<section class="container-fluid mt-2">
 				<div class="row">
-					<div class="col-12 col-xl-10 mx-auto mt-2 mb-3">
+					<div class="col-12 col-xl-9 mx-auto mt-2 mb-3">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
 							<h1 class="h2 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
 						<cfelse>
