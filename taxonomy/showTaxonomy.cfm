@@ -760,8 +760,8 @@
 									ORDER BY substr(made_date,1,4) asc;
 								</cfquery>
 								<cfif getYears.recordcount GT 0>
+									<li>Specimens identified as #one.display_name# in:</li>
 									<ul>
-										<li>Specimens identified as #one.display_name# in:</li>
 										<cfloop query="getYears">
 											<li>
 												<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&openParens1=0&field1=IDENTIFICATION%3AMADE_DATE&searchText1=#getYears.year#&closeParens1=0&JoinOperator2=and&openParens2=0&field2=TAXONOMY%3AIDENTIFICATIONS_SCIENTIFIC_NAME&searchText2=#one.scientific_name#&closeParens2=0">#getYears.year# (#getYears.ct#) </a>
