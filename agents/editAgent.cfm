@@ -248,8 +248,9 @@ limitations under the License.
 											<div id="agentRankDlg_#agent_id#"></div>
 										</div>
 									</cfif>
-						
-					
+								</div>
+							</div>
+						</div>
 						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
 							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
@@ -538,7 +539,7 @@ limitations under the License.
 										</script>
 									</div>
 								</div>
-							</div>
+								</div>
 								<div class="form-row mt-1 mb-1">
 									<div class="form-group col-12">
 										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
