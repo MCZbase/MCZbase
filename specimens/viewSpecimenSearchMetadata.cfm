@@ -241,7 +241,7 @@ limitations under the License.
 											<div class="col-md-2">
 												<cfif NOT isDefined("category")><cfset category=""></cfif>
 												<label for="category" class="data-entry-label" id="category_label">Category (= ! ~ !~ ,)</label>
-												<input type="text" id="category" name="category" class="data-entry-input" value="#encodeForHtmlAttribute(category#" aria-labelledby="category_label" >
+												<input type="text" id="category" name="category" class="data-entry-input" value="#encodeForHtmlAttribute(category)#" aria-labelledby="category_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('category','category');
