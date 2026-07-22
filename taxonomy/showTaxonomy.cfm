@@ -464,7 +464,7 @@
 
 		<div class="table-responsive">
 			<table class="table table-sm">
-				<caption class="sr-only">Taxonomic classification for #encodeForHTML(one.scientific_name)#</caption>
+				<caption class="sr-only">Complete taxonomic classification for #encodeForHTML(one.scientific_name)#</caption>
 				<thead>
 					<tr>
 						<cfloop list="#taxaRanksList#" index="rank">
@@ -612,19 +612,21 @@
 				<cfif citedSpecimens.recordcount is 0>
 					<li>No cited MCZ specimens.</li>
 				<cfelse>
-					<cfloop query="citedSpecimens">
+				<cfloop query="citedSpecimens">
+					<li>
+						<a href="/guid/#encodeForURL(guid)#">#encodeForHTML(guid)#</a>
+						#encodeForHTML(type_status)#
 						<cfif len(citedSpecimens.occurs_page_number) GT 0>
 							<cfif len(citedSpecimens.citation_page_uri) GT 0>
-								<cfset page = "p. <a href=""#encodeForHTMLAttribute(citation_page_uri)#"">#encodeForHTML(occurs_page_number)#</a>">
+								p. <a href="#encodeForHTMLAttribute(citation_page_uri)#">#encodeForHTML(occurs_page_number)#</a>
 							<cfelse>
-								<cfset page = "p. #encodeForHTML(occurs_page_number)#">
+								p. #encodeForHTML(occurs_page_number)#
 							</cfif>
-						<cfelse>
-							<cfset page = "">
 						</cfif>
-						<li><a href="/guid/#encodeForURL(guid)#">#encodeForHTML(guid)#</a> #encodeForHTML(type_status)# #page# in <a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#encodeForHTML(short_citation)#</a></li>
-					</cfloop>
-				</cfif>
+						in <a href="/publications/showPublication.cfm?publication_id=#encodeForURL(publication_id)#">#encodeForHTML(short_citation)#</a>
+					</li>
+				</cfloop>
+			</cfif>
 			</ul>
 
 			<h2 class="h4">Synonyms and other Related Names:</h2>
