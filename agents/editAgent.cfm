@@ -671,7 +671,7 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-						<div class="row">
+						<div class="row col-12 col-xl-10 mx-auto">
 							<div class="col-12 col-lg-12 col-xl-6 pr-xl-2">
 								<section class="row border rounded mx-0 my-2 px-1 pt-2 pb-3">
 									<div class="col-12">
