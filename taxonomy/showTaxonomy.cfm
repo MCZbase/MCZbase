@@ -634,7 +634,7 @@
 				<cfelse>
 					<cfloop query="related">
 						<li>
-							#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> #encodeForHTML(TAXON_RELATIONSHIP)# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><em>#encodeForHTML(related_name)#</em> <span class="sm-caps">#encodeForHTML(related.related_author_text)#</span></a>
+							#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> #encodeForHTML(TAXON_RELATIONSHIP)# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#encodeForURL(RELATED_TAXON_NAME_ID)#"><em>#encodeForHTML(related_name)#</em> <span class="sm-caps">#encodeForHTML(related.related_author_text)#</span></a>
 							<cfif len(RELATION_AUTHORITY) gt 0>
 								(According to: #encodeForHTML(RELATION_AUTHORITY)#)
 							</cfif>
@@ -659,7 +659,7 @@
 						<li>
 							#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span>
 							#encodeForHTML(inverse_relations.inverse_relation)#
-							<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#inverse_relations.taxon_name_id#"><em>#encodeForHTML(inverse_relations.scientific_name)#</em> <span class="sm-caps">#encodeForHTML(inverse_relations.author_text)#</span></a>
+							<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#encodeForURL(inverse_relations.taxon_name_id)#"><em>#encodeForHTML(inverse_relations.scientific_name)#</em> <span class="sm-caps">#encodeForHTML(inverse_relations.author_text)#</span></a>
 							<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
 								(According to: #encodeForHTML(inverse_relations.RELATION_AUTHORITY)#)
 							</cfif>
