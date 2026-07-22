@@ -6,7 +6,9 @@
 	<cfset pageTitle = "Edit Taxon">
 	<cfif isdefined("taxon_name_id") >
 		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			SELECT * 
+			FROM taxonomy 
+			WHERE taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfset pageTitle = "Edit Taxon #TaxonIDNumber.taxon_name_id#">
 	</cfif>
@@ -14,7 +16,7 @@
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
 <cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
-<!--
+<!---
 taxonomy/Taxonomy.cfm
 
 Copyright 2008-2017 Contributors to Arctos
@@ -32,7 +34,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to Taxonomy search page --->
 	<cflocation url="/Taxa.cfm">

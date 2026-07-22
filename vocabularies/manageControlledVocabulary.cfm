@@ -1261,7 +1261,9 @@ What still requires file edits:
 	<!--- RETAINED SPECIAL CASE: FK select for control from all CT* tables; mcz_publication_fg decimal field. --->
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from ctpublication_attribute order by publication_attribute
+			SELECT * 
+			FROM ctpublication_attribute 
+			ORDER BY publication_attribute
 		</cfquery>
 		<cfquery name="allCTs" datasource="uam_god">
 			select distinct(table_name) as tablename from sys.user_tables where table_name like 'CT%' order by table_name
@@ -1305,6 +1307,7 @@ What still requires file edits:
 				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Type</div>
 				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Description</div>
 				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Control</div>
+				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">MCZ Publication</div>
 				<div class="d-table-cell fw-bold small text-muted pb-1 pr-3 text-nowrap">Actions</div>
 			</div>
 			<cfloop query="q">
@@ -1324,6 +1327,19 @@ What still requires file edits:
 								<cfloop query="allCTs">
 									<option <cfif q.control is allCTs.tablename> selected="selected" </cfif>value="#tablename#">#tablename#</option>
 								</cfloop>
+							</select>
+						</div>
+						<div class="d-table-cell py-1 pr-3 align-middle" style="min-width:10rem">
+							<cfif q.mcz_publication_fg EQ 1>
+								<cfset pubselected = "selected='selected'">
+								<cfset nopubselected = "">
+							<cfelse>
+								<cfset pubselected = "">
+								<cfset nopubselected = "selected='selected'">
+							</cfif>
+							<select class="data-entry-select" name="mcz_publication_fg">
+								<option value="1" #pubselected#>Yes</option>
+								<option value="0" #nopubselected#>No</option>
 							</select>
 						</div>
 						<div class="d-table-cell py-1 align-middle text-nowrap">
@@ -2889,7 +2905,8 @@ What still requires file edits:
 			insert into ctpublication_attribute (
 				publication_attribute,
 				DESCRIPTION,
-				control
+				control,
+				mcz_publication_fg
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
