@@ -765,7 +765,7 @@
 					</h2>
 				</div>
 				<div id="mediaCardBodyWrap" class="#mediaBodyClass# px-2" aria-labelledby="mediaCardHeader" data-parent="##mediaSectionAccordion">
-					<div class="card-body px-3 py-2">
+					<div class="card-body text-center" id="taxonMediaCardBody">
 					<cfif media.recordcount EQ 0>
 						<p>No MCZbase specimens identified as this taxon have images</p>
 					<cfelse>
@@ -774,29 +774,23 @@
 							SELECT guid, media_id FROM media ORDER BY guid, typestatus
 						</cfquery>
 						<cfset previousGuid = "">
-						<div class="row">
-							<cfloop query="mediaSorted">
-								<cfif mediaSorted.guid NEQ previousGuid>
-									<cfif len(previousGuid) GT 0>
-										</div><!--- end guid media row --->
-										</div><!--- end guid block --->
-									</cfif>
-									<div class="col-12 mb-3">
-										<p class="mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></p>
-										<div class="row mx-0 align-items-start">
-									<cfset previousGuid = mediaSorted.guid>
+						<cfloop query="mediaSorted">
+							<cfif mediaSorted.guid NEQ previousGuid>
+								<cfif len(previousGuid) GT 0>
+									<div class="clearfix"></div>
 								</cfif>
-								<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 mb-2">
-									<div id="mediaBlock#mediaSorted.media_id#">
-										<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
-									</div>
-								</div>
-							</cfloop>
-							<cfif len(previousGuid) GT 0>
-								</div><!--- end guid media row --->
-								</div><!--- end guid block --->
+								<p class="w-100 text-left mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></p>
+								<cfset previousGuid = mediaSorted.guid>
 							</cfif>
-						</div>
+							<div class="col-12 col-lg-6 px-1 mb-1 px-md-1 py-1 float-left">
+								<div id="mediaBlock#mediaSorted.media_id#">
+									<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
+								</div>
+							</div>
+						</cfloop>
+						<cfif len(previousGuid) GT 0>
+							<div class="clearfix"></div>
+						</cfif>
 					</cfif>
 					</div><!--- card-body --->
 				</div><!--- mediaCardBodyWrap --->
