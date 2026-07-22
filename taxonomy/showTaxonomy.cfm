@@ -1,7 +1,8 @@
 <cfset pageTitle = "Taxon Details">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded --->
 
-<main class="container py-3">
+<main class="container py-3" id="content">
 	
 	<cftry>
 		<!--- if given a scientific name, (as in redirect from /name/Aus+bus in /errors/missing.cfm), try to look up the record --->
@@ -431,34 +432,40 @@
 		<cfset scientificnameidlink = REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 	</cfif>
 	
-	<section class="row">
-		<div class="col-12 mb-5"> 
-			<cfoutput> 
+	<cfoutput>
 
-				<cfset title="#one.scientific_name#">
-				<cfset metaDesc="Taxon Detail for #one.scientific_name#">
-				<cfset thisSearch = "%22#one.scientific_name#%22">
-				<cfloop query="common_name">
-					<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
-				</cfloop>
-				
-				<div class="pb-2">
-					<cfif one.VALID_CATALOG_TERM_FG is 1>
-						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
-						<cfif len(one.AUTHOR_TEXT) gt 0>
-							<span class="sm-caps font-weight-normal small90"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
-						</cfif>
-					<cfelseif #one.VALID_CATALOG_TERM_FG# is 0>
-						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small90">#one.taxon_status#</span></h1>
-						<span class="text-danger h3">This name is not allowed for current identifications/data entry in MCZbase. </span>
+	<!--- Section 1: Taxon Identity and Classification --->
+	<section class="row mx-0 mb-2">
+		<div class="col-12 border rounded bg-white px-3 py-2">
+
+			<cfset title="#one.scientific_name#">
+			<cfset metaDesc="Taxon Detail for #one.scientific_name#">
+			<cfset thisSearch = "%22#one.scientific_name#%22">
+			<cfloop query="common_name">
+				<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
+			</cfloop>
+
+			<div class="pb-2">
+				<cfif one.VALID_CATALOG_TERM_FG is 1>
+					<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> <span class="font-weight-normal small">#encodeForHTML(one.taxon_status)#</span></h1>
+					<cfif len(one.AUTHOR_TEXT) gt 0>
+						<span class="sm-caps font-weight-normal small90"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
 					</cfif>
-				</div>
-			
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-					<p> <a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">Edit Taxonomy</a></p>
+					<cfelseif one.VALID_CATALOG_TERM_FG is 0>
+					<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> <span class="font-weight-normal small90">#encodeForHTML(one.taxon_status)#</span></h1>
+					<span class="text-danger h3">This name is not allowed for current identifications/data entry in MCZbase. </span>
 				</cfif>
-				
-				<table class="table table-responsive">
+			</div>
+
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
+				<p><a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">Edit Taxonomy</a></p>
+			</cfif>
+
+
+		<div class="table-responsive">
+			<table class="table table-sm">
+				<caption class="sr-only">Taxonomic classification for #encodeForHTML(one.scientific_name)#</caption>
+				<thead>
 					<tr>
 						<cfloop list="#taxaRanksList#" index="rank">
 							<cfif len(evaluate("one." & rank)) gt 0>
@@ -466,10 +473,12 @@
 								<cfif lbl is "subspecies" and len(one.infraspecific_rank) gt 0>
 									<cfset lbl=one.infraspecific_rank>
 								</cfif>
-								<th>#lbl#</th>
+								<th scope="col">#encodeForHTML(lbl)#</th>
 							</cfif>
 						</cfloop>
 					</tr>
+				</thead>
+				<tbody>
 					<tr>
 						<cfloop list="#taxaRanksList#" index="rank">
 							<cfif len(evaluate("one." & rank)) gt 0>
@@ -486,419 +495,469 @@
 									<cfset highertaxon = evaluate("one." & rank)>
 									<td><a href="/Taxa.cfm?execute=true&suborder=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
 								<cfelse>
-									<td>#evaluate("one." & rank)#</td>
+									<td>#encodeForHTML(evaluate("one." & rank))#</td>
 								</cfif>
 								<cfset metaDesc=metaDesc & "; #replace(rank,'PHYL','')#: #evaluate('one.' & rank)#">
 							</cfif>
 						</cfloop>
 					</tr>
-				</table>
+				</tbody>
+			</table>
+		</div>
 
-				<!--- lookup authorship from taxon_author table --->
-				<cfquery name="getAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						taxon_author.agent_id,
-						preferred_agent_name.agent_name
-					FROM
-						taxon_author
-						join preferred_agent_name on taxon_author.agent_id = preferred_agent_name.agent_id
-						join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
-					WHERE
-						taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
-					ORDER BY
-						ctauthorship_role.ordinal asc, sort_position_in_role asc
-				</cfquery>
-				<cfif getAuthors.recordcount GT 0>
-					<h2 class="h4">Authors:</h2>
-					<ul>
-						<cfloop query="getAuthors">
-							<li><a href="/agents/Agent.cfm?agent_id=#getAuthors.agent_id#">#encodeForHTML(getAuthors.agent_name)#</a></li>
-						</cfloop>
-					</ul>
-				</cfif>
+	</div>
+	</section>
 
-				<!--- display details --->
-				<h2 class="h4">Name Authority: <b>#encodeForHTML(one.source_Authority)#</b></h2>
-				<cfif len(taxonidlink) GT 0>
-					<p>dwc:taxonID: <a href="#taxonidlink#" target="_blank">#one.taxonid#</a></p>
-				</cfif>
-				<cfif len(scientificnameidlink) GT 0>
-					<p>dwc:scientificNameID: <a href="#scientificnameidlink#" target="_blank">#one.scientificnameid#</a></p>
-				</cfif>
-				<cfif len(one.year_of_publication) GT 0>
-					<p>Published In: #one.year_of_publication#</p>
-				</cfif>
-				<cfif len(one.taxon_remarks) GT 0>
-					<p>Remarks: #one.taxon_remarks#</p>
-				</cfif>
-				<cfif habitat.recordcount GT 0>
-					<cfset sep = "">
-					<h2 class="h4">
-						Occurs in 
-						<cfloop query="habitat">
-							#sep# #taxon_habitat#
-							<cfset sep = ",">
-						</cfloop>
-						habitats.
-					</h2>
-					
-				</cfif>
-				<h2 class="h4">Common Name(s):</h2>
+	<!--- Section 2: Name Metadata --->
+	<section class="row mx-0 mb-2">
+		<div class="col-12 border rounded bg-white px-3 py-2">
+
+			<!--- lookup authorship from taxon_author table --->
+			<cfquery name="getAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					taxon_author.agent_id,
+					preferred_agent_name.agent_name
+				FROM
+					taxon_author
+					join preferred_agent_name on taxon_author.agent_id = preferred_agent_name.agent_id
+					join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
+				WHERE
+					taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+				ORDER BY
+					ctauthorship_role.ordinal asc, sort_position_in_role asc
+			</cfquery>
+			<cfif getAuthors.recordcount GT 0>
+				<h2 class="h4">Authors:</h2>
 				<ul>
-					<cfif len(common_name.common_name) is 0>
-						<li><b>No common names recorded.</b></li>
-					<cfelse>
-						<cfset metaDesc=metaDesc & "; Common Names: #valuelist(common_name.common_name)#">
-						<cfloop query="common_name">
-							<li><b>#common_name#</b></li>
-						</cfloop>
-						<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
-					</cfif>
+					<cfloop query="getAuthors">
+						<li><a href="/agents/Agent.cfm?agent_id=#getAuthors.agent_id#">#encodeForHTML(getAuthors.agent_name)#</a></li>
+					</cfloop>
 				</ul>
-				<cfif getCategorization.recordcount GT 0>
-					<h2 class="h4">Categorized As:</h2>
-					<ul>
-						<cfloop query="getCategorization">
-							<li><b>#getCategorization.taxon_category# (#getCategorization.category_type#)</b></li>
-						</cfloop>
-					</ul>
+			</cfif>
+
+			<!--- display details --->
+			<h2 class="h4">Name Authority: #encodeForHTML(one.source_Authority)#</h2>
+			<cfif len(taxonidlink) GT 0>
+				<p>dwc:taxonID: <a href="#encodeForHTMLAttribute(taxonidlink)#" target="_blank" rel="noopener noreferrer">#encodeForHTML(one.taxonid)#</a></p>
+			</cfif>
+			<cfif len(scientificnameidlink) GT 0>
+				<p>dwc:scientificNameID: <a href="#encodeForHTMLAttribute(scientificnameidlink)#" target="_blank" rel="noopener noreferrer">#encodeForHTML(one.scientificnameid)#</a></p>
+			</cfif>
+			<cfif len(one.year_of_publication) GT 0>
+				<p>Published In: #encodeForHTML(one.year_of_publication)#</p>
+			</cfif>
+			<cfif len(one.taxon_remarks) GT 0>
+				<p>Remarks: #encodeForHTML(one.taxon_remarks)#</p>
+			</cfif>
+			<cfif habitat.recordcount GT 0>
+				<cfset sep = "">
+				<h2 class="h4">
+					Occurs in
+					<cfloop query="habitat">
+						#sep# #encodeForHTML(taxon_habitat)#
+						<cfset sep = ",">
+					</cfloop>
+					habitats.
+				</h2>
+			</cfif>
+			<h2 class="h4">Common Name(s):</h2>
+			<ul>
+				<cfif len(common_name.common_name) is 0>
+					<li>No common names recorded.</li>
+				<cfelse>
+					<cfset metaDesc=metaDesc & "; Common Names: #valuelist(common_name.common_name)#">
+					<cfloop query="common_name">
+						<li>#encodeForHTML(common_name)#</li>
+					</cfloop>
+					<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
 				</cfif>
-				<cfif getTaxonAttributes.recordcount GT 0>
-					<h2 class="h4">Attributes:</h2>
-					<ul>
-						<cfloop query="getTaxonAttributes">
-							<li><b>#getTaxonAttributes.taxon_attribute_type#: #getTaxonAttributes.attribute_value#</b></li>
-						</cfloop>
-					</ul>
-				</cfif>
-				<h2 class="h4">Related Publications:</h2>
+			</ul>
+			<cfif getCategorization.recordcount GT 0>
+				<h2 class="h4">Categorized As:</h2>
 				<ul>
-					<cfif tax_pub.recordcount is 0>
-						<li><b>No related publications recorded.</b></li>
-					<cfelse>
-						<cfloop query="tax_pub">
-							<li> <a href="/publications/showPublication.cfm?publication_id=#publication_id#"> #formatted_publication# </a> </li>
-						</cfloop>
-					</cfif>
+					<cfloop query="getCategorization">
+						<li>#encodeForHTML(getCategorization.taxon_category)# (#encodeForHTML(getCategorization.category_type)#)</li>
+					</cfloop>
 				</ul>
-				<h2 class="h4">Cited MCZ Specimens:</h2>
+			</cfif>
+			<cfif getTaxonAttributes.recordcount GT 0>
+				<h2 class="h4">Attributes:</h2>
 				<ul>
-					<cfif citedSpecimens.recordcount is 0>
-						<li><b>No cited MCZ specimens.</b></li>
-					<cfelse>
-						<cfloop query="citedSpecimens">
-							<cfif len(citedSpecimens.occurs_page_number) GT 0>
-								<cfif len(citedSpecimens.citation_page_uri) GT 0>
-									<cfset page = "p. <a href=#citation_page_uri#>#occurs_page_number#</a>" >
-								<cfelse>
-									<cfset page = "p. #occurs_page_number#">
-								</cfif>
+					<cfloop query="getTaxonAttributes">
+						<li>#encodeForHTML(getTaxonAttributes.taxon_attribute_type)#: #encodeForHTML(getTaxonAttributes.attribute_value)#</li>
+					</cfloop>
+				</ul>
+			</cfif>
+
+		</div>
+	</section>
+
+	<!--- Section 3: Publications, Citations, and Related Names --->
+	<section class="row mx-0 mb-2">
+		<div class="col-12 border rounded bg-white px-3 py-2">
+
+			<h2 class="h4">Related Publications:</h2>
+			<ul>
+				<cfif tax_pub.recordcount is 0>
+					<li>No related publications recorded.</li>
+				<cfelse>
+					<cfloop query="tax_pub">
+						<li><a href="/publications/showPublication.cfm?publication_id=#publication_id#">#formatted_publication#</a></li>
+					</cfloop>
+				</cfif>
+			</ul>
+
+			<h2 class="h4">Cited MCZ Specimens:</h2>
+			<ul>
+				<cfif citedSpecimens.recordcount is 0>
+					<li>No cited MCZ specimens.</li>
+				<cfelse>
+					<cfloop query="citedSpecimens">
+						<cfif len(citedSpecimens.occurs_page_number) GT 0>
+							<cfif len(citedSpecimens.citation_page_uri) GT 0>
+								<cfset page = "p. <a href=""#encodeForHTMLAttribute(citation_page_uri)#"">#encodeForHTML(occurs_page_number)#</a>">
 							<cfelse>
-									<cfset page = "">
+								<cfset page = "p. #encodeForHTML(occurs_page_number)#">
 							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> #type_status# #page# in <a href="/publications/showPublication.cfm?publication_id=#publication_id#">#short_citation#</a> </li>
-						</cfloop>
-					</cfif>
-				</ul>
-				<h2 class="h4">Synonyms and other Related Names:</h2>
-				<ul>
-					<cfif related.recordcount is 0 and imp_related.recordcount is 0>
-						<li><b>No related names recorded.</b></li>
-					<cfelse>
-						<cfloop query="related">
-							<li>
-								#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> #TAXON_RELATIONSHIP# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><b><i>#related_name#</i> <span class="sm-caps">#related.related_author_text#<span></b></a>
-								<cfif len(RELATION_AUTHORITY) gt 0>
-									(According to: #encodeForHTML(RELATION_AUTHORITY)#)
-								</cfif>
-							</li>
-						</cfloop>
-						<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
-							SELECT
-								scientific_name,
-								author_text,
-								taxon_relations.taxon_relationship,
-								cttaxon_relation.inverse_relation,
-								relation_authority,
-								taxonomy.taxon_name_id
-							FROM
-								taxon_relations
-								left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
-								left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
-							WHERE
-								taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
-						</cfquery>
-						<cfloop query="inverse_relations">
-							<li> 
-								#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span>
-								#inverse_relations.inverse_relation#
-								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#inverse_relations.taxon_name_id#"><b><i>#inverse_relations.scientific_name#</i> <span class="sm-caps">#inverse_relations.author_text#</span></b></a> 
-								<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
-									(According to: #encodeForHTML(inverse_relations.RELATION_AUTHORITY)#)
-								</cfif>
-							</li>
-						</cfloop>
-					</cfif>
-				</ul>
-				
-				<div class="row" id="taxRelatedNames">
-					<div class="col-12">
-						<h2 class="h4">Related Taxon Records:</h2>
-						<cfset taxon_name_id = tnid>
-						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
-						<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
-					</div>
-				</div>
+						<cfelse>
+							<cfset page = "">
+						</cfif>
+						<li><a href="/guid/#encodeForURL(guid)#">#encodeForHTML(guid)#</a> #encodeForHTML(type_status)# #page# in <a href="/publications/showPublication.cfm?publication_id=#publication_id#">#short_citation#</a></li>
+					</cfloop>
+				</cfif>
+			</ul>
 
-				<div id="specTaxMedia">
-					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT * from (
-							SELECT DISTINCT * FROM (
-								select
-									flattable.guid,
-									flattable.typestatus, 
-									media_relationship,
-									media_uri, preview_uri, media_type, mime_type,
-									mczbase.get_media_descriptor(media.media_id) as media_descriptor 
-								from media_relations
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on related_primary_key = flattable.collection_object_id
-									left join media on media_relations.media_id = media.media_id
-									left join identification on flattable.collection_object_id = identification.collection_object_id
-									left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
-								where
-									media_relationship = 'shows cataloged_item'
-									AND identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-								UNION
-								select
-									flattable.guid,
-									flattable.typestatus, 
-									media_relationship,
-									media_uri, preview_uri, media_type, mime_type,
-									mczbase.get_media_descriptor(media.media_id) as media_descriptor 
-								from media_relations
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on related_primary_key = flattable.collection_object_id
-									left join media on media_relations.media_id = media.media_id
-									left join citation on flattable.collection_object_id = citation.collection_object_id
-								where
-									media_relationship = 'shows cataloged_item'
-									AND citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-							) order by typestatus
-						) where rownum  < 20
+			<h2 class="h4">Synonyms and other Related Names:</h2>
+			<ul>
+				<cfif related.recordcount is 0 and imp_related.recordcount is 0>
+					<li>No related names recorded.</li>
+				<cfelse>
+					<cfloop query="related">
+						<li>
+							#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span> #encodeForHTML(TAXON_RELATIONSHIP)# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><em>#encodeForHTML(related_name)#</em> <span class="sm-caps">#encodeForHTML(related.related_author_text)#</span></a>
+							<cfif len(RELATION_AUTHORITY) gt 0>
+								(According to: #encodeForHTML(RELATION_AUTHORITY)#)
+							</cfif>
+						</li>
+					</cfloop>
+					<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
+						SELECT
+							scientific_name,
+							author_text,
+							taxon_relations.taxon_relationship,
+							cttaxon_relation.inverse_relation,
+							relation_authority,
+							taxonomy.taxon_name_id
+						FROM
+							taxon_relations
+							left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
+							left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
+						WHERE
+							taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
 					</cfquery>
-					<div class="row" id="taxSpecimenMedia">
-						<div class="col-12">
-							<h2 class="h4">Media:</h2>
-							<cfset hasSpecimenMedia = true>
-							<cfif media.recordcount EQ 0>
-								<p>No MCZbase specimens identified as this taxon have images</p>
-								<cfset hasSpecimenMedia = false>
+					<cfloop query="inverse_relations">
+						<li>
+							#one.display_name# <span class="sm-caps font-weight-normal small90">#encodeForHTML(one.AUTHOR_TEXT)#</span>
+							#encodeForHTML(inverse_relations.inverse_relation)#
+							<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#inverse_relations.taxon_name_id#"><em>#encodeForHTML(inverse_relations.scientific_name)#</em> <span class="sm-caps">#encodeForHTML(inverse_relations.author_text)#</span></a>
+							<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
+								(According to: #encodeForHTML(inverse_relations.RELATION_AUTHORITY)#)
 							</cfif>
-							<cfloop query="media">
-								<cfset altText = media.media_descriptor>
-								<cfset puri=getMediaPreview(media.preview_uri,media.media_type)>
-								<div class="float-left bg-light text-center p-1" style="width: 170px;">
-									<a href="#media_uri#" target="_blank"><img src="#puri#" alt="#altText#" style="max-width: 120px; max-height: 120px;"></a>
-									<div style="font-size: 86%" class="text-dark">
-										#media.media_type# (#media.mime_type#)
-										<br><a href="/guid/#media.guid#" target="_blank">#media.guid#</a>
-									</div>
-								</div>
-							</cfloop>
+						</li>
+					</cfloop>
+				</cfif>
+			</ul>
+
+			<div id="taxRelatedNames">
+				<h2 class="h4">Related Taxon Records:</h2>
+				<cfset taxon_name_id = tnid>
+				<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
+				<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
+			</div>
+
+		</div>
+	</section>
+
+	<!--- Section 4: Media - standard media widget, grouped by specimen GUID --->
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT * from (
+			SELECT DISTINCT * FROM (
+				select
+					flattable.guid,
+					flattable.typestatus,
+					media_relationship,
+					media.media_id,
+					media_uri, preview_uri, media_type, mime_type,
+					mczbase.get_media_descriptor(media.media_id) as media_descriptor
+				from media_relations
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on related_primary_key = flattable.collection_object_id
+					left join media on media_relations.media_id = media.media_id
+					left join identification on flattable.collection_object_id = identification.collection_object_id
+					left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+				where
+					media_relationship = 'shows cataloged_item'
+					AND identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+				UNION
+				select
+					flattable.guid,
+					flattable.typestatus,
+					media_relationship,
+					media.media_id,
+					media_uri, preview_uri, media_type, mime_type,
+					mczbase.get_media_descriptor(media.media_id) as media_descriptor
+				from media_relations
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on related_primary_key = flattable.collection_object_id
+					left join media on media_relations.media_id = media.media_id
+					left join citation on flattable.collection_object_id = citation.collection_object_id
+				where
+					media_relationship = 'shows cataloged_item'
+					AND citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+			) order by typestatus
+		) where rownum < 20
+	</cfquery>
+	<cfset hasSpecimenMedia = (media.recordcount GT 0)>
+
+	<section class="row mx-0 mb-2">
+		<div class="col-12 border rounded bg-white px-3 py-2">
+			<h2 class="h4">Media:</h2>
+			<cfif media.recordcount EQ 0>
+				<p>No MCZbase specimens identified as this taxon have images</p>
+			<cfelse>
+				<!--- sort media by guid for specimen grouping --->
+				<cfquery name="mediaSorted" dbtype="query">
+					SELECT guid, media_id FROM media ORDER BY guid, typestatus
+				</cfquery>
+				<cfset previousGuid = "">
+				<div class="row">
+					<cfloop query="mediaSorted">
+						<cfif mediaSorted.guid NEQ previousGuid>
+							<cfif len(previousGuid) GT 0>
+								</div><!--- end guid media row --->
+								</div><!--- end guid block --->
+							</cfif>
+							<div class="col-12 mb-3">
+								<p class="mb-1 font-weight-bold">Specimen: <a href="/guid/#encodeForURL(mediaSorted.guid)#">#encodeForHTML(mediaSorted.guid)#</a></p>
+								<div class="row mx-0">
+							<cfset previousGuid = mediaSorted.guid>
+						</cfif>
+						<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 mb-2">
+							<div id="mediaBlock#mediaSorted.media_id#" class="border rounded bg-light">
+								<cfset mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#mediaSorted.media_id#",size="350",captionAs="textShort")>
+								#mediaBlock#
+							</div>
 						</div>
-					</div>
+					</cfloop>
+					<cfif len(previousGuid) GT 0>
+						</div><!--- end guid media row --->
+						</div><!--- end guid block --->
+					</cfif>
 				</div>
-								
-				<div class="row" id="internalExternalLinksLists">
-					<div class="col-12">
-						<h2 class="h4"> MCZbase Links:</h2>
-						
+			</cfif>
+		</div>
+	</section>
+
+	<!--- Section 5: MCZbase Links and External Links --->
+	<section class="row mx-0 mb-4">
+		<div class="col-12 border rounded bg-white px-3 py-2">
+
+			<h2 class="h4">MCZbase Links:</h2>
+			<ul>
+				<cfquery name="usedInIndentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(*) c
+					from identification_taxonomy where
+					taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+				</cfquery>
+				<cfif usedInIndentifications.c GT 0>
+					<li>
+						<a href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#">Specimens currently identified as #one.display_name#</a>
+						<a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#">[ include unaccepted IDs ]</a>
+						<a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#">[ exact matches only ]</a>
+						<cfif hasSpecimenMedia>
+							<a href="/SpecimenResults.cfm?scientific_name=#encodeForURL(one.scientific_name)#&media_type=any">[ with Media ]</a>
+						</cfif>
+					</li>
+					<!--- maps.google.com no longer supports passing a kml file, would need to use the google map api instead --->
+					<!---
+					<li>
+						<a href="/bnhmMaps/kml.cfm?method=gmap&action=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank" rel="noopener noreferrer"> Google Map of MCZbase specimens </a>
+					</li>
+					--->
+					<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select phylclass,genus || ' ' || species scientific_name
+						from taxonomy
+						where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientific_name#">
+						group by phylclass,genus || ' ' || species
+					</cfquery>
+					<cfif getClass.recordcount is not 1 or (
+							getClass.phylclass is not 'Amphibia' and getClass.phylclass is not 'Mammalia' and getClass.phylclass is not 'Aves'
+					)>
+						<!--- link without range maps, as including them would result in an error --->
+						<li>
+							<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=false&scientific_name=#encodeForURL(one.scientific_name)#" class="external" target="_blank" rel="noopener noreferrer">BerkeleyMapper</a>
+						</li>
+					<cfelse>
+						<!--- link with range maps --->
+						<li>
+							<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&scientific_name=#encodeForURL(one.scientific_name)#" class="external" target="_blank" rel="noopener noreferrer">BerkeleyMapper + RangeMaps</a>
+						</li>
+					</cfif>
+					<!--- get years in which identifications were made and link out to specimen searches by year --->
+					<cfquery name="getYears" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT count(*) as ct, nvl(substr(identification.made_date,1,4),'unknown date') as year, substr(identification.made_date,1,4) as year_sort
+						FROM identification
+							JOIN identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+							JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on identification.collection_object_id = flattable.collection_object_id
+						WHERE identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+						GROUP BY nvl(substr(identification.made_date,1,4),'unknown date'), substr(identification.made_date,1,4)
+						ORDER BY substr(identification.made_date,1,4) asc;
+					</cfquery>
+					<cfif getYears.recordcount GT 0>
+						<li>Specimens identified as #one.display_name# in:</li>
 						<ul>
-							<cfquery name="usedInIndentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select count(*) c 
-								from identification_taxonomy where 
-								taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
-							</cfquery>
-							<cfif usedInIndentifications.c GT 0>
+							<cfloop query="getYears">
 								<li>
-									<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#"> Specimens currently identified as #one.display_name# </a> <a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#"> [ include unaccepted IDs ] </a> <a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#"> [ exact matches only ] </a> 
-									<cfif hasSpecimenMedia EQ true>
-										<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a>
+									<cfset targetYear = "#getYears.year#">
+									<cfif targetYear is "unknown date">
+										<cfset targetYear = "NULL">
 									</cfif>
+									<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&openParens1=0&field1=IDENTIFICATION%3AMADE_DATE&searchText1=#encodeForURL(targetYear)#&closeParens1=0&JoinOperator2=and&openParens2=0&field2=TAXONOMY%3AIDENTIFICATIONS_SCIENTIFIC_NAME&searchText2=#encodeForURL(one.scientific_name)#&closeParens2=0">#encodeForHTML(getYears.year)# (#getYears.ct#)</a>
 								</li>
-								<!--- maps.google.com no longer supports passing a kml file, would need to use the google map api instead --->
-								<!--- 
-								<li>
-									<a href="/bnhmMaps/kml.cfm?method=gmap&action=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a>
-								</li>
-								--->
-								<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select phylclass,genus || ' ' || species scientific_name 
-									from taxonomy 
-									where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientific_name#">
-			 						group by phylclass,genus || ' ' || species
-								</cfquery>
-								<cfif getClass.recordcount is not 1 or (
-										getClass.phylclass is not 'Amphibia' and getClass.phylclass is not 'Mammalia' and getClass.phylclass is not 'Aves'
-								)>
-									<!--- link without range maps, as including them would result in an error --->
-									<li>
-										<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=false&scientific_name=#one.scientific_name#" class="external" target="_blank"> BerkeleyMapper </a>
-									</li>
-								<cfelse>
-									<!--- link with range maps --->
-									<li>
-										<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&scientific_name=#one.scientific_name#" class="external" target="_blank"> BerkeleyMapper + RangeMaps </a>
-									</li>
-								</cfif>
-								<!--- get years in which identifications were made and link out to specimen searches by year --->
-								<cfquery name="getYears" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT count(*) as ct, nvl(substr(identification.made_date,1,4),'unknown date') as year, substr(identification.made_date,1,4) as year_sort
-									FROM identification
-										JOIN identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
-										JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flattable on identification.collection_object_id = flattable.collection_object_id
-									WHERE identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
-									GROUP BY nvl(substr(identification.made_date,1,4),'unknown date'), substr(identification.made_date,1,4)
-									ORDER BY substr(identification.made_date,1,4) asc;
-								</cfquery>
-								<cfif getYears.recordcount GT 0>
-									<li>Specimens identified as #one.display_name# in:</li>
-									<ul>
-										<cfloop query="getYears">
-											<li>
-												<cfset targetYear = "#getYears.year#">
-												<cfif targetYear is "unknown date">
-													<cfset targetYear = "NULL">
-												</cfif>
-												<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&openParens1=0&field1=IDENTIFICATION%3AMADE_DATE&searchText1=#targetYear#&closeParens1=0&JoinOperator2=and&openParens2=0&field2=TAXONOMY%3AIDENTIFICATIONS_SCIENTIFIC_NAME&searchText2=#one.scientific_name#&closeParens2=0">#getYears.year# (#getYears.ct#) </a>
-											</li>								
-										</cfloop>
-									</ul>
-								</cfif>
-							<cfelse>
-								<li>No specimens use this name in Identifications.</li>
-							</cfif>
-							
-							<cfquery name="usedInCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select count(*) c 
-								from citation 
-								where cited_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
-							</cfquery>
-							<cfif usedInCitations.c gt 0>
-								<li>
-									<a href="/SpecimenResults.cfm?cited_taxon_name_id=#one.taxon_name_id#"> Specimens cited as #one.display_name# </a>
-								</li>
-							<cfelse>
-								<li>No specimens are cited using this name.</li>
-							</cfif>
+							</cfloop>
 						</ul>
-					</div>
-
-					<div class="col-12">
-						<h2 class="h4">External Links:</h2>
-						<cfset srchName = EncodeForURL(one.scientific_name)>
-					
-						<ul>
-							<li id="ispecies"> 
-								<a class="external soft404" target="_blank" href="http://ispecies.org/?q=#srchName#">iSpecies</a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-							<li id="wikipedia"> 
-								<a class="external " target="_blank" href="http://wikipedia.org/wiki/#srchName#">Search Wikipedia for #one.scientific_name#</a> 
-							</li>
-							<cfif one.kingdom is not "Plantae">
-								<li> 
-									<a class="external soft404" target="_blank" href="http://animaldiversity.ummz.umich.edu/site/search?SearchableText=#srchName#"> Animal Diversity Web </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-								</li>
-							</cfif>
-							<li id="ncbiLookup">
-								 <a class="external soft404" target="_blank" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=#srchName#"> NCBI </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-							<li id="googleImageLookup"> 
-								<a class="external soft404" href="http://images.google.com/images?q=#thisSearch#" target="_blank"> Google Images </a> <span class="infoLink" onclick="alert('This site does not allow pre-fetching. The link may or may not work.')";><i class="fas fa-question-circle"></i></span>
-							</li>
-							<li id="eolLookup">
-								 <a class="external soft404" target="_blank" href="http://www.eol.org/search/?q=#srchName#"> Encyclopedia of Life </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-							<li id="ubioLookup">
-								<a class="external soft404" target="_blank" href="http://www.ubio.org/browser/search.php?search_all=#srchName#"> uBio </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-							<cfif one.kingdom is "Plantae" OR one.kingdom is 'Fungi'>
-								<li id="fnaLookup"> 
-									<a class="external soft404" target="_blank" href="http://www.efloras.org/browse.aspx?name_str=#srchName#">Flora of North America</a> 
-									<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span>
-								</li>
-								<li id="ipniLookup"> 
-									<a class="external soft404" target="_blank" href="http://www.ipni.org/ipni/simplePlantNameSearch.do?find_wholeName=#srchName#"> The International Plant Names Index </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-								</li>
-								<li id="kewLookup"> 
-									<a class="external soft404" target="_blank" href="http://epic.kew.org/searchepic/summaryquery.do?scientificName=#srchName#&searchAll=true&categories=names&categories=bibl&categories=colln&categories=taxon&categories=flora&categories=misc"> electronic plant information centre </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-								</li>
-							</cfif>
-							<li id="itisLookup"> 
-								<a class="external soft404" target="_blank" href="http://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=Scientific_Name&search_value=#srchName#&search_kingdom=every&search_span=containing&categories=All&source=html&search_credRating=all"> ITIS </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-							<li id="colLookup">
-								 <a class="external soft404" target="_blank" href="http://www.catalogueoflife.org/col/search/all/key/#srchName#/match/1"> Catalogue of Life </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-							<li id="citesLookupViaGoogle"> 
-								<a class="external" target="_blank" href="http://www.google.com/custom?q=#srchName#&sa=Go!&cof=S:http://www.unep-wcmc.org;AH:left;LH:56;L:http://www.unep-wcmc.org/wdpa/I/unepwcmcsml.gif;LW:100;AWFID:681b57e6eabf5be6;&domains=unep-wcmc.org&sitesearch=unep-wcmc.org"> UNEP (CITES) </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-							<li id="wikispecies"> 
-								<a class="external " target="_blank" href="http://species.wikimedia.org/wiki/#srchName#">Search WikiSpecies for #one.scientific_name#</a> 
-							</li>
-							<li id="bhlLookup"> 
-								<a class="external soft404" target="_blank" href="http://www.biodiversitylibrary.org/name/#srchName#"> Biodiversity Heritage Library </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";><i class="fas fa-question-circle"></i></span> 
-							</li>
-						</ul>
-					</div>
-				</div>
-
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<div class="row">
-						<div class="col-12">
-							<h2 class="h4">Annotations:</h2>
-							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select count(*) cnt from annotations
-								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-							</cfquery>
-							<cfif #existingAnnotations.cnt# GT 0>
-								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-									class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
-									onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate/View Annotations</button>
-							<cfelse>
-								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-									class="btn btn-xs btn-info" value="Annotate this record"
-									onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate</button>
-							</cfif>
-							<div id="annotationDialog"></div>
-							<cfif #existingAnnotations.cnt# gt 0>
-								<cfif #existingAnnotations.cnt# EQ 1>
-									<cfset are = "is">
-									<cfset s = "">
-								<cfelse>
-									<cfset are = "are">
-									<cfset s = "s">
-								</cfif>
-								<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
-								<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select count(*) statecount, state from annotations
-									where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-									group by state
-								</cfquery>
-								<ul>
-									<cfloop query="AnnotationStates">
-										<li>#state#: #statecount#</li>
-									</cfloop>
-								</ul>
-							<cfelse>
-								<p class="my-2">There are no annotations on this taxon record</p>
-							</cfif>
-						</div>
-					</div>
+					</cfif>
+				<cfelse>
+					<li>No specimens use this name in Identifications.</li>
 				</cfif>
 
-		
-			</cfoutput> 
-		</div> <!--- col --->
-	</section><!-- row --->
+				<cfquery name="usedInCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(*) c
+					from citation
+					where cited_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+				</cfquery>
+				<cfif usedInCitations.c gt 0>
+					<li>
+						<a href="/SpecimenResults.cfm?cited_taxon_name_id=#one.taxon_name_id#">Specimens cited as #one.display_name#</a>
+					</li>
+				<cfelse>
+					<li>No specimens are cited using this name.</li>
+				</cfif>
+			</ul>
+
+			<h2 class="h4">External Links:</h2>
+			<cfset srchName = EncodeForURL(one.scientific_name)>
+			<ul>
+				<li id="ispecies">
+					<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://ispecies.org/?q=#srchName#">iSpecies</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about iSpecies link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<li id="wikipedia">
+					<a class="external" target="_blank" rel="noopener noreferrer" href="http://wikipedia.org/wiki/#srchName#">Search Wikipedia for #encodeForHTML(one.scientific_name)#</a>
+				</li>
+				<cfif one.kingdom is not "Plantae">
+					<li>
+						<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://animaldiversity.ummz.umich.edu/site/search?SearchableText=#srchName#">Animal Diversity Web</a>
+						<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about Animal Diversity Web link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+					</li>
+				</cfif>
+				<li id="ncbiLookup">
+					<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=#srchName#">NCBI</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about NCBI link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<li id="googleImageLookup">
+					<a class="external soft404" href="http://images.google.com/images?q=#thisSearch#" target="_blank" rel="noopener noreferrer">Google Images</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about Google Images link availability" onClick="alert('This site does not allow pre-fetching. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<li id="eolLookup">
+					<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.eol.org/search/?q=#srchName#">Encyclopedia of Life</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about Encyclopedia of Life link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<li id="ubioLookup">
+					<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.ubio.org/browser/search.php?search_all=#srchName#">uBio</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about uBio link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<cfif one.kingdom is "Plantae" OR one.kingdom is 'Fungi'>
+					<li id="fnaLookup">
+						<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.efloras.org/browse.aspx?name_str=#srchName#">Flora of North America</a>
+						<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about Flora of North America link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+					</li>
+					<li id="ipniLookup">
+						<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.ipni.org/ipni/simplePlantNameSearch.do?find_wholeName=#srchName#">The International Plant Names Index</a>
+						<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about IPNI link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+					</li>
+					<li id="kewLookup">
+						<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://epic.kew.org/searchepic/summaryquery.do?scientificName=#srchName#&searchAll=true&categories=names&categories=bibl&categories=colln&categories=taxon&categories=flora&categories=misc">electronic plant information centre</a>
+						<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about Kew link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+					</li>
+				</cfif>
+				<li id="itisLookup">
+					<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=Scientific_Name&search_value=#srchName#&search_kingdom=every&search_span=containing&categories=All&source=html&search_credRating=all">ITIS</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about ITIS link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<li id="colLookup">
+					<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.catalogueoflife.org/col/search/all/key/#srchName#/match/1">Catalogue of Life</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about Catalogue of Life link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<li id="citesLookupViaGoogle">
+					<a class="external" target="_blank" rel="noopener noreferrer" href="http://www.google.com/custom?q=#srchName#&sa=Go!&cof=S:http://www.unep-wcmc.org;AH:left;LH:56;L:http://www.unep-wcmc.org/wdpa/I/unepwcmcsml.gif;LW:100;AWFID:681b57e6eabf5be6;&domains=unep-wcmc.org&sitesearch=unep-wcmc.org">UNEP (CITES)</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about UNEP link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+				<li id="wikispecies">
+					<a class="external" target="_blank" rel="noopener noreferrer" href="http://species.wikimedia.org/wiki/#srchName#">Search WikiSpecies for #encodeForHTML(one.scientific_name)#</a>
+				</li>
+				<li id="bhlLookup">
+					<a class="external soft404" target="_blank" rel="noopener noreferrer" href="http://www.biodiversitylibrary.org/name/#srchName#">Biodiversity Heritage Library</a>
+					<button type="button" class="btn btn-xs btn-link p-0" aria-label="Information about Biodiversity Heritage Library link availability" onClick="alert('This site does not properly return page status. The link may or may not work.')"><i class="fas fa-question-circle" aria-hidden="true"></i></button>
+				</li>
+			</ul>
+
+		</div>
+	</section>
+
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+	<!--- Section 6: Annotations --->
+	<section class="row mx-0 mb-4">
+		<div class="col-12 border rounded bg-white px-3 py-2">
+			<h2 class="h4">Annotations:</h2>
+			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select count(*) cnt from annotations
+				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+			</cfquery>
+			<cfif existingAnnotations.cnt GT 0>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
+					onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate/View Annotations</button>
+			<cfelse>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="btn btn-xs btn-info" value="Annotate this record"
+					onClick=" openAnnotationsDialog('annotationDialog','TAXONOMY',#tnid#,null);">Annotate</button>
+			</cfif>
+			<div id="annotationDialog"></div>
+			<cfif existingAnnotations.cnt gt 0>
+				<cfif existingAnnotations.cnt EQ 1>
+					<cfset are = "is">
+					<cfset s = "">
+				<cfelse>
+					<cfset are = "are">
+					<cfset s = "s">
+				</cfif>
+				<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
+				<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(*) statecount, state from annotations
+					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+					group by state
+				</cfquery>
+				<ul>
+					<cfloop query="AnnotationStates">
+						<li>#encodeForHTML(state)#: #statecount#</li>
+					</cfloop>
+				</ul>
+			<cfelse>
+				<p class="my-2">There are no annotations on this taxon record</p>
+			</cfif>
+		</div>
+	</section>
+	</cfif>
+
+	</cfoutput>
 </main><!--- class="container" --->
 <cfinclude template = "/shared/_footer.cfm">
