@@ -769,54 +769,115 @@ limitations under the License.
 							$('##selectModeContainer').hide();
 
 							// Cell renderers
+							// local helpers to preserve behavior while preventing markup injection
+							var escapeHtml = function (input) {
+								return String(input)
+									.replace(/&/g, "&amp;")
+									.replace(/</g, "&lt;")
+									.replace(/>/g, "&gt;")
+									.replace(/"/g, "&quot;")
+									.replace(/'/g, "&##39;");
+									// " is not strictly required to be escaped in HTML, but is included for completeness
+							};
+							var safeAlign = function (alignValue) {
+								// preserve existing intent; fallback keeps current visual behavior stable
+								var allowed = { left: true, right: true, center: true };
+								var normalized = String(alignValue || "").toLowerCase();
+								return allowed[normalized] ? normalized : "left";
+							};
+
+							var safeCategoryFileBase = function (input) {
+								// preserve current behavior intent (lowercase + underscore), but harden
+								// convert whitespace runs to underscore, then allow only [a-z0-9_]
+								return String(input || "")
+									.toLowerCase()
+									.replace(/\s+/g, "_")
+									.replace(/[^a-z0-9_]/g, "");
+							};
+
 							var autocompleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata', row);
 								var result = "";
 								var ui_function = rowData['UI_FUNCTION'];
+							
+							
+								var align = safeAlign(columnproperties.cellsalign);
+							
 								if (ui_function) {
-									if (ui_function.includes('makeCTFieldSearchAutocomplete')) { 
-                              var table = "";
-										var ui_function_bits = ui_function.split(',');
-										if (ui_function_bits.length==2) {
-											table = ui_function_bits[1].replace(/[^A-Z_]/,"");
+									if (ui_function.includes('makeCTFieldSearchAutocomplete')) {
+										var table = "";
+										var ui_function_bits = String(ui_function).split(',');
+										if (ui_function_bits.length == 2) {
+											// keep only valid chars globally, then verify final form
+											table = ui_function_bits[1].replace(/[^A-Z_]/g, "");
+											if (!/^[A-Z_]+$/.test(table)) {
+												table = "";
+											}
 										}
-										if (table.length>0) { 
-											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/vocabularies/ControlledVocabulary.cfm?table=CT'+table+'" target="_blank">Yes</a></span>';
-										} else { 
-											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
+										if (table.length > 0) {
+											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; "><a href="/vocabularies/ControlledVocabulary.cfm?table=CT' + table + '" target="_blank" rel="noopener noreferrer">Yes</a></span>';
+										} else {
+											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">Yes</span>';
 										}
-									} else { 
-										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
+									} else {
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">Yes</span>';
 									}
-								} else { 
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-								}
-								return result;
-							};
-							var categoryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var result = "";
-								var category = rowData['SEARCH_CATEGORY'];
-								if (category=='Accessions' || category=='Attributes' || category=='Cataloged Item' || category=='Collecting Events' || category=='Named Groups' || category=='Citations' || category=='Collectors' || category=='Identifications' || category=='Media' || category=='Specimen Parts'  ) {
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/documentation/er_diagrams/'+value.toLowerCase().replace(' ','_')+'.svg" target="blank">'+value+'</a></span>';
-								} else { 
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-								}
-								return result;
-							};
-							var tableCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var result = "";
-								var category = rowData['SEARCH_CATEGORY'];
-								var tablename = rowData['TABLE_NAME'];
-								if (category=='Collecting Events' && ( tablename == 'LAT_LONG' || tablename == 'LOCALITY' || tablename == 'GEOG_AUTH_REC' ) ) {
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/documentation/er_diagrams/localities.svg" target="blank">'+value+'</a></span>';
-								} else { 
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+								} else {
+									// preserve existing display of DB value, but safely escaped
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + escapeHtml(value) + '</span>';
 								}
 								return result;
 							};
 					
+							var categoryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata', row);
+								var result = "";
+								var category = rowData['SEARCH_CATEGORY'];
+								var align = safeAlign(columnproperties.cellsalign);
+								var safeValue = escapeHtml(value);
+							
+								if (
+									category == 'Accessions' ||
+									category == 'Attributes' ||
+									category == 'Cataloged Item' ||
+									category == 'Collecting Events' ||
+									category == 'Named Groups' ||
+									category == 'Citations' ||
+									category == 'Collectors' ||
+									category == 'Identifications' ||
+									category == 'Media' ||
+									category == 'Specimen Parts'
+								) {
+									var fileBase = safeCategoryFileBase(value);
+									if (fileBase.length > 0) {
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; "><a href="/documentation/er_diagrams/' + fileBase + '.svg" target="_blank" rel="noopener noreferrer">' + safeValue + '</a></span>';
+									} else {
+										// fallback preserves visible behavior if value is unusable for filename
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + safeValue + '</span>';
+									}
+								} else {
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + safeValue + '</span>';
+								}
+								return result;
+							};
+							
+							var tableCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata', row);
+								var result = "";
+								var category = rowData['SEARCH_CATEGORY'];
+								var tablename = rowData['TABLE_NAME'];
+								var align = safeAlign(columnproperties.cellsalign);
+								var safeValue = escapeHtml(value);
+							
+								if (category == 'Collecting Events' && (tablename == 'LAT_LONG' || tablename == 'LOCALITY' || tablename == 'GEOG_AUTH_REC')) {
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; "><a href="/documentation/er_diagrams/localities.svg" target="_blank" rel="noopener noreferrer">' + safeValue + '</a></span>';
+								} else {
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + align + '; ">' + safeValue + '</span>';
+								}
+								return result;
+							};
+
+							// define the search object
 							var search =
 							{
 								datatype: "json",
