@@ -426,9 +426,11 @@ limitations under the License.
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Target-Specific Context
 							</legend>
+							
 							<div class="form-row">
-								<h3 class="h6 mb-2">Specimen</h3>
-								<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
+								<div class="col-12 col-xl-4">
+									<h3 class="h6 mb-2">Specimen</h3>
+									<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
 									<label for="collection" class="">Collection</label>
 									<select name="collection" id="collection" class="">
 										<option value="">Any Collection</option>
@@ -438,13 +440,15 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
+									<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
 									<label for="specimen_guid" class="">Specimen GUID</label>
 									<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="" placeholder="MCZ:Herp:A-12345">
 								</div>
-								<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
-								<h3 class="h6 mb-2">Taxon</h3>
-								<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
+								</div>
+								<div class="col-12 col-xl-4">
+									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
+									<h3 class="h6 mb-2">Taxon</h3>
+									<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
 									<label for="family" class="">Family</label>
 									<select name="family" id="family" class="">
 										<option value="">Any Family</option>
@@ -454,16 +458,19 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
+									<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
 									<label for="scientific_name" class="">Scientific Name Contains</label>
 									<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="">
 								</div>
-								<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
-								<h3 class="h6 mb-2 mt-3">Agent</h3>
-								<div class="col-12 col-md-4 col-xl-2" data-target-group="agent">
-									<label for="agent_name" class="">Agent Name</label>
-									<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="" placeholder="Type to search by name or pick an agent">
-									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+								</div>
+								<div class="col-12 col-xl-4">
+									<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
+									<h3 class="h6 mb-2 mt-3">Agent</h3>
+									<div class="col-12 col-md-4 col-xl-2" data-target-group="agent">
+										<label for="agent_name" class="">Agent Name</label>
+										<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="" placeholder="Type to search by name or pick an agent">
+										<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+									</div>
 								</div>
 							</div>
 						
