@@ -1915,7 +1915,7 @@ look the way they do. */
 }
 /* These styles are for all search pages (e.g., specimen search, taxonomy, agents). 
 The #searchFormDiv is on all search pages to control form fields, labels, select, and buttons. */
-.tab-content input[type="text"], #searchForm fieldset input[type="text"], #annotationSearchForm  fieldset input[type="text"] {
+.tab-content input[type="text"], #searchForm fieldset input[type="text"], #searchForm fieldset input[type="file"],#annotationSearchForm fieldset input[type="text"] {
 	display: block;
 	width: 100%;
 	padding: 2px .5rem;
