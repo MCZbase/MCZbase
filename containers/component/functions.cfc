@@ -1327,7 +1327,7 @@ details of a container for use in dialogs and page components.
 										coch.collection_object_id,
 										ROW_NUMBER() OVER (
 											PARTITION BY coch.container_id
-											/* Prefer most recent install_date; use collection_object_id as stable tie-breaker for anomalous duplicates. */
+											/* Defensive tie-breaker: current_container_fg should be unique, but if legacy data has duplicates, prefer latest install_date then lowest collection_object_id. */
 											ORDER BY coch.install_date DESC NULLS LAST, coch.collection_object_id ASC
 										) AS rn
 									FROM coll_obj_cont_hist coch
@@ -1345,7 +1345,7 @@ details of a container for use in dialogs and page components.
 											coll_object_remarks,
 											ROW_NUMBER() OVER (
 												PARTITION BY collection_object_id
-												/* Remarks table lacks a chronology field; choose deterministic lexical first value when multiples exist. */
+												/* Remarks table lacks chronology/priority metadata; choose deterministic lexical first value when multiples exist. */
 												ORDER BY coll_object_remarks ASC
 											) AS rn
 										FROM coll_object_remark
