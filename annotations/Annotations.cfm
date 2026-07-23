@@ -365,7 +365,7 @@ limitations under the License.
 							</div>
 						</fieldset>
 							
-						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Annotation Text and Review
 							</legend>
@@ -422,7 +422,7 @@ limitations under the License.
 							</div>
 						</fieldset>
 					
-						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Target-Specific Context
 							</legend>
@@ -469,14 +469,14 @@ limitations under the License.
 							</div>
 						
 							<div class="form-row">
-								<h3 class="h6 mb-2">Publication and Project</h3>
-								<div class="col-12 col-md-4 col-xl-2" data-target-group="publication">
+								<h3 class="h6 mb-2 px-3 py-1 font-weight-bold">Publication and Project</h3>
+								<div class="col-12 col-md-4" data-target-group="publication">
 									<label for="publication_lookup" class="">Publication Citation or Title</label>
 									<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
 									<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
 									<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="" placeholder="Type to search by text or select from list">
 								</div>
-								<div class="col-12 col-md-4 col-xl-2" data-target-group="project">
+								<div class="col-12 col-md-4" data-target-group="project">
 									<label for="project_lookup" class="">Project Title</label>
 									<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
 									<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
