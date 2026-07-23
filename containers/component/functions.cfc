@@ -1304,8 +1304,8 @@ details of a container for use in dialogs and page components.
 								spec.institution_acronym,
 								spec.scientific_name,
 								spec.part_name,
-								spec.lot_count,
-								spec.lot_count_modifier,
+								spec.part_count,
+								spec.part_count_modifier,
 								spec.part_remarks,
 								spec.preserve_method
 							FROM container c
@@ -1317,8 +1317,8 @@ details of a container for use in dialogs and page components.
 									col.institution_acronym,
 									id_sub.scientific_name,
 									sp.part_name,
-									co.lot_count,
-									co.lot_count_modifier,
+									co.lot_count AS part_count,
+									co.lot_count_modifier AS part_count_modifier,
 									cor.coll_object_remarks AS part_remarks,
 									sp.preserve_method
 								FROM (
@@ -1577,15 +1577,15 @@ details of a container for use in dialogs and page components.
 													</cfif>
 												</td>
 												<td>
-													<cfif isNumeric(lot_count)>
-														#encodeForHtml(lot_count)#
+													<cfif isNumeric(part_count)>
+														#encodeForHtml(part_count)#
 													<cfelse>
 														<span class="text-muted">—</span>
 													</cfif>
 												</td>
 												<td>
-													<cfif len(trim(lot_count_modifier)) GT 0>
-														#encodeForHtml(lot_count_modifier)#
+													<cfif len(trim(part_count_modifier)) GT 0>
+														#encodeForHtml(part_count_modifier)#
 													<cfelse>
 														<span class="text-muted">—</span>
 													</cfif>
